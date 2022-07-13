@@ -1,0 +1,2 @@
+@interface BeldexWalletListener
+@end

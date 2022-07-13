@@ -1,0 +1,24 @@
+name: beldex_coin
+version: 0.0.1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+  flutter: ">=1.12.13+hotfix.6 <2.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  ffi: ^0.1.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: io.beldex.coin
+        pluginClass: BeldexCoinPlugin
+      ios:
+        pluginClass: BeldexCoinPlugin

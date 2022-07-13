@@ -1,0 +1,321 @@
+{
+  "welcome" : "Welcome to\nBeldex Wallet",
+  "first_wallet_text" : "Awesome wallet\nfor Beldex",
+  "please_make_selection" : "Select from the options below to\neither create or recover your wallet.",
+  "create_new" : "Create New Wallet",
+  "restore_wallet" : "Use Existing Wallet",
+
+
+  "accounts" : "Accounts",
+  "edit" : "Edit",
+  "account" : "Account",
+  "add" : "Add",
+
+
+  "address_book" : "Address Book",
+  "contact" : "Contact",
+  "please_select" : "Please select:",
+  "cancel" : "Cancel",
+  "ok" : "OK",
+  "contact_name" : "Contact Name",
+  "reset" : "Reset",
+  "save" : "Save",
+
+
+  "authenticated" : "Authenticated",
+  "authentication" : "Authentication",
+  "failed_authentication" : "Failed authentication. {state_error}",
+
+
+  "wallet_menu" : "Menu",
+  "Blocks_remaining" : "{status} Blocks Remaining",
+  "please_try_to_connect_to_another_node" : "Please try to connect to another node",
+  "beldex_hidden" : "Beldex Hidden",
+  "beldex_available_balance" : "Beldex Available Balance",
+  "beldex_full_balance" : "Beldex Full Balance",
+  "send" : "Send",
+  "receive" : "Receive",
+  "transactions" : "Transactions",
+  "incoming" : "Incoming",
+  "outgoing" : "Outgoing",
+  "transactions_by_date" : "Transactions by date",
+  "filters" : "Filters",
+  "today" : "Today",
+  "yesterday" : "Yesterday",
+  "received" : "Received",
+  "sent" : "Sent",
+  "pending" : " (pending)",
+  "rescan" : "Rescan",
+  "reconnect" : "Reconnect",
+  "wallets" : "Wallets",
+  "show_seed" : "Show seed",
+  "show_keys" : "Show keys",
+  "address_book_menu" : "Address book",
+  "reconnection" : "Reconnection",
+  "reconnect_alert_text" : "Are you sure to reconnect?",
+  "reload_fiat": "Reload Fiat data",
+
+
+  "clear" : "Clear",
+  "error" : "Error",
+
+
+  "copied_to_clipboard" : "Copied to clipboard!",
+  "fetching" : "Fetching",
+  "id" : "ID: ",
+  "amount" : "Amount ",
+  "status" : "Status: ",
+  "confirm" : "Confirm",
+  "confirm_sending" : "Confirm sending",
+  "commit_transaction_amount_fee" : "Commit transaction\nAmount: {amount}\nFee: {fee}",
+  "sending" : "Sending",
+  "transaction_sent" : "Transaction sent!",
+  "send_beldex" : "Send Beldex",
+
+  "faq" : "FAQ",
+  "changelog" : "Changelog",
+
+
+  "enter_your_pin" : "Enter your PIN",
+  "loading_your_wallet" : "Loading your wallet",
+
+
+  "new_wallet" : "New wallet",
+  "wallet_name" : "Wallet name",
+  "continue_text" : "Continue",
+
+
+  "node_new" : "New Node",
+  "node_address" : "Node Address",
+  "node_port" : "Node port",
+  "login" : "Login",
+  "password" : "Password",
+  "nodes" : "Nodes",
+  "node_reset_settings_title" : "Reset settings",
+  "nodes_list_reset_to_default_message" : "Are you sure that you want to reset settings to default?",
+  "change_current_node" : "Are you sure to change current node to {node}?",
+  "change" : "Change",
+  "remove_node" : "Remove node",
+  "remove_node_message" : "Are you sure that you want to remove selected node?",
+  "remove" : "Remove",
+  "delete" : "Delete",
+
+
+  "use" : "Switch to ",
+  "digit_pin" : "-digit PIN",
+
+
+  "share_address" : "Share address",
+  "receive_amount" : "Amount",
+  "subaddresses" : "Subaddresses",
+
+
+  "restore_restore_wallet" : "Restore Wallet",
+  "restore_title_from_seed_keys" : "Restore from seed/keys",
+  "restore_description_from_seed_keys" : "Get back your wallet from seed/keys that you've saved to secure place",
+  "restore_next" : "Next",
+  "restore_title_from_backup" : "Restore from a back-up file",
+  "restore_description_from_backup" : "You can restore the whole Beldex Wallet app from your back-up file",
+  "restore_seed_keys_restore" : "Seed/Keys Restore",
+  "restore_title_from_seed" : "Restore from seed",
+  "restore_description_from_seed" : "Use the 25-word Mnemonic key or seed phrase to restore your wallet.",
+  "restore_title_from_keys" : "Restore from keys",
+  "restore_description_from_keys" : "Use the generated keystrokes saved from private keys to restore your wallet ",
+  "restore_wallet_name" : "Wallet name",
+  "restore_address" : "Address",
+  "restore_view_key_private" : "View key (private)",
+  "restore_spend_key_private" : "Spend key (private)",
+  "restore_recover" : "Restore",
+  "restore_wallet_restore_description" : "Wallet restore description",
+
+
+  "seed_title" : "Seed",
+  "seed_share" : "Share seed",
+  "copy" : "Copy",
+
+
+  "seed_language_choose" : "Please choose a seed language",
+  "seed_language_next" : "Next",
+  "seed_language_english" : "English",
+  "seed_language_chinese" : "Chinese",
+  "seed_language_dutch" : "Dutch",
+  "seed_language_german" : "German",
+  "seed_language_japanese" : "Japanese",
+  "seed_language_portuguese" : "Portuguese",
+  "seed_language_russian" : "Russian",
+  "seed_language_spanish" : "Spanish",
+  "seed_language_french" : "French",
+  "seed_language_italian" : "Italian",
+
+
+  "send_title" : "Send",
+  "send_your_wallet" : "Your wallet",
+  "send_beldex_address" : "Beldex address",
+  "all" : "ALL",
+  "send_error_currency" : "Currency can only contain numbers",
+  "send_estimated_fee" : "Estimated fee:",
+  "send_priority" : "{transactionPriority} priority is set as the default fee.\nGo to setting to change the transaction priority.",
+  "send_creating_transaction" : "Creating transaction",
+
+
+  "title_stakes": "Stakes",
+  "title_new_stake": "New Stake",
+  "your_contributions" : "Your Contributions",
+  "start_staking" : "Start staking",
+  "stake_more" : "Stake more",
+  "nothing_staked" : "Nothing staked yet",
+  "service_node_key": "Master Node Key",
+  "stake_beldex": "Stake Beldex",
+  "title_confirm_unlock_stake": "Unlock Stake",
+  "body_confirm_unlock_stake": "Do you really want to unlock your stake from {masterNodeKey}?",
+  "unlock_stake_requested": "Stake unlock requested",
+  "unable_unlock_stake": "Unable to unlock stake",
+
+
+  "settings_title" : "Settings",
+  "settings_nodes" : "Nodes",
+  "settings_current_node" : "Current node",
+  "settings_wallets" : "Wallets",
+  "settings_display_balance_as" : "Display balance as",
+  "settings_balance_detail": "Decimals",
+  "settings_currency" : "Currency",
+  "settings_fee_priority" : "Fee priority",
+  "settings_save_recipient_address" : "Save recipient address",
+  "settings_personal" : "Personal",
+  "settings_change_pin" : "Change PIN",
+  "settings_change_language" : "Select language",
+  "settings_allow_biometric_authentication" : "Allow biometric authentication",
+  "settings_dark_mode" : "Dark mode",
+  "settings_transactions" : "Transactions",
+  "settings_display_on_dashboard_list" : "Display on dashboard list",
+  "settings_all" : "ALL",
+  "settings_none" : "None",
+  "settings_support" : "Support",
+  "settings_terms_and_conditions" : "Terms and conditions",
+  "settings_enable_fiat_currency": "Enable Fiat Currency conversion",
+  "pin_is_incorrect" : "PIN is incorrect",
+
+  "amount_detail_ultra": "9 - Ultra",
+  "amount_detail_none": "0 - None",
+  "amount_detail_detailed": "4 - Detailed",
+  "amount_detail_normal": "2 - Normal",
+
+
+  "setup_pin" : "Setup PIN",
+  "enter_your_pin_again" : "Enter your pin again",
+  "setup_successful" : "Your PIN has been set up \nsuccessfully!",
+
+
+  "wallet_keys" : "Wallet keys",
+  "view_key_private" : "View key (private)",
+  "view_key_public" : "View key (public)",
+  "spend_key_private" : "Spend key (private)",
+  "spend_key_public" : "Spend key (public)",
+  "copied_key_to_clipboard" : "Copied {key} to Clipboard",
+
+
+  "new_subaddress_title" : "New subaddress",
+  "new_subaddress_label_name" : "Label name",
+  "new_subaddress_create" : "Create",
+
+
+  "subaddress_title" : "Subaddress list",
+
+
+  "transaction_details_title" : "Transaction Details",
+  "transaction_details_transaction_id" : "Transaction ID",
+  "transaction_details_date" : "Date",
+  "transaction_details_height" : "Height",
+  "transaction_details_amount" : "Amount",
+  "transaction_details_copied" : "{title} copied to Clipboard",
+  "transaction_details_recipient_address" : "Recipient address",
+
+
+  "wallet_list_title" : "Beldex Wallet",
+  "wallet_list_create_new_wallet" : "Create New Wallet",
+  "wallet_list_restore_wallet" : "Use Existing Wallet",
+  "wallet_list_load_wallet" : "Load wallet",
+  "wallet_list_loading_wallet" : "Loading {wallet_name} wallet",
+  "wallet_list_failed_to_load" : "Failed to load {wallet_name} wallet. {error}",
+  "wallet_list_removing_wallet" : "Removing {wallet_name} wallet",
+  "wallet_list_failed_to_remove" : "Failed to remove {wallet_name} wallet. {error}",
+
+
+  "widgets_address" : "Address",
+  "widgets_restore_from_blockheight" : "Restore from blockheight",
+  "widgets_restore_from_date" : "Restore from date",
+  "widgets_or" : "OR",
+  "widgets_seed" : "Seed",
+
+
+  "router_no_route" : "No route defined for {name}",
+
+
+  "error_text_account_name" : "Account name can only contain letters, numbers\nand must be between 1 and 15 characters long",
+  "error_text_contact_name" : "Contact name can't contain ` , ' \" symbols\nand must be between 1 and 32 characters long",
+  "error_text_address" : "Invalid BDX address",
+  "error_text_node_address" : "Please enter a iPv4 address",
+  "error_text_node_port" : "Node port can only contain numbers between 0 and 65535",
+  "error_text_payment_id" : "Payment ID can only contain from 16 to 64 chars in hex",
+  "error_text_beldex" : "Beldex value can't exceed available balance.\nThe number of fraction digits must be less or equal to 12",
+  "error_text_fiat" : "Value of amount can't exceed available balance.\nThe number of fraction digits must be less or equal to 2",
+  "error_text_subaddress_name" : "Subaddress name can't contain ` , ' \" symbols\nand must be between 1 and 20 characters long",
+  "error_text_amount" : "Amount can only contain numbers",
+  "error_text_wallet_name" : "Wallet name can only contain letters, numbers\nand must be between 1 and 15 characters long",
+  "error_text_keys" : "Wallet keys can only contain 64 chars in hex",
+  "error_text_crypto_currency" : "The number of fraction digits\nmust be less or equal to 12",
+  "error_text_service_node" : "A Master Node key can only contain 64 chars in hex",
+
+
+  "auth_store_ban_timeout" : "ban_timeout",
+  "auth_store_banned_for" : "Banned for ",
+  "auth_store_banned_minutes" : " minutes",
+  "auth_store_incorrect_password" : "Wrong PIN",
+  "wallet_restoration_store_incorrect_seed_length" : "Incorrect seed length",
+
+
+  "full_balance" : "Full Balance",
+  "available_balance" : "Available Balance",
+  "hidden_balance" : "Hidden Balance",
+
+
+  "sync_status_synchronizing" : "SYNCHRONIZING",
+  "sync_status_synchronized" : "SYNCHRONIZED",
+  "sync_status_not_connected" : "NOT CONNECTED",
+  "sync_status_starting_sync" : "STARTING SYNC",
+  "sync_status_failed_connect" : "FAILED CONNECT TO THE NODE",
+  "sync_status_connecting" : "CONNECTING",
+  "sync_status_connected" : "CONNECTED",
+
+
+  "transaction_priority_slow" : "Slow",
+  "transaction_priority_blink": "Flash",
+
+
+  "change_language" : "Change language",
+  "change_language_to" : "Change language to {language}?",
+
+  "paste" : "Paste",
+  "restore_from_seed_placeholder" : "Please enter or paste your seed here",
+  "add_new_word" : "Add new word",
+  "incorrect_seed" : "The text entered is not valid.",
+
+  "biometric_auth_reason" : "Scan your fingerprint to authenticate",
+  "version" : "Version {currentVersion}",
+
+  "openalias_alert_title" : "Beldex Recipient Detected",
+  "openalias_alert_content" : "You will be sending funds to\n{recipient_name}",
+
+  "dangerzone": "Dangerzone",
+  "yes_im_sure": "Yes, I'm sure!",
+  "never_give_your": "NEVER give your Beldex wallet {item} to ANYONE!",
+  "dangerzone_warning": "NEVER input your Beldex wallet {item} into any software or website other than the OFFICIAL Beldex wallets downloaded directly from the {app_store}, the Beldex website, or the Beldex GitHub.\nAre you sure you want to access your wallet {item}?",
+  "keys_title": "Keys",
+  "are_you_sure": "Are you sure?",
+  "do_you_want_to_exit_an_app": "Do you want to exit an App",
+  "no": "No",
+  "yes": "Yes",
+  "byUsingThisAppYouAgreeToTheTermsOf": "By using this app, you agree to the Terms of Agreement set forth to below",
+  "iAgreeToTermsOfUse": "I agree to Terms of Use",
+  "accept": "Accept"
+}

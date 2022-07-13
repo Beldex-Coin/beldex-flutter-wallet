@@ -1,0 +1,321 @@
+{
+  "welcome" : "Bienvenu sur\nBeldex WALLET",
+  "first_wallet_text" : "Super Wallet\npour Beldex",
+  "please_make_selection" : "Veuillez faire un choix ci-dessous\nCréez ou restaurez votre portefeuille.",
+  "create_new" : "Créer un nouveau portefeuille",
+  "restore_wallet" : "Restaurer un portefeuille",
+
+
+  "accounts" : "Comptes",
+  "edit" : "Éditer",
+  "account" : "Compte",
+  "add" : "Ajouter",
+
+
+  "address_book" : "Carnet d'adresses",
+  "contact" : "Contact",
+  "please_select" : "Veuillez sélectionner:",
+  "cancel" : "Annuler",
+  "ok" : "OK",
+  "contact_name" : "Nom du contact",
+  "reset" : "Réinitialiser",
+  "save" : "Sauvegarder",
+
+
+  "authenticated" : "Authentifié",
+  "authentication" : "Authentification",
+  "failed_authentication" : "Échec de l'authentification. {state_error}",
+
+
+  "wallet_menu" : "Menu du portefeuille",
+  "Blocks_remaining" : "{status} blocs restants",
+  "please_try_to_connect_to_another_node" : "veuillez essayer de vous connecter à un autre node",
+  "beldex_hidden" : "Beldex caché",
+  "beldex_available_balance" : "Beldex solde disponible",
+  "beldex_full_balance" : "Beldex solde complet",
+  "send" : "envoyer",
+  "receive" : "recevoir",
+  "transactions" : "transactions",
+  "incoming" : "entrant",
+  "outgoing" : "sortant",
+  "transactions_by_date" : "transactions par date",
+  "filters" : "filtres",
+  "today" : "aujourd'hui",
+  "yesterday" : "hier",
+  "received" : "a reçu",
+  "sent" : "expédié",
+  "pending" : " (en attente)",
+  "rescan" : "réanalyser",
+  "reconnect" : "se reconnecter",
+  "wallets" : "Wallets",
+  "show_seed" : "Afficher le seed",
+  "show_keys" : "Afficher les clés",
+  "address_book_menu" : "Carnet d'adresses",
+  "reconnection" : "reconnexion",
+  "reconnect_alert_text" : "Voulez-vous vraiment vous reconnecter?",
+  "reload_fiat": "Actualiser le taux fiat",
+
+
+  "clear" : "clair",
+  "error" : "erreur",
+
+
+  "copied_to_clipboard" : "Copié dans le presse-papiers",
+  "fetching" : "Récupération",
+  "id" : "ID: ",
+  "amount" : "Montant: ",
+  "status" : "Statut: ",
+  "confirm" : "confirmer",
+  "confirm_sending" : "confirmer l'envoi",
+  "commit_transaction_amount_fee" : "Valider la transaction\nMontant: {amount}\nFee: {fee}",
+  "sending" : "Envoyer",
+  "transaction_sent" : "Transaction envoyé!",
+  "send_beldex" : "Envoyer Beldex",
+
+  "faq" : "FAQ",
+  "changelog" : "Journal des modifications",
+
+
+  "enter_your_pin" : "entrez le code PIN",
+  "loading_your_wallet" : "chargement du portefeuille",
+
+
+  "new_wallet" : "Nouveau portefeuille",
+  "wallet_name" : "Nom du portefeuille",
+  "continue_text" : "Continuez",
+
+
+  "node_new" : "Nouveau Node",
+  "node_address" : "L'adresse du Node",
+  "node_port" : "Port du Node",
+  "login" : "Login",
+  "password" : "Mot de Passe",
+  "nodes" : "Nodes",
+  "node_reset_settings_title" : "Réinitialiser les paramètres",
+  "nodes_list_reset_to_default_message" : "Êtes-vous sûr de vouloir réinitialiser les paramètres par défaut?",
+  "change_current_node" : "Voulez-vous vraiment changer le Node actuel vers {node}?",
+  "change" : "Changement",
+  "remove_node" : "supprimer le Node",
+  "remove_node_message" : "Vous voulez vraiment supprimer le Node sélectionné?",
+  "remove" : "supprimer",
+  "delete" : "effacer",
+
+
+  "use" : "Basculer vers ",
+  "digit_pin" : "-chiffre PIN",
+
+
+  "share_address" : "Partager l'adresse ",
+  "receive_amount" : "Montant",
+  "subaddresses" : "Sous-adresses",
+
+
+  "restore_restore_wallet" : "Restauration du portefeuille",
+  "restore_title_from_seed_keys" : "Restaurer à partir du seed ou des clés",
+  "restore_description_from_seed_keys" : "Restaurez votre portefeuille avec le Seed ou les clées que vous avez conservées dans un endroit sûr",
+  "restore_next" : "Continuer",
+  "restore_title_from_backup" : "Restaurer à partir d'un fichier de sauvegarde",
+  "restore_description_from_backup" : "Vous pouvez restaurer l'intégralité de l'application Beldex Wallet à partir de son fichier de sauvegarde.",
+  "restore_seed_keys_restore" : "Restaurer depuis le Seed ou les clés",
+  "restore_title_from_seed" : "Restaurer à partir du Seed",
+  "restore_description_from_seed" : "Utilisez la clé mnémotechnique de 25 mots ou la phrase de départ pour restaurer votre portefeuille.",
+  "restore_title_from_keys" : "Récupération des clés",
+  "restore_description_from_keys" : "Utilisez les frappes générées enregistrées à partir de clés privées pour restaurer votre portefeuille",
+  "restore_wallet_name" : "Nom du portefeuille",
+  "restore_address" : "Adresse",
+  "restore_view_key_private" : "Clé d'observation (secret)",
+  "restore_spend_key_private" : "Clé de dépense (secret)",
+  "restore_recover" : "Restaurer",
+  "restore_wallet_restore_description" : "Description de la restauration du portefeuille",
+
+
+  "seed_title" : "Seed",
+  "seed_share" : "Partager Seed",
+  "copy" : "copier",
+
+
+  "seed_language_choose" : "Veuillez sélectionner la langue source",
+  "seed_language_next" : "Continuer",
+  "seed_language_english" : "Anglais",
+  "seed_language_chinese" : "Chinois",
+  "seed_language_dutch" : "Néerlandais",
+  "seed_language_german" : "Allemand",
+  "seed_language_japanese" : "Japonais",
+  "seed_language_portuguese" : "Portugais",
+  "seed_language_russian" : "Russe",
+  "seed_language_spanish" : "Espagnol",
+  "seed_language_french" : "Français",
+  "seed_language_italian" : "Italien",
+
+
+  "send_title" : "Envoyer des",
+  "send_your_wallet" : "Votre portefeuille",
+  "send_beldex_address" : "Adresse Beldex",
+  "all" : "TOUT",
+  "send_error_currency" : "La devise ne peut contenir que des nombres",
+  "send_estimated_fee" : "Frais estimés:",
+  "send_priority" : "{transactionPriority} la priorité est définie comme frais par défaut.\nAccédez au paramètre pour modifier la priorité de la transaction.",
+  "send_creating_transaction" : "Créer une transaction",
+
+
+  "title_stakes": "Stakes",
+  "title_new_stake": "Nouveau Stake",
+  "your_contributions" : "Vos contributions",
+  "start_staking" : "Commencer le staking",
+  "stake_more" : "Staker plus",
+  "nothing_staked" : "Aucune contribution pour le moment",
+  "service_node_key": "Clé de nœud de service",
+  "stake_beldex": "Stake Beldex",
+  "title_confirm_unlock_stake": "Déverrouiller Stake",
+  "body_confirm_unlock_stake": "Voulez-vous vraiment débloquer votre mise de{masterNodeKey}?",
+  "unlock_stake_requested": "Déverrouillage du Stake demandé",
+  "unable_unlock_stake": "Impossible de déverrouiller le Stake",
+
+
+  "settings_title" : "Paramètres",
+  "settings_nodes" : "Node",
+  "settings_current_node" : "Node actuel",
+  "settings_wallets" : "Portefeuilles",
+  "settings_display_balance_as" : "Afficher la balance comme",
+  "settings_balance_detail": "Décimales",
+  "settings_currency" : "Devise",
+  "settings_fee_priority" : "Priorité des frais",
+  "settings_save_recipient_address" : "Enregistrer l'adresse du destinataire",
+  "settings_personal" : "personnel",
+  "settings_change_pin" : "changer le code PIN",
+  "settings_change_language" : "changer de langue",
+  "settings_allow_biometric_authentication" : "Authentification biométrique",
+  "settings_dark_mode" : "Mode Sombre",
+  "settings_transactions" : "Transactions",
+  "settings_display_on_dashboard_list" : "Afficher dans la liste du tableau de bord",
+  "settings_all" : "TOUT",
+  "settings_none" : "Rien",
+  "settings_support" : "Soutien",
+  "settings_terms_and_conditions" : "Termes et conditions",
+  "settings_enable_fiat_currency": "Convertir la devise en fiat",
+  "pin_is_incorrect" : "Le code PIN est faux",
+
+  "amount_detail_ultra": "9 - Ultra",
+  "amount_detail_none": "0 - Aucun",
+  "amount_detail_detailed": "4 - Détaillé",
+  "amount_detail_normal": "2 - Normal",
+
+
+  "setup_pin" : "Configurer le code PIN",
+  "enter_your_pin_again" : "Saisissez à nouveau votre code PIN",
+  "setup_successful" : "Votre code PIN a été configuré avec succès!",
+
+
+  "wallet_keys" : "Clés du portefeuille",
+  "view_key_private" : "Clé d'observation (secret)",
+  "view_key_public" : "Clé d'observation (publique)",
+  "spend_key_private" : "Clé de dépense (secret)",
+  "spend_key_public" : "Clé de dépense (publique)",
+  "copied_key_to_clipboard" : "Clé {key} dans le presse-papiers",
+
+
+  "new_subaddress_title" : "Nouvelle sous-adresse",
+  "new_subaddress_label_name" : "Nom",
+  "new_subaddress_create" : "Créer",
+
+
+  "subaddress_title" : "Liste des sous-adresses",
+
+
+  "transaction_details_title" : "détails de la transaction",
+  "transaction_details_transaction_id" : "ID Transaction",
+  "transaction_details_date" : "Date",
+  "transaction_details_height" : "Taille",
+  "transaction_details_amount" : "Montant",
+  "transaction_details_copied" : "{title} copié dans le presse-papiers",
+  "transaction_details_recipient_address" : "Adresse du destinataire",
+
+
+  "wallet_list_title" : "Beldex Wallet",
+  "wallet_list_create_new_wallet" : "Créer un nouveau portefeuille",
+  "wallet_list_restore_wallet" : "Restaurer le portefeuille",
+  "wallet_list_load_wallet" : "Charger le portefeuille",
+  "wallet_list_loading_wallet" : "chargement du {wallet_name} wallet",
+  "wallet_list_failed_to_load" : "Échec du chargement du portefeuille {wallet_name}. {error}",
+  "wallet_list_removing_wallet" : "Wallet {wallet_name}",
+  "wallet_list_failed_to_remove" : "Erreur lors de la suppression {wallet_name} Wallet. {error}",
+
+
+  "widgets_address" : "Adresse",
+  "widgets_restore_from_blockheight" : "restaurer à partir du blockheight",
+  "widgets_restore_from_date" : "Restaurer à partir de la date",
+  "widgets_or" : "ou",
+  "widgets_seed" : "Seed",
+
+
+  "router_no_route" : "Aucun itinéraire défini pour {name}",
+
+
+  "error_text_account_name" : "Le nom du compte ne peut contenir que des lettres et des chiffres\net doit comporter entre 1 et 15 caractères",
+  "error_text_contact_name" : "Dans le nom du contact, les symboles ` , ' \" ne doivent pas être inclus\net doit comporter entre 1 et 32 ​​caractères",
+  "error_text_address" : "Invalid BDX address",
+  "error_text_node_address" : "Veuillez saisir une adresse iPv4",
+  "error_text_node_port" : "Le port du Node ne peut contenir que des nombres compris entre 0 et 65535",
+  "error_text_payment_id" : "L'ID de paiement ne peut contenir que 16 à 64 caractères hexadécimaux",
+  "error_text_beldex" : "La valeur Beldex ne peut pas dépasser le solde disponible.\nLe nombre de décimales doit être inférieur ou égal à 12",
+  "error_text_fiat" : "La valeur du montant ne peut pas dépasser le solde disponible du compte.\nLe nombre de décimales doit être inférieur ou égal à 2",
+  "error_text_subaddress_name" : "Au nom de la sous-adresse, les symboles ` , ' \" ne pas être inclus\net doit comporter entre 1 et 20 caractères",
+  "error_text_amount" : "Le montant ne peut contenir que des nombres",
+  "error_text_wallet_name" : "Le nom du portefeuille ne peut contenir que des lettres et des chiffres\net doit comporter entre 1 et 15 caractères",
+  "error_text_keys" : "Les clés de portefeuille ne peuvent contenir que 64 caractères hexadécimaux",
+  "error_text_crypto_currency" : "Le nombre de décimales\nm doit être inférieur ou égal à 12.",
+  "error_text_service_node" : "Une clé de nœud de service ne peut contenir que 64 caractères maximum",
+
+
+  "auth_store_ban_timeout" : "Interdire le délai d'expiration",
+  "auth_store_banned_for" : "Interdit pour ",
+  "auth_store_banned_minutes" : " Protocole",
+  "auth_store_incorrect_password" : "mauvais code PIN",
+  "wallet_restoration_store_incorrect_seed_length" : "mauvaise longueur du Seed",
+
+
+  "full_balance" : "Solde complet",
+  "available_balance" : "Solde disponible",
+  "hidden_balance" : "solde caché",
+
+
+  "sync_status_synchronizing" : "SYNCHRONISATION",
+  "sync_status_synchronized" : "SYNCHRONISÉ",
+  "sync_status_not_connected" : "PAS CONNECTÉ",
+  "sync_status_starting_sync" : "DÉBUT DE LA SYNCHRONISATION",
+  "sync_status_failed_connect" : "ÉCHEC DE LA CONNEXION AU NODE",
+  "sync_status_connecting" : "CONNEXION",
+  "sync_status_connected" : "CONNECTÉ",
+
+
+  "transaction_priority_slow" : "Lente",
+  "transaction_priority_blink": "Flash",
+
+
+  "change_language" : "changer la langue",
+  "change_language_to" : "Changez la langue en {language}?",
+
+  "paste" : "Coller",
+  "restore_from_seed_placeholder" : "Veuillez entrer votre code ici",
+  "add_new_word" : "Ajouter un nouveau mot",
+  "incorrect_seed" : "Le texte saisi n'est pas valide.",
+
+  "biometric_auth_reason" : "Scannez votre empreinte digitale pour l'authentification",
+  "version" : "Version {currentVersion}",
+
+  "openalias_alert_title" : "Beldex-destinataire reconnu",
+  "openalias_alert_content" : "Vous envoyez de l'argent à\n{recipient_name}",
+
+  "dangerzone": "zone de danger",
+  "yes_im_sure": "Oui, je suis sûr!",
+  "never_give_your": "Ne donnez JAMAIS votre Wallet Beldex à qui que ce soit! {item} à qui que ce soit!",
+  "dangerzone_warning": "Ne JAMAIS saisir  vos identifiants de votre Wallet Beldex {item} dans tout logiciel ou site Web autre que les portefeuilles OFFICIELS Beldex téléchargés directement à partir du {app_store}, le site internet Beldex, ou Beldex sur GitHub.\nÊtes-vous sûr de vouloir accéder à votre portefeuille {item}?",
+  "keys_title": "Clés",
+  "are_you_sure": "Are you sure?",
+  "do_you_want_to_exit_an_app": "Do you want to exit an App",
+  "no": "No",
+  "yes": "Yes",
+  "byUsingThisAppYouAgreeToTheTermsOf": "En utilisant cette application, vous acceptez les termes de l'accord ci-dessous",
+  "iAgreeToTermsOfUse": "J'accepte les conditions d'utilisation",
+  "accept": "J'accepte"
+}
