@@ -26,3 +26,8 @@
   changes:
     - Better node synchronization
     - Minor bugs fixed
+-
+  version: 1.0.5
+  changes:
+    - Validation design fixes
+    - Minor bugs fixes

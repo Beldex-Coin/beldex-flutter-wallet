@@ -2035,7 +2035,7 @@ class S {
     );
   }
 
-  /// `Wallet address must correspond to the type\nof cryptocurrency`
+  /// `Invalid BDX address`
   String get error_text_address {
     return Intl.message(
       'Invalid BDX address',

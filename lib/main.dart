@@ -84,7 +84,7 @@ void main() async {
         sharedPreferences: sharedPreferences,
         initialFiatCurrency: FiatCurrency.usd,
         initialTransactionPriority: BeldexTransactionPriority.flash,
-        initialBalanceDisplayMode: BalanceDisplayMode.availableBalance);
+        initialBalanceDisplayMode: BalanceDisplayMode.fullBalance);
     final priceStore = PriceStore();
     final walletStore =
         WalletStore(walletService: walletService, settingsStore: settingsStore);
