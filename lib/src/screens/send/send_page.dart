@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:beldex_wallet/src/widgets/new_slide_to_act.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -134,6 +135,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     return ScrollableWithBottomSection(
       bottomSectionPadding: EdgeInsets.only(bottom:230),
       content: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () {
           FocusScope.of(context).unfocus();
         },
