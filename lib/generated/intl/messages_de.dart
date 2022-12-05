@@ -102,7 +102,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "copied_to_clipboard" : MessageLookupByLibrary.simpleMessage("In die Zwischenablage kopiert"),
     "copy" : MessageLookupByLibrary.simpleMessage("Kopieren"),
     "create_new" : MessageLookupByLibrary.simpleMessage("Neu erstellen"),
-    "dangerzone" : MessageLookupByLibrary.simpleMessage("Wichtig"),
+    "dangerzone" : MessageLookupByLibrary.simpleMessage("Gefahrenzone"),
     "dangerzone_warning" : m6,
     "delete" : MessageLookupByLibrary.simpleMessage("Löschen"),
     "digit_pin" : MessageLookupByLibrary.simpleMessage("-stelliger PIN"),

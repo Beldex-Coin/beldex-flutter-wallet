@@ -34,8 +34,9 @@ Future defaultSettingsMigration(
           await sharedPreferences.setInt(
               'current_fee_priority', BeldexTransactionPriority.standard.raw);
           await sharedPreferences.setInt('current_balance_display_mode',
-              BalanceDisplayMode.availableBalance.raw);
+              BalanceDisplayMode.fullBalance.raw);
           await sharedPreferences.setBool('save_recipient_address', true);
+          await sharedPreferences.setBool('enable_fiat_currency', true);
           await resetToDefault(nodes);
           await changeCurrentNodeToDefault(
               sharedPreferences: sharedPreferences, nodes: nodes);

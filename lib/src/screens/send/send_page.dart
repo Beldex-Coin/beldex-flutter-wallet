@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:beldex_wallet/src/widgets/new_slide_to_act.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -77,6 +78,11 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   double position;
   AnimationController animationController;
 
+  bool addressValidation = false;
+  var addressErrorMessage ="";
+  bool amountValidation = false;
+  var amountErrorMessage ="";
+
   @override
   void initState() {
     _focusNodeAddress.addListener(() {
@@ -129,6 +135,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     return ScrollableWithBottomSection(
       bottomSectionPadding: EdgeInsets.only(bottom:230),
       content: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onTap: () {
           FocusScope.of(context).unfocus();
         },
@@ -203,7 +210,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           final availableBalance =
                               savedDisplayMode == BalanceDisplayMode.hiddenBalance
                                   ? '---'
-                                  : balanceStore.unlockedBalanceString;
+                                  : savedDisplayMode==BalanceDisplayMode.fullBalance?balanceStore.fullBalanceString:balanceStore.unlockedBalanceString;
 
                           return Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -288,10 +295,11 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                         onURIScanned: (uri) {
                           var address = '';
                           var amount = '';
-
                           if (uri != null) {
                             address = uri.path;
-                            amount = uri.queryParameters['tx_amount'];
+                            if(uri.queryParameters[uri.queryParameters.keys.first]!=null){
+                              amount = uri.queryParameters[uri.queryParameters.keys.first];
+                            }
                           } else {
                             address = uri.toString();
                           }
@@ -304,14 +312,40 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           AddressTextFieldOption.addressBook
                         ],
                         validator: (value) {
-                          if(value.isEmpty){
+                         /* if(value.isEmpty){
                             return 'Please fill in this field\n';
                           }else {
                             sendStore.validateAddress(value,
                                 cryptoCurrency: CryptoCurrency.bdx);
                             return sendStore.errorMessage;
+                          }*/
+                          if(value.isEmpty){
+                            setState(() {
+                            addressValidation =true;
+                            addressErrorMessage ='Please enter a bdx address';
+                            });
+                            return null;
+                          }else {
+                            sendStore.validateAddress(value,
+                                cryptoCurrency: CryptoCurrency.bdx);
+                            if(sendStore.errorMessage!=null) {
+                              setState(() {
+                                addressValidation = true;
+                                addressErrorMessage = 'Invalid bdx address';
+                              });
+                            }else{
+                              setState(() {
+                                addressValidation = false;
+                                addressErrorMessage = '';
+                              });
+                            }
+                            return null;
                           }
                         },
+                      ),
+                      Visibility(
+                        visible: addressValidation,
+                        child: Container(margin: EdgeInsets.only(left:10),child: Align(alignment:Alignment.centerLeft,child: Text(addressErrorMessage,style: TextStyle(color: Colors.red,),))),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
@@ -395,15 +429,49 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                           errorStyle:
                                               TextStyle(color: BeldexPalette.red)),
                                       validator: (value) {
-                                        sendStore.validateBELDEX(
-                                            value, balanceStore.unlockedBalance);
-                                        return sendStore.errorMessage;
+                                        if(value.isEmpty){
+                                          setState(() {
+                                            amountValidation = true;
+                                            amountErrorMessage = 'Please enter a amount';
+                                          });
+                                          return null;
+                                        }else {
+                                          sendStore.validateBELDEX(
+                                              value,
+                                              balanceStore.unlockedBalance);
+                                          if(sendStore.errorMessage!=null) {
+                                            setState(() {
+                                              amountValidation = true;
+                                              amountErrorMessage = 'The enter a valid amount';
+                                            });
+                                          }else{
+                                            setState(() {
+                                              amountValidation = false;
+                                              amountErrorMessage = "";
+                                            });
+                                          }
+                                          return null;
+                                        }
                                       }),
                                 ),
                               ),
                             ),
                           ],
                         ),
+                      ),
+                      Visibility(
+                        visible: amountValidation,
+                        child: Container(margin: EdgeInsets.only(left:10),child: Align(alignment:Alignment.centerLeft,child: Row(
+                          children: [
+                            Expanded(
+                                flex: 2,
+                                child: Container()),
+                            Expanded(
+                              flex: 4,
+                              child: Text(amountErrorMessage,style: TextStyle(color: Colors.red,),),
+                            ),
+                          ],
+                        ))),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 20),
@@ -818,23 +886,26 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
               }
               await Future.delayed(const Duration(milliseconds: 100), (){});
               if (_formKey.currentState.validate()) {
-                var isSuccessful = false;
 
-                await Navigator.of(context).pushNamed(Routes.auth,
-                    arguments: (bool isAuthenticatedSuccessfully,
-                        AuthPageState auth) async {
-                      if (!isAuthenticatedSuccessfully) {
-                        isSuccessful = false;
-                        return;
-                      }
+                if(!addressValidation && !amountValidation) {
+                  var isSuccessful = false;
 
-                      await sendStore.createTransaction(
-                          address: _addressController.text);
+                  await Navigator.of(context).pushNamed(Routes.auth,
+                      arguments: (bool isAuthenticatedSuccessfully,
+                          AuthPageState auth) async {
+                        if (!isAuthenticatedSuccessfully) {
+                          isSuccessful = false;
+                          return;
+                        }
 
-                      Navigator.of(auth.context).pop();
-                      isSuccessful = true;
-                    });
-                return isSuccessful;
+                        await sendStore.createTransaction(
+                            address: _addressController.text);
+
+                        Navigator.of(auth.context).pop();
+                        isSuccessful = true;
+                      });
+                  return isSuccessful;
+                }
               } else {
                 return false;
               }
