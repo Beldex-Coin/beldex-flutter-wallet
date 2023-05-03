@@ -6,6 +6,7 @@ import 'package:beldex_wallet/src/widgets/new_slide_to_act.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -35,13 +36,63 @@ import 'package:beldex_wallet/src/util/constants.dart' as constants;
 
 class SendPage extends BasePage {
   @override
-  String get title => S.current.wallet_list_title;
+  String get title => S.current.send; //wallet_list_title;
+
+  // @override
+  // Widget leading(BuildContext context) {
+  //   final settingsStore = Provider.of<SettingsStore>(context);
+  //   return Container(
+  //       padding: const EdgeInsets.only(top: 12.0, left: 10),
+  //       child: Image.asset(settingsStore.isDarkTheme ? 'assets/images/new-images/arrow_white.png': 'assets/images/new-images/arrow_white.png') //SvgPicture.asset('assets/images/beldex_logo_foreground1.svg')
+  //       );
+  // }
 
   @override
-  Widget leading(BuildContext context) {
+  Widget trailing(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.only(top: 12.0, left: 10),
-        child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
+      width: 60,
+      height: 60,
+      alignment: Alignment.centerLeft,
+      // decoration: BoxDecoration(
+      //   color: Theme.of(context).accentTextTheme.headline6.color,
+      //   borderRadius: BorderRadius.only(
+      //       topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
+      //   boxShadow: [
+      //     BoxShadow(
+      //       color: Theme.of(context).accentTextTheme.headline6.color,
+      //       blurRadius: 2.0,
+      //       spreadRadius: 1.0,
+      //       offset: Offset(2.0, 2.0), // shadow direction: bottom right
+      //     )
+      //   ],
+      // ),
+      child: SizedBox(
+        height: 55, //55
+        width: 55, //37
+        child: ButtonTheme(
+          minWidth: double.minPositive,
+          child: TextButton(
+              /* highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              padding: EdgeInsets.all(0),*/
+              style: ButtonStyle(
+                overlayColor: MaterialStateColor.resolveWith(
+                    (states) => Colors.transparent),
+              ),
+              onPressed: () => Navigator.of(context).pushNamed(Routes.profile),
+              child: SvgPicture.asset(
+                'assets/images/new-images/setting.svg',
+                fit: BoxFit.cover,
+                color: Colors.white,
+                width: 25,
+                height: 25,
+              ) /*Icon(Icons.account_circle_rounded,
+                  color: Theme.of(context).primaryTextTheme.caption.color,
+                  size: 30)*/
+              ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -79,9 +130,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   AnimationController animationController;
 
   bool addressValidation = false;
-  var addressErrorMessage ="";
+  var addressErrorMessage = "";
   bool amountValidation = false;
-  var amountErrorMessage ="";
+  var amountErrorMessage = "";
 
   @override
   void initState() {
@@ -102,13 +153,13 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   }
 
   @override
-  void dispose(){
+  void dispose() {
     animationController.dispose();
     super.dispose();
   }
 
   Future<void> getOpenAliasRecord(BuildContext context) async {
-    final sendStore = Provider.of<SendStore>(context,listen: false);
+    final sendStore = Provider.of<SendStore>(context, listen: false);
     final isOpenAlias =
         await sendStore.isOpenaliasRecord(_addressController.text);
 
@@ -133,7 +184,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     _setEffects(context);
 
     return ScrollableWithBottomSection(
-      bottomSectionPadding: EdgeInsets.only(bottom:230),
+      bottomSectionPadding: EdgeInsets.only(bottom: 230),
       content: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
@@ -143,79 +194,70 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
           children: [
             Column(
               children: [
-                SizedBox(height: 10,),
-                Text(
-                  S.current.send_title,
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.red),
-                ),
-                Card(
-                  elevation: 2,
-                  color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-                  margin: EdgeInsets.only(left: constants.leftPx, right: constants.rightPx, top: 30),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Container(
-                    color: Colors.transparent,
-                    width: MediaQuery.of(context).size.width,
-                    padding:
-                        EdgeInsets.only(top: 25, left: 25, right: 25, bottom: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Observer(builder: (_) {
-                          return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                /* Text(S.of(context).send_your_wallet,
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height * 0.50 / 3,
+                  padding: EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(color: Color(0xff454557)),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Observer(builder: (_) {
+                        return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            // mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              /* Text(S.of(context).send_your_wallet,
                                       style: TextStyle(
                                           fontSize: 12, color: BeldexPalette.teal)),*/
-                                Text(
-                                  walletStore.name,
-                                  style: TextStyle(
-                                      fontSize: 25,
-                                      fontWeight: FontWeight.bold,
-                                      color: Theme.of(context)
-                                          .primaryTextTheme
-                                          .headline6
-                                          .color),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  walletStore.account != null
-                                      ? '${walletStore.account.label}'
-                                      : '',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 16,
-                                      color: Theme.of(context)
-                                          .accentTextTheme
-                                          .caption
-                                          .decorationColor //Theme.of(context).primaryTextTheme.headline6.color
-                                      ),
-                                ),
-                              ]);
-                        }),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Observer(builder: (context) {
-                          final savedDisplayMode = settingsStore.balanceDisplayMode;
-                          final availableBalance =
-                              savedDisplayMode == BalanceDisplayMode.hiddenBalance
-                                  ? '---'
-                                  : savedDisplayMode==BalanceDisplayMode.fullBalance?balanceStore.fullBalanceString:balanceStore.unlockedBalanceString;
+                              Text(
+                                walletStore.name,
+                                style: TextStyle(
+                                    fontSize: 23,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(context)
+                                        .primaryTextTheme
+                                        .headline6
+                                        .color),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                walletStore.account != null
+                                    ? '${walletStore.account.label}'
+                                    : '',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff9292A7)
+                                        : Color(0xff737373)
+                                    // Theme.of(context)
+                                    //     .accentTextTheme
+                                    //     .caption
+                                    //     .decorationColor //Theme.of(context).primaryTextTheme.headline6.color
+                                    ),
+                              ),
+                            ]);
+                      }),
+                      Observer(builder: (context) {
+                        final savedDisplayMode =
+                            settingsStore.balanceDisplayMode;
+                        final availableBalance = savedDisplayMode ==
+                                BalanceDisplayMode.hiddenBalance
+                            ? '---'
+                            : savedDisplayMode == BalanceDisplayMode.fullBalance
+                                ? balanceStore.fullBalanceString
+                                : balanceStore.unlockedBalanceString;
 
-                          return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                /*Text(S.current.beldex_available_balance,
+                        return Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              /*Text(S.current.beldex_available_balance,
                                       style: TextStyle(
                                         fontSize: 12,
                                         color: Theme.of(context)
@@ -223,69 +265,190 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                             .overline
                                             .backgroundColor,
                                       )),*/
-                                Text(availableBalance,
-                                    style: TextStyle(
-                                      color: Theme.of(context)
-                                          .primaryTextTheme
-                                          .caption
-                                          .color,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    )),
-                              ]);
-                        }),
-                        SizedBox(height: 12,)
-                        /*Align(
-                          alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              width: 65,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Color.fromARGB(255, 40, 42, 51),
-                                    Theme.of(context).backgroundColor,
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(color: Colors.grey[600]),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black12,
-                                    offset: Offset(5, 5),
-                                    blurRadius: 10,
-                                  )
+                              SizedBox(height: 10),
+                              Row(
+                                children: [
+                                  Text('Available BDX : ',
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .primaryTextTheme
+                                            .caption
+                                            .color,
+                                        fontSize: 16,
+                                        //fontWeight: FontWeight.w600,
+                                      )),
+                                  Text(availableBalance,
+                                      style: TextStyle(
+                                        color: Color(0xff0BA70F),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      )),
                                 ],
                               ),
-                              child: Center(
-                                child: Text(
-                                  'Change',
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .primaryTextTheme
-                                        .button
-                                        .backgroundColor,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),*/
-                      ],
-                    ),
+                            ]);
+                      }),
+                    ],
                   ),
                 ),
+
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 15.0, left: 5.0, right: 5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(S.of(context).send_beldex_address,
+                          style: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.w700)),
+                      GestureDetector(
+                          onTap: () => AddressTextField()
+                              .presetAddressBookPicker(context),
+                          child: SvgPicture.asset(
+                              'assets/images/new-images/Address.svg',
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffffffff)
+                                  : Color(0xff16161D)))
+                    ],
+                  ),
+                ),
+
+                // Card(
+                //   elevation:0, //2,
+                //   color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                //  // margin: EdgeInsets.only(left: constants.leftPx, right: constants.rightPx, top: 30),
+                //   shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(15)),
+                //   child: Container(
+                //     color: Colors.transparent,
+                //     width: MediaQuery.of(context).size.width,
+                //     padding:
+                //         EdgeInsets.only(top: 25, left: 25, right: 25, bottom: 10),
+                //     child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //       children: <Widget>[
+                //         Observer(builder: (_) {
+                //           return Column(
+                //               crossAxisAlignment: CrossAxisAlignment.start,
+                //               mainAxisAlignment: MainAxisAlignment.center,
+                //               children: <Widget>[
+                //                 /* Text(S.of(context).send_your_wallet,
+                //                       style: TextStyle(
+                //                           fontSize: 12, color: BeldexPalette.teal)),*/
+                //                 Text(
+                //                   walletStore.name,
+                //                   style: TextStyle(
+                //                       fontSize: 25,
+                //                       fontWeight: FontWeight.bold,
+                //                       color: Theme.of(context)
+                //                           .primaryTextTheme
+                //                           .headline6
+                //                           .color),
+                //                 ),
+                //                 SizedBox(
+                //                   height: 10,
+                //                 ),
+                //                 Text(
+                //                   walletStore.account != null
+                //                       ? '${walletStore.account.label}'
+                //                       : '',
+                //                   style: TextStyle(
+                //                       fontWeight: FontWeight.w400,
+                //                       fontSize: 16,
+                //                       color: Theme.of(context)
+                //                           .accentTextTheme
+                //                           .caption
+                //                           .decorationColor //Theme.of(context).primaryTextTheme.headline6.color
+                //                       ),
+                //                 ),
+                //               ]);
+                //         }),
+                //         SizedBox(
+                //           height: 10,
+                //         ),
+                //         Observer(builder: (context) {
+                //           final savedDisplayMode = settingsStore.balanceDisplayMode;
+                //           final availableBalance =
+                //               savedDisplayMode == BalanceDisplayMode.hiddenBalance
+                //                   ? '---'
+                //                   : savedDisplayMode==BalanceDisplayMode.fullBalance?balanceStore.fullBalanceString:balanceStore.unlockedBalanceString;
+
+                //           return Column(
+                //               mainAxisAlignment: MainAxisAlignment.center,
+                //               children: <Widget>[
+                //                 /*Text(S.current.beldex_available_balance,
+                //                       style: TextStyle(
+                //                         fontSize: 12,
+                //                         color: Theme.of(context)
+                //                             .accentTextTheme
+                //                             .overline
+                //                             .backgroundColor,
+                //                       )),*/
+                //                 Text(availableBalance,
+                //                     style: TextStyle(
+                //                       color: Theme.of(context)
+                //                           .primaryTextTheme
+                //                           .caption
+                //                           .color,
+                //                       fontSize: 20,
+                //                       fontWeight: FontWeight.bold,
+                //                     )),
+                //               ]);
+                //         }),
+                //         SizedBox(height: 12,)
+                //         /*Align(
+                //           alignment: Alignment.centerRight,
+                //           child: GestureDetector(
+                //             onTap: () {},
+                //             child: Container(
+                //               width: 65,
+                //               height: 30,
+                //               decoration: BoxDecoration(
+                //                 gradient: LinearGradient(
+                //                   colors: [
+                //                     Color.fromARGB(255, 40, 42, 51),
+                //                     Theme.of(context).backgroundColor,
+                //                   ],
+                //                   begin: Alignment.topLeft,
+                //                   end: Alignment.bottomRight,
+                //                 ),
+                //                 borderRadius: BorderRadius.circular(20),
+                //                 border: Border.all(color: Colors.grey[600]),
+                //                 boxShadow: [
+                //                   BoxShadow(
+                //                     color: Colors.black12,
+                //                     offset: Offset(5, 5),
+                //                     blurRadius: 10,
+                //                   )
+                //                 ],
+                //               ),
+                //               child: Center(
+                //                 child: Text(
+                //                   'Change',
+                //                   style: TextStyle(
+                //                     color: Theme.of(context)
+                //                         .primaryTextTheme
+                //                         .button
+                //                         .backgroundColor,
+                //                     fontSize: 13,
+                //                     fontWeight: FontWeight.w500,
+                //                   ),
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //         ),*/
+                //       ],
+                //     ),
+                //   ),
+                // ),
                 Form(
                   key: _formKey,
                   child: Container(
-                    padding:
-                        EdgeInsets.only(left: constants.leftPx, right: constants.rightPx, top: 25, bottom: 30),
+                    padding: EdgeInsets.only(
+                        //left: constants.leftPx, right: constants.rightPx,
+                        top: 25,
+                        bottom: 30),
                     child: Column(children: <Widget>[
                       //Beldex Address
                       AddressTextField(
@@ -297,8 +460,11 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           var amount = '';
                           if (uri != null) {
                             address = uri.path;
-                            if(uri.queryParameters[uri.queryParameters.keys.first]!=null){
-                              amount = uri.queryParameters[uri.queryParameters.keys.first];
+                            if (uri.queryParameters[
+                                    uri.queryParameters.keys.first] !=
+                                null) {
+                              amount = uri.queryParameters[
+                                  uri.queryParameters.keys.first];
                             }
                           } else {
                             address = uri.toString();
@@ -312,28 +478,29 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           AddressTextFieldOption.addressBook
                         ],
                         validator: (value) {
-                         /* if(value.isEmpty){
+                          /* if(value.isEmpty){
                             return 'Please fill in this field\n';
                           }else {
                             sendStore.validateAddress(value,
                                 cryptoCurrency: CryptoCurrency.bdx);
                             return sendStore.errorMessage;
                           }*/
-                          if(value.isEmpty){
+                          if (value.isEmpty) {
                             setState(() {
-                            addressValidation =true;
-                            addressErrorMessage ='Please enter a bdx address';
+                              addressValidation = true;
+                              addressErrorMessage =
+                                  'Please enter a bdx address';
                             });
                             return null;
-                          }else {
+                          } else {
                             sendStore.validateAddress(value,
                                 cryptoCurrency: CryptoCurrency.bdx);
-                            if(sendStore.errorMessage!=null) {
+                            if (sendStore.errorMessage != null) {
                               setState(() {
                                 addressValidation = true;
                                 addressErrorMessage = 'Invalid bdx address';
                               });
-                            }else{
+                            } else {
                               setState(() {
                                 addressValidation = false;
                                 addressErrorMessage = '';
@@ -345,46 +512,71 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       ),
                       Visibility(
                         visible: addressValidation,
-                        child: Container(margin: EdgeInsets.only(left:10),child: Align(alignment:Alignment.centerLeft,child: Text(addressErrorMessage,style: TextStyle(color: Colors.red,),))),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                flex: 2,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    'Beldex',
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
+                        child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  addressErrorMessage,
+                                  style: TextStyle(
+                                    color: Colors.red,
                                   ),
-                                )),
-                            Expanded(
-                              flex: 4,
-                              child: Card(
-                                elevation: 2,
-                                color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 25.0),
-                                  child: TextFormField(
-                                      style: TextStyle(
-                                          fontSize: 18.0, color: Theme.of(context).primaryTextTheme.caption.color),
-                                      controller: _cryptoAmountController,
-                                      keyboardType: TextInputType.numberWithOptions(
-                                          signed: false, decimal: true),
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.deny(
-                                            RegExp('[- ]'))
-                                      ],
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          /*prefixIcon: SizedBox(
+                                ))),
+                      ),
+
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 10,
+                          top: 10,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text('Enter BDX to Send',
+                                style: TextStyle(
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.w700)),
+                          ],
+                        ),
+                      ),
+
+                      Container(
+                          height: MediaQuery.of(context).size.height *
+                              0.60 /
+                              3, //150,
+                          margin: EdgeInsets.only(
+                            top: 15,
+                          ),
+                          padding: EdgeInsets.only(
+                            left: 15,
+                            top: 10,
+                            bottom: 10,
+                          ),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff272733)
+                                  : Color(0xffEDEDED)),
+                          child: Column(
+                            children: [
+                              TextFormField(
+                                  style: TextStyle(
+                                      fontSize: 26.0,
+                                      fontFamily: 'Poppinsbold',
+                                      color: Theme.of(context)
+                                          .primaryTextTheme
+                                          .caption
+                                          .color),
+                                  controller: _cryptoAmountController,
+                                  keyboardType: TextInputType.numberWithOptions(
+                                      signed: false, decimal: true),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(
+                                        RegExp('[- ]'))
+                                  ],
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      /*prefixIcon: SizedBox(
                                               width: 75,
                                               child: Padding(
                                                   padding: EdgeInsets.only(left: 8, top: 12),
@@ -410,10 +602,15 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                                                   .overline
                                                                   .decorationColor)))),
                                             ),*/
-                                          hintStyle: TextStyle(
-                                              fontSize: 18.0, color:Theme.of(context).hintColor),
-                                          hintText: '00.000000000',
-                                          /*focusedBorder: OutlineInputBorder(
+                                      hintStyle: TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w100,
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xff77778B)
+                                              : Color(0xff6F6F6F)),
+                                      hintText: 'Enter Amount',
+                                      //'00.000000000',
+                                      /*focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                     color: BeldexPalette.teal, width: 2.0)),
                                             enabledBorder: OutlineInputBorder(
@@ -426,107 +623,99 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                             focusedErrorBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                     color: BeldexPalette.red, width: 1.0)),*/
-                                          errorStyle:
-                                              TextStyle(color: BeldexPalette.red)),
-                                      validator: (value) {
-                                        if(value.isEmpty){
-                                          setState(() {
-                                            amountValidation = true;
-                                            amountErrorMessage = 'Please enter a amount';
-                                          });
-                                          return null;
-                                        }else {
-                                          sendStore.validateBELDEX(
-                                              value,
-                                              balanceStore.unlockedBalance);
-                                          if(sendStore.errorMessage!=null) {
-                                            setState(() {
-                                              amountValidation = true;
-                                              amountErrorMessage = 'The enter a valid amount';
-                                            });
-                                          }else{
-                                            setState(() {
-                                              amountValidation = false;
-                                              amountErrorMessage = "";
-                                            });
-                                          }
-                                          return null;
-                                        }
-                                      }),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Visibility(
-                        visible: amountValidation,
-                        child: Container(margin: EdgeInsets.only(left:10),child: Align(alignment:Alignment.centerLeft,child: Row(
-                          children: [
-                            Expanded(
-                                flex: 2,
-                                child: Container()),
-                            Expanded(
-                              flex: 4,
-                              child: Text(amountErrorMessage,style: TextStyle(color: Colors.red,),),
-                            ),
-                          ],
-                        ))),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                flex: 2,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    '${settingsStore.fiatCurrency.toString()}',
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                )),
-                            Expanded(
-                              flex: 4,
-                              child: Card(
-                                elevation: 2,
-                                color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 25.0),
-                                  child: TextFormField(
-                                      style: TextStyle(
-                                          fontSize: 18.0, color: Theme.of(context).primaryTextTheme.caption.color),
-                                      controller: _fiatAmountController,
-                                      keyboardType: TextInputType.numberWithOptions(
-                                          signed: false, decimal: true),
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.deny(
-                                            RegExp('[- ]'))
-                                      ],
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          /* prefixIcon: SizedBox(
+                                      errorStyle:
+                                          TextStyle(color: BeldexPalette.red)),
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      setState(() {
+                                        amountValidation = true;
+                                        amountErrorMessage =
+                                            'Please enter a amount';
+                                      });
+                                      return null;
+                                    } else {
+                                      sendStore.validateBELDEX(
+                                          value, balanceStore.unlockedBalance);
+                                      if (sendStore.errorMessage != null) {
+                                        setState(() {
+                                          amountValidation = true;
+                                          amountErrorMessage =
+                                              'The enter a valid amount';
+                                        });
+                                      } else {
+                                        setState(() {
+                                          amountValidation = false;
+                                          amountErrorMessage = "";
+                                        });
+                                      }
+                                      return null;
+                                    }
+                                  }),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                      height: 50,
+                                      width: 170,
+                                      padding: EdgeInsets.all(8.0),
+                                      margin:
+                                          EdgeInsets.only(top: 15, right: 15),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xff1A1A23)
+                                              : Color(0xffFFFFFF)),
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            '${settingsStore.fiatCurrency.toString()}',
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          Container(
+                                              width: 120,
+                                              padding: EdgeInsets.only(
+                                                left: 8,
+                                                right: 10,
+                                              ),
+                                              child: TextField(
+                                                readOnly: true,
+                                                controller:
+                                                    _fiatAmountController,
+                                                decoration: InputDecoration(
+                                                    border: InputBorder.none,
+                                                    /*prefixIcon: SizedBox(
                                               width: 75,
                                               child: Padding(
                                                   padding: EdgeInsets.only(left: 8, top: 12),
-                                                  child: Text(
-                                                      '${settingsStore.fiatCurrency.toString()}:',
+                                                  child: Text('Beldex:',
                                                       style: TextStyle(
                                                           fontSize: 18,
                                                           color: Theme.of(context)
                                                               .accentTextTheme
                                                               .overline
                                                               .color))),
+                                            ),
+                                            suffixIcon: Container(
+                                              width: 1,
+                                              padding: EdgeInsets.only(top: 0),
+                                              child: Center(
+                                                  child: InkWell(
+                                                      onTap: () => sendStore.setSendAll(),
+                                                      child: Text(S.of(context).all,
+                                                          style: TextStyle(
+                                                              fontSize: 10,
+                                                              color: Theme.of(context)
+                                                                  .accentTextTheme
+                                                                  .overline
+                                                                  .decorationColor)))),
                                             ),*/
-                                          hintStyle: TextStyle(
-                                              fontSize: 18.0, color: Theme.of(context).hintColor),
-                                          hintText: '00.000000000',
-                                          /* focusedBorder: OutlineInputBorder(
+                                                    hintStyle: TextStyle(
+                                                        fontSize: 15.0,
+                                                        color: Theme.of(context)
+                                                            .hintColor),
+                                                    hintText: '00.000000000',
+                                                    /*focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                     color: BeldexPalette.teal, width: 2.0)),
                                             enabledBorder: OutlineInputBorder(
@@ -539,27 +728,241 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                             focusedErrorBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
                                                     color: BeldexPalette.red, width: 1.0)),*/
-                                          errorStyle:
-                                              TextStyle(color: BeldexPalette.red))),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                                                    errorStyle: TextStyle(
+                                                        color:
+                                                            BeldexPalette.red)),
+                                              ))
+                                        ],
+                                      )),
+                                ],
+                              )
+                            ],
+                          )),
+
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 20),
+                      //   child: Row(
+                      //     children: [
+                      //       Expanded(
+                      //           flex: 2,
+                      //           child: Align(
+                      //             alignment: Alignment.center,
+                      //             child: Text(
+                      //               'Beldex',
+                      //               style: TextStyle(
+                      //                   color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,
+                      //                   fontSize: 18,
+                      //                   fontWeight: FontWeight.bold),
+                      //             ),
+                      //           )),
+                      //       Expanded(
+                      //         flex: 4,
+                      //         child: Card(
+                      //           elevation: 2,
+                      //           color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                      //           shape: RoundedRectangleBorder(
+                      //               borderRadius: BorderRadius.circular(10)),
+                      //           child: Padding(
+                      //             padding: const EdgeInsets.only(left: 25.0),
+                      //             child: TextFormField(
+                      //                 style: TextStyle(
+                      //                     fontSize: 18.0, color: Theme.of(context).primaryTextTheme.caption.color),
+                      //                 controller: _cryptoAmountController,
+                      //                 keyboardType: TextInputType.numberWithOptions(
+                      //                     signed: false, decimal: true),
+                      //                 inputFormatters: [
+                      //                   FilteringTextInputFormatter.deny(
+                      //                       RegExp('[- ]'))
+                      //                 ],
+                      //                 decoration: InputDecoration(
+                      //                     border: InputBorder.none,
+                      //                     /*prefixIcon: SizedBox(
+                      //                         width: 75,
+                      //                         child: Padding(
+                      //                             padding: EdgeInsets.only(left: 8, top: 12),
+                      //                             child: Text('Beldex:',
+                      //                                 style: TextStyle(
+                      //                                     fontSize: 18,
+                      //                                     color: Theme.of(context)
+                      //                                         .accentTextTheme
+                      //                                         .overline
+                      //                                         .color))),
+                      //                       ),
+                      //                       suffixIcon: Container(
+                      //                         width: 1,
+                      //                         padding: EdgeInsets.only(top: 0),
+                      //                         child: Center(
+                      //                             child: InkWell(
+                      //                                 onTap: () => sendStore.setSendAll(),
+                      //                                 child: Text(S.of(context).all,
+                      //                                     style: TextStyle(
+                      //                                         fontSize: 10,
+                      //                                         color: Theme.of(context)
+                      //                                             .accentTextTheme
+                      //                                             .overline
+                      //                                             .decorationColor)))),
+                      //                       ),*/
+                      //                     hintStyle: TextStyle(
+                      //                         fontSize: 18.0, color:Theme.of(context).hintColor),
+                      //                     hintText: '00.000000000',
+                      //                     /*focusedBorder: OutlineInputBorder(
+                      //                           borderSide: BorderSide(
+                      //                               color: BeldexPalette.teal, width: 2.0)),
+                      //                       enabledBorder: OutlineInputBorder(
+                      //                           borderSide: BorderSide(
+                      //                               color: Theme.of(context).focusColor,
+                      //                               width: 1.0)),
+                      //                       errorBorder: OutlineInputBorder(
+                      //                           borderSide: BorderSide(
+                      //                               color: BeldexPalette.red, width: 1.0)),
+                      //                       focusedErrorBorder: OutlineInputBorder(
+                      //                           borderSide: BorderSide(
+                      //                               color: BeldexPalette.red, width: 1.0)),*/
+                      //                     errorStyle:
+                      //                         TextStyle(color: BeldexPalette.red)),
+                      //                 validator: (value) {
+                      //                   if(value.isEmpty){
+                      //                     setState(() {
+                      //                       amountValidation = true;
+                      //                       amountErrorMessage = 'Please enter a amount';
+                      //                     });
+                      //                     return null;
+                      //                   }else {
+                      //                     sendStore.validateBELDEX(
+                      //                         value,
+                      //                         balanceStore.unlockedBalance);
+                      //                     if(sendStore.errorMessage!=null) {
+                      //                       setState(() {
+                      //                         amountValidation = true;
+                      //                         amountErrorMessage = 'The enter a valid amount';
+                      //                       });
+                      //                     }else{
+                      //                       setState(() {
+                      //                         amountValidation = false;
+                      //                         amountErrorMessage = "";
+                      //                       });
+                      //                     }
+                      //                     return null;
+                      //                   }
+                      //                 }),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      Visibility(
+                        visible: amountValidation,
+                        child: Container(
+                            margin: EdgeInsets.only(left: 10),
+                            child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Row(
+                                  children: [
+                                    // Expanded(
+                                    //     flex: 2,
+                                    //     child: Container()),
+                                    Expanded(
+                                      flex: 4,
+                                      child: Text(
+                                        amountErrorMessage,
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ))),
                       ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 20),
+                      //   child: Row(
+                      //     children: [
+                      //       Expanded(
+                      //           flex: 2,
+                      //           child: Align(
+                      //             alignment: Alignment.center,
+                      //             child: Text(
+                      //               '${settingsStore.fiatCurrency.toString()}',
+                      //               style: TextStyle(
+                      //                   color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,
+                      //                   fontSize: 18,
+                      //                   fontWeight: FontWeight.bold),
+                      //             ),
+                      //           )),
+                      //       Expanded(
+                      //         flex: 4,
+                      //         child: Card(
+                      //           elevation: 2,
+                      //           color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                      //           shape: RoundedRectangleBorder(
+                      //               borderRadius: BorderRadius.circular(10)),
+                      //           child: Padding(
+                      //             padding: const EdgeInsets.only(left: 25.0),
+                      //             child: TextFormField(
+                      //                 style: TextStyle(
+                      //                     fontSize: 18.0, color: Theme.of(context).primaryTextTheme.caption.color),
+                      //                 controller: _fiatAmountController,
+                      //                 keyboardType: TextInputType.numberWithOptions(
+                      //                     signed: false, decimal: true),
+                      //                 inputFormatters: [
+                      //                   FilteringTextInputFormatter.deny(
+                      //                       RegExp('[- ]'))
+                      //                 ],
+                      //                 decoration: InputDecoration(
+                      //                     border: InputBorder.none,
+                      //                     /* prefixIcon: SizedBox(
+                      //                         width: 75,
+                      //                         child: Padding(
+                      //                             padding: EdgeInsets.only(left: 8, top: 12),
+                      //                             child: Text(
+                      //                                 '${settingsStore.fiatCurrency.toString()}:',
+                      //                                 style: TextStyle(
+                      //                                     fontSize: 18,
+                      //                                     color: Theme.of(context)
+                      //                                         .accentTextTheme
+                      //                                         .overline
+                      //                                         .color))),
+                      //                       ),*/
+                      //                     hintStyle: TextStyle(
+                      //                         fontSize: 18.0, color: Theme.of(context).hintColor),
+                      //                     hintText: '00.000000000',
+                      //                     /* focusedBorder: OutlineInputBorder(
+                      //                           borderSide: BorderSide(
+                      //                               color: BeldexPalette.teal, width: 2.0)),
+                      //                       enabledBorder: OutlineInputBorder(
+                      //                           borderSide: BorderSide(
+                      //                               color: Theme.of(context).focusColor,
+                      //                               width: 1.0)),
+                      //                       errorBorder: OutlineInputBorder(
+                      //                           borderSide: BorderSide(
+                      //                               color: BeldexPalette.red, width: 1.0)),
+                      //                       focusedErrorBorder: OutlineInputBorder(
+                      //                           borderSide: BorderSide(
+                      //                               color: BeldexPalette.red, width: 1.0)),*/
+                      //                     errorStyle:
+                      //                         TextStyle(color: BeldexPalette.red))),
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+                        padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             Text('${S.of(context).send_estimated_fee}   ',
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 15,
+                                  //fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w600,
                                   color: Colors
                                       .grey, //Theme.of(context).accentTextTheme.overline.backgroundColor,
                                 )),
-                            Text('${calculateEstimatedFee(priority: BeldexTransactionPriority.flash)}',
+                            Text(
+                                '${calculateEstimatedFee(priority: BeldexTransactionPriority.flash)}',
                                 //'${calculateEstimatedFee(priority: BeldexTransactionPriority.slow)}',
                                 style: TextStyle(
                                   fontSize: 14,
@@ -567,7 +970,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                   color: Colors
                                       .grey, //Theme.of(context).primaryTextTheme.overline.backgroundColor,
                                 )),
-                            SizedBox(width: 5,),
+                            SizedBox(
+                              width: 5,
+                            ),
                           ],
                         ),
                       ),
@@ -584,7 +989,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                   .grey, //Theme.of(context).primaryTextTheme.subtitle2.color,
                             )),
                       ),
-                     /* Observer(
+                      /* Observer(
                         builder: (_) {
                           return InkWell(
                             onTap: () {
@@ -673,6 +1078,87 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           );
                         },
                       ),*/
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Observer(builder: (_) {
+                        return InkWell(
+                          onTap:(){
+                             showSimpleBeldexDialog(
+              context,
+              
+              S.of(context).confirm_sending,
+              S.of(context).commit_transaction_amount_fee('amount','fee'
+                  // sendStore.pendingTransaction.amount,
+                  // sendStore.pendingTransaction.fee
+                  ),
+                   onPressed: (_) {
+            Navigator.of(context).pop();
+            
+           // sendStore.commitTransaction();
+          });
+                          },
+                          //  syncStore.status is SyncedSyncStatus
+                          //     ? () async {
+                          //         final currentFocus = FocusScope.of(context);
+
+                          //         if (!currentFocus.hasPrimaryFocus) {
+                          //           currentFocus.unfocus();
+                          //         }
+                          //         await Future.delayed(
+                          //             const Duration(milliseconds: 100), () {});
+                          //         if (_formKey.currentState.validate()) {
+                          //           if (!addressValidation &&
+                          //               !amountValidation) {
+                          //             var isSuccessful = false;
+
+                          //             await Navigator.of(context)
+                          //                 .pushNamed(Routes.auth, arguments:
+                          //                     (bool isAuthenticatedSuccessfully,
+                          //                         AuthPageState auth) async {
+                          //               if (!isAuthenticatedSuccessfully) {
+                          //                 isSuccessful = false;
+                          //                 return;
+                          //               }
+
+                          //               await sendStore.createTransaction(
+                          //                   address: _addressController.text);
+
+                          //               Navigator.of(auth.context).pop();
+                          //               isSuccessful = true;
+                          //             });
+                          //             return isSuccessful;
+                          //           }
+                          //         } else {
+                          //           return false;
+                          //         }
+                          //       }
+                          //     : null,
+                          child: Container(
+                            margin: EdgeInsets.all(15),
+                            padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                                color: Color(0xff0BA70F),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                    'assets/images/new-images/send.svg'),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                    'Send',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      })
                     ]),
                   ),
                 ),
@@ -721,7 +1207,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                 );
               },
             ),*/
-           /* Positioned(
+            /* Positioned(
               bottom: 0,
               left: 0,
               right: 0,
@@ -872,48 +1358,49 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
           ],
         ),
       ),
-        bottomSection: Observer(builder: (_) {
-          return NewSlideToAct(
-            text: S.of(context).send_title,
-            outerColor: Theme.of(context).primaryTextTheme.subtitle2.color,
-            innerColor: BeldexPalette.teal,
-            onFutureSubmit: syncStore.status is SyncedSyncStatus
-                ? () async {
-              final currentFocus = FocusScope.of(context);
 
-              if (!currentFocus.hasPrimaryFocus) {
-                currentFocus.unfocus();
-              }
-              await Future.delayed(const Duration(milliseconds: 100), (){});
-              if (_formKey.currentState.validate()) {
+      // bottomSection: Observer(builder: (_) {
+      //   return NewSlideToAct(
+      //     text: S.of(context).send_title,
+      //     outerColor: Theme.of(context).primaryTextTheme.subtitle2.color,
+      //     innerColor: BeldexPalette.teal,
+      //     onFutureSubmit: syncStore.status is SyncedSyncStatus
+      //         ? () async {
+      //       final currentFocus = FocusScope.of(context);
 
-                if(!addressValidation && !amountValidation) {
-                  var isSuccessful = false;
+      //       if (!currentFocus.hasPrimaryFocus) {
+      //         currentFocus.unfocus();
+      //       }
+      //       await Future.delayed(const Duration(milliseconds: 100), (){});
+      //       if (_formKey.currentState.validate()) {
 
-                  await Navigator.of(context).pushNamed(Routes.auth,
-                      arguments: (bool isAuthenticatedSuccessfully,
-                          AuthPageState auth) async {
-                        if (!isAuthenticatedSuccessfully) {
-                          isSuccessful = false;
-                          return;
-                        }
+      //         if(!addressValidation && !amountValidation) {
+      //           var isSuccessful = false;
 
-                        await sendStore.createTransaction(
-                            address: _addressController.text);
+      //           await Navigator.of(context).pushNamed(Routes.auth,
+      //               arguments: (bool isAuthenticatedSuccessfully,
+      //                   AuthPageState auth) async {
+      //                 if (!isAuthenticatedSuccessfully) {
+      //                   isSuccessful = false;
+      //                   return;
+      //                 }
 
-                        Navigator.of(auth.context).pop();
-                        isSuccessful = true;
-                      });
-                  return isSuccessful;
-                }
-              } else {
-                return false;
-              }
-            }
-                : null,
-          );
-        })
-     /* bottomSection: Observer(builder: (_) {
+      //                 await sendStore.createTransaction(
+      //                     address: _addressController.text);
+
+      //                 Navigator.of(auth.context).pop();
+      //                 isSuccessful = true;
+      //               });
+      //           return isSuccessful;
+      //         }
+      //       } else {
+      //         return false;
+      //       }
+      //     }
+      //         : null,
+      //   );
+      // })
+      /* bottomSection: Observer(builder: (_) {
           return SlideToAct(
             text: S.of(context).send_title,
             outerColor: Theme.of(context).primaryTextTheme.subtitle2.color,

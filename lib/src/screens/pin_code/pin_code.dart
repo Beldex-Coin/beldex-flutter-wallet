@@ -53,6 +53,13 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
 
   void clear() => setState(() => pin = List<int>.filled(pinLength, null));
 
+
+
+
+
+
+
+
   void onPinCodeEntered(PinCodeState state) =>
       widget.onPinCodeEntered(state.pin, this);
 
@@ -158,8 +165,24 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   ),
   ),
   backgroundColor:  Theme.of(context).backgroundColor)*/
+  
   @override
-  Widget build(BuildContext context) => Scaffold(body: body(context));
+  Widget build(BuildContext context) {
+     final settingsStore = Provider.of<SettingsStore>(context);
+    return  Scaffold(
+      backgroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+    appBar: AppBar(
+      elevation: 0,
+      title: Text(S.of(context).settingup_pin,style: TextStyle(color:Theme.of(context).primaryTextTheme.caption.color,fontSize:26,fontWeight: FontWeight.w800),) ,
+      centerTitle: true,
+      backgroundColor: Colors.transparent,
+      leading: Navigator.canPop(context) ? GestureDetector(
+        onTap: ()=>Navigator.pop(context),
+        child: Container(child: Icon(Icons.arrow_back,color:settingsStore.isDarkTheme ? Colors.white: Colors.black))): Container(),
+      leadingWidth: 70.0,
+    ),
+    body: body(context));
+  }
 
   List<Color> colorList = [
     Colors.green.shade600,
@@ -181,89 +204,99 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   Alignment end = Alignment.topRight;
 
   Widget body(BuildContext context) {
+     final settingsStore = Provider.of<SettingsStore>(context);
     return SafeArea(
         child: Container(
-      color: Theme.of(context).backgroundColor,
+     // color: Theme.of(context).backgroundColor,
       padding: EdgeInsets.only(left: 40.0, right: 40.0, bottom: 40.0),
       child: Column(children: <Widget>[
         Spacer(
           flex: 2,
         ),
-        ClipOval(
-          clipBehavior: Clip.antiAlias,
-          child: AnimatedContainer(
-            duration: Duration(seconds: 2),
-            onEnd: () {
-              setState(() {
-                index = index + 1;
-                // animate the color
-                bottomColor = colorList[index % colorList.length];
-                topColor = colorList[(index + 1) % colorList.length];
+      Container(
+       padding:EdgeInsets.only(top:10.0,bottom: 40.0,left: 40.0,right:40.0),
+        height:MediaQuery.of(context).size.height*0.60/3,
+        width: double.infinity,
+       // color:Colors.yellow,
+        child: SvgPicture.asset('assets/images/new-images/Password.svg',width:150,),
+      ),
 
-                //// animate the alignment
-                // begin = alignmentList[index % alignmentList.length];
-                // end = alignmentList[(index + 2) % alignmentList.length];
-              });
-            },
-            padding: EdgeInsets.all(19.0),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: begin,
-                  end: end,
-                  colors: [bottomColor, topColor],
-                  transform: GradientRotation(math.pi / 4)),
-              border: Border.all(
-                color: Theme.of(context)
-                    .backgroundColor, //kHintColor, so this should be changed?
-              ),
-              borderRadius: BorderRadius.circular(100),
-            ),
-            child: ClipOval(
-              clipBehavior: Clip.antiAlias,
-              child: Container(
-                width: 175,
-                // this width forces the container to be a circle
-                height: 175,
-                padding: EdgeInsets.all(46),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
-                  border: Border.all(color: Theme.of(context).backgroundColor),
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                // this height forces the container to be a circle
-                child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        bottomColor = Colors.white;
-                      });
-                      widget.notifyParent();
-                     /* Navigator.of(context).pushNamed(Routes.auth1, arguments:
-                          (bool isAuthenticatedSuccessfully,
-                              AuthPageState auth) {
-                        if (isAuthenticatedSuccessfully) {
-                          if (Navigator.canPop(context)) {
-                            Navigator.pop(context);
-                          } else {
-                            SystemNavigator.pop();
-                          }
-                          return Navigator.of(context).popAndPushNamed(
-                              Routes.dashboard,
-                              arguments:
-                                  (BuildContext setupPinContext, String _) =>
-                                      Navigator.of(context).pop());
-                        } else {
-                          return null;
-                        }
-                      });*/
-                    },
-                    child: SvgPicture.asset(
-                      Platform.isAndroid?'assets/images/fingerprint_svg.svg':_availableBiometrics.contains(BiometricType.face)?'assets/images/face_id.svg':'assets/images/fingerprint_svg.svg',
-                      color: Theme.of(context).primaryTextTheme.caption.color,
-                    )),
-              ),
-            ),
-          ),
-        ),
+
+        // ClipOval(
+        //   clipBehavior: Clip.antiAlias,
+        //   child: AnimatedContainer(
+        //     duration: Duration(seconds: 2),
+        //     onEnd: () {
+        //       setState(() {
+        //         index = index + 1;
+        //         // animate the color
+        //         bottomColor = colorList[index % colorList.length];
+        //         topColor = colorList[(index + 1) % colorList.length];
+
+        //         //// animate the alignment
+        //         // begin = alignmentList[index % alignmentList.length];
+        //         // end = alignmentList[(index + 2) % alignmentList.length];
+        //       });
+        //     },
+        //     padding: EdgeInsets.all(19.0),
+        //     decoration: BoxDecoration(
+        //       gradient: LinearGradient(
+        //           begin: begin,
+        //           end: end,
+        //           colors: [bottomColor, topColor],
+        //           transform: GradientRotation(math.pi / 4)),
+        //       border: Border.all(
+        //         color: Theme.of(context)
+        //             .backgroundColor, //kHintColor, so this should be changed?
+        //       ),
+        //       borderRadius: BorderRadius.circular(100),
+        //     ),
+        //     child: ClipOval(
+        //       clipBehavior: Clip.antiAlias,
+        //       child: Container(
+        //         width: 175,
+        //         // this width forces the container to be a circle
+        //         height: 175,
+        //         padding: EdgeInsets.all(46),
+        //         decoration: BoxDecoration(
+        //           color: Theme.of(context).backgroundColor,
+        //           border: Border.all(color: Theme.of(context).backgroundColor),
+        //           borderRadius: BorderRadius.circular(100),
+        //         ),
+        //         // this height forces the container to be a circle
+        //         child: InkWell(
+        //             onTap: () {
+        //               setState(() {
+        //                 bottomColor = Colors.white;
+        //               });
+        //               widget.notifyParent();
+        //              /* Navigator.of(context).pushNamed(Routes.auth1, arguments:
+        //                   (bool isAuthenticatedSuccessfully,
+        //                       AuthPageState auth) {
+        //                 if (isAuthenticatedSuccessfully) {
+        //                   if (Navigator.canPop(context)) {
+        //                     Navigator.pop(context);
+        //                   } else {
+        //                     SystemNavigator.pop();
+        //                   }
+        //                   return Navigator.of(context).popAndPushNamed(
+        //                       Routes.dashboard,
+        //                       arguments:
+        //                           (BuildContext setupPinContext, String _) =>
+        //                               Navigator.of(context).pop());
+        //                 } else {
+        //                   return null;
+        //                 }
+        //               });*/
+        //             },
+        //             child: SvgPicture.asset(
+        //               Platform.isAndroid?'assets/images/fingerprint_svg.svg':_availableBiometrics.contains(BiometricType.face)?'assets/images/face_id.svg':'assets/images/fingerprint_svg.svg',
+        //               color: Theme.of(context).primaryTextTheme.caption.color,
+        //             )),
+        //       ),
+        //     ),
+        //   ),
+        // ),
         /*ClipOval(
           clipBehavior: Clip.antiAlias,
           child: Container(
@@ -293,40 +326,66 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
             ),
           ),
         ),*/
-        Spacer(flex: 4),
+        //Spacer(flex: 4),
         Text(title,
-            style: TextStyle(fontSize: 24, color: Theme.of(context).primaryTextTheme.caption.color)),
+            style: TextStyle(fontSize: 22, color: Theme.of(context).primaryTextTheme.caption.color)),
         Spacer(flex: 1),
         Container(
-          width: 150,
+          width: 190,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(pinLength, (index) {
               const size = 20.0;
               final isFilled = pin[index] != null;
 
-              return Container(
-                  width: size,
-                  height: size,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: isFilled ? BeldexPalette.teal : Colors.transparent,
-                    border: Border.all(color: isFilled ? BeldexPalette.teal:Theme.of(context).primaryTextTheme.headline5.color),
-                  ));
+              return Column(
+                children: [
+                  Container(
+                      width: size,
+                      height: size,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: isFilled ? settingsStore.isDarkTheme ? Color(0xffFFFFFF) : Colors.black : Colors.transparent,
+                        //border: Border.all(color: isFilled ? BeldexPalette.teal:Theme.of(context).primaryTextTheme.headline5.color),
+                      )),
+                      Container(
+                        margin: EdgeInsets.only(right:5),
+                        width:25,
+                        child: Divider(
+                          
+                        ),
+                      )
+                  
+                ],
+              );
             }),
           ),
         ),
         if (widget.hasLengthSwitcher) ...[
-          FlatButton(
-              onPressed: () {
-                changePinLength(pinLength == PinCodeState.fourPinLength
-                    ? PinCodeState.sixPinLength
-                    : PinCodeState.fourPinLength);
-              },
-              child: Text(
-                _changePinLengthText(),
-                style: TextStyle(fontSize: 16.0, color: Theme.of(context).primaryTextTheme.caption.color),
-              ))
+          Container(
+            width: 220,
+            margin: EdgeInsets.only(top:8.0,left:25,right:25),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED)
+            ),
+            child: TextButton( //FlatButton
+                onPressed: () {
+                  changePinLength(pinLength == PinCodeState.fourPinLength
+                      ? PinCodeState.sixPinLength
+                      : PinCodeState.fourPinLength);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      _changePinLengthText(),
+                      style: TextStyle(fontSize: 16.0, color: Theme.of(context).primaryTextTheme.caption.color),
+                    ),
+                    Icon(Icons.keyboard_arrow_right,color: settingsStore.isDarkTheme ? Colors.white: Colors.black)
+                  ],
+                )),
+          )
         ],
         Flexible(
             flex: 24,
@@ -343,13 +402,15 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                           const marginLeft = 15.0;
 
                           if (index == 9) {
-                            return Container(
+                            return Container( 
+                              padding:EdgeInsets.all(10),
                               margin: EdgeInsets.only(
                                   left: marginLeft, right: marginRight),
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: Colors.transparent,
+                               // color: Colors.pink,
                               ),
+                              child:SvgPicture.asset('assets/images/new-images/fingerprint.svg',color: settingsStore.isDarkTheme?Color(0xffFFFFFF):Color(0xff060606),)
                             );
                           } else if (index == 10) {
                             index = 0;
@@ -357,11 +418,11 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                             return Container(
                               margin: EdgeInsets.only(
                                   left: marginLeft, right: marginRight),
-                              child: FlatButton(
+                              child: TextButton( //FlatButton
                                 onPressed: () => _pop(),
-                                color: Colors.transparent,
-                                shape: CircleBorder(),
-                                child: Icon(Icons.backspace, color: Theme.of(context).primaryTextTheme.caption.color),
+                                // color: Colors.transparent,
+                                // shape: CircleBorder(),
+                                child: Icon(Icons.backspace_outlined, color: Theme.of(context).primaryTextTheme.caption.color),
                               ),
                             );
                           } else {
@@ -371,10 +432,11 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                           return Container(
                             margin: EdgeInsets.only(
                                 left: marginLeft, right: marginRight),
-                            child: FlatButton(
+                                //color:Colors.green,
+                            child: TextButton(
                               onPressed: () => _push(index),
-                              color: Colors.transparent,
-                              shape: CircleBorder(),
+                              // color: Colors.transparent,
+                              // shape: CircleBorder(),
                               child: Text('$index',
                                   style: TextStyle(
                                       fontSize: 23.0, color: Theme.of(context).primaryTextTheme.caption.color)),

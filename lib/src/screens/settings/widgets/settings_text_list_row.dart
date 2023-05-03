@@ -25,6 +25,7 @@ class SettingsTextListRow extends StatelessWidget {
       ),
       child: ListTile(
         contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+        trailing: Icon(Icons.keyboard_arrow_right_outlined,size: 30,color: Color(0xff3F3F4D),),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -32,7 +33,9 @@ class SettingsTextListRow extends StatelessWidget {
               child: Text(
                 title,
                 style: TextStyle(
-                    fontSize: 15.0,
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w800,
+                    fontFamily: 'Poppins',
                     color: Theme.of(context).primaryTextTheme.headline6.color),
               ),
             ),

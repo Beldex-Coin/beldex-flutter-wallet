@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,6 +8,7 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
 import 'package:beldex_wallet/src/widgets/nav/nav_list_arrow.dart';
 import 'package:beldex_wallet/src/widgets/nav/nav_list_header.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/nav/new_nav_list_arrow.dart';
 import '../../widgets/nav/new_nav_list_header.dart';
@@ -14,20 +16,38 @@ import '../../widgets/nav/new_nav_list_header.dart';
 class ProfilePage extends BasePage {
   final _bodyKey = GlobalKey();
 
+  // @override
+  // Widget leading(BuildContext context) {
+  //    final settingsStore = Provider.of<SettingsStore>(context);
+  //   return Container(padding:EdgeInsets.only(top: 12.0,left: 10.0),decoration: BoxDecoration(
+  //     //borderRadius: BorderRadius.circular(10),
+  //     //color: Colors.black,
+  //   ),child: Image.asset( settingsStore.isDarkTheme ? 'assets/images/new-images/arrow_white.png': 'assets/images/new-images/arrow_black.png',));
+  // }
+
+
+
+
   @override
-  Widget leading(BuildContext context) {
-    return Container(padding:EdgeInsets.only(top: 12.0,left: 10.0),decoration: BoxDecoration(
-      //borderRadius: BorderRadius.circular(10),
-      //color: Colors.black,
-    ),child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
+  Widget trailing(BuildContext context){
+    return Container(
+      child: Icon(Icons.settings, color: Colors.transparent,),
+    );
   }
+
+
+
+
+
+
+
 
   @override
   Widget middle(BuildContext context) {
 
     return Text(
-      'Account',
-      style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.w600),
+      'Settings',
+      style: TextStyle( fontSize: 26.0,fontWeight: FontWeight.w600),
     ) /*Observer(builder: (_) {
       return Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -77,6 +97,7 @@ class ProfilePageBody extends StatefulWidget {
 class ProfilePageBodyState extends State<ProfilePageBody> {
   @override
   Widget build(BuildContext context) {
+     final settingsStore = Provider.of<SettingsStore>(context);
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
@@ -85,12 +106,16 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           children: [
+            Container(
+              margin:EdgeInsets.only(left:MediaQuery.of(context).size.width*0.4/3),
+              child:Text(S.of(context).setting_page_wallet,style: TextStyle(fontSize: 20.0, color:Color(0xff737385)),),
+            ),
             NewNavListArrow(
               balanceVisibility: false,
                 decimalVisibility: false,
                 currencyVisibility: false,
                 feePriorityVisibility: false,
-                leading: SvgPicture.asset('assets/images/wallet_svg.svg',width: 25,height: 25,
+                leading: SvgPicture.asset('assets/images/new-images/swallet.svg',width: 25,height: 25,
                     color: Theme.of(context).primaryTextTheme.headline6.color),
                 text: S.current.wallets,
                 onTap: (){
@@ -101,28 +126,34 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                 decimalVisibility: false,
                 currencyVisibility: false,
                 feePriorityVisibility: false,
-                leading: SvgPicture.asset('assets/images/settings_svg.svg',width: 25,height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6.color),
+                leading: SvgPicture.asset('assets/images/new-images/settingsnut.svg',width: 25,height: 25,
+                    color:Theme.of(context).primaryTextTheme.headline6.color
+                    ),
                 text: S.current.settings_title,
                 onTap: () =>
                     Navigator.of(context).pushNamed(Routes.settings)),
-            NewNavListHeader(title: S.current.wallet_menu),
-            /*NewNavListArrow(
-                balanceVisibility: false,
-                decimalVisibility: false,
-                currencyVisibility: false,
-                feePriorityVisibility: false,
-                leading: SvgPicture.asset('assets/images/stake_svg.svg',width: 25,height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6.color),
-                text: S.current.title_stakes,
-                onTap: () =>
-                    Navigator.of(context).pushNamed(Routes.stake)),*/
+              
+              Container(
+              margin:EdgeInsets.only(left:MediaQuery.of(context).size.width*0.4/3,top:MediaQuery.of(context).size.width*0.3/3),
+              child:Text(S.of(context).setting_page_account,style: TextStyle(fontSize: 20.0, color:Color(0xff737385)),),
+            ),
+           // NewNavListHeader(title: S.current.wallet_menu),
+            // NewNavListArrow(
+            //     balanceVisibility: false,
+            //     decimalVisibility: false,
+            //     currencyVisibility: false,
+            //     feePriorityVisibility: false,
+            //     leading: SvgPicture.asset('assets/images/stake_svg.svg',width: 25,height: 25,
+            //         color: Theme.of(context).primaryTextTheme.headline6.color),
+            //     text: S.current.title_stakes,
+            //     onTap: () =>
+            //         Navigator.of(context).pushNamed(Routes.stake)),
             NewNavListArrow(
                 balanceVisibility: false,
                 decimalVisibility: false,
                 currencyVisibility: false,
                 feePriorityVisibility: false,
-                leading: SvgPicture.asset('assets/images/contact_book_svg.svg',width: 25,height: 25,
+                leading: SvgPicture.asset('assets/images/new-images/settingsaddbook.svg',width: 25,height: 25,
                     color: Theme.of(context).primaryTextTheme.headline6.color),
                 text: S.current.address_book_menu,
                 onTap: () =>
@@ -132,13 +163,17 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                 decimalVisibility: false,
                 currencyVisibility: false,
                 feePriorityVisibility: false,
-                leading: SvgPicture.asset('assets/images/accounts_svg.svg',width: 25,height: 25,
+                leading: SvgPicture.asset('assets/images/new-images/settingsaccount.svg',width: 25,height: 25,
                     color: Theme.of(context).primaryTextTheme.headline6.color),
                 text: S.current.accounts,
                 onTap: () =>
                     Navigator.of(context).pushNamed(Routes.accountList)),
             //Important -->
-            NewNavListHeader(title: S.current.dangerzone),
+              Container(
+              margin:EdgeInsets.only(left:MediaQuery.of(context).size.width*0.4/3,top:MediaQuery.of(context).size.width*0.3/3),
+              child:Text(S.of(context).setting_page_seedkeys,style: TextStyle(fontSize: 20.0, color:Color(0xff737385)),),
+            ),
+            //NewNavListHeader(title: S.current.dangerzone),
             NewNavListArrow(
                 leading: Icon(Icons.vpn_key_rounded,
                     color: Theme.of(context).primaryTextTheme.headline6.color),
@@ -151,7 +186,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                                 .popAndPushNamed(Routes.dangerzoneKeys)
                             : null)),
             NewNavListArrow(
-                leading: Icon(Icons.vpn_key_rounded,
+                leading: SvgPicture.asset('assets/images/new-images/settingsseed.svg',width: 25,height: 25,
                     color: Theme.of(context).primaryTextTheme.headline6.color),
                 text: S.current.show_seed,
                 onTap: () => Navigator.of(context).pushNamed(Routes.auth,

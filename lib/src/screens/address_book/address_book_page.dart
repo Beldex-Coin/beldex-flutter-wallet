@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,45 +24,45 @@ class AddressBookPage extends BasePage {
   String get title => S.current.address_book;
 
   @override
-  Widget leading(BuildContext context) {
-    if (!isEditable) return null;
+  Widget trailing(BuildContext context) {
+   // if (!isEditable) return null;
 
     final addressBookStore = Provider.of<AddressBookStore>(context);
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 20.0, bottom: 5, left: 10),
-      child: InkWell(
-        onTap: () async {
-          await Navigator.of(context).pushNamed(Routes.addressBookAddContact);
-          await addressBookStore.updateContactList();
-        },
-        child: Container(
-          width: 25,
-          height: 25,
-          //padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              color: Theme.of(context).cardTheme.shadowColor, //Colors.black,
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: ButtonTheme(
-            minWidth: double.minPositive,
-            child: TextButton(
-                style: ButtonStyle(
-                  //foregroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
-                  overlayColor: MaterialStateColor.resolveWith(
-                      (states) => Colors.transparent),
-                ),
-                onPressed: () async {
-                  await Navigator.of(context)
-                      .pushNamed(Routes.addressBookAddContact);
-                  await addressBookStore.updateContactList();
-                },
-                child: SvgPicture.asset(
-                  'assets/images/add.svg',
-                  color:
-                      Theme.of(context).accentTextTheme.caption.decorationColor,
-                )),
-          ),
-        ),
+    return InkWell(
+      onTap: () async {
+        await Navigator.of(context).pushNamed(Routes.addressBookAddContact);
+        await addressBookStore.updateContactList();
+      },
+      child: Container(
+       // width: 35,
+       // height: 35,
+        padding: EdgeInsets.only(right:10),
+        child:Icon(Icons.add,color:Color(0xff0BA70F),size: 35,)
+        // decoration: BoxDecoration(
+        //     color:Colors.yellow, // Theme.of(context).cardTheme.shadowColor, //Colors.black,
+        //     borderRadius: BorderRadius.all(Radius.circular(10))),
+        // child: ButtonTheme(
+        //   minWidth: double.minPositive,
+        //   child: TextButton(
+        //       style: ButtonStyle(
+        //         //foregroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
+        //         overlayColor: MaterialStateColor.resolveWith(
+        //             (states) => Colors.transparent),
+        //       ),
+        //       onPressed: () async {
+        //         await Navigator.of(context)
+        //             .pushNamed(Routes.addressBookAddContact);
+        //         await addressBookStore.updateContactList();
+        //       },
+        //       child: 
+        //       SvgPicture.asset(
+        //         'assets/images/add.svg',
+        //         color:
+        //             Theme.of(context).accentTextTheme.caption.decorationColor,
+        //       )
+        //       ),
+        // ),
       ),
     );
     /*Container(
@@ -92,273 +93,116 @@ class AddressBookPage extends BasePage {
   @override
   Widget body(BuildContext context) {
     final addressBookStore = Provider.of<AddressBookStore>(context);
-
-    return Stack(
+   final settingsStore = Provider.of<SettingsStore>(context);
+    return
+     addressBookStore.contactList.isEmpty ?
+    Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
-            margin: EdgeInsets.only(
-                top: 40, left: constants.leftPx, right: constants.rightPx,),
-            padding: EdgeInsets.only(bottom:isEditable
-                ?55.0:0.0),
-            child: Observer(
-              builder: (_) => ListView.separated(
-                  separatorBuilder: (_, __) => Divider(
-                        color: Theme.of(context).dividerTheme.color,
-                        height: 1.0,
-                      ),
-                  itemCount: addressBookStore.contactList == null
-                      ? 0
-                      : addressBookStore.contactList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final contact = addressBookStore.contactList[index];
-
-                    final content = Card(
-                        elevation: 5,
-                        color: Theme.of(context).cardColor,
-                        //Color.fromARGB(255, 40, 42, 51),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              right: 0.0, top: 0.0, bottom: 8.0),
-                          child: ListTile(
-                            onTap: () async {
-                              if (!isEditable) {
-                                Navigator.of(context).pop(contact);
-                                return;
-                              }
-                              await Clipboard.setData(
-                                  ClipboardData(text: contact.address));
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          topRight: Radius.circular(10))),
-                                  content: Text(
-                                    S.of(context).copied_to_clipboard,
-                                    style: TextStyle(color: Colors.white),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  backgroundColor:
-                                      Color.fromARGB(255, 46, 113, 43),
-                                  duration: Duration(milliseconds: 1500),
-                                ),
-                              );
-                              /* if (!isEditable) {
-                        Navigator.of(context).pop(contact);
-                        return;
-                      }
-
-                      final isCopied = await showNameAndAddressDialog(
-                            context, contact.name, contact.address);
-
-                      if (isCopied) {
-                        await Clipboard.setData(
-                              ClipboardData(text: contact.address));
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                            ),
-                            content: Text(S
-                                .of(context)
-                                .copied_to_clipboard,style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
-                            backgroundColor: Color.fromARGB(255, 46, 113, 43),
-                            duration: Duration(
-                                milliseconds: 1500),
-                        ),);
-                        */ /*Scaffold.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Copied to Clipboard'),
-                              backgroundColor: Colors.green,
-                              duration: Duration(milliseconds: 1500),
-                            ),
-                        );*/ /*
-                      }*/
-                            },
-                            /*leading: Container(
-                      height: 48.0,
-                      width: 48.0,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: _getCurrencyBackgroundColor(contact.type),
-                        borderRadius: BorderRadius.circular(18.0),
-                      ),
-                      child: Text(
-                        contact.name.substring(0,2).toUpperCase(),
-                        style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                            color: _getCurrencyTextColor(contact.type),
-                        ),
-                      ),
-                    ),*/
-                            title: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 38.0),
-                                child: Text(
-                                  contact.address,
-                                  style: TextStyle(
-                                      fontSize: 16.0,
-                                      color: Theme.of(context)
-                                          .primaryTextTheme
-                                          .headline6
-                                          .color),
-                                ),
-                              ),
-                            ),
-                            trailing: Padding(
-                              padding: const EdgeInsets.only(top: 38.0),
-                              child: Icon(Icons.arrow_forward_ios_rounded,
-                                  color: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline6
-                                      .color,
-                                  size: 20),
-                            ),
-                          ),
-                        ));
-
-                    return !isEditable
-                        ? Stack(
-                            children: [
-                              content,
-                              Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .primaryTextTheme
-                                          .button
-                                          .backgroundColor,
-                                      //Color.fromARGB(255, 40, 42, 51),
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          topRight: Radius.circular(10))),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 15.0,
-                                        right: 8.0,
-                                        top: 8.0,
-                                        bottom: 8.0),
-                                    child: Text(
-                                      contact.name,
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                          color: Theme.of(context)
-                                              .primaryTextTheme
-                                              .caption
-                                              .color),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        : Slidable(
-                            key: Key('${contact.key}'),
-                            actionPane: SlidableDrawerActionPane(),
-                            secondaryActions: <Widget>[
-                              IconSlideAction(
-                                caption: 'Edit',
-                                color: Colors.blue,
-                                icon: Icons.edit,
-                                onTap: () async {
-                                  await Navigator.of(context).pushNamed(
-                                      Routes.addressBookAddContact,
-                                      arguments: contact);
-                                  await addressBookStore.updateContactList();
-                                },
-                              ),
-                              IconSlideAction(
-                                caption: 'Delete',
-                                color: Colors.red,
-                                icon: CupertinoIcons.delete,
-                                onTap: () async {
-                                  await showAlertDialog(context)
-                                      .then((isDelete) async {
-                                    if (isDelete != null && isDelete) {
-                                      await addressBookStore.delete(
-                                          contact: contact);
-                                      await addressBookStore
-                                          .updateContactList();
-                                    }
-                                  });
-                                },
-                              ),
-                            ],
-                            dismissal: SlidableDismissal(
-                              child: SlidableDrawerDismissal(),
-                              onDismissed: (actionType) async {
-                                await addressBookStore.delete(contact: contact);
-                                await addressBookStore.updateContactList();
-                              },
-                              onWillDismiss: (actionType) async {
-                                return await showAlertDialog(context);
-                              },
-                            ),
-                            child: Stack(
-                              children: [
-                                content,
-                                Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width,
-                                    decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .primaryTextTheme
-                                            .button
-                                            .backgroundColor,
-                                        //Color.fromARGB(255, 40, 42, 51),
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            topRight: Radius.circular(10))),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 15.0,
-                                          right: 8.0,
-                                          top: 8.0,
-                                          bottom: 8.0),
-                                      child: Text(
-                                        contact.name,
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold,
-                                            color: Theme.of(context)
-                                                .primaryTextTheme
-                                                .caption
-                                                .color),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                  }),
-            )),
-        !isEditable
-            ? Container()
-            :Positioned(
-                bottom: 0,
-                child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,//Colors.black,
-                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0),topRight: Radius.circular(20.0))
-                    ),
-                  width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.only(bottom: 20,top: 20,),
-                    child: Text(
-                  'Swipe left for more options',
-                  style: TextStyle(fontSize:15.0,fontWeight:FontWeight.bold,color: Theme.of(context).primaryTextTheme.caption.color),
-                  textAlign: TextAlign.center,
-                ))),
+          margin:EdgeInsets.only(left:MediaQuery.of(context).size.width*0.36/3),
+          //color: Colors.yellow,
+          height: MediaQuery.of(context).size.height*1/3,
+          child: SvgPicture.asset(
+            settingsStore.isDarkTheme ? 'assets/images/new-images/address_empty_darktheme.svg' 
+            : 'assets/images/new-images/address_empty_whitetheme.svg'
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left:20.0),
+          child: Container(
+            child:Text('No addresses in book',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 18,
+              color:settingsStore.isDarkTheme ? Color(0xff646474):Color(0xff82828D)),)
+          ),
+        )
       ],
-    );
+    ):
+      Column(
+        children: [
+          Observer(
+              builder: (_) =>Expanded(
+                child: Container(
+                  child: ListView.builder(
+                    itemCount: 
+                    addressBookStore.contactList == null
+                          ? 0
+                          : addressBookStore.contactList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final contact = addressBookStore.contactList[index];
+
+                      return Container(
+            height: 150,
+            width: double.infinity,
+                  margin: EdgeInsets.all(15.0),
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color:Color(0xffDADADA),
+                      
+                    ),
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  child:Column(children: [
+                     Container(
+                      height: 40,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED)
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left:8.0,),
+                            child: Text(S.of(context).contact_name,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16),),
+                          ),
+                          InkWell(
+                            onTap: (){
+                                Clipboard.setData(ClipboardData(
+                                                              text: contact.address));
+                                                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                           margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.30/3,
+                                                           left: MediaQuery.of(context).size.height*0.30/3,
+                                                           right: MediaQuery.of(context).size.height*0.30/3
+                                                           ),
+                                                            elevation:0, //5,
+                                                            behavior: SnackBarBehavior.floating,
+                                                            shape: RoundedRectangleBorder(
+                                                                borderRadius: BorderRadius.circular(15.0) //only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
+                                                            ),
+                                                            content: Text(S
+                                                                .of(context)
+                                                                .copied,style: TextStyle(color: Color(0xff0EB212),fontWeight:FontWeight.w700,fontSize:15) ,textAlign: TextAlign.center,),
+                                                            backgroundColor: Color(0xff0BA70F).withOpacity(0.10), //.fromARGB(255, 46, 113, 43),
+                                                            duration: Duration(
+                                                                milliseconds: 1500),
+                                                          ));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right:8.0),
+                              child: SvgPicture.asset('assets/images/new-images/copy.svg',color:settingsStore.isDarkTheme ? Color(0xffffffff): Color(0xff16161D)),
+                            ),
+                          )
+                        ],
+                      ),
+                     ),
+                     Padding(
+                       padding: const EdgeInsets.all(8.0),
+                       child: Text(contact.address,style:TextStyle(color:settingsStore.isDarkTheme ? Color(0xffFFFFFF) : Color(0xff626262))),
+                     )
+                  ],)
+            );
+                    } ),
+                ),
+              )),
+          
+        ],
+       ) ;
   }
 
   Color _getCurrencyBackgroundColor(CryptoCurrency currency) {

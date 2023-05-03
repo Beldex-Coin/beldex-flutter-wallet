@@ -17,12 +17,18 @@ class AccountPage extends BasePage {
 
   final Account account;
 
+  // @override
+  // Widget leading(BuildContext context) {
+  //   return Container(padding:EdgeInsets.only(top: 12.0,left: 10.0),decoration: BoxDecoration(
+  //     //borderRadius: BorderRadius.circular(10),
+  //     //color: Colors.black,
+  //   ),child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
+  // }
+
+
   @override
-  Widget leading(BuildContext context) {
-    return Container(padding:EdgeInsets.only(top: 12.0,left: 10.0),decoration: BoxDecoration(
-      //borderRadius: BorderRadius.circular(10),
-      //color: Colors.black,
-    ),child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
+  Widget trailing(BuildContext context){
+    return Container();
   }
 
   @override

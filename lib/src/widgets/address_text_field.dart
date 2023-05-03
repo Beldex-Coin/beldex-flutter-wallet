@@ -65,7 +65,7 @@ class AddressTextField extends StatelessWidget {
                       width: prefixIconWidth,
                       height: prefixIconHeight,
                       child: InkWell(
-                        onTap: () async => _presetAddressBookPicker(context),
+                        onTap: () async => presetAddressBookPicker(context),
                         child: SvgPicture.asset('assets/images/contact_book_svg.svg',width: 25,height: 25,color: Theme.of(context).primaryTextTheme.caption.color ,),//Icon(Icons.contacts_rounded),
                       ))
                 ],
@@ -117,7 +117,7 @@ class AddressTextField extends StatelessWidget {
     }
   }
 
-  Future<void> _presetAddressBookPicker(BuildContext context) async {
+  Future<void> presetAddressBookPicker(BuildContext context) async {
     final contact = await Navigator.of(context, rootNavigator: true)
         .pushNamed(Routes.pickerAddressBook);
 

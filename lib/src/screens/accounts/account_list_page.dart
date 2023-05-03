@@ -18,38 +18,36 @@ class AccountListPage extends BasePage {
   String get title => S.current.accounts;
 
   @override
-  Widget leading(BuildContext context) {
+  Widget trailing(BuildContext context) {
     final accountListStore = Provider.of<AccountListStore>(context);
 
-    return Padding(
-      padding: const EdgeInsets.only(top:20.0,left: 10,bottom: 5),
-      child: InkWell(
-        onTap: () async {
-          await Navigator.of(context).pushNamed(Routes.accountCreation);
-          accountListStore.updateAccountList();
-        },
-        child: Container(
-          width: 25,
-          height: 25,
-          //padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              color: Theme.of(context).cardTheme.shadowColor,//Colors.black,
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          child: ButtonTheme(
-            minWidth: double.minPositive,
-            child: TextButton(
-                style: ButtonStyle(
-                  //foregroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
-                  overlayColor:
-                  MaterialStateColor.resolveWith((states) => Colors.transparent),
-                ),
-                onPressed: () async {
-                  await Navigator.of(context).pushNamed(Routes.accountCreation);
-                  accountListStore.updateAccountList();
-                },
-                child: SvgPicture.asset('assets/images/add.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,)),
-          ),
-        ),
+    return InkWell(
+      onTap: () async {
+        await Navigator.of(context).pushNamed(Routes.accountCreation);
+        accountListStore.updateAccountList();
+      },
+      child: Container(
+       // width: 30,
+        //height: 30,
+        padding: EdgeInsets.only(right:10),
+        // decoration: BoxDecoration(
+        //     color: Theme.of(context).cardTheme.shadowColor,//Colors.black,
+        //     borderRadius: BorderRadius.all(Radius.circular(10))),
+        child: Icon(Icons.add,color:Color(0xff0BA70F),size: 35,)
+        // ButtonTheme(
+        //   minWidth: double.minPositive,
+        //   child: TextButton(
+        //       style: ButtonStyle(
+        //         //foregroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
+        //         overlayColor:
+        //         MaterialStateColor.resolveWith((states) => Colors.transparent),
+        //       ),
+        //       onPressed: () async {
+        //         await Navigator.of(context).pushNamed(Routes.accountCreation);
+        //         accountListStore.updateAccountList();
+        //       },
+        //       child: SvgPicture.asset('assets/images/add.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,)),
+        // ),
       ),
     );
     /*Container(

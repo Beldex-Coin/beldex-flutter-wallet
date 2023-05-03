@@ -19,24 +19,60 @@ class NodeListPage extends BasePage {
   @override
   String get title => S.current.nodes;
 
-  @override
-  Widget leading(context) {
+  // @override
+  // Widget leading(context) {
+  //   final nodeList = Provider.of<NodeListStore>(context);
+  //   final settings = Provider.of<SettingsStore>(context);
+
+  //   return Padding(
+  //     padding: const EdgeInsets.only(top:20.0,bottom: 5,left: 10),
+  //     child: Container(
+  //      margin: EdgeInsets.only(top: 7,bottom:7,),
+  //      // padding: EdgeInsets.all(10),
+  //       decoration: BoxDecoration(
+  //           color: Theme.of(context).cardTheme.shadowColor,//Colors.black,
+  //           borderRadius: BorderRadius.all(Radius.circular(10))
+  //       ),
+  //       child: ButtonTheme(
+  //         minWidth: double.minPositive,
+  //         child: FlatButton(
+  //             onPressed: () async {
+  //               await showConfirmBeldexDialog(
+  //                   context,
+  //                   S.of(context).node_reset_settings_title,
+  //                   S.of(context).nodes_list_reset_to_default_message,
+  //                   onFutureConfirm: (context) async {
+  //                 Navigator.pop(context);
+  //                 await nodeList.reset();
+  //                 await settings.setCurrentNodeToDefault();
+  //                 return true;
+  //               });
+  //             },
+  //             highlightColor: Colors.transparent,
+  //             splashColor: Colors.transparent,
+  //             padding: EdgeInsets.all(0),
+  //             child: Text(
+  //               S.of(context).reset,
+  //               style: TextStyle(
+  //                   fontSize: 14.0,
+  //                   color: Theme.of(context).accentTextTheme.caption.decorationColor),
+  //             )),
+  //       ),
+  //     ),
+  //   );
+  // }
+
+
+
+
+@override
+Widget trailing(context){
     final nodeList = Provider.of<NodeListStore>(context);
     final settings = Provider.of<SettingsStore>(context);
-
-    return Padding(
-      padding: const EdgeInsets.only(top:20.0,bottom: 5,left: 10),
-      child: Container(
-       margin: EdgeInsets.only(top: 7,bottom:7,),
-       // padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-            color: Theme.of(context).cardTheme.shadowColor,//Colors.black,
-            borderRadius: BorderRadius.all(Radius.circular(10))
-        ),
-        child: ButtonTheme(
-          minWidth: double.minPositive,
-          child: FlatButton(
-              onPressed: () async {
+  return Row(
+   children: [
+    InkWell(
+      onTap: () async {
                 await showConfirmBeldexDialog(
                     context,
                     S.of(context).node_reset_settings_title,
@@ -48,19 +84,45 @@ class NodeListPage extends BasePage {
                   return true;
                 });
               },
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              padding: EdgeInsets.all(0),
-              child: Text(
-                S.of(context).reset,
-                style: TextStyle(
-                    fontSize: 14.0,
-                    color: Theme.of(context).accentTextTheme.caption.decorationColor),
-              )),
-        ),
-      ),
-    );
-  }
+    
+      child: Container(
+        margin: EdgeInsets.only(right:15.0),
+        height:20,width:20,
+        child: SvgPicture.asset('assets/images/new-images/refresh.svg')),
+    ),
+    // Container(
+    //   margin: EdgeInsets.only(right:14.0),
+    //   height: 27,width: 27,
+    //   child:SvgPicture.asset('assets/images/new-images/plus_round.svg')
+    // ),
+     Container(
+                width: 28.0,
+                height: 28.0,
+                margin: EdgeInsets.only(right: 25),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    Container(
+                      height: 27,width: 27,
+                      child: SvgPicture.asset('assets/images/new-images/plus_round.svg',)),
+                    ButtonTheme(
+                      minWidth: 28.0,
+                      height: 28.0,
+                      child: FlatButton(
+                          color: Colors.transparent,
+                          onPressed: () async =>
+                          await Navigator.of(context).pushNamed(Routes.newNode),
+                          child: Offstage()),
+                    )
+                  ],
+                )),
+   ],
+  );
+}
+
+
+
+
 
  /* @override
   Widget leading(context) {
@@ -140,28 +202,28 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
       padding: EdgeInsets.only(top:10.0,bottom: 20.0),
       child: Column(
         children: <Widget>[
-          Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-                width: 28.0,
-                height: 28.0,
-                margin: EdgeInsets.only(right: 25),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    SvgPicture.asset('assets/images/add.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,),
-                    ButtonTheme(
-                      minWidth: 28.0,
-                      height: 28.0,
-                      child: FlatButton(
-                          color: Colors.transparent,
-                          onPressed: () async =>
-                          await Navigator.of(context).pushNamed(Routes.newNode),
-                          child: Offstage()),
-                    )
-                  ],
-                )),
-          ),
+          // Align(
+          //   alignment: Alignment.centerRight,
+          //   child: Container(
+          //       width: 28.0,
+          //       height: 28.0,
+          //       margin: EdgeInsets.only(right: 25),
+          //       child: Stack(
+          //         alignment: Alignment.center,
+          //         children: <Widget>[
+          //           SvgPicture.asset('assets/images/add.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,),
+          //           ButtonTheme(
+          //             minWidth: 28.0,
+          //             height: 28.0,
+          //             child: FlatButton(
+          //                 color: Colors.transparent,
+          //                 onPressed: () async =>
+          //                 await Navigator.of(context).pushNamed(Routes.newNode),
+          //                 child: Offstage()),
+          //           )
+          //         ],
+          //       )),
+          // ),
           SizedBox(height: 10,),
           Expanded(child: Observer(builder: (context) {
             return ListView.builder(
@@ -177,7 +239,7 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                     final content = Card(
                         margin: EdgeInsets.only(left: constants.leftPx,right: constants.rightPx,top: 20),
                         elevation: 2,
-                        color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                        color:Color(0xff272733), //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)
                         ),

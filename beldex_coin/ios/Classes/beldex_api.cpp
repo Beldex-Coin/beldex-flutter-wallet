@@ -133,7 +133,8 @@ extern "C"
         uint32_t subaddrAccount;
         int8_t direction;
         int8_t isPending;
-        
+       // int8_t isStake;
+
         char *hash;
         char *paymentId;
 
@@ -149,6 +150,7 @@ extern "C"
             datetime = static_cast<int64_t>(transaction->timestamp());            
             direction = transaction->direction();
             isPending = static_cast<int8_t>(transaction->isPending());
+           // isStake = static_cast<int8_t>(transaction->isStake());  
             std::string *hash_str = new std::string(transaction->hash());
             hash = strdup(hash_str->c_str());
             paymentId = strdup(transaction->paymentId().c_str());

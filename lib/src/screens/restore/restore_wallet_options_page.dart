@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,16 +21,22 @@ class RestoreWalletOptionsPage extends BasePage {
   @override
   Color get backgroundColor => Palette.creamyGrey;
 
-  @override
-  Widget leading(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.only(top: 12.0, left: 10),
-        decoration: BoxDecoration(
-          //borderRadius: BorderRadius.circular(10),
-          //color: Colors.black,
-        ),
-        child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
-  }
+  // @override
+  // Widget leading(BuildContext context) {
+  //   return Container(
+  //       padding: const EdgeInsets.only(top: 12.0, left: 10),
+  //       decoration: BoxDecoration(
+  //         //borderRadius: BorderRadius.circular(10),
+  //         //color: Colors.black,
+  //       ),
+  //       child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
+  // }
+
+
+@override
+Widget trailing(BuildContext context){
+  return Container();
+}
 
   //final _imageSeed = Image.asset('assets/images/seedIco.png');
   //final _imageKeys = Image.asset('assets/images/keysIco.png');
@@ -38,18 +45,18 @@ class RestoreWalletOptionsPage extends BasePage {
   Widget body(BuildContext context) {
     final seedLanguageStore = Provider.of<SeedLanguageStore>(context);
     final isLargeScreen = MediaQuery.of(context).size.height > largeHeight;
-
+ final settingsStore = Provider.of<SettingsStore>(context);
     return Column(
       children: [
         Card(
-          margin: EdgeInsets.only(left: 40,right: 40,top: 50),
-          elevation: 5,
-          color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+          margin: EdgeInsets.only(left: 20,right: 20,top: 50),
+          elevation:0, //5,
+          color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED),// Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10)
           ),
           child:Padding(
-            padding: const EdgeInsets.all(30.0),
+            padding: const EdgeInsets.all(20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -57,7 +64,15 @@ class RestoreWalletOptionsPage extends BasePage {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(S.of(context).restore_title_from_seed,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right:8.0),
+                            child: SvgPicture.asset('assets/images/new-images/restore_seed.svg'),
+                          ),
+                          Text(S.of(context).restore_title_from_seed,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color:settingsStore.isDarkTheme ? Color(0xffF7F7F7) :Color(0xff16161D)),),
+                        ],
+                      ),
                       SizedBox(height: 15),
                       Text(S.of(context).restore_description_from_seed,style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal),)
                     ],
@@ -68,13 +83,16 @@ class RestoreWalletOptionsPage extends BasePage {
                     seedLanguageStore.setCurrentRoute(Routes.restoreWalletFromSeed);
                     Navigator.pushNamed(context, Routes.seedLanguage);
                   },
-                  child: Card(
-                    elevation: 5,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)
+                  child: Container(
+                   // elevation: 5,
+                    //color: Colors.white,
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xff1BB71E)
                     ),
-                    child: Icon(Icons.arrow_forward_ios_rounded,color: Theme.of(context).primaryTextTheme.button.backgroundColor,size: 35,),
+                    
+                    child: Icon(Icons.arrow_forward_ios_rounded,color: Color(0xffffffff),size: 20,),
                   ),
                 )
               ],
@@ -82,14 +100,14 @@ class RestoreWalletOptionsPage extends BasePage {
           ),
         ),
         Card(
-          margin: EdgeInsets.only(left: 40,right: 40,top: 20),
-          elevation: 5,
-          color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+          margin: EdgeInsets.only(left: 20,right: 20,top: 20),
+          elevation:0, //5,
+          color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED), //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10)
           ),
           child:Padding(
-            padding: const EdgeInsets.all(30.0),
+            padding: const EdgeInsets.all(20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -97,7 +115,15 @@ class RestoreWalletOptionsPage extends BasePage {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(S.of(context).restore_title_from_keys,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                      Row(
+                        children: [
+                           Padding(
+                            padding: EdgeInsets.only(right:8.0),
+                            child: SvgPicture.asset('assets/images/new-images/restore_key.svg'),
+                          ),
+                          Text(S.of(context).restore_title_from_keys,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color:settingsStore.isDarkTheme ? Color(0xffF7F7F7) :Color(0xff16161D)),),
+                        ],
+                      ),
                       SizedBox(height: 10,),
                       Text(S.of(context).restore_description_from_keys,style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal),)
                     ],
@@ -108,13 +134,14 @@ class RestoreWalletOptionsPage extends BasePage {
                     seedLanguageStore.setCurrentRoute(Routes.restoreWalletFromKeys);
                     Navigator.pushNamed(context, Routes.seedLanguage);
                   },
-                  child: Card(
-                    elevation: 5,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8)
+                  child: Container(
+                     padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xff2979FB)
                     ),
-                    child: Icon(Icons.arrow_forward_ios_rounded,color: Theme.of(context).accentTextTheme.caption.decorationColor,size: 35,),
+                    
+                    child: Icon(Icons.arrow_forward_ios_rounded,color: Color(0xffffffff),size: 20,),
                   ),
                 )
               ],

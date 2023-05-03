@@ -16,7 +16,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
   final restoreHeightController = TextEditingController();
   int get height => _height;
   int _height = 0;
-
+  bool isRestoreByHeight = true;
   @override
   void initState() {
     restoreHeightController.addListener(() => _height =
@@ -31,7 +31,8 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
+      
+      isRestoreByHeight ?  Row(
           children: <Widget>[
             Flexible(
                 child: Card(
@@ -62,20 +63,20 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
             ),
                 ))
           ],
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 25,bottom: 5),
-          child: Center(
-            child: Text(
-              S.of(context).widgets_or,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.normal,
-                  color: Theme.of(context).primaryTextTheme.headline6.color),
-            ),
-          ),
-        ),
+        ):
+        // Padding(
+        //   padding: EdgeInsets.only(top: 25,bottom: 5),
+        //   child: Center(
+        //     child: Text(
+        //       S.of(context).widgets_or,
+        //       textAlign: TextAlign.center,
+        //       style: TextStyle(
+        //           fontSize: 16.0,
+        //           fontWeight: FontWeight.normal,
+        //           color: Theme.of(context).primaryTextTheme.headline6.color),
+        //     ),
+        //   ),
+        // ),
         Row(
           children: <Widget>[
             Flexible(
@@ -117,6 +118,38 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                 ))
           ],
         ),
+
+      Center(
+        child: InkWell(
+          onTap: (){
+            setState(() {
+                    isRestoreByHeight = isRestoreByHeight ? false:true;
+                        });
+          },
+          child: Container(
+            height:50,width: isRestoreByHeight ? 160: 220,
+            margin: EdgeInsets.only(top:20),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color:Color(0xff2979FB),
+              borderRadius: BorderRadius.circular(10)
+            ),
+            child:Row(
+              children: [
+                Text(isRestoreByHeight ? S.of(context).widgets_restore_from_date : S.of(context).widgets_restore_from_blockheight,),
+                Icon(Icons.arrow_right_alt_rounded)
+              ],
+            )
+          ),
+        ),
+      )
+
+
+
+
+
+
+
       ],
     );
   }

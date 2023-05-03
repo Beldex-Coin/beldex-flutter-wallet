@@ -1,5 +1,7 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:beldex_wallet/src/util/constants.dart' as constants;
+import 'package:provider/provider.dart';
 
 class NewNavListTrailing extends StatelessWidget {
   NewNavListTrailing({this.text, this.leading, this.onTap, this.trailing,this.size,this.balanceVisibility,this.decimalVisibility,this.currencyVisibility,this.feePriorityVisibility});
@@ -15,10 +17,11 @@ class NewNavListTrailing extends StatelessWidget {
   final bool feePriorityVisibility;
   @override
   Widget build(BuildContext context) {
+     final settingsStore = Provider.of<SettingsStore>(context);
     return Card(
       margin: EdgeInsets.only(left: constants.leftPx,right: constants.rightPx,top: 20),
-      elevation: 2,
-      color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+      elevation:0, //2,
+      color: settingsStore.isDarkTheme ? Color(0xff171720): Color(0xffffffff), //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10)
       ),

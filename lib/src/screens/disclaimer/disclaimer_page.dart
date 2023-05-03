@@ -20,16 +20,25 @@ class DisclaimerPage extends BasePage {
   @override
   String get title => S.current.settings_terms_and_conditions;
 
-  @override
-  Widget leading(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.only(top: 12.0, left: 10),
-        decoration: BoxDecoration(
-          //borderRadius: BorderRadius.circular(10),
-          //color: Colors.black,
-        ),
-        child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
-  }
+  // @override
+  // Widget leading(BuildContext context) {
+  //   return Container(
+  //       padding: const EdgeInsets.only(top: 12.0, left: 10),
+  //       decoration: BoxDecoration(
+  //         //borderRadius: BorderRadius.circular(10),
+  //         //color: Colors.black,
+  //       ),
+  //       child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
+  // }
+
+
+
+@override
+Widget trailing(BuildContext context){
+  return Icon(Icons.settings,color:Colors.transparent);
+}
+
+
 
   @override
   Widget body(BuildContext context) => DisclaimerPageBody(isReadOnly: true);
@@ -132,6 +141,7 @@ class DisclaimerBodyState extends State<DisclaimerPageBody> {
                           'Legal Disclaimer',
                           textAlign: TextAlign.center,
                           style: TextStyle(
+                            fontFamily: 'Poppins',
                               fontSize: 14.0, fontWeight: FontWeight.bold),
                         ),
                       )
@@ -146,7 +156,9 @@ class DisclaimerBodyState extends State<DisclaimerPageBody> {
                           child: Text(
                         _fileText,
                         textAlign: TextAlign.justify,
-                        style: TextStyle(fontSize: 12.0),
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 12.0),
                       ))
                     ],
                   ),

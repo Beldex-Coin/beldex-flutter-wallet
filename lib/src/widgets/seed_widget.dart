@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,8 @@ import 'package:beldex_wallet/src/wallet/beldex/mnemonics/portuguese.dart';
 import 'package:beldex_wallet/src/wallet/beldex/mnemonics/russian.dart';
 import 'package:beldex_wallet/src/wallet/beldex/mnemonics/spanish.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 final List<String> _englishWords =
     EnglishMnemonics.words + EnglishOldMnemonics.words;
@@ -244,6 +247,7 @@ class SeedWidgetState extends State<SeedWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
       child: Column(mainAxisSize: MainAxisSize.max,children: [
         Flexible(
@@ -281,19 +285,21 @@ class SeedWidgetState extends State<SeedWidget> {
             fit: FlexFit.tight,
             flex: 12,
             child: Container(
-              margin: EdgeInsets.only(left: 20,right: 20),
+             
+              margin: EdgeInsets.only(left: 10,right: 10),
               child: Column(children: <Widget>[
                 Card(
-                  elevation: 5,
-                  color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                  elevation:0, //5,
+                  color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED),//Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                   ),
                   child: Container(
-                    padding: EdgeInsets.all(16),
+                     height:MediaQuery.of(context).size.height*0.80/3,
+                    padding: EdgeInsets.all(15),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         TextFormField(
                           key: _seedTextFieldKey,
@@ -338,37 +344,75 @@ class SeedWidgetState extends State<SeedWidget> {
                         SizedBox(
                           height: 10,
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                              '${items.length}/${SeedWidgetState.maxLength}',
-                              style: TextStyle(
-                                  color: Colors.grey.withOpacity(0.6), fontSize: 14)),
-                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap:  () => _seedController.clear(),
+                              child: Container(
+                                height:50,width:120,
+                                decoration: BoxDecoration(
+                                  color: settingsStore.isDarkTheme ? Color(0xff333343) : Color(0xffDADADA),
+                                  borderRadius: BorderRadius.circular(10)
+                                ),
+                                child: Center(child: Text('Clear',style:TextStyle(fontSize:15,fontWeight: FontWeight.bold)),),
+                              ),
+                            ),
+                            SizedBox(width: 10,),
+                            InkWell(
+                              onTap:()async =>
+                          Clipboard.getData('text/plain').then(
+                                  (clipboard) =>
+                                  replaceText(clipboard.text)),
+                              child: Container(
+                                height:50,width:120,
+                                decoration: BoxDecoration(
+                                  color:Color(0xff2979FB),
+                                  borderRadius: BorderRadius.circular(10)
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.paste,color: Colors.white,size: 20,),
+                                    Text('Paste',style:TextStyle(color:Colors.white,fontSize:15,fontWeight: FontWeight.bold))
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                        // Align(
+                        //   alignment: Alignment.centerRight,
+                        //   child: Text(
+                        //       '${items.length}/${SeedWidgetState.maxLength}',
+                        //       style: TextStyle(
+                        //           color: Colors.grey.withOpacity(0.6), fontSize: 14)),
+                        // ),
                       ],
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    FlatButton(
-                        padding: EdgeInsets.all(0),
-                        onPressed: () => _seedController.clear(),
-                        child: Text(S.of(context).clear,style: TextStyle(color:Theme.of(context).accentTextTheme.caption.decorationColor),)),
-                    InkWell(
-                      onTap: () async =>
-                          Clipboard.getData('text/plain').then(
-                                  (clipboard) =>
-                                  replaceText(clipboard.text)),
-                      child: Container(
-                          height: 35,
-                          padding: EdgeInsets.all(7),
-                          child: Text(S.of(context).paste)),
-                    ),
-                    SizedBox(width: 10,)
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     FlatButton(
+                //         padding: EdgeInsets.all(0),
+                //         onPressed: () => _seedController.clear(),
+                //         child: Text(S.of(context).clear,style: TextStyle(color:Theme.of(context).accentTextTheme.caption.decorationColor),)),
+                //     InkWell(
+                //       onTap: () async =>
+                //           Clipboard.getData('text/plain').then(
+                //                   (clipboard) =>
+                //                   replaceText(clipboard.text)),
+                //       child: Container(
+                //           height: 35,
+                //           padding: EdgeInsets.all(7),
+                //           child: Text(S.of(context).paste)),
+                //     ),
+                //     SizedBox(width: 10,)
+                //   ],
+                // ),
+               SizedBox(height:20),
                 Padding(
                     padding: EdgeInsets.only(top:20,),
                     child: (selectedItem == null && items.length == maxLength)
@@ -382,17 +426,43 @@ class SeedWidgetState extends State<SeedWidget> {
                         borderColor: Theme.of(context).primaryTextTheme.button.backgroundColor)
                         : SizedBox(
                       width: 250,
-                          child: PrimaryButton(
-                          text: selectedItem != null
-                              ? S.of(context).save
-                              : S.of(context).add_new_word,
-                          onPressed: () => isCurrentMnemoticValid
-                              ? saveCurrentMnemoticToItems()
-                              : null,
-                          onDisabledPressed: () => showErrorIfExist(),
-                          isDisabled: !isCurrentMnemoticValid,
-                          color: Theme.of(context).primaryTextTheme.button.backgroundColor,
-                          borderColor: Theme.of(context).primaryTextTheme.button.backgroundColor),
+                          child: GestureDetector(
+                            onTap: (){
+                               isCurrentMnemoticValid
+                           ? saveCurrentMnemoticToItems()
+                            : null;
+                            showErrorIfExist();
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                SvgPicture.asset('assets/images/new-images/plus_fill.svg',color:Color(0xff0BA70F)),
+                                Padding(
+                                  padding: const EdgeInsets.only(left:8.0),
+                                  child: Text(
+                                    selectedItem != null
+                             ? S.of(context).save
+                             : S.of(context).add_new_word,
+                             style: TextStyle(
+                              color:Color(0xff0BA70F),
+                              fontSize:16
+                             ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                          // PrimaryButton(
+                          // text: selectedItem != null
+                          //     ? S.of(context).save
+                          //     : S.of(context).add_new_word,
+                          // onPressed:/ () => isCurrentMnemoticValid
+                          //     ? saveCurrentMnemoticToItems()
+                          //     : null,
+                          // onDisabledPressed: () => showErrorIfExist(),
+                          // isDisabled: !isCurrentMnemoticValid,
+                          // color: Theme.of(context).primaryTextTheme.button.backgroundColor,
+                          // borderColor: Theme.of(context).primaryTextTheme.button.backgroundColor),
                         ))
               ]),
             ))

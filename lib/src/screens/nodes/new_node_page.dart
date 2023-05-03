@@ -16,6 +16,11 @@ class NewNodePage extends BasePage {
   Widget body(BuildContext context) => NewNodePageForm();
 }
 
+
+
+@override
+  Widget trailing(BuildContext context){return Container();}
+
 class NewNodePageForm extends StatefulWidget {
   @override
   NewNodeFormState createState() => NewNodeFormState();

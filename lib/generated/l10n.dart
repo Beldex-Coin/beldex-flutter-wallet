@@ -38,12 +38,33 @@ class S {
   /// `Welcome to\nBeldex Wallet`
   String get welcome {
     return Intl.message(
-      'Welcome to\nBeldex Wallet',
+      'Welcome to\nBeldex Wallet ',
       name: 'welcome',
       desc: '',
       args: [],
     );
   }
+
+//`Beldex Wallet`
+ String get beldex_wall {
+   return Intl.message(
+    'Beldex Wallet',
+    name: 'beldex_wall',
+    desc: '',
+    args: [],
+   );
+ }
+
+//`Welcome to Beldex Wallet :)`
+String get welcome_to_bel_wallet {
+  return Intl.message(
+    'Welcome to Beldex Wallet :)',
+    name: 'welcome_to_bel_wallet',
+    desc: '',
+    args:[],
+  );
+}
+
 
   /// `Awesome wallet\nfor Beldex`
   String get first_wallet_text {
@@ -58,7 +79,7 @@ class S {
   /// `Select from the options below to\neither create or recover your wallet.`
   String get please_make_selection {
     return Intl.message(
-      'Select from the options below to\neither create or recover your wallet.',
+      'Select an option below to create or\n recover existing wallet.',
       name: 'please_make_selection',
       desc: '',
       args: [],
@@ -74,6 +95,51 @@ class S {
       args: [],
     );
   }
+
+
+/// `Wallet`
+String get setting_page_wallet {
+  return Intl.message(
+    'Wallet',
+    name: 'setting_page_wallet',
+    desc: '',
+    args:[],
+  );
+}
+
+/// `Account`
+String get setting_page_account {
+  return Intl.message(
+    'Account',
+    name: 'setting_page_account',
+    desc:'',
+    args:[],
+  );
+}
+
+///`Seed & Keys`
+String get setting_page_seedkeys {
+  return Intl.message(
+    'Seed & Keys',
+    name: 'setting_page_seedkeys',
+    desc:'',
+    args:[],
+  );
+}
+
+
+///`Stake`
+String get stake {
+  return Intl.message(
+   'Stake',
+   name:'stake',
+   desc:'',
+   args:[],
+  );
+}
+
+
+
 
   /// `Use Existing Wallet`
   String get restore_wallet {
@@ -294,6 +360,17 @@ class S {
       args: [],
     );
   }
+
+
+ ///`Setup pin`
+ String get settingup_pin {
+  return Intl.message(
+    'Setup pin',
+    name: 'settingup_pin',
+    desc: '',
+    args: [],
+      );
+}
 
   /// `Send`
   String get send {
@@ -535,6 +612,26 @@ class S {
     );
   }
 
+///`Copied`
+String get copied{
+  return Intl.message(
+    'Copied',
+    name:'copied',
+    desc:'',
+    args:[],
+  );
+}
+
+  ///`Wallet address`
+  String get wallet_address{
+    return Intl.message(
+      'Wallet Address',
+      name:'wallet_address',
+      desc:'',
+      args:[],
+    );
+  }
+
   /// `Fetching`
   String get fetching {
     return Intl.message(
@@ -694,7 +791,15 @@ class S {
       args: [],
     );
   }
-
+ ///`Enter wallet name`
+ String get enter_wallet_name{
+  return Intl.message(
+    'Enter wallet name',
+    name:'enter_wallet_name',
+    desc:'',
+    args: []
+  );
+ }
   /// `Continue`
   String get continue_text {
     return Intl.message(
@@ -704,6 +809,28 @@ class S {
       args: [],
     );
   }
+
+
+///`No Transactions yet`
+String get no_trans_yet{
+  return Intl.message(
+    'No transactions yet!',
+    name:'no_trans_yet',
+    desc:'',
+    args:[],
+  );
+}
+
+
+ ///`Transactions`
+ String get transactions_text{
+  return Intl.message(
+    'Transactions',
+    name: 'transactions_text',
+    desc:'',
+    args:[],
+  );
+ }
 
   /// `New Node`
   String get node_new {
@@ -1104,6 +1231,17 @@ class S {
       args: [],
     );
   }
+
+///`choose seed language`
+String get choose_seed_lang {
+  return Intl.message(
+    'Choose seed language',
+    name:'choose_seed_lang',
+    desc:'',
+    args:[],
+  );
+}
+
 
   /// `Next`
   String get seed_language_next {
@@ -1674,6 +1812,56 @@ class S {
       args: [],
     );
   }
+
+
+///`2 - Two(0.00)`
+String get amount_detail_two {
+  return Intl.message(
+   '2 - Two (0.00)',
+   name:'amount_detail_two',
+   desc:'',
+   args:[],
+  );
+}
+
+///`4 - Four(0.0000)`
+String get amount_detail_four {
+  return Intl.message(
+    '4 - Four (0.0000)',
+    name:'amount_detail_four',
+    desc:'',
+    args:[],
+  );
+}
+
+
+///`9 - Nine(0.000000000)`
+String get amount_detail_nine {
+  return Intl.message(
+    '9 - Nine (0.000000000)',
+    name:'amount_detail_nine',
+    desc:'',
+    args:[],
+  );
+}
+
+///`0 - Zero(000)`
+String get amount_detail_zero {
+  return Intl.message(
+    '0 - Zero (000)',
+    desc:'',
+    args:[],
+  );
+}
+
+
+
+
+
+
+
+
+
 
   /// `Setup PIN`
   String get setup_pin {

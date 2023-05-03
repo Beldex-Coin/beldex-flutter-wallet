@@ -26,13 +26,13 @@ class AmountDetail {
   String toString() {
     switch (index) {
       case (0):
-        return S.current.amount_detail_ultra;
+        return S.current.amount_detail_nine;
       case (1):
-        return S.current.amount_detail_detailed;
+        return S.current.amount_detail_four;
       case (2):
-        return S.current.amount_detail_normal;
+        return S.current.amount_detail_two;
       case (3):
-        return S.current.amount_detail_none;
+        return S.current.amount_detail_zero;
       default:
         return '';
     }

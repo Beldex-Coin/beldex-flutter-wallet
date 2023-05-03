@@ -46,7 +46,9 @@ class SettingsLinktListRow extends StatelessWidget {
                 child: Text(
                   title,
                   style: TextStyle(
-                      fontSize: 15.0,
+                      fontSize: 14.0,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.w800,
                       //fontWeight: FontWeight.w500,
                       color: Theme.of(context).primaryTextTheme.headline6.color),
                 ),

@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
@@ -5,6 +6,7 @@ import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
+import 'package:provider/provider.dart';
 
 class WelcomePage extends BasePage {
   static const _baseWidth = 411.43;
@@ -20,115 +22,84 @@ class WelcomePage extends BasePage {
   @override
   Widget body(BuildContext context) {
     final _screenWidth = MediaQuery.of(context).size.width;
+    final _screenHeight = MediaQuery.of(context).size.height;
     final textScaleFactor = _screenWidth < _baseWidth ? 0.76 : 1.0;
-
+   final settingsStore = Provider.of<SettingsStore>(context);
     return Stack(
       children: [
-        /*Positioned(
-          top: -25,
-          right: 160,
-          left: -160,
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: 380,
-            child: CustomPaint(
-              painter: MyPainter(),
-              child: Container(),
+       Center(
+         child: Container(
+          height: _screenHeight*1.9/3,
+          width:double.infinity,margin: EdgeInsets.all(_screenHeight*0.10/3),
+          decoration: BoxDecoration(
+           color: settingsStore.isDarkTheme ? Color(0xff21212D) :Color(0xffEDEDED),
+           borderRadius: BorderRadius.circular(20.0)
+          ),
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: _screenHeight*0.10/3),
+              child: Image.asset('assets/images/new-images/beldex_logo2.png'),
             ),
-          ),
-        ),*/
-        Positioned(left:-140,top: -100,right: -90,child: Container( width: MediaQuery.of(context).size.width,
-            height: 380,child: SvgPicture.asset('assets/images/group.svg'))),
-        Align(
-          alignment: Alignment.topCenter,
-          child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black,
-                    blurRadius: 3.5,
-                  )
-                ]),
-            margin: EdgeInsets.only(top: 160, right: 15),
-            width: 65,
-            height: 65,
-            padding: EdgeInsets.all(10),
-            child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'),
-          ),
-        ),
-        Column(children: <Widget>[
-          Expanded(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                      height: 124,//124,
-                      width: 400,//400,
-                      color: Colors.transparent,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      S.of(context).welcome,
-                      style: TextStyle(
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textScaleFactor: textScaleFactor,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  /*Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      S.of(context).first_wallet_text,
-                      style: TextStyle(
-                        fontSize: 22.0,
-                        color: Palette.lightBlue,
-                      ),
-                      textScaleFactor: textScaleFactor,
-                      textAlign: TextAlign.center,
-                    )),*/
-                  Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Text(
-                        S.of(context).please_make_selection,
-                        style: TextStyle(
-                          fontSize: 16.0,
+            Padding(
+              padding: const EdgeInsets.only(top:8.0),
+              child: Text(S.of(context).beldex_wall,
+               style: TextStyle(
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.bold,
                         ),
                         textScaleFactor: textScaleFactor,
                         textAlign: TextAlign.center,
-                      )),
-                  SizedBox(height: 30),
-                  SizedBox(
-                      width: 250,
+              ),
+            ),
+            Container(
+              height: _screenHeight*0.60/3,
+              //color: Colors.green,
+              child:SvgPicture.asset(settingsStore.isDarkTheme ? 'assets/images/new-images/Empty_screen_image.svg': 'assets/images/new-images/Empty_screen_image_white.svg')
+            ),
+            Text(
+              S.of(context).welcome_to_bel_wallet,
+            style: TextStyle(
+              fontSize: _screenHeight*0.05/3,
+              color: settingsStore.isDarkTheme ? Color(0xffAFAFBE) : Color(0xff303030),
+            ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top:8.0),
+              child: Text(
+                S.of(context).please_make_selection,
+              style: TextStyle(
+                fontSize: _screenHeight*0.05/3,
+                color: settingsStore.isDarkTheme ? Color(0xffFFFFFF) : Color(0xff060606),
+              ),
+              ),
+            ),
+            SizedBox(height: 15.0,),
+             SizedBox(
+                      width: 230,
                       child: ElevatedButton.icon(
                         icon: Container(
                             padding: EdgeInsets.all(5),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8),
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.grey[900],
-                                      offset: Offset(0.0, 2.0),
-                                      blurRadius: 2.0)
-                                ]),
-                            child: SvgPicture.asset('assets/images/create_svg.svg',color: Theme.of(context).primaryTextTheme.button.backgroundColor,width: 20,height: 20,)),
+                                color: Colors.transparent,
+                                // boxShadow: [
+                                //   BoxShadow(
+                                //       color: Colors.grey[900],
+                                //       offset: Offset(0.0, 2.0),
+                                //       blurRadius: 2.0)
+                                // ]
+                                ),
+                           // child:SvgPicture.asset('assets/images/create_svg.svg',color: Colors.transparent,width: 15,height: 15,)
+                            ),
                         onPressed: () {
                           Navigator.pushNamed(
-                              context, Routes.newWalletFromWelcome);
+                              context,  Routes.restoreOptions);
                         },
-                        label: Padding( padding: const EdgeInsets.only(left:12.0),child: Text(S.of(context).create_new,style: TextStyle(fontSize: 16),)),
+                        label: Padding( padding: const EdgeInsets.only(left:12.0),child: Text(S.of(context).restore_wallet,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700),)),
                         style: ElevatedButton.styleFrom(
                             alignment: Alignment.centerLeft,
-                            primary: Color.fromARGB(255, 46, 160, 33),
+                            primary: Color(0xff2979FB), //.fromARGB(255, 46, 160, 33),
                             padding: EdgeInsets.all(13),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),
@@ -145,114 +116,298 @@ class WelcomePage extends BasePage {
                       borderColor:
                       Theme.of(context).primaryTextTheme.button.decorationColor),*/
                       ),
-                  SizedBox(height: 25),
-                  SizedBox(
-                    width: 250,
-                    child:
-                        /*ElevatedButton.icon(
-                    icon: Container(padding:EdgeInsets.all(5),decoration:BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.white,
-                        boxShadow: [BoxShadow(
-                            color: Colors.grey[900],
-                            offset: Offset(0.0,2.0),
-                            blurRadius: 2.0
-                        )]
-                    ),child: Image.asset("assets/images/clock.png")),
-                    onPressed: () {
-                      Navigator.pushNamed(context, Routes.restoreOptions);
-                    },
-                    label: Text(S.of(context).restore_wallet),
-                    style: ElevatedButton.styleFrom(
-                        alignment: Alignment.centerLeft,
-                        primary: Theme.of(context).accentTextTheme.caption.backgroundColor,
-                        padding: EdgeInsets.all(13),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)
-                        )
-                    ),)*/ /*PrimaryImageButton(
+                      SizedBox(height: 10.0,),
+                      SizedBox(
+                      width: 230,
+                      child: ElevatedButton.icon(
+                        icon: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.transparent,
+                                // boxShadow: [
+                                //   BoxShadow(
+                                //       color: Colors.grey[900],
+                                //       offset: Offset(0.0, 2.0),
+                                //       blurRadius: 2.0)
+                                // ]
+                                ),
+                           // child: SvgPicture.asset('assets/images/create_svg.svg',color: Colors.transparent,width: 15,height: 15,)
+                            ),
+                        onPressed: () {
+                          Navigator.pushNamed(
+                              context, Routes.newWalletFromWelcome);
+                        },
+                        label: Padding( padding: const EdgeInsets.only(left:12.0),child: Text(S.of(context).create_new,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w700),)),
+                        style: ElevatedButton.styleFrom(
+                            alignment: Alignment.centerLeft,
+                            primary: Color(0xff0BA70F),  //Color.fromARGB(255, 46, 160, 33),
+                            padding: EdgeInsets.all(13),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10))),
+                      ) /*PrimaryIconButton(
+                      iconBackgroundColor: Colors.grey,
                       iconColor: Colors.white,
-                      image: Image.asset("assets/images/clock.png"),
+                      iconData: Icons.transform,
                       onPressed: () {
-                        Navigator.pushNamed(context, Routes.restoreOptions);
+                        Navigator.pushNamed(context, Routes.newWalletFromWelcome);
                       },
-                      color: Theme.of(context).accentTextTheme.caption.backgroundColor,
+                      text: S.of(context).create_new,
+                      color:
+                      Theme.of(context).primaryTextTheme.button.backgroundColor,
                       borderColor:
-                      Theme.of(context).accentTextTheme.caption.decorationColor,
-                      text: S.of(context).restore_wallet,
-                    )*/
-                        TextButton.icon(
-                      style: ElevatedButton.styleFrom(
-                        side: BorderSide(
-                          color:Theme.of(context).accentTextTheme.caption.decorationColor,
-                        ),
-                          alignment: Alignment.centerLeft,
-                          primary: Theme.of(context)
-                              .accentTextTheme
-                              .caption
-                              .backgroundColor,
-                          onPrimary: Colors.white,
-                          padding: EdgeInsets.all(13),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10))),
-                      icon: Container(
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey[900],
-                                    offset: Offset(0.0, 2.0),
-                                    blurRadius: 2.0)
-                              ]),
-                          child: SvgPicture.asset('assets/images/clock_svg.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,width: 20,height: 20,)),
-                      onPressed: () {
-                        Navigator.pushNamed(context, Routes.restoreOptions);
-                      },
-                      label: Padding(
-                        padding: const EdgeInsets.only(left:12.0),
-                        child: Text(S.of(context).restore_wallet,style: TextStyle(fontSize: 16,color: Theme.of(context).primaryTextTheme.caption.color),),
+                      Theme.of(context).primaryTextTheme.button.decorationColor),*/
                       ),
-                    ),
-                  ),
-                ]),
+          ],
+        ),
+         ),
+       ),
+      Positioned(
+        left:10.0,top:230.0,
+        child:Image.asset('assets/images/new-images/coin.png'),
+      ),
+      Positioned(
+        right:10.0,bottom:260.0,
+        child:Image.asset('assets/images/new-images/coin2.png'),
+      ),
+
+
+
+
+
+
+
+
+
+        /*Positioned(
+          top: -25,
+          right: 160,
+          left: -160,
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: 380,
+            child: CustomPaint(
+              painter: MyPainter(),
+              child: Container(),
+            ),
           ),
-          /* Container(
-            child: Column(children: <Widget>[
-              SizedBox(
-                width: 250,
-                child: PrimaryIconButton(
-                  iconBackgroundColor: Colors.grey,
-                    iconColor: Colors.white,
-                    iconData: Icons.transform,
-                    onPressed: () {
-                      Navigator.pushNamed(context, Routes.newWalletFromWelcome);
-                    },
-                    text: S.of(context).create_new,
-                    color:
-                        Theme.of(context).primaryTextTheme.button.backgroundColor,
-                    borderColor:
-                        Theme.of(context).primaryTextTheme.button.decorationColor),
-              ),
-              SizedBox(height: 10),
-              SizedBox(
-                width: 250,
-                child: PrimaryIconButton(
-                  iconBackgroundColor: Colors.grey,
-                  iconColor: Colors.white,
-                  iconData: Icons.transform,
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.restoreOptions);
-                  },
-                  color: Theme.of(context).accentTextTheme.caption.backgroundColor,
-                  borderColor:
-                      Theme.of(context).accentTextTheme.caption.decorationColor,
-                  text: S.of(context).restore_wallet,
-                ),
-              )
-            ]))*/
-        ]),
+        ),*/
+        // Positioned(left:-140,top: -100,right: -90,child: Container( width: MediaQuery.of(context).size.width,
+        //     height: 380,child: SvgPicture.asset('assets/images/group.svg'))),
+        // Align(
+        //   alignment: Alignment.topCenter,
+        //   child: Container(
+        //     decoration: BoxDecoration(
+        //         borderRadius: BorderRadius.circular(10),
+        //         color: Colors.white,
+        //         boxShadow: [
+        //           BoxShadow(
+        //             color: Colors.black,
+        //             blurRadius: 3.5,
+        //           )
+        //         ]),
+        //     margin: EdgeInsets.only(top: 160, right: 15),
+        //     width: 65,
+        //     height: 65,
+        //     padding: EdgeInsets.all(10),
+        //     child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'),
+        //   ),
+        // ),
+        // Column(children: <Widget>[
+        //   Expanded(
+        //     child: Column(
+        //         mainAxisAlignment: MainAxisAlignment.center,
+        //         children: <Widget>[
+        //           Padding(
+        //             padding: EdgeInsets.all(20),
+        //             child: Image.asset(
+        //               'assets/images/logo.png',
+        //               height: 124,//124,
+        //               width: 400,//400,
+        //               color: Colors.transparent,
+        //             ),
+        //           ),
+        //           Padding(
+        //             padding: EdgeInsets.all(10),
+        //             child: Text(
+        //               S.of(context).welcome,
+        //               style: TextStyle(
+        //                 fontSize: 30.0,
+        //                 fontWeight: FontWeight.bold,
+        //               ),
+        //               textScaleFactor: textScaleFactor,
+        //               textAlign: TextAlign.center,
+        //             ),
+        //           ),
+        //           /*Padding(
+        //             padding: EdgeInsets.all(10),
+        //             child: Text(
+        //               S.of(context).first_wallet_text,
+        //               style: TextStyle(
+        //                 fontSize: 22.0,
+        //                 color: Palette.lightBlue,
+        //               ),
+        //               textScaleFactor: textScaleFactor,
+        //               textAlign: TextAlign.center,
+        //             )),*/
+        //           Padding(
+        //               padding: EdgeInsets.all(10),
+        //               child: Text(
+        //                 S.of(context).please_make_selection,
+        //                 style: TextStyle(
+        //                   fontSize: 16.0,
+        //                 ),
+        //                 textScaleFactor: textScaleFactor,
+        //                 textAlign: TextAlign.center,
+        //               )),
+        //           SizedBox(height: 30),
+        //           SizedBox(
+        //               width: 250,
+        //               child: ElevatedButton.icon(
+        //                 icon: Container(
+        //                     padding: EdgeInsets.all(5),
+        //                     decoration: BoxDecoration(
+        //                         borderRadius: BorderRadius.circular(8),
+        //                         color: Colors.white,
+        //                         boxShadow: [
+        //                           BoxShadow(
+        //                               color: Colors.grey[900],
+        //                               offset: Offset(0.0, 2.0),
+        //                               blurRadius: 2.0)
+        //                         ]),
+        //                     child: SvgPicture.asset('assets/images/create_svg.svg',color: Theme.of(context).primaryTextTheme.button.backgroundColor,width: 20,height: 20,)),
+        //                 onPressed: () {
+        //                   Navigator.pushNamed(
+        //                       context, Routes.newWalletFromWelcome);
+        //                 },
+        //                 label: Padding( padding: const EdgeInsets.only(left:12.0),child: Text(S.of(context).create_new,style: TextStyle(fontSize: 16),)),
+        //                 style: ElevatedButton.styleFrom(
+        //                     alignment: Alignment.centerLeft,
+        //                     primary: Color.fromARGB(255, 46, 160, 33),
+        //                     padding: EdgeInsets.all(13),
+        //                     shape: RoundedRectangleBorder(
+        //                         borderRadius: BorderRadius.circular(10))),
+        //               ) /*PrimaryIconButton(
+        //               iconBackgroundColor: Colors.grey,
+        //               iconColor: Colors.white,
+        //               iconData: Icons.transform,
+        //               onPressed: () {
+        //                 Navigator.pushNamed(context, Routes.newWalletFromWelcome);
+        //               },
+        //               text: S.of(context).create_new,
+        //               color:
+        //               Theme.of(context).primaryTextTheme.button.backgroundColor,
+        //               borderColor:
+        //               Theme.of(context).primaryTextTheme.button.decorationColor),*/
+        //               ),
+        //           SizedBox(height: 25),
+        //           SizedBox(
+        //             width: 250,
+        //             child:
+        //                 /*ElevatedButton.icon(
+        //             icon: Container(padding:EdgeInsets.all(5),decoration:BoxDecoration(
+        //                 borderRadius: BorderRadius.circular(8),
+        //                 color: Colors.white,
+        //                 boxShadow: [BoxShadow(
+        //                     color: Colors.grey[900],
+        //                     offset: Offset(0.0,2.0),
+        //                     blurRadius: 2.0
+        //                 )]
+        //             ),child: Image.asset("assets/images/clock.png")),
+        //             onPressed: () {
+        //               Navigator.pushNamed(context, Routes.restoreOptions);
+        //             },
+        //             label: Text(S.of(context).restore_wallet),
+        //             style: ElevatedButton.styleFrom(
+        //                 alignment: Alignment.centerLeft,
+        //                 primary: Theme.of(context).accentTextTheme.caption.backgroundColor,
+        //                 padding: EdgeInsets.all(13),
+        //                 shape: RoundedRectangleBorder(
+        //                     borderRadius: BorderRadius.circular(10)
+        //                 )
+        //             ),)*/ /*PrimaryImageButton(
+        //               iconColor: Colors.white,
+        //               image: Image.asset("assets/images/clock.png"),
+        //               onPressed: () {
+        //                 Navigator.pushNamed(context, Routes.restoreOptions);
+        //               },
+        //               color: Theme.of(context).accentTextTheme.caption.backgroundColor,
+        //               borderColor:
+        //               Theme.of(context).accentTextTheme.caption.decorationColor,
+        //               text: S.of(context).restore_wallet,
+        //             )*/
+        //                 TextButton.icon(
+        //               style: ElevatedButton.styleFrom(
+        //                 side: BorderSide(
+        //                   color:Theme.of(context).accentTextTheme.caption.decorationColor,
+        //                 ),
+        //                   alignment: Alignment.centerLeft,
+        //                   primary: Theme.of(context)
+        //                       .accentTextTheme
+        //                       .caption
+        //                       .backgroundColor,
+        //                   onPrimary: Colors.white,
+        //                   padding: EdgeInsets.all(13),
+        //                   shape: RoundedRectangleBorder(
+        //                       borderRadius: BorderRadius.circular(10))),
+        //               icon: Container(
+        //                   padding: EdgeInsets.all(5),
+        //                   decoration: BoxDecoration(
+        //                       borderRadius: BorderRadius.circular(8),
+        //                       color: Colors.white,
+        //                       boxShadow: [
+        //                         BoxShadow(
+        //                             color: Colors.grey[900],
+        //                             offset: Offset(0.0, 2.0),
+        //                             blurRadius: 2.0)
+        //                       ]),
+        //                   child: SvgPicture.asset('assets/images/clock_svg.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,width: 20,height: 20,)),
+        //               onPressed: () {
+        //                 Navigator.pushNamed(context, Routes.restoreOptions);
+        //               },
+        //               label: Padding(
+        //                 padding: const EdgeInsets.only(left:12.0),
+        //                 child: Text(S.of(context).restore_wallet,style: TextStyle(fontSize: 16,color: Theme.of(context).primaryTextTheme.caption.color),),
+        //               ),
+        //             ),
+        //           ),
+        //         ]),
+        //   ),
+        //   /* Container(
+        //     child: Column(children: <Widget>[
+        //       SizedBox(
+        //         width: 250,
+        //         child: PrimaryIconButton(
+        //           iconBackgroundColor: Colors.grey,
+        //             iconColor: Colors.white,
+        //             iconData: Icons.transform,
+        //             onPressed: () {
+        //               Navigator.pushNamed(context, Routes.newWalletFromWelcome);
+        //             },
+        //             text: S.of(context).create_new,
+        //             color:
+        //                 Theme.of(context).primaryTextTheme.button.backgroundColor,
+        //             borderColor:
+        //                 Theme.of(context).primaryTextTheme.button.decorationColor),
+        //       ),
+        //       SizedBox(height: 10),
+        //       SizedBox(
+        //         width: 250,
+        //         child: PrimaryIconButton(
+        //           iconBackgroundColor: Colors.grey,
+        //           iconColor: Colors.white,
+        //           iconData: Icons.transform,
+        //           onPressed: () {
+        //             Navigator.pushNamed(context, Routes.restoreOptions);
+        //           },
+        //           color: Theme.of(context).accentTextTheme.caption.backgroundColor,
+        //           borderColor:
+        //               Theme.of(context).accentTextTheme.caption.decorationColor,
+        //           text: S.of(context).restore_wallet,
+        //         ),
+        //       )
+        //     ]))*/
+        // ]),
       ],
     );
   }

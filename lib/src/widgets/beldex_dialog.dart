@@ -32,12 +32,13 @@ Future showConfirmBeldexDialog(BuildContext context, String title, String body,
       builder: (_) => ConfirmBeldexDialog(title, body,
           onDismiss: onDismiss,
           onConfirm: onConfirm,
-          onFutureConfirm: onFutureConfirm),
+          onFutureConfirm: onFutureConfirm
+          ),
       context: context);
 }
 
 class BeldexDialog extends StatelessWidget {
-  BeldexDialog({this.body, this.onDismiss});
+  BeldexDialog({this.body, this.onDismiss,});
 
   final void Function(BuildContext context) onDismiss;
   final Widget body;
@@ -52,24 +53,23 @@ class BeldexDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return  GestureDetector(
       onTap: () => _onDismiss(context),
       child: Container(
         color: Colors.transparent,
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
           child: Container(
-            decoration: BoxDecoration(color: Colors.white.withOpacity(0.55)),
+            margin: EdgeInsets.all(10),
+            decoration: BoxDecoration(color: Color(0xff171720).withOpacity(0.55)),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
                         color: Theme.of(context).backgroundColor,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20))),
+                        borderRadius: BorderRadius.circular(10)),
                     child: body),
               ],
             ),
@@ -82,14 +82,13 @@ class BeldexDialog extends StatelessWidget {
 
 class SimpleBeldexDialog extends StatelessWidget {
   SimpleBeldexDialog(this.title, this.body,
-      {this.buttonText, this.onPressed, this.onDismiss});
+      {this.buttonText, this.onPressed, this.onDismiss,});
 
   final String title;
   final String body;
   final String buttonText;
   final void Function(BuildContext context) onPressed;
   final void Function(BuildContext context) onDismiss;
-
   @override
   Widget build(BuildContext context) {
     return BeldexDialog(

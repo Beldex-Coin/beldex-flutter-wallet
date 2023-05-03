@@ -114,7 +114,9 @@ class SettingsSwitchListRow extends StatelessWidget {
           contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
           title: Text(title,
               style: TextStyle(
-                  fontSize: 15.0,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w800,
+                  fontFamily: 'Poppins',
                   color: Theme.of(context).primaryTextTheme.headline6.color)),
           trailing: _getSwitch(context)),
     );

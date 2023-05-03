@@ -13,6 +13,15 @@ class DangerzonePage extends BasePage {
 
   final String nextPage;
 
+
+@override
+Widget trailing(BuildContext context){
+  return Icon(Icons.settings,color:Colors.transparent);
+}
+
+
+
+
   @override
   Widget body(BuildContext context) {
     final _baseWidth = 411.43;

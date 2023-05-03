@@ -55,7 +55,8 @@ void main() async {
         forKey: 'transactionDescriptionsBoxKey'); // FIXME: Unnamed constant
 
     final contacts = await Hive.openBox<Contact>(Contact.boxName);
-    final nodes = await Hive.openBox<Node>(Node.boxName);
+    final nodes = await Hive.openBox<Node>
+    (Node.boxName);
     final transactionDescriptions = await Hive.openBox<TransactionDescription>(
         TransactionDescription.boxName,
         encryptionKey: transactionDescriptionsBoxKey);
@@ -261,7 +262,7 @@ class MaterialAppWithTheme extends StatelessWidget {
     final nodes = Provider.of<Box<Node>>(context);
     final transactionDescriptions =
         Provider.of<Box<TransactionDescription>>(context);
-
+ 
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: statusBarColor));
 

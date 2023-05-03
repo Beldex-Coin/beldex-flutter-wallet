@@ -44,16 +44,36 @@ class SettingsPage extends BasePage {
   @override
   Color get backgroundColor => Palette.lightGrey2;
 
+  // @override
+  // Widget leading(BuildContext context) {
+  //   return Container(
+  //       padding: const EdgeInsets.only(top: 12.0, left: 10),
+  //       decoration: BoxDecoration(
+  //           //borderRadius: BorderRadius.circular(10),
+  //           //color: Colors.black,
+  //           ),
+  //       child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
+  // }
+
+
+
   @override
-  Widget leading(BuildContext context) {
+  Widget trailing(BuildContext context){
     return Container(
-        padding: const EdgeInsets.only(top: 12.0, left: 10),
-        decoration: BoxDecoration(
-            //borderRadius: BorderRadius.circular(10),
-            //color: Colors.black,
-            ),
-        child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
+      child: Icon(Icons.settings, color: Colors.transparent,),
+    );
   }
+
+
+
+
+
+
+
+
+
+
+
 
   @override
   Widget body(BuildContext context) {
@@ -92,6 +112,8 @@ class SettingsFormState extends State<SettingsForm> {
     _items.addAll([
       SettingsItem(
           title: S.current.settings_nodes, attribute: Attributes.header),
+      
+      
       SettingsItem(
           onTaped: () => Navigator.of(context).pushNamed(Routes.nodeList),
           title: S.current.settings_current_node,
@@ -355,13 +377,9 @@ class SettingsFormState extends State<SettingsForm> {
         Column(
           children: <Widget>[
             //Nodes Header
-            NewNavListHeader(title: S.current.settings_nodes),
+            NewNavListHeader(title: S.current.settings_nodes,),
             //Current Node
-            NewNavListArrow(
-              balanceVisibility: balanceVisibility,
-              decimalVisibility: decimalVisibility,
-              currencyVisibility: currencyVisibility,
-              feePriorityVisibility: feePriorityVisibility,
+            GestureDetector(
               onTap: () {
                 if (balanceVisibility == false &&
                     decimalVisibility == false &&
@@ -370,15 +388,55 @@ class SettingsFormState extends State<SettingsForm> {
                   Navigator.of(context).pushNamed(Routes.nodeList);
                 }
               },
-              text: S.current.settings_current_node,
-              size: 15,
+              child: Container(
+                padding:EdgeInsets.all(10.0),
+                margin: EdgeInsets.only(left:15.0,right:15.0,top:10,bottom:10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text(S.current.settings_current_node,style: TextStyle(fontFamily: 'Poppins',fontWeight: FontWeight.w800,fontSize:16,)),
+                        Text('mainnet',style:TextStyle(color:Color(0xff1BB71F)))
+                      ],
+                    ),
+                    Icon(Icons.keyboard_arrow_right_outlined,size: 30,color: Color(0xff3F3F4D),),
+
+                  ],
+                ),
+              ),
             ),
+            
+            
+            
+            
+            
+            // NewNavListArrow(
+            //  // leading: SizedBox.shrink(),
+            //   balanceVisibility: balanceVisibility,
+            //   decimalVisibility: decimalVisibility,
+            //   currencyVisibility: currencyVisibility,
+            //   feePriorityVisibility: feePriorityVisibility,
+            //   onTap: () {
+            //     if (balanceVisibility == false &&
+            //         decimalVisibility == false &&
+            //         currencyVisibility == false &&
+            //         feePriorityVisibility == false) {
+            //       Navigator.of(context).pushNamed(Routes.nodeList);
+            //     }
+            //   },
+            //   text: S.current.settings_current_node,
+            //   size: 15,
+            // ),
             //Wallets Header
             NewNavListHeader(title: S.current.settings_wallets),
             Card(
-              margin: EdgeInsets.only(left: constants.leftPx, right: constants.rightPx, top: 20),
-              elevation: 2,
-              color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+            //  margin: EdgeInsets.only(left: constants.leftPx, right: constants.rightPx, top: 20),
+              elevation:0, //2,
+              color:Colors.transparent, //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Stack(
@@ -391,13 +449,248 @@ class SettingsFormState extends State<SettingsForm> {
                         decimalVisibility: decimalVisibility,
                         currencyVisibility: currencyVisibility,
                         feePriorityVisibility: feePriorityVisibility,
-                        onTaped: () {
-                          if (balanceVisibility == false &&
-                              decimalVisibility == false &&
-                              currencyVisibility == false &&
-                              feePriorityVisibility == false) {
-                            _setBalance(context);
-                          }
+                        onTaped: ()async {
+          await showDialog<void>(context: context, builder: (BuildContext context){
+            return Dialog(
+              backgroundColor: Colors.transparent,
+      //title: Text("Success"),
+      child: 
+      Container(
+                      width: MediaQuery.of(context).size.width,
+                      height:MediaQuery.of(context).size.height*1/3, // 210,
+                      //margin: EdgeInsets.only(top: 50,left:15,right:15),
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //       blurRadius: 1,
+                          //       spreadRadius: 1,
+                          //       offset: Offset(0.0, 2.0))
+                          // ],
+                          //border: Border.all(color:Colors.white),
+                          color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF), //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Stack(
+                        children: [
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Display balance as',style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: 'Poppinsbold',
+                                    fontWeight: FontWeight.bold
+                                ),),
+                              ),
+                              // Divider(
+                              //   height: 1,
+                              //   color:Theme.of(context).dividerColor,
+                              // ),
+                              // Padding(
+                              //   padding: EdgeInsets.all(8.0),
+                              //   child: TextField(
+                              //     controller: searchDecimalController,
+                              //     decoration: InputDecoration(
+                              //       hintText: 'Search Decimals',
+                              //       contentPadding:
+                              //           EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                              //       border: OutlineInputBorder(
+                              //           borderRadius: BorderRadius.circular(10.0)),
+                              //     ),
+                              //   ),
+                              // ),
+                              Expanded(
+                                child:  ListView.builder(
+                                    itemCount: BalanceDisplayMode.all.length,
+                                    shrinkWrap: true,
+                                    controller: _scrollController,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return InkWell(
+                                        onTap: () async {
+                                          final settingsStore =
+                                              context.read<SettingsStore>();
+                                          // if (balanceVisibility == false) {
+                                          //   setState(() {
+                                          //     balanceVisibility = true;
+                                          //   });
+                                          // } else {
+                                          //   setState(() {
+                                          //     balanceVisibility = false;
+                                          //   });
+                                          // }
+                                          
+                                          if (BalanceDisplayMode.all[index] != null) {
+                                            await settingsStore
+                                                .setCurrentBalanceDisplayMode(
+                                                    balanceDisplayMode:
+                                                        BalanceDisplayMode.all[index]);
+                                          }
+                                          Navigator.pop(context);
+                                        },
+                                        child: Card(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10)),
+                                          elevation:  0.0,
+                                          color: settingsStore.balanceDisplayMode ==
+                                                  BalanceDisplayMode.all[index]
+                                              ? Color(0xff2979FB) //Theme.of(context).backgroundColor
+                                              : Colors.transparent,//Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                                          child: Container(
+                                              width: MediaQuery.of(context).size.width,
+                                              padding:
+                                                  EdgeInsets.only(top: 15, bottom: 15),
+                                              child: Observer(
+                                                builder: (_) => Text(
+                                                  BalanceDisplayMode.all[index]
+                                                      .toString(),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: settingsStore
+                                                                  .balanceDisplayMode !=
+                                                              BalanceDisplayMode
+                                                                  .all[index]
+                                                          ? Colors.grey.withOpacity(0.6)
+                                                          : Color(0xffFFFFFF),
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              )),
+                                        ),
+                                      );
+                                    }),
+                              ),
+                            ],
+                          ),
+                          Container(margin:EdgeInsets.only(top: 7,right: 10),alignment:Alignment.topRight,child: InkWell(
+                            onTap: (){
+                              Navigator.pop(context);
+                              // if (decimalVisibility == false) {
+                              //   setState(() {
+                              //     decimalVisibility = true;
+                              //   });
+                              // } else {
+                              //   setState(() {
+                              //     decimalVisibility = false;
+                              //   });
+                              // }
+                            },
+                            child: Container(decoration: BoxDecoration(
+                                //color: Theme.of(context).accentTextTheme.caption.decorationColor,
+                                shape: BoxShape.circle
+                            ),child: Icon(Icons.close)),
+                          ))
+                        ],
+                      ),
+                    ),
+      // Container(   
+      //   height:MediaQuery.of(context).size.height*1/3,
+      //   width:MediaQuery.of(context).size.width*2/3,
+      //   child:Column(
+      //     children: [
+      //       Padding(
+      //         padding: const EdgeInsets.all(8.0),
+      //         child: Container(
+      //          child:Row(children: [
+      //          Text('Display balance as',style: TextStyle(
+      //                                 fontSize: 18,
+      //                                 fontWeight: FontWeight.bold,
+      //                             ),),
+      //           Icon(Icons.close),
+      //          ],)
+      //         ),
+      //       ),
+      //       DraggableScrollbar.rrect(
+      //                              // padding:
+      //                                 //  EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
+      //                               controller: _scrollController,
+      //                               heightScrollThumb: 25,
+      //                               //alwaysVisibleScrollThumb: true,
+      //                               backgroundColor: Theme.of(context)
+      //                                   .primaryTextTheme
+      //                                   .button
+      //                                   .backgroundColor,
+      //                               child: ListView.builder(
+      //                                   itemCount: BalanceDisplayMode.all.length,
+      //                                   shrinkWrap: true,
+      //                                   controller: _scrollController,
+      //                                   itemBuilder: (BuildContext context, int index) {
+      //                                     return InkWell(
+      //                                       onTap: () async {
+      //                                         final settingsStore =
+      //                                             context.read<SettingsStore>();
+      //                                         // if (balanceVisibility == false) {
+      //                                         //   setState(() {
+      //                                         //     balanceVisibility = true;
+      //                                         //   });
+      //                                         // } else {
+      //                                         //   setState(() {
+      //                                         //     balanceVisibility = false;
+      //                                         //   });
+      //                                         // }
+      //                                         Navigator.pop(context);
+      //                                         if (BalanceDisplayMode.all[index] != null) {
+      //                                           await settingsStore
+      //                                               .setCurrentBalanceDisplayMode(
+      //                                                   balanceDisplayMode:
+      //                                                       BalanceDisplayMode.all[index]);
+      //                                         }
+      //                                       },
+      //                                       child: Padding(
+      //                                         padding: EdgeInsets.only(left: 20.0, right: 20.0),
+      //                                         child: Card(
+      //                                           shape: RoundedRectangleBorder(
+      //                                               borderRadius: BorderRadius.circular(10)),
+      //                                           elevation: settingsStore.balanceDisplayMode ==
+      //                                                   BalanceDisplayMode.all[index]
+      //                                               ? 2.0
+      //                                               : 0.0,
+      //                                           color: settingsStore.balanceDisplayMode ==
+      //                                                   BalanceDisplayMode.all[index]
+      //                                               ? Theme.of(context).backgroundColor
+      //                                               : Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+      //                                           child: Container(
+      //                                               width: MediaQuery.of(context).size.width,
+      //                                               padding:
+      //                                                   EdgeInsets.only(top: 15, bottom: 15),
+      //                                               child: Observer(
+      //                                                 builder: (_) => Text(
+      //                                                   BalanceDisplayMode.all[index]
+      //                                                       .toString(),
+      //                                                   textAlign: TextAlign.center,
+      //                                                   style: TextStyle(
+      //                                                       fontSize: 14,
+      //                                                       color: settingsStore
+      //                                                                   .balanceDisplayMode !=
+      //                                                               BalanceDisplayMode
+      //                                                                   .all[index]
+      //                                                           ? Colors.grey.withOpacity(0.6)
+      //                                                           : Theme.of(context)
+      //                                                               .primaryTextTheme
+      //                                                               .headline6
+      //                                                               .color,
+      //                                                       fontWeight: FontWeight.bold),
+      //                                                 ),
+      //                                               )),
+      //                                         ),
+      //                                       ),
+      //                                     );
+      //                                   }),
+      //                             ),
+      //     ],
+      //   ),
+      // ),
+    );
+          });
+        
+
+
+
+                          // if (balanceVisibility == false &&
+                          //     decimalVisibility == false &&
+                          //     currencyVisibility == false &&
+                          //     feePriorityVisibility == false) {
+                          //   _setBalance(context);
+                          // }
                         },
                         title: S.current.settings_display_balance_as,
                         widget: Observer(
@@ -405,7 +698,9 @@ class SettingsFormState extends State<SettingsForm> {
                                   settingsStore.balanceDisplayMode.toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      fontSize: 16.0,
+                                      fontSize: 14.0,
+                                      fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w800,
                                       color: Theme.of(context)
                                           .primaryTextTheme
                                           .headline6
@@ -418,13 +713,100 @@ class SettingsFormState extends State<SettingsForm> {
                         decimalVisibility: decimalVisibility,
                         currencyVisibility: currencyVisibility,
                         feePriorityVisibility: feePriorityVisibility,
-                        onTaped: () {
-                          if (balanceVisibility == false &&
-                              decimalVisibility == false &&
-                              currencyVisibility == false &&
-                              feePriorityVisibility == false) {
-                            _setBalanceDetail(context);
-                          }
+                        onTaped: ()async {
+                          // if (balanceVisibility == false &&
+                          //     decimalVisibility == false &&
+                          //     currencyVisibility == false &&
+                          //     feePriorityVisibility == false) {
+                          //   _setBalanceDetail(context);
+                          // }
+             await showDialog<void>(context: context, builder: (BuildContext context){
+            return Dialog(
+              backgroundColor: Colors.transparent,
+      //title: Text("Success"),
+      child: 
+ Container(
+                      width: MediaQuery.of(context).size.width,
+                      height:MediaQuery.of(context).size.height*1/3, // 210,
+                      margin: EdgeInsets.only(top: 50,left:15,right:15),
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //       blurRadius: 1,
+                          //       spreadRadius: 1,
+                          //       offset: Offset(0.0, 2.0))
+                          // ],
+                          //border: Border.all(color:Colors.white),
+                          color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF), //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Stack(
+                        children: [
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Decimals',style: TextStyle(
+                                    fontSize: 18,
+                                    fontFamily: 'Poppinsbold',
+                                    fontWeight: FontWeight.bold
+                                ),),
+                              ),
+                              Expanded(
+                                child: DraggableScrollbar.rrect(
+                                  padding: EdgeInsets.only(
+                                      left: 5, right: 5, top: 10, bottom: 10),
+                                  controller: _scrollController,
+                                  heightScrollThumb: 25,
+                                  alwaysVisibleScrollThumb: false,
+                                  backgroundColor: Theme.of(context)
+                                      .primaryTextTheme
+                                      .button
+                                      .backgroundColor,
+                                  child: ListView.builder(
+                                      itemCount: AmountDetail.all.length,
+                                      //shrinkWrap: true,
+                                      controller: _scrollController,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        return decimalFilter == null ||
+                                                decimalFilter == ''
+                                            ? decimalDropDownListItem(
+                                                settingsStore, index)
+                                            : '${AmountDetail.all[index]}'
+                                                    .toLowerCase()
+                                                    .contains(
+                                                        decimalFilter.toLowerCase())
+                                                ? decimalDropDownListItem(
+                                                    settingsStore, index)
+                                                : Container();
+                                      }),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Container(margin:EdgeInsets.only(top: 7,right: 10),alignment:Alignment.topRight,child: InkWell(
+                            onTap: (){
+                              // if (decimalVisibility == false) {
+                              //   setState(() {
+                              //     decimalVisibility = true;
+                              //   });
+                              // } else {
+                              //   setState(() {
+                              //     decimalVisibility = false;
+                              //   });
+                              // }
+                              Navigator.pop(context);
+                            },
+                            child: Container(decoration: BoxDecoration(
+                                //color: Theme.of(context).accentTextTheme.caption.decorationColor,
+                                shape: BoxShape.circle
+                            ),child: Icon(Icons.close)),
+                          ))
+                        ],
+                      ),
+                    ),
+            );});
                         },
                         title: S.current.settings_balance_detail,
                         widget: Observer(
@@ -432,7 +814,9 @@ class SettingsFormState extends State<SettingsForm> {
                                   settingsStore.balanceDetail.toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      fontSize: 15.0,
+                                      fontSize: 14.0,
+                                       fontFamily: 'Poppins',
+                                       fontWeight: FontWeight.w800,
                                       color: Theme.of(context)
                                           .primaryTextTheme
                                           .headline6
@@ -453,13 +837,105 @@ class SettingsFormState extends State<SettingsForm> {
                         decimalVisibility: decimalVisibility,
                         currencyVisibility: currencyVisibility,
                         feePriorityVisibility: feePriorityVisibility,
-                        onTaped: () {
-                          if (balanceVisibility == false &&
-                              decimalVisibility == false &&
-                              currencyVisibility == false &&
-                              feePriorityVisibility == false) {
-                            _setCurrency(context);
-                          }
+                        onTaped: ()async {
+                          // if (balanceVisibility == false &&
+                          //     decimalVisibility == false &&
+                          //     currencyVisibility == false &&
+                          //     feePriorityVisibility == false) {
+                          //   _setCurrency(context);
+                          // }
+
+                          await showDialog<void>(context: context, builder: (BuildContext context){
+                             return Dialog(
+                              backgroundColor:Colors.transparent ,
+                              child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height*1/3,
+                     // margin: EdgeInsets.only(top: 190),
+                      decoration: BoxDecoration(
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //       blurRadius: 1,
+                          //       spreadRadius: 1,
+                          //       offset: Offset(0.0, 2.0))
+                          // ],
+                          // border: Border.all(color:Colors.white),
+                           color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF),//Color.fromARGB(255, 31, 32, 39),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Stack(
+                        children: [
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top:15.0,left:10.0,right:10.0,bottom: 15),
+                                child: Text('Currency',style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Poppinsbold'
+                                ),),
+                              ),
+                              
+                              // Padding(
+                              //   padding: EdgeInsets.all(8.0),
+                              //   child: TextField(
+                              //     controller: searchCurrencyController,
+                              //     decoration: InputDecoration(
+                              //       hintText: 'Search Currency',
+                              //       contentPadding:
+                              //           EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                              //       border: OutlineInputBorder(
+                              //           borderRadius: BorderRadius.circular(10.0)),
+                              //     ),
+                              //   ),
+                              // ),
+                              Expanded(
+                                child: ListView.builder(
+                                    itemCount: FiatCurrency.all.length,
+                                    //shrinkWrap: true,
+                                    controller: _scrollController,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return currencyFilter == null ||
+                                              currencyFilter == ''
+                                          ? currencyDropDownListItem(
+                                              settingsStore, index)
+                                          : '${FiatCurrency.all[index]}'
+                                                  .toLowerCase()
+                                                  .contains(currencyFilter
+                                                      .toLowerCase())
+                                              ? currencyDropDownListItem(
+                                                  settingsStore, index)
+                                              : Container();
+                                    }),
+                              ),
+                            ],
+                          ),
+                          Container(margin:EdgeInsets.only(top: 7,right: 10),alignment:Alignment.topRight,child: InkWell(
+                            onTap: (){
+                              // if (currencyVisibility == false) {
+                              //   setState(() {
+                              //     currencyVisibility = true;
+                              //   });
+                              // } else {
+                              //   setState(() {
+                              //     currencyVisibility = false;
+                              //   });
+                              // }
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              //decoration: BoxDecoration(
+                               // color: Theme.of(context).accentTextTheme.caption.decorationColor,
+                                //shape: BoxShape.circle
+                          //  ),
+                          child: Icon(Icons.close)),
+                          ))
+                        ],
+                      ),
+                    ),
+
+                             );
+                          });
                         },
                         title: S.current.settings_currency,
                         widget: Observer(
@@ -467,7 +943,9 @@ class SettingsFormState extends State<SettingsForm> {
                                   settingsStore.fiatCurrency.toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      fontSize: 15.0,
+                                      fontSize: 14.0,
+                                       fontFamily: 'Poppins',
+                                       fontWeight: FontWeight.w800,
                                       color: Theme.of(context)
                                           .primaryTextTheme
                                           .headline6
@@ -480,13 +958,142 @@ class SettingsFormState extends State<SettingsForm> {
                         decimalVisibility: decimalVisibility,
                         currencyVisibility: currencyVisibility,
                         feePriorityVisibility: feePriorityVisibility,
-                        onTaped: () {
-                          if (balanceVisibility == false &&
-                              decimalVisibility == false &&
-                              currencyVisibility == false &&
-                              feePriorityVisibility == false) {
-                            _setTransactionPriority(context);
-                          }
+                        onTaped: ()async {
+                          // if (balanceVisibility == false &&
+                          //     decimalVisibility == false &&
+                          //     currencyVisibility == false &&
+                          //     feePriorityVisibility == false) {
+                          //   _setTransactionPriority(context);
+                          // }
+
+                        await showDialog<void>(context: context, builder: (BuildContext context){
+                          return Dialog(
+                            backgroundColor: Colors.transparent,
+                            child: Container(
+                               width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height*0.70/3,
+                     // margin: EdgeInsets.only(top: 190),
+                      decoration: BoxDecoration(
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //       blurRadius: 1,
+                          //       spreadRadius: 1,
+                          //       offset: Offset(0.0, 2.0))
+                          // ],
+                          // border: Border.all(color:Colors.white),
+                           color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF),//Color.fromARGB(255, 31, 32, 39),
+                          borderRadius: BorderRadius.circular(10)),
+                          child: Stack(
+                        children: [
+                          Column(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text('Fee Priority',style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Poppinsbold'
+                                ),),
+                              ),
+                              // Divider(
+                              //   height: 1,
+                              //   color: Theme.of(context).dividerColor,
+                              // ),
+                              ListView.builder(
+                                  itemCount: BeldexTransactionPriority.all.length,
+                                  shrinkWrap: true,
+                                  controller: _scrollController,
+                                  itemBuilder: (BuildContext context, int index) {
+                                    return InkWell(
+                                      onTap: () async {
+                                        final settingsStore =
+                                            context.read<SettingsStore>();
+                                        // if (feePriorityVisibility == false) {
+                                        //   setState(() {
+                                        //     feePriorityVisibility = true;
+                                        //   });
+                                        // } else {
+                                        //   setState(() {
+                                        //     feePriorityVisibility = false;
+                                        //   });
+                                        // }
+
+                                        if (BeldexTransactionPriority.all[index] !=
+                                            null) {
+                                          await settingsStore
+                                              .setCurrentTransactionPriority(
+                                                  priority: BeldexTransactionPriority
+                                                      .all[index]);
+                                        }
+                                        Navigator.pop(context);
+                                      },
+                                      child: Padding(
+                                        padding:
+                                            EdgeInsets.only(left: 20.0, right: 20.0),
+                                        child: Card(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10)),
+                                          elevation:
+                                          //  settingsStore
+                                          //             .transactionPriority ==
+                                          //         BeldexTransactionPriority.all[index]
+                                          //     ? 2.0
+                                          //     : 
+                                              0.0,
+                                          color: settingsStore.transactionPriority ==
+                                                  BeldexTransactionPriority.all[index]
+                                              ? Color(0xff2979FB) //Theme.of(context).backgroundColor
+                                              : Colors.transparent,//Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                                          child: Container(
+                                              width:
+                                                  MediaQuery.of(context).size.width,
+                                              padding: EdgeInsets.only(
+                                                  top: 15, bottom: 15),
+                                              child: Observer(
+                                                builder: (_) => Text(
+                                                  BeldexTransactionPriority.all[index]
+                                                      .toString(),
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: settingsStore
+                                                                  .transactionPriority !=
+                                                              BeldexTransactionPriority
+                                                                  .all[index]
+                                                          ? Colors.grey
+                                                              .withOpacity(0.6)
+                                                          : Color(0xffffffff),
+                                                      fontWeight: FontWeight.bold),
+                                                ),
+                                              )),
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ],
+                          ),
+                          Container(margin:EdgeInsets.only(top: 7,right: 10),alignment:Alignment.topRight,child: InkWell(
+                            onTap: (){
+                              // if (feePriorityVisibility == false) {
+                              //   setState(() {
+                              //     feePriorityVisibility = true;
+                              //   });
+                              // } else {
+                              //   setState(() {
+                              //     feePriorityVisibility = false;
+                              //   });
+                              // }
+                              Navigator.pop(context);
+                            },
+                            child:  Icon(Icons.close),
+                          ))
+                        ],
+                      ) ,
+                            ),
+                          );
+                        });
+
                         },
                         title: S.current.settings_fee_priority,
                         widget: Observer(
@@ -494,7 +1101,9 @@ class SettingsFormState extends State<SettingsForm> {
                                   settingsStore.transactionPriority.toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      fontSize: 15.0,
+                                      fontSize: 14.0,
+                                       fontFamily: 'Poppins',
+                                       fontWeight: FontWeight.w800,
                                       color: Theme.of(context)
                                           .primaryTextTheme
                                           .headline6
@@ -513,7 +1122,7 @@ class SettingsFormState extends State<SettingsForm> {
                   ),
                   //Display Balance as DropDown List
                   Visibility(
-                    visible: balanceVisibility,
+                    visible:false, //balanceVisibility,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: 220,
@@ -737,17 +1346,18 @@ class SettingsFormState extends State<SettingsForm> {
                     visible: decimalVisibility,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      height: 210,
-                      margin: EdgeInsets.only(top: 70),
+                      height:MediaQuery.of(context).size.height*1/3, // 210,
+                      margin: EdgeInsets.only(top: 50,left:15,right:15),
+                      padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                                blurRadius: 1,
-                                spreadRadius: 1,
-                                offset: Offset(0.0, 2.0))
-                          ],
-                          border: Border.all(color:Colors.white),
-                          color: Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                          // boxShadow: [
+                          //   BoxShadow(
+                          //       blurRadius: 1,
+                          //       spreadRadius: 1,
+                          //       offset: Offset(0.0, 2.0))
+                          // ],
+                          //border: Border.all(color:Colors.white),
+                          color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF), //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
                           borderRadius: BorderRadius.circular(10)),
                       child: Stack(
                         children: [
@@ -757,33 +1367,34 @@ class SettingsFormState extends State<SettingsForm> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text('Decimals',style: TextStyle(
                                     fontSize: 18,
+                                    fontFamily: 'Poppinsbold',
                                     fontWeight: FontWeight.bold
                                 ),),
                               ),
-                              Divider(
-                                height: 1,
-                                color:Theme.of(context).dividerColor,
-                              ),
-                              Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: TextField(
-                                  controller: searchDecimalController,
-                                  decoration: InputDecoration(
-                                    hintText: 'Search Decimals',
-                                    contentPadding:
-                                        EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10.0)),
-                                  ),
-                                ),
-                              ),
+                              // Divider(
+                              //   height: 1,
+                              //   color:Theme.of(context).dividerColor,
+                              // ),
+                              // Padding(
+                              //   padding: EdgeInsets.all(8.0),
+                              //   child: TextField(
+                              //     controller: searchDecimalController,
+                              //     decoration: InputDecoration(
+                              //       hintText: 'Search Decimals',
+                              //       contentPadding:
+                              //           EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                              //       border: OutlineInputBorder(
+                              //           borderRadius: BorderRadius.circular(10.0)),
+                              //     ),
+                              //   ),
+                              // ),
                               Expanded(
                                 child: DraggableScrollbar.rrect(
                                   padding: EdgeInsets.only(
                                       left: 5, right: 5, top: 10, bottom: 10),
                                   controller: _scrollController,
                                   heightScrollThumb: 25,
-                                  alwaysVisibleScrollThumb: true,
+                                  alwaysVisibleScrollThumb: false,
                                   backgroundColor: Theme.of(context)
                                       .primaryTextTheme
                                       .button
@@ -823,7 +1434,7 @@ class SettingsFormState extends State<SettingsForm> {
                               }
                             },
                             child: Container(decoration: BoxDecoration(
-                                color: Theme.of(context).accentTextTheme.caption.decorationColor,
+                                //color: Theme.of(context).accentTextTheme.caption.decorationColor,
                                 shape: BoxShape.circle
                             ),child: Icon(Icons.close)),
                           ))
@@ -921,6 +1532,9 @@ class SettingsFormState extends State<SettingsForm> {
                       ),
                     ),
                   ),*/
+       
+                  
+
                   Visibility(
                     visible: currencyVisibility,
                     child: Container(
@@ -1044,7 +1658,8 @@ class SettingsFormState extends State<SettingsForm> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text('Fee Priority',style: TextStyle(
                                     fontSize: 18,
-                                    fontWeight: FontWeight.bold
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'Poppinsbold'
                                 ),),
                               ),
                               Divider(
@@ -1334,11 +1949,11 @@ class SettingsFormState extends State<SettingsForm> {
             //Personal Header
             NewNavListHeader(title: S.current.settings_personal),
             Card(
-              margin: EdgeInsets.only(left: constants.leftPx, right: constants.rightPx, top: 20),
-              elevation: 2,
-              color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
+             // margin: EdgeInsets.only(left: constants.leftPx, right: constants.rightPx, top: 20),
+              elevation:0, //2,
+              color:Colors.transparent,// Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+              // shape: RoundedRectangleBorder(
+              //     borderRadius: BorderRadius.circular(10)),
               child: Column(
                 children: [
                   //Change PIN
@@ -1357,15 +1972,14 @@ class SettingsFormState extends State<SettingsForm> {
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.settings_change_pin,
                           style: TextStyle(
-                              fontSize: 15.0,
+                              fontSize: 14.0,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w800,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6
                                   .color)),
-                      trailing: Icon(Icons.arrow_forward_ios_rounded,
-                          color:
-                              Theme.of(context).primaryTextTheme.headline6.color,
-                          size: 20),
+                      trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,color: Color(0xff3F3F4D),),
                       onTap: () {
                         if (balanceVisibility == false &&
                             decimalVisibility == false &&
@@ -1402,15 +2016,14 @@ class SettingsFormState extends State<SettingsForm> {
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.change_language,
                           style: TextStyle(
-                              fontSize: 15.0,
+                              fontSize: 14.0,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w800,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6
                                   .color)),
-                      trailing: Icon(Icons.arrow_forward_ios_rounded,
-                          color:
-                              Theme.of(context).primaryTextTheme.headline6.color,
-                          size: 20),
+                      trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,color: Color(0xff3F3F4D),),
                       onTap: () {
                         if (balanceVisibility == false &&
                             decimalVisibility == false &&
@@ -1443,9 +2056,9 @@ class SettingsFormState extends State<SettingsForm> {
             //Support Header
             NewNavListHeader(title: S.current.settings_support),
             Card(
-              margin: EdgeInsets.only(left: constants.leftPx, right: constants.rightPx, top: 20),
-              elevation: 2,
-              color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+              //margin: EdgeInsets.only(left: constants.leftPx, right: constants.rightPx, top: 20),
+              elevation:0, //2,
+              color: Colors.transparent,// Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Column(
@@ -1530,15 +2143,14 @@ class SettingsFormState extends State<SettingsForm> {
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.settings_terms_and_conditions,
                           style: TextStyle(
-                              fontSize: 15.0,
+                              fontSize: 14.0,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w800,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6
                                   .color)),
-                      trailing: Icon(Icons.arrow_forward_ios_rounded,
-                          color:
-                              Theme.of(context).primaryTextTheme.headline6.color,
-                          size: 20),
+                      trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,color: Color(0xff3F3F4D),),
                       onTap: () {
                         if (balanceVisibility == false &&
                             decimalVisibility == false &&
@@ -1569,15 +2181,14 @@ class SettingsFormState extends State<SettingsForm> {
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.faq,
                           style: TextStyle(
-                              fontSize: 15.0,
+                              fontSize: 14.0,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w800,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6
                                   .color)),
-                      trailing: Icon(Icons.arrow_forward_ios_rounded,
-                          color:
-                              Theme.of(context).primaryTextTheme.headline6.color,
-                          size: 20),
+                      trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,color: Color(0xff3F3F4D),),
                       onTap: () {
                         if (balanceVisibility == false &&
                             decimalVisibility == false &&
@@ -1604,15 +2215,14 @@ class SettingsFormState extends State<SettingsForm> {
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.changelog,
                           style: TextStyle(
-                              fontSize: 15.0,
+                              fontSize: 14.0,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w800,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6
                                   .color)),
-                      trailing: Icon(Icons.arrow_forward_ios_rounded,
-                          color:
-                              Theme.of(context).primaryTextTheme.headline6.color,
-                          size: 20),
+                      trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,color: Color(0xff3F3F4D),),
                       onTap: () {
                         if (balanceVisibility == false &&
                             decimalVisibility == false &&
@@ -1676,10 +2286,12 @@ class SettingsFormState extends State<SettingsForm> {
                     feePriorityVisibility == false ?Colors.grey:Colors.transparent,
               ),
               child: ListTile(
-                contentPadding: EdgeInsets.only(left: 60.0),
-                title: Text(S.current.version(settingsStore.currentVersion),
-                    style:
-                        TextStyle(fontSize: 14.0, color: Theme.of(context).primaryTextTheme.caption.color)),
+                //contentPadding: EdgeInsets.only(left: 60.0),
+                title: Center(
+                  child: Text(S.current.version(settingsStore.currentVersion),
+                      style:
+                          TextStyle(fontSize: 16.0, color:Color(0xff9292A7))),
+                ),
               ),
             )
           ],
@@ -1868,35 +2480,39 @@ class SettingsFormState extends State<SettingsForm> {
       onTap: () async {
         searchDecimalController.text = '';
         final settingsStore = context.read<SettingsStore>();
-        if (decimalVisibility == false) {
-          setState(() {
-            decimalVisibility = true;
-          });
-        } else {
-          setState(() {
-            decimalVisibility = false;
-          });
-        }
+        // if (decimalVisibility == false) {
+        //   setState(() {
+        //     decimalVisibility = true;
+        //   });
+        // } else {
+        //   setState(() {
+        //     decimalVisibility = false;
+        //   });
+        // }
 
         if (AmountDetail.all[index] != null) {
           await settingsStore.setCurrentBalanceDetail(
               balanceDetail: AmountDetail.all[index]);
         }
+        Navigator.pop(context);
       },
-      child: Padding(
+      child: 
+      Padding(
         padding: EdgeInsets.only(left: 20.0, right: 20.0),
         child: Card(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          elevation: settingsStore.balanceDetail == AmountDetail.all[index]
-              ? 2.0
-              : 0.0,
-          color: settingsStore.balanceDetail == AmountDetail.all[index]
-              ? Theme.of(context).backgroundColor
-              : Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+          elevation: 0,
+          // settingsStore.balanceDetail == AmountDetail.all[index]
+          //     ? 2.0
+          //     : 0.0,
+          color:
+           settingsStore.balanceDetail != AmountDetail.all[index]
+              ? Colors.transparent
+              : Color(0xff2979FB),//Color.fromARGB(255, 31, 32, 39),
           child: Container(
               width: MediaQuery.of(context).size.width,
-              padding: EdgeInsets.only(top: 15, bottom: 15),
+              padding: EdgeInsets.only(top: 10, bottom: 10),
               child: Observer(
                 builder: (_) => Text(
                   AmountDetail.all[index].toString(),
@@ -1906,7 +2522,7 @@ class SettingsFormState extends State<SettingsForm> {
                       color: settingsStore.balanceDetail !=
                               AmountDetail.all[index]
                           ? Colors.grey.withOpacity(0.6)
-                          : Theme.of(context).primaryTextTheme.headline6.color,
+                          : Color(0xffffffff), //Theme.of(context).primaryTextTheme.headline6.color,
                       fontWeight: FontWeight.bold),
                 ),
               )),
@@ -1920,20 +2536,21 @@ class SettingsFormState extends State<SettingsForm> {
       onTap: () async {
         searchCurrencyController.text = '';
         final settingsStore = context.read<SettingsStore>();
-        if (currencyVisibility == false) {
-          setState(() {
-            currencyVisibility = true;
-          });
-        } else {
-          setState(() {
-            currencyVisibility = false;
-          });
-        }
+        // if (currencyVisibility == false) {
+        //   setState(() {
+        //     currencyVisibility = true;
+        //   });
+        // } else {
+        //   setState(() {
+        //     currencyVisibility = false;
+        //   });
+        // }
 
         if (FiatCurrency.all[index] != null) {
           await settingsStore.setCurrentFiatCurrency(
               currency: FiatCurrency.all[index]);
         }
+        Navigator.pop(context);
       },
       child: Padding(
         padding: EdgeInsets.only(left: 20.0, right: 20.0),
@@ -1943,8 +2560,8 @@ class SettingsFormState extends State<SettingsForm> {
           elevation:
               settingsStore.fiatCurrency == FiatCurrency.all[index] ? 2.0 : 0.0,
           color: settingsStore.fiatCurrency == FiatCurrency.all[index]
-              ? Theme.of(context).backgroundColor
-              : Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+              ? Color(0xff2979FB) : Colors.transparent, //Theme.of(context).backgroundColor
+                //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
           child: Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.only(top: 15, bottom: 15),
@@ -1957,7 +2574,7 @@ class SettingsFormState extends State<SettingsForm> {
                       color: settingsStore.fiatCurrency !=
                               FiatCurrency.all[index]
                           ? Colors.grey.withOpacity(0.6)
-                          : Theme.of(context).primaryTextTheme.headline6.color,
+                          : Color(0xffffffff), //Theme.of(context).primaryTextTheme.headline6.color,
                       fontWeight: FontWeight.bold),
                 ),
               )),

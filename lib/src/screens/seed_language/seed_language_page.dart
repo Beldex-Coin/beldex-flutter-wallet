@@ -17,16 +17,22 @@ class SeedLanguage extends BasePage {
   @override
   String get title => S.current.wallet_list_title;
 
-  @override
-  Widget leading(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.only(top: 12.0, left: 10),
-        decoration: BoxDecoration(
-          //borderRadius: BorderRadius.circular(10),
-          //color: Colors.black,
-        ),
-        child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
-  }
+  // @override
+  // Widget leading(BuildContext context) {
+  //   return Container(
+  //       padding: const EdgeInsets.only(top: 12.0, left: 10),
+  //       decoration: BoxDecoration(
+  //         //borderRadius: BorderRadius.circular(10),
+  //         //color: Colors.black,
+  //       ),
+  //       child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
+  // }
+
+
+@override
+Widget trailing(BuildContext context){
+  return Container();
+}
 
   @override
   Widget body(BuildContext context) => SeedLanguageRoute();
@@ -70,38 +76,49 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
   @override
   Widget build(BuildContext context) {
     final seedLanguageStore = Provider.of<SeedLanguageStore>(context);
-
-    return ScrollableWithBottomSection(
+ final settingsStore = Provider.of<SettingsStore>(context);
+ final ScrollController _controller = ScrollController();
+  final ScrollController _scrollController = ScrollController();
+    return 
+    ScrollableWithBottomSection(
       content: Column(
         children: <Widget>[
-          //
           Container(
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(10)),
-            margin:
-            EdgeInsets.only(left: 40.0, right: 40.0, top: 60, bottom: 60.0),
-            padding: EdgeInsets.all(13),
-            child: Text(
-              S.of(context).seed_language_choose,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),
-            ),
-          ),
-          SizedBox(
-            height: 200,
-            child: Container(
-              margin: EdgeInsets.only(left: 20.0, right: 20.0),
-              child: DraggableScrollbar.rrect(
-                padding: EdgeInsets.only(left: 5),
-                controller: scrollController,
-                heightScrollThumb: 35,
-                alwaysVisibleScrollThumb: true,
-                backgroundColor:
-                Theme.of(context).primaryTextTheme.button.backgroundColor,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            color: settingsStore.isDarkTheme ?  Color(0xff272733) : Color(0xffEDEDED) ,
+              // border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(10)
+              ),
+          margin:
+              EdgeInsets.only(left: 10.0, right: 10.0, top: 20, bottom: 20.0),
+          padding: EdgeInsets.only(top:18),
+          child: Column(
+            children: [
+              Text(
+                S.of(context).choose_seed_lang,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),
+              ),
+              SizedBox(
+          height: 15,
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height*1.2/3,  //200,
+          child: Container(
+            margin: EdgeInsets.only(left: 20.0, right: 10.0),
+            color: Color(0xff181820),
+            child:RawScrollbar(
+              controller: _controller,
+              thickness: 8,
+              thumbColor: settingsStore.isDarkTheme ? Color(0xff3A3A45) : Color(0xff494955),
+              radius: Radius.circular(10.0),
+              isAlwaysShown: true,
+              child:Container(
+                margin: EdgeInsets.only(right:8),
+               color:  settingsStore.isDarkTheme ?  Color(0xff272733) : Color(0xffEDEDED) ,
                 child: ListView.builder(
-                    controller: scrollController,
+                    controller: _scrollController,
                     scrollDirection: Axis.vertical,
                     itemCount: seedLanguages.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -112,46 +129,212 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
                         },
                         child: _selectedIndex != null && _selectedIndex == index
                             ? Card(
-                          color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-                          elevation: 3,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12)),
-                          child: Container(
-                              padding: const EdgeInsets.only(
-                                  left: 10.0,
-                                  right: 10.0,
-                                  top: 18.0,
-                                  bottom: 18.0),
-                              child: Center(
-                                child: Text(
-                                  seedLocales[index],
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              )),
-                        )
+                                color:Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                                elevation:0, //3,
+                                shape: RoundedRectangleBorder(
+                                
+                                    borderRadius: BorderRadius.circular(12)),
+                                child: Container(
+                                    padding: const EdgeInsets.only(
+                                        // left: 10.0,
+                                        // right: 10.0,
+                                        top: 10.0,
+                                        bottom: 10.0),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Color(0xff0BA70F)),
+                                          borderRadius: BorderRadius.circular(10)
+                                        ),
+                                    child: Center(
+                                      child: Text(
+                                        seedLocales[index],
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    )),
+                              )
                             : Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10.0,
-                              right: 10.0,
-                              top: 18.0,
-                              bottom: 18.0),
-                          child: Center(
-                            child: Text(
-                              seedLocales[index],
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.grey[800],
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
+                                padding: const EdgeInsets.only(
+                                    // left: 10.0,
+                                    // right: 10.0,
+                                    top: 18.0,
+                                    bottom: 18.0),
+                                child: Center(
+                                  child: Text(
+                                    seedLocales[index],
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.grey[800],
+                                       // fontWeight: FontWeight.bold
+                                        ),
+                                  ),
+                                ),
+                              ),
                       );
                     }),
-              ),
-            ),
+              ), 
+            )
+
+
+
+
+
+            //  DraggableScrollbar.rrect(
+            //   padding: EdgeInsets.only(left: 5),
+            //   controller: _scrollController,
+            //   heightScrollThumb: 80,
+            //   alwaysVisibleScrollThumb: true,
+            //   backgroundColor:
+            //       Theme.of(context).primaryTextTheme.button.backgroundColor,
+            //   /*hoverThickness:12.0,
+            //     showTrackOnHover: true,
+            //     radius: Radius.circular(10),
+            //     isAlwaysShown: true,
+            //     thickness: 8.0,
+            //     controller: _scrollController,
+            //     notificationPredicate: (ScrollNotification notification) {
+            //       return notification.depth == 0;
+            //     },*/
+            //   child: ListView.builder(
+            //       controller: _scrollController,
+            //       scrollDirection: Axis.vertical,
+            //       itemCount: seedLanguages.length,
+            //       itemBuilder: (BuildContext context, int index) {
+            //         return InkWell(
+            //           splashColor: Colors.transparent,
+            //           onTap: () {
+            //             _onSelected(index);
+            //           },
+            //           child: _selectedIndex != null && _selectedIndex == index
+            //               ? Card(
+            //                   color:Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+            //                   elevation:0, //3,
+            //                   shape: RoundedRectangleBorder(
+                              
+            //                       borderRadius: BorderRadius.circular(12)),
+            //                   child: Container(
+            //                       padding: const EdgeInsets.only(
+            //                           // left: 10.0,
+            //                           // right: 10.0,
+            //                           top: 10.0,
+            //                           bottom: 10.0),
+            //                           decoration: BoxDecoration(
+            //                             border: Border.all(color: Color(0xff0BA70F)),
+            //                             borderRadius: BorderRadius.circular(10)
+            //                           ),
+            //                       child: Center(
+            //                         child: Text(
+            //                           seedLocales[index],
+            //                           style: TextStyle(
+            //                               fontSize: 18,
+            //                               fontWeight: FontWeight.bold),
+            //                         ),
+            //                       )),
+            //                 )
+            //               : Padding(
+            //                   padding: const EdgeInsets.only(
+            //                       // left: 10.0,
+            //                       // right: 10.0,
+            //                       top: 18.0,
+            //                       bottom: 18.0),
+            //                   child: Center(
+            //                     child: Text(
+            //                       seedLocales[index],
+            //                       style: TextStyle(
+            //                           fontSize: 18,
+            //                           color: Colors.grey[800],
+            //                          // fontWeight: FontWeight.bold
+            //                           ),
+            //                     ),
+            //                   ),
+            //                 ),
+            //         );
+            //       }),
+            // ),
           ),
+        ),
+            ],
+          ),
+        ),
+        
+          //
+          // Container(
+          //   width: MediaQuery.of(context).size.width,
+          //   decoration: BoxDecoration(
+          //       border: Border.all(color: Colors.grey),
+          //       borderRadius: BorderRadius.circular(10)),
+          //   margin:
+          //   EdgeInsets.only(left: 40.0, right: 40.0, top: 60, bottom: 60.0),
+          //   padding: EdgeInsets.all(13),
+          //   child: Text(
+          //     S.of(context).seed_language_choose,
+          //     textAlign: TextAlign.center,
+          //     style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 200,
+          //   child: Container(
+          //     margin: EdgeInsets.only(left: 20.0, right: 20.0),
+          //     child: DraggableScrollbar.rrect(
+          //       padding: EdgeInsets.only(left: 5),
+          //       controller: scrollController,
+          //       heightScrollThumb: 35,
+          //       alwaysVisibleScrollThumb: true,
+          //       backgroundColor:
+          //       Theme.of(context).primaryTextTheme.button.backgroundColor,
+          //       child: ListView.builder(
+          //           controller: scrollController,
+          //           scrollDirection: Axis.vertical,
+          //           itemCount: seedLanguages.length,
+          //           itemBuilder: (BuildContext context, int index) {
+          //             return InkWell(
+          //               splashColor: Colors.transparent,
+          //               onTap: () {
+          //                 _onSelected(index);
+          //               },
+          //               child: _selectedIndex != null && _selectedIndex == index
+          //                   ? Card(
+          //                 color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+          //                 elevation: 3,
+          //                 shape: RoundedRectangleBorder(
+          //                     borderRadius: BorderRadius.circular(12)),
+          //                 child: Container(
+          //                     padding: const EdgeInsets.only(
+          //                         left: 10.0,
+          //                         right: 10.0,
+          //                         top: 18.0,
+          //                         bottom: 18.0),
+          //                     child: Center(
+          //                       child: Text(
+          //                         seedLocales[index],
+          //                         style: TextStyle(
+          //                             fontSize: 20,
+          //                             fontWeight: FontWeight.bold),
+          //                       ),
+          //                     )),
+          //               )
+          //                   : Padding(
+          //                 padding: const EdgeInsets.only(
+          //                     left: 10.0,
+          //                     right: 10.0,
+          //                     top: 18.0,
+          //                     bottom: 18.0),
+          //                 child: Center(
+          //                   child: Text(
+          //                     seedLocales[index],
+          //                     style: TextStyle(
+          //                         fontSize: 20,
+          //                         color: Colors.grey[800],
+          //                         fontWeight: FontWeight.bold),
+          //                   ),
+          //                 ),
+          //               ),
+          //             );
+          //           }),
+          //     ),
+          //   ),
+          // ),
          /* Expanded(
             child: Center(
               child: Column(
