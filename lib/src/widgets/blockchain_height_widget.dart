@@ -1,8 +1,11 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/wallet/beldex/get_height_by_date.dart';
 import 'package:beldex_wallet/palette.dart';
+import 'package:provider/provider.dart';
 
 class BlockchainHeightWidget extends StatefulWidget {
   BlockchainHeightWidget({GlobalKey key}) : super(key: key);
@@ -28,6 +31,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -36,14 +40,14 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
           children: <Widget>[
             Flexible(
                 child: Card(
-                  elevation: 5,
+                  elevation:0, //5,
                   color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                   ),
                   margin: EdgeInsets.only(top: 20.0),
                   child: Container(
-                    padding: EdgeInsets.only(left: 30),
+                    padding: EdgeInsets.only(left: 30,top:5,bottom: 5),
               child: TextFormField(
                   style: TextStyle(fontSize: 14.0),
                   controller: restoreHeightController,
@@ -51,7 +55,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                       signed: false, decimal: false),
                   decoration: InputDecoration(
                     border: InputBorder.none,
-                      hintStyle: TextStyle(color: Colors.grey.withOpacity(0.6)),
+                      hintStyle: TextStyle(color:settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xff77778B)),
                       hintText: S.of(context).widgets_restore_from_blockheight,
                       /*focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
@@ -81,36 +85,48 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
           children: <Widget>[
             Flexible(
                 child: Card(
-                  elevation: 5,
+                  elevation:0, //5,
                   color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                   ),
                   margin: EdgeInsets.only(top: 20.0),
                   child: Container(
-                    padding: EdgeInsets.only(left: 30),
+                    padding: EdgeInsets.only(left: 30,top:5,bottom:5,right:10),
               child: InkWell(
                   onTap: () => _selectDate(context),
                   child: IgnorePointer(
-                    child: TextFormField(
-                      style: TextStyle(fontSize: 14.0),
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                          hintStyle:
-                              TextStyle(color: Colors.grey.withOpacity(0.6)),
-                          hintText: S.of(context).widgets_restore_from_date,
-                          /*focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: BeldexPalette.teal,
-                                  width: 2.0)),
-                          enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                  color: Theme.of(context).focusColor,
-                                  width: 1.0))*/),
-                      controller: dateController,
-                      validator: (value) {
-                        return null;
-                      },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 130,
+                          child: TextFormField(
+                            
+                            style: TextStyle(fontSize: 14.0),
+                            decoration: InputDecoration(
+                              //suffix:Icon(Icons.calendar_today,), //SvgPicture.asset('assets/images/new-images/calendar.svg',color:Colors.black),
+                              border: InputBorder.none,
+                                hintStyle:
+                                    TextStyle(color:settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xff77778B)),
+                                hintText: S.of(context).widgets_restore_from_date,
+                                /*focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: BeldexPalette.teal,
+                                        width: 2.0)),
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Theme.of(context).focusColor,
+                                        width: 1.0))*/),
+                            
+                            controller: dateController,
+                            validator: (value) {
+                              return null;
+                            },
+                          ),
+                        ),
+                        Icon(Icons.calendar_today,color:settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xffB5B5C1))
+                      ],
                     ),
                   ),
               ),
@@ -136,8 +152,8 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
             ),
             child:Row(
               children: [
-                Text(isRestoreByHeight ? S.of(context).widgets_restore_from_date : S.of(context).widgets_restore_from_blockheight,),
-                Icon(Icons.arrow_right_alt_rounded)
+                Text(isRestoreByHeight ? S.of(context).widgets_restore_from_date : S.of(context).widgets_restore_from_blockheight,style:TextStyle( color:Color(0xffffffff),fontSize:14,fontWeight:FontWeight.w700)),
+                Icon(Icons.arrow_right_alt_rounded,color: Color(0xffffffff),)
               ],
             )
           ),

@@ -309,15 +309,15 @@ class TransactionRow extends StatelessWidget {
 
                             )),
                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                              //crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
                                 Container(
                                   padding: EdgeInsets.only(bottom: 5.0),
                                   child:Text('${transaction.height}')
                                 ),
-                                Container(
-                                  child:Text('height 1 block',style:TextStyle(color:Colors.blue))
-                                )
+                                // Container(
+                                //   child:Text('height 1 block',style:TextStyle(color:Colors.blue))
+                                // )
                               ],
                             )
                               ],

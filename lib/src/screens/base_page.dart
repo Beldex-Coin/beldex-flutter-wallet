@@ -104,8 +104,8 @@ return InkWell(
             title,
             style: TextStyle(
                 fontSize: 23.0,
-                fontWeight: FontWeight.w900,
-                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w700,
+                //fontFamily: 'Poppins',
                 color: Theme.of(context).primaryTextTheme.caption.color),
           );
   }
@@ -130,7 +130,7 @@ return InkWell(
         height: 60,
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
-          color: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff) , //Theme.of(context).accentTextTheme.headline6.color,
+          color: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff), //Theme.of(context).accentTextTheme.headline6.color,
           // borderRadius: BorderRadius.only(
           //     topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
           // boxShadow: [

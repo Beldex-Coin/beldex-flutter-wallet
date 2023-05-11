@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beldex_wallet/palette.dart';
@@ -8,6 +9,7 @@ import 'package:beldex_wallet/src/screens/restore/widgets/image_widget.dart';
 import 'package:beldex_wallet/src/screens/restore/widgets/base_restore_widget.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
+import 'package:provider/provider.dart';
 
 class RestoreOptionsPage extends BasePage {
   static const _aspectRatioImage = 2.086;
@@ -15,16 +17,16 @@ class RestoreOptionsPage extends BasePage {
   @override
   String get title => S.current.restore_restore_wallet;
 
-  @override
-  Widget leading(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.only(top: 12.0, left: 10),
-        decoration: BoxDecoration(
-          //borderRadius: BorderRadius.circular(10),
-          //color: Colors.black,
-        ),
-        child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
-  }
+  // @override
+  // Widget leading(BuildContext context) {
+  //   return Container(
+  //       padding: const EdgeInsets.only(top: 12.0, left: 10),
+  //       decoration: BoxDecoration(
+  //         //borderRadius: BorderRadius.circular(10),
+  //         //color: Colors.black,
+  //       ),
+  //       child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
+  // }
 
   @override
   Color get backgroundColor => Palette.creamyGrey;
@@ -35,13 +37,13 @@ class RestoreOptionsPage extends BasePage {
   @override
   Widget body(BuildContext context) {
     final isLargeScreen = MediaQuery.of(context).size.height > largeHeight;
-
+    final settingsStore = Provider.of<SettingsStore>(context);
     return Column(
       children: [
         Card(
-          margin: EdgeInsets.only(left: 40,right: 40,top: 50),
-          elevation: 5,
-          color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+          margin: EdgeInsets.only(left: 20,right: 20,top: 50),
+          elevation:0, //5,
+          color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED), //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10)
           ),
@@ -56,7 +58,10 @@ class RestoreOptionsPage extends BasePage {
                     children: [
                       Text(S.of(context).restore_title_from_seed_keys,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
                       SizedBox(height: 15),
-                      Text(S.of(context).restore_description_from_seed_keys,style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal),)
+                      Text(S.of(context).restore_description_from_seed_keys,style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal,
+                      color: settingsStore.isDarkTheme ?  Color(0xffACACAC) : Color(0xff545454),
+                      ),
+                      ),
                     ],
                   ),
                 ),
@@ -65,13 +70,16 @@ class RestoreOptionsPage extends BasePage {
                     Navigator.pushNamed(
                         context, Routes.restoreWalletOptionsFromWelcome);
                   },
-                  child: Card(
-                    elevation: 5,
-                    color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)
-                    ),
-                    child: Icon(Icons.arrow_forward_ios_rounded,color: Theme.of(context).primaryTextTheme.button.backgroundColor,size: 35,),
+                  child: Container(
+                    //elevation:0, //5,
+                   // margin: EdgeInsets.only(left:20),
+                    padding: EdgeInsets.all(9),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                         color: Color(0xff1BB71E),
+                    ), //Colors.white,
+                    
+                    child: Icon(Icons.arrow_forward_ios_rounded,color: Colors.white,size: 25,),
                   ),
                 )
               ],

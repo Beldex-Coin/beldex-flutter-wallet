@@ -98,25 +98,28 @@ class SeedPage extends BasePage {
                         //     ))
                         //   ],
                         // ),
-                        RichText(
-                          textAlign: TextAlign.center,
-                          text: TextSpan(
-                          text: 'Note : ',
-                          style: TextStyle(  
-                            color: Color(0xffFF3131),
-                            fontFamily: 'Poppins',
-                             fontSize:14,
-                             fontWeight: FontWeight.w800
+                        Padding(
+                          padding: const EdgeInsets.only(left:10.0,right:10.0),
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                            text: 'Note : ',
+                            style: TextStyle(  
+                              color: Color(0xffFF3131),
+                              //fontFamily: 'Poppins',
+                               fontSize:15,
+                               fontWeight: FontWeight.w400
+                            ),
+                            children:[
+                              TextSpan(text:'Never share your seed to anyone! Check your surroundings to ensure no one is overlooking',style: TextStyle(
+                               // fontFamily: 'Poppins',
+                                fontSize:15,
+                                fontWeight: FontWeight.w400,
+                                color:settingsStore.isDarkTheme ? Color(0xffD9D9D9) : Color(0xff909090)))
+                            ]
                           ),
-                          children:[
-                            TextSpan(text:'Never share your seed to anyone! Check your surroundings to ensure no one is overlooking',style: TextStyle(
-                              fontFamily: 'Poppins',
-                              fontSize:14,
-                              fontWeight: FontWeight.w800,
-                              color:settingsStore.isDarkTheme ? Color(0xff909090): Color(0xffD9D9D9)))
-                          ]
-                        ),
                     
+                          ),
                         ),
                         SizedBox(
                           height: MediaQuery.of(context).size.height*0.10/3,
@@ -488,21 +491,42 @@ class SeedPage extends BasePage {
                   ),
                 )*/
 
+               SizedBox(
+                height:MediaQuery.of(context).size.height*0.55/3,
+               ),
 
-
-                // onCloseCallback != null
-                //     ? SizedBox(
-                //         width: 250,
-                //         child: PrimaryButton(
-                //             onPressed: () => onClose(context),
-                //             text: S.of(context).restore_next,
-                //             color: Theme.of(context)
-                //                 .primaryTextTheme
-                //                 .button
-                //                 .backgroundColor,
-                //             borderColor: Palette.darkGrey),
-                //       )
-                //     : Offstage()
+                onCloseCallback != null
+                    ? 
+                    InkWell(
+                      onTap: () => onClose(context),
+                      child: Container(
+                          width: 250,
+                          padding: EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            color: Color(0xff0BA70F),
+                            borderRadius: BorderRadius.circular(10)
+                          ),
+                          child: Center(
+                            child:Text(S.of(context).continue_text,
+                            style:TextStyle(
+                            color:Color(0xffffffff),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
+                            
+                            )
+                            )
+                          )
+                          // PrimaryButton(
+                          //     onPressed: () => onClose(context),
+                          //     text: S.of(context).restore_next,
+                          //     color: Theme.of(context)
+                          //         .primaryTextTheme
+                          //         .button
+                          //         .backgroundColor,
+                          //     borderColor: Palette.darkGrey),
+                        ),
+                    )
+                    : Offstage()
               ],
             ),
           ),

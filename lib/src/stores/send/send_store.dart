@@ -57,6 +57,7 @@ abstract class SendStoreBase with Store {
   NumberFormat _cryptoNumberFormat;
   NumberFormat _fiatNumberFormat;
   String _lastRecipientAddress;
+  String get lastRecipientAddress => _lastRecipientAddress;
 
   @action
   Future createStake({String address, String amount}) async {

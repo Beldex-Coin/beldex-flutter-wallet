@@ -13,8 +13,9 @@ class WelcomePage extends BasePage {
 
   @override
   Widget build(BuildContext context) {
+   final settingsStore = Provider.of<SettingsStore>(context);
     return Scaffold(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff), //Theme.of(context).backgroundColor,
         resizeToAvoidBottomInset: false,
         body: SafeArea(child: body(context)));
   }
@@ -32,7 +33,7 @@ class WelcomePage extends BasePage {
           height: _screenHeight*1.9/3,
           width:double.infinity,margin: EdgeInsets.all(_screenHeight*0.10/3),
           decoration: BoxDecoration(
-           color: settingsStore.isDarkTheme ? Color(0xff21212D) :Color(0xffEDEDED),
+           color:  settingsStore.isDarkTheme ? Color(0xff21212D) :Color(0xffEDEDED),
            borderRadius: BorderRadius.circular(20.0)
           ),
         child: Column(
@@ -61,16 +62,20 @@ class WelcomePage extends BasePage {
               S.of(context).welcome_to_bel_wallet,
             style: TextStyle(
               fontSize: _screenHeight*0.05/3,
+              fontWeight: FontWeight.w700,
               color: settingsStore.isDarkTheme ? Color(0xffAFAFBE) : Color(0xff303030),
             ),
             ),
             Padding(
               padding: const EdgeInsets.only(top:8.0),
               child: Text(
-                S.of(context).please_make_selection,
+                S.of(context).select_an_options,
+                textAlign: TextAlign.center,
               style: TextStyle(
+               
                 fontSize: _screenHeight*0.05/3,
                 color: settingsStore.isDarkTheme ? Color(0xffFFFFFF) : Color(0xff060606),
+
               ),
               ),
             ),

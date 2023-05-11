@@ -9,7 +9,7 @@ import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/wallet/beldex/subaddress.dart';
 import 'package:beldex_wallet/src/widgets/beldex_text_field.dart';
 
-enum AddressTextFieldOption { qrCode, addressBook, subaddressList }
+enum AddressTextFieldOption { qrCode, addressBook, subaddressList , saveAddress }
 
 class AddressTextField extends StatelessWidget {
   AddressTextField(
@@ -18,7 +18,8 @@ class AddressTextField extends StatelessWidget {
       this.placeholder,
       this.options = const [
         AddressTextFieldOption.qrCode,
-        AddressTextFieldOption.addressBook
+        AddressTextFieldOption.addressBook,
+        AddressTextFieldOption.saveAddress
       ],
       this.onURIScanned,
       this.focusNode,
@@ -84,6 +85,22 @@ class AddressTextField extends StatelessWidget {
                             child: Icon(Icons.arrow_downward_rounded)),
                       ))
                 ],
+                if( options.contains(AddressTextFieldOption.saveAddress))...[
+                  Container(  
+                    width: prefixIconWidth,
+                    height: prefixIconHeight,
+                    child: InkWell(
+                      onTap: () async => _saveAddress(context),
+                      child:Container( 
+                        decoration: BoxDecoration(
+                                color: Palette.wildDarkBlueWithOpacity,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
+                            child: Icon(Icons.save),
+                      )
+                    ),
+                  )
+                ]
               ],
             ),
           )),
@@ -134,4 +151,17 @@ class AddressTextField extends StatelessWidget {
       controller.text = subaddress.address;
     }
   }
+
+
+ Future<void> _saveAddress(BuildContext context) async {
+    final subaddress = await Navigator.of(context, rootNavigator: true)
+        .pushNamed(Routes.addressBookAddContact);
+
+    if (subaddress is Subaddress && subaddress.address != null) {
+      controller.text = subaddress.address;
+    }
+  }
+
+
+  
 }

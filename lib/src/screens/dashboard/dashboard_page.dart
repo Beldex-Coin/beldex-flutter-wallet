@@ -540,7 +540,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       child: Container(
                                         color: Colors.transparent,
                                         width:MediaQuery.of(context).size.width*2.7/3, //300,
-                                        padding: EdgeInsets.all(15),
+                                        padding: EdgeInsets.all(16),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -687,9 +687,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                             },
                                                             child: Container(
                                                               width:142,
-                                                              height:45,
+                                                              height:46,
                                                               decoration: BoxDecoration(
-                                                                 borderRadius: BorderRadius.circular(10),
+                                                                 borderRadius: BorderRadius.circular(8),
                                                                 color:Color(0xff0BA70F),
 
                                                               ),
@@ -721,9 +721,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                           },
                                                              child: Container(
                                                               width:142,
-                                                              height:45,
+                                                              height:46,
                                                               decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(10),
+                                                                borderRadius: BorderRadius.circular(8),
                                                                 color:Color(0xff2979FB),
                                                           
                                                               ),

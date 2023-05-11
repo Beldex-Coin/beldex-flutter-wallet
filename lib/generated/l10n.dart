@@ -86,6 +86,30 @@ String get welcome_to_bel_wallet {
     );
   }
 
+
+///`Select an optiona below to create or recover existing wallet`
+
+String get select_an_option{
+  return Intl.message(
+    'Select an optiona below to create or\n recover existing wallet',
+    name:'select_an_option',
+    desc:'',
+    args:[],
+  );
+}
+
+///`Select an option below to create or recover existing wallet`
+
+String get select_an_options{
+  return Intl.message(
+    'Select an option below to create or\n recover existing wallet',
+    name:'select_an_options',
+    desc:'',
+    args:[],
+  );
+}
+
+
   /// `Create New Wallet`
   String get create_new {
     return Intl.message(
@@ -682,6 +706,28 @@ String get copied{
     );
   }
 
+
+ ///`Unlock beldex wallet`
+ String get unlock_beldex_wallet {
+  return Intl.message(
+    'Unlock beldex wallet',
+    name:'unlock_beldex_wallet',
+    desc:'',
+    args:[],
+  );
+ }
+
+
+///`Confirm your screen lock PIN,Pattern or Password`
+String get confirm_your_screen_lock{
+  return Intl.message(
+    'Confirm your screen lock PIN,Pattern or Password',
+    name:'confirm_your_screen_lock',
+    desc:'',
+    args:[],
+  );
+}
+
   /// `Confirm sending`
   String get confirm_sending {
     return Intl.message(
@@ -1141,6 +1187,16 @@ String get no_trans_yet{
       args: [],
     );
   }
+
+///`Enter wallet name`
+String get enter_restore_wallet_name {
+  return Intl.message(
+    'Enter wallet name',
+    name:'enter_restore_wallet_name',
+    desc:'',
+    args:[],
+  );
+}
 
   /// `Address`
   String get restore_address {

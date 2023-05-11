@@ -185,6 +185,23 @@ extern "C"
         }
     };
 
+    // struct StakeRow
+    // {
+    //     char *service_node_key;
+    //     uint64_t amount;
+    //     uint64_t unlock_height;
+    //     int awaiting;
+    //     int decommissioned;
+
+    //     explicit StakeRow(const Wallet::stakeInfo& info):
+    //         service_node_key{strdup(info.mn_pubkey.c_str())},
+    //         amount{info.stake},
+    //         unlock_height{info.unlock_height.value_or(0)},
+    //         awaiting{(int)info.awaiting},
+    //         decommissioned{(int)info.decommissioned}
+    //         {}
+        
+    // };
     struct StakeUnlockResult
     {
       bool success;
@@ -527,6 +544,25 @@ extern "C"
         delete _stakes;
         return stakes;
     }
+
+    // EXPORT
+    // int32_t stake_count() {
+    //    std::unique_ptr<std::vector<Wallet::stakeInfo>> stakes{m_wallet->listCurrentStakes()};
+    //     int32_t count = static_cast<int32_t>(stakes->size());
+    //     return count;
+    // }
+
+    // EXPORT
+    // intptr_t* stake_get_all() {
+    //     std::unique_ptr<std::vector<Wallet::stakeInfo>> stakes{m_wallet->listCurrentStakes()};
+    //     size_t size = stakes->size();
+    //     intptr_t* stakes_out = reinterpret_cast<intptr_t *>(malloc(size * sizeof(intptr_t)));
+
+    //     for (int i = 0; i < size; i++)
+    //         stakes_out[i] = reinterpret_cast<intptr_t>(new StakeRow((*stakes)[i]));
+
+    //     return stakes_out;
+    // }
 
     EXPORT
     bool stake_create(char *service_node_key, char *amount, Utf8Box &error, PendingTransactionRaw &pendingTransaction)

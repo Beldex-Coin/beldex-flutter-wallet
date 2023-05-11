@@ -154,6 +154,8 @@ class AuthPageState extends State<AuthPage> {
             (pin, _) => authStore.auth(
                 password: pin.fold('', (ac, val) => ac + '$val')),
             false,
-            _pinCodeKey,refresh));
+            _pinCodeKey,refresh,
+           // canShowBackArrow: false, // canShowBackArrow 
+            ));
   }
 }

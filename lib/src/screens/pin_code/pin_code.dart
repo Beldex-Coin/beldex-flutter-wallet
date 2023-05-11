@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:beldex_wallet/src/screens/pin_code/biometric_dialog.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
@@ -16,22 +17,27 @@ import 'dart:math' as math;
 import '../../../routes.dart';
 
 abstract class PinCodeWidget extends StatefulWidget {
-  PinCodeWidget({Key key, this.onPinCodeEntered, this.hasLengthSwitcher, this.notifyParent,})
+  PinCodeWidget({Key key, this.onPinCodeEntered, this.hasLengthSwitcher, this.notifyParent})
       : super(key: key);
 
   final Function(List<int> pin, PinCodeState state) onPinCodeEntered;
   final bool hasLengthSwitcher;
   final Function() notifyParent;
+ 
 }
 
 class PinCode extends PinCodeWidget {
   PinCode(Function(List<int> pin, PinCodeState state) onPinCodeEntered,
-      bool hasLengthSwitcher, Key key,Function() notifyParent)
+      bool hasLengthSwitcher, Key key,Function() notifyParent,
+    //this.canShowBackArrow
+      )
       : super(
             key: key,
             onPinCodeEntered: onPinCodeEntered,
             hasLengthSwitcher: hasLengthSwitcher,
-  notifyParent : notifyParent);
+  notifyParent : notifyParent,
+  );
+//  bool canShowBackArrow = true;
 
   @override
   PinCodeState createState() => PinCodeState();
@@ -169,6 +175,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   @override
   Widget build(BuildContext context) {
      final settingsStore = Provider.of<SettingsStore>(context);
+  
     return  Scaffold(
       backgroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
     appBar: AppBar(
@@ -328,7 +335,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
         ),*/
         //Spacer(flex: 4),
         Text(title,
-            style: TextStyle(fontSize: 22, color: Theme.of(context).primaryTextTheme.caption.color)),
+            style: TextStyle(fontSize: 19,fontWeight: FontWeight.w600, color: Theme.of(context).primaryTextTheme.caption.color)),
         Spacer(flex: 1),
         Container(
           width: 190,
@@ -352,7 +359,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                         margin: EdgeInsets.only(right:5),
                         width:25,
                         child: Divider(
-                          
+                          color: settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xffDADADA),thickness: 3,
                         ),
                       )
                   
@@ -380,7 +387,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                   children: [
                     Text(
                       _changePinLengthText(),
-                      style: TextStyle(fontSize: 16.0, color: Theme.of(context).primaryTextTheme.caption.color),
+                      style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.w800 ,color: Theme.of(context).primaryTextTheme.caption.color),
                     ),
                     Icon(Icons.keyboard_arrow_right,color: settingsStore.isDarkTheme ? Colors.white: Colors.black)
                   ],
@@ -410,7 +417,11 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                 shape: BoxShape.circle,
                                // color: Colors.pink,
                               ),
-                              child:SvgPicture.asset('assets/images/new-images/fingerprint.svg',color: settingsStore.isDarkTheme?Color(0xffFFFFFF):Color(0xff060606),)
+                              child:GestureDetector(
+                                onTap: (){
+                                  showBiometricDialog(context, S.of(context).biometric_auth_reason);
+                                },
+                                child: SvgPicture.asset('assets/images/new-images/fingerprint.svg',color: settingsStore.isDarkTheme?Color(0xffFFFFFF):Color(0xff060606),))
                             );
                           } else if (index == 10) {
                             index = 0;
@@ -439,7 +450,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                               // shape: CircleBorder(),
                               child: Text('$index',
                                   style: TextStyle(
-                                      fontSize: 23.0, color: Theme.of(context).primaryTextTheme.caption.color)),
+                                      fontSize: 23.0, fontWeight: FontWeight.w800, color: Theme.of(context).primaryTextTheme.caption.color)),
                             ),
                           );
                         }),

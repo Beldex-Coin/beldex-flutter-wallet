@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
@@ -12,14 +13,24 @@ class NewNodePage extends BasePage {
   @override
   String get title => S.current.node_new;
 
+
+
+@override
+Widget trailing(BuildContext context){
+  return Container();
+}
+
+// @override
+// Widget middle(BuildContext context){
+//   return Text('Nodes');
+// }
+
   @override
   Widget body(BuildContext context) => NewNodePageForm();
 }
 
 
 
-@override
-  Widget trailing(BuildContext context){return Container();}
 
 class NewNodePageForm extends StatefulWidget {
   @override
@@ -45,16 +56,25 @@ class NewNodeFormState extends State<NewNodePageForm> {
   @override
   Widget build(BuildContext context) {
     final nodeList = Provider.of<NodeListStore>(context);
-
+ final settingsStore = Provider.of<SettingsStore>(context);
     return ScrollableWithBottomSection(
       contentPadding: EdgeInsets.all(0),
       content: Form(
           key: _formKey,
           child: Container(
+            margin: EdgeInsets.only(top:50,left:15,right:15),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffDADADA)
+            ),
               padding:
                   EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
               child: Column(
                 children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Text('Add Node',style:TextStyle(fontWeight:FontWeight.w800,fontSize:19)),
+                  ),
                   BeldexTextField(
                     hintText: S.of(context).node_address,
                     controller: _nodeAddressController,
@@ -66,6 +86,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                   Padding(
                       padding: EdgeInsets.only(top: 20),
                       child: BeldexTextField(
+                        color: Color(0xff333343),
                         hintText: S.of(context).node_port,
                         controller: _nodePortController,
                         keyboardType: TextInputType.numberWithOptions(

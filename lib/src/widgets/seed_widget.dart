@@ -424,45 +424,48 @@ class SeedWidgetState extends State<SeedWidget> {
                             : null,
                         color: Theme.of(context).primaryTextTheme.button.backgroundColor,
                         borderColor: Theme.of(context).primaryTextTheme.button.backgroundColor)
-                        : SizedBox(
+                        : 
+                        SizedBox(
                       width: 250,
-                          child: GestureDetector(
-                            onTap: (){
-                               isCurrentMnemoticValid
-                           ? saveCurrentMnemoticToItems()
-                            : null;
-                            showErrorIfExist();
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SvgPicture.asset('assets/images/new-images/plus_fill.svg',color:Color(0xff0BA70F)),
-                                Padding(
-                                  padding: const EdgeInsets.only(left:8.0),
-                                  child: Text(
-                                    selectedItem != null
-                             ? S.of(context).save
-                             : S.of(context).add_new_word,
-                             style: TextStyle(
-                              color:Color(0xff0BA70F),
-                              fontSize:16
-                             ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                          // PrimaryButton(
-                          // text: selectedItem != null
-                          //     ? S.of(context).save
-                          //     : S.of(context).add_new_word,
-                          // onPressed:/ () => isCurrentMnemoticValid
-                          //     ? saveCurrentMnemoticToItems()
-                          //     : null,
-                          // onDisabledPressed: () => showErrorIfExist(),
-                          // isDisabled: !isCurrentMnemoticValid,
-                          // color: Theme.of(context).primaryTextTheme.button.backgroundColor,
-                          // borderColor: Theme.of(context).primaryTextTheme.button.backgroundColor),
+                          child: 
+                          // GestureDetector(
+                          //   onTap: (){
+                          //      isCurrentMnemoticValid
+                          //  ? saveCurrentMnemoticToItems()
+                          //   : null;
+                          //   showErrorIfExist();
+                          //   },
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.center,
+                          //     children: [
+                          //       SvgPicture.asset('assets/images/new-images/plus_fill.svg',color:Color(0xff0BA70F)),
+                          //       Padding(
+                          //         padding: const EdgeInsets.only(left:8.0),
+                          //         child: Text(
+                          //           selectedItem != null
+                          //    ? S.of(context).save
+                          //    : S.of(context).add_new_word,
+                          //    style: TextStyle(
+                          //     color:Color(0xff0BA70F),
+                          //     fontSize:16
+                          //    ),
+                          //         ),
+                          //       )
+                          //     ],
+                          //   ),
+                          // )
+                          PrimaryButton(
+                          text: selectedItem != null
+                              ? S.of(context).save
+                              : S.of(context).add_new_word,
+                          onPressed:()
+                           => isCurrentMnemoticValid
+                              ? saveCurrentMnemoticToItems()
+                              : null,
+                          onDisabledPressed: () => showErrorIfExist(),
+                          isDisabled: !isCurrentMnemoticValid,
+                          color: Theme.of(context).primaryTextTheme.button.backgroundColor,
+                          borderColor: Theme.of(context).primaryTextTheme.button.backgroundColor),
                         ))
               ]),
             ))

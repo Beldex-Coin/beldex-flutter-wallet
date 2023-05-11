@@ -57,6 +57,7 @@ class ReceivePage extends BasePage {
 
   @override
   Widget trailing(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
       width: 60,
       height: 60,
@@ -93,7 +94,7 @@ class ReceivePage extends BasePage {
                SvgPicture.asset(
                 'assets/images/new-images/setting.svg',
                 fit: BoxFit.cover,
-                color: Colors.white,
+                color: settingsStore.isDarkTheme ? Color(0xffFFFFFF) : Color(0xff16161D),
                 width: 25,
                 height: 25,
               ) /*Icon(Icons.account_circle_rounded,
@@ -276,6 +277,7 @@ class ReceiveBodyState extends State<ReceiveBody> {
                         Container(
                           padding: EdgeInsets.only(left:35.0,right:35.0),
                           //color: Theme.of(context).backgroundColor,
+                         // margin: EdgeInsets.only(bottom: 10),
                           child: Column(
                             children: <Widget>[
                               Observer(builder: (_) {
@@ -285,10 +287,12 @@ class ReceiveBodyState extends State<ReceiveBody> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Container(
-                                      height: 170,width:170,
+                                      margin: EdgeInsets.only(bottom: 10),
+                                      height: MediaQuery.of(context).size.height*0.60/3,  //170,
+                                      width: MediaQuery.of(context).size.height*0.60/3,
                                             decoration: BoxDecoration(
                                                borderRadius: BorderRadius.circular(10),
-                                                color: Color(0xff1F1F28),
+                                                color:settingsStore.isDarkTheme ? Color(0xff1F1F28) : Color(0xffEDEDED),
                                             ),
                                             padding: EdgeInsets.all(18),
                                            
@@ -324,7 +328,7 @@ class ReceiveBodyState extends State<ReceiveBody> {
                                 );
                              }),
 
-                            SizedBox(height: 15,),
+                           // SizedBox(height: 15,),
 
 
 
@@ -395,7 +399,7 @@ class ReceiveBodyState extends State<ReceiveBody> {
                                                             walletStore.subaddress.address,
                                                             textAlign: TextAlign.center,
                                                             style: TextStyle(
-                                                              fontSize: 12.0,
+                                                              fontSize: 11.0,
                                                               height: 1.5,
                                                               fontWeight: FontWeight.w600,
                                                               color: Color(0xff82828D),//Theme.of(context).primaryTextTheme.headline6.color
@@ -490,6 +494,7 @@ class ReceiveBodyState extends State<ReceiveBody> {
                                                 style: TextStyle(
                                                   fontSize: 16.0,
                                                  // fontFamily: 'Poppins',
+                                                 fontWeight: FontWeight.w700,
                                                   color:Color(0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
                                                 ),
                                               )
@@ -521,6 +526,7 @@ class ReceiveBodyState extends State<ReceiveBody> {
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   fontSize: 16.0,
+                                                  fontWeight: FontWeight.w700,
                                                   color:Color(0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
                                                 ),
                                               ),
@@ -530,30 +536,30 @@ class ReceiveBodyState extends State<ReceiveBody> {
                                       });
                                 }),
                                 InkWell(
-                                   onTap: ()async{
-                                    //  Navigator.of(context)
-                                    //               .pushNamed(Routes.newSubaddress),
-                                    await showDialog<void>(context: context, builder: (BuildContext context){
-                          return Dialog(
-                            backgroundColor: Colors.transparent,
-                           child:Container(
-                             height:MediaQuery.of(context).size.height*1.0/3,
-                             padding: EdgeInsets.all(10),
-                             decoration: BoxDecoration(
-                                color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF), //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
-                          borderRadius: BorderRadius.circular(20)),
+                                   onTap: ()=>
+                                     Navigator.of(context)
+                                                  .pushNamed(Routes.newSubaddress),
+                          //           await showDialog<void>(context: context, builder: (BuildContext context){
+                          // return Dialog(
+                          //   backgroundColor: Colors.transparent,
+                          //  child:Container(
+                          //    height:MediaQuery.of(context).size.height*1.0/3,
+                          //    padding: EdgeInsets.all(10),
+                          //    decoration: BoxDecoration(
+                          //       color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF), //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                          // borderRadius: BorderRadius.circular(20)),
                              
-                             child:Column(
-                              children: [
-                                 Center(
-                                  child:Text('Sub Address',style:TextStyle(fontSize:18)),
+                          //    child:Column(
+                          //     children: [
+                          //        Center(
+                          //         child:Text('Sub Address',style:TextStyle(fontSize:18)),
                                   
-                                 )
-                              ],
-                             )
-                           )  
-                          );});
-                                   },
+                          //        )
+                          //     ],
+                          //    )
+                          //  )  
+                          // );});
+                                   //},
                                   child: Container(
                                     margin: EdgeInsets.only(left: 10,right: 10,bottom:20),
                                     child: Row(
@@ -563,13 +569,15 @@ class ReceiveBodyState extends State<ReceiveBody> {
                                           margin: EdgeInsets.only(right:10),
                                            width: 25.0,
                                                   height: 25.0,
-                                          child:SvgPicture.asset('assets/images/add.svg',color:Color(0xff2979FB)),
+                                          child:SvgPicture.asset('assets/images/new-images/plus_fill.svg',color:Color(0xff2979FB)),
                                         ),
                                         Text('Add sub address',
                                                   //S.of(context).subaddresses,
                                                   style: TextStyle(
                                                     decoration: TextDecoration.underline,
                                                     fontSize: 16.0,
+                                                    
+                                                    fontWeight: FontWeight.w700,
                                                     color:Color(0xff2979FB) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
                                                   ),
                                                 ),
@@ -629,7 +637,7 @@ class ReceiveBodyState extends State<ReceiveBody> {
                               Icon(Icons.share,color:Colors.white),
                               Padding(
                                 padding: const EdgeInsets.only(left:8.0),
-                                child: Text('Share QR',style: TextStyle(fontSize:16,fontWeight:FontWeight.bold),),
+                                child: Text('Share QR',style: TextStyle(fontSize:16,color:Color(0xffffffff) ,fontWeight:FontWeight.bold),),
                               ),
                             ],
                           ),
@@ -869,6 +877,7 @@ class NewBeldexTextField extends StatelessWidget {
      final settingsStore = Provider.of<SettingsStore>(context);
     return Card(
       color:settingsStore.isDarkTheme ? Color(0xff272733):Color(0xffEDEDED),  //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31,32,39),
+      elevation: 0,
       shape: RoundedRectangleBorder(
         side: BorderSide(width: 0.5,color: Colors.transparent),
           borderRadius: BorderRadius.circular(10)
@@ -890,7 +899,7 @@ class NewBeldexTextField extends StatelessWidget {
                 prefixIcon: prefixIcon,
                 suffixIcon: suffixIcon,
                 hintStyle:
-                TextStyle(fontSize: 16.0, color: Colors.grey,fontWeight: FontWeight.bold),
+                TextStyle(fontSize: 15.0, color: Colors.grey,fontWeight: FontWeight.w600),
                 hintText: hintText,
                 /*focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: BeldexPalette.teal, width: 2.0)),

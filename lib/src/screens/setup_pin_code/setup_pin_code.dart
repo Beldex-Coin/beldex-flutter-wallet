@@ -72,13 +72,13 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
         final String pin = state.pin.fold('', (ac, val) => ac + '$val');
         _userStore.set(password: pin);
         _settingsStore.setDefaultPinLength(pinLength: state.pinLength);
-        showDialog<void>(
+                         showDialog<void>(
             context: context,
             barrierDismissible: false,
             builder: (BuildContext context) {
               return Dialog(
                 elevation: 0,
-                backgroundColor: Theme.of(context).cardTheme.color,
+                backgroundColor:_settingsStore.isDarkTheme? Color(0xff272733) : Color(0xffFFFFFF), //Theme.of(context).cardTheme.color,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)), //this right here
                 child: Container(
@@ -92,28 +92,31 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                         Text(S.of(context).setup_successful,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 15
+                              fontSize: 15,
+                              fontWeight: FontWeight.w700
                           ),
                         ),
                         SizedBox(height: 20,),
                         Center(
                           child: SizedBox(
-                            width: 45,
+                            width: 55,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)
                                 ),
-                                backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                backgroundColor: Color(0xff0BA70F) //Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
                               ),
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                 Navigator.of(context).pop();
                                 widget.onPinCodeSetup(context, pin);
                                 reset();
                               },
                               child:Text(
                                 S.of(context).ok,
-                                style: TextStyle(color: Theme.of(context).primaryTextTheme.caption.color),
+                                style: TextStyle(
+                                  fontWeight:FontWeight.w700,fontSize:15,
+                                  color: Color(0xffffffff)),
                               ),
                             ),
                           ),
@@ -153,7 +156,7 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
             builder: (BuildContext context) {
               return Dialog(
                 elevation: 0,
-                backgroundColor: Theme.of(context).cardTheme.color,//Colors.black,
+                backgroundColor:_settingsStore.isDarkTheme? Color(0xff272733) : Color(0xffFFFFFF),//Colors.black,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)), //this right here
                 child: Container(
@@ -167,26 +170,28 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                         Text(S.of(context).pin_is_incorrect,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 15
+                              fontSize: 15,
+                               fontWeight: FontWeight.w700
                           ),
                         ),
                         SizedBox(height: 20,),
                         Center(
                           child: SizedBox(
-                            width: 45,
+                            width: 55,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)
                                 ),
-                                backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                backgroundColor:Color(0xff0BA70F),//Color.fromRGBO(38, 38, 38, 1.0),
                               ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
                               child:Text(
                                 S.of(context).ok,
-                                style: TextStyle(color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white
+                                style: TextStyle(fontWeight:FontWeight.w700,fontSize:15,
+                                  color: Color(0xffffffff),//Colors.white
                                 ),
                               ),
                             ),

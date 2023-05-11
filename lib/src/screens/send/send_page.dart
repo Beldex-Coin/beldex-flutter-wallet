@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ui';
 
+import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:beldex_wallet/src/widgets/new_slide_to_act.dart';
 import 'package:flutter/cupertino.dart';
@@ -49,6 +51,7 @@ class SendPage extends BasePage {
 
   @override
   Widget trailing(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
       width: 60,
       height: 60,
@@ -83,7 +86,7 @@ class SendPage extends BasePage {
               child: SvgPicture.asset(
                 'assets/images/new-images/setting.svg',
                 fit: BoxFit.cover,
-                color: Colors.white,
+                color:settingsStore.isDarkTheme ? Color(0xffFFFFFF) : Color(0xff16161D),
                 width: 25,
                 height: 25,
               ) /*Icon(Icons.account_circle_rounded,
@@ -200,7 +203,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                   padding: EdgeInsets.all(15),
                   decoration: BoxDecoration(
                       color: Colors.transparent,
-                      border: Border.all(color: Color(0xff454557)),
+                      border: Border.all(color:settingsStore.isDarkTheme ? Color(0xff454557): Color(0xffDADADA)),
                       borderRadius: BorderRadius.circular(10)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -475,7 +478,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                         },
                         options: [
                           AddressTextFieldOption.qrCode,
-                          AddressTextFieldOption.addressBook
+                          AddressTextFieldOption.saveAddress
+                          //AddressTextFieldOption.addressBook
                         ],
                         validator: (value) {
                           /* if(value.isEmpty){
@@ -562,7 +566,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                               TextFormField(
                                   style: TextStyle(
                                       fontSize: 26.0,
-                                      fontFamily: 'Poppinsbold',
+                                      //fontFamily: 'Poppinsbold',
+                                      fontWeight: FontWeight.w900,
                                       color: Theme.of(context)
                                           .primaryTextTheme
                                           .caption
@@ -604,7 +609,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                             ),*/
                                       hintStyle: TextStyle(
                                           fontSize: 16.0,
-                                          fontWeight: FontWeight.w100,
+                                          fontWeight: FontWeight.w700,
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xff77778B)
                                               : Color(0xff6F6F6F)),
@@ -712,8 +717,10 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                             ),*/
                                                     hintStyle: TextStyle(
                                                         fontSize: 15.0,
-                                                        color: Theme.of(context)
-                                                            .hintColor),
+                                                        color:settingsStore.isDarkTheme ? Color(0xffffffff) : Color(0xff16161D)
+                                                        // color: Theme.of(context)
+                                                        //     .hintColor
+                                                            ),
                                                     hintText: '00.000000000',
                                                     /*focusedBorder: OutlineInputBorder(
                                                 borderSide: BorderSide(
@@ -951,7 +958,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                         // mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             Text('${S.of(context).send_estimated_fee}   ',
                                 style: TextStyle(
@@ -1083,59 +1090,54 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       ),
                       Observer(builder: (_) {
                         return InkWell(
-                          onTap:(){
-                             showSimpleBeldexDialog(
-              context,
-              
-              S.of(context).confirm_sending,
-              S.of(context).commit_transaction_amount_fee('amount','fee'
-                  // sendStore.pendingTransaction.amount,
-                  // sendStore.pendingTransaction.fee
-                  ),
-                   onPressed: (_) {
-            Navigator.of(context).pop();
+                          onTap:
+                          // ()async{
+                          //   await showDialog<void>(context: context, builder: (BuildContext context){
+                          //       return ConfirmSending();
+                          //   });
+                          // },
             
-           // sendStore.commitTransaction();
-          });
-                          },
-                          //  syncStore.status is SyncedSyncStatus
-                          //     ? () async {
-                          //         final currentFocus = FocusScope.of(context);
+                          
+                          
+                          
+                           syncStore.status is SyncedSyncStatus
+                              ? () async {
+                                  final currentFocus = FocusScope.of(context);
 
-                          //         if (!currentFocus.hasPrimaryFocus) {
-                          //           currentFocus.unfocus();
-                          //         }
-                          //         await Future.delayed(
-                          //             const Duration(milliseconds: 100), () {});
-                          //         if (_formKey.currentState.validate()) {
-                          //           if (!addressValidation &&
-                          //               !amountValidation) {
-                          //             var isSuccessful = false;
+                                  if (!currentFocus.hasPrimaryFocus) {
+                                    currentFocus.unfocus();
+                                  }
+                                  await Future.delayed(
+                                      const Duration(milliseconds: 100), () {});
+                                  if (_formKey.currentState.validate()) {
+                                    if (!addressValidation &&
+                                        !amountValidation) {
+                                      var isSuccessful = false;
 
-                          //             await Navigator.of(context)
-                          //                 .pushNamed(Routes.auth, arguments:
-                          //                     (bool isAuthenticatedSuccessfully,
-                          //                         AuthPageState auth) async {
-                          //               if (!isAuthenticatedSuccessfully) {
-                          //                 isSuccessful = false;
-                          //                 return;
-                          //               }
+                                      await Navigator.of(context)
+                                          .pushNamed(Routes.auth, arguments:
+                                              (bool isAuthenticatedSuccessfully,
+                                                  AuthPageState auth) async {
+                                        if (!isAuthenticatedSuccessfully) {
+                                          isSuccessful = false;
+                                          return;
+                                        }
 
-                          //               await sendStore.createTransaction(
-                          //                   address: _addressController.text);
+                                        await sendStore.createTransaction(
+                                            address: _addressController.text);
 
-                          //               Navigator.of(auth.context).pop();
-                          //               isSuccessful = true;
-                          //             });
-                          //             return isSuccessful;
-                          //           }
-                          //         } else {
-                          //           return false;
-                          //         }
-                          //       }
-                          //     : null,
+                                        Navigator.of(auth.context).pop();
+                                        isSuccessful = true;
+                                      });
+                                      return isSuccessful;
+                                    }
+                                  } else {
+                                    return false;
+                                  }
+                                }
+                              : null,
                           child: Container(
-                            margin: EdgeInsets.all(15),
+                            margin: EdgeInsets.only(left:15,right:15,top: 40),
                             padding: EdgeInsets.all(15),
                             decoration: BoxDecoration(
                                 color: Color(0xff0BA70F),
@@ -1143,14 +1145,18 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SvgPicture.asset(
-                                    'assets/images/new-images/send.svg'),
+                                Container(
+                                  height:20,width:20,
+                                  child: SvgPicture.asset(
+                                      'assets/images/new-images/send.svg',),
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: Text(
                                     'Send',
                                     style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 17,
+                                        color: Color(0xffffffff),
                                         fontWeight: FontWeight.bold),
                                   ),
                                 ),
@@ -1478,27 +1484,54 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
       if (state is TransactionCreatedSuccessfully) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          showSimpleBeldexDialog(
-              context,
-              S.of(context).confirm_sending,
-              S.of(context).commit_transaction_amount_fee(
-                  sendStore.pendingTransaction.amount,
-                  sendStore.pendingTransaction.fee), onPressed: (_) {
+          
+        showSimpleConfirmDialog(context,
+         S.of(context).confirm_sending,
+          sendStore.pendingTransaction.amount,
+          sendStore.pendingTransaction.fee,
+          _addressController.text,
+          onPressed: (_) {
             Navigator.of(context).pop();
             sendStore.commitTransaction();
-          });
+          },
+          onDismiss: (_){
+            Navigator.of(context).pop();
+          }
+          );
+
+
+
+
+
+          // showSimpleBeldexDialog(
+          //     context,
+          //     S.of(context).confirm_sending,
+          //     S.of(context).commit_transaction_amount_fee(
+          //         sendStore.pendingTransaction.amount,
+          //         sendStore.pendingTransaction.fee,
+                  
+          //         ), onPressed: (_) {
+          //   Navigator.of(context).pop();
+          //   sendStore.commitTransaction();
+          // });
         });
       }
 
       if (state is TransactionCommitted) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          showSimpleBeldexDialog(
-              context, S.of(context).sending, S.of(context).transaction_sent,
+          showSimpleSentTrans( context, S.of(context).sending, S.of(context).transaction_sent,'fee','',
               onPressed: (_) {
             _addressController.text = '';
             _cryptoAmountController.text = '';
             Navigator.of(context)..pop()..pop();
           });
+          // showSimpleBeldexDialog(
+          //     context, S.of(context).sending, S.of(context).transaction_sent,
+          //     onPressed: (_) {
+          //   _addressController.text = '';
+          //   _cryptoAmountController.text = '';
+          //   Navigator.of(context)..pop()..pop();
+          // });
         });
       }
     });
@@ -1506,3 +1539,135 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     _effectsInstalled = true;
   }
 }
+
+
+
+// class ConfirmSending extends StatelessWidget {
+//   const ConfirmSending({ Key key }) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+
+//    return  GestureDetector(
+//      // onTap: () => _onDismiss(context),
+//       child: Container(
+//         color: Colors.transparent,
+//         child: BackdropFilter(
+//           filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+//           child: Container(
+//             margin: EdgeInsets.all(15),
+//            // decoration: BoxDecoration(color: Color(0xff171720).withOpacity(0.55)),
+//             child: Column(
+//               mainAxisAlignment: MainAxisAlignment.center,
+//               children: [
+//                 Container(
+//                     width: double.infinity,
+//                     decoration: BoxDecoration(
+//                         color: Colors.white, //Theme.of(context).backgroundColor,
+//                         borderRadius: BorderRadius.circular(10)),
+//                     child: Container(
+//                       height: MediaQuery.of(context).size.height*1.4/3,
+//                       padding: EdgeInsets.only(top: 15.0,left:20,right: 20),
+//                       child: Column(
+//                         children: [
+//                              Padding(
+//                                padding: const EdgeInsets.only(bottom:10.0),
+//                                child: Text(S.of(context).confirm_sending,style:TextStyle(fontSize:18,fontWeight: FontWeight.w800)),
+//                              ),
+//                              Container(
+//                               height:50,
+//                               //padding: EdgeInsets.all(10),
+//                               decoration: BoxDecoration(
+//                                 borderRadius: BorderRadius.circular(10),
+//                                 color:Color(0xffEDEDED)
+//                               ),
+//                               child:Row(
+//                                 children: [
+//                                   Padding(
+//                                     padding: const EdgeInsets.all(10.0),
+//                                     child: Text('Amount',style: TextStyle(fontSize:16,fontWeight:FontWeight.w700),),
+//                                   ),
+//                                   VerticalDivider(
+
+//                                   ),
+//                                   Expanded(child: Container(
+//                                      padding: const EdgeInsets.all(10.0),
+//                                     child: Text('${sendStore.pendingTransaction.amount}',style: TextStyle(fontSize:18,fontWeight:FontWeight.bold,fontFamily: 'Poppinsbold'),),
+//                                   )),
+//                                   Container(
+//                                     width:70,
+//                                     padding: EdgeInsets.all(10),
+//                                     child: Container(  
+//                                       height:40,width:40,
+//                                       padding: EdgeInsets.all(6),
+//                                       decoration: BoxDecoration(  
+//                                         color: Color(0xff00B116),
+//                                         shape: BoxShape.circle,
+//                                       ),
+//                                       child:SvgPicture.asset('assets/images/new-images/beldex.svg')
+//                                     ),
+//                                   )
+//                                 ],
+//                               )
+//                              ),
+//                              Container(
+//                               margin:EdgeInsets.only(top:10),
+//                               padding: EdgeInsets.all(10),
+//                               height:MediaQuery.of(context).size.height*0.60/3,
+//                               decoration: BoxDecoration(
+//                                 color: Color(0xffEDEDED),
+//                                 borderRadius: BorderRadius.circular(10)
+//                               ),
+//                               child:Column(
+//                                 crossAxisAlignment: CrossAxisAlignment.start,
+//                                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                                 children: [
+//                                   Text('Address'),
+//                                   Container(
+//                                     padding: EdgeInsets.all(10),
+//                                     decoration: BoxDecoration(  
+//                                       color:Colors.white,
+//                                       borderRadius: BorderRadius.circular(10)
+//                                     ),
+//                                     child: Text('hacjsjbyafckjdblknbksjsjhvsjkbskbskbdlsdknscmbxjcbjkblklsknslklsjbjs')),
+//                                     Text('Fee:000087'),
+
+//                                 ],
+//                               )
+//                              ),
+//                              Container(
+//                               margin: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.10/3),
+//                                child: Row(
+//                                 crossAxisAlignment: CrossAxisAlignment.end,
+//                                 mainAxisAlignment: MainAxisAlignment.center,
+//                                 children: [
+//                                   Container(
+//                                     height:45,width:120,
+//                                     decoration: BoxDecoration(
+//                                       color:Color(0xffEDEDED),
+//                                       borderRadius: BorderRadius.circular(8)
+//                                     ),
+//                                     child: Center(child:Text('Cancel',style: TextStyle(fontSize:15,fontWeight: FontWeight.w800))),
+//                                   ),
+//                                   SizedBox(width:20 ),
+//                                   Container(
+//                                     height:45,width:120,
+//                                     decoration: BoxDecoration(
+//                                       color:Color(0xff0BA70F),
+//                                       borderRadius: BorderRadius.circular(8)
+//                                     ),
+//                                     child: Center(child:Text('OK',style: TextStyle(fontSize:15,fontWeight: FontWeight.w800,color: Colors.white),)),
+//                                   )
+//                                ],),
+//                              )
+//                         ],
+//                       ),
+//                     )),
+//               ],
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

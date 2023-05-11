@@ -100,185 +100,201 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
       content: Form(
         key: _formKey,
         child: Column(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(left: 13, right: 13,bottom: 50),
-              child: Column(children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    
-                    
-                    
-                    
-                    Flexible(
-                        child: Card(
-                          elevation:0, //5,
-                          color:settingsStore.isDarkTheme ? Color(0xff272733):Color(0xffEDEDED), //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+             Container(
+                  //color: Colors.yellow,
+                  child: Text(S.of(context).enter_wallet_name,style:TextStyle(fontSize:18,fontWeight:FontWeight.w700))),
+            Column(
+            //  mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+               
+                Padding(
+                  padding: EdgeInsets.only(left: 13, right: 13,bottom: 50),
+                  child: Column(children: <Widget>[
+                    Row(
+                      children: <Widget>[
+                        
+                        
+                        
+                        
+                        Flexible(
+                            child: Card(
+                              elevation:0, //5,
+                              color:settingsStore.isDarkTheme ? Color(0xff272733):Color(0xffEDEDED), //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10)
+                              ),
+                              margin: EdgeInsets.only(top: 20.0),
+                              child: Container(
+                                padding: EdgeInsets.only(left: 30,top:5,bottom:5),
+                          child: TextFormField(
+                              style: TextStyle(fontSize: 14.0),
+                              controller: _nameController,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                  hintStyle:
+                                      TextStyle(color:settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xff77778B)),
+                                  hintText: S.of(context).enter_restore_wallet_name,
+                                  /*focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: BeldexPalette.teal, width: 2.0)),
+                                  enabledBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Theme.of(context).focusColor,
+                                          width: 1.0))*/),
+                              validator: (value) {
+                                walletRestorationStore.validateWalletName(value);
+                                return walletRestorationStore.errorMessage;
+                              },
                           ),
-                          margin: EdgeInsets.only(top: 20.0),
-                          child: Container(
-                            padding: EdgeInsets.only(left: 30),
-                      child: TextFormField(
-                          style: TextStyle(fontSize: 14.0),
-                          controller: _nameController,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                              hintStyle:
-                                  TextStyle(color: Colors.grey.withOpacity(0.6)),
-                              hintText: S.of(context).restore_wallet_name,
-                              /*focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: BeldexPalette.teal, width: 2.0)),
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Theme.of(context).focusColor,
-                                      width: 1.0))*/),
-                          validator: (value) {
-                            walletRestorationStore.validateWalletName(value);
-                            return walletRestorationStore.errorMessage;
-                          },
-                      ),
+                        ),
+                            ))
+                      ],
                     ),
-                        ))
-                  ],
+                    // Row(
+                    //   children: <Widget>[
+                    //     Flexible(
+                    //         child: Card(
+                    //           elevation: 5,
+                    //           color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                    //           shape: RoundedRectangleBorder(
+                    //               borderRadius: BorderRadius.circular(10)
+                    //           ),
+                    //           margin: EdgeInsets.only(top: 20.0),
+                    //           child: Container(
+                    //             padding: EdgeInsets.only(left: 30),
+                    //       child: TextFormField(
+                    //           style: TextStyle(fontSize: 14.0),
+                    //           controller: _addressController,
+                    //           keyboardType: TextInputType.multiline,
+                    //           maxLines: null,
+                    //           decoration: InputDecoration(
+                    //             border: InputBorder.none,
+                    //               hintStyle:
+                    //                   TextStyle(color: Colors.grey.withOpacity(0.6)),
+                    //               hintText: S.of(context).restore_address,
+                    //               /*focusedBorder: UnderlineInputBorder(
+                    //                   borderSide: BorderSide(
+                    //                       color: BeldexPalette.teal, width: 2.0)),
+                    //               enabledBorder: UnderlineInputBorder(
+                    //                   borderSide: BorderSide(
+                    //                       color: Theme.of(context).focusColor,
+                    //                       width: 1.0))*/),
+                    //           validator: (value) {
+                    //             walletRestorationStore.validateAddress(value);
+                    //             return walletRestorationStore.errorMessage;
+                    //           },
+                    //       ),
+                    //     ),
+                    //         ))
+                    //   ],
+                    // ),
+                    // Row(
+                    //   children: <Widget>[
+                    //     Flexible(
+                    //         child: Card(
+                    //           elevation: 5,
+                    //           color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                    //           shape: RoundedRectangleBorder(
+                    //               borderRadius: BorderRadius.circular(10)
+                    //           ),
+                    //           margin: EdgeInsets.only(top: 20.0),
+                    //           child: Container(
+                    //             padding: EdgeInsets.only(left: 30),
+                    //       child: TextFormField(
+                    //           style: TextStyle(fontSize: 14.0),
+                    //           controller: _viewKeyController,
+                    //           decoration: InputDecoration(
+                    //             border: InputBorder.none,
+                    //               hintStyle:
+                    //                   TextStyle(color: Colors.grey.withOpacity(0.6)),
+                    //               hintText: S.of(context).restore_view_key_private,
+                    //               /*focusedBorder: UnderlineInputBorder(
+                    //                   borderSide: BorderSide(
+                    //                       color: BeldexPalette.teal, width: 2.0)),
+                    //               enabledBorder: UnderlineInputBorder(
+                    //                   borderSide: BorderSide(
+                    //                       color: Theme.of(context).focusColor,
+                    //                       width: 1.0))*/),
+                    //           validator: (value) {
+                    //             walletRestorationStore.validateKeys(value);
+                    //             return walletRestorationStore.errorMessage;
+                    //           },
+                    //       ),
+                    //     ),
+                    //         ))
+                    //   ],
+                    // ),
+                    // Row(
+                    //   children: <Widget>[
+                    //     Flexible(
+                    //         child: Card(
+                    //           elevation: 5,
+                    //           color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                    //           shape: RoundedRectangleBorder(
+                    //               borderRadius: BorderRadius.circular(10)
+                    //           ),
+                    //           margin: EdgeInsets.only(top: 20.0),
+                    //           child: Container(
+                    //             padding: EdgeInsets.only(left: 30),
+                    //       child: TextFormField(
+                    //           style: TextStyle(fontSize: 14.0),
+                    //           controller: _spendKeyController,
+                    //           decoration: InputDecoration(
+                    //             border: InputBorder.none,
+                    //               hintStyle:
+                    //                   TextStyle(color: Colors.grey.withOpacity(0.6)),
+                    //               hintText: S.of(context).restore_spend_key_private,
+                    //               /*focusedBorder: UnderlineInputBorder(
+                    //                   borderSide: BorderSide(
+                    //                       color: BeldexPalette.teal, width: 2.0)),
+                    //               enabledBorder: UnderlineInputBorder(
+                    //                   borderSide: BorderSide(
+                    //                       color: Theme.of(context).focusColor,
+                    //                       width: 1.0))*/),
+                    //           validator: (value) {
+                    //             walletRestorationStore.validateKeys(value);
+                    //             return walletRestorationStore.errorMessage;
+                    //           },
+                    //       ),
+                    //     ),
+                    //         ))
+                    //   ],
+                    // ),
+                    BlockchainHeightWidget(key: _blockchainHeightKey),
+                  ]),
                 ),
-                // Row(
-                //   children: <Widget>[
-                //     Flexible(
-                //         child: Card(
-                //           elevation: 5,
-                //           color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-                //           shape: RoundedRectangleBorder(
-                //               borderRadius: BorderRadius.circular(10)
-                //           ),
-                //           margin: EdgeInsets.only(top: 20.0),
-                //           child: Container(
-                //             padding: EdgeInsets.only(left: 30),
-                //       child: TextFormField(
-                //           style: TextStyle(fontSize: 14.0),
-                //           controller: _addressController,
-                //           keyboardType: TextInputType.multiline,
-                //           maxLines: null,
-                //           decoration: InputDecoration(
-                //             border: InputBorder.none,
-                //               hintStyle:
-                //                   TextStyle(color: Colors.grey.withOpacity(0.6)),
-                //               hintText: S.of(context).restore_address,
-                //               /*focusedBorder: UnderlineInputBorder(
-                //                   borderSide: BorderSide(
-                //                       color: BeldexPalette.teal, width: 2.0)),
-                //               enabledBorder: UnderlineInputBorder(
-                //                   borderSide: BorderSide(
-                //                       color: Theme.of(context).focusColor,
-                //                       width: 1.0))*/),
-                //           validator: (value) {
-                //             walletRestorationStore.validateAddress(value);
-                //             return walletRestorationStore.errorMessage;
-                //           },
-                //       ),
-                //     ),
-                //         ))
-                //   ],
-                // ),
-                // Row(
-                //   children: <Widget>[
-                //     Flexible(
-                //         child: Card(
-                //           elevation: 5,
-                //           color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-                //           shape: RoundedRectangleBorder(
-                //               borderRadius: BorderRadius.circular(10)
-                //           ),
-                //           margin: EdgeInsets.only(top: 20.0),
-                //           child: Container(
-                //             padding: EdgeInsets.only(left: 30),
-                //       child: TextFormField(
-                //           style: TextStyle(fontSize: 14.0),
-                //           controller: _viewKeyController,
-                //           decoration: InputDecoration(
-                //             border: InputBorder.none,
-                //               hintStyle:
-                //                   TextStyle(color: Colors.grey.withOpacity(0.6)),
-                //               hintText: S.of(context).restore_view_key_private,
-                //               /*focusedBorder: UnderlineInputBorder(
-                //                   borderSide: BorderSide(
-                //                       color: BeldexPalette.teal, width: 2.0)),
-                //               enabledBorder: UnderlineInputBorder(
-                //                   borderSide: BorderSide(
-                //                       color: Theme.of(context).focusColor,
-                //                       width: 1.0))*/),
-                //           validator: (value) {
-                //             walletRestorationStore.validateKeys(value);
-                //             return walletRestorationStore.errorMessage;
-                //           },
-                //       ),
-                //     ),
-                //         ))
-                //   ],
-                // ),
-                // Row(
-                //   children: <Widget>[
-                //     Flexible(
-                //         child: Card(
-                //           elevation: 5,
-                //           color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-                //           shape: RoundedRectangleBorder(
-                //               borderRadius: BorderRadius.circular(10)
-                //           ),
-                //           margin: EdgeInsets.only(top: 20.0),
-                //           child: Container(
-                //             padding: EdgeInsets.only(left: 30),
-                //       child: TextFormField(
-                //           style: TextStyle(fontSize: 14.0),
-                //           controller: _spendKeyController,
-                //           decoration: InputDecoration(
-                //             border: InputBorder.none,
-                //               hintStyle:
-                //                   TextStyle(color: Colors.grey.withOpacity(0.6)),
-                //               hintText: S.of(context).restore_spend_key_private,
-                //               /*focusedBorder: UnderlineInputBorder(
-                //                   borderSide: BorderSide(
-                //                       color: BeldexPalette.teal, width: 2.0)),
-                //               enabledBorder: UnderlineInputBorder(
-                //                   borderSide: BorderSide(
-                //                       color: Theme.of(context).focusColor,
-                //                       width: 1.0))*/),
-                //           validator: (value) {
-                //             walletRestorationStore.validateKeys(value);
-                //             return walletRestorationStore.errorMessage;
-                //           },
-                //       ),
-                //     ),
-                //         ))
-                //   ],
-                // ),
-                BlockchainHeightWidget(key: _blockchainHeightKey),
-              ]),
+                //SizedBox(height:170),
+               
+              ],
             ),
-            SizedBox(height:170),
-            SizedBox(
-              width: 250,
-              child: Observer(builder: (_) {
-                return LoadingPrimaryButton(
-                    onPressed: () {
-                      if (_formKey.currentState.validate()) {
-                        walletRestorationStore.restoreFromKeys(
-                            name: _nameController.text,
-                            language: seedLanguageStore.selectedSeedLanguage,
-                            address: _addressController.text,
-                            viewKey: _viewKeyController.text,
-                            spendKey: _spendKeyController.text,
-                            restoreHeight: _blockchainHeightKey.currentState.height);
-                      }
-                    },
-                    text: S.of(context).restore_recover,
-                    color: Theme.of(context).primaryTextTheme.button.backgroundColor,
-                    borderColor:
-                    Theme.of(context).primaryTextTheme.button.backgroundColor);
-              }),
-            ),
+            //  Flexible(
+            //       flex: 1,
+            //     ),
+           // Expanded(child: Container()),
+            SizedBox( 
+                  width: 250,
+                  child: Observer(builder: (_) {
+                    return LoadingPrimaryButton(
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            walletRestorationStore.restoreFromKeys(
+                                name: _nameController.text,
+                                language: seedLanguageStore.selectedSeedLanguage,
+                                address: _addressController.text,
+                                viewKey: _viewKeyController.text,
+                                spendKey: _spendKeyController.text,
+                                restoreHeight: _blockchainHeightKey.currentState.height);
+                          }
+                        },
+                        text: S.of(context).restore_recover,
+                        color: Theme.of(context).primaryTextTheme.button.backgroundColor,
+                        borderColor:
+                        Theme.of(context).primaryTextTheme.button.backgroundColor);
+                  }),
+                ),
           ],
         ),
       ),

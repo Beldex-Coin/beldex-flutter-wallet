@@ -50,7 +50,7 @@ dependencies:
   flutter_mobx: ^1.1.0+2
   flutter_slidable: ^0.5.7
   # share: ^0.6.2+1
-  lottie: 
+  #lottie: 
   esys_flutter_share: ^1.0.2
   date_range_picker: ^1.0.7
   dio: ^4.0.0

@@ -197,7 +197,7 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
 
     final currentColor = Theme.of(context).selectedRowColor;
     final notCurrentColor = Theme.of(context).backgroundColor;
-
+     final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
       padding: EdgeInsets.only(top:10.0,bottom: 20.0),
       child: Column(
@@ -238,8 +238,8 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
 
                     final content = Card(
                         margin: EdgeInsets.only(left: constants.leftPx,right: constants.rightPx,top: 20),
-                        elevation: 2,
-                        color:Color(0xff272733), //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                        elevation:0, //2,
+                        color: isCurrent ? Color(0xff2979FB) : settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED), //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10)
                         ),
@@ -250,7 +250,7 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                             node.uri,
                             style: TextStyle(
                                 fontSize: 16.0,
-                                color: Theme.of(context)
+                                color:isCurrent ? Color(0xffffffff) : Theme.of(context)
                                     .primaryTextTheme
                                     .headline6
                                     .color),

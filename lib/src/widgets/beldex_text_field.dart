@@ -12,7 +12,7 @@ class BeldexTextField extends StatelessWidget {
       this.inputFormatters,
       this.prefixIcon,
       this.suffixIcon,
-      this.focusNode});
+      this.focusNode, this.color});
 
   final bool enabled;
   final String hintText;
@@ -23,12 +23,12 @@ class BeldexTextField extends StatelessWidget {
   final Widget prefixIcon;
   final Widget suffixIcon;
   final FocusNode focusNode;
-
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2,
-      color: Theme.of(context).cardColor,//Color.fromARGB(255, 40,42,51),
+      elevation:0, //2,
+      color: color ?? Theme.of(context).cardColor,//Color.fromARGB(255, 40,42,51),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10)
       ),
