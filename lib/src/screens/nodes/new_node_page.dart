@@ -8,10 +8,11 @@ import 'package:beldex_wallet/src/widgets/beldex_text_field.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/src/widgets/scollable_with_bottom_section.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class NewNodePage extends BasePage {
   @override
-  String get title => S.current.node_new;
+  String get title => 'Nodes';
 
 
 
@@ -145,6 +146,11 @@ class NewNodeFormState extends State<NewNodePageForm> {
                       port: _nodePortController.text,
                       login: _loginController.text,
                       password: _passwordController.text);
+                final prefs = await SharedPreferences.getInstance();
+                
+               
+
+
 
                   Navigator.of(context).pop();
                 },

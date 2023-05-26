@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:beldex_wallet/src/screens/receive/subaddress_dialog.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/cupertino.dart';
@@ -536,9 +537,48 @@ class ReceiveBodyState extends State<ReceiveBody> {
                                       });
                                 }),
                                 InkWell(
-                                   onTap: ()=>
-                                     Navigator.of(context)
-                                                  .pushNamed(Routes.newSubaddress),
+                                   onTap: (){
+
+                                   addSubAddressDialog(context,
+         S.of(context).confirm_sending,
+          'sendStore.pendingTransaction.amount',
+         ' sendStore.pendingTransaction.fee',
+         ' _addressController.text',
+          onPressed: (_) {
+            Navigator.of(context).pop();
+           
+          },
+          onDismiss: (_){
+            Navigator.of(context).pop();
+          });
+
+
+
+                                    //  Navigator.of(context)
+                                    //               .pushNamed(Routes.newSubaddress),
+
+
+                                   },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                           //           await showDialog<void>(context: context, builder: (BuildContext context){
                           // return Dialog(
                           //   backgroundColor: Colors.transparent,
@@ -899,7 +939,7 @@ class NewBeldexTextField extends StatelessWidget {
                 prefixIcon: prefixIcon,
                 suffixIcon: suffixIcon,
                 hintStyle:
-                TextStyle(fontSize: 15.0, color: Colors.grey,fontWeight: FontWeight.w600),
+                TextStyle(fontSize: 15.0, color: settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xff6F6F6F),fontWeight: FontWeight.w600),
                 hintText: hintText,
                 /*focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: BeldexPalette.teal, width: 2.0)),

@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/screens/dashboard/transactiondetails_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -239,7 +240,18 @@ class Router {
             builder: (_) => Provider(
                 create: (_) =>
                     SubadrressCreationStore(walletService: walletService),
-                child: NewSubaddressPage()));
+                child: NewSubaddressForm()));
+      
+      case  Routes.transactionlist:
+        return MaterialPageRoute<void>(
+          builder: (_)=>createTransactionListPage(
+            walletService: walletService,
+                priceStore: priceStore,
+                settingsStore: settingsStore,
+                transactionDescriptions: transactionDescriptions,
+                walletStore: walletStore
+          ));
+
 
       case Routes.disclaimer:
         return MaterialPageRoute<void>(builder: (_) => DisclaimerPage());
@@ -391,6 +403,7 @@ class Router {
       case Routes.dangerzoneKeys:
         return MaterialPageRoute<void>(builder: (context) {
           return DangerzonePage(
+            title: 'Show Keys' ,
             nextPage: Routes.showKeys,
           );
         });
@@ -398,6 +411,7 @@ class Router {
       case Routes.dangerzoneSeed:
         return MaterialPageRoute<void>(builder: (context) {
           return DangerzonePage(
+            title: 'Show Seed',
             nextPage: Routes.seed,
           );
         });

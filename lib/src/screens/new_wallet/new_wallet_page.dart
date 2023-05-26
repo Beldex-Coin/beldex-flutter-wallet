@@ -135,6 +135,9 @@ class _WalletNameFormState extends State<WalletNameForm> {
     });
 
     return ScrollableWithBottomSection(
+
+     
+
       content: Column(children: [
         /* Padding(
             padding: EdgeInsets.all(20),

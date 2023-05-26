@@ -400,7 +400,7 @@ class SettingsFormState extends State<SettingsForm> {
                       textBaseline: TextBaseline.alphabetic,
                       children: [
                         Text(S.current.settings_current_node,style: TextStyle(fontFamily: 'Poppins',fontWeight: FontWeight.w800,fontSize:16,)),
-                        Text('mainnet',style:TextStyle(color:Color(0xff1BB71F)))
+                        //Text('mainnet',style:TextStyle(color:Color(0xff1BB71F)))
                       ],
                     ),
                     Icon(Icons.keyboard_arrow_right_outlined,size: 30,color: Color(0xff3F3F4D),),

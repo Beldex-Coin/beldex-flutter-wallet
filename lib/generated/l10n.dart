@@ -2679,6 +2679,22 @@ String get amount_detail_zero {
     );
   }
 
+  ///`Important`
+  String get important{
+    return Intl.message( 
+      'IMPORTANT',
+      name:'important',
+      desc: '',
+      args:[],
+    );
+  }
+
+
+
+
+
+
+
   /// `Yes, I'm sure!`
   String get yes_im_sure {
     return Intl.message(
@@ -2698,6 +2714,7 @@ String get amount_detail_zero {
       args: [item],
     );
   }
+
 
   /// `NEVER input your Beldex wallet {item} into any software or website other than the OFFICIAL Beldex wallets downloaded directly from the {app_store}, the Beldex website, or the Beldex GitHub.\nAre you sure you want to access your wallet {item}?`
   String dangerzone_warning(Object item, Object app_store) {

@@ -6,7 +6,7 @@ import 'package:beldex_wallet/src/domain/common/format_amount.dart';
 
 class TransactionInfo {
   TransactionInfo(this.id, this.height, this.direction, this.date,
-      this.isPending, this.amount, this.accountIndex, this.recipientAddress, //this.isStake
+      this.isPending, this.amount, this.accountIndex, //this.isStake
       );
 
   TransactionInfo.fromMap(Map map)
@@ -20,7 +20,7 @@ class TransactionInfo {
         isPending = parseBoolFromString(map['isPending'] as String),
        // isStake = parseBoolFromString(map['isStake'] as String),
         amount = map['amount'] as int,
-        recipientAddress = (map['paymentId'] ?? '') as String,
+       // recipientAddress = (map['paymentId'] ?? '') as String,
         accountIndex = int.parse(map['accountIndex'] as String);
 
   TransactionInfo.fromRow(TransactionInfoRow row)
@@ -31,7 +31,7 @@ class TransactionInfo {
         date = DateTime.fromMillisecondsSinceEpoch(row.getDatetime() * 1000),
         isPending = row.isPending != 0,
        // isStake = row.isStake != 0,
-       recipientAddress = row.getPaymentId(),
+       //recipientAddress = row.getPaymentId(),
         amount = row.getAmount(),
         accountIndex = row.subaddrAccount;
 

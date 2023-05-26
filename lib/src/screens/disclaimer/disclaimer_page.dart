@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
-
+import 'package:flutter_html/flutter_html.dart';
 class DisclaimerPage extends BasePage {
   DisclaimerPage({this.isReadOnly = false});
 
@@ -65,7 +65,8 @@ class DisclaimerBodyState extends State<DisclaimerPageBody> {
   }
 
   Future getFileLines() async {
-    _fileText = await rootBundle.loadString('assets/text/Terms_of_Use.txt');
+   // _fileText = await rootBundle.loadString('assets/text/Terms_of_Use.txt');
+    _fileText = await rootBundle.loadString('assets/text/terms_and_cond.txt');
     setState(() {});
   }
 
@@ -153,13 +154,17 @@ class DisclaimerBodyState extends State<DisclaimerPageBody> {
                   Row(
                     children: <Widget>[
                       Expanded(
-                          child: Text(
-                        _fileText,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 12.0),
-                      ))
+                          child: Html(
+                            data:_fileText
+                          )
+                      //     Text(
+                      //   _fileText,
+                      //   textAlign: TextAlign.justify,
+                      //   style: TextStyle(
+                      //     fontFamily: 'Poppins',
+                      //     fontSize: 12.0),
+                      // )
+                      )
                     ],
                   ),
                   SizedBox(

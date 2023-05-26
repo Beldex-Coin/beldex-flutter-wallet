@@ -63,7 +63,8 @@ dependencies:
   devicelocale: ^0.4.1
   auto_size_text: ^2.1.0
   synchronized: ^3.0.0
-  
+  flutter_html:
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

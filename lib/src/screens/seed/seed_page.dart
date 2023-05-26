@@ -18,6 +18,12 @@ class SeedPage extends BasePage {
   static final image =
       Image.asset('assets/images/avatar4.png', height: 124, width: 400);
 
+
+  bool isCopied = false;
+
+  final _copyKey = GlobalKey();
+  final _continuekey= GlobalKey();
+
   @override
   bool get isModalBackButton => true;
 
@@ -48,15 +54,7 @@ class SeedPage extends BasePage {
     final walletSeedStore = Provider.of<WalletSeedStore>(context);
     String _seed;
  final settingsStore = Provider.of<SettingsStore>(context);
-    return 
-    
-    
-    
-    
-    
-    
-    
-    Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
@@ -145,6 +143,9 @@ class SeedPage extends BasePage {
                           children: [
                             InkWell(
                               onTap: (){
+                                
+                                 isCopied = true;
+                                 print(' copied value $isCopied');
                                  Clipboard.setData(
                                                 ClipboardData(text: _seed));
                                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -181,6 +182,8 @@ class SeedPage extends BasePage {
                                 ],),
                               ),
                             ),
+                           
+                            
                             SizedBox(width: 10,),
                             InkWell(
                                onTap: () {
@@ -492,24 +495,28 @@ class SeedPage extends BasePage {
                 )*/
 
                SizedBox(
-                height:MediaQuery.of(context).size.height*0.55/3,
+                height:MediaQuery.of(context).size.height*0.62/3,
                ),
-
-                onCloseCallback != null
+             
+             onCloseCallback != null
                     ? 
-                    InkWell(
+             
+               InkWell(
                       onTap: () => onClose(context),
                       child: Container(
-                          width: 250,
+                          width: MediaQuery.of(context).size.width*2.6/3, //290,
                           padding: EdgeInsets.all(15),
                           decoration: BoxDecoration(
-                            color: Color(0xff0BA70F),
+                            color: //isCopied ? 
+                            Color(0xff0BA70F), //: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffE8E8E8) , //,
                             borderRadius: BorderRadius.circular(10)
                           ),
                           child: Center(
                             child:Text(S.of(context).continue_text,
                             style:TextStyle(
-                            color:Color(0xffffffff),
+                            color: //isCopied ?
+                             Color(0xffffffff) ,
+                            //:  settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6) ,
                             fontSize: 18,
                             fontWeight: FontWeight.bold
                             
@@ -526,6 +533,11 @@ class SeedPage extends BasePage {
                           //     borderColor: Palette.darkGrey),
                         ),
                     )
+             
+                // onCloseCallback != null
+                //     ? 
+
+                    
                     : Offstage()
               ],
             ),

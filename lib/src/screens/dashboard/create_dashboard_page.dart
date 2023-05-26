@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/screens/dashboard/transactiondetails_list.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
@@ -24,3 +25,19 @@ Widget createDashboardPage(
             transactionFilterStore: TransactionFilterStore(),
             transactionDescriptions: transactionDescriptions),
         child: DashboardPage());
+
+
+Widget createTransactionListPage(
+        {@required WalletService walletService,
+        @required PriceStore priceStore,
+        @required Box<TransactionDescription> transactionDescriptions,
+        @required SettingsStore settingsStore,
+        @required WalletStore walletStore}) =>
+    Provider(
+        create: (_) => ActionListStore(
+            walletService: walletService,
+            settingsStore: settingsStore,
+            priceStore: priceStore,
+            transactionFilterStore: TransactionFilterStore(),
+            transactionDescriptions: transactionDescriptions),
+        child: TransactionDetailsListBody());

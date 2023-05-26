@@ -33,6 +33,13 @@ class TransactionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
+
+    // if(settingsStore.shouldSaveRecipientAddress && 
+    //   transaction.recipientAddress != null
+    // ){
+
+    // }
+
     return InkWell(
        // onTap: onTap,
         child: Container(
@@ -224,145 +231,238 @@ class TransactionRow extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left:8.0),
-                            child: Text(S.of(context).transaction_details_transaction_id,style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w900
-
-                            )),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left:8.0),
-                            child: Row(
-                              children: [
-                               Expanded(child: Text( transaction.id,
-                               style: TextStyle(color: Color(0xffACACAC),
-                               fontSize: 14,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w900
-                               ),
-                               )),
-                               InkWell(
-                                onTap: (){
-                                  Clipboard.setData(ClipboardData(
-                                                              text: transaction.id));
-                                                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                           margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.30/3,
-                                                           left: MediaQuery.of(context).size.height*0.30/3,
-                                                           right: MediaQuery.of(context).size.height*0.30/3
-                                                           ),
-                                                            elevation:0, //5,
-                                                            behavior: SnackBarBehavior.floating,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius: BorderRadius.circular(15.0) //only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                                                            ),
-                                                            content: Text(S
-                                                                .of(context)
-                                                                .copied,style: TextStyle(color: Color(0xff0EB212),fontWeight:FontWeight.w700,fontSize:15) ,textAlign: TextAlign.center,),
-                                                            backgroundColor: Color(0xff0BA70F).withOpacity(0.10), //.fromARGB(255, 46, 113, 43),
-                                                            duration: Duration(
-                                                                milliseconds: 1500),
-                                                          ));
-                                },
-                                 child: Container(
-                                  //height:20,width:40,
-                                  padding: EdgeInsets.only(left:20.0,right:10,top:10,bottom:10),
-                                  child:Icon(Icons.copy,size: 20,color: Color(0xff0BA70F),)
-                                 ),
-                               )
-                            ],),
-                          ),
-                          Divider(
-                            color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Date',style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w900
-
-                            )),
-                            Container(
-                              child:Text('${transaction.date}')
-                            )
-                              ],
-                            ),
-                          ),
-                           Divider(
-                            color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
-                          ),
-                       Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Height',style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w900 
-
-                            )),
-                            Column(
-                              //crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.only(bottom: 5.0),
-                                  child:Text('${transaction.height}')
-                                ),
-                                // Container(
-                                //   child:Text('height 1 block',style:TextStyle(color:Colors.blue))
-                                // )
-                              ],
-                            )
-                              ],
-                            ),
-                          ),
-                           Divider(
-                            color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
-                          ),
-                           Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text('Amount',style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w900
-
-                            )),
-                            Container(
-                              child:Text('$formattedAmount',style: TextStyle(color:Color(0xff0BA70F)),)
-                            )
-                              ],
-                            ),
-                          ),
-                          //  Divider(
-                          //   color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
-                          // ),
                           // Padding(
-                          //   padding: const EdgeInsets.all(8.0),
-                          //   child: Row(
-                          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          //     children: [
-                          //       Text('Recipient Address',style: TextStyle(
+                          //   padding: const EdgeInsets.only(left:8.0),
+                          //   child: Text(S.of(context).transaction_details_transaction_id,style: TextStyle(
                           //     fontSize: 14,
                           //     fontFamily: 'Poppins',
                           //     fontWeight: FontWeight.w900
 
                           //   )),
-                          //   Container(
-                          //     child:Text('${transaction.recipientAddress}',style: TextStyle(color:Color(0xff0BA70F)),)
-                          //   )
-                          //     ],
-                          //   ),
                           // ),
+                          Container(
+                           // color: Colors.yellow,
+                            decoration: BoxDecoration(
+                              border: Border.all(color:settingsStore.isDarkTheme ? Color(0xff454555): Color(0xffDADADA)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left:8.0,top:10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+ Row(
+   children: [
+     Text(S.of(context).transaction_details_transaction_id,style: TextStyle(
+       fontSize: 14,
+       fontFamily: 'Poppins',
+       fontWeight: FontWeight.w900
+
+     )),
+   ],
+ ),
+                                  Row(
+                                    children: [
+                                     Expanded(child: Text( transaction.id,
+                                     style: TextStyle(color: Color(0xffACACAC),
+                                     fontSize: 14,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w900
+                                     ),
+                                     )),
+                                     InkWell(
+                                      onTap: (){
+                                        Clipboard.setData(ClipboardData(
+                                                                    text: transaction.id));
+                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                 margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.30/3,
+                                                                 left: MediaQuery.of(context).size.height*0.30/3,
+                                                                 right: MediaQuery.of(context).size.height*0.30/3
+                                                                 ),
+                                                                  elevation:0, //5,
+                                                                  behavior: SnackBarBehavior.floating,
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius: BorderRadius.circular(15.0) //only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
+                                                                  ),
+                                                                  content: Text(S
+                                                                      .of(context)
+                                                                      .copied,style: TextStyle(color: Color(0xff0EB212),fontWeight:FontWeight.w700,fontSize:15) ,textAlign: TextAlign.center,),
+                                                                  backgroundColor: Color(0xff0BA70F).withOpacity(0.10), //.fromARGB(255, 46, 113, 43),
+                                                                  duration: Duration(
+                                                                      milliseconds: 1500),
+                                                                ));
+                                      },
+                                       child: Container(
+                                        //height:20,width:40,
+                                        padding: EdgeInsets.only(left:20.0,right:10,top:10,bottom:10),
+                                        child:Icon(Icons.copy,size: 20,color: Color(0xff0BA70F),)
+                                       ),
+                                     )
+                                  ],),
+                                ],
+                              ),
+                            ),
+                          ),
+                          // Divider(
+                          //   color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
+                          // ),
+                          SizedBox(height:10),
+                          Container(
+                             decoration: BoxDecoration(
+                              border: Border.all(color:settingsStore.isDarkTheme ? Color(0xff454555): Color(0xffDADADA)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Date',style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w900
+
+                              )),
+                              Container(
+                                child:Text('${transaction.date}')
+                              )
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height:10),
+                       Container(
+                         decoration: BoxDecoration(
+                              border: Border.all(color:settingsStore.isDarkTheme ? Color(0xff454555): Color(0xffDADADA)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                         child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Height',style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w900 
+
+                              )),
+                              Column(
+                                //crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.only(bottom: 5.0),
+                                    child:Text('${transaction.height}')
+                                  ),
+                                  // Container(
+                                  //   child:Text('height 1 block',style:TextStyle(color:Colors.blue))
+                                  // )
+                                ],
+                              )
+                                ],
+                              ),
+                            ),
+                       ),
+                       SizedBox(height:10),
+                          //  Divider(
+                          //   color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
+                          // ),
+                           Container(
+                             decoration: BoxDecoration(
+                              border: Border.all(color:settingsStore.isDarkTheme ? Color(0xff454555): Color(0xffDADADA)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                             child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Amount',style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w900
+
+                              )),
+                              Container(
+                                child:Text('$formattedAmount',style: TextStyle(color:Color(0xff0BA70F)),)
+                              )
+                                ],
+                              ),
+                          ),
+                           ),
+      //                     settingsStore.shouldSaveRecipientAddress && 
+      // transaction.recipientAddress != null ? Divider(
+      //                       color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
+      //                     ):Container(),
+                        
+                          settingsStore.shouldSaveRecipientAddress && 
+      transaction.recipientAddress != null ? Container(
+        margin: EdgeInsets.only(top:10),
+         decoration: BoxDecoration(
+                              border: Border.all(color:settingsStore.isDarkTheme ? Color(0xff454555): Color(0xffDADADA)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+        child: Column(
+          children: [
+             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+               children: [
+                 Padding(
+                                        padding: const EdgeInsets.only(left:8.0,top:10),
+                                        child: Text('Recipient Address',style: TextStyle(
+                                          fontSize: 14,
+                                          fontFamily: 'Poppins',
+                                          fontWeight: FontWeight.w900
+
+                                        )),
+                                      
+                                      ),
+               ],
+             ),
+            Padding(
+                                  padding: const EdgeInsets.only(left:8.0),
+                                  child: Row(
+                                    children: [
+                                     Expanded(child: Text(transaction.recipientAddress,
+                                     style: TextStyle(color: Color(0xffACACAC),
+                                     fontSize: 14,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w900
+                                     ),
+                                     )),
+                                     InkWell(
+                                      onTap: (){
+                                        Clipboard.setData(ClipboardData(
+                                                                    text:  transaction.recipientAddress));
+                                                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                                 margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.30/3,
+                                                                 left: MediaQuery.of(context).size.height*0.30/3,
+                                                                 right: MediaQuery.of(context).size.height*0.30/3
+                                                                 ),
+                                                                  elevation:0, //5,
+                                                                  behavior: SnackBarBehavior.floating,
+                                                                  shape: RoundedRectangleBorder(
+                                                                      borderRadius: BorderRadius.circular(15.0) //only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
+                                                                  ),
+                                                                  content: Text(S
+                                                                      .of(context)
+                                                                      .copied,style: TextStyle(color: Color(0xff0EB212),fontWeight:FontWeight.w700,fontSize:15) ,textAlign: TextAlign.center,),
+                                                                  backgroundColor: Color(0xff0BA70F).withOpacity(0.10), //.fromARGB(255, 46, 113, 43),
+                                                                  duration: Duration(
+                                                                      milliseconds: 1500),
+                                                                ));
+                                      },
+                                       child: Container(
+                                        //height:20,width:40,
+                                        padding: EdgeInsets.only(left:20.0,right:10,top:10,bottom:10),
+                                        child:Icon(Icons.copy,size: 20,color: Color(0xff0BA70F),)
+                                       ),
+                                     )
+                                  ],),
+                                ),
+          ],
+        ),
+      ): SizedBox.shrink(),
                         ],
                        
                      ),

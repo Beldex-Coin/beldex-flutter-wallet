@@ -73,7 +73,6 @@ class NewSubaddressFormState extends State<NewSubaddressForm> {
   Widget build(BuildContext context) {
     final subaddressCreationStore =
         Provider.of<SubadrressCreationStore>(context);
-
     return Container(
         color: Colors.transparent,
         child: BackdropFilter(

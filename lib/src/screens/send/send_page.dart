@@ -1519,12 +1519,34 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
       if (state is TransactionCommitted) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
+
+        // Future<void>.delayed(Duration(
+        //   milliseconds: 800
+        // ),(){
+        //   print("this function going to call");
+        //    showDetailsAfterSendSuccessfully(context, S.of(context).confirm_sending,
+        //   sendStore.pendingTransaction.amount,
+        //   sendStore.pendingTransaction.fee,
+        //   _addressController.text,
+        //   onPressed: (_) {
+        //     Navigator.of(context).pop();
+           
+        //   },
+        //   onDismiss: (_){
+        //     Navigator.of(context)..pop()..pop()..pop();
+        //   });
+        // });
+
           showSimpleSentTrans( context, S.of(context).sending, S.of(context).transaction_sent,'fee','',
               onPressed: (_) {
             _addressController.text = '';
             _cryptoAmountController.text = '';
             Navigator.of(context)..pop()..pop();
-          });
+          },
+           onDismiss: (_){
+            Navigator.of(context)..pop()..pop();
+          }
+          );
           // showSimpleBeldexDialog(
           //     context, S.of(context).sending, S.of(context).transaction_sent,
           //     onPressed: (_) {
