@@ -26,6 +26,24 @@ Future showSimpleBeldexDialog(BuildContext context, String title, String body,
       context: context);
 }
 
+
+// Rescan & reconnect dialog
+Future showRescanDialog(BuildContext context, String title, String body,
+    {String buttonText,
+    void Function(BuildContext context) onPressed,
+    void Function(BuildContext context) onDismiss}) {
+  return showDialog<void>(
+      builder: (_) => RescanDialog(title, body,
+          buttonText: buttonText, onDismiss: onDismiss, onPressed: onPressed),
+      context: context);
+}
+
+
+
+
+
+
+
 Future showConfirmBeldexDialog(BuildContext context, String title, String body,
     {void Function(BuildContext context) onConfirm,
     Future Function(BuildContext context) onFutureConfirm,
@@ -134,6 +152,70 @@ class SimpleBeldexDialog extends StatelessWidget {
         ));
   }
 }
+
+
+//rescan widget
+class RescanDialog extends StatelessWidget {
+  RescanDialog(this.title, this.body,
+      {this.buttonText, this.onPressed, this.onDismiss,});
+
+  final String title;
+  final String body;
+  final String buttonText;
+  final void Function(BuildContext context) onPressed;
+  final void Function(BuildContext context) onDismiss;
+  @override
+  Widget build(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
+    return  GestureDetector(
+     // onTap: () => _onDismiss(context),
+      child: Container(
+        color: Colors.transparent,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+          child: Container(
+            margin: EdgeInsets.all(15),
+           // decoration: BoxDecoration(color: Color(0xff171720).withOpacity(0.55)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: settingsStore.isDarkTheme ? Color(0xff272733) : Colors.white, //Theme.of(context).backgroundColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height*1.4/3,
+                      padding: EdgeInsets.only(top: 15.0,left:20,right: 20),
+                      child: Column(
+                        children: [
+                             
+                        ],
+                      ),
+                    )),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

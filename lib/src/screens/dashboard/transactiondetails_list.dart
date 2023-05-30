@@ -370,8 +370,9 @@ class TransactionDetailsListBodyState extends State<TransactionDetailsListBody> 
                                                   .subtract(Duration(days: 1)),
                                               initialLastDate: (DateTime.now()),
                                               firstDate: DateTime(2015),
-                                              lastDate: DateTime.now()
-                                                  .add(Duration(days: 1)),);
+                                              lastDate: DateTime.now(),
+                                                 // .add(Duration(days: 1)), // hide the date
+                                                  );
 
                                             print('picked length --> ${picked.length}');
 

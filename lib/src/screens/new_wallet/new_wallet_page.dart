@@ -46,6 +46,11 @@ class NewWalletPage extends BasePage {
   //       child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
   // }
 
+
+ @override
+ Widget trailing(BuildContext context){
+  return Container();
+ }
   @override
   Widget body(BuildContext context) => WalletNameForm();
 }
@@ -164,7 +169,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                     child: TextFormField(
                       style: TextStyle(
                           fontSize: 16.0,
-                          color: Theme.of(context).accentTextTheme.subtitle2.color
+                          color: settingsStore.isDarkTheme ? Colors.white: Colors.black, //Theme.of(context).accentTextTheme.subtitle2.color
                       ),
                       controller: nameController,
                       decoration: InputDecoration(

@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:date_range_picker/date_range_picker.dart' as date_rage_picker;
 import 'package:flutter/cupertino.dart';
@@ -93,12 +94,15 @@ class DashboardPage extends BasePage {
   Widget middle(BuildContext context) {
     //final walletStore = Provider.of<WalletStore>(context);
   final walletStore = Provider.of<WalletStore>(context);
-    return Text(walletStore.name,style: TextStyle(fontSize: 25,
+    return Observer(builder: (_){
+          return Text(walletStore.name,style: TextStyle(fontSize: 25,
                                                   fontWeight: FontWeight.bold,
                                                   color: Theme.of(context)
                                                       .primaryTextTheme
                                                       .headline6
-                                                      .color ),); //Image.asset('assets/images/title_with_logo.png', height: 134, width: 160);
+                                                      .color ),); 
+    },);
+     //Image.asset('assets/images/title_with_logo.png', height: 134, width: 160);
      /*Observer(builder: (_) {
       return Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -284,6 +288,47 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
   ];
 
   IconData iconDataVal = Icons.arrow_upward_outlined;
+
+
+Future<void> _presentQRScanner(BuildContext context) async {
+    try {
+      final code = await presentQRScanner();
+      final uri = Uri.parse(code);
+      var address = '';
+
+      if (uri == null) {
+       // controller.text = code;
+        return;
+      }
+
+      address = uri.path;
+      //controller.text = address;
+
+      // if (onURIScanned != null) {
+      //   onURIScanned(uri);
+      // }
+    } catch (e) {
+     /* ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Invalid BDX address'),
+      ));*/
+      print('Error $e');
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -626,9 +671,12 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                           
                                                           );
                                                         }),
-                                                     Container(
-                                                                  child:SvgPicture.asset('assets/images/new-images/scanners.svg',color: settingsStore.isDarkTheme? Color(0xffFFFFFF): Color(0xff16161D),)
-                                                                )
+                                                     GestureDetector(
+                                                      onTap: () async => _presentQRScanner(context),
+                                                       child: Container(
+                                                                    child:SvgPicture.asset('assets/images/new-images/scanners.svg',color: settingsStore.isDarkTheme? Color(0xffFFFFFF): Color(0xff16161D),)
+                                                                  ),
+                                                     )
                                                   ],
                                                 ),
                                                 Padding(
@@ -1167,13 +1215,37 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                               borderRadius: BorderRadius.circular(10)
                             ), 
                          child:Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Padding(
                               padding: const EdgeInsets.only(top:10.0),
                               child: Text('Flash Transaction',style: TextStyle(fontSize:23,fontWeight:FontWeight.w800),),
                             ),
-                             
-                               
+                              GestureDetector(
+                                onTap:syncStatus == 'SYNCHRONIZED' ? (){
+                                    scannerAction();
+                                }:null,
+                                child: Container(
+                                  height:MediaQuery.of(context).size.height*0.60/3,
+                                  width:MediaQuery.of(context).size.height*0.60/3,
+                                  padding: EdgeInsets.all(15),
+                                  decoration: BoxDecoration(color: settingsStore.isDarkTheme ? Color(0xffD9D9D9) : Color(0xffE2E2E2),
+                                  borderRadius: BorderRadius.circular(10),
+
+                                  ),
+                                  child:Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xffFFFFFF),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: SvgPicture.asset('assets/images/new-images/flashqr.svg',color: syncStatus == 'SYNCHRONIZED' ? Color(0xff222222): Color(0xffD9D9D9),)
+                                  ),
+                                ),
+                              ),
+                               Padding(
+                                 padding: const EdgeInsets.only(bottom:10.0),
+                                 child: Text('Transafer your BDX more faster\n with flash transaction',textAlign:TextAlign.center ,style:TextStyle(fontSize:16)),
+                               )
                           ],
                          )
                         );
@@ -1396,30 +1468,33 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                 height:MediaQuery.of(context).size.height*0.35/3,
                 width:double.infinity,
                 decoration: BoxDecoration(   
-                  color: settingsStore.isDarkTheme ? Color(0xff24242F) : Color(0xffffffff)
+                  color: settingsStore.isDarkTheme ? Color(0xff24242F) : Color(0xffEDEDED)
                 ),
                 padding: EdgeInsets.all(15),
                 child:Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      width:MediaQuery.of(context).size.width*1.30/3,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: settingsStore.isDarkTheme ? Color(0xff333343) : Color(0xffD4D4D4)
+                    GestureDetector(
+                      onTap: ()=> Navigator.of(context).pushNamed(Routes.addressBook),
+                      child: Container(
+                        width:MediaQuery.of(context).size.width*1.30/3,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: settingsStore.isDarkTheme ? Color(0xff333343) : Color(0xffD4D4D4)
+                        ),
+                        padding: EdgeInsets.all(15),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset('assets/images/new-images/Address.svg',color: settingsStore.isDarkTheme? Colors.white:Colors.black,),
+                            Padding(
+                              padding: const EdgeInsets.only(left:5.0),
+                              child: Text(S.of(context).address_book,style: TextStyle( fontWeight: FontWeight.bold,
+                                                                              fontSize: 16)),
+                            )
+                          ],
+                        )
                       ),
-                      padding: EdgeInsets.all(15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset('assets/images/new-images/Address.svg'),
-                          Padding(
-                            padding: const EdgeInsets.only(left:5.0),
-                            child: Text(S.of(context).address_book,style: TextStyle( fontWeight: FontWeight.bold,
-                                                                            fontSize: 16)),
-                          )
-                        ],
-                      )
                     ),
                     // Container(
                     //   width:MediaQuery.of(context).size.width*1.30/3,
@@ -1458,8 +1533,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                             Padding(
                               padding: const EdgeInsets.only(left:5.0),
                               child: Text(S.of(context).transactions,style: TextStyle( fontWeight: FontWeight.bold,
-                                                                              fontSize: 16)),
-                            )
+                                                                         color:Colors.white,fontSize: 16)),
+                            ),
                           ],
                         )
                     ),
@@ -1476,6 +1551,25 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
           }),
     );
   }
+
+void scannerAction(){
+       
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   Future<bool> onBackPressed() {
     return showDialog(

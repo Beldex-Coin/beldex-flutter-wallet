@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:beldex_wallet/src/screens/receive/custom_dropdown.dart';
+import 'package:beldex_wallet/src/screens/receive/scrollbars.dart';
 import 'package:beldex_wallet/src/screens/receive/subaddress_dialog.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
@@ -20,6 +22,7 @@ import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:beldex_wallet/src/widgets/beldex_text_field.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/src/util/constants.dart' as constants;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui' as ui;
 
 import 'package:wc_flutter_share/wc_flutter_share.dart';
@@ -59,52 +62,53 @@ class ReceivePage extends BasePage {
   @override
   Widget trailing(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    return Container(
-      width: 60,
-      height: 60,
-      alignment: Alignment.centerLeft,
-      // decoration: BoxDecoration(
-      //   color: Theme.of(context).accentTextTheme.headline6.color,
-      //   borderRadius: BorderRadius.only(
-      //       topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
-      //   boxShadow: [
-      //     BoxShadow(
-      //       color: Theme.of(context).accentTextTheme.headline6.color,
-      //       blurRadius: 2.0,
-      //       spreadRadius: 1.0,
-      //       offset: Offset(2.0, 2.0), // shadow direction: bottom right
-      //     )
-      //   ],
-      // ),
-      child: SizedBox(
-        height: 55, //55
-        width: 55, //37
-        child: ButtonTheme(
-          minWidth: double.minPositive,
-          child: TextButton(
-              /* highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              padding: EdgeInsets.all(0),*/
-              style: ButtonStyle(
-                overlayColor:
-                    MaterialStateColor.resolveWith((states) => Colors.transparent),
-              ),
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(Routes.profile),
-              child:
-               SvgPicture.asset(
-                'assets/images/new-images/setting.svg',
-                fit: BoxFit.cover,
-                color: settingsStore.isDarkTheme ? Color(0xffFFFFFF) : Color(0xff16161D),
-                width: 25,
-                height: 25,
-              ) /*Icon(Icons.account_circle_rounded,
-                  color: Theme.of(context).primaryTextTheme.caption.color,
-                  size: 30)*/
-              ),
-        ),
-      ),
-    );
+    return Container();
+    // Container(
+    //   width: 60,
+    //   height: 60,
+    //   alignment: Alignment.centerLeft,
+    //   // decoration: BoxDecoration(
+    //   //   color: Theme.of(context).accentTextTheme.headline6.color,
+    //   //   borderRadius: BorderRadius.only(
+    //   //       topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
+    //   //   boxShadow: [
+    //   //     BoxShadow(
+    //   //       color: Theme.of(context).accentTextTheme.headline6.color,
+    //   //       blurRadius: 2.0,
+    //   //       spreadRadius: 1.0,
+    //   //       offset: Offset(2.0, 2.0), // shadow direction: bottom right
+    //   //     )
+    //   //   ],
+    //   // ),
+    //   child: SizedBox(
+    //     height: 55, //55
+    //     width: 55, //37
+    //     child: ButtonTheme(
+    //       minWidth: double.minPositive,
+    //       child: TextButton(
+    //           /* highlightColor: Colors.transparent,
+    //           splashColor: Colors.transparent,
+    //           padding: EdgeInsets.all(0),*/
+    //           style: ButtonStyle(
+    //             overlayColor:
+    //                 MaterialStateColor.resolveWith((states) => Colors.transparent),
+    //           ),
+    //           onPressed: () =>
+    //               Navigator.of(context).pushNamed(Routes.profile),
+    //           child:
+    //            SvgPicture.asset(
+    //             'assets/images/new-images/setting.svg',
+    //             fit: BoxFit.cover,
+    //             color: settingsStore.isDarkTheme ? Color(0xffFFFFFF) : Color(0xff16161D),
+    //             width: 25,
+    //             height: 25,
+    //           ) /*Icon(Icons.account_circle_rounded,
+    //               color: Theme.of(context).primaryTextTheme.caption.color,
+    //               size: 30)*/
+    //           ),
+    //     ),
+    //   ),
+    // );
   }
 
 
@@ -161,6 +165,29 @@ class ReceiveBody extends StatefulWidget {
 class ReceiveBodyState extends State<ReceiveBody> {
   final amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+   bool isExpand = false;
+bool isOpen = false;
+   OverlayEntry overlayEntry;
+ GlobalKey globalKey = GlobalKey();
+
+String currentSubAddress ='';
+
+
+ @override
+  void initState() {
+    super.initState();
+   // getSubAddress();
+    
+  }
+
+
+ 
+
+
+
+
+
+
 
   @override
   void dispose() {
@@ -216,6 +243,13 @@ class ReceiveBodyState extends State<ReceiveBody> {
         walletStore.onChangedAmountValue('');
       }
     });
+   
+
+
+
+
+
+
 
     return SafeArea(
         child: GestureDetector(
@@ -440,16 +474,26 @@ class ReceiveBodyState extends State<ReceiveBody> {
                                         ],
                                         hintText: 'Enter ${S.of(context).amount}',
                                         validator: (value) {
+                                          
                                           walletStore.validateAmount(value);
                                           return walletStore.errorMessage;
                                         },
                                         controller: amountController
                                     )),
                       ),
-                      
 
-                      Container(
-                         margin: EdgeInsets.only(top:10,left:15.0,right:15.0,bottom:10),
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+
+
+              Container( 
+                      //color: Colors.yellow,
+
+                      child: Stack(
+                        children: [
+                          Container(
+                           margin: EdgeInsets.only(top:10,left:15.0,right:15.0,bottom:10),
                          decoration: BoxDecoration(
                           border: Border.all(
                             color: settingsStore.isDarkTheme ? Color(0xff464657) : Color(0xffDADADA),
@@ -457,150 +501,69 @@ class ReceiveBodyState extends State<ReceiveBody> {
                           ),
                           borderRadius: BorderRadius.circular(10.0)
                          ),
-                         child:Column(
-                          children: [
-                             Observer(builder: (_) {
-                                  return ListView.separated(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: subaddressListStore.subaddresses.length,
-                                      separatorBuilder: (context, i) {
-                                        return Divider(
-                                          color: Colors.transparent,//Theme.of(context).dividerTheme.color,
-                                          height: 1.0,
-                                        );
-                                      },
-                                      itemBuilder: (context, i) {
-                                        return Observer(builder: (_) {
-                                          final subaddress =
-                                          subaddressListStore.subaddresses[i];
-                                          final isCurrent = walletStore.subaddress.address ==
-                                              subaddress.address;
-                                          final label = subaddress.label.isNotEmpty
-                                              ? subaddress.label
-                                              : subaddress.address;
+                            child: Column(
+                              children: [
+                                Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context).size.height * 0.08 / 3,
+                                            right: MediaQuery.of(context).size.height * 0.10 / 3,
+                                            top: MediaQuery.of(context).size.height * 0.03 / 3),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            final mHeight = MediaQuery.of(context).size.height;
+                                            // setState(() {
+                                            //   canShow = canShow ? false : true;
+                                            // });
+                                            setState(() {
+                                              isOpen = isOpen ? false : true;
+                                            });
+                                            
+                                            print("the value of the isOpen $isOpen");
 
-                                          return InkWell(
-                                            onTap: () => walletStore.setSubaddress(subaddress),
-                                            child:
-                                           isCurrent ? Container(
-                                              margin: EdgeInsets.all(15),
-                                              padding: EdgeInsets.all(15),
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(10),
-                                                color:settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED)
-                                              ),
-                                              child:Text(label,
-                                               textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 16.0,
-                                                 // fontFamily: 'Poppins',
-                                                 fontWeight: FontWeight.w700,
-                                                  color:Color(0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                                                ),
-                                              )
-                                            ):
-                                            //child:
-                                            //  isCurrent ? Card(
-                                            //   elevation: 2,
-                                            //   color: Theme.of(context).accentTextTheme.overline.backgroundColor,//Color.fromARGB(255, 40,42,51),
-                                            //   shape: RoundedRectangleBorder(
-                                            //       borderRadius: BorderRadius.circular(15)
-                                            //   ),
-                                            //   child: Container(
-                                            //     margin: EdgeInsets.only(left: 10),
-                                            //     padding: EdgeInsets.all(15),
-                                            //     child: Text(
-                                            //       label,
-                                            //       style: TextStyle(
-                                            //         fontSize: 16.0,
-                                            //         color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                                            //       ),
-                                            //     ),
-                                            //   ),
-                                            // ):
-                                            Container(
-                                              margin: EdgeInsets.only(left: 10),
-                                              padding: EdgeInsets.all(15),
-                                              child: Text(
-                                                label,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.w700,
-                                                  color:Color(0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        });
-                                      });
-                                }),
-                                InkWell(
-                                   onTap: (){
+                                            OverlayState overlayState =
+                                                Overlay.of(context);
+                                            overlayEntry = OverlayEntry(
+                                              builder: (context) {
+                                                return _buildExitnodeListView(
+                                                    mHeight);
+                                              },
+                                            );
 
-                                   addSubAddressDialog(context,
-         S.of(context).confirm_sending,
-          'sendStore.pendingTransaction.amount',
-         ' sendStore.pendingTransaction.fee',
-         ' _addressController.text',
-          onPressed: (_) {
-            Navigator.of(context).pop();
+                                            overlayState?.insert(overlayEntry);
+                                            // if(isOpen == false)
+                                            //   overlayEntry?.remove();
+                                          },
+                                          child: displayContainer(context)
+                                        )),
+                                SizedBox(height:15),
+
+
+                               InkWell(
+                                       onTap: ()=> Navigator.of(context)
+                                                  .pushNamed(Routes.newSubaddress),
+                                       //{
+
+        //                            addSubAddressDialog(context,
+        //  S.of(context).confirm_sending,
+        //   'sendStore.pendingTransaction.amount',
+        //  ' sendStore.pendingTransaction.fee',
+        //  ' _addressController.text',
+        //   onPressed: (_) {
+        //     Navigator.of(context).pop();
            
-          },
-          onDismiss: (_){
-            Navigator.of(context).pop();
-          });
+        //   },
+        //   onDismiss: (_){
+        //     Navigator.of(context).pop();
+        //   });
 
 
 
-                                    //  Navigator.of(context)
-                                    //               .pushNamed(Routes.newSubaddress),
+        //                             //  Navigator.of(context)
+        //                             //               .pushNamed(Routes.newSubaddress),
 
 
-                                   },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                          //           await showDialog<void>(context: context, builder: (BuildContext context){
-                          // return Dialog(
-                          //   backgroundColor: Colors.transparent,
-                          //  child:Container(
-                          //    height:MediaQuery.of(context).size.height*1.0/3,
-                          //    padding: EdgeInsets.all(10),
-                          //    decoration: BoxDecoration(
-                          //       color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF), //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
-                          // borderRadius: BorderRadius.circular(20)),
-                             
-                          //    child:Column(
-                          //     children: [
-                          //        Center(
-                          //         child:Text('Sub Address',style:TextStyle(fontSize:18)),
-                                  
-                          //        )
-                          //     ],
-                          //    )
-                          //  )  
-                          // );});
-                                   //},
-                                  child: Container(
+        //                            },
+                                   child:Container(
                                     margin: EdgeInsets.only(left: 10,right: 10,bottom:20),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.center,                                      
@@ -656,12 +619,359 @@ class ReceiveBodyState extends State<ReceiveBody> {
                                         // )
                                       ],
                                     ),
-                                  ),
-                                ),
-                          ],
-                         )
+                                   )
+                               )
+                              
+                              
+                              
+                              ],
+                            ),
+                          ),
+                          // canShow ? Positioned(
+                          //      // top:mHeight*0.02/3,
+                          //       child:
+                          //       Padding(
+                          //           padding: EdgeInsets.only(
+                          //               left: MediaQuery.of(context).size.height *
+                          //                   0.08 /
+                          //                   3,
+                          //               right: MediaQuery.of(context).size.height *
+                          //                   0.10 /
+                          //                   3,
+                          //               top: MediaQuery.of(context).size.height *
+                          //                   0.03 /
+                          //                   3),
+                          //           child: Container(
+                          //             height: MediaQuery.of(context).size.height *
+                          //                 0.70 /
+                          //                 3,
+                          //             width:
+                          //                 MediaQuery.of(context).size.width * 2.7 / 3,
+                          //             color: appModel.darkTheme
+                          //                 ? Color(0xff292937)
+                          //                 : Colors.white,
+                          //             child:
+                          //             ListView.builder(
+                          //                 padding: EdgeInsets.zero,
+                          //                 shrinkWrap: true,
+                          //                 itemCount: exitData.length,
+                          //                 itemBuilder:
+                          //                     (BuildContext context, int index) {
+                          //                   // print("data inside listview ${exitData[index]}");
+                          //                   return Container(
+                          //                     margin: EdgeInsets.all(0),
+                          //                     //padding: const EdgeInsets.only(top:0.0,bottom:0.0),
+                          //                     child: ExpansionTile(
+                          //                       // backgroundColor: Colors.yellow,
+                          //                       tilePadding: EdgeInsets.only(
+                          //                           left: mHeight * 0.08 / 3,
+                          //                           right: mHeight * 0.08 / 3),
+                          //                       title: Text(
+                          //                         exitData[index].type,
+                          //                         style: TextStyle(
+                          //                             color: index == 0
+                          //                                 ? Color(0xff1CBE20)
+                          //                                 : Color(0xff1994FC),
+                          //                             fontSize: MediaQuery.of(context)
+                          //                                     .size
+                          //                                     .height *
+                          //                                 0.06 /
+                          //                                 3,
+                          //                             fontWeight: FontWeight.bold),
+                          //                       ),
+                          //                       iconColor: index == 0
+                          //                           ? Color(0xff1CBE20)
+                          //                           : Color(0xff1994FC),
+                          //                       collapsedIconColor: index == 0
+                          //                           ? Color(0xff1CBE20)
+                          //                           : Color(0xff1994FC),
+                          //                       subtitle: Text(
+                          //                         "${exitData[index].node.length} Nodes",
+                          //                         style: TextStyle(
+                          //                             color: Colors.grey,
+                          //                             fontSize: MediaQuery.of(context)
+                          //                                     .size
+                          //                                     .height *
+                          //                                 0.04 /
+                          //                                 3),
+                          //                       ),
+                          //                       children: <Widget>[
+                          //                         Column(
+                          //                           children: _buildExpandableContent(
+                          //                               exitData[index].node),
+                          //                         ),
+                          //                       ],
+                          //                     ),
+                          //                   );
+                          //                 }
+                          //                 // _buildList(exitData[index]),
+                          //                 ),
+                          //           ),
+                          //         ),
+                          //     )
+                          //     : SizedBox.shrink()
+                        ],
                       ),
+                    ),
 
+        
+
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+        //               Container(
+        //                  margin: EdgeInsets.only(top:10,left:15.0,right:15.0,bottom:10),
+        //                  decoration: BoxDecoration(
+        //                   border: Border.all(
+        //                     color: settingsStore.isDarkTheme ? Color(0xff464657) : Color(0xffDADADA),
+                            
+        //                   ),
+        //                   borderRadius: BorderRadius.circular(10.0)
+        //                  ),
+        //                  child:
+        //                  Column(
+        //                   children: [
+        //                    Observer(builder:(_){
+                           
+        //                     return Container(
+        //                        margin: EdgeInsets.all(15),
+        //                                       padding: EdgeInsets.all(15),
+        //                                       decoration: BoxDecoration(
+        //                                         borderRadius: BorderRadius.circular(10),
+        //                                         color:settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED)
+        //                                       ),
+        //                                       child: GestureDetector(
+        //                                         onTap: (){
+        //                                           setState(() {
+        //                                                        isExpand = !isExpand;                                          
+        //                                             });
+
+        //                                         },
+        //                                         child: Row(
+        //                                           key:globalKey,
+        //                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //                                           children: [
+        //                                             Container(width:40),
+        //                                             Expanded(child: Text('title')),
+        //                                             Container(
+        //                                               width:40,
+        //                                               child:Icon(isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, ) 
+        //                                             )
+        //                                           ],
+        //                                         ),
+        //                                       )
+
+        //                     );
+        //                    }),
+        //                     //  Observer(builder: (_) {
+        //                     //       return ListView.separated(
+        //                     //           shrinkWrap: true,
+        //                     //           physics: NeverScrollableScrollPhysics(),
+        //                     //           itemCount: subaddressListStore.subaddresses.length,
+        //                     //           separatorBuilder: (context, i) {
+        //                     //             return Divider(
+        //                     //               color: Colors.transparent,//Theme.of(context).dividerTheme.color,
+        //                     //               height: 1.0,
+        //                     //             );
+        //                     //           },
+        //                     //           itemBuilder: (context, i) {
+        //                     //             return Observer(builder: (_) {
+        //                     //               final subaddress =
+        //                     //               subaddressListStore.subaddresses[i];
+        //                     //               final isCurrent = walletStore.subaddress.address ==
+        //                     //                   subaddress.address;
+        //                     //               final label = subaddress.label.isNotEmpty
+        //                     //                   ? subaddress.label
+        //                     //                   : subaddress.address;
+
+        //                     //               return InkWell(
+        //                     //                 onTap: () => walletStore.setSubaddress(subaddress),
+        //                     //                 child:
+        //                     //                isCurrent ? Container(
+        //                     //                   margin: EdgeInsets.all(15),
+        //                     //                   padding: EdgeInsets.all(15),
+        //                     //                   decoration: BoxDecoration(
+        //                     //                     borderRadius: BorderRadius.circular(10),
+        //                     //                     color:settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED)
+        //                     //                   ),
+        //                     //                   child:Text(label,
+        //                     //                    textAlign: TextAlign.center,
+        //                     //                     style: TextStyle(
+        //                     //                       fontSize: 16.0,
+        //                     //                      // fontFamily: 'Poppins',
+        //                     //                      fontWeight: FontWeight.w700,
+        //                     //                       color:Color(0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+        //                     //                     ),
+        //                     //                   )
+        //                     //                 ):
+        //                     //                 //child:
+        //                     //                 //  isCurrent ? Card(
+        //                     //                 //   elevation: 2,
+        //                     //                 //   color: Theme.of(context).accentTextTheme.overline.backgroundColor,//Color.fromARGB(255, 40,42,51),
+        //                     //                 //   shape: RoundedRectangleBorder(
+        //                     //                 //       borderRadius: BorderRadius.circular(15)
+        //                     //                 //   ),
+        //                     //                 //   child: Container(
+        //                     //                 //     margin: EdgeInsets.only(left: 10),
+        //                     //                 //     padding: EdgeInsets.all(15),
+        //                     //                 //     child: Text(
+        //                     //                 //       label,
+        //                     //                 //       style: TextStyle(
+        //                     //                 //         fontSize: 16.0,
+        //                     //                 //         color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+        //                     //                 //       ),
+        //                     //                 //     ),
+        //                     //                 //   ),
+        //                     //                 // ):
+        //                     //                 Container(
+        //                     //                   margin: EdgeInsets.only(left: 10),
+        //                     //                   padding: EdgeInsets.all(15),
+        //                     //                   child: Text(
+        //                     //                     label,
+        //                     //                     textAlign: TextAlign.center,
+        //                     //                     style: TextStyle(
+        //                     //                       fontSize: 16.0,
+        //                     //                       fontWeight: FontWeight.w700,
+        //                     //                       color:Color(0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+        //                     //                     ),
+        //                     //                   ),
+        //                     //                 ),
+        //                     //               );
+        //                     //             });
+        //                     //           });
+        //                     //     }),
+        //                         InkWell(
+        //                            onTap: (){
+
+        //                            addSubAddressDialog(context,
+        //  S.of(context).confirm_sending,
+        //   'sendStore.pendingTransaction.amount',
+        //  ' sendStore.pendingTransaction.fee',
+        //  ' _addressController.text',
+        //   onPressed: (_) {
+        //     Navigator.of(context).pop();
+           
+        //   },
+        //   onDismiss: (_){
+        //     Navigator.of(context).pop();
+        //   });
+
+
+
+        //                             //  Navigator.of(context)
+        //                             //               .pushNamed(Routes.newSubaddress),
+
+
+        //                            },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //                   //           await showDialog<void>(context: context, builder: (BuildContext context){
+        //                   // return Dialog(
+        //                   //   backgroundColor: Colors.transparent,
+        //                   //  child:Container(
+        //                   //    height:MediaQuery.of(context).size.height*1.0/3,
+        //                   //    padding: EdgeInsets.all(10),
+        //                   //    decoration: BoxDecoration(
+        //                   //       color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF), //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+        //                   // borderRadius: BorderRadius.circular(20)),
+                             
+        //                   //    child:Column(
+        //                   //     children: [
+        //                   //        Center(
+        //                   //         child:Text('Sub Address',style:TextStyle(fontSize:18)),
+                                  
+        //                   //        )
+        //                   //     ],
+        //                   //    )
+        //                   //  )  
+        //                   // );});
+        //                            //},
+        //                           child: Container(
+        //                             margin: EdgeInsets.only(left: 10,right: 10,bottom:20),
+        //                             child: Row(
+        //                               mainAxisAlignment: MainAxisAlignment.center,                                      
+        //                               children: <Widget>[
+        //                                 Container(
+        //                                   margin: EdgeInsets.only(right:10),
+        //                                    width: 25.0,
+        //                                           height: 25.0,
+        //                                   child:SvgPicture.asset('assets/images/new-images/plus_fill.svg',color:Color(0xff2979FB)),
+        //                                 ),
+        //                                 Text('Add sub address',
+        //                                           //S.of(context).subaddresses,
+        //                                           style: TextStyle(
+        //                                             decoration: TextDecoration.underline,
+        //                                             fontSize: 16.0,
+                                                    
+        //                                             fontWeight: FontWeight.w700,
+        //                                             color:Color(0xff2979FB) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+        //                                           ),
+        //                                         ),
+                                        
+                                        
+        //                                 // Container(
+        //                                 //   //color: Theme.of(context).accentTextTheme.headline5.color,
+        //                                 //   child: Column(
+        //                                 //     children: <Widget>[
+        //                                 //       ListTile(
+        //                                 //         title: Text(
+        //                                 //           S.of(context).subaddresses,
+        //                                 //           style: TextStyle(
+        //                                 //             fontSize: 16.0,
+        //                                 //             color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+        //                                 //           ),
+        //                                 //         ),
+        //                                 //         trailing: Container(
+        //                                 //           width: 28.0,
+        //                                 //           height: 28.0,
+        //                                 //           child: InkWell(
+        //                                 //             onTap: () => Navigator.of(context)
+        //                                 //                 .pushNamed(Routes.newSubaddress),
+        //                                 //             borderRadius:
+        //                                 //             BorderRadius.all(Radius.circular(14.0)),
+        //                                 //             child: SvgPicture.asset('assets/images/add.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,),
+        //                                 //           ),
+        //                                 //         ),
+        //                                 //       ),
+        //                                 //       /* Divider(
+        //                                 //       color: Theme.of(context).dividerTheme.color,
+        //                                 //       height: 1.0,
+        //                                 //     )*/
+        //                                 //     ],
+        //                                 //   ),
+        //                                 // )
+        //                               ],
+        //                             ),
+        //                           ),
+        //                         ),
+        //                   ],
+        //                  )
+        //               ),
+                      //Flexible(child: Container()),
+                      SizedBox(height:MediaQuery.of(context).size.height*0.20/3),
                       InkWell(
                         onTap: ()=> _incrementCounter(walletStore.subaddress.address,amountController.text),
                         child: Container(
@@ -889,6 +1199,224 @@ class ReceiveBodyState extends State<ReceiveBody> {
               ],
             ))));
   }
+
+
+Widget displayContainer(BuildContext context){
+  getSubAddress(context);
+ return Container(
+                                              height:
+                                                  MediaQuery.of(context).size.height *
+                                                      0.19 /
+                                                      3,
+                                              decoration: BoxDecoration(
+                                                  color:  Color(0xff292937),
+                                                      
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(10))),
+                                              child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                      left: 4.0,
+                                                      right: 6.0,
+                                                      top: 3.0,
+                                                      bottom: 5.0),
+                                                  child: Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment.center,
+                                                    children: [
+                                                      Container(
+                                                          margin: EdgeInsets.all(8),
+                                                          width: 20,
+                                                          //height:mHeight*0.15/3,width: mHeight*0.20/3,
+                                                          // margin:EdgeInsets.only(right:mHeight*0.03/3,),
+                                                          child: Icon(
+                                                                  Icons.more_horiz,
+                                                                  color: Colors.transparent
+                                                                )),
+                                                      Expanded(
+                                                          child: Center(
+                                                        child: Text('$currentSubAddress',
+                                                            overflow:
+                                                                TextOverflow.ellipsis,
+                                                            maxLines: 1,
+                                                            style: TextStyle(
+                                                              fontSize: 16.0,
+                                                              fontWeight: FontWeight.w700,
+                                                                color: Color(
+                                                                    0xff00DC00))),
+                                                      )),
+                                                      Container(
+                                                          child: Icon(
+                                                        Icons.arrow_drop_down,
+                                                        color: Colors.grey,
+                                                      ))
+                                                    ],
+                                                  )));
+}
+
+
+
+void getSubAddress(BuildContext context)async{
+     final subaddressListStore = Provider.of<SubaddressListStore>(context);
+     final walletStore = Provider.of<WalletStore>(context);
+    
+     final  prefs = await SharedPreferences.getInstance();
+    dynamic subaddress;
+    bool isCurrent;
+    //dynamic label;
+    dynamic label;
+     setState(() {
+            for(int i=0;i<subaddressListStore.subaddresses.length;i++){
+         subaddress = subaddressListStore.subaddresses[i];
+         isCurrent = walletStore.subaddress.address ==
+                                              subaddress.address;
+         label = subaddress.label ?? subaddress.address;
+         if(isCurrent){
+          prefs.setString('currentSubAddress',label.toString());
+         }
+      } 
+        currentSubAddress = prefs.getString('currentSubAddress');
+
+          });
+     
+         
+        
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+////
+Widget _buildExitnodeListView(double mHeight) {
+  final subaddressListStore = Provider.of<SubaddressListStore>(context);
+  final walletStore = Provider.of<WalletStore>(context);
+    return Material(
+      color: Colors.transparent,
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          overlayEntry.remove();
+        },
+        child: Container(
+          height: 200.0,
+          margin: EdgeInsets.only(
+              top: mHeight * 2.080 / 3, //2.010
+              bottom: MediaQuery.of(context).size.height * 0.38 / 3,
+              left: mHeight * 0.15 / 3,
+              right: mHeight * 0.16 / 3),
+          child:
+
+              /// Padding(
+              // padding: EdgeInsets.only(
+              //     left: MediaQuery.of(context).size.height *
+              //         0.08 /
+              //         3,
+              //     right: MediaQuery.of(context).size.height *
+              //         0.10 /
+              //         3,
+              //     top: MediaQuery.of(context).size.height *
+              //         0.03 /
+              //         3),
+              // child:
+              Container(
+            height: MediaQuery.of(context).size.height * 0.70 / 3,
+            width: MediaQuery.of(context).size.width * 2.7 / 3,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.0),
+              color: Color(0xff292937),
+            ),
+            child: Observer(builder: (_){
+
+                 return ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: subaddressListStore.subaddresses.length,
+                itemBuilder: (BuildContext context, int i) {
+                  // print("data inside listview ${exitData[index]}");
+                  return Observer(builder: (context){
+                     final subaddress =
+                                          subaddressListStore.subaddresses[i];
+                                          final isCurrent = walletStore.subaddress.address ==
+                                              subaddress.address;
+                                          final label = subaddress.label.isNotEmpty
+                                              ? subaddress.label
+                                              : subaddress.address;
+                        return InkWell(
+                           onTap: ()async{
+                            SharedPreferences prefs =await SharedPreferences.getInstance();
+                            walletStore.setSubaddress(subaddress);
+                            await prefs.setString('currentSubAddress',label.toString());
+                             setState(() {
+                                                            
+                                 currentSubAddress = prefs.getString('currentSubAddress');                        
+                                                          });
+
+                           } ,
+                          child: Container(
+                                              margin: EdgeInsets.only(left: 10),
+                                              padding: EdgeInsets.all(15),
+                                              child: Text(
+                                                label,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w700,
+                                                  color:Color(0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+                                                ),
+                                              ),
+                                            ),
+                        );
+                  });
+                  
+                }
+                // _buildList(exitData[index]),
+                );
+            },)
+            
+             
+          ),
+          // ),
+        ),
+      ),
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 class NewBeldexTextField extends StatelessWidget {
   NewBeldexTextField(
@@ -956,3 +1484,16 @@ class NewBeldexTextField extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+///

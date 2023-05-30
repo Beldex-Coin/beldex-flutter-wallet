@@ -52,50 +52,51 @@ class SendPage extends BasePage {
   @override
   Widget trailing(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    return Container(
-      width: 60,
-      height: 60,
-      alignment: Alignment.centerLeft,
-      // decoration: BoxDecoration(
-      //   color: Theme.of(context).accentTextTheme.headline6.color,
-      //   borderRadius: BorderRadius.only(
-      //       topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
-      //   boxShadow: [
-      //     BoxShadow(
-      //       color: Theme.of(context).accentTextTheme.headline6.color,
-      //       blurRadius: 2.0,
-      //       spreadRadius: 1.0,
-      //       offset: Offset(2.0, 2.0), // shadow direction: bottom right
-      //     )
-      //   ],
-      // ),
-      child: SizedBox(
-        height: 55, //55
-        width: 55, //37
-        child: ButtonTheme(
-          minWidth: double.minPositive,
-          child: TextButton(
-              /* highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              padding: EdgeInsets.all(0),*/
-              style: ButtonStyle(
-                overlayColor: MaterialStateColor.resolveWith(
-                    (states) => Colors.transparent),
-              ),
-              onPressed: () => Navigator.of(context).pushNamed(Routes.profile),
-              child: SvgPicture.asset(
-                'assets/images/new-images/setting.svg',
-                fit: BoxFit.cover,
-                color:settingsStore.isDarkTheme ? Color(0xffFFFFFF) : Color(0xff16161D),
-                width: 25,
-                height: 25,
-              ) /*Icon(Icons.account_circle_rounded,
-                  color: Theme.of(context).primaryTextTheme.caption.color,
-                  size: 30)*/
-              ),
-        ),
-      ),
-    );
+    return Container();
+    // Container(
+    //   width: 60,
+    //   height: 60,
+    //   alignment: Alignment.centerLeft,
+    //   // decoration: BoxDecoration(
+    //   //   color: Theme.of(context).accentTextTheme.headline6.color,
+    //   //   borderRadius: BorderRadius.only(
+    //   //       topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
+    //   //   boxShadow: [
+    //   //     BoxShadow(
+    //   //       color: Theme.of(context).accentTextTheme.headline6.color,
+    //   //       blurRadius: 2.0,
+    //   //       spreadRadius: 1.0,
+    //   //       offset: Offset(2.0, 2.0), // shadow direction: bottom right
+    //   //     )
+    //   //   ],
+    //   // ),
+    //   child: SizedBox(
+    //     height: 55, //55
+    //     width: 55, //37
+    //     child: ButtonTheme(
+    //       minWidth: double.minPositive,
+    //       child: TextButton(
+    //           /* highlightColor: Colors.transparent,
+    //           splashColor: Colors.transparent,
+    //           padding: EdgeInsets.all(0),*/
+    //           style: ButtonStyle(
+    //             overlayColor: MaterialStateColor.resolveWith(
+    //                 (states) => Colors.transparent),
+    //           ),
+    //           onPressed: () => Navigator.of(context).pushNamed(Routes.profile),
+    //           child: SvgPicture.asset(
+    //             'assets/images/new-images/setting.svg',
+    //             fit: BoxFit.cover,
+    //             color:settingsStore.isDarkTheme ? Color(0xffFFFFFF) : Color(0xff16161D),
+    //             width: 25,
+    //             height: 25,
+    //           ) /*Icon(Icons.account_circle_rounded,
+    //               color: Theme.of(context).primaryTextTheme.caption.color,
+    //               size: 30)*/
+    //           ),
+    //     ),
+    //   ),
+    // );
   }
 
   @override
@@ -187,7 +188,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     _setEffects(context);
 
     return ScrollableWithBottomSection(
-      bottomSectionPadding: EdgeInsets.only(bottom: 230),
+      //bottomSectionPadding: EdgeInsets.only(bottom: 230),
       content: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
@@ -477,8 +478,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           _cryptoAmountController.text = amount;
                         },
                         options: [
+                          AddressTextFieldOption.saveAddress,
                           AddressTextFieldOption.qrCode,
-                          AddressTextFieldOption.saveAddress
+                        
                           //AddressTextFieldOption.addressBook
                         ],
                         validator: (value) {
@@ -673,10 +675,14 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                               : Color(0xffFFFFFF)),
                                       child: Row(
                                         children: [
-                                          Text(
+                                           Observer(builder: (_){
+                                              return 
+                                              Text(
                                             '${settingsStore.fiatCurrency.toString()}',
                                             textAlign: TextAlign.center,
-                                          ),
+                                          );
+                                          }),
+                                          
                                           Container(
                                               width: 120,
                                               padding: EdgeInsets.only(
@@ -1085,86 +1091,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           );
                         },
                       ),*/
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Observer(builder: (_) {
-                        return InkWell(
-                          onTap:
-                          // ()async{
-                          //   await showDialog<void>(context: context, builder: (BuildContext context){
-                          //       return ConfirmSending();
-                          //   });
-                          // },
-            
-                          
-                          
-                          
-                           syncStore.status is SyncedSyncStatus
-                              ? () async {
-                                  final currentFocus = FocusScope.of(context);
-
-                                  if (!currentFocus.hasPrimaryFocus) {
-                                    currentFocus.unfocus();
-                                  }
-                                  await Future.delayed(
-                                      const Duration(milliseconds: 100), () {});
-                                  if (_formKey.currentState.validate()) {
-                                    if (!addressValidation &&
-                                        !amountValidation) {
-                                      var isSuccessful = false;
-
-                                      await Navigator.of(context)
-                                          .pushNamed(Routes.auth, arguments:
-                                              (bool isAuthenticatedSuccessfully,
-                                                  AuthPageState auth) async {
-                                        if (!isAuthenticatedSuccessfully) {
-                                          isSuccessful = false;
-                                          return;
-                                        }
-
-                                        await sendStore.createTransaction(
-                                            address: _addressController.text);
-
-                                        Navigator.of(auth.context).pop();
-                                        isSuccessful = true;
-                                      });
-                                      return isSuccessful;
-                                    }
-                                  } else {
-                                    return false;
-                                  }
-                                }
-                              : null,
-                          child: Container(
-                            margin: EdgeInsets.only(left:15,right:15,top: 40),
-                            padding: EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                                color: Color(0xff0BA70F),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height:20,width:20,
-                                  child: SvgPicture.asset(
-                                      'assets/images/new-images/send.svg',),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Text(
-                                    'Send',
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        color: Color(0xffffffff),
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      })
+                     
+                      
                     ]),
                   ),
                 ),
@@ -1365,6 +1293,85 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
         ),
       ),
 
+bottomSection: Observer(builder: (_){
+  return Observer(builder: (_) {
+                        return InkWell(
+                          onTap:
+                          // ()async{
+                          //   await showDialog<void>(context: context, builder: (BuildContext context){
+                          //       return ConfirmSending();
+                          //   });
+                          // },
+            
+                          
+                          
+                          
+                           syncStore.status is SyncedSyncStatus
+                              ? () async {
+                                  final currentFocus = FocusScope.of(context);
+
+                                  if (!currentFocus.hasPrimaryFocus) {
+                                    currentFocus.unfocus();
+                                  }
+                                  await Future.delayed(
+                                      const Duration(milliseconds: 100), () {});
+                                  if (_formKey.currentState.validate()) {
+                                    if (!addressValidation &&
+                                        !amountValidation) {
+                                      var isSuccessful = false;
+
+                                      await Navigator.of(context)
+                                          .pushNamed(Routes.auth, arguments:
+                                              (bool isAuthenticatedSuccessfully,
+                                                  AuthPageState auth) async {
+                                        if (!isAuthenticatedSuccessfully) {
+                                          isSuccessful = false;
+                                          return;
+                                        }
+
+                                        await sendStore.createTransaction(
+                                            address: _addressController.text);
+
+                                        Navigator.of(auth.context).pop();
+                                        isSuccessful = true;
+                                      });
+                                      return isSuccessful;
+                                    }
+                                  } else {
+                                    return false;
+                                  }
+                                }
+                              : null,
+                          child: Container(
+                            margin: EdgeInsets.only(left:15,right:15,top: 40),
+                            padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                                color: Color(0xff0BA70F),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height:20,width:20,
+                                  child: SvgPicture.asset(
+                                      'assets/images/new-images/send.svg',),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                    'Send',
+                                    style: TextStyle(
+                                        fontSize: 17,
+                                        color: Color(0xffffffff),
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      });
+},),
       // bottomSection: Observer(builder: (_) {
       //   return NewSlideToAct(
       //     text: S.of(context).send_title,

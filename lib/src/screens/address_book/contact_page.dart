@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -160,7 +161,7 @@ class ContactFormState extends State<ContactForm> {
   @override
   Widget build(BuildContext context) {
     final addressBookStore = Provider.of<AddressBookStore>(context);
-
+    final settingsStore = Provider.of<SettingsStore>(context);
     return ScrollableWithBottomSection(
         content: Form(
           key: _formKey,
@@ -170,7 +171,7 @@ class ContactFormState extends State<ContactForm> {
               SizedBox(height: 14.0),
               BeldexTextField(
                 enabled: !coinVisibility,
-                hintText: S.of(context).contact_name,
+                hintText: 'Enter name',
                 controller: _contactNameController,
                 validator: (value) {
                   addressBookStore.validateContactName(value);
@@ -300,225 +301,369 @@ class ContactFormState extends State<ContactForm> {
             ],
           ),
         ),
-        bottomSection: Row(
-          children: <Widget>[
-            Expanded(
-              child: TextButton(
-                style: ElevatedButton.styleFrom(
-                    side: BorderSide(
-                      color: Theme.of(context)
-                          .accentTextTheme
-                          .caption
-                          .decorationColor,
-                    ),
-                    alignment: Alignment.center,
-                    primary: Theme.of(context)
-                        .accentTextTheme
-                        .caption
-                        .backgroundColor,
-                    onPrimary: Colors.white,
-                    padding: EdgeInsets.all(13),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-                onPressed:  coinVisibility ? null:() {
-                  if (!coinVisibility) {
-                    setState(() {
-                      _selectedCrypto = CryptoCurrency.xmr;
-                      _contactNameController.text = '';
-                      _currencyTypeController.text =
-                          _selectedCrypto.toString();
-                      _addressController.text = '';
-                    });
-                  }
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Text(
-                    S.of(context).reset,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16,color: Theme.of(context).primaryTextTheme.caption.color),
-                  ),
-                ),
-              ) /*PrimaryButton(
-                  onPressed: () {
-                    setState(() {
-                      _selectedCrypto = CryptoCurrency.xmr;
-                      _contactNameController.text = '';
-                      _currencyTypeController.text = _selectedCrypto.toString();
-                      _addressController.text = '';
-                    });
-                  },
-                  text: S.of(context).reset,
-                  color:
-                      Theme.of(context).accentTextTheme.button.backgroundColor,
-                  borderColor:
-                      Theme.of(context).accentTextTheme.button.decorationColor)*/
-              ,
-            ),
-            SizedBox(width: 20),
-            Expanded(
-                child: ElevatedButton(
-              onPressed: coinVisibility ? null:() async {
-                  if (!_formKey.currentState.validate()) return;
-
-                  try {
-                    if (widget.contact == null) {
-                      final newContact = Contact(
-                          name: _contactNameController.text,
-                          address: _addressController.text,
-                          type: _selectedCrypto);
-
-                      await addressBookStore.add(contact: newContact);
-                    } else {
-                      widget.contact.name = _contactNameController.text;
-                      widget.contact.address = _addressController.text;
-                      widget.contact
-                          .updateCryptoCurrency(currency: _selectedCrypto);
-
-                      await addressBookStore.update(contact: widget.contact);
+        bottomSection: Container(
+          height: MediaQuery.of(context).size.height*0.35/3,
+          //color: Colors.yellow,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+       
+           GestureDetector(
+            onTap:   coinVisibility ? null:() {
+                    if (!coinVisibility) {
+                      setState(() {
+                        _selectedCrypto = CryptoCurrency.xmr;
+                        _contactNameController.text = '';
+                        _currencyTypeController.text =
+                            _selectedCrypto.toString();
+                        _addressController.text = '';
+                      });
                     }
-                    Navigator.pop(context);
-                  } catch (e) {
-                    await showDialog<void>(
-                        context: context,
-                        barrierDismissible: false,
-                        builder: (BuildContext context) {
-                          return Dialog(
-                            elevation: 0,
-                            backgroundColor: Theme.of(context).cardTheme.color,//Colors.black,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0)), //this right here
-                            child: Container(
-                              height: 170,
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      e.toString(),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 15),
-                                    ),
-                                    SizedBox(
-                                      height: 50,
-                                    ),
-                                    Center(
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          SizedBox(
-                                            width: 45,
-                                          ),
-                                          SizedBox(
-                                            width: 45,
-                                            child: TextButton(
-                                              style: TextButton.styleFrom(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(10)),
-                                                backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
-                                              ),
-                                              onPressed: () {
-                                                Navigator.of(context).pop(true);
-                                              },
-                                              child: Text(
-                                                S.of(context).ok,
-                                                style: TextStyle(color: Theme.of(context).primaryTextTheme.caption.color,),
+                  },
+             child: Container(
+                width: MediaQuery.of(context).size.height*0.60/3,
+                margin: EdgeInsets.only(top:15,bottom:15),
+                padding: EdgeInsets.only(left:10,right:10,top:15,bottom:15),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color:settingsStore.isDarkTheme ? Color(0xff383848) :Color(0xffE8E8E8)),
+                  child:Text('Reset',textAlign:TextAlign.center, style: TextStyle(fontSize:17,fontWeight: FontWeight.w800,color: settingsStore.isDarkTheme ? Color(0xff93939B) :Color(0xff16161D)),)
+              ),
+           ),
+             GestureDetector(
+              onTap: coinVisibility ? null:() async {
+                    if (!_formKey.currentState.validate()) return;
+
+                    try {
+                      if (widget.contact == null) {
+                        final newContact = Contact(
+                            name: _contactNameController.text,
+                            address: _addressController.text,
+                            type: _selectedCrypto);
+
+                        await addressBookStore.add(contact: newContact);
+                      } else {
+                        widget.contact.name = _contactNameController.text;
+                        widget.contact.address = _addressController.text;
+                        widget.contact
+                            .updateCryptoCurrency(currency: _selectedCrypto);
+
+                        await addressBookStore.update(contact: widget.contact);
+                      }
+                      Navigator.pop(context);
+                    } catch (e) {
+                      await showDialog<void>(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              elevation: 0,
+                              backgroundColor: Theme.of(context).cardTheme.color,//Colors.black,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)), //this right here
+                              child: Container(
+                                height: 170,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        e.toString(),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 15),
+                                      ),
+                                      SizedBox(
+                                        height: 50,
+                                      ),
+                                      Center(
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SizedBox(
+                                              width: 45,
+                                            ),
+                                            SizedBox(
+                                              width: 45,
+                                              child: TextButton(
+                                                style: TextButton.styleFrom(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(10)),
+                                                  backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop(true);
+                                                },
+                                                child: Text(
+                                                  S.of(context).ok,
+                                                  style: TextStyle(color: Theme.of(context).primaryTextTheme.caption.color,),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          );
-                        });
-                  /*  await showDialog<void>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text(
-                              e.toString(),
-                              textAlign: TextAlign.center,
-                            ),
-                            actions: <Widget>[
-                              FlatButton(
-                                  onPressed: () => Navigator.of(context).pop(),
-                                  child: Text(S.of(context).ok))
-                            ],
-                          );
-                        });*/
-                  }
-              },
-              style: ElevatedButton.styleFrom(
-                  alignment: Alignment.center,
-                  primary: Color.fromARGB(255, 46, 160, 33),
-                  padding: EdgeInsets.all(13),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10))),
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Text(
-                  S.of(context).save,
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ) /*PrimaryButton(
-                    onPressed: () async {
-                      if (!_formKey.currentState.validate()) return;
+                            );
+                          });
+                    /*  await showDialog<void>(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(
+                                e.toString(),
+                                textAlign: TextAlign.center,
+                              ),
+                              actions: <Widget>[
+                                FlatButton(
+                                    onPressed: () => Navigator.of(context).pop(),
+                                    child: Text(S.of(context).ok))
+                              ],
+                            );
+                          });*/
+                    }
+                },
+               child: Container(
+                width: MediaQuery.of(context).size.height*0.60/3,
+                margin: EdgeInsets.only(top:15,bottom:15),
+                padding: EdgeInsets.only(left:10,right:10,top:15,bottom:15),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color:Colors.green),
+                  child:Text('Add',textAlign:TextAlign.center, style: TextStyle(fontSize:17,fontWeight: FontWeight.w800,color: Color(0xffffffff)),)
+            ),
+             )
 
-                      try {
-                        if (widget.contact == null) {
-                          final newContact = Contact(
-                              name: _contactNameController.text,
-                              address: _addressController.text,
-                              type: _selectedCrypto);
 
-                          await addressBookStore.add(contact: newContact);
-                        } else {
-                          widget.contact.name = _contactNameController.text;
-                          widget.contact.address = _addressController.text;
-                          widget.contact
-                              .updateCryptoCurrency(currency: _selectedCrypto);
 
-                          await addressBookStore.update(
-                              contact: widget.contact);
-                        }
-                        Navigator.pop(context);
-                      } catch (e) {
-                        await showDialog<void>(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: Text(
-                                  e.toString(),
-                                  textAlign: TextAlign.center,
-                                ),
-                                actions: <Widget>[
-                                  FlatButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      child: Text(S.of(context).ok))
-                                ],
-                              );
-                            });
-                      }
-                    },
-                    text: S.of(context).save,
-                    color: Theme.of(context)
-                        .primaryTextTheme
-                        .button
-                        .backgroundColor,
-                    borderColor: Theme.of(context)
-                        .primaryTextTheme
-                        .button
-                        .decorationColor)*/
-                )
-          ],
+
+
+
+
+
+
+              // Expanded(
+              //   child: TextButton(
+              //     style: ElevatedButton.styleFrom(
+              //         side: BorderSide(
+              //           color: Theme.of(context)
+              //               .accentTextTheme
+              //               .caption
+              //               .decorationColor,
+              //         ),
+              //         alignment: Alignment.center,
+              //         primary: Theme.of(context)
+              //             .accentTextTheme
+              //             .caption
+              //             .backgroundColor,
+              //         onPrimary: Colors.white,
+              //         padding: EdgeInsets.all(13),
+              //         shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(10))),
+              //     onPressed:  coinVisibility ? null:() {
+              //       if (!coinVisibility) {
+              //         setState(() {
+              //           _selectedCrypto = CryptoCurrency.xmr;
+              //           _contactNameController.text = '';
+              //           _currencyTypeController.text =
+              //               _selectedCrypto.toString();
+              //           _addressController.text = '';
+              //         });
+              //       }
+              //     },
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(5.0),
+              //       child: Text(
+              //         S.of(context).reset,
+              //         textAlign: TextAlign.center,
+              //         style: TextStyle(fontSize: 16,color: Theme.of(context).primaryTextTheme.caption.color),
+              //       ),
+              //     ),
+              //   ) /*PrimaryButton(
+              //       onPressed: () {
+              //         setState(() {
+              //           _selectedCrypto = CryptoCurrency.xmr;
+              //           _contactNameController.text = '';
+              //           _currencyTypeController.text = _selectedCrypto.toString();
+              //           _addressController.text = '';
+              //         });
+              //       },
+              //       text: S.of(context).reset,
+              //       color:
+              //           Theme.of(context).accentTextTheme.button.backgroundColor,
+              //       borderColor:
+              //           Theme.of(context).accentTextTheme.button.decorationColor)*/
+              //   ,
+              // ),
+              // SizedBox(width: 20),
+              // Expanded(
+              //     child: ElevatedButton(
+              //   onPressed: coinVisibility ? null:() async {
+              //       if (!_formKey.currentState.validate()) return;
+
+              //       try {
+              //         if (widget.contact == null) {
+              //           final newContact = Contact(
+              //               name: _contactNameController.text,
+              //               address: _addressController.text,
+              //               type: _selectedCrypto);
+
+              //           await addressBookStore.add(contact: newContact);
+              //         } else {
+              //           widget.contact.name = _contactNameController.text;
+              //           widget.contact.address = _addressController.text;
+              //           widget.contact
+              //               .updateCryptoCurrency(currency: _selectedCrypto);
+
+              //           await addressBookStore.update(contact: widget.contact);
+              //         }
+              //         Navigator.pop(context);
+              //       } catch (e) {
+              //         await showDialog<void>(
+              //             context: context,
+              //             barrierDismissible: false,
+              //             builder: (BuildContext context) {
+              //               return Dialog(
+              //                 elevation: 0,
+              //                 backgroundColor: Theme.of(context).cardTheme.color,//Colors.black,
+              //                 shape: RoundedRectangleBorder(
+              //                     borderRadius: BorderRadius.circular(20.0)), //this right here
+              //                 child: Container(
+              //                   height: 170,
+              //                   child: Padding(
+              //                     padding: const EdgeInsets.all(12.0),
+              //                     child: Column(
+              //                       mainAxisAlignment: MainAxisAlignment.center,
+              //                       crossAxisAlignment: CrossAxisAlignment.center,
+              //                       children: [
+              //                         Text(
+              //                           e.toString(),
+              //                           textAlign: TextAlign.center,
+              //                           style: TextStyle(fontSize: 15),
+              //                         ),
+              //                         SizedBox(
+              //                           height: 50,
+              //                         ),
+              //                         Center(
+              //                           child: Row(
+              //                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                             children: [
+              //                               SizedBox(
+              //                                 width: 45,
+              //                               ),
+              //                               SizedBox(
+              //                                 width: 45,
+              //                                 child: TextButton(
+              //                                   style: TextButton.styleFrom(
+              //                                     shape: RoundedRectangleBorder(
+              //                                         borderRadius: BorderRadius.circular(10)),
+              //                                     backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+              //                                   ),
+              //                                   onPressed: () {
+              //                                     Navigator.of(context).pop(true);
+              //                                   },
+              //                                   child: Text(
+              //                                     S.of(context).ok,
+              //                                     style: TextStyle(color: Theme.of(context).primaryTextTheme.caption.color,),
+              //                                   ),
+              //                                 ),
+              //                               ),
+              //                             ],
+              //                           ),
+              //                         )
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ),
+              //               );
+              //             });
+              //       /*  await showDialog<void>(
+              //             context: context,
+              //             builder: (BuildContext context) {
+              //               return AlertDialog(
+              //                 title: Text(
+              //                   e.toString(),
+              //                   textAlign: TextAlign.center,
+              //                 ),
+              //                 actions: <Widget>[
+              //                   FlatButton(
+              //                       onPressed: () => Navigator.of(context).pop(),
+              //                       child: Text(S.of(context).ok))
+              //                 ],
+              //               );
+              //             });*/
+              //       }
+              //   },
+              //   style: ElevatedButton.styleFrom(
+              //       alignment: Alignment.center,
+              //       primary: Color.fromARGB(255, 46, 160, 33),
+              //       padding: EdgeInsets.all(13),
+              //       shape: RoundedRectangleBorder(
+              //           borderRadius: BorderRadius.circular(10))),
+              //   child: Padding(
+              //     padding: const EdgeInsets.all(5.0),
+              //     child: Text(
+              //       S.of(context).save,
+              //       style: TextStyle(fontSize: 16),
+              //     ),
+              //   ),
+              // ) /*PrimaryButton(
+              //         onPressed: () async {
+              //           if (!_formKey.currentState.validate()) return;
+
+              //           try {
+              //             if (widget.contact == null) {
+              //               final newContact = Contact(
+              //                   name: _contactNameController.text,
+              //                   address: _addressController.text,
+              //                   type: _selectedCrypto);
+
+              //               await addressBookStore.add(contact: newContact);
+              //             } else {
+              //               widget.contact.name = _contactNameController.text;
+              //               widget.contact.address = _addressController.text;
+              //               widget.contact
+              //                   .updateCryptoCurrency(currency: _selectedCrypto);
+
+              //               await addressBookStore.update(
+              //                   contact: widget.contact);
+              //             }
+              //             Navigator.pop(context);
+              //           } catch (e) {
+              //             await showDialog<void>(
+              //                 context: context,
+              //                 builder: (BuildContext context) {
+              //                   return AlertDialog(
+              //                     title: Text(
+              //                       e.toString(),
+              //                       textAlign: TextAlign.center,
+              //                     ),
+              //                     actions: <Widget>[
+              //                       FlatButton(
+              //                           onPressed: () =>
+              //                               Navigator.of(context).pop(),
+              //                           child: Text(S.of(context).ok))
+              //                     ],
+              //                   );
+              //                 });
+              //           }
+              //         },
+              //         text: S.of(context).save,
+              //         color: Theme.of(context)
+              //             .primaryTextTheme
+              //             .button
+              //             .backgroundColor,
+              //         borderColor: Theme.of(context)
+              //             .primaryTextTheme
+              //             .button
+              //             .decorationColor)*/
+              //     )
+            ],
+          ),
         ));
   }
 }

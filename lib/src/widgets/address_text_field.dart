@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/palette.dart';
@@ -52,15 +53,33 @@ class AddressTextField extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(width: 5),
+                if( options.contains(AddressTextFieldOption.saveAddress))...[
+                  Container(  
+                    width: prefixIconWidth,
+                    height: prefixIconHeight,
+                    padding: EdgeInsets.only(right:8),
+                    child: InkWell(
+                      onTap: () async => _saveAddress(context),
+                      child:Container( 
+                        decoration: BoxDecoration(
+                                color: Palette.wildDarkBlueWithOpacity,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
+                            child: Icon(Icons.paste,size: 20,color: Theme.of(context).primaryTextTheme.caption.color),
+                      )
+                    ),
+                  )
+                ],
                 if (options.contains(AddressTextFieldOption.qrCode)) ...[
                   Container(
                       width: prefixIconWidth,
                       height: prefixIconHeight,
                       child: InkWell(
                         onTap: () async => _presentQRScanner(context),
-                        child: SvgPicture.asset('assets/images/qr_code_svg.svg',width: 25,height: 25,color: Theme.of(context).primaryTextTheme.caption.color,),//Icon(Icons.qr_code_outlined),
+                        child: SvgPicture.asset('assets/images/qr_code_svg.svg',width: 20,height: 20,color: Theme.of(context).primaryTextTheme.caption.color,),//Icon(Icons.qr_code_outlined),
                       ))
                 ],
+                SizedBox(width:10),
                 if (options.contains(AddressTextFieldOption.addressBook)) ...[
                   Container(
                       width: prefixIconWidth,
@@ -85,26 +104,11 @@ class AddressTextField extends StatelessWidget {
                             child: Icon(Icons.arrow_downward_rounded)),
                       ))
                 ],
-                if( options.contains(AddressTextFieldOption.saveAddress))...[
-                  Container(  
-                    width: prefixIconWidth,
-                    height: prefixIconHeight,
-                    child: InkWell(
-                      onTap: () async => _saveAddress(context),
-                      child:Container( 
-                        decoration: BoxDecoration(
-                                color: Palette.wildDarkBlueWithOpacity,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8))),
-                            child: Icon(Icons.save),
-                      )
-                    ),
-                  )
-                ]
+                
               ],
             ),
           )),
-      hintText: placeholder ?? S.current.widgets_address,
+      hintText: placeholder ?? 'Enter ${S.current.widgets_address}',
       validator: validator,
     );
   }
@@ -154,12 +158,25 @@ class AddressTextField extends StatelessWidget {
 
 
  Future<void> _saveAddress(BuildContext context) async {
-    final subaddress = await Navigator.of(context, rootNavigator: true)
-        .pushNamed(Routes.addressBookAddContact);
+  try{
 
-    if (subaddress is Subaddress && subaddress.address != null) {
-      controller.text = subaddress.address;
-    }
+// FlutterClipboard.paste().then((value) {
+//              setState(() {
+//                   message.text = value;
+//               });
+//   });
+final data = await Clipboard.getData('text/plain');
+  
+    controller.text = data.text.toString(); // this will paste "copied text" to textFieldController
+  }catch(e){
+    print(e);
+  }
+    // final subaddress = await Navigator.of(context, rootNavigator: true)
+    //     .pushNamed(Routes.addressBookAddContact);
+
+    // if (subaddress is Subaddress && subaddress.address != null) {
+    //   controller.text = subaddress.address;
+    //}
   }
 
 

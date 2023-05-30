@@ -67,7 +67,8 @@ class AccountFormState extends State<AccountForm> {
   Widget build(BuildContext context) {
     final accountListStore = Provider.of<AccountListStore>(context);
 
-    return ScrollableWithBottomSection(
+    return 
+    ScrollableWithBottomSection(
       contentPadding: EdgeInsets.only(top:40,left:constants.leftPx,right: constants.rightPx,bottom: 20),
       content: Form(
           key: _formKey,
@@ -114,5 +115,38 @@ class AccountFormState extends State<AccountForm> {
                 ),
           )),
     );
+  }
+}
+
+
+class DialogForAccount extends StatefulWidget {
+  const DialogForAccount({ Key key }) : super(key: key);
+
+  @override
+  _DialogForAccountState createState() => _DialogForAccountState();
+}
+
+class _DialogForAccountState extends State<DialogForAccount> {
+  
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+    // AlertDialog(
+    //    title: Text('Welcome'),           // To display the title it is optional
+    //           content: Text('GeeksforGeeks'),   // Message which will be pop up on the screen
+    //                                               // Action widget which will provide the user to acknowledge the choice
+    //             actions: [
+    //             FlatButton(                     // FlatButton widget is used to make a text to work like a button
+    //               textColor: Colors.black,
+    //               onPressed: () {},             // function used to perform after pressing the button
+    //               child: Text('CANCEL'),
+    //             ),
+    //             FlatButton(
+    //               textColor: Colors.black,
+    //               onPressed: () {},
+    //               child: Text('ACCEPT'),
+    //             ),
+    //           ],
+    // );
   }
 }

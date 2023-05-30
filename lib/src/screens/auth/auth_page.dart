@@ -127,6 +127,7 @@ class AuthPageState extends State<AuthPage> {
 
     return Scaffold(
         key: _key,
+        
         // appBar: CupertinoNavigationBar(
         //   trailing: widget.closable ? SizedBox(width: 0,):SizedBox(width: 0,),
         //   middle:widget.closable ? Container() :Container(margin:EdgeInsets.only(top: 5),

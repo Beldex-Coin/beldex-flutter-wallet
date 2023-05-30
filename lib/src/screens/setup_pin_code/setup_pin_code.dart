@@ -10,12 +10,12 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 
 class SetupPinCodePage extends BasePage {
-  SetupPinCodePage({this.onPinCodeSetup});
+  SetupPinCodePage({this.onPinCodeSetup,this.appBarTitle});
 
   final Function(BuildContext, String) onPinCodeSetup;
-
+  final String appBarTitle;
   @override
-  String get title => S.current.setup_pin;
+  String get title =>appBarTitle == 'Setup pin'? S.current.setup_pin : 'Enter pin';
 
   // @override
   // Widget leading(BuildContext context) {

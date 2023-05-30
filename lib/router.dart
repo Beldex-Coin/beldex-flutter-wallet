@@ -139,7 +139,10 @@ class Router {
                         sharedPreferences: sharedPreferences)),
                 child: SetupPinCodePage(
                     onPinCodeSetup: (context, pin) =>
-                        callback == null ? null : callback(context, pin))));
+                        callback == null ? null : callback(context, pin),
+                        appBarTitle: 'Setup pin',
+                        
+                        )));
 
       case Routes.restoreOptions:
         return MaterialPageRoute<void>(builder: (_) => RestoreOptionsPage());
@@ -348,7 +351,8 @@ class Router {
         return MaterialPageRoute<String>(builder: (context) {
           return Provider(
               create: (_) => AccountListStore(walletService: walletService),
-              child: AccountPage(account: settings.arguments as Account));
+              child:AccountPage(account: settings.arguments as Account)
+              );
         });
 
       case Routes.addressBook:

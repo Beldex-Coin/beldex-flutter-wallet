@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
 import 'package:provider/provider.dart';
@@ -82,7 +83,7 @@ class AccountListPage extends BasePage {
 
     final currentColor = Theme.of(context).selectedRowColor;
     final notCurrentColor = Theme.of(context).backgroundColor;
-
+    final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
       margin: EdgeInsets.only(top: 40, left: constants.leftPx, right: constants.rightPx),
       child: Observer(builder: (_) {
@@ -97,90 +98,89 @@ class AccountListPage extends BasePage {
               return Observer(builder: (_) {
                 final isCurrent = walletStore.account.id == account.id;
 
-                return Slidable(
-                  key: Key(account.id.toString()),
-                  actionPane: SlidableDrawerActionPane(),
-                  secondaryActions: <Widget>[
-                    IconSlideAction(
-                      caption: S.of(context).edit,
-                      color: Colors.blue,
-                      icon: Icons.edit,
-                      onTap: () async {
-                        await Navigator.of(context).pushNamed(
-                            Routes.accountCreation,
-                            arguments: account);
-                        // await accountListStore.updateAccountList().then((_) {
-                        //   if (isCurrent) walletStore.setAccount(accountListStore.accounts[index]);
-                        // });
-                      },
-                    )
-                  ],
-                  child: InkWell(
-                    onTap: () {
-                      onConfirmation(context,walletStore,account,isCurrent);
-                   /*   if (isCurrent) return;
+                return Container(
+                  margin: EdgeInsets.all(10),
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(  
+                    color: settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED),
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: Slidable(
+                    key: Key(account.id.toString()),
+                    actionPane: SlidableDrawerActionPane(),
+                    secondaryActions: <Widget>[
+                      IconSlideAction(
+                        caption: S.of(context).edit,
+                        color: Colors.blue,
+                        icon: Icons.edit,
+                        onTap: () async {
+                          await Navigator.of(context).pushNamed(
+                              Routes.accountCreation,
+                              arguments: account);
+                          // await accountListStore.updateAccountList().then((_) {
+                          //   if (isCurrent) walletStore.setAccount(accountListStore.accounts[index]);
+                          // });
+                        },
+                      )
+                    ],
+                    child: InkWell(
+                      onTap: () {
+                        onConfirmation(context,walletStore,account,isCurrent);
+                     /*   if (isCurrent) return;
 
-                      walletStore.setAccount(account);
-                      Navigator.of(context).pop();*/
-                    },
-                    child: Card(
-                      elevation: 5,
-                      color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.only(top:3.0,right: 20.0,left: 20.0,bottom: 3.0),
-                        child: ListTile(
+                        walletStore.setAccount(account);
+                        Navigator.of(context).pop();*/
+                      },
+                      child: Container(
+                                               //Color.fromARGB(255, 40, 42, 51),
+                       decoration: BoxDecoration(
+                         color:  settingsStore.isDarkTheme ? isCurrent ? Color(0xff383848) : Color(0xff1B1B23) : Color(0xffFFFFFF),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding:EdgeInsets.all(15),
+                          child:Text(
+                                account.label,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: isCurrent
+                                        ? Color(0xff1AB51E)
+                                        : settingsStore.isDarkTheme ? Color(0xff737382) : Color(0xff9292A7),
+                                    fontSize: 16.0,
+
+                                    fontWeight: FontWeight.w800),
+                              ),
+                        ),
+                      ),
+                    ) /*Container(
+                      color: isCurrent ? currentColor : notCurrentColor,
+                      child: Column(
+                        children: <Widget>[
+                          ListTile(
                             title: Text(
                               account.label,
                               style: TextStyle(
-                                  color: isCurrent
-                                      ? Theme.of(context).primaryTextTheme.caption.color
-                                      : Colors.grey.withOpacity(0.6),
                                   fontSize: 16.0,
-                                  fontWeight: FontWeight.w600),
+                                  color: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline5
+                                      .color),
                             ),
-                            trailing: isCurrent
-                                ? Icon(
-                                    Icons.check_circle,
-                                    color: Theme.of(context)
-                                        .primaryTextTheme
-                                        .button
-                                        .backgroundColor,
-                                    size: 23.0,
-                                  )
-                                : null),
-                      ),
-                    ),
-                  ) /*Container(
-                    color: isCurrent ? currentColor : notCurrentColor,
-                    child: Column(
-                      children: <Widget>[
-                        ListTile(
-                          title: Text(
-                            account.label,
-                            style: TextStyle(
-                                fontSize: 16.0,
-                                color: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline5
-                                    .color),
-                          ),
-                          onTap: () {
-                            if (isCurrent) return;
+                            onTap: () {
+                              if (isCurrent) return;
 
-                            walletStore.setAccount(account);
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                        Divider(
-                          color: Theme.of(context).dividerTheme.color,
-                          height: 1.0,
-                        )
-                      ],
-                    ),
-                  )*/
-                  ,
+                              walletStore.setAccount(account);
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          Divider(
+                            color: Theme.of(context).dividerTheme.color,
+                            height: 1.0,
+                          )
+                        ],
+                      ),
+                    )*/
+                    ,
+                  ),
                 );
               });
             });
@@ -193,13 +193,14 @@ class AccountListPage extends BasePage {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
+          final settingsStore = Provider.of<SettingsStore>(context);
           return Dialog(
             elevation: 0,
-            backgroundColor: Theme.of(context).cardTheme.color,//Colors.black,
+            backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),//Colors.black,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)), //this right here
             child: Container(
-              height: 170,
+              height: 180,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
@@ -209,12 +210,15 @@ class AccountListPage extends BasePage {
                     Text(
                       S.of(context).are_you_sure,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      'Do you want to change your primary account?',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15,color: Theme.of(context).primaryTextTheme.caption.color),
+                    Padding(
+                      padding: const EdgeInsets.only(top:8.0),
+                      child: Text(
+                        'Do you want to change your\n primary account?',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 18,color: Theme.of(context).primaryTextTheme.caption.color),
+                      ),
                     ),
                     SizedBox(
                       height: 20,
@@ -224,29 +228,29 @@ class AccountListPage extends BasePage {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           SizedBox(
-                            width: 45,
+                            width: 65,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                backgroundColor: settingsStore.isDarkTheme ? Color(0xff383848): Color(0xffE8E8E8),//Color.fromRGBO(38, 38, 38, 1.0),
                               ),
                               onPressed: () {
                                 Navigator.of(context).pop(false);
                               },
                               child: Text(
                                 S.of(context).no,
-                                style: TextStyle(color: Theme.of(context).primaryTextTheme.caption.color),
+                                style: TextStyle(fontSize: 18,fontWeight:FontWeight.w800,color: settingsStore.isDarkTheme ?Color(0xff93939B): Color(0xff222222), ),
                               ),
                             ),
                           ),
                           SizedBox(
-                            width: 45,
+                            width: 65,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                backgroundColor: Color(0xff0BA70F),//Color.fromRGBO(38, 38, 38, 1.0),
                               ),
                               onPressed: () {
                                 if (isCurrent) return;
@@ -256,7 +260,7 @@ class AccountListPage extends BasePage {
                               },
                               child: Text(
                                 S.of(context).yes,
-                                style: TextStyle(color: Theme.of(context).primaryTextTheme.caption.color),
+                                style: TextStyle(color: Color(0xffffffff),fontSize: 18,fontWeight:FontWeight.w800),
                               ),
                             ),
                           ),

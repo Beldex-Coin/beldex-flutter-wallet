@@ -125,11 +125,11 @@ class WalletListBodyState extends State<WalletListBody> {
               height:MediaQuery.of(context).size.height*0.60/3,
             ),
             Container(
-              margin: EdgeInsets.only(top: 40,),
-              padding: EdgeInsets.all(8),
+             // margin: EdgeInsets.only(top: 40,),
+              padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffDADADA)
+                color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED)
               ),
               child: Observer(
                 builder: (_) =>
@@ -151,23 +151,33 @@ class WalletListBodyState extends State<WalletListBody> {
                                   ? null
                                   : presetMenuForWallet(wallet, context),
                               child: Container(
-                                height: 80,
-                                padding: EdgeInsets.all(10),
+                                //height: 80,
+                               // padding: EdgeInsets.all(10),
                                 child: Card(
                                   elevation:0, //5,
-                                  color:settingsStore.isDarkTheme ? Color(0xff383848) :Colors.transparent,  //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                                 // color:settingsStore.isDarkTheme ? Color(0xff383848) :Colors.transparent,  //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10)),
                                   child: Center(
-                                    child:Text(
-                                        wallet.name,
-                                        style: TextStyle(
-                                            color: isCurrentWallet
-                                                ? Color(0xff1AB51E) //Theme.of(context).primaryTextTheme.caption.color
-                                                : Colors.grey.withOpacity(0.6),
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.w600),
+                                    child:Container(
+                                      width: double.infinity,
+                                      //margin: EdgeInsets.all(8.0),
+                                      padding:EdgeInsets.all(15.0),
+                                      decoration: BoxDecoration(
+                                        color:settingsStore.isDarkTheme ? isCurrentWallet ? Color(0xff383848) : Color(0xff1B1B23) : Color(0xffFFFFFF),
+                                        borderRadius: BorderRadius.circular(10)
                                       ),
+                                      child: Text(
+                                          wallet.name,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: isCurrentWallet
+                                                  ? Color(0xff1AB51E) //Theme.of(context).primaryTextTheme.caption.color
+                                                  : settingsStore.isDarkTheme ? Color(0xff737382) : Color(0xff9292A7),
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w800),
+                                        ),
+                                    ),
                                   )
                                   
                                   // ListTile(

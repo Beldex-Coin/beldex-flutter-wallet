@@ -50,24 +50,24 @@ class ChangeLanguage extends BasePage {
             child: Column(
               children: [
                 Text(
-                  S.of(context).choose_seed_lang,
+                  S.of(context).choose_app_language,
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),
+                  style: TextStyle(fontSize: 19,fontWeight: FontWeight.w700),
                 ),
                 SizedBox(
             height: 15,
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height*1.2/3,  //200,
+            height: MediaQuery.of(context).size.height*1/3,  //200,
             child: Container(
               margin: EdgeInsets.only(left: 20.0, right: 10.0),
-              color: Color(0xff181820),
+              //color: Color(0xff181820),
               child:RawScrollbar(
                 controller: _controller,
                 thickness: 8,
                 thumbColor: settingsStore.isDarkTheme ? Color(0xff3A3A45) : Color(0xff494955),
                 radius: Radius.circular(10.0),
-                isAlwaysShown: true,
+                isAlwaysShown: false,
                 child:Container(
                   margin: EdgeInsets.only(right:8),
                  color:  settingsStore.isDarkTheme ?  Color(0xff272733) : Color(0xffEDEDED) ,
@@ -108,7 +108,7 @@ class ChangeLanguage extends BasePage {
                                     child: Text(
                                       languages.values.elementAt(index),
                                       style: TextStyle(
-                                          fontSize: 20,
+                                          fontSize: 19,
                                           fontWeight: FontWeight.bold),
                                     ),
                                   )),
@@ -123,7 +123,7 @@ class ChangeLanguage extends BasePage {
                                 child: Text(
                                   languages.values.elementAt(index),
                                   style: TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 19,
                                       color: Colors.grey[800],
                                       fontWeight: FontWeight.bold),
                                 ),

@@ -1138,6 +1138,21 @@ String get no_trans_yet{
     );
   }
 
+///`Recovery Seed/Key`
+String get recovery_seed_keys{
+  return Intl.message(
+    'Recovery Seed/Key',
+    name:'recovery_seed_keys',
+    desc:'',
+    args:[],
+    );
+}
+
+
+
+
+
+
   /// `Restore from seed`
   String get restore_title_from_seed {
     return Intl.message(
@@ -1298,6 +1313,15 @@ String get choose_seed_lang {
   );
 }
 
+///`choose language`
+String get choose_app_language {
+  return Intl.message(
+    'Choose language',
+    name:'choose_app_language',
+    desc:'',
+    args:[],
+  );
+}
 
   /// `Next`
   String get seed_language_next {

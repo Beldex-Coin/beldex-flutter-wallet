@@ -104,7 +104,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   void initState() {
     auth = LocalAuthentication();
     //-->
-    _getAvailableBiometrics();
+   _getAvailableBiometrics();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(afterLayout);
   }
@@ -419,7 +419,51 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                               ),
                               child:GestureDetector(
                                 onTap: (){
-                                  showBiometricDialog(context, S.of(context).biometric_auth_reason);
+                                  if(settingsStore.allowBiometricAuthentication){
+                                    _getAvailableBiometrics();
+                                     showBiometricDialog(context, S.of(context).biometric_auth_reason);
+                                  }else{
+
+
+                                   showDialog<void>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title:Text(
+                                    'Biometric feature currenly diabled.Kindly enable allow biometric authentication feature inside the app settings',
+                                    style: TextStyle(color:settingsStore.isDarkTheme ? Colors.white :Colors.black,fontSize:14),
+                                    textAlign: TextAlign.center,
+                                    
+                                  ),
+                            actions: <Widget>[
+                              FlatButton(
+                                  onPressed: () => Navigator.of(context).pop(),
+                                  child: Text(S.of(context).ok))
+                            ],
+                          );
+                        });
+
+
+                                //     ScaffoldMessenger.of(context).showSnackBar(
+                                //       SnackBar(
+                                //   elevation: 5,
+                                //   shape: RoundedRectangleBorder(
+                                //       borderRadius: BorderRadius.only(
+                                //           topLeft: Radius.circular(10),
+                                //           topRight: Radius.circular(10))),
+                                //   content: Text(
+                                //     'Biometric feature currenly diabled.Kindly enable allow biometric authentication feature inside the app settings',
+                                //     style: TextStyle(color: Colors.white),
+                                //     textAlign: TextAlign.center,
+                                //   ),
+                                //   backgroundColor:
+                                //       Color.fromARGB(255, 46, 113, 43),
+                                //   duration: Duration(milliseconds: 1500),
+                                // )
+                                //     );
+                                    
+                                  }
+                                 
                                 },
                                 child: SvgPicture.asset('assets/images/new-images/fingerprint.svg',color: settingsStore.isDarkTheme?Color(0xffFFFFFF):Color(0xff060606),))
                             );

@@ -94,6 +94,12 @@ class WalletListService {
         name, password, language, restoreHeight, address, viewKey, spendKey);
 
     await onWalletChange(wallet);
+   
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+   
+   await prefs.setBool('isRestored', true);
+
+
   }
 
   Future openWallet(String name) async {
