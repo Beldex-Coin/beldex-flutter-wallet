@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -103,13 +105,35 @@ class WalletListBodyState extends State<WalletListBody> {
           Picker(
               items: items,
               selectedAtIndex: -1,
-              title: S.of(context).wallet_menu,
+              title: 'Change wallet',
               onItemSelected: (String item) =>
                   walletMenu.action(
                       walletMenu.listItems.indexOf(item), wallet,
                       isCurrentWallet)),
     );
   }
+
+
+
+
+
+// reload wallet dialog box
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -473,5 +497,55 @@ class WalletListBodyState extends State<WalletListBody> {
         //           .color)*/
         // ])
         );
+  }
+}
+
+
+class ReloadWallets extends StatelessWidget {
+  const ReloadWallets({ Key key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+     // onTap: () => _onDismiss(context),
+      child: Container(
+        color: Colors.transparent,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+          child: Container(
+            margin: EdgeInsets.all(15),
+          height: 300,
+           // decoration: BoxDecoration(color: Color(0xff171720).withOpacity(0.55)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Change wallet'),
+                ),
+                InkWell(
+          onTap:(){
+             
+          } ,
+          child: Container(
+            width:250,
+            padding: EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: Color(0xff0BA70F),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child:Center(
+              child:Text(S
+                    .of(context)
+                    .wallet_list_create_new_wallet,style: TextStyle(fontSize: 16,color: Color(0xffffffff),fontWeight:FontWeight.w800),)
+            )
+          ),
+        ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );;
   }
 }

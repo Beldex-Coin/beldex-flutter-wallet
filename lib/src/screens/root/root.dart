@@ -76,7 +76,7 @@ class RootState extends State<Root> with WidgetsBindingObserver {
       _postFrameCallback = true;
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushNamed(Routes.unlock,
+        Navigator.of(context).pushNamedAndRemoveUntil(Routes.unlock,(predicate){return false;},
             arguments: (bool isAuthenticatedSuccessfully, AuthPageState auth) {
           if (!isAuthenticatedSuccessfully) return;
 

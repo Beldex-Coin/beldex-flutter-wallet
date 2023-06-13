@@ -125,7 +125,12 @@ class AccountListPage extends BasePage {
                     ],
                     child: InkWell(
                       onTap: () {
-                        onConfirmation(context,walletStore,account,isCurrent);
+                        if(isCurrent){
+                          return;
+                        }else{
+                           onConfirmation(context,walletStore,account,isCurrent);
+                        }
+                       
                      /*   if (isCurrent) return;
 
                         walletStore.setAccount(account);

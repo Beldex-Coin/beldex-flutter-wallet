@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
+import 'package:beldex_wallet/src/screens/send/send_page.dart';
 import 'package:date_range_picker/date_range_picker.dart' as date_rage_picker;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +28,7 @@ import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:beldex_wallet/src/widgets/picker.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../palette.dart';
 
@@ -291,18 +295,34 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
 
 Future<void> _presentQRScanner(BuildContext context) async {
+  TextEditingController controller = TextEditingController();
+  String qrValue;
     try {
       final code = await presentQRScanner();
       final uri = Uri.parse(code);
       var address = '';
 
       if (uri == null) {
-       // controller.text = code;
+        controller.text = code;
+        qrValue = code;
         return;
       }
 
       address = uri.path;
-      //controller.text = address;
+      controller.text = address;
+      qrValue = address;
+
+   SharedPreferences prefs = await SharedPreferences.getInstance();
+  // final myValue = '9vMwdHFQyV3aJc9XqHYzhy2pi8C8xcXXzaJq1PDQAQVJU2r8PP1ofv9b1HUcpwZZNyjYLTXBdYguRbXztwbRwXNfD51ddox';
+   await prefs.setString('qrValue', qrValue);
+   await prefs.setBool('isFlashTransaction',true);
+   setState(() {
+        //SendPage().controller = '9vMwdHFQyV3aJc9XqHYzhy2pi8C8xcXXzaJq1PDQAQVJU2r8PP1ofv9b1HUcpwZZNyjYLTXBdYguRbXztwbRwXNfD51ddox';
+      });
+    await Navigator.of(context).pushNamed(Routes.send);
+
+
+
 
       // if (onURIScanned != null) {
       //   onURIScanned(uri);
@@ -408,7 +428,7 @@ Future<void> _presentQRScanner(BuildContext context) async {
                                         child: Column(
                                           children: [
                                             SizedBox(
-                                              height: 1,
+                                              height: 1.5,
                                               child: LinearProgressIndicator(
                                                 backgroundColor: Palette.separator,
                                                 valueColor:
@@ -671,12 +691,12 @@ Future<void> _presentQRScanner(BuildContext context) async {
                                                           
                                                           );
                                                         }),
-                                                     GestureDetector(
-                                                      onTap: () async => _presentQRScanner(context),
-                                                       child: Container(
-                                                                    child:SvgPicture.asset('assets/images/new-images/scanners.svg',color: settingsStore.isDarkTheme? Color(0xffFFFFFF): Color(0xff16161D),)
-                                                                  ),
-                                                     )
+                                                    //  GestureDetector(
+                                                    //   onTap: () async => _presentQRScanner(context),
+                                                    //    child: Container(
+                                                    //                 child:SvgPicture.asset('assets/images/new-images/scanners.svg',color: settingsStore.isDarkTheme? Color(0xffFFFFFF): Color(0xff16161D),)
+                                                    //               ),
+                                                    //  )
                                                   ],
                                                 ),
                                                 Padding(
@@ -688,38 +708,25 @@ Future<void> _presentQRScanner(BuildContext context) async {
                                                           final savedDisplayMode =
                                                               settingsStore
                                                                   .balanceDisplayMode;
-                                                          final displayMode = settingsStore
-                                                                  .enableFiatCurrency
-                                                              ? (balanceStore
-                                                                      .isReversing
-                                                                  ? (savedDisplayMode ==
-                                                                          BalanceDisplayMode
-                                                                              .availableBalance
-                                                                      ? BalanceDisplayMode
-                                                                          .fullBalance
-                                                                      : BalanceDisplayMode
-                                                                          .availableBalance)
+                                                          final displayMode = settingsStore.enableFiatCurrency
+                                                              ? (balanceStore.isReversing
+                                                                  ? (savedDisplayMode == BalanceDisplayMode.availableBalance
+                                                                      ? BalanceDisplayMode.fullBalance
+                                                                      : BalanceDisplayMode.availableBalance)
                                                                   : savedDisplayMode)
-                                                              : BalanceDisplayMode
-                                                                  .hiddenBalance;
+                                                              : BalanceDisplayMode.hiddenBalance;
                                                           final symbol =
                                                               settingsStore
                                                                   .fiatCurrency
                                                                   .toString();
                                                           var balance = '---';
 
-                                                          if (displayMode ==
-                                                              BalanceDisplayMode
-                                                                  .availableBalance) {
-                                                            balance =
-                                                                '${balanceStore.fiatUnlockedBalance} $symbol';
+                                                          if (displayMode == BalanceDisplayMode.availableBalance) {
+                                                            balance = '${balanceStore.fiatUnlockedBalance} $symbol';
                                                           }
 
-                                                          if (displayMode ==
-                                                              BalanceDisplayMode
-                                                                  .fullBalance) {
-                                                            balance =
-                                                                '${balanceStore.fiatFullBalance} $symbol';
+                                                          if (displayMode == BalanceDisplayMode.fullBalance) {
+                                                            balance ='${balanceStore.fiatFullBalance} $symbol';
                                                           }
 
                                                           return Text(balance,
@@ -1214,39 +1221,48 @@ Future<void> _presentQRScanner(BuildContext context) async {
                               color:settingsStore.isDarkTheme ? Color(0xff24242F) : Color(0xffEDEDED),
                               borderRadius: BorderRadius.circular(10)
                             ), 
-                         child:Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top:10.0),
-                              child: Text('Flash Transaction',style: TextStyle(fontSize:23,fontWeight:FontWeight.w800),),
-                            ),
-                              GestureDetector(
-                                onTap:syncStatus == 'SYNCHRONIZED' ? (){
-                                    scannerAction();
-                                }:null,
-                                child: Container(
-                                  height:MediaQuery.of(context).size.height*0.60/3,
-                                  width:MediaQuery.of(context).size.height*0.60/3,
-                                  padding: EdgeInsets.all(15),
-                                  decoration: BoxDecoration(color: settingsStore.isDarkTheme ? Color(0xffD9D9D9) : Color(0xffE2E2E2),
-                                  borderRadius: BorderRadius.circular(10),
+                         child:Observer(
+                           
+                          builder: (_){
+                             final status = syncStore.status;
+                            final syncStat = status.title();
+                             return  Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top:10.0),
+                                child: Text('Flash Transaction',style: TextStyle(fontSize:23,fontWeight:FontWeight.w800),),
+                              ),
+                                GestureDetector(
+                                  onTap:syncStat == 'SYNCHRONIZED' ? (){
+                                      //scannerAction();
+                                      _presentQRScanner(context);
+                                  }:null,
+                                  child: Container(
+                                    height:MediaQuery.of(context).size.height*0.60/3,
+                                    width:MediaQuery.of(context).size.height*0.60/3,
+                                    padding: EdgeInsets.all(15),
+                                    decoration: BoxDecoration(color: settingsStore.isDarkTheme ? Color(0xffD9D9D9) : Color(0xffE2E2E2),
+                                    borderRadius: BorderRadius.circular(10),
 
-                                  ),
-                                  child:Container(
-                                    decoration: BoxDecoration(
-                                      color: Color(0xffFFFFFF),
-                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                    child: SvgPicture.asset('assets/images/new-images/flashqr.svg',color: syncStatus == 'SYNCHRONIZED' ? Color(0xff222222): Color(0xffD9D9D9),)
+                                    child:Container(
+                                      decoration: BoxDecoration(
+                                        color: Color(0xffFFFFFF),
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: SvgPicture.asset('assets/images/new-images/flashqr.svg',color: syncStat == 'SYNCHRONIZED' ? Color(0xff222222): Color(0xffD9D9D9),)
+                                    ),
                                   ),
                                 ),
-                              ),
-                               Padding(
-                                 padding: const EdgeInsets.only(bottom:10.0),
-                                 child: Text('Transafer your BDX more faster\n with flash transaction',textAlign:TextAlign.center ,style:TextStyle(fontSize:16)),
-                               )
-                          ],
+                                 Padding(
+                                   padding: const EdgeInsets.only(bottom:10.0),
+                                   child: Text('Transafer your BDX more faster\n with flash transaction',textAlign:TextAlign.center ,style:TextStyle(fontSize:16)),
+                                 )
+                            ],
+                           );
+                          },
+                           
                          )
                         );
 
@@ -1536,6 +1552,22 @@ Future<void> _presentQRScanner(BuildContext context) async {
                                                                          color:Colors.white,fontSize: 16)),
                             ),
                           ],
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                          
                         )
                     ),
                      )
@@ -1552,9 +1584,6 @@ Future<void> _presentQRScanner(BuildContext context) async {
     );
   }
 
-void scannerAction(){
-       
-}
 
 
 
@@ -1667,3 +1696,172 @@ class Item {
   String amount;
   Color color;
 }
+
+
+
+
+
+
+
+
+
+Future showMenuForRescan(BuildContext context, String title, String body,String fee,String address,
+    {String buttonText,
+    void Function(BuildContext context) onPressed,
+    void Function(BuildContext context) onDismiss}) {
+  return showDialog<void>(
+      builder: (_) => ShowMenuForRescan(title, body,fee,address,
+          buttonText: buttonText, onDismiss: onDismiss, onPressed: onPressed),
+      context: context);
+}
+
+
+
+
+class ShowMenuForRescan extends StatelessWidget {
+  const ShowMenuForRescan(this.title, this.body, this.fee,this.address,
+      {this.buttonText, this.onPressed, this.onDismiss,});// : super(key: key);
+
+      final String title;
+  final String body;
+  final String fee;
+  final String address;
+  final String buttonText;
+  final void Function(BuildContext context) onPressed;
+  final void Function(BuildContext context) onDismiss;
+
+  @override
+  Widget build(BuildContext context) {
+      final settingsStore = Provider.of<SettingsStore>(context);
+   return  GestureDetector(
+     // onTap: () => _onDismiss(context),
+      child: Container(
+        color: Colors.transparent,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+          child: Container(
+            margin: EdgeInsets.all(15),
+           // decoration: BoxDecoration(color: Color(0xff171720).withOpacity(0.55)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: settingsStore.isDarkTheme ? Color(0xff272733) : Colors.white, //Theme.of(context).backgroundColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height*1.4/3,
+                      padding: EdgeInsets.only(top: 15.0,left:20,right: 20),
+                      child: Column(
+                        children: [
+                             Padding(
+                               padding: const EdgeInsets.only(bottom:10.0),
+                               child: Text(title,style:TextStyle(fontSize:18,fontWeight: FontWeight.w800)),
+                             ),
+                             Container(
+                              height:50,
+                              //padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color:settingsStore.isDarkTheme ? Color(0xff383848) : Color(0xffEDEDED)
+                              ),
+                              child:Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: Text('Amount',style: TextStyle(fontSize:16,fontWeight:FontWeight.w700),),
+                                  ),
+                                  VerticalDivider(
+
+                                  ),
+                                  Expanded(child: Container(
+                                     padding: const EdgeInsets.all(10.0),
+                                    child: Text('body',style: TextStyle(fontSize:18,fontWeight:FontWeight.bold,fontFamily: 'Poppinsbold'),),
+                                  )),
+                                  Container(
+                                    width:70,
+                                    padding: EdgeInsets.all(10),
+                                    child: Container(  
+                                      height:40,width:40,
+                                      padding: EdgeInsets.all(6),
+                                      decoration: BoxDecoration(  
+                                        color: Color(0xff00B116),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child:SvgPicture.asset('assets/images/new-images/beldex.svg')
+                                    ),
+                                  )
+                                ],
+                              )
+                             ),
+                             Container(
+                              margin:EdgeInsets.only(top:10),
+                              padding: EdgeInsets.all(10),
+                              height:MediaQuery.of(context).size.height*0.60/3,
+                              decoration: BoxDecoration(
+                                color: settingsStore.isDarkTheme ? Color(0xff383848) : Color(0xffEDEDED),
+                                borderRadius: BorderRadius.circular(10)
+                              ),
+                              child:Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text('Address'),
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(  
+                                      color:settingsStore.isDarkTheme ? Color(0xff47475E): Colors.white,
+                                      borderRadius: BorderRadius.circular(10)
+                                    ),
+                                    child: Text(address)),
+                                    Text('Fee: fee'),
+
+                                ],
+                              )
+                             ),
+                             Container(
+                              margin: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.10/3),
+                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height:45,width:120,
+                                    decoration: BoxDecoration(
+                                      color:settingsStore.isDarkTheme ? Color(0xff383848) :Color(0xffEDEDED),
+                                      borderRadius: BorderRadius.circular(8)
+                                    ),
+                                    child: GestureDetector(
+                                      onTap: (){
+                                         if (onDismiss!= null) onDismiss(context);
+                                      },
+                                      child: Center(child:Text('Cancel',style: TextStyle(fontSize:15,fontWeight: FontWeight.w800)))),
+                                  ),
+                                  SizedBox(width:20 ),
+                                  Container(
+                                    height:45,width:120,
+                                    decoration: BoxDecoration(
+                                      color:Color(0xff0BA70F),
+                                      borderRadius: BorderRadius.circular(8)
+                                    ),
+                                    child: GestureDetector(
+                                       onTap: (){
+                                    if (onPressed != null) onPressed(context);
+                                  },
+                                      child: Center(child:Text('OK',style: TextStyle(fontSize:15,fontWeight: FontWeight.w800,color: Colors.white),))),
+                                  )
+                               ],),
+                             )
+                        ],
+                      ),
+                    )),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+

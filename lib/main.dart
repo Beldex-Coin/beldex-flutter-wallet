@@ -255,8 +255,7 @@ class MaterialAppWithTheme extends StatelessWidget {
     final balanceStore = Provider.of<BalanceStore>(context);
     final theme = Provider.of<ThemeChanger>(context);
     final statusBarColor =
-        settingsStore.isDarkTheme ? Colors.black : Color.fromARGB(
-            255, 201, 201, 201);
+        settingsStore.isDarkTheme ?  Color(0xff171720) : Color(0xffffffff);
     final currentLanguage = Provider.of<Language>(context);
     final contacts = Provider.of<Box<Contact>>(context);
     final nodes = Provider.of<Box<Node>>(context);

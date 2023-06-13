@@ -84,7 +84,7 @@ Widget middle(BuildContext context){
               Padding(
                   padding: EdgeInsets.all(10),
                   child: Text(
-                    S.of(context).dangerzone_warning(
+                    S.of(context).important_warning(
                           item, appStore
                         ),
                     style: TextStyle(

@@ -65,6 +65,7 @@ abstract class BalanceStoreBase with Store {
   @computed
   String get fiatFullBalance {
     if (fullBalance == null) {
+      print('fullBalance == null');
       return '0.00';
     }
 
@@ -77,6 +78,7 @@ abstract class BalanceStoreBase with Store {
   @computed
   String get fiatUnlockedBalance {
     if (unlockedBalance == null) {
+      print('unlockedBalance == null');
       return '0.00';
     }
 

@@ -457,7 +457,7 @@ class SettingsFormState extends State<SettingsForm> {
       child: 
       Container(
                       width: MediaQuery.of(context).size.width,
-                      height:MediaQuery.of(context).size.height*1/3, // 210,
+                      height:MediaQuery.of(context).size.height*0.90/3, // 210,
                       //margin: EdgeInsets.only(top: 50,left:15,right:15),
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(

@@ -94,7 +94,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
     S.current.seed_language_italian
   ];
   final ScrollController _scrollController = ScrollController();
-
+  final _controller = ScrollController(keepScrollOffset: true);
   int _selectedIndex = 0;
 
   void _onSelected(int index) {
@@ -114,7 +114,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
     final walletCreationStore = Provider.of<WalletCreationStore>(context);
     final seedLanguageStore = Provider.of<SeedLanguageStore>(context);
      final settingsStore = Provider.of<SettingsStore>(context);
-    ScrollController _controller = ScrollController();
+   
     reaction((_) => walletCreationStore.state, (WalletCreationState state) {
       if (state is WalletCreatedSuccessfully) {
         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -258,11 +258,11 @@ class _WalletNameFormState extends State<WalletNameForm> {
           height: MediaQuery.of(context).size.height*1.2/3,  //200,
           child: Container(
             margin: EdgeInsets.only(left: 20.0, right: 10.0),
-            color: Color(0xff181820),
+            color: settingsStore.isDarkTheme ? Color(0xff181820) : Color(0xffD4D4D4),
             child:RawScrollbar(
               controller: _controller,
               thickness: 8,
-              thumbColor: settingsStore.isDarkTheme ? Color(0xff3A3A45) : Color(0xff494955),
+              thumbColor: settingsStore.isDarkTheme ? Color(0xff3A3A45) : Color(0xffC2C2C2),
               radius: Radius.circular(10.0),
               isAlwaysShown: true,
               child:Container(

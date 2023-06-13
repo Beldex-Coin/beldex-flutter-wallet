@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
 
+import 'package:beldex_wallet/src/domain/common/fiatCurrencyModel.dart';
+import 'package:beldex_wallet/src/domain/common/fiat_currency.dart';
 import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:beldex_wallet/src/widgets/new_slide_to_act.dart';
@@ -35,8 +37,12 @@ import 'package:beldex_wallet/src/widgets/slide_to_act.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import 'package:beldex_wallet/src/util/constants.dart' as constants;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SendPage extends BasePage {
+
+  String controller;
+
   @override
   String get title => S.current.send; //wallet_list_title;
 
@@ -109,10 +115,14 @@ class SendPage extends BasePage {
   bool get resizeToAvoidBottomInset => false;
 
   @override
-  Widget body(BuildContext context) => SendForm();
+  Widget body(BuildContext context) => SendForm(controllerValue: controller,);
 }
 
 class SendForm extends StatefulWidget {
+
+final String controllerValue;
+SendForm({Key key,@required this.controllerValue}):super(key: key);
+
   @override
   State<StatefulWidget> createState() => SendFormState();
 }
@@ -125,7 +135,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   final _focusNodeAddress = FocusNode();
 
   bool _effectsInstalled = false;
-
+  
+  bool _isFlashTransaction = false;
   final _formKey = GlobalKey<FormState>();
 
   //
@@ -153,12 +164,53 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       ..forward()
       ..repeat(reverse: true);
 
+ getQrvalue();
+if(widget.controllerValue != null || widget.controllerValue != ''){
+  setState(() {
+     _addressController.text = widget.controllerValue;
+    });
+}
+
     super.initState();
   }
+
+
+void getQrvalue()async{
+   final prefs = await SharedPreferences.getInstance();
+   setState(() {
+        final controllerValue = prefs.getString('qrValue');
+        final isFlashTrans = prefs.getBool('isFlashTransaction');
+        if(controllerValue.isNotEmpty || controllerValue != '') {
+          _addressController.text = controllerValue;
+        }
+
+       if(isFlashTrans) {
+         _isFlashTransaction = isFlashTrans;
+       }
+      });
+   
+
+}
+
+
+void clearQrValue()async{
+    final prefs = await SharedPreferences.getInstance();
+
+    await prefs.setString('qrValue', '');
+    await prefs.setBool('isFlashTransaction', false);
+}
+
+
+
+
 
   @override
   void dispose() {
     animationController.dispose();
+
+
+   clearQrValue();
+
     super.dispose();
   }
 
@@ -975,7 +1027,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       .grey, //Theme.of(context).accentTextTheme.overline.backgroundColor,
                                 )),
                             Text(
-                                '${calculateEstimatedFee(priority: BeldexTransactionPriority.flash)}',
+                               _isFlashTransaction ? '${calculateEstimatedFee(priority:BeldexTransactionPriority.flash)}': '${calculateEstimatedFee(priority:settingsStore.transactionPriority  //BeldexTransactionPriority.flash
+                                )}',
                                 //'${calculateEstimatedFee(priority: BeldexTransactionPriority.slow)}',
                                 style: TextStyle(
                                   fontSize: 14,
@@ -993,7 +1046,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                         width: double.infinity,
                         child: Text(
                             S.of(context).send_priority(
-                                settingsStore.transactionPriority.toString()),
+                              _isFlashTransaction ? BeldexTransactionPriority.flash.toString() : settingsStore.transactionPriority.toString()),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 14,
@@ -1328,7 +1381,13 @@ bottomSection: Observer(builder: (_){
                                           isSuccessful = false;
                                           return;
                                         }
-
+                                       if(_isFlashTransaction)
+                                       {
+                                        await sendStore.createTransaction(
+                                          address: _addressController.text,
+                                          tPriority: BeldexTransactionPriority.flash
+                                        );
+                                       }
                                         await sendStore.createTransaction(
                                             address: _addressController.text);
 
@@ -1454,8 +1513,11 @@ bottomSection: Observer(builder: (_){
     final sendStore = Provider.of<SendStore>(context);
 
     reaction((_) => sendStore.fiatAmount, (String amount) {
+      print('amount inside reaction $amount');
       if (amount != _fiatAmountController.text) {
         _fiatAmountController.text = amount;
+
+
       }
     });
 
@@ -1467,17 +1529,21 @@ bottomSection: Observer(builder: (_){
 
     _fiatAmountController.addListener(() {
       final fiatAmount = _fiatAmountController.text;
-
+      print('fiat amount ----> $fiatAmount');
       if (sendStore.fiatAmount != fiatAmount) {
+        
         sendStore.changeFiatAmount(fiatAmount);
       }
     });
 
     _cryptoAmountController.addListener(() {
+     
       final cryptoAmount = _cryptoAmountController.text;
-
+      print('crypto amount ----> $cryptoAmount');
       if (sendStore.cryptoAmount != cryptoAmount) {
         sendStore.changeCryptoAmount(cryptoAmount);
+        // final fiatAmount= cryptoAmount;
+        // sendStore.changeFiatAmount(fiatAmount);
       }
     });
 

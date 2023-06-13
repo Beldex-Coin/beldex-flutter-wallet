@@ -11,7 +11,7 @@ import 'package:beldex_wallet/generated/l10n.dart';
 class RescanPage extends BasePage {
   final blockchainKey = GlobalKey<BlockchainHeightState>();
   @override
-  String get title => S.current.rescan;
+  String get title => '${S.current.rescan} wallet';
  
  @override
  Widget trailing(BuildContext context){
@@ -48,7 +48,9 @@ class RescanPage extends BasePage {
                   color:
                       Theme.of(context).primaryTextTheme.button.backgroundColor,
                   borderColor:
-                      Theme.of(context).primaryTextTheme.button.decorationColor)),
+                      Theme.of(context).primaryTextTheme.button.backgroundColor
+                  )
+                  ),
     );
   }
 }

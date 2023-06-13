@@ -73,30 +73,8 @@ class NewSubaddressFormState extends State<NewSubaddressForm> {
   Widget build(BuildContext context) {
     final subaddressCreationStore =
         Provider.of<SubadrressCreationStore>(context);
-    return Container(
-        color: Colors.transparent,
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-          child: Container(
-           // margin: EdgeInsets.all(10),
-           // decoration: BoxDecoration(color: Color(0xff171720).withOpacity(0.55)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Container(
-                      height:MediaQuery.of(context).size.height*1/3,
-                      margin:EdgeInsets.only(left:10,right:10,bottom:10,top:10),
-                      decoration: BoxDecoration(
-                        color:Color(0xff272733),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child:
-                      Column(
+
+    return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Padding(
@@ -133,55 +111,7 @@ class NewSubaddressFormState extends State<NewSubaddressForm> {
           ),
         )
       ],
-    )
-    
-                    )),
-              ],
-            ),
-          ),
-        ),
-      );
-    // Column(
-    //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //   children: [
-    //     Padding(
-    //       padding: const EdgeInsets.only(left:40.0,right: 40),
-    //       child: Form(
-    //           key: _formKey,
-    //           child: Stack(children: <Widget>[
-    //             Center(
-    //               child: BeldexTextField(
-    //                   controller: _labelController,
-    //                   hintText: S.of(context).new_subaddress_label_name,
-    //                   validator: (value) {
-    //                     subaddressCreationStore.validateSubaddressName(value);
-    //                     return subaddressCreationStore.errorMessage;
-    //                   }),
-    //             ),
-    //           ])),
-    //     ),
-    //     Observer(
-    //       builder: (_) => SizedBox(
-    //         width: 250,
-    //         child: LoadingPrimaryButton(
-    //             onPressed: () async {
-    //               if (_formKey.currentState.validate()) {
-    //                 await subaddressCreationStore.add(label: _labelController.text);
-    //                 Navigator.of(context).pop();
-    //               }
-    //             },
-    //             text: S.of(context).new_subaddress_create,
-    //             color: Theme.of(context).primaryTextTheme.button.backgroundColor,
-    //             borderColor:
-    //             Theme.of(context).primaryTextTheme.button.backgroundColor,
-    //             isLoading: subaddressCreationStore.state is SubaddressIsCreating),
-    //       ),
-    //     )
-    //   ],
-    // )
-    
-    
-    /*ScrollableWithBottomSection(
+    )/*ScrollableWithBottomSection(
       contentPadding: EdgeInsets.only(left:40,right:40,top: 50),
       content: Container(
         color: Colors.blue,

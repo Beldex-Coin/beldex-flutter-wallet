@@ -1,4 +1,5 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/widgets/showSnackBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,10 +36,14 @@ class AddressBookPage extends BasePage {
         await addressBookStore.updateContactList();
       },
       child: Container(
-       // width: 35,
-       // height: 35,
-        padding: EdgeInsets.only(right:10),
-        child:Icon(Icons.add,color:Color(0xff0BA70F),size: 35,)
+        width: 26,
+        height: 26,
+        decoration: BoxDecoration(
+          color:Color(0xff0BA70F),
+          shape: BoxShape.circle,
+        ),
+        margin: EdgeInsets.only(right:10),
+        child:Icon(Icons.add,color:Color(0xffffffff),size: 26,)
         // decoration: BoxDecoration(
         //     color:Colors.yellow, // Theme.of(context).cardTheme.shadowColor, //Colors.black,
         //     borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -159,29 +164,13 @@ class AddressBookPage extends BasePage {
                         children: [
                           Padding(
                             padding: const EdgeInsets.only(left:8.0,),
-                            child: Text(S.of(context).contact_name,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16),),
+                            child: Text(contact.name,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16),),
                           ),
                           InkWell(
                             onTap: (){
                                 Clipboard.setData(ClipboardData(
                                                               text: contact.address));
-                                                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                           margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.30/3,
-                                                           left: MediaQuery.of(context).size.height*0.30/3,
-                                                           right: MediaQuery.of(context).size.height*0.30/3
-                                                           ),
-                                                            elevation:0, //5,
-                                                            behavior: SnackBarBehavior.floating,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius: BorderRadius.circular(15.0) //only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                                                            ),
-                                                            content: Text(S
-                                                                .of(context)
-                                                                .copied,style: TextStyle(color: Color(0xff0EB212),fontWeight:FontWeight.w700,fontSize:15) ,textAlign: TextAlign.center,),
-                                                            backgroundColor: Color(0xff0BA70F).withOpacity(0.10), //.fromARGB(255, 46, 113, 43),
-                                                            duration: Duration(
-                                                                milliseconds: 1500),
-                                                          ));
+                                                          displaySnackBar(context,S.of(context).copied);
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(right:8.0),

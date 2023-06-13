@@ -96,9 +96,9 @@ mixin _$SendStore on SendStoreBase, Store {
       AsyncAction('SendStoreBase.createTransaction');
 
   @override
-  Future<dynamic> createTransaction({String address, String amount}) {
+  Future<dynamic> createTransaction({String address, String amount, BeldexTransactionPriority tPriority}) {
     return _$createTransactionAsyncAction
-        .run(() => super.createTransaction(address: address, amount: amount));
+        .run(() => super.createTransaction(address: address, amount: amount,tPriority: tPriority));
   }
 
   final _$commitTransactionAsyncAction =

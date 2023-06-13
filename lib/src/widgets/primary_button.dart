@@ -110,6 +110,7 @@ class LoadingPrimaryButton extends StatelessWidget {
               : Text(text,
                   style: TextStyle(
                       fontSize: 16.0,
+                      fontWeight: FontWeight.w900,
                       color: Theme.of(context).primaryTextTheme.button.color)),
         ));
   }

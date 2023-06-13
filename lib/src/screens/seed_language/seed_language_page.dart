@@ -15,7 +15,7 @@ import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart'
 
 class SeedLanguage extends BasePage {
   @override
-  String get title => S.current.wallet_list_title;
+  String get title => S.current.select_language;
 
   // @override
   // Widget leading(BuildContext context) {
@@ -45,7 +45,7 @@ class SeedLanguageRoute extends StatefulWidget {
 
 class _SeedLanguageState extends State<SeedLanguageRoute> {
   //final imageSeed = Image.asset('assets/images/seedIco.png');
-  var scrollController = ScrollController(keepScrollOffset: true);
+ // var scrollController = ScrollController(keepScrollOffset: true);
 
   final List<String> seedLocales = [
     S.current.seed_language_english,
@@ -77,8 +77,8 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
   Widget build(BuildContext context) {
     final seedLanguageStore = Provider.of<SeedLanguageStore>(context);
  final settingsStore = Provider.of<SettingsStore>(context);
- final ScrollController _controller = ScrollController();
-  final ScrollController _scrollController = ScrollController();
+ final _controller = ScrollController(keepScrollOffset: true);
+  final _scrollController = ScrollController(keepScrollOffset: true);
     return 
     ScrollableWithBottomSection(
       content: Column(
@@ -107,11 +107,11 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
           height: MediaQuery.of(context).size.height*1.2/3,  //200,
           child: Container(
             margin: EdgeInsets.only(left: 20.0, right: 10.0),
-            color: Color(0xff181820),
+            color: settingsStore.isDarkTheme ? Color(0xff181820) : Color(0xffD4D4D4),
             child:RawScrollbar(
               controller: _controller,
               thickness: 8,
-              thumbColor: settingsStore.isDarkTheme ? Color(0xff3A3A45) : Color(0xff494955),
+              thumbColor: settingsStore.isDarkTheme ? Color(0xff3A3A45) : Color(0xffC2C2C2),
               radius: Radius.circular(10.0),
               isAlwaysShown: true,
               child:Container(

@@ -4,7 +4,10 @@ import 'dart:typed_data';
 import 'package:beldex_wallet/src/screens/receive/custom_dropdown.dart';
 import 'package:beldex_wallet/src/screens/receive/scrollbars.dart';
 import 'package:beldex_wallet/src/screens/receive/subaddress_dialog.dart';
+import 'package:beldex_wallet/src/screens/subaddress/new_subaddress_page.dart';
+import 'package:beldex_wallet/src/screens/subaddress/newsubAddress_dialog.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/stores/subaddress_creation/subaddress_creation_store.dart';
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -539,8 +542,16 @@ String currentSubAddress ='';
 
 
                                InkWell(
-                                       onTap: ()=> Navigator.of(context)
-                                                  .pushNamed(Routes.newSubaddress),
+                                       onTap: (){
+                                         showDialog<void>(context: context, 
+                                         builder: (context){
+
+                                            return  SubAddressAlert();
+                                         });
+                                       },
+                                      //  =>
+                                      //   Navigator.of(context)
+                                      //             .pushNamed(Routes.newSubaddress),
                                        //{
 
         //                            addSubAddressDialog(context,

@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
@@ -79,7 +80,7 @@ abstract class SendStoreBase with Store {
   }
 
   @action
-  Future createTransaction({String address, String amount}) async {
+  Future createTransaction({String address, String amount, BeldexTransactionPriority tPriority}) async {
     state = CreatingTransaction();
 
     try {
@@ -90,7 +91,7 @@ abstract class SendStoreBase with Store {
       final credentials = BeldexTransactionCreationCredentials(
           address: address,
           amount: _amount,
-          priority: settingsStore.transactionPriority);
+          priority: tPriority ?? settingsStore.transactionPriority);
 
       print('createTransaction address--> $address');
       print('createTransaction amount--> $_amount');

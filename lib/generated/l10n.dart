@@ -1148,8 +1148,15 @@ String get recovery_seed_keys{
     );
 }
 
-
-
+///`Make sure to backup of your Recovery Seed, Wallet Address and private keys`
+String get remove_wallets{
+  return Intl.message(
+   'Make sure to backup of your\nrecovery Seed, wallet address\nand private keys',
+   name:'remove_wallets',
+   desc:'',
+   args:[],
+  );
+}
 
 
 
@@ -1312,6 +1319,18 @@ String get choose_seed_lang {
     args:[],
   );
 }
+
+///`Select language`
+String get select_language{
+  return Intl.message(
+   'Select language',
+   name:'select_language',
+   desc:'',
+   args:[],
+  );
+}
+
+
 
 ///`choose language`
 String get choose_app_language {
@@ -2749,6 +2768,45 @@ String get amount_detail_zero {
       args: [item, app_store],
     );
   }
+
+///`Never input your Beldex wallet {item} into any software or website other than the official Beldex wallets downloaded directly from the {app_store}, the beldex website, or the beldex GitHub.`
+
+String important_warning(Object item, Object app_store){
+  return Intl.message(
+  'Never input your Beldex wallet $item into any software or website other\n than the official Beldex wallets downloaded directly from the $app_store,\n the beldex website, or the beldex GitHub.',
+   name:'important_warning',
+   desc:'',
+   args:[item,app_store],
+  );
+}
+
+///`Are you sure you want to access your {item}?`
+
+String are_u_sure_for_seedkeys(Object item) {
+  return Intl.message(
+   'Are you sure you want to access your $item?',
+   name: 'are_u_sure_for_seedkeys',
+   desc:'',
+   args:[item],
+  );
+
+}
+
+///`Add address`
+String get add_address{
+  return Intl.message(
+   'Add address',
+   name:'add_address',
+   desc:'',
+   args:[],
+  );
+}
+
+
+
+
+
+
 
   /// `Keys`
   String get keys_title {

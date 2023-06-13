@@ -223,10 +223,10 @@ return InkWell(
           toolbarHeight: 70,
           elevation: 0,
           centerTitle: true,
-          systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: _isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
-          statusBarIconBrightness: Brightness.dark,
-          statusBarBrightness: Brightness.light
-          ),
+          // systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: _isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+          // statusBarIconBrightness: Brightness.dark,
+          // statusBarBrightness: Brightness.light
+          // ),
           leading:Padding(
             padding: EdgeInsets.only(top:20.0, bottom:5),
             child:leading(context)  //trailing(context),

@@ -28,10 +28,10 @@ class ChangeLanguage extends BasePage {
     final currentColor = Theme.of(context).selectedRowColor;
     final notCurrentColor =
         Theme.of(context).accentTextTheme.subtitle1.backgroundColor;
-    var scrollController = ScrollController(keepScrollOffset: true);
+    //var scrollController = ScrollController(keepScrollOffset: true);
 
- ScrollController _controller = ScrollController();
- final ScrollController _scrollController = ScrollController();
+ final _controller = ScrollController(keepScrollOffset: true);
+ final _scrollController = ScrollController(keepScrollOffset: true);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
