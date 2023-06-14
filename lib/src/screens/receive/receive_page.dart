@@ -1213,6 +1213,7 @@ String currentSubAddress ='';
 
 
 Widget displayContainer(BuildContext context){
+  final settingsStore = Provider.of<SettingsStore>(context);
   getSubAddress(context);
  return Container(
                                               height:
@@ -1220,7 +1221,7 @@ Widget displayContainer(BuildContext context){
                                                       0.19 /
                                                       3,
                                               decoration: BoxDecoration(
-                                                  color:  Color(0xff292937),
+                                                  color:settingsStore.isDarkTheme ?  Color(0xff292937) : Color(0xffEDEDED),
                                                       
                                                   borderRadius: BorderRadius.all(
                                                       Radius.circular(10))),
@@ -1252,8 +1253,8 @@ Widget displayContainer(BuildContext context){
                                                             style: TextStyle(
                                                               fontSize: 16.0,
                                                               fontWeight: FontWeight.w700,
-                                                                color: Color(
-                                                                    0xff00DC00))),
+                                                                color:settingsStore.isDarkTheme ? Color(
+                                                                    0xff00DC00) : Color(0xff0BA70F))),
                                                       )),
                                                       Container(
                                                           child: Icon(
@@ -1309,6 +1310,7 @@ void getSubAddress(BuildContext context)async{
 Widget _buildExitnodeListView(double mHeight) {
   final subaddressListStore = Provider.of<SubaddressListStore>(context);
   final walletStore = Provider.of<WalletStore>(context);
+  final settingsStore = Provider.of<SettingsStore>(context);
     return Material(
       color: Colors.transparent,
       child: GestureDetector(
@@ -1342,7 +1344,7 @@ Widget _buildExitnodeListView(double mHeight) {
             width: MediaQuery.of(context).size.width * 2.7 / 3,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(4.0),
-              color: Color(0xff292937),
+              color:settingsStore.isDarkTheme ? Color(0xff292937) : Color(0xffEDEDED),
             ),
             child: Observer(builder: (_){
 
