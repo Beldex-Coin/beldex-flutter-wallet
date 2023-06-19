@@ -40,6 +40,12 @@ class RootState extends State<Root> with WidgetsBindingObserver {
   }
 
   @override
+    void dispose() {
+      
+      super.dispose();
+    }
+
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     switch (state) {
       case AppLifecycleState.paused:
@@ -79,11 +85,13 @@ class RootState extends State<Root> with WidgetsBindingObserver {
         Navigator.of(context).pushNamedAndRemoveUntil(Routes.unlock,(predicate){return false;},
             arguments: (bool isAuthenticatedSuccessfully, AuthPageState auth) {
           if (!isAuthenticatedSuccessfully) return;
-
-          setState(() {
+         if(mounted){
+         setState(() {
             _postFrameCallback = false;
             _isInactive = false;
           });
+         }
+          
           auth.close();
         });
       });

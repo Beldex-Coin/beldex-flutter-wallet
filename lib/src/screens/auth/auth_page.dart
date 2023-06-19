@@ -38,6 +38,16 @@ class AuthPageState extends State<AuthPage> {
     setState(() {});
   }
 
+
+@override
+  void dispose() {
+
+    super.dispose();
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     final authStore = Provider.of<AuthStore>(context);

@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
+import 'package:beldex_wallet/src/screens/dashboard/dashboard_rescan_dialog.dart';
 import 'package:beldex_wallet/src/screens/send/send_page.dart';
 import 'package:date_range_picker/date_range_picker.dart' as date_rage_picker;
 import 'package:flutter/cupertino.dart';
@@ -39,7 +40,11 @@ class DashboardPage extends BasePage {
   Widget leading(BuildContext context) {
     return InkWell(
       onTap:() {
-        _presentWalletMenu(context);
+       // _presentWalletMenu(context);
+       showDialog<void>(context: context,
+        builder: (_){
+           return DashBoardAlertDialog();
+        });
       },
       child: Container(
         height: 20,

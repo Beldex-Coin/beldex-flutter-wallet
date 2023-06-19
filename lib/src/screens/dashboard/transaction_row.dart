@@ -7,6 +7,7 @@ import 'package:beldex_wallet/src/wallet/transaction/transaction_direction.dart'
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TransactionRow extends StatelessWidget {
   TransactionRow(
@@ -29,6 +30,12 @@ class TransactionRow extends StatelessWidget {
 
   final TransactionInfo transaction;
  // final bool isStake;
+
+
+ void _launchUrl(String url) async {
+    if (await canLaunch(url)) await launch(url);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -265,12 +272,30 @@ class TransactionRow extends StatelessWidget {
  ),
                                       Row(
                                         children: [
-                                         Expanded(child: Text( transaction.id,
-                                         style: TextStyle(color: Color(0xffACACAC),
-                                         fontSize: 14,
+                                         Expanded(child: GestureDetector(
+                                          onTap:  () {
+                // if(index==0) {
+                  final url='https://explorer.beldex.io/tx/${transaction.id}'; //testnet.beldex.dev/tx/  //explorer.beldex.io
+                  _launchUrl(url);
+                // }else{
+                //   Clipboard.setData(ClipboardData(text: item.value));
+                //   Scaffold.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text(
+                //           S.of(context).transaction_details_copied(item.title)),
+                //       backgroundColor: Colors.green,
+                //       duration: Duration(milliseconds: 1500),
+                //     ),
+                //   );
+                // }
+              },
+                                           child: Text( transaction.id,
+                                           style: TextStyle(color: Color(0xffACACAC),
+                                           fontSize: 14,
                                         fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w900
-                                         ),
+                                           ),
+                                           ),
                                          )),
                                          InkWell(
                                           onTap: (){

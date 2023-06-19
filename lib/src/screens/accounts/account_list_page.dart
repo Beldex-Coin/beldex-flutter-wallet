@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/screens/accounts/create_account_dialog.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
@@ -23,8 +24,9 @@ class AccountListPage extends BasePage {
     final accountListStore = Provider.of<AccountListStore>(context);
 
     return InkWell(
-      onTap: () async {
-        await Navigator.of(context).pushNamed(Routes.accountCreation);
+      onTap: () {
+        //await Navigator.of(context).pushNamed(Routes.accountCreation);
+        showDialog<void>(context: context, builder: (_)=>CreateAccountDialog());
         accountListStore.updateAccountList();
       },
       child: Container(
@@ -113,10 +115,13 @@ class AccountListPage extends BasePage {
                         caption: S.of(context).edit,
                         color: Colors.blue,
                         icon: Icons.edit,
-                        onTap: () async {
-                          await Navigator.of(context).pushNamed(
-                              Routes.accountCreation,
-                              arguments: account);
+                        onTap: (){
+                          showDialog<void>(context: context, builder: (_){
+                            return CreateAccountDialog(account: account,);
+                          });
+                          // await Navigator.of(context).pushNamed(
+                          //     Routes.accountCreation,
+                          //     arguments: account);
                           // await accountListStore.updateAccountList().then((_) {
                           //   if (isCurrent) walletStore.setAccount(accountListStore.accounts[index]);
                           // });

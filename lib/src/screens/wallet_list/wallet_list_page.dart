@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:beldex_wallet/src/screens/wallet_list/wallet_option_dialog.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -101,15 +102,20 @@ class WalletListBodyState extends State<WalletListBody> {
 
     showDialog<void>(
       context: bodyContext,
-      builder: (_) =>
-          Picker(
-              items: items,
-              selectedAtIndex: -1,
-              title: 'Change wallet',
-              onItemSelected: (String item) =>
-                  walletMenu.action(
-                      walletMenu.listItems.indexOf(item), wallet,
-                      isCurrentWallet)),
+      builder: (_) => 
+      WalletAlertDialog(
+        wallet: wallet,
+        items: items,
+        
+      )
+          // Picker(
+          //     items: items,
+          //     selectedAtIndex: -1,
+          //     title: 'Change wallet',
+          //     onItemSelected: (String item) =>
+          //         walletMenu.action(
+          //             walletMenu.listItems.indexOf(item), wallet,
+          //             isCurrentWallet)),
     );
   }
 

@@ -2063,6 +2063,7 @@ class SettingsFormState extends State<SettingsForm> {
                   borderRadius: BorderRadius.circular(10)),
               child: Column(
                 children: [
+                  
                   //Email
                   SettingsLinktListRow(
                     balanceVisibility: balanceVisibility,
@@ -2274,6 +2275,40 @@ class SettingsFormState extends State<SettingsForm> {
                     ],
                   );
                 }),*/
+
+            Container(
+              width: double.infinity,
+              height: 40,
+              //color: Colors.yellow,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                 children: [
+                   Padding(padding:EdgeInsets.only(right:10,left:10) ,child: GestureDetector(
+                    onTap: (){
+                       _launchUrl(_emailUrl);
+                    },
+                    child: SvgPicture.asset('assets/images/new-images/mail.svg'))),
+                    Padding(
+                      padding: const EdgeInsets.only(right:10.0,left:10),
+                      child: GestureDetector(
+                        onTap: ()=>_launchUrl(_githubUrl),
+                        child: SvgPicture.asset('assets/images/new-images/github.svg')),
+                    ),
+                     Padding(
+                       padding: const EdgeInsets.only(right:20.0,left:10),
+                       child: GestureDetector(
+                        onTap: ()=>_launchUrl(_telegramUrl),
+                        child: SvgPicture.asset('assets/images/new-images/telegram.svg')),
+                     ),
+                      GestureDetector(
+                        onTap: ()=>_launchUrl(_twitterUrl),
+                        child: SvgPicture.asset('assets/images/new-images/twitter.svg')),
+                 ],
+              ),
+            ),
+
+
+
             Theme(
               data: ThemeData(
                 splashColor: balanceVisibility == false &&
