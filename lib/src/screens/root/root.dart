@@ -85,12 +85,12 @@ class RootState extends State<Root> with WidgetsBindingObserver {
         Navigator.of(context).pushNamedAndRemoveUntil(Routes.unlock,(predicate){return false;},
             arguments: (bool isAuthenticatedSuccessfully, AuthPageState auth) {
           if (!isAuthenticatedSuccessfully) return;
-         if(mounted){
+         //if(mounted){
          setState(() {
             _postFrameCallback = false;
             _isInactive = false;
           });
-         }
+        // }
           
           auth.close();
         });

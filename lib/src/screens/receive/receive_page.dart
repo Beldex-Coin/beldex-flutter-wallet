@@ -385,7 +385,7 @@ String currentSubAddress ='';
                                              Clipboard.setData(ClipboardData(
                                                               text: walletStore.subaddress.address));
                                                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                           margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.30/3,
+                                                           margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.35/3,
                                                            left: MediaQuery.of(context).size.height*0.30/3,
                                                            right: MediaQuery.of(context).size.height*0.30/3
                                                            ),
@@ -396,8 +396,8 @@ String currentSubAddress ='';
                                                             ),
                                                             content: Text(S
                                                                 .of(context)
-                                                                .copied,style: TextStyle(color: Color(0xff0EB212),fontWeight:FontWeight.w700,fontSize:15) ,textAlign: TextAlign.center,),
-                                                            backgroundColor: Color(0xff0BA70F).withOpacity(0.10), //.fromARGB(255, 46, 113, 43),
+                                                                .copied,style: TextStyle(color: Colors.white,fontWeight:FontWeight.w700,fontSize:15) ,textAlign: TextAlign.center,),
+                                                            backgroundColor: Color(0xff0BA70F), //.fromARGB(255, 46, 113, 43),
                                                             duration: Duration(
                                                                 milliseconds: 1500),
                                                           ));

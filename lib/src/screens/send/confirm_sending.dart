@@ -4,9 +4,11 @@ import 'dart:ui';
 
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-
+import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Future showSimpleConfirmDialog(BuildContext context, String title, String body,String fee,String address,
     {String buttonText,
@@ -395,7 +397,7 @@ class TransactionSendDetails extends StatelessWidget {
 
 
 
-class SendTransactionSuccessfully extends StatelessWidget {
+class SendTransactionSuccessfully extends StatefulWidget {
   const SendTransactionSuccessfully(this.title, this.body, this.fee,this.address,
       {this.buttonText, this.onPressed, this.onDismiss,});// : super(key: key);
 
@@ -408,6 +410,49 @@ class SendTransactionSuccessfully extends StatelessWidget {
   final void Function(BuildContext context) onDismiss;
 
   @override
+  _SendTransactionSuccessfullyState createState() => _SendTransactionSuccessfullyState();
+}
+
+class _SendTransactionSuccessfullyState extends State<SendTransactionSuccessfully> {
+
+bool canChangeWidget = false;
+
+
+@override
+  void initState() {
+    getWidgetChange();
+    super.initState();
+  }
+
+
+void getWidgetChange()async{
+     Future.delayed(Duration(seconds:2 ),(){
+      if(mounted){
+         setState(() {
+                  canChangeWidget = true;
+                });
+      }
+       
+     });
+}
+
+ void _launchUrl(String url) async {
+    if (await canLaunch(url)) await launch(url);
+  }
+
+
+@override
+  void dispose() {
+    // setState(() {
+          
+    //     });
+    canChangeWidget= false;
+    super.dispose();
+  }
+
+
+
+  @override
   Widget build(BuildContext context) {
       final settingsStore = Provider.of<SettingsStore>(context);
    return  GestureDetector(
@@ -416,7 +461,215 @@ class SendTransactionSuccessfully extends StatelessWidget {
         color: Colors.transparent,
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-          child: Container(
+          child: 
+ canChangeWidget ?
+        Container(
+            margin: EdgeInsets.all(15),
+           // decoration: BoxDecoration(color: Color(0xff171720).withOpacity(0.55)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: settingsStore.isDarkTheme ? Color(0xff272733) : Colors.white, //Theme.of(context).backgroundColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height*2.1/3,
+                      padding: EdgeInsets.only( //top: 15.0,
+                      left:10,right: 10),
+                      child: Column(
+                       // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                               Padding(
+                                 padding: const EdgeInsets.only(left:10.0,right:10,top:20,bottom:15),
+                                 child: Text('Transaction Details',style:TextStyle(fontWeight:FontWeight.w700,fontSize:MediaQuery.of(context).size.height*0.07/3)),
+                               )
+                            ],
+                          ),
+                         
+                           Container(
+                            height:MediaQuery.of(context).size.height*0.30/3,
+                           // color: Colors.yellow,
+                            child: Column(children: [
+                              Row(children: [
+                                Text(
+                                        S
+                                            .of(context)
+                                            .transaction_details_transaction_id,
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w900)),
+                              ],),
+                              Row(children: [
+                                    Expanded(child: Text('ghzhjdhjahdjaghifdhkzvjij.dknlkjgjhlhliihsduihliihlhsgdhjfjkf',style: TextStyle(
+                                            color: Color(0xffACACAC),
+                                            fontSize: 13,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w900),)),
+                                    Container(
+                                      width:50,
+                                      child:Icon(Icons.copy,size: 20,
+                                            color: Color(0xff0BA70F))
+                                    )
+                                ],),
+                                
+                            ],),
+                           ) 
+                        ,//SizedBox(height: 10),
+                          Divider(
+                          color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
+                        ),
+                        Container(
+                          // decoration: BoxDecoration(
+                          //   border: Border.all(
+                          //       color: settingsStore.isDarkTheme
+                          //           ? Color(0xff454555)
+                          //           : Color(0xffDADADA)),
+                          //   borderRadius: BorderRadius.circular(10),
+                          // ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Date',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w900)),
+                                Container(
+                                    child: Text(
+                                        'formattedDate' //'${transaction.date}'
+                                        )),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height:10),
+                         Divider(
+                          color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
+                        ),
+                        Container(
+                          // decoration: BoxDecoration(
+                          //   border: Border.all(
+                          //       color: settingsStore.isDarkTheme
+                          //           ? Color(0xff454555)
+                          //           : Color(0xffDADADA)),
+                          //   borderRadius: BorderRadius.circular(10),
+                          // ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Height',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w900)),
+                                Column(
+                                  //crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                        padding: EdgeInsets.only(bottom: 5.0),
+                                        child: Text('{transaction.height}')),
+                                    // Container(
+                                    //   child:Text('height 1 block',style:TextStyle(color:Colors.blue))
+                                    // )
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height:8),
+                         Divider(
+                          color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
+                        ),
+                        Container(
+                          // decoration: BoxDecoration(
+                          //   border: Border.all(
+                          //       color: settingsStore.isDarkTheme
+                          //           ? Color(0xff454555)
+                          //           : Color(0xffDADADA)),
+                          //   borderRadius: BorderRadius.circular(10),
+                          // ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Amount',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w900)),
+                                Container(
+                                    child: Text(
+                                  'formattedAmount',
+                                  style: TextStyle(color: Color(0xff0BA70F)),
+                                ))
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height:8),
+                         Divider(
+                          color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
+                        ),
+                       settingsStore.shouldSaveRecipientAddress 
+                       //&&       transaction.recipientAddress != null
+                            ?
+                        Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0, top: 10),
+                                          child: Text('Recipient Address',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w900)),
+                                        ),
+                                      ],
+                                    ):Container(),
+                        settingsStore.shouldSaveRecipientAddress ?   Row(children: [
+                                    Expanded(child: Text('ghzhjdhjahdjaghifdhkzvjij.dknlkjgjhlhliihsduihliihlhsgdhjfjkf',style: TextStyle(
+                                            color: Color(0xffACACAC),
+                                            fontSize: 13,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w900),)),
+                                    Container(
+                                      width:50,
+                                      child:Icon(Icons.copy,size: 20,
+                                            color: Color(0xff0BA70F))
+                                    )
+                                ],):Container(),
+                                SizedBox(height:10),
+                          Container(
+                      width:MediaQuery.of(context).size.width*0.80/3,
+                      height:MediaQuery.of(context).size.height*0.20/3,
+                      decoration: BoxDecoration(
+                        color: Color(0xff0BA70F)
+                      ),
+                    )
+                        ],
+                      ),
+                    )),
+                    
+              ],
+            ),
+          )
+
+
+         : Container(
             margin: EdgeInsets.all(15),
            // decoration: BoxDecoration(color: Color(0xff171720).withOpacity(0.55)),
             child: Column(
@@ -438,7 +691,7 @@ class SendTransactionSuccessfully extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                                GestureDetector(
-                                onTap: (){  if (onDismiss!= null) onDismiss(context);},
+                                onTap: (){  if (widget.onDismiss!= null) widget.onDismiss(context);},
                                  child: Container(
                                  // color: Colors.yellow,
                                       //height: 14,width:15,

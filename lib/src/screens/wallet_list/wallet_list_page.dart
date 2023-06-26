@@ -275,7 +275,7 @@ class WalletListBodyState extends State<WalletListBody> {
                 //     .caption
                 //     .backgroundColor,
                 onPrimary: Colors.white,
-                padding: EdgeInsets.all(13),
+                padding: EdgeInsets.all(10), //13
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10))),
             icon: Container(
@@ -309,7 +309,7 @@ class WalletListBodyState extends State<WalletListBody> {
           } ,
           child: Container(
             width:250,
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(15), //20
             decoration: BoxDecoration(
               color: Color(0xff0BA70F),
               borderRadius: BorderRadius.circular(10),

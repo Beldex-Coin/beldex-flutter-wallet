@@ -26,11 +26,11 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
     final walletMenu = WalletMenu(context);
     final walletListService = Provider.of<WalletListService>(context);
     final walletService = Provider.of<WalletService>(context);
-   // final _walletListStore = context.read<WalletListStore>();
+    //final _walletListStore = context.read<WalletListStore>();
     return Provider(
-      create: (_)=>WalletListStore(walletListService:walletListService,walletService: walletService ),
+      create: (_)=>  WalletListStore(walletListService:walletListService,walletService: walletService ),
        builder:(context,child){
-        final _walletListStore = Provider.of<WalletListStore>(context,listen: false);
+        final _walletListStore = Provider.of<WalletListStore>(context);
          return AlertDialog(
        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         title: Center(child: Text('Change wallet',style: TextStyle(fontWeight:FontWeight.w800))),
@@ -39,7 +39,43 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           MaterialButton(onPressed: (){
-                walletMenu.action(0, widget.wallet, false);
+              //  walletMenu.action(0, widget.wallet, false);
+
+
+
+  setState(() {
+       Navigator.of(context).pushNamed(Routes.auth, arguments:
+            (bool isAuthenticatedSuccessfully, AuthPageState auth) async {
+          if (!isAuthenticatedSuccessfully) {
+            return;
+          }
+
+          try {
+            auth.changeProcessText(
+                S.of(context).wallet_list_loading_wallet(widget.wallet.name));
+            await _walletListStore.loadWallet(widget.wallet);
+            auth.close();
+            Navigator.of(context).pop();
+          } catch (e) {
+            auth.changeProcessText(S
+                .of(context)
+                .wallet_list_failed_to_load(widget.wallet.name, e.toString()));
+          }
+        });
+
+    });
+    
+
+
+
+
+
+
+
+
+
+
+
 
         //      Navigator.of(context).pushNamed(Routes.auth, arguments:
         //     (bool isAuthenticatedSuccessfully, AuthPageState auth) async {

@@ -88,7 +88,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
           decoration: BoxDecoration(
             color: settingsStore.isDarkTheme ?  Color(0xff272733) : Color(0xffEDEDED) ,
               // border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(10)
+              borderRadius: BorderRadius.circular(15)
               ),
           margin:
               EdgeInsets.only(left: 10.0, right: 10.0, top: 20, bottom: 20.0),
@@ -104,7 +104,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
           height: 15,
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height*1.2/3,  //200,
+          height: MediaQuery.of(context).size.height*1.3/3,  //200,
           child: Container(
             margin: EdgeInsets.only(left: 20.0, right: 10.0),
             color: settingsStore.isDarkTheme ? Color(0xff181820) : Color(0xffD4D4D4),

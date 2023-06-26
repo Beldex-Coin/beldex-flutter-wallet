@@ -91,7 +91,7 @@ final _formKey = GlobalKey<FormState>();
               //     }
               //   },
                 elevation: 0,
-              color: Color(0xffE8E8E8),
+              color:settingsStore.isDarkTheme ? Color(0xff383848) : Color(0xffE8E8E8),
               height: MediaQuery.of(context).size.height*0.18/3,
               minWidth: MediaQuery.of(context).size.width*0.89/3,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), 

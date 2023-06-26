@@ -2065,69 +2065,69 @@ class SettingsFormState extends State<SettingsForm> {
                 children: [
                   
                   //Email
-                  SettingsLinktListRow(
-                    balanceVisibility: balanceVisibility,
-                    decimalVisibility: decimalVisibility,
-                    currencyVisibility: currencyVisibility,
-                    feePriorityVisibility: feePriorityVisibility,
-                    onTaped: () {
-                      if (balanceVisibility == false &&
-                          decimalVisibility == false &&
-                          currencyVisibility == false &&
-                          feePriorityVisibility == false) {
-                        _launchUrl(_emailUrl);
-                      }
-                    },
-                    title: 'Email',
-                  ),
+                  // SettingsLinktListRow(
+                  //   balanceVisibility: balanceVisibility,
+                  //   decimalVisibility: decimalVisibility,
+                  //   currencyVisibility: currencyVisibility,
+                  //   feePriorityVisibility: feePriorityVisibility,
+                  //   onTaped: () {
+                  //     if (balanceVisibility == false &&
+                  //         decimalVisibility == false &&
+                  //         currencyVisibility == false &&
+                  //         feePriorityVisibility == false) {
+                  //       _launchUrl(_emailUrl);
+                  //     }
+                  //   },
+                  //   title: 'Email',
+                  // ),
                   //Github
-                  SettingsLinktListRow(
-                    balanceVisibility: balanceVisibility,
-                    decimalVisibility: decimalVisibility,
-                    currencyVisibility: currencyVisibility,
-                    feePriorityVisibility: feePriorityVisibility,
-                    onTaped: () {
-                      if (balanceVisibility == false &&
-                          decimalVisibility == false &&
-                          currencyVisibility == false &&
-                          feePriorityVisibility == false) {
-                        _launchUrl(_githubUrl);
-                      }
-                    },
-                    title: 'Github',
-                  ),
+                  // SettingsLinktListRow(
+                  //   balanceVisibility: balanceVisibility,
+                  //   decimalVisibility: decimalVisibility,
+                  //   currencyVisibility: currencyVisibility,
+                  //   feePriorityVisibility: feePriorityVisibility,
+                  //   onTaped: () {
+                  //     if (balanceVisibility == false &&
+                  //         decimalVisibility == false &&
+                  //         currencyVisibility == false &&
+                  //         feePriorityVisibility == false) {
+                  //       _launchUrl(_githubUrl);
+                  //     }
+                  //   },
+                  //   title: 'Github',
+                  // ),
                   //Telegram
-                  SettingsLinktListRow(
-                    balanceVisibility: balanceVisibility,
-                    decimalVisibility: decimalVisibility,
-                    currencyVisibility: currencyVisibility,
-                    feePriorityVisibility: feePriorityVisibility,
-                    onTaped: () {
-                      if (balanceVisibility == false &&
-                          decimalVisibility == false &&
-                          currencyVisibility == false &&
-                          feePriorityVisibility == false) {
-                        _launchUrl(_telegramUrl);
-                      }
-                    },
-                    title: 'Telegram',
-                  ),
+                  // SettingsLinktListRow(
+                  //   balanceVisibility: balanceVisibility,
+                  //   decimalVisibility: decimalVisibility,
+                  //   currencyVisibility: currencyVisibility,
+                  //   feePriorityVisibility: feePriorityVisibility,
+                  //   onTaped: () {
+                  //     if (balanceVisibility == false &&
+                  //         decimalVisibility == false &&
+                  //         currencyVisibility == false &&
+                  //         feePriorityVisibility == false) {
+                  //       _launchUrl(_telegramUrl);
+                  //     }
+                  //   },
+                  //   title: 'Telegram',
+                  // ),
                   //Twitter
-                  SettingsLinktListRow(
-                    balanceVisibility: balanceVisibility,
-                    decimalVisibility: decimalVisibility,
-                    currencyVisibility: currencyVisibility,
-                    feePriorityVisibility: feePriorityVisibility,
-                    onTaped: () {
-                      if (balanceVisibility == false &&
-                          decimalVisibility == false &&
-                          currencyVisibility == false &&
-                          feePriorityVisibility == false) {
-                        _launchUrl(_twitterUrl);
-                      }
-                    },
-                    title: 'Twitter',
-                  ),
+                  // SettingsLinktListRow(
+                  //   balanceVisibility: balanceVisibility,
+                  //   decimalVisibility: decimalVisibility,
+                  //   currencyVisibility: currencyVisibility,
+                  //   feePriorityVisibility: feePriorityVisibility,
+                  //   onTaped: () {
+                  //     if (balanceVisibility == false &&
+                  //         decimalVisibility == false &&
+                  //         currencyVisibility == false &&
+                  //         feePriorityVisibility == false) {
+                  //       _launchUrl(_twitterUrl);
+                  //     }
+                  //   },
+                  //   title: 'Twitter',
+                  // ),
                   //Terms and conditions
                   Theme(
                     data: ThemeData(

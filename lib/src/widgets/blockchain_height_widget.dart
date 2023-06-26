@@ -179,6 +179,9 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
         lastDate: now);
 
     if (date != null) {
+      setState(() {
+              
+            });
       final height = getHeightByDate(date: date);
 
       setState(() {
