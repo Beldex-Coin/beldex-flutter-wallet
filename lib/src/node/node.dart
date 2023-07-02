@@ -40,7 +40,7 @@ class Node extends HiveObject {
         ? {'jsonrpc': '2.0', 'id': '0', 'method': method, 'params': params}
         : {'jsonrpc': '2.0', 'id': '0', 'method': method};
 
-    if (login != null && password != null) {
+    if (login != null && password != null && login.isNotEmpty && password.isNotEmpty) {
       final digestRequest = DigestRequest();
       final response = await digestRequest.request(
           uri: uri, login: login, password: password, requestBody: requestBody);
@@ -53,7 +53,7 @@ class Node extends HiveObject {
           await http.post(url, headers: headers, body: body);
       resultBody = json.decode(response.body) as Map<String, dynamic>;
     }
-
+   print('node data from json --> for the node $uri --> $resultBody');
     return resultBody;
   }
 }
