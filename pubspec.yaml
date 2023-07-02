@@ -78,6 +78,7 @@ dependencies:
   wc_flutter_share: ^0.2.0 #new added 1.0.1 Date:10-01-2022
   native_updater: ^0.1.0 #new added 1.0.1 Date:18-01-2022
   blurrycontainer: ^1.0.2
+  connectivity_plus:
 dev_dependencies:
   flutter_test:
     sdk: flutter

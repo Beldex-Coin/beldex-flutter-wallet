@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math' as math;
 
 import '../../../routes.dart';
@@ -49,7 +50,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   static const fourPinLength = 4;
   static final deleteIcon = Icon(Icons.backspace, color: Colors.white);
   final _gridViewKey = GlobalKey();
-
+  bool isUnlockScreen = false;
   int pinLength = defaultPinLength;
   List<int> pin = List<int>.filled(defaultPinLength, null);
   String title = S.current.enter_your_pin;
@@ -104,6 +105,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   void initState() {
     auth = LocalAuthentication();
     //-->
+    getSetupArrow();
    _getAvailableBiometrics();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(afterLayout);
@@ -172,22 +174,42 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   ),
   backgroundColor:  Theme.of(context).backgroundColor)*/
   
+
+ void getSetupArrow()async{
+    final prefs =await SharedPreferences.getInstance();
+    setState(() { });
+          isUnlockScreen = prefs.getBool('removeArrow');
+       
+ }
+
+
+@override
+  void dispose() {
+    resetUnlockScreenValue();
+    super.dispose();
+  }
+
+ void resetUnlockScreenValue()async{
+   final prefs =await SharedPreferences.getInstance();
+  await prefs.setBool('removeArrow',false);
+
+ }
   @override
   Widget build(BuildContext context) {
      final settingsStore = Provider.of<SettingsStore>(context);
   
     return  Scaffold(
       backgroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
-    appBar: AppBar(
-      elevation: 0,
-      title: Text(S.of(context).settingup_pin,style: TextStyle(color:Theme.of(context).primaryTextTheme.caption.color,fontSize:26,fontWeight: FontWeight.w800),) ,
-      centerTitle: true,
-      backgroundColor: Colors.transparent,
-      leading: Navigator.canPop(context) ? GestureDetector(
-        onTap: ()=>Navigator.pop(context),
-        child: Container(child: Icon(Icons.arrow_back,color:settingsStore.isDarkTheme ? Colors.white: Colors.black))): Container(),
-      leadingWidth: 70.0,
-    ),
+    // appBar: AppBar(
+    //   elevation: 0,
+    //   title: Text(isUnlockScreen ? 'Enter pin' : S.of(context).settingup_pin,style: TextStyle(color:Theme.of(context).primaryTextTheme.caption.color,fontSize:26,fontWeight: FontWeight.w800),) ,
+    //   centerTitle: true,
+    //   backgroundColor: Colors.transparent,
+    //   leading: Navigator.canPop(context) ? GestureDetector(
+    //     onTap: ()=>Navigator.pop(context),
+    //     child: Container(child: Icon(Icons.arrow_back,color:settingsStore.isDarkTheme ? Colors.white: Colors.black))): Container(),
+    //   leadingWidth: 70.0,
+    // ),
     body: body(context));
   }
 

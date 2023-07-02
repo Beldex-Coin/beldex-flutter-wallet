@@ -55,7 +55,10 @@ class RootState extends State<Root> with WidgetsBindingObserver {
                 _authenticationStore.state ==
                     AuthenticationState.authenticated ||
             _authenticationStore.state == AuthenticationState.active) {
-          setState(() => _isInactive = true);
+          if(mounted){
+           setState(() => _isInactive = true);
+          }
+          
         }
 
         break;
@@ -63,6 +66,16 @@ class RootState extends State<Root> with WidgetsBindingObserver {
         break;
     }
   }
+
+
+ void setRemoveArrow(bool authSuccess)async{
+    final prefs = await SharedPreferences.getInstance();
+    authSuccess ?
+    await prefs.setBool('removeArrow', true) 
+    : await prefs.setBool('removeArrow', false);
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -82,19 +95,40 @@ class RootState extends State<Root> with WidgetsBindingObserver {
       _postFrameCallback = true;
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushNamedAndRemoveUntil(Routes.unlock,(predicate){return false;},
+        Navigator.of(context).pushNamed(Routes.unlock,
             arguments: (bool isAuthenticatedSuccessfully, AuthPageState auth) {
           if (!isAuthenticatedSuccessfully) return;
-         //if(mounted){
-         setState(() {
+
+          setState(() {
             _postFrameCallback = false;
             _isInactive = false;
           });
-        // }
-          
           auth.close();
         });
       });
+
+      // WidgetsBinding.instance.addPostFrameCallback((_) {
+      //  Navigator.of(context).pushNamedAndRemoveUntil(Routes.unlock,(predicate){
+    
+      //     print('predicate --> $predicate');
+      //     return true;
+      //     },
+      //       arguments: (bool isAuthenticatedSuccessfully, AuthPageState auth) {
+      //     if (!isAuthenticatedSuccessfully){
+      //       setRemoveArrow(false);
+      //       return;
+      //     } 
+      //    if(mounted){
+      //    setState(() {
+      //      setRemoveArrow(true);
+      //       _postFrameCallback = false;
+      //       _isInactive = false;
+      //     });
+      //    }
+          
+      //     auth.close();
+      //   });
+      // });
     }
 
     return Observer(builder: (_) {

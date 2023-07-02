@@ -135,31 +135,40 @@ class AuthPageState extends State<AuthPage> {
       }
     });
 
+
     return Scaffold(
         key: _key,
         
-        // appBar: CupertinoNavigationBar(
-        //   trailing: widget.closable ? SizedBox(width: 0,):SizedBox(width: 0,),
-        //   middle:widget.closable ? Container() :Container(margin:EdgeInsets.only(top: 5),
-        //     child: Row(
-        //       mainAxisAlignment: MainAxisAlignment.center,
-        //       children: [
-        //         Container(padding:EdgeInsets.all(6),decoration: BoxDecoration(
-        //           borderRadius: BorderRadius.circular(10),
-        //           color: Colors.black,
-        //         ),child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg',width: 25,height: 25,)),
-        //         SizedBox(width: 5,),
-        //         Text(
-        //           'Beldex Wallet',
-        //           style: TextStyle(fontWeight: FontWeight.bold,color: Theme.of(context).primaryTextTheme.caption.color,),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        //   leading: widget.closable ? CloseButton():SizedBox(width: 0,),
-        //   backgroundColor: Theme.of(context).backgroundColor,
-        //   border: null,
-        // ),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(50),
+          child: CupertinoNavigationBar(
+            trailing: widget.closable ? SizedBox(width: 50,):SizedBox(width: 0,),
+            middle:Container(margin:EdgeInsets.only(top: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Container(padding:EdgeInsets.all(6),decoration: BoxDecoration(
+                  //   borderRadius: BorderRadius.circular(10),
+                  //   color: Colors.black,
+                  // ),child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg',width: 25,height: 25,)),
+                  // SizedBox(width: 5,),
+                  Text(
+                    'Enter pin',
+                    style: TextStyle(fontWeight: FontWeight.w600,fontSize: 22,color: Theme.of(context).primaryTextTheme.caption.color,),
+                  ),
+                ],
+              ),
+            ),
+            leading: widget.closable ? GestureDetector(
+              onTap: ()=> Navigator.pop(context),
+              child: Container(
+                child:Icon(Icons.arrow_back,color: Theme.of(context).primaryTextTheme.caption.color,)
+              ),
+            ):SizedBox(width: 0,),
+            backgroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+            border: null,
+          ),
+        ),
         resizeToAvoidBottomInset: false,
         body: PinCode(
             (pin, _) => authStore.auth(

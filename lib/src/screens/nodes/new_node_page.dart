@@ -297,7 +297,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                        Text('Test Result:',style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.06/3,),),
                        Padding(
                          padding: const EdgeInsets.only(left:10.0),
-                         child:  Text(isNodeChecked ? 'Success' :'Connection Failed',style: TextStyle(color:isNodeChecked ? Color(0xff1AB51E) : Colors.red,fontSize: MediaQuery.of(context).size.height*0.06/3,)),
+                         child:  Text(isNodeChecked ? 'Success' :'Connection Failed',style: TextStyle(color:isNodeChecked ? Color(0xff1AB51E) : Colors.red,fontWeight:FontWeight.w800 ,fontSize: MediaQuery.of(context).size.height*0.06/3,)),
                        )
                       ],
                     ),
@@ -320,7 +320,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                if (!_formKey.currentState.validate()) {
                                         return;  }
                               setState((){ });
-                                 var nodeWithPort = '${_nodeAddressController.text}:${_nodePortController.text}'; //'194.5.152.31:19091'
+                                 final nodeWithPort = '${_nodeAddressController.text}:${_nodePortController.text}'; //'194.5.152.31:19091'
                                  print('Node with port value $nodeWithPort');
                                 isNodeChecked = await NodeForTest().isWorkingNode(nodeWithPort);                              
                              
@@ -346,7 +346,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                              Padding(
                                padding: const EdgeInsets.all(10.0),
                                child: GestureDetector(
-                                 onTap: ()async{
+                                 onTap:isNodeChecked ? ()async{
                                    if (!_formKey.currentState.validate()) {
                                         return;  }
 
@@ -358,8 +358,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
                // final prefs = await SharedPreferences.getInstance();
 
                   Navigator.of(context).pop();
-                                 },
-                                child: Text('Add',style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.07/3,fontWeight: FontWeight.w800 ,color:Color(0xff1AB51E)),)),
+                                 }: null,
+                                child: Text('Add',style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.07/3,fontWeight: FontWeight.w800 ,color:isNodeChecked ? Color(0xff1AB51E): settingsStore.isDarkTheme ? Color(0xffB9B9B9) : Color(0xff9292A7)),)),
                              )
                           ]
                         )
