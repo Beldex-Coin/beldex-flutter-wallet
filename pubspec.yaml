@@ -20,7 +20,7 @@ version: 1.0.6+8
 # Version Code 5 Version Name 1.0.3 Production Release Date : 03-02-2022
 # Version Code 6 Version Name 1.0.4 Production Release Date : 07-07-2022
 # Version Code 7 Version Name 1.0.5 Production Release Date : 24-11-2022
-# Version Code 8 Version Name 1.0.6 Production batch Release Date : 02-07-2023
+# Version Code 8 Version Name 1.0.6 Production Release Date : 02-07-2023
 
 
 # keytool -genkey -v -keystore c:\Users\konst\key.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias key
