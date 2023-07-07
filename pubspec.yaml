@@ -79,6 +79,7 @@ dependencies:
   native_updater: ^0.1.0 #new added 1.0.1 Date:18-01-2022
   blurrycontainer: ^1.0.2
   connectivity_plus:
+  flutter_windowmanager:
 dev_dependencies:
   flutter_test:
     sdk: flutter

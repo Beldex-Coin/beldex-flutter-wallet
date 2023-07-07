@@ -363,26 +363,41 @@ class TransactionDetailsListBodyState extends State<TransactionDetailsListBody> 
                                         onSelected: (item) async {
                                           print('item length --> $item');
                                           if (item == 2) {
-                                            final picked =
-                                            await date_rage_picker.showDatePicker(
-                                              context: context,
-                                              initialFirstDate: DateTime.now()
-                                                  .subtract(Duration(days: 1)),
-                                              initialLastDate: (DateTime.now()),
-                                              firstDate: DateTime(2015),
-                                              lastDate: DateTime.now(),
-                                                 // .add(Duration(days: 1)), // hide the date
-                                                  );
+                                           final picked = await date_rage_picker.showDatePicker(context: context,
+                                           initialFirstDate: DateTime.now().subtract(Duration(days: 1)),
+                                   initialLastDate: DateTime.now(),
+                                  
+                                            firstDate: DateTime(2015), 
+                                            lastDate: DateTime.now()
+                                            );
 
-                                            print('picked length --> ${picked.length}');
+                                           if(picked != null){
+                                             actionListStore.transactionFilterStore.changeStartDate(picked.first);
+                                            actionListStore.transactionFilterStore.changeEndDate(picked == null ? null : picked.last.add(Duration(days: 1)));
 
-                                            if (picked != null &&
-                                                picked.length == 2) {
-                                              actionListStore.transactionFilterStore
-                                                  .changeStartDate(picked.first);
-                                              actionListStore.transactionFilterStore
-                                                  .changeEndDate(picked.last);
-                                            }
+                                           }
+                                           
+                                            // final picked =
+                                            // await date_rage_picker.showDatePicker(
+                                            //   context: context,
+                                            //   initialFirstDate: DateTime.now()
+                                            //       .subtract(Duration(days: 1)),
+                                            //   initialLastDate: (DateTime.now()),
+                                            //   firstDate: DateTime(2015),
+                                            //   lastDate: DateTime.now(),
+                                            //      // .add(Duration(days: 1)), // hide the date
+                                            //       );
+
+                                            // print('picked length --> ${picked.length}');
+                                            // print('picked date first ${picked.first}');
+                                            // print('picked date last ${picked.last}');
+                                            // if (picked != null &&
+                                            //     picked.length == 2) {
+                                            //   actionListStore.transactionFilterStore
+                                            //       .changeStartDate(picked.first);
+                                            //   actionListStore.transactionFilterStore
+                                            //       .changeEndDate(picked.last);
+                                            // }
                                           }
                                         },
                                         child: SvgPicture.asset('assets/images/new-images/filter.svg',width:18,height:18,color: Theme.of(context).primaryTextTheme.caption.color,)/*Text(S.of(context).filters,
@@ -567,7 +582,7 @@ class TransactionDetailsListBodyState extends State<TransactionDetailsListBody> 
 
                   if (index < 0 || index >= items.length) {
                      return  Container(
-                height:MediaQuery.of(context).size.height*1.38/3,
+                height:MediaQuery.of(context).size.height*2.6/3,
                 margin: EdgeInsets.only(top:8.0,bottom:10.0,right:15.0,left:15.0),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),

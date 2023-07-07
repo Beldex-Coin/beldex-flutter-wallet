@@ -51,7 +51,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
  
 
  bool isNodeChecked = false;
-
+ dynamic testMode;
 
  
 
@@ -284,7 +284,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                    ),
 
 
-                   Container(
+                 testMode == null || testMode == ''  ? Container() : Container(
                     padding: EdgeInsets.only(left:20,right:20),
                     margin: EdgeInsets.only(left:20,right:20,top:10,bottom:10),
                     height: MediaQuery.of(context).size.height*0.20/3,
@@ -297,7 +297,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                        Text('Test Result:',style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.06/3,),),
                        Padding(
                          padding: const EdgeInsets.only(left:10.0),
-                         child:  Text(isNodeChecked ? 'Success' :'Connection Failed',style: TextStyle(color:isNodeChecked ? Color(0xff1AB51E) : Colors.red,fontWeight:FontWeight.w800 ,fontSize: MediaQuery.of(context).size.height*0.06/3,)),
+                         child:  Text( isNodeChecked ? 'Success' :'Connection Failed',style: TextStyle(color:!isNodeChecked ? Colors.red : Color(0xff1AB51E),fontWeight:FontWeight.w800 ,fontSize: MediaQuery.of(context).size.height*0.06/3,)),
                        )
                       ],
                     ),
@@ -317,13 +317,17 @@ class NewNodeFormState extends State<NewNodePageForm> {
                           padding: const EdgeInsets.only(left:8.0),
                           child: GestureDetector(
                             onTap: ()async{
+                              
+
                                if (!_formKey.currentState.validate()) {
-                                        return;  }
+                                        return;  
+                              }
                               setState((){ });
+                              testMode = 'testing';
                                  final nodeWithPort = '${_nodeAddressController.text}:${_nodePortController.text}'; //'194.5.152.31:19091'
                                  print('Node with port value $nodeWithPort');
                                 isNodeChecked = await NodeForTest().isWorkingNode(nodeWithPort);                              
-                             
+                                print('isNodeChecked ------->$isNodeChecked');
                              
                             }, 
                             child: Text('Test',style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.07/3,fontWeight: FontWeight.w800 ,))),

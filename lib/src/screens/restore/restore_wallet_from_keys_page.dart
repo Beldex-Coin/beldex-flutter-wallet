@@ -318,10 +318,11 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                                 viewKey: _viewKeyController.text,
                                 spendKey: _spendKeyController.text,
                                 restoreHeight: _blockchainHeightKey.currentState.height);
-                          }
-                          setState(() {
+                                 setState(() {
                                   canShowPopup = prefs.getBool('isRestored');                     
                                                     });
+                          }
+                         
                           
                          if(canShowPopup){
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

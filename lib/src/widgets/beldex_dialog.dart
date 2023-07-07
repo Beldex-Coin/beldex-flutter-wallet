@@ -42,6 +42,124 @@ Future showRescanDialog(BuildContext context, String title, String body,
 
 
 
+Future showDialogForResetNode(BuildContext context, String title, String body,String fee,String address,
+    {String buttonText,
+    void Function(BuildContext context) onPressed,
+    void Function(BuildContext context) onDismiss}) {
+  return showDialog<void>(
+      builder: (_) => ShowResetNodeDialog(title, body,fee,address,
+          buttonText: buttonText, onDismiss: onDismiss, onPressed: onPressed),
+      context: context);
+}
+
+
+
+
+class ShowResetNodeDialog extends StatefulWidget {
+  const ShowResetNodeDialog(this.title, this.body, this.fee,this.address,
+      {this.buttonText, this.onPressed, this.onDismiss,});// : super(key: key);
+
+      final String title;
+  final String body;
+  final String fee;
+  final String address;
+  final String buttonText;
+  final void Function(BuildContext context) onPressed;
+  final void Function(BuildContext context) onDismiss;
+
+  @override
+  _ShowResetNodeDialogState createState() => _ShowResetNodeDialogState();
+}
+
+class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
+  @override
+  Widget build(BuildContext context) {
+      final settingsStore = Provider.of<SettingsStore>(context);
+   return  AlertDialog(
+       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        title: Center(child: Text('${widget.title}',style: TextStyle(fontWeight:FontWeight.w800))),
+       backgroundColor:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
+       content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(widget.body,textAlign: TextAlign.center,),
+          SizedBox(height:10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           // mainAxisSize: MainAxisSize.min,
+            children: [
+             GestureDetector(
+              onTap: ()=>widget.onDismiss(context),
+               child: Container(
+                width: MediaQuery.of(context).size.height*0.42/3,
+                height: 50,
+                decoration: BoxDecoration(
+                   color:settingsStore.isDarkTheme ? Color(0xff383848) : Color(0xffE8E8E8),
+                   borderRadius: BorderRadius.circular(10)
+                ),
+                child:Row(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Cancel',style: TextStyle(color: settingsStore.isDarkTheme? Color(0xff93939B) :Color(0xff16161D))),
+                  ],
+                ),
+               ),
+             ),
+             GestureDetector(
+              onTap: ()=>widget.onPressed(context),
+               child: Container(
+                width: MediaQuery.of(context).size.height*0.42/3,
+                height: 50,
+                decoration: BoxDecoration(
+                   color:Color(0xff0BA70F),
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                child:Row(
+                   mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('OK',style: TextStyle(color: Colors.white),),
+                  ],
+                ),
+               ),
+             )
+            ],
+          )
+          // MaterialButton(onPressed: ()=>,
+          //    elevation: 0,
+          //     color: Color(0xff2979FB),
+          //     height: MediaQuery.of(context).size.height*0.20/3,
+          //     minWidth: double.infinity,
+          //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), 
+          //    child: Text('Reconnect wallet',style: TextStyle(fontSize:17,color:Colors.white,fontWeight:FontWeight.w800),),
+          //  ),
+          //  SizedBox(
+          //   height: 10,
+          //  ),
+          //  MaterialButton(onPressed: ()async{
+          //   await Navigator.of(context).pushNamed(Routes.rescan);
+          //    Navigator.pop(context);
+          //   },
+          //    elevation: 0,
+          //     color: Color(0xff0BA70F),
+          //     height: MediaQuery.of(context).size.height*0.20/3,
+          //     minWidth: double.infinity, 
+          //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), 
+          //     child:Text('Rescan wallet',style: TextStyle(fontSize:17,color:Colors.white,fontWeight:FontWeight.w800),),
+          //  ),
+           
+           
+        ],
+       ),
+    );
+   
+  }
+}
+
+
+
+
+
+
 
 
 Future showConfirmBeldexDialog(BuildContext context, String title, String body,

@@ -7,7 +7,7 @@ import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_keys_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-
+//import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 class ShowKeysPage extends BasePage {
   @override
   bool get isModalBackButton => true;
@@ -21,10 +21,15 @@ class ShowKeysPage extends BasePage {
   return Container();
  }
 
+// void setPageSecure()async{
+//    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+// }
+
+
   @override
   Widget body(BuildContext context) {
     final walletKeysStore = Provider.of<WalletKeysStore>(context);
-
+    //setPageSecure();
     return Container(
         padding: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 5, right: 5),
         child: Observer(

@@ -200,8 +200,25 @@ void clearQrValue()async{
     await prefs.setBool('isFlashTransaction', false);
 }
 
+bool getAmountValidation(String value){
+      final pattern = RegExp(r'^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}([.][0-9]{0,5}))$');
+                                      if(!pattern.hasMatch(value)){
+                                        return false;
+                                        
+                                      }else{
+                                        return true;
+                                      }
+}
+bool getAddressBasicValidation(String value){
+  final pattern = RegExp(r'^[a-zA-Z0-9]+$');
+  if(!pattern.hasMatch(value)){
+                                        return false;
+                                        
+                                      }else{
+                                        return true;
+                                      }
 
-
+}
 
 
   @override
@@ -551,6 +568,7 @@ void clearQrValue()async{
                             });
                             return null;
                           } else {
+                           if(getAddressBasicValidation(value)){
                             sendStore.validateAddress(value,
                                 cryptoCurrency: CryptoCurrency.bdx);
                             if (sendStore.errorMessage != null) {
@@ -565,6 +583,14 @@ void clearQrValue()async{
                               });
                             }
                             return null;
+                            }else{
+                              setState(() {
+                                                              
+                                                            });
+                              addressErrorMessage = 'Enter a valid address';
+                              return ;
+                            }
+                            
                           }
                         },
                       ),
@@ -693,14 +719,16 @@ void clearQrValue()async{
                                       });
                                       return null;
                                     } else {
+                                   if(getAmountValidation(value)){
                                       sendStore.validateBELDEX(
                                           value, balanceStore.unlockedBalance);
                                       if (sendStore.errorMessage != null) {
                                         setState(() {
                                           amountValidation = true;
                                           amountErrorMessage =
-                                              'The enter a valid amount';
+                                              'Please enter a valid amount';
                                         });
+                                        return ;
                                       } else {
                                         setState(() {
                                           amountValidation = false;
@@ -708,6 +736,15 @@ void clearQrValue()async{
                                         });
                                       }
                                       return null;
+                                   }else{
+                                    setState(() {
+                                                                          
+                                                                        });
+                                    amountErrorMessage = 'Enter a valid amount';
+                                    return ;
+                                   }
+
+                                     
                                     }
                                   }),
                               Row(
@@ -1361,6 +1398,7 @@ bottomSection: Observer(builder: (_){
                           
                            syncStore.status is SyncedSyncStatus
                               ? () async {
+                                  
                                   final currentFocus = FocusScope.of(context);
 
                                   if (!currentFocus.hasPrimaryFocus) {
@@ -1555,7 +1593,7 @@ bottomSection: Observer(builder: (_){
         });
       }
 
-      if (state is TransactionCreatedSuccessfully) {
+      if (state is TransactionCreatedSuccessfully && sendStore.pendingTransaction != null) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           
         showSimpleConfirmDialog(context,
@@ -1568,11 +1606,13 @@ bottomSection: Observer(builder: (_){
             sendStore.commitTransaction();
           },
           onDismiss: (_){
+            _addressController.text = '';
+            _cryptoAmountController.text = '';
             Navigator.of(context).pop();
           }
           );
 
-
+        
 
 
 
@@ -1610,7 +1650,7 @@ bottomSection: Observer(builder: (_){
         //   });
         // });
 
-          showSimpleSentTrans( context, S.of(context).sending, S.of(context).transaction_sent,'fee','',
+          showSimpleSentTrans( context, S.of(context).sending, sendStore.pendingTransaction.amount,'fee',_addressController.text,
               onPressed: (_) {
             _addressController.text = '';
             _cryptoAmountController.text = '';

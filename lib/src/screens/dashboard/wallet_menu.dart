@@ -25,6 +25,7 @@ class WalletMenu {
     switch (index) {
       case 0:
         _presentReconnectAlert(context);
+        //Navigator.pop(context);
         break;
       case 1:
         Navigator.of(context).pushNamed(Routes.rescan);
@@ -42,7 +43,7 @@ class WalletMenu {
         context, S.of(context).reconnection, S.of(context).reconnect_alert_text,
         onPressed: (context) {
       walletStore.reconnect();
-      Navigator.of(context).pop();
+      Navigator.of(context)..pop()..pop();
     });
   }
 }

@@ -112,13 +112,19 @@ abstract class SendStoreBase with Store {
 
   @action
   Future commitTransaction() async {
+     if (_pendingTransaction == null) {
+      // Handle this here, but don't worry about translation because this is a logic error in the
+      // caller that shouldn't happen.
+      state = SendingFailed(error: 'No pending transaction');
+      return;
+    }
     try {
       final transactionId = _pendingTransaction.hash;
       state = TransactionCommitting();
       await _pendingTransaction.commit();
       state = TransactionCommitted();
 
-      if (settingsStore.shouldSaveRecipientAddress) {
+      if (settingsStore.shouldSaveRecipientAddress && _lastRecipientAddress != null) {
         await transactionDescriptions.add(TransactionDescription(
             id: transactionId, recipientAddress: _lastRecipientAddress));
       }

@@ -25,7 +25,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
        content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          MaterialButton(onPressed: ()=> walletMenu.action(0),
+          MaterialButton(onPressed: ()=>walletMenu.action(0),
              elevation: 0,
               color: Color(0xff2979FB),
               height: MediaQuery.of(context).size.height*0.20/3,
@@ -36,7 +36,10 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
            SizedBox(
             height: 10,
            ),
-           MaterialButton(onPressed: ()=>Navigator.of(context).pushNamed(Routes.rescan),
+           MaterialButton(onPressed: ()async{
+            await Navigator.of(context).pushNamed(Routes.rescan);
+             Navigator.pop(context);
+            },
              elevation: 0,
               color: Color(0xff0BA70F),
               height: MediaQuery.of(context).size.height*0.20/3,

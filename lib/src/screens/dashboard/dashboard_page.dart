@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/dashboard_rescan_dialog.dart';
 import 'package:beldex_wallet/src/screens/send/send_page.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:date_range_picker/date_range_picker.dart' as date_rage_picker;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -341,6 +343,41 @@ Future<void> _presentQRScanner(BuildContext context) async {
   }
 
 
+Connectivity connectivity;
+StreamSubscription<ConnectivityResult> subscription;
+
+
+
+@override
+  void initState() {
+   getNetworkConnectivity();
+    super.initState();
+  }
+
+void getNetworkConnectivity(){
+  connectivity = Connectivity();
+  subscription = connectivity.onConnectivityChanged.listen(
+    (ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        showDialog<void>(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: Text('No Internet'),
+            content: Text('Please check your internet connection.'),
+            actions: [
+              FlatButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      }
+    },
+  );
+}
 
 
 
@@ -349,6 +386,21 @@ Future<void> _presentQRScanner(BuildContext context) async {
 
 
 
+
+
+
+
+
+
+
+
+
+
+@override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
+  }
 
 
 
@@ -357,7 +409,7 @@ Future<void> _presentQRScanner(BuildContext context) async {
 
   @override
   Widget build(BuildContext context) {
-    //
+   
     final walletStore = Provider.of<WalletStore>(context);
 
     final balanceStore = Provider.of<BalanceStore>(context);

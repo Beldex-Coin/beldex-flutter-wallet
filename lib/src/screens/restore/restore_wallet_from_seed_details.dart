@@ -14,7 +14,9 @@ import 'package:beldex_wallet/palette.dart';
 
 class RestoreWalletFromSeedDetailsPage extends BasePage {
   @override
-  String get title => S.current.restore_wallet_restore_description;
+  String get title => 'Wallet Restore';
+
+
 
   @override
   Widget body(BuildContext context) => RestoreFromSeedDetailsForm();
@@ -31,7 +33,7 @@ class _RestoreFromSeedDetailsFormState
   final _formKey = GlobalKey<FormState>();
   final _blockchainHeightKey = GlobalKey<BlockchainHeightState>();
   final _nameController = TextEditingController();
-
+  String heighterrorMessage; 
   @override
   Widget build(BuildContext context) {
     final walletRestorationStore = Provider.of<WalletRestorationStore>(context);
@@ -76,7 +78,7 @@ class _RestoreFromSeedDetailsFormState
                         children: <Widget>[
                           Flexible(
                               child: Card(
-                                elevation: 5,
+                                elevation: 0,
                                 color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)
@@ -111,6 +113,7 @@ class _RestoreFromSeedDetailsFormState
                         ],
                       ),
                       BlockchainHeightWidget(key: _blockchainHeightKey),
+                    // heighterrorMessage != null || heighterrorMessage != '' ? Text('$heighterrorMessage',style:TextStyle(color:Colors.red)):Container()
                     ]))
           ],
         ),
@@ -118,10 +121,21 @@ class _RestoreFromSeedDetailsFormState
       bottomSection: Observer(builder: (_) {
         return LoadingPrimaryButton(
             onPressed: () {
+              String blockheightValue = BlockchainHeightState().restoreHeightController.text;
+                final RegExp numberRegex = RegExp(r'^[0-9]+$'); //this regex accept only numbers and not space 
+              //  if(blockheightValue.isNotEmpty && numberRegex.hasMatch(blockheightValue)){
+                 
+              //  }
               if (_formKey.currentState.validate()) {
-                walletRestorationStore.restoreFromSeed(
+              
+                
+                   walletRestorationStore.restoreFromSeed(
                     name: _nameController.text,
                     restoreHeight: _blockchainHeightKey.currentState.height);
+                
+               
+              }else{
+                return ;
               }
             },
             isLoading: walletRestorationStore.state is WalletIsRestoring,

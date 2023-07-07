@@ -248,7 +248,15 @@ String currentSubAddress ='';
     });
    
 
-
+bool getAmountValidation(String value){
+      final pattern = RegExp(r'^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}([.][0-9]{0,5}))$');
+                                      if(!pattern.hasMatch(value)){
+                                        return false;
+                                        
+                                      }else{
+                                        return true;
+                                      }
+}
 
 
 
@@ -477,9 +485,15 @@ String currentSubAddress ='';
                                         ],
                                         hintText: 'Enter ${S.of(context).amount}',
                                         validator: (value) {
-                                          
-                                          walletStore.validateAmount(value);
+                                          if(getAmountValidation(value)){
+                                              walletStore.validateAmount(value);
                                           return walletStore.errorMessage;
+                                          }else{
+                                            return '';
+                                          }
+
+                                          
+                                         
                                         },
                                         controller: amountController
                                     )),

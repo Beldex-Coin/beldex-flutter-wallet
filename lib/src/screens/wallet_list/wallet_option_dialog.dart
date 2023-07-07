@@ -8,6 +8,7 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/wallet_list/wallet_list_store.dart';
 import 'package:beldex_wallet/src/wallet/wallet_description.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 class WalletAlertDialog extends StatefulWidget {
@@ -55,7 +56,7 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
                 S.of(context).wallet_list_loading_wallet(widget.wallet.name));
             await _walletListStore.loadWallet(widget.wallet);
             auth.close();
-            Navigator.of(context).pop();
+            Navigator.of(context)..pop()..pop();
           } catch (e) {
             auth.changeProcessText(S
                 .of(context)
@@ -171,10 +172,13 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
                                     
                             ),
                                
-                            
+                            // Observer(builder: (_){
+                            //   return 
+                            // }),
                               GestureDetector(
-                               onTap: () {
+                               onTap: (){
                                       Navigator.of(context1).pop();
+                                     // Navigator.of(context1).pop();
                                       Navigator.of(context).pushNamed(Routes.auth, arguments:
                                           (bool isAuthenticatedSuccessfully, AuthPageState auth) async {
                                         print('status -->$isAuthenticatedSuccessfully');
@@ -192,6 +196,7 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
                                               .wallet_list_failed_to_remove(widget.wallet.name, e.toString()));
                                         }
                                       });
+                                      
                                     },
                                 child: Container(
                                    width: 80,

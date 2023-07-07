@@ -3,10 +3,12 @@
 import 'dart:ui';
 
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -455,6 +457,8 @@ void getWidgetChange()async{
   @override
   Widget build(BuildContext context) {
       final settingsStore = Provider.of<SettingsStore>(context);
+      final walletStore = Provider.of<WalletStore>(context);
+      print('${widget.body}----------> amount');
    return  GestureDetector(
      // onTap: () => _onDismiss(context),
       child: Container(
@@ -475,7 +479,7 @@ void getWidgetChange()async{
                         color: settingsStore.isDarkTheme ? Color(0xff272733) : Colors.white, //Theme.of(context).backgroundColor,
                         borderRadius: BorderRadius.circular(10)),
                     child: Container(
-                      height: MediaQuery.of(context).size.height*2.1/3,
+                      height: MediaQuery.of(context).size.height*2.05/3,
                       padding: EdgeInsets.only( //top: 15.0,
                       left:10,right: 10),
                       child: Column(
@@ -492,7 +496,7 @@ void getWidgetChange()async{
                           ),
                          
                            Container(
-                            height:MediaQuery.of(context).size.height*0.30/3,
+                            height:MediaQuery.of(context).size.height*0.35/3,
                            // color: Colors.yellow,
                             child: Column(children: [
                               Row(children: [
@@ -506,7 +510,7 @@ void getWidgetChange()async{
                                             fontWeight: FontWeight.w900)),
                               ],),
                               Row(children: [
-                                    Expanded(child: Text('ghzhjdhjahdjaghifdhkzvjij.dknlkjgjhlhliihsduihliihlhsgdhjfjkf',style: TextStyle(
+                                    Expanded(child: Text('${walletStore.subaddress.address}',style: TextStyle(
                                             color: Color(0xffACACAC),
                                             fontSize: 13,
                                             fontFamily: 'Poppins',
@@ -544,7 +548,7 @@ void getWidgetChange()async{
                                         fontWeight: FontWeight.w900)),
                                 Container(
                                     child: Text(
-                                        'formattedDate' //'${transaction.date}'
+                                        formatDateTime() //'${transaction.date}'
                                         )),
                               ],
                             ),
@@ -611,7 +615,7 @@ void getWidgetChange()async{
                                         fontWeight: FontWeight.w900)),
                                 Container(
                                     child: Text(
-                                  'formattedAmount',
+                                  widget.body,
                                   style: TextStyle(color: Color(0xff0BA70F)),
                                 ))
                               ],
@@ -622,7 +626,7 @@ void getWidgetChange()async{
                          Divider(
                           color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
                         ),
-                       settingsStore.shouldSaveRecipientAddress 
+                       settingsStore.shouldSaveRecipientAddress && widget.address != null
                        //&&       transaction.recipientAddress != null
                             ?
                         Row(
@@ -640,8 +644,8 @@ void getWidgetChange()async{
                                         ),
                                       ],
                                     ):Container(),
-                        settingsStore.shouldSaveRecipientAddress ?   Row(children: [
-                                    Expanded(child: Text('ghzhjdhjahdjaghifdhkzvjij.dknlkjgjhlhliihsduihliihlhsgdhjfjkf',style: TextStyle(
+                        settingsStore.shouldSaveRecipientAddress && widget.address != null ?   Row(children: [
+                                    Expanded(child: Text('${widget.address}',style: TextStyle(
                                             color: Color(0xffACACAC),
                                             fontSize: 13,
                                             fontFamily: 'Poppins',
@@ -653,13 +657,28 @@ void getWidgetChange()async{
                                     )
                                 ],):Container(),
                                 SizedBox(height:10),
-                          Container(
-                      width:MediaQuery.of(context).size.width*0.80/3,
+                          GestureDetector(
+                                onTap:()=>widget.onPressed(context), //()
+                                // {
+
+                                //  // Navigator.pop(context);
+                                // },
+                            child: Container(
+                      width:MediaQuery.of(context).size.width*0.90/3,
                       height:MediaQuery.of(context).size.height*0.20/3,
                       decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
                         color: Color(0xff0BA70F)
                       ),
-                    )
+                      child:Column(
+                       crossAxisAlignment: CrossAxisAlignment.center,
+                       mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                            Text('OK',style:TextStyle(color: Colors.white,fontWeight:FontWeight.w700,)),
+                        ],
+                      )
+                    ),
+                          )
                         ],
                       ),
                     )),
@@ -669,7 +688,8 @@ void getWidgetChange()async{
           )
 
 
-         : Container(
+         : 
+         Container(
             margin: EdgeInsets.all(15),
            // decoration: BoxDecoration(color: Color(0xff171720).withOpacity(0.55)),
             child: Column(
@@ -691,7 +711,12 @@ void getWidgetChange()async{
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                                GestureDetector(
-                                onTap: (){  if (widget.onDismiss!= null) widget.onDismiss(context);},
+                                onTap: () {
+                                    //if (widget.onDismiss!= null) widget.onDismiss(context);
+                                    setState(() {
+                                      canChangeWidget= true;                                        
+                                    });
+                                    },
                                  child: Container(
                                  // color: Colors.yellow,
                                       //height: 14,width:15,
@@ -752,6 +777,12 @@ void getWidgetChange()async{
         ),
       ),
     );
+  }
+  String formatDateTime(){
+   final  now = DateTime.now();
+  final  formatter = DateFormat('MMM d, yyyy, hh:mm:ss a');
+  final  formattedDate = formatter.format(now);
+   return formattedDate;
   }
 }
 

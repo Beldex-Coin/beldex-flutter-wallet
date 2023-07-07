@@ -75,16 +75,24 @@ Widget trailing(context){
    children: [
     InkWell(
       onTap: () async {
-                await showConfirmBeldexDialog(
-                    context,
-                    S.of(context).node_reset_settings_title,
-                    S.of(context).nodes_list_reset_to_default_message,
-                    onFutureConfirm: (context) async {
+              await  showDialogForResetNode(context,S.of(context).node_reset_settings_title,S.of(context).nodes_list_reset_to_default_message,'','',onPressed: (context)async{
                   Navigator.pop(context);
                   await nodeList.reset();
                   await settings.setCurrentNodeToDefault();
                   return true;
-                });
+                },
+                onDismiss: (context)=>Navigator.pop(context)
+                );
+                // await showConfirmBeldexDialog(
+                //     context,
+                //     S.of(context).node_reset_settings_title,
+                //     S.of(context).nodes_list_reset_to_default_message,
+                //     onFutureConfirm: (context) async {
+                //   Navigator.pop(context);
+                //   await nodeList.reset();
+                //   await settings.setCurrentNodeToDefault();
+                //   return true;
+                // });
               },
     
       child: Container(
