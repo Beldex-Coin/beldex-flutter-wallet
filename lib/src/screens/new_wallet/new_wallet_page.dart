@@ -191,8 +191,15 @@ class _WalletNameFormState extends State<WalletNameForm> {
                         hintText: S.of(context).enter_wallet_name,
                       ),
                       validator: (value) {
-                        walletCreationStore.validateWalletName(value);
+                         final pattern = RegExp(r'^[a-zA-Z]{1,15}$');
+                         if(!pattern.hasMatch(value)){
+                           return 'Name should not exceed 15 characters';
+                         }else{
+                               walletCreationStore.validateWalletName(value);
                         return walletCreationStore.errorMessage;
+                         }
+
+                   
                       },
                     ),
                   ),

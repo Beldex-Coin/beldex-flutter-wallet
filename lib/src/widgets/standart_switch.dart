@@ -1,13 +1,16 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class StandartSwitch extends StatefulWidget {
-  const StandartSwitch({@required this.value, @required this.onTaped});
+  
+
+   StandartSwitch({@required this.value, @required this.onTaped,this.icon});
 
   final bool value;
   final VoidCallback onTaped;
-
+  var icon=false;
   @override
   StandartSwitchState createState() => StandartSwitchState();
 }
@@ -38,20 +41,18 @@ class StandartSwitchState extends State<StandartSwitch> {
             //     color: Colors.grey,width: 1.0),
             borderRadius: BorderRadius.all(Radius.circular(100.0))),
         child: Container(
-          width: 20.0,
-          height: 20.0,
-          
+          width: 22.0,
+          height: 22.0,
+          //padding: EdgeInsets.all(5),
           decoration: BoxDecoration(
             //shape:BoxShape.circle,
-              color: widget.value
+              color:widget.icon ? widget.value ? Color(0xff0BA70F) : Color(0xff737373) :
+               widget.value
                   ? Theme.of(context).primaryTextTheme.button.backgroundColor
                   : Theme.of(context).accentTextTheme.caption.decorationColor,
               borderRadius: BorderRadius.all(Radius.circular(100.0))),
-          // child: Icon(
-          //   widget.value ? Icons.check : Icons.close,
-          //   color: Colors.white,
-          //   size: 12.0,
-          // ),
+          child:  widget.icon ? widget.value ?
+         Image.asset('assets/images/new-images/moon.png') :  Image.asset('assets/images/new-images/sun.png') : Container()
         ),
       ),
     );

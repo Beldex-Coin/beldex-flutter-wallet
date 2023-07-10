@@ -25,6 +25,7 @@ class SettingsSwitchListRow extends StatelessWidget {
       return Observer(
           builder: (_) => StandartSwitch(
               value: settingsStore.shouldSaveRecipientAddress,
+              icon: false,
               onTaped: () {
                 if (balanceVisibility == false &&
                     decimalVisibility == false &&
@@ -41,6 +42,7 @@ class SettingsSwitchListRow extends StatelessWidget {
       return Observer(
           builder: (_) => StandartSwitch(
               value: settingsStore.allowBiometricAuthentication,
+              icon: false,
               onTaped: () {
                 if (balanceVisibility == false &&
                     decimalVisibility == false &&
@@ -57,6 +59,7 @@ class SettingsSwitchListRow extends StatelessWidget {
       return Observer(
           builder: (_) => StandartSwitch(
               value: settingsStore.allowBiometricAuthentication,
+              icon: false,
               onTaped: () {
                 if (balanceVisibility == false &&
                     decimalVisibility == false &&
@@ -74,6 +77,7 @@ class SettingsSwitchListRow extends StatelessWidget {
       return Observer(
           builder: (_) => StandartSwitch(
               value: settingsStore.isDarkTheme,
+              icon: false,
               onTaped: () {
                 if (balanceVisibility == false &&
                     decimalVisibility == false &&
@@ -91,6 +95,7 @@ class SettingsSwitchListRow extends StatelessWidget {
       return Observer(
           builder: (_) => StandartSwitch(
               value: settingsStore.enableFiatCurrency,
+              icon: false,
               onTaped: () {
                 if (balanceVisibility == false &&
                     decimalVisibility == false &&

@@ -51,6 +51,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
               child: TextFormField(
                   style: TextStyle(fontSize: 14.0),
                   controller: restoreHeightController,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   keyboardType: TextInputType.numberWithOptions(
                       signed: false, decimal: false),
                   decoration: InputDecoration(
@@ -63,6 +64,14 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                       enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
                               color: Theme.of(context).focusColor, width: 1.0))*/),
+                              validator: (value){
+                                 final pattern = RegExp(r'^(?!.*\s)\d+$');
+                                 if(!pattern.hasMatch(value)){
+                                   return 'Enter valid height without space';
+                                 }else{
+                                  return null;
+                                 }
+                              },
               ),
             ),
                 ))
@@ -102,7 +111,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                         Container(
                           width: 130,
                           child: TextFormField(
-                            
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             style: TextStyle(fontSize: 14.0),
                             decoration: InputDecoration(
                               //suffix:Icon(Icons.calendar_today,), //SvgPicture.asset('assets/images/new-images/calendar.svg',color:Colors.black),
@@ -121,7 +130,12 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                             
                             controller: dateController,
                             validator: (value) {
-                              return null;
+                              if(value.isEmpty){
+                                return 'Date should not be empty';
+                              }else{
+                               return null;
+                              }
+                              
                             },
                           ),
                         ),

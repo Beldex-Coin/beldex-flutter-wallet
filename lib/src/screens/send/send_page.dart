@@ -1404,8 +1404,8 @@ bottomSection: Observer(builder: (_){
                                   if (!currentFocus.hasPrimaryFocus) {
                                     currentFocus.unfocus();
                                   }
-                                  await Future.delayed(
-                                      const Duration(milliseconds: 100), () {});
+                                  // await Future.delayed(
+                                  //     const Duration(milliseconds: 100), () {});
                                   if (_formKey.currentState.validate()) {
                                     if (!addressValidation &&
                                         !amountValidation) {
@@ -1425,6 +1425,7 @@ bottomSection: Observer(builder: (_){
                                           address: _addressController.text,
                                           tPriority: BeldexTransactionPriority.flash
                                         );
+                                        
                                        }
                                         await sendStore.createTransaction(
                                             address: _addressController.text);

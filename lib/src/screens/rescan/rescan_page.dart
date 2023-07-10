@@ -52,10 +52,20 @@ class RescanPage extends BasePage {
                       rescanWalletStore.state == RescanWalletState.rescaning,
                   text: S.of(context).rescan,
                   onPressed: () async {
-                   
+                   if(BlockchainHeightState().restoreHeightController.text == '' || BlockchainHeightState().restoreHeightController.text == null ||
+                   BlockchainHeightState().dateController.text == null 
+                   ){
+                     
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Please Enter a valid blockheight'))
+                    );
+                    return null;
+                   }else{
                     await rescanWalletStore.rescanCurrentWallet(
                         restoreHeight: blockchainKey.currentState.height);
                     Navigator.of(context).pop();
+                   }
+                    
                   },
                   color:
                       Theme.of(context).primaryTextTheme.button.backgroundColor,

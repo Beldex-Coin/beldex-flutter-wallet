@@ -80,6 +80,7 @@ dependencies:
   blurrycontainer: ^1.0.2
   connectivity_plus:
   flutter_windowmanager:
+  font_awesome_flutter:
 dev_dependencies:
   flutter_test:
     sdk: flutter

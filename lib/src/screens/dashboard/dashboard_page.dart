@@ -5,6 +5,9 @@ import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/dashboard_rescan_dialog.dart';
 import 'package:beldex_wallet/src/screens/send/send_page.dart';
+import 'package:beldex_wallet/src/screens/settings/widgets/settings_switch_list_row.dart';
+import 'package:beldex_wallet/src/widgets/standart_switch.dart';
+import 'package:beldex_wallet/theme_changer.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:date_range_picker/date_range_picker.dart' as date_rage_picker;
 import 'package:flutter/cupertino.dart';
@@ -34,6 +37,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../palette.dart';
+import '../../../themes.dart';
 
 class DashboardPage extends BasePage {
   final _bodyKey = GlobalKey();
@@ -138,51 +142,82 @@ class DashboardPage extends BasePage {
   @override
   Widget trailing(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    return Container(
-      width: 60,
-      height: 60,
-      alignment: Alignment.centerLeft,
-      // decoration: BoxDecoration(
-      //   color: Theme.of(context).accentTextTheme.headline6.color,
-      //   borderRadius: BorderRadius.only(
-      //       topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
-      //   boxShadow: [
-      //     BoxShadow(
-      //       color: Theme.of(context).accentTextTheme.headline6.color,
-      //       blurRadius: 2.0,
-      //       spreadRadius: 1.0,
-      //       offset: Offset(2.0, 2.0), // shadow direction: bottom right
-      //     )
-      //   ],
-      // ),
-      child: SizedBox(
-        height: 55, //55
-        width: 55, //37
-        child: ButtonTheme(
-          minWidth: double.minPositive,
-          child: TextButton(
-              /* highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              padding: EdgeInsets.all(0),*/
-              style: ButtonStyle(
-                overlayColor:
-                    MaterialStateColor.resolveWith((states) => Colors.transparent),
-              ),
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(Routes.profile),
-              child:
-               SvgPicture.asset(
-                'assets/images/new-images/setting.svg',
-                fit: BoxFit.cover,
-                color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
-                width: 25,
-                height: 25,
-              ) /*Icon(Icons.account_circle_rounded,
-                  color: Theme.of(context).primaryTextTheme.caption.color,
-                  size: 30)*/
-              ),
+    
+    final _themeChanger = Provider.of<ThemeChanger>(context);
+    return Row(
+      children: [
+         Container(
+          height:25,width:50,
+           child:
+          //  Observer(builder: (_){
+          //   return 
+          //  })
+           
+            StandartSwitch(
+            value: settingsStore.isDarkTheme,
+            icon: true,
+            //activeThumbImage: ,
+            onTaped:  (){
+               final _currentValue = !settingsStore.isDarkTheme;
+                  settingsStore.saveDarkTheme(isDarkTheme: _currentValue);
+                  _themeChanger.setTheme(
+                      _currentValue ? Themes.darkTheme : Themes.lightTheme);
+            })
+            // SettingsSwitchListRow(
+            //           title: S.current.settings_dark_mode,
+            //            balanceVisibility: false,
+            //               decimalVisibility: false,
+            //               currencyVisibility: false,
+            //               feePriorityVisibility: false,
+            //         ),
+         ),
+        Container(
+          width: 60,
+          height: 60,
+          alignment: Alignment.centerLeft,
+          // decoration: BoxDecoration(
+          //   color: Theme.of(context).accentTextTheme.headline6.color,
+          //   borderRadius: BorderRadius.only(
+          //       topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
+          //   boxShadow: [
+          //     BoxShadow(
+          //       color: Theme.of(context).accentTextTheme.headline6.color,
+          //       blurRadius: 2.0,
+          //       spreadRadius: 1.0,
+          //       offset: Offset(2.0, 2.0), // shadow direction: bottom right
+          //     )
+          //   ],
+          // ),
+          child: SizedBox(
+            height: 55, //55
+            width: 55, //37
+            child: ButtonTheme(
+              minWidth: double.minPositive,
+              child: TextButton(
+                  /* highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  padding: EdgeInsets.all(0),*/
+                  style: ButtonStyle(
+                    overlayColor:
+                        MaterialStateColor.resolveWith((states) => Colors.transparent),
+                  ),
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(Routes.profile),
+                  child:
+                   SvgPicture.asset(
+                    'assets/images/new-images/setting.svg',
+                    fit: BoxFit.cover,
+                    color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+                    width: 25,
+                    height: 25,
+                  ) /*Icon(Icons.account_circle_rounded,
+                      color: Theme.of(context).primaryTextTheme.caption.color,
+                      size: 30)*/
+                  ),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 

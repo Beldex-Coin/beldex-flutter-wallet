@@ -258,16 +258,19 @@ class SeedWidgetState extends State<SeedWidget> {
                 return InkWell(
                   onTap: () => onMnemoticTap(item),
                   child: Container(
+                    padding: EdgeInsets.all(5),
                       decoration: BoxDecoration(
                           color:
-                              isValid ? Colors.transparent : BeldexPalette.red),
+                              isValid ? Colors.grey : BeldexPalette.red,
+                              borderRadius: BorderRadius.circular(7)
+                              ),
                       margin: EdgeInsets.only(right: 7, bottom: 8),
                       child: Text(
                         item.toString(),
                         style: TextStyle(
                             color:
                                 isValid ? Palette.blueGrey : Palette.lightGrey,
-                            fontSize: 18,
+                            fontSize: 15,
                             fontWeight:
                                 isSelected ? FontWeight.w900 : FontWeight.w400,
                             decoration: isSelected
@@ -284,7 +287,7 @@ class SeedWidgetState extends State<SeedWidget> {
               margin: EdgeInsets.only(left: 20,right: 20),
               child: Column(children: <Widget>[
                 Card(
-                  elevation: 5,
+                  elevation: 0,
                   color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
