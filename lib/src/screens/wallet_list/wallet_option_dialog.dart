@@ -189,6 +189,7 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
                                           auth.changeProcessText(
                                               S.of(context).wallet_list_removing_wallet(widget.wallet.name));
                                           await _walletListStore.remove(widget.wallet);
+                                         await _walletListStore.updateWalletList();
                                           auth.close();
                                         } catch (e) {
                                           auth.changeProcessText(S

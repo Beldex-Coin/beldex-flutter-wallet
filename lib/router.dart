@@ -140,8 +140,6 @@ class Router {
                 child: SetupPinCodePage(
                     onPinCodeSetup: (context, pin) =>
                         callback == null ? null : callback(context, pin),
-                        appBarTitle: 'Setup pin',
-                        
                         )));
 
       case Routes.restoreOptions:

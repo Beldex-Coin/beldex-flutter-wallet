@@ -417,12 +417,11 @@ class SendTransactionSuccessfully extends StatefulWidget {
 
 class _SendTransactionSuccessfullyState extends State<SendTransactionSuccessfully> {
 
-bool canChangeWidget = false;
+
 
 
 @override
   void initState() {
-    getWidgetChange();
     callFuture();
     super.initState();
   }
@@ -432,37 +431,12 @@ void callFuture()async{
      Navigator.of(context)..pop()..pop();
   });
 }
-void getWidgetChange()async{
-     Future.delayed(Duration(seconds:2 ),(){
-      if(mounted){
-         setState(() {
-                  canChangeWidget = true;
-                });
-      }
-       
-     });
-}
-
- void _launchUrl(String url) async {
-    if (await canLaunch(url)) await launch(url);
-  }
-
-
-@override
-  void dispose() {
-    // setState(() {
-          
-    //     });
-    canChangeWidget= false;
-    super.dispose();
-  }
 
 
 
   @override
   Widget build(BuildContext context) {
       final settingsStore = Provider.of<SettingsStore>(context);
-      final walletStore = Provider.of<WalletStore>(context);
       print('${widget.body}----------> amount');
    return  GestureDetector(
      // onTap: () => _onDismiss(context),
@@ -495,10 +469,10 @@ void getWidgetChange()async{
                             children: [
                                GestureDetector(
                                 onTap: () {
-                                    //if (widget.onDismiss!= null) widget.onDismiss(context);
-                                    setState(() {
-                                      canChangeWidget= true;                                        
-                                    });
+                                    if (widget.onDismiss!= null) widget.onDismiss(context);
+                                    // setState(() {
+                                    //   canChangeWidget= true;                                        
+                                    // });
                                     },
                                  child: Container(
                                  // color: Colors.yellow,

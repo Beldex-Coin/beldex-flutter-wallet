@@ -30,7 +30,6 @@ abstract class PinCodeWidget extends StatefulWidget {
 class PinCode extends PinCodeWidget {
   PinCode(Function(List<int> pin, PinCodeState state) onPinCodeEntered,
       bool hasLengthSwitcher, Key key,Function() notifyParent,
-    //this.canShowBackArrow
       )
       : super(
             key: key,
@@ -68,7 +67,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
 
 
   void onPinCodeEntered(PinCodeState state) =>
-      widget.onPinCodeEntered(state.pin, this);
+      widget.onPinCodeEntered.call(state.pin, this);
 
   void changePinLength(int length) {
     final newPin = List<int>.filled(length, null);
@@ -452,7 +451,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title:Text(
-                                    'Biometric feature currenly diabled.Kindly enable allow biometric authentication feature inside the app settings',
+                                    'Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings',
                                     style: TextStyle(color:settingsStore.isDarkTheme ? Colors.white :Colors.black,fontSize:14),
                                     textAlign: TextAlign.center,
                                     

@@ -44,6 +44,7 @@ class BeldexTextField extends StatelessWidget {
                 color: Theme.of(context).accentTextTheme.overline.color),
             keyboardType: keyboardType,
             inputFormatters: inputFormatters,
+            //autovalidateMode: AutovalidateMode.onUserInteraction,
             decoration: InputDecoration(
                 border: InputBorder.none,
                 prefixIcon: prefixIcon,

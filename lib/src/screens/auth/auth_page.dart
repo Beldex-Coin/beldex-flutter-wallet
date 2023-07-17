@@ -38,15 +38,10 @@ class AuthPageState extends State<AuthPage> {
     setState(() {});
   }
 
-
-@override
-  void dispose() {
-
-    super.dispose();
-  }
-
-
-
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -56,19 +51,17 @@ class AuthPageState extends State<AuthPage> {
     if (settingsStore.allowBiometricAuthentication) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         final biometricAuth = BiometricAuth();
-        biometricAuth.isAuthenticated().then(
-                (isAuth) {
-              if (isAuth) {
-                authStore.biometricAuth();
-                _key.currentState.showSnackBar(
-                  SnackBar(
-                    content: Text(S.of(context).authenticated),
-                    backgroundColor: Colors.green,
-                  ),
-                );
-              }
-            }
-        );
+        biometricAuth.isAuthenticated().then((isAuth) {
+          if (isAuth) {
+            authStore.biometricAuth();
+            _key.currentState.showSnackBar(
+              SnackBar(
+                content: Text(S.of(context).authenticated),
+                backgroundColor: Colors.green,
+              ),
+            );
+          }
+        });
       });
     }
 
@@ -119,7 +112,7 @@ class AuthPageState extends State<AuthPage> {
       if (state is AuthenticationBanned) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _pinCodeKey.currentState.clear();
-         // ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          // ScaffoldMessenger.of(context).hideCurrentSnackBar();
           _key.currentState.hideCurrentSnackBar();
           _key.currentState.showSnackBar(
             SnackBar(
@@ -135,15 +128,20 @@ class AuthPageState extends State<AuthPage> {
       }
     });
 
-
     return Scaffold(
         key: _key,
-        
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(50),
           child: CupertinoNavigationBar(
-            trailing: widget.closable ? SizedBox(width: 50,):SizedBox(width: 0,),
-            middle:Container(margin:EdgeInsets.only(top: 5),
+            trailing: widget.closable
+                ? SizedBox(
+                    width: 50,
+                  )
+                : SizedBox(
+                    width: 0,
+                  ),
+            middle: Container(
+              margin: EdgeInsets.only(top: 5),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -154,28 +152,40 @@ class AuthPageState extends State<AuthPage> {
                   // SizedBox(width: 5,),
                   Text(
                     'Enter pin',
-                    style: TextStyle(fontWeight: FontWeight.w600,fontSize: 22,color: Theme.of(context).primaryTextTheme.caption.color,),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 22,
+                      color: Theme.of(context).primaryTextTheme.caption.color,
+                    ),
                   ),
                 ],
               ),
             ),
-            leading: widget.closable ? GestureDetector(
-              onTap: ()=> Navigator.pop(context),
-              child: Container(
-                child:Icon(Icons.arrow_back,color: Theme.of(context).primaryTextTheme.caption.color,)
-              ),
-            ):SizedBox(width: 0,),
-            backgroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+            leading: widget.closable
+                ? GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: Container(
+                        child: Icon(
+                      Icons.arrow_back,
+                      color: Theme.of(context).primaryTextTheme.caption.color,
+                    )),
+                  )
+                : SizedBox(
+                    width: 0,
+                  ),
+            backgroundColor: settingsStore.isDarkTheme
+                ? Color(0xff171720)
+                : Color(0xffffffff),
             border: null,
           ),
         ),
         resizeToAvoidBottomInset: false,
         body: PinCode(
-            (pin, _) => authStore.auth(
-                password: pin.fold('', (ac, val) => ac + '$val')),
-            false,
-            _pinCodeKey,refresh,
-           // canShowBackArrow: false, // canShowBackArrow 
-            ));
+          (pin, _) =>
+              authStore.auth(password: pin.fold('', (ac, val) => ac + '$val')),
+          false,
+          _pinCodeKey, refresh,
+          // canShowBackArrow: false, // canShowBackArrow
+        ));
   }
 }

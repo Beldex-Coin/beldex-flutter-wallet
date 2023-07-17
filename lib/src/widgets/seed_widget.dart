@@ -1,3 +1,5 @@
+import 'package:beldex_wallet/src/screens/rescan/rescan_page.dart';
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +18,7 @@ import 'package:beldex_wallet/src/wallet/beldex/mnemonics/portuguese.dart';
 import 'package:beldex_wallet/src/wallet/beldex/mnemonics/russian.dart';
 import 'package:beldex_wallet/src/wallet/beldex/mnemonics/spanish.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
+import 'package:provider/provider.dart';
 
 final List<String> _englishWords =
     EnglishMnemonics.words + EnglishOldMnemonics.words;
@@ -177,6 +180,7 @@ class SeedWidgetState extends State<SeedWidget> {
   void replaceText(String text) {
     setState(() => items = []);
     mnemoticFromText(text);
+    _seedController.text = text;
   }
 
   void changeCurrentMnemotic(String text) {
@@ -216,6 +220,7 @@ class SeedWidgetState extends State<SeedWidget> {
         selectedItem = null;
       } else {
         items.addAll(currentMnemotics);
+        //_seedController.text = items.join(', ');
       }
 
       currentMnemotics = [];
@@ -244,47 +249,64 @@ class SeedWidgetState extends State<SeedWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
-      child: Column(mainAxisSize: MainAxisSize.max,children: [
-        Flexible(
-            fit: FlexFit.tight,
-            flex:6,
-            child: SingleChildScrollView(
-              child: Wrap(
-                  children: items.map((item) {
-                final isValid = item.isCorrect();
-                final isSelected = selectedItem == item;
+      alignment: Alignment.center,
+      child: Column( 
+      //  mainAxisSize: MainAxisSize.max,
+       mainAxisAlignment: MainAxisAlignment.center,
+      // crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Flexible(
+        //     fit: FlexFit.tight,
+        //     flex:6,
+        //     child: SingleChildScrollView(
+        //       child: Wrap(
+        //           children: items.map((item) {
+        //         final isValid = item.isCorrect();
+        //         final isSelected = selectedItem == item;
 
-                return InkWell(
-                  onTap: () => onMnemoticTap(item),
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                          color:
-                              isValid ? Colors.grey : BeldexPalette.red,
-                              borderRadius: BorderRadius.circular(7)
-                              ),
-                      margin: EdgeInsets.only(right: 7, bottom: 8),
-                      child: Text(
-                        item.toString(),
-                        style: TextStyle(
-                            color:
-                                isValid ? Palette.blueGrey : Palette.lightGrey,
-                            fontSize: 15,
-                            fontWeight:
-                                isSelected ? FontWeight.w900 : FontWeight.w400,
-                            decoration: isSelected
-                                ? TextDecoration.underline
-                                : TextDecoration.none),
-                      )),
-                );
-              }).toList()),
-            )),
-        Flexible(
-            fit: FlexFit.tight,
-            flex: 12,
-            child: Container(
-              margin: EdgeInsets.only(left: 20,right: 20),
+        //         return InkWell(
+        //           onTap: () => onMnemoticTap(item),
+        //           child: Container(
+        //             padding: EdgeInsets.all(5),
+        //               decoration: BoxDecoration(
+        //                   color:
+        //                       isValid ? Colors.grey : BeldexPalette.red,
+        //                       borderRadius: BorderRadius.circular(7)
+        //                       ),
+        //               margin: EdgeInsets.only(right: 7, bottom: 8),
+        //               child: Text(
+        //                 item.toString(),
+        //                 style: TextStyle(
+        //                     color:
+        //                         isValid ? Palette.blueGrey : Palette.lightGrey,
+        //                     fontSize: 15,
+        //                     fontWeight:
+        //                         isSelected ? FontWeight.w900 : FontWeight.w400,
+        //                     decoration: isSelected
+        //                         ? TextDecoration.underline
+        //                         : TextDecoration.none),
+        //               )),
+        //         );
+        //       }).toList()),
+        //     )),
+
+
+
+
+
+
+
+
+
+        // Flexible(
+        //     fit: FlexFit.tight,
+        //     flex: 12,
+        //     child: 
+            Container(
+              margin: EdgeInsets.only(left: 10,right: 10),
+            
               child: Column(children: <Widget>[
                 Card(
                   elevation: 0,
@@ -293,13 +315,16 @@ class SeedWidgetState extends State<SeedWidget> {
                       borderRadius: BorderRadius.circular(10)
                   ),
                   child: Container(
+                      height:MediaQuery.of(context).size.height*1/3,
                     padding: EdgeInsets.all(16),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween
+                      ,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         TextFormField(
                           key: _seedTextFieldKey,
+                          maxLines: 5,
                           onFieldSubmitted: (text) => isCurrentMnemoticValid
                               ? saveCurrentMnemoticToItems()
                               : null,
@@ -341,37 +366,88 @@ class SeedWidgetState extends State<SeedWidget> {
                         SizedBox(
                           height: 10,
                         ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                              '${items.length}/${SeedWidgetState.maxLength}',
-                              style: TextStyle(
-                                  color: Colors.grey.withOpacity(0.6), fontSize: 14)),
-                        ),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              onTap: () => _seedController.clear(),
+                              child: Container(
+                                height:50,
+                                width:90,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: settingsStore.isDarkTheme ? Color(0xff333343) : Color(0xffDADADA)
+                                ),
+                                child: Center(child: Text('Clear',textAlign:TextAlign.center ,style: TextStyle(fontSize:16,fontWeight:FontWeight.w700))),
+                              ),
+                            ),
+                          ),
+                           GestureDetector(
+                            onTap:  () async =>
+                          Clipboard.getData('text/plain').then(
+                                  (clipboard) =>
+                                  replaceText(clipboard.text)),
+                             child: Container(
+                              height:50,
+                              width:MediaQuery.of(context).size.width*0.90/3,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xff2979FB)
+                              ),
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children:[
+                                     Icon(Icons.paste,size: 15,color: Colors.white,),
+                                     Text('Paste',style: TextStyle(fontSize:16,fontWeight:FontWeight.w700,color: Colors.white))
+                                  ]
+                                 
+                                ),
+                              ),
+                          ),
+                           )
+                        ],
+                      )
+
+
+
+
+
+
+                        // Align(
+                        //   alignment: Alignment.centerRight,
+                        //   child: Text(
+                        //       '${items.length}/${SeedWidgetState.maxLength}',
+                        //       style: TextStyle(
+                        //           color: Colors.grey.withOpacity(0.6), fontSize: 14)),
+                        // ),
                       ],
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    FlatButton(
-                        padding: EdgeInsets.all(0),
-                        onPressed: () => _seedController.clear(),
-                        child: Text(S.of(context).clear,style: TextStyle(color:Theme.of(context).accentTextTheme.caption.decorationColor),)),
-                    InkWell(
-                      onTap: () async =>
-                          Clipboard.getData('text/plain').then(
-                                  (clipboard) =>
-                                  replaceText(clipboard.text)),
-                      child: Container(
-                          height: 35,
-                          padding: EdgeInsets.all(7),
-                          child: Text(S.of(context).paste)),
-                    ),
-                    SizedBox(width: 10,)
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.end,
+                //   children: [
+                //     FlatButton(
+                //         padding: EdgeInsets.all(0),
+                //         onPressed: () => _seedController.clear(),
+                //         child: Text(S.of(context).clear,style: TextStyle(color:Theme.of(context).accentTextTheme.caption.decorationColor),)),
+                //     InkWell(
+                //       onTap: () async =>
+                //           Clipboard.getData('text/plain').then(
+                //                   (clipboard) =>
+                //                   replaceText(clipboard.text)),
+                //       child: Container(
+                //           height: 35,
+                //           padding: EdgeInsets.all(7),
+                //           child: Text(S.of(context).paste)),
+                //     ),
+                //     SizedBox(width: 10,)
+                //   ],
+                // ),
                 Padding(
                     padding: EdgeInsets.only(top:20,),
                     child: (selectedItem == null && items.length == maxLength)
@@ -398,7 +474,8 @@ class SeedWidgetState extends State<SeedWidget> {
                           borderColor: Theme.of(context).primaryTextTheme.button.backgroundColor),
                         ))
               ]),
-            ))
+            )
+            //)
       ]),
     );
   }

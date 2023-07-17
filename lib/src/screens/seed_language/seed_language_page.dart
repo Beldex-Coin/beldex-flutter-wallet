@@ -78,7 +78,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
     final seedLanguageStore = Provider.of<SeedLanguageStore>(context);
  final settingsStore = Provider.of<SettingsStore>(context);
  final _controller = ScrollController(keepScrollOffset: true);
-  final _scrollController = ScrollController(keepScrollOffset: true);
+ // final _scrollController = ScrollController(keepScrollOffset: true);
     return 
     ScrollableWithBottomSection(
       content: Column(
@@ -118,7 +118,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
                 margin: EdgeInsets.only(right:8),
                color:  settingsStore.isDarkTheme ?  Color(0xff272733) : Color(0xffEDEDED) ,
                 child: ListView.builder(
-                    controller: _scrollController,
+                    controller: _controller,
                     scrollDirection: Axis.vertical,
                     itemCount: seedLanguages.length,
                     itemBuilder: (BuildContext context, int index) {

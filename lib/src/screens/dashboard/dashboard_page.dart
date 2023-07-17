@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:beldex_coin/wallet.dart';
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/dashboard_rescan_dialog.dart';
+import 'package:beldex_wallet/src/screens/root/internet_connection.dart';
 import 'package:beldex_wallet/src/screens/send/send_page.dart';
 import 'package:beldex_wallet/src/screens/settings/widgets/settings_switch_list_row.dart';
+import 'package:beldex_wallet/src/wallet/beldex/beldex_wallet.dart';
 import 'package:beldex_wallet/src/widgets/standart_switch.dart';
 import 'package:beldex_wallet/theme_changer.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -65,6 +68,8 @@ class DashboardPage extends BasePage {
           ),
     );
   }
+
+
 
   /*@override
   Widget leading(BuildContext context) {
@@ -385,34 +390,11 @@ StreamSubscription<ConnectivityResult> subscription;
 
 @override
   void initState() {
-   getNetworkConnectivity();
+  
     super.initState();
   }
 
-void getNetworkConnectivity(){
-  connectivity = Connectivity();
-  subscription = connectivity.onConnectivityChanged.listen(
-    (ConnectivityResult result) {
-      if (result == ConnectivityResult.none) {
-        showDialog<void>(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            title: Text('No Internet'),
-            content: Text('Please check your internet connection.'),
-            actions: [
-              FlatButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
-        );
-      }
-    },
-  );
-}
+
 
 
 
@@ -437,8 +419,15 @@ void getNetworkConnectivity(){
     super.dispose();
   }
 
+bool nStatus = true;
+void getNetworkStatus()async{
 
-
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+        nStatus = prefs.getBool('networkStatus');
+        });
+   
+}
 
 
 
@@ -453,6 +442,8 @@ void getNetworkConnectivity(){
     final settingsStore = Provider.of<SettingsStore>(context);
     final transactionDateFormat = settingsStore.getCurrentDateFormat(
         formatUSA: 'MMMM d, yyyy, HH:mm', formatDefault: 'd MMMM yyyy, HH:mm');
+    final networkStatus = NetworkStatus();
+    getNetworkStatus();
     print('Called');
     return WillPopScope(
       onWillPop: onBackPressed,
@@ -531,14 +522,33 @@ void getNetworkConnectivity(){
                                               ),
                                             ),
                                             SizedBox(height: 10),
-                                            Text(statusText.toLowerCase()  ,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
-                                                    color: isFailure
-                                                        ? BeldexPalette.red
-                                                        : BeldexPalette.belgreen //teal
-                                                        )),
+                                          Row(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(statusText.toLowerCase()  ,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight: FontWeight.bold,
+                                                        color: isFailure
+                                                            ? BeldexPalette.red
+                                                            : BeldexPalette.belgreen //teal
+                                                            )),
+                                                statusText == 'SYNCHRONIZED' ? GestureDetector(
+                                                  onTap: ()async{
+                                                   await showDialog<void>(context: context, builder: (_){
+                                                      return SyncInfoAlertDialog();
+                                                   });
+                                                  },
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(left:5.0),
+                                                    child: Icon(Icons.info_outline,size: 15),
+                                                  ),
+                                                ):Container()
+                                              ],
+                                            ),
+                                            // : Container(
+                                            //   child:Text('Trying to connect')
+                                            // ),
                                             Text(descriptionText   ,
                                                 style: TextStyle(
                                                     fontSize: 11,
@@ -839,7 +849,7 @@ void getNetworkConnectivity(){
                                                                     final status = syncStore.status;
                                                                  syncStatus = status.title();
                                                                return  GestureDetector(
-                                                                onTap: syncStatus == 'SYNCHRONIZED' ? (){
+                                                                onTap: syncStatus == 'SYNCHRONIZED' && !nStatus ? (){
                                                                    Navigator.of(context,
                                                                  rootNavigator: true).pushNamed(Routes.send);
                                                                 }: null,
@@ -848,7 +858,7 @@ void getNetworkConnectivity(){
                                                                   height:46,
                                                                   decoration: BoxDecoration(
                                                                      borderRadius: BorderRadius.circular(8),
-                                                                    color:syncStatus == 'SYNCHRONIZED' ? Color(0xff0BA70F): settingsStore.isDarkTheme ? Color(0xff333343): Color(0xffE8E8E8),
+                                                                    color:syncStatus == 'SYNCHRONIZED' && !nStatus ? Color(0xff0BA70F): settingsStore.isDarkTheme ? Color(0xff333343): Color(0xffE8E8E8),
 
                                                                   ),
                                                                   child: Row(
@@ -857,12 +867,12 @@ void getNetworkConnectivity(){
                                                                     children: [
                                                                       Container( 
                                                                         height:20,width:20,
-                                                                        child: SvgPicture.asset('assets/images/new-images/send.svg',color: syncStatus == 'SYNCHRONIZED' ? Colors.white: settingsStore.isDarkTheme ? Color(0xff6C6C78): Color(0xffB2B2B6),)),
+                                                                        child: SvgPicture.asset('assets/images/new-images/send.svg',color: syncStatus == 'SYNCHRONIZED'&& !nStatus ? Colors.white: settingsStore.isDarkTheme ? Color(0xff6C6C78): Color(0xffB2B2B6),)),
                                                                       Padding(
                                                                         padding: const EdgeInsets.only(left:8.0),
                                                                         child: Text(S.of(context).send,
                                                                          style: TextStyle(
-                                                                          color:syncStatus == 'SYNCHRONIZED' ? Colors.white: settingsStore.isDarkTheme ? Color(0xff6C6C78): Color(0xffB2B2B6),
+                                                                          color:syncStatus == 'SYNCHRONIZED' && !nStatus ? Colors.white: settingsStore.isDarkTheme ? Color(0xff6C6C78): Color(0xffB2B2B6),
                                                                           fontWeight: FontWeight.bold,
                                                                           fontSize: 16),
                                                                         ),
@@ -876,8 +886,7 @@ void getNetworkConnectivity(){
                                                              
                                                                GestureDetector(
                                                                  onTap: () {
-                                                      Navigator.of(context,
-                                                    rootNavigator: true).pushNamed(Routes.receive);
+                                                      Navigator.of(context).pushNamed(Routes.receive);
                                                               },
                                                                  child: Container(
                                                                   width:142,
@@ -1326,7 +1335,7 @@ void getNetworkConnectivity(){
                                 child: Text('Flash Transaction',style: TextStyle(fontSize:23,fontWeight:FontWeight.w800),),
                               ),
                                 GestureDetector(
-                                  onTap:syncStat == 'SYNCHRONIZED' ? (){
+                                  onTap:syncStat == 'SYNCHRONIZED' && !nStatus ? (){
                                       //scannerAction();
                                       _presentQRScanner(context);
                                   }:null,
@@ -1343,7 +1352,7 @@ void getNetworkConnectivity(){
                                         color: Color(0xffFFFFFF),
                                         borderRadius: BorderRadius.circular(10),
                                       ),
-                                      child: SvgPicture.asset('assets/images/new-images/flashqr.svg',color: syncStat == 'SYNCHRONIZED' ? Color(0xff222222): Color(0xffD9D9D9),)
+                                      child: SvgPicture.asset('assets/images/new-images/flashqr.svg',color: syncStat == 'SYNCHRONIZED'&& !nStatus  ? Color(0xff222222): Color(0xffD9D9D9),)
                                     ),
                                   ),
                                 ),
@@ -1957,3 +1966,73 @@ class ShowMenuForRescan extends StatelessWidget {
   }
 }
 
+
+
+class SyncInfoAlertDialog extends StatefulWidget {
+  const SyncInfoAlertDialog({ Key key }) : super(key: key);
+
+  @override
+  State<SyncInfoAlertDialog> createState() => _SyncInfoAlertDialogState();
+}
+
+
+class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
+
+
+int bHeight = 0;
+
+
+@override
+  void initState() {
+    getHeight();
+    super.initState();
+  }
+
+
+void getHeight()async{
+  final prefs = await SharedPreferences.getInstance();
+  setState(() {
+      bHeight = prefs.getInt('currentHeight');
+    });
+ 
+  
+}
+
+  @override
+  Widget build(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
+    return AlertDialog(
+       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        title: Center(child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.info_outline,color: Color(0xff0BA70F),),
+            Text('Sync info',style: TextStyle(fontWeight:FontWeight.w800)),
+          ],
+        )),
+       backgroundColor:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
+       content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+            Text('You have scanned from the block height',textAlign: TextAlign.center,),
+            Text(bHeight.toString(),textAlign: TextAlign.center,style:TextStyle(color: Color(0xff0BA70F))),
+            Text('However we recommend to scan the blockchain from the block height at which you \ncreated the wallet to get all transactions\n and correct balance',textAlign: TextAlign.center,),
+
+           MaterialButton(onPressed: ()async{
+            await Navigator.of(context).pushNamed(Routes.rescan);
+             Navigator.pop(context);
+            },
+             elevation: 0,
+              color: Color(0xff0BA70F),
+              height: MediaQuery.of(context).size.height*0.20/3,
+              minWidth: double.infinity, 
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), 
+              child:Text('Rescan wallet',style: TextStyle(fontSize:17,color:Colors.white,fontWeight:FontWeight.w800),),
+           ),
+           
+           
+        ],
+       ),
+    );
+  }
+}

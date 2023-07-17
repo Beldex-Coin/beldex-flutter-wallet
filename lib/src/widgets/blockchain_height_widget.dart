@@ -103,7 +103,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                   child: Container(
                     padding: EdgeInsets.only(left: 30,top:5,bottom:5,right:10),
               child: InkWell(
-                  onTap: () => _selectDate(context),
+                  onTap: () => selectDate(context),
                   child: IgnorePointer(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -184,7 +184,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
     );
   }
 
-  Future _selectDate(BuildContext context) async {
+  Future selectDate(BuildContext context) async {
     final now = DateTime.now();
     final date = await showDatePicker(
         context: context,

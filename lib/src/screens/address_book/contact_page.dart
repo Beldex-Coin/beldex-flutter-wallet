@@ -158,6 +158,16 @@ class ContactFormState extends State<ContactForm> {
         });*/
   }
 
+bool validateInput(String input) {
+  if (input.trim().isEmpty || input.startsWith(' ')) {
+    // Value consists only of spaces or contains a leading space
+    return false;
+  }
+  // Other validation rules can be applied here
+  return true;
+}
+
+
   @override
   Widget build(BuildContext context) {
     final addressBookStore = Provider.of<AddressBookStore>(context);
@@ -174,6 +184,11 @@ class ContactFormState extends State<ContactForm> {
                 hintText: 'Enter name',
                 controller: _contactNameController,
                 validator: (value) {
+                    if(value == null || value == '' ){
+                      return 'Name should not be empty';
+                    }else if(!validateInput(value)){
+                      return 'Enter a valid name';
+                    }
                   addressBookStore.validateContactName(value);
                   return addressBookStore.errorMessage;
                 },
@@ -332,8 +347,10 @@ class ContactFormState extends State<ContactForm> {
            ),
              GestureDetector(
               onTap: coinVisibility ? null:() async {
-                    if (!_formKey.currentState.validate()) return;
-
+                    if (!_formKey.currentState.validate()) {return; }
+                  // if(validateInput(_contactNameController.text)){
+                  //   return '';
+                  // }
                     try {
                       if (widget.contact == null) {
                         final newContact = Contact(

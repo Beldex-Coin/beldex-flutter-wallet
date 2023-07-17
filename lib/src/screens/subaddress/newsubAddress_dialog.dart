@@ -17,6 +17,18 @@ class SubAddressAlert extends StatefulWidget {
 class SubAddressAlertState extends State<SubAddressAlert> {
   final _formKey = GlobalKey<FormState>();
   final _labelController = TextEditingController();
+
+
+bool validateInput(String input) {
+  if (input.trim().isEmpty || input.startsWith(' ')) {
+    // Value consists only of spaces or contains a leading space
+    return false;
+  }
+  // Other validation rules can be applied here
+  return true;
+}
+
+
   @override
   Widget build(BuildContext context) {
     final walletService = Provider.of<WalletService>(context);
@@ -55,11 +67,13 @@ class SubAddressAlertState extends State<SubAddressAlert> {
             children: [
               TextFormField(
                 controller: _labelController,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                decoration: InputDecoration(
                 hintText: 'Label name',
                 hintStyle: TextStyle(
                   color:Color(0xff77778B)
                 ),
+                
                 contentPadding: EdgeInsets.symmetric(horizontal: 8),
                  border: OutlineInputBorder(
                   
@@ -69,8 +83,13 @@ class SubAddressAlertState extends State<SubAddressAlert> {
             
                ),
                   validator: (value) {
+                     final regex = RegExp(r'^[a-zA-Z0-9]+$');
+                     if(!(regex.hasMatch(value)) || !validateInput(value)){
+                       return 'Enter a valid sub address';
+                     }else {
                         subaddressCreationStore.validateSubaddressName(value);
                         return subaddressCreationStore.errorMessage;
+                     }
                       }
               ),
               SizedBox(height: 10,),

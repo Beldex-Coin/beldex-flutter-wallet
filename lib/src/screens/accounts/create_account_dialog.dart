@@ -34,6 +34,14 @@ final _formKey = GlobalKey<FormState>();
     super.dispose();
   }
 
+bool validateInput(String input) {
+  if (input.trim().isEmpty || input.startsWith(' ')) {
+    // Value consists only of spaces or contains a leading space
+    return false;
+  }
+  // Other validation rules can be applied here
+  return true;
+}
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
@@ -61,6 +69,7 @@ final _formKey = GlobalKey<FormState>();
             children: [
               TextFormField(
                 controller: _textController,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                decoration: InputDecoration(
                 hintText: 'Account name',
                 hintStyle: TextStyle(
@@ -75,8 +84,13 @@ final _formKey = GlobalKey<FormState>();
             
                ),
                   validator: (value) {
+                    if(!validateInput(value) || value.length >15){
+                      return 'Enter valid name upto 15 characters';
+                    }else{
                        accountListStore.validateAccountName(value);
                       return accountListStore.errorMessage;
+                    }
+                      
                       }
               ),
               SizedBox(height: 10,),

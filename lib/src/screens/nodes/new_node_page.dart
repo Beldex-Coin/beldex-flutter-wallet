@@ -9,6 +9,7 @@ import 'package:beldex_wallet/src/stores/node_list/node_list_store.dart';
 import 'package:beldex_wallet/src/widgets/beldex_text_field.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/src/widgets/scollable_with_bottom_section.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -292,15 +293,20 @@ class NewNodeFormState extends State<NewNodePageForm> {
                       color:settingsStore.isDarkTheme ?  Color(0xff333343) : Colors.white,
                       borderRadius: BorderRadius.circular(10)
                     ),
-                    child: Row(
+                    child: 
+                    // Observer(builder: (_){
+                    //   return
+                       Row(
                       children: [
                        Text('Test Result:',style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.06/3,),),
                        Padding(
                          padding: const EdgeInsets.only(left:10.0),
-                         child:  Text( isNodeChecked ? 'Success' :'Connection Failed',style: TextStyle(color:!isNodeChecked ? Colors.red : Color(0xff1AB51E),fontWeight:FontWeight.w800 ,fontSize: MediaQuery.of(context).size.height*0.06/3,)),
+                         child:  Text(isNodeChecked ? 'Success' :'Connection Failed',style: TextStyle(color:!isNodeChecked ? Colors.red : Color(0xff1AB51E),fontWeight:FontWeight.w800 ,fontSize: MediaQuery.of(context).size.height*0.06/3,)),
                        )
                       ],
                     ),
+                   // }),
+                    
                    ),
                    Container(
                     height: MediaQuery.of(context).size.height*0.26/3,
@@ -313,12 +319,17 @@ class NewNodeFormState extends State<NewNodePageForm> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        
                         Padding(
                           padding: const EdgeInsets.only(left:8.0),
-                          child: GestureDetector(
+                          child:
+                          Observer(builder: (_){
+                          return 
+                       
+                          
+                           GestureDetector(
                             onTap: ()async{
                               
-
                                if (!_formKey.currentState.validate()) {
                                         return;  
                               }
@@ -326,11 +337,13 @@ class NewNodeFormState extends State<NewNodePageForm> {
                               testMode = 'testing';
                                  final nodeWithPort = '${_nodeAddressController.text}:${_nodePortController.text}'; //'194.5.152.31:19091'
                                  print('Node with port value $nodeWithPort');
-                                isNodeChecked = await NodeForTest().isWorkingNode(nodeWithPort);                              
+                                isNodeChecked = await NodeForTest().isWorkingNode(nodeWithPort);  
+                               // testMode = 'done';                            
                                 print('isNodeChecked ------->$isNodeChecked');
                              
                             }, 
-                            child: Text('Test',style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.07/3,fontWeight: FontWeight.w800 ,))),
+                            child: Text('Test',style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.07/3,fontWeight: FontWeight.w800 ,)));
+                        })
                         ),
                         Row(
                           children:[

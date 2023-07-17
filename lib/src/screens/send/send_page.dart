@@ -560,6 +560,9 @@ bool getAddressBasicValidation(String value){
                                 cryptoCurrency: CryptoCurrency.bdx);
                             return sendStore.errorMessage;
                           }*/
+
+                            
+
                           if (value.isEmpty) {
                             setState(() {
                               addressValidation = true;
@@ -653,6 +656,7 @@ bool getAddressBasicValidation(String value){
                                           .caption
                                           .color),
                                   controller: _cryptoAmountController,
+                                  //autovalidateMode: AutovalidateMode.onUserInteraction,
                                   keyboardType: TextInputType.numberWithOptions(
                                       signed: false, decimal: true),
                                   inputFormatters: [
@@ -1383,19 +1387,10 @@ bool getAddressBasicValidation(String value){
         ),
       ),
 
-bottomSection: Observer(builder: (_){
-  return Observer(builder: (_) {
+bottomSection:
+   Observer(builder: (_) {
                         return InkWell(
                           onTap:
-                          // ()async{
-                          //   await showDialog<void>(context: context, builder: (BuildContext context){
-                          //       return ConfirmSending();
-                          //   });
-                          // },
-            
-                          
-                          
-                          
                            syncStore.status is SyncedSyncStatus
                               ? () async {
                                   
@@ -1415,21 +1410,24 @@ bottomSection: Observer(builder: (_){
                                           .pushNamed(Routes.auth, arguments:
                                               (bool isAuthenticatedSuccessfully,
                                                   AuthPageState auth) async {
+                                        print('inside authendication $isAuthenticatedSuccessfully');
                                         if (!isAuthenticatedSuccessfully) {
                                           isSuccessful = false;
                                           return;
                                         }
                                        if(_isFlashTransaction)
                                        {
+                                        print('inside the flash transaction-->-->');
                                         await sendStore.createTransaction(
                                           address: _addressController.text,
                                           tPriority: BeldexTransactionPriority.flash
                                         );
                                         
                                        }
+                                       print('create transaction ---> going to');
                                         await sendStore.createTransaction(
                                             address: _addressController.text);
-
+                                         print('create transaction ---> reached');
                                         Navigator.of(auth.context).pop();
                                         isSuccessful = true;
                                       });
@@ -1468,8 +1466,8 @@ bottomSection: Observer(builder: (_){
                             ),
                           ),
                         );
-                      });
-},),
+                      }),
+
       // bottomSection: Observer(builder: (_) {
       //   return NewSlideToAct(
       //     text: S.of(context).send_title,
@@ -1550,7 +1548,6 @@ bottomSection: Observer(builder: (_){
     if (_effectsInstalled) return;
 
     final sendStore = Provider.of<SendStore>(context);
-
     reaction((_) => sendStore.fiatAmount, (String amount) {
       print('amount inside reaction $amount');
       if (amount != _fiatAmountController.text) {
@@ -1559,7 +1556,6 @@ bottomSection: Observer(builder: (_){
 
       }
     });
-
     reaction((_) => sendStore.cryptoAmount, (String amount) {
       if (amount != _cryptoAmountController.text) {
         _cryptoAmountController.text = amount;
@@ -1596,7 +1592,7 @@ bottomSection: Observer(builder: (_){
 
       if (state is TransactionCreatedSuccessfully && sendStore.pendingTransaction != null) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          
+          print('inside the transaction created successfully---->');
         showSimpleConfirmDialog(context,
          S.of(context).confirm_sending,
           sendStore.pendingTransaction.amount,
@@ -1612,45 +1608,12 @@ bottomSection: Observer(builder: (_){
             Navigator.of(context).pop();
           }
           );
-
-        
-
-
-
-          // showSimpleBeldexDialog(
-          //     context,
-          //     S.of(context).confirm_sending,
-          //     S.of(context).commit_transaction_amount_fee(
-          //         sendStore.pendingTransaction.amount,
-          //         sendStore.pendingTransaction.fee,
-                  
-          //         ), onPressed: (_) {
-          //   Navigator.of(context).pop();
-          //   sendStore.commitTransaction();
-          // });
         });
       }
 
       if (state is TransactionCommitted) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-
-        // Future<void>.delayed(Duration(
-        //   milliseconds: 800
-        // ),(){
-        //   print("this function going to call");
-        //    showDetailsAfterSendSuccessfully(context, S.of(context).confirm_sending,
-        //   sendStore.pendingTransaction.amount,
-        //   sendStore.pendingTransaction.fee,
-        //   _addressController.text,
-        //   onPressed: (_) {
-        //     Navigator.of(context).pop();
-           
-        //   },
-        //   onDismiss: (_){
-        //     Navigator.of(context)..pop()..pop()..pop();
-        //   });
-        // });
-
+           print('inside the transaction commiteed ---->');
           showSimpleSentTrans( context, S.of(context).sending, sendStore.pendingTransaction.amount,'fee',_addressController.text,
               onPressed: (_) {
             _addressController.text = '';
@@ -1661,13 +1624,6 @@ bottomSection: Observer(builder: (_){
             Navigator.of(context)..pop()..pop();
           }
           );
-          // showSimpleBeldexDialog(
-          //     context, S.of(context).sending, S.of(context).transaction_sent,
-          //     onPressed: (_) {
-          //   _addressController.text = '';
-          //   _cryptoAmountController.text = '';
-          //   Navigator.of(context)..pop()..pop();
-          // });
         });
       }
     });

@@ -24,6 +24,7 @@ import 'package:beldex_wallet/src/wallet/wallet.dart';
 import 'package:beldex_wallet/src/wallet/wallet_info.dart';
 import 'package:beldex_wallet/src/wallet/wallet_type.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const belDexBlockSize = 1000;
 
@@ -264,7 +265,8 @@ class BelDexWallet extends Wallet {
     } catch (_) {}
 
     print('Starting from height: ${getCurrentHeight()}');
-
+    final prefs =await SharedPreferences.getInstance();
+    await prefs.setInt('currentHeight', getCurrentHeight() ?? 0);
     try {
       print('Starting from height try');
       _syncStatus.value = StartingSyncStatus();

@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/screens/root/internet_connection.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -167,7 +168,9 @@ return InkWell(
     );
   }
 
-  Widget floatingActionButton(BuildContext context) => null;
+  Widget floatingActionButton(BuildContext context){
+    return InternetConnectivityChecker();
+  }
 
   ObstructingPreferredSizeWidget appBar(BuildContext context) {
     final _themeChanger = Provider.of<ThemeChanger>(context);

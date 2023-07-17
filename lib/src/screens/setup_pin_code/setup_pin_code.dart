@@ -11,20 +11,12 @@ import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SetupPinCodePage extends BasePage {
-  SetupPinCodePage({this.onPinCodeSetup,this.appBarTitle});
+  SetupPinCodePage({this.onPinCodeSetup});
 
   final Function(BuildContext, String) onPinCodeSetup;
-  final String appBarTitle;
+  //final String appBarTitle;
   @override
-  String get title =>appBarTitle == 'Setup pin'? S.current.setup_pin : 'Enter pin';
-
-
-Future<bool> getSharedPrefs()async{
-  var flag = false;
-  final prefs = await SharedPreferences.getInstance();
-   flag = prefs.getBool('removeArrow');
-  return flag;
-}
+  String get title => S.current.setup_pin;
 
 
   // @override
