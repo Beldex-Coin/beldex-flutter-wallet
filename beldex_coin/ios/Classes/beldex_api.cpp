@@ -173,35 +173,35 @@ extern "C"
         }
     };
 
-    // struct StakeRow
-    // {
-    //     char *service_node_key;
-    //     uint64_t amount;
-
-    //     StakeRow(char *_service_node_key, uint64_t _amount)
-    //     {
-    //         service_node_key = _service_node_key;
-    //         amount = _amount;
-    //     }
-    // };
-
     struct StakeRow
     {
         char *service_node_key;
         uint64_t amount;
-        uint64_t unlock_height;
-        int awaiting;
-        int decommissioned;
 
-        explicit StakeRow(const Wallet::stakeInfo& info):
-            service_node_key{strdup(info.mn_pubkey.c_str())},
-            amount{info.stake},
-            unlock_height{info.unlock_height.value_or(0)},
-            awaiting{(int)info.awaiting},
-            decommissioned{(int)info.decommissioned}
-            {}
-        
+        StakeRow(char *_service_node_key, uint64_t _amount)
+        {
+            service_node_key = _service_node_key;
+            amount = _amount;
+        }
     };
+
+    // struct StakeRow
+    // {
+    //     char *service_node_key;
+    //     uint64_t amount;
+    //     uint64_t unlock_height;
+    //     int awaiting;
+    //     int decommissioned;
+
+    //     explicit StakeRow(const Wallet::stakeInfo& info):
+    //         service_node_key{strdup(info.mn_pubkey.c_str())},
+    //         amount{info.stake},
+    //         unlock_height{info.unlock_height.value_or(0)},
+    //         awaiting{(int)info.awaiting},
+    //         decommissioned{(int)info.decommissioned}
+    //         {}
+        
+    // };
     struct StakeUnlockResult
     {
       bool success;
@@ -521,48 +521,48 @@ extern "C"
         store_mutex.unlock();
     }
 
-    // EXPORT
-    // int32_t stake_count() {
-    //     auto* stakes = m_wallet->listCurrentStakes();
-    //     int32_t count = static_cast<int32_t>(stakes->size());
-    //     delete stakes;
-    //     return count;
-    // }
-
-    // EXPORT
-    // int64_t* stake_get_all() {
-    //     auto* _stakes = m_wallet->listCurrentStakes();
-    //     size_t size = _stakes->size();
-    //     int64_t *stakes = (int64_t *)malloc(size * sizeof(int64_t));
-
-    //     for (int i = 0; i < size; i++) {
-    //         auto& [pubkey, amount] = (*_stakes)[i];
-    //         StakeRow *_row = new StakeRow(strdup(pubkey.c_str()), amount);
-    //         stakes[i] = reinterpret_cast<int64_t>(_row);
-    //     }
-
-    //     delete _stakes;
-    //     return stakes;
-    // }
-
     EXPORT
     int32_t stake_count() {
-       std::unique_ptr<std::vector<Wallet::stakeInfo>> stakes{m_wallet->listCurrentStakes()};
+        auto* stakes = m_wallet->listCurrentStakes();
         int32_t count = static_cast<int32_t>(stakes->size());
+        delete stakes;
         return count;
     }
 
     EXPORT
-    intptr_t* stake_get_all() {
-        std::unique_ptr<std::vector<Wallet::stakeInfo>> stakes{m_wallet->listCurrentStakes()};
-        size_t size = stakes->size();
-        intptr_t* stakes_out = reinterpret_cast<intptr_t *>(malloc(size * sizeof(intptr_t)));
+    int64_t* stake_get_all() {
+        auto* _stakes = m_wallet->listCurrentStakes();
+        size_t size = _stakes->size();
+        int64_t *stakes = (int64_t *)malloc(size * sizeof(int64_t));
 
-        for (int i = 0; i < size; i++)
-            stakes_out[i] = reinterpret_cast<intptr_t>(new StakeRow((*stakes)[i]));
+        for (int i = 0; i < size; i++) {
+            auto& [pubkey, amount] = (*_stakes)[i];
+            StakeRow *_row = new StakeRow(strdup(pubkey.c_str()), amount);
+            stakes[i] = reinterpret_cast<int64_t>(_row);
+        }
 
-        return stakes_out;
+        delete _stakes;
+        return stakes;
     }
+
+    // EXPORT
+    // int32_t stake_count() {
+    //    std::unique_ptr<std::vector<Wallet::stakeInfo>> stakes{m_wallet->listCurrentStakes()};
+    //     int32_t count = static_cast<int32_t>(stakes->size());
+    //     return count;
+    // }
+
+    // EXPORT
+    // intptr_t* stake_get_all() {
+    //     std::unique_ptr<std::vector<Wallet::stakeInfo>> stakes{m_wallet->listCurrentStakes()};
+    //     size_t size = stakes->size();
+    //     intptr_t* stakes_out = reinterpret_cast<intptr_t *>(malloc(size * sizeof(intptr_t)));
+
+    //     for (int i = 0; i < size; i++)
+    //         stakes_out[i] = reinterpret_cast<intptr_t>(new StakeRow((*stakes)[i]));
+
+    //     return stakes_out;
+    // }
 
     EXPORT
     bool stake_create(char *service_node_key, char *amount, Utf8Box &error, PendingTransactionRaw &pendingTransaction)
