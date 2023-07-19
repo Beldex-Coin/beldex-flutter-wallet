@@ -229,7 +229,8 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                           ),
                          Padding(
                            padding: const EdgeInsets.all(15.0),
-                           child: Row(
+                           child: widget.onCloseCallback != null
+                           ? Row(
                             children: [
                               // Observer(builder: (_){
                               //   return
@@ -268,10 +269,82 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [ 
-                                      Text('Copy seed',style:TextStyle(fontSize:16,fontWeight:FontWeight.w800,color:isCopied ? settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6) : Colors.white,)),
+                                      Text('Copy seed',style:TextStyle(fontSize:16,fontWeight:FontWeight.w800,color: isCopied ? settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6) : Colors.white,)),
                                       Padding(
                                         padding: const EdgeInsets.only(left:8.0),
-                                        child: Icon(Icons.copy,color:isCopied ? settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6) : Colors.white,),
+                                        child: Icon(Icons.copy,color:  isCopied ? settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6) : Colors.white,),
+                                      )
+                                  ],),
+                                ),
+                              ),
+                             
+                           
+                              
+                              
+                              SizedBox(width: 10,),
+                             InkWell(
+                                 onTap:() {
+                                              Share.text(
+                                                  S.of(context).seed_share,
+                                                  _seed,
+                                                  'text/plain');
+                                            },
+                                child: Container(
+                                  height: 46,width:MediaQuery.of(context).size.height*0.40/3,
+                                  decoration: BoxDecoration(   
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:  Color(0xff2979FB) //(0xffE8E8E8)
+                                  ),
+                                  child:Center(
+                                    child:Text(S.of(context).save,style:TextStyle(fontSize:16,fontWeight:FontWeight.w800,color: Colors.white))
+                                  )
+                                ),
+                              )
+                            ],
+                           ):
+                           Row(
+                            children: [
+                              // Observer(builder: (_){
+                              //   return
+                                 InkWell(
+                                onTap: (){
+                                  setState(() {
+                                         isCopied = true;                              
+                                                                    });
+                                  
+                                   print(' copied value $isCopied');
+                                   Clipboard.setData(
+                                                  ClipboardData(text: _seed));
+                                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                             margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.30/3,
+                                                             left: MediaQuery.of(context).size.height*0.30/3,
+                                                             right: MediaQuery.of(context).size.height*0.30/3
+                                                             ),
+                                                              elevation:0, //5,
+                                                              behavior: SnackBarBehavior.floating,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(15.0) //only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
+                                                              ),
+                                                              content: Text(S
+                                                                  .of(context)
+                                                                  .copied,style: TextStyle(color: Color(0xff0EB212),fontWeight:FontWeight.w700,fontSize:15) ,textAlign: TextAlign.center,),
+                                                              backgroundColor: Color(0xff0BA70F).withOpacity(0.10), //.fromARGB(255, 46, 113, 43),
+                                                              duration: Duration(
+                                                                  milliseconds: 1500),));
+                                },
+                                child: Container(
+                                  height: 46,width:MediaQuery.of(context).size.height*0.60/3,
+                                  decoration: BoxDecoration(   
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Color(0xff0BA70F)
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [ 
+                                      Text('Copy seed',style:TextStyle(fontSize:16,fontWeight:FontWeight.w800,color: Colors.white,)),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:8.0),
+                                        child: Icon(Icons.copy,color: Colors.white,),
                                       )
                                   ],),
                                 ),
@@ -292,10 +365,10 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                   height: 46,width:MediaQuery.of(context).size.height*0.40/3,
                                   decoration: BoxDecoration(   
                                     borderRadius: BorderRadius.circular(10),
-                                    color: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffE8E8E8)
+                                    color:  Color(0xff2979FB) //(0xffE8E8E8)
                                   ),
                                   child:Center(
-                                    child:Text(S.of(context).save,style:TextStyle(fontSize:16,fontWeight:FontWeight.w800,color: settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6)))
+                                    child:Text(S.of(context).save,style:TextStyle(fontSize:16,fontWeight:FontWeight.w800,color: Colors.white))
                                   )
                                 ),
                               )

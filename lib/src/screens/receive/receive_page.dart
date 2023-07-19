@@ -188,9 +188,10 @@ String currentSubAddress ='';
   @override
   void dispose() {
     amountController.dispose();
+    overlayEntry.remove();
     super.dispose();
   }
-  GlobalKey _globalKey = new GlobalKey();
+  final _globalKey = new GlobalKey();
   //final originalSize=800;
   Future<Uint8List> _capturePng() async {
     try {

@@ -5,8 +5,8 @@ import 'package:beldex_wallet/src/node/node.dart';
 import 'package:yaml/yaml.dart';
 
 Future<List<Node>> loadDefaultNodes() async {
-  final nodeListFileName = 'testnet_node_list.yml';
-     // isTestnet ? 'testnet_node_list.yml' : 'node_list.yml';
+  final nodeListFileName = //'node_list.yml'; //'testnet_node_list.yml';
+      isTestnet ? 'testnet_node_list.yml' : 'node_list.yml';
   final nodesRaw = await rootBundle.loadString('assets/$nodeListFileName');
   final nodes = loadYaml(nodesRaw) as YamlList;
 

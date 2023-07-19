@@ -1,8 +1,11 @@
 
 import 'dart:async';
 
+import 'package:beldex_wallet/src/screens/dashboard/wallet_menu.dart';
+import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class InternetConnectivityChecker extends StatefulWidget {
@@ -31,9 +34,10 @@ Future<void> _checkConnectivity() async {
     });
   }
 
-
+  int increment = 1;
 
    void _updateConnectivity(ConnectivityResult connectivityResult) {
+     final walletStore = Provider.of<WalletStore>(context);
     setState(() {
       _connectivityResult = connectivityResult;
     });
@@ -42,10 +46,11 @@ Future<void> _checkConnectivity() async {
       // _showNetworkSnackbar(true);
       NetworkStatus().setNetworkStatus(true);
       _showNetworkSnackbar(true);
-
+     
     } else {
       NetworkStatus().setNetworkStatus(false);
        _showNetworkSnackbar(false);
+      // walletStore.reconnect();
     }
   }
 
