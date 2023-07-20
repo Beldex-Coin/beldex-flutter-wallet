@@ -37,7 +37,7 @@ Future<void> _checkConnectivity() async {
   int increment = 1;
 
    void _updateConnectivity(ConnectivityResult connectivityResult) {
-     final walletStore = Provider.of<WalletStore>(context);
+  
     setState(() {
       _connectivityResult = connectivityResult;
     });

@@ -462,55 +462,56 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
                                         return Container(
                                           child:
-                                          nStatus ?
-                                            Column(
-                                            children: [
-                                              SizedBox(
-                                                height: 1.5,
-                                                child: LinearProgressIndicator(
-                                                  backgroundColor:
-                                                      Palette.separator,
-                                                  valueColor:
-                                                      AlwaysStoppedAnimation<
-                                                              Color>(
-                                                          BeldexPalette
-                                                              .red //teal
-                                                          ),
-                                                  value: 100,
-                                                ),
-                                              ),
-                                              SizedBox(height: 10),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text('Trying to connect',
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: Colors.grey,//teal
-                                                          )),
-                                                  Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 5.0),
-                                                        child: Container(
-                                                          height:10,width:10,
-                                                          decoration: BoxDecoration(
-                                                            shape:BoxShape.circle,
-                                                            color: Colors.red
-                                                          ),
-                                                        )
-                                                      )
+                                          // nStatus ?
+                                          //   Column(
+                                          //   children: [
+                                          //     SizedBox(
+                                          //       height: 1.5,
+                                          //       child: LinearProgressIndicator(
+                                          //         backgroundColor:
+                                          //             Palette.separator,
+                                          //         valueColor:
+                                          //             AlwaysStoppedAnimation<
+                                          //                     Color>(
+                                          //                 BeldexPalette
+                                          //                     .red //teal
+                                          //                 ),
+                                          //         value: 100,
+                                          //       ),
+                                          //     ),
+                                          //     SizedBox(height: 10),
+                                          //     Row(
+                                          //       mainAxisAlignment:
+                                          //           MainAxisAlignment.center,
+                                          //       children: [
+                                          //         Text('Trying to connect',
+                                          //             style: TextStyle(
+                                          //                 fontSize: 14,
+                                          //                 fontWeight:
+                                          //                     FontWeight.bold,
+                                          //                 color: Colors.grey,//teal
+                                          //                 )),
+                                          //         Padding(
+                                          //               padding:
+                                          //                   const EdgeInsets
+                                          //                           .only(
+                                          //                       left: 5.0),
+                                          //               child: Container(
+                                          //                 height:10,width:10,
+                                          //                 decoration: BoxDecoration(
+                                          //                   shape:BoxShape.circle,
+                                          //                   color: Colors.red
+                                          //                 ),
+                                          //               )
+                                          //             )
                                                      
-                                                ],
-                                              ),
+                                          //       ],
+                                          //     ),
                                               
-                                            ],
-                                          )
-                                          : Column(
+                                          //   ],
+                                          // )
+                                          // : 
+                                        Column(
                                             children: [
                                               SizedBox(
                                                 height: 1.5,
@@ -1489,25 +1490,42 @@ class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
             'However we recommend to scan the blockchain from the block height at which you \ncreated the wallet to get all transactions\n and correct balance',
             textAlign: TextAlign.center,
           ),
-          MaterialButton(
-            onPressed: () async {
-              await Navigator.of(context).pushNamed(Routes.rescan);
-              Navigator.pop(context);
-            },
-            elevation: 0,
-            color: Color(0xff0BA70F),
-            height: MediaQuery.of(context).size.height * 0.20 / 3,
-            minWidth: double.infinity,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            child: Text(
-              'Rescan wallet',
-              style: TextStyle(
-                  fontSize: 17,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w800),
+
+          Padding(
+            padding: const EdgeInsets.only(top:10.0),
+            child: GestureDetector(
+              onTap: ()=>Navigator.pop(context),
+              child: Container(
+                height:50,width: 90,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Color(0xff0BA70F)
+                ),
+                child:Center(
+                  child:Text('OK',style:TextStyle(color:Colors.white))
+                )
+              ),
             ),
-          ),
+          )
+          // MaterialButton(
+          //   onPressed: () async {
+          //     await Navigator.of(context).pushNamed(Routes.rescan);
+          //     Navigator.pop(context);
+          //   },
+          //   elevation: 0,
+          //   color: Color(0xff0BA70F),
+          //   height: MediaQuery.of(context).size.height * 0.20 / 3,
+          //   minWidth: double.infinity,
+          //   shape:
+          //       RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          //   child: Text(
+          //     'Rescan wallet',
+          //     style: TextStyle(
+          //         fontSize: 17,
+          //         color: Colors.white,
+          //         fontWeight: FontWeight.w800),
+          //   ),
+          // ),
         ],
       ),
     );
