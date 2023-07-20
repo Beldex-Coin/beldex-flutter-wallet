@@ -31,3 +31,8 @@
   changes:
     - Validation design fixes
     - Minor bugs fixes
+- 
+  version: 1.0.6
+  changes:
+    - Fixed issues in Add node feature
+    - Minor bug fixed
