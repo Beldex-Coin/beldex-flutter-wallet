@@ -7,6 +7,7 @@ import 'package:beldex_wallet/src/domain/common/fiat_currency.dart';
 import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:beldex_wallet/src/widgets/new_slide_to_act.dart';
+import 'package:delayed_consumer_hud/delayed_consumer_hud.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +39,7 @@ import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import 'package:beldex_wallet/src/util/constants.dart' as constants;
 import 'package:shared_preferences/shared_preferences.dart';
-
+bool canLoad = false;
 class SendPage extends BasePage {
 
   String controller;
@@ -244,6 +245,86 @@ bool getAddressBasicValidation(String value){
           onPressed: (_) => Navigator.of(context).pop());
     }
   }
+
+
+void _loading(bool _canLoad) {
+    // setState(() {
+    //   canLoad = true;
+    // });
+
+    // Simulate an asynchronous task, e.g., fetching data from an API
+    // Future.delayed(Duration(seconds: 3), () {
+    //   setState(() {
+    //     canLoad = false;
+    //   });
+
+    //   // Close the HUD progress loader
+    //   Navigator.pop(context);
+    // });
+   if(_canLoad){
+    // Show the HUD progress loader
+    showHUDLoader(context);
+   }else{
+     Navigator.pop(context);
+   }
+    
+  }
+
+
+
+
+void showHUDLoader(BuildContext context) {
+  //final settingsStore = Provider.of<SettingsStore>(context,listen: false);
+    showDialog<void>(
+      context: context,
+      //barrierColor: Colors.transparent,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          // Prevent closing the dialog when the user presses the back button
+          onWillPop: () async => false,
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+
+            //backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
+            content: 
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Text('Creating the transaction',style:TextStyle(fontSize: 18,fontWeight: FontWeight.w700)),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -1389,80 +1470,85 @@ bool getAddressBasicValidation(String value){
 
 bottomSection:
    Observer(builder: (_) {
-                        return InkWell(
-                          onTap:
-                           syncStore.status is SyncedSyncStatus
-                              ? () async {
-                                  
-                                  final currentFocus = FocusScope.of(context);
+                        return Container(
+                           margin: EdgeInsets.only(left:15,right:15,top: 40),
+                          child: InkWell(
+                            onTap:
+                             syncStore.status is SyncedSyncStatus
+                                ? () async {
+                                    
+                                    final currentFocus = FocusScope.of(context);
 
-                                  if (!currentFocus.hasPrimaryFocus) {
-                                    currentFocus.unfocus();
-                                  }
-                                  // await Future.delayed(
-                                  //     const Duration(milliseconds: 100), () {});
-                                  if (_formKey.currentState.validate()) {
-                                    if (!addressValidation &&
-                                        !amountValidation) {
-                                      var isSuccessful = false;
-
-                                      await Navigator.of(context)
-                                          .pushNamed(Routes.auth, arguments:
-                                              (bool isAuthenticatedSuccessfully,
-                                                  AuthPageState auth) async {
-                                        print('inside authendication $isAuthenticatedSuccessfully');
-                                        if (!isAuthenticatedSuccessfully) {
-                                          isSuccessful = false;
-                                          return;
-                                        }
-                                       if(_isFlashTransaction)
-                                       {
-                                        print('inside the flash transaction-->-->');
-                                        await sendStore.createTransaction(
-                                          address: _addressController.text,
-                                          tPriority: BeldexTransactionPriority.flash
-                                        );
-                                        
-                                       }
-                                       print('create transaction ---> going to');
-                                        await sendStore.createTransaction(
-                                            address: _addressController.text);
-                                         print('create transaction ---> reached');
-                                        Navigator.of(auth.context).pop();
-                                        isSuccessful = true;
-                                      });
-                                      return isSuccessful;
+                                    if (!currentFocus.hasPrimaryFocus) {
+                                      currentFocus.unfocus();
                                     }
-                                  } else {
-                                    return false;
+                                    // await Future.delayed(
+                                    //     const Duration(milliseconds: 100), () {});
+                                    if (_formKey.currentState.validate()) {
+                                      if (!addressValidation &&
+                                          !amountValidation) {
+                                        var isSuccessful = false;
+
+                                        await Navigator.of(context)
+                                            .pushNamed(Routes.auth, arguments:
+                                                (bool isAuthenticatedSuccessfully,
+                                                    AuthPageState auth) async {
+                                          print('inside authendication $isAuthenticatedSuccessfully');
+                                          if (!isAuthenticatedSuccessfully) {
+                                            isSuccessful = false;
+                                            return;
+                                          }
+                                         if(_isFlashTransaction)
+                                         {
+                                          print('inside the flash transaction-->-->');
+                                          await sendStore.createTransaction(
+                                            address: _addressController.text,
+                                            tPriority: BeldexTransactionPriority.flash
+                                          );
+                                          
+                                         }
+                                            Navigator.of(auth.context).pop();
+                                            _loading(true);
+                                         print('create transaction ---> going to');
+                                          await sendStore.createTransaction(
+                                              address: _addressController.text);
+                                           print('create transaction ---> reached');
+                                          _loading(false);
+                                          isSuccessful = true;
+                                        });
+                                        return isSuccessful;
+                                      }
+                                    } else {
+                                      return false;
+                                    }
                                   }
-                                }
-                              : null,
-                          child: Container(
-                            margin: EdgeInsets.only(left:15,right:15,top: 40),
-                            padding: EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                                color: Color(0xff0BA70F),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height:20,width:20,
-                                  child: SvgPicture.asset(
-                                      'assets/images/new-images/send.svg',),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8.0),
-                                  child: Text(
-                                    'Send',
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        color: Color(0xffffffff),
-                                        fontWeight: FontWeight.bold),
+                                : null,
+                            child: Container(
+                             
+                              padding: EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                  color: Color(0xff0BA70F),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height:20,width:20,
+                                    child: SvgPicture.asset(
+                                        'assets/images/new-images/send.svg',),
                                   ),
-                                ),
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Text(
+                                      'Send',
+                                      style: TextStyle(
+                                          fontSize: 17,
+                                          color: Color(0xffffffff),
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );

@@ -54,7 +54,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
  bool isNodeChecked = false;
  dynamic testMode;
 
- 
+ bool canLoad = false;
 
 
 
@@ -69,6 +69,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
     _nodePortController.dispose();
     _loginController.dispose();
     _passwordController.dispose();
+    isNodeChecked = false;
     super.dispose();
   }
 
@@ -295,17 +296,20 @@ class NewNodeFormState extends State<NewNodePageForm> {
                     ),
                     child: 
                     // Observer(builder: (_){
+                    //   isNodeChecked = isNodeChecked ?? false;
                     //   return
                        Row(
                       children: [
                        Text('Test Result:',style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.06/3,),),
-                       Padding(
+                      canLoad ? Center(
+                        child:Text('Checking')
+                      ) : Padding(
                          padding: const EdgeInsets.only(left:10.0),
                          child:  Text(isNodeChecked ? 'Success' :'Connection Failed',style: TextStyle(color:!isNodeChecked ? Colors.red : Color(0xff1AB51E),fontWeight:FontWeight.w800 ,fontSize: MediaQuery.of(context).size.height*0.06/3,)),
                        )
                       ],
-                    ),
-                   // }),
+                    )
+                   //}),
                     
                    ),
                    Container(
@@ -323,8 +327,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
                         Padding(
                           padding: const EdgeInsets.only(left:8.0),
                           child:
-                          Observer(builder: (_){
-                          return 
+                          // Observer(builder: (_){
+                          // return 
                        
                           
                            GestureDetector(
@@ -332,18 +336,26 @@ class NewNodeFormState extends State<NewNodePageForm> {
                               
                                if (!_formKey.currentState.validate()) {
                                         return;  
-                              }
-                              setState((){ });
+                              }else{
+                                 setState((){ });
                               testMode = 'testing';
+                              canLoad =true;
+                            await Future<void>.delayed(Duration(seconds:1 ),(){
+                                setState(() {
+                                 canLoad = false;
+                                                                });
+                            });
                                  final nodeWithPort = '${_nodeAddressController.text}:${_nodePortController.text}'; //'194.5.152.31:19091'
                                  print('Node with port value $nodeWithPort');
                                 isNodeChecked = await NodeForTest().isWorkingNode(nodeWithPort);  
                                // testMode = 'done';                            
                                 print('isNodeChecked ------->$isNodeChecked');
+                              }
+                             
                              
                             }, 
-                            child: Text('Test',style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.07/3,fontWeight: FontWeight.w800 ,)));
-                        })
+                            child: Text('Test',style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.07/3,fontWeight: FontWeight.w800 ,)))
+                        //})
                         ),
                         Row(
                           children:[

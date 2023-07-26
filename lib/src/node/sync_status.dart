@@ -18,7 +18,7 @@ class SyncingSyncStatus extends SyncStatus {
   double progress() => ptc;
 
   @override
-  String title() => S.current.Blocks_remaining('$blocksLeft');
+  String title() => S.current.Block_remaining('$blocksLeft');
 
   @override
   String toString() => '$blocksLeft';
@@ -73,3 +73,5 @@ class ConnectedSyncStatus extends SyncStatus {
   @override
   String title() => S.current.sync_status_connected;
 }
+
+

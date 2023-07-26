@@ -375,7 +375,7 @@ class SeedWidgetState extends State<SeedWidget> {
                             child: GestureDetector(
                               onTap: () => _seedController.clear(),
                               child: Container(
-                                height:50,
+                                height:43,
                                 width:90,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
@@ -391,7 +391,7 @@ class SeedWidgetState extends State<SeedWidget> {
                                   (clipboard) =>
                                   replaceText(clipboard.text)),
                              child: Container(
-                              height:50,
+                              height:43,
                               width:MediaQuery.of(context).size.width*0.90/3,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
@@ -401,8 +401,11 @@ class SeedWidgetState extends State<SeedWidget> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children:[
-                                     Icon(Icons.paste,size: 15,color: Colors.white,),
-                                     Text('Paste',style: TextStyle(fontSize:16,fontWeight:FontWeight.w700,color: Colors.white))
+                                     Icon(Icons.paste,size: 14,color: Colors.white,),
+                                     Padding(
+                                       padding: const EdgeInsets.only(left:5.0),
+                                       child: Text('Paste',style: TextStyle(fontSize:16,fontWeight:FontWeight.w700,color: Colors.white)),
+                                     )
                                   ]
                                  
                                 ),

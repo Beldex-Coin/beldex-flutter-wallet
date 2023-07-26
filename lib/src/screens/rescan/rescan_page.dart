@@ -96,6 +96,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
   void dispose() {
   dateController.text = '';
 restoreHeightController.text = '';
+//_height = null;
     super.dispose();
   }
 

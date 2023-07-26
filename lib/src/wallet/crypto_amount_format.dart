@@ -12,7 +12,7 @@ class AmountDetail {
     AmountDetail.normal,
     AmountDetail.none
   ];
-  static const AmountDetail ultra = AmountDetail(0, 9);
+  static const AmountDetail ultra = AmountDetail(0, 5);
   static const AmountDetail detailed = AmountDetail(1, 4);
   static const AmountDetail normal = AmountDetail(2, 2);
   static const AmountDetail none = AmountDetail(3, 0);
@@ -26,7 +26,7 @@ class AmountDetail {
   String toString() {
     switch (index) {
       case (0):
-        return S.current.amount_detail_nine;
+        return S.current.amount_details_five;
       case (1):
         return S.current.amount_detail_four;
       case (2):

@@ -81,6 +81,6 @@ abstract class SubadrressCreationStoreBase with Store {
     const pattern = '''^[^`,'"]{1,20}\$''';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
-    errorMessage = isValid ? null : S.current.error_text_subaddress_name;
+    errorMessage = isValid ? null : 'Enter a valid name upto 20 characters'; //S.current.error_text_subaddress_name;
   }
 }

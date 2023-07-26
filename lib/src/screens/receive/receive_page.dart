@@ -550,96 +550,80 @@ bool getAmountValidation(String value){
                               SizedBox(height:15),
 
 
-                             InkWell(
-                                     onTap: (){
+                             Container(
+                              margin: EdgeInsets.only(left: 10,right: 10,bottom:20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,                                      
+                                children: <Widget>[
+                                  InkWell(
+                                    onTap: (){
                                        showDialog<void>(context: context, 
-                                       builder: (context){
+                                   builder: (context){
 
-                                          return  SubAddressAlert();
-                                       });
-                                     },
-                                    //  =>
-                                    //   Navigator.of(context)
-                                    //             .pushNamed(Routes.newSubaddress),
-                                     //{
-
-        //                            addSubAddressDialog(context,
-        //  S.of(context).confirm_sending,
-        //   'sendStore.pendingTransaction.amount',
-        //  ' sendStore.pendingTransaction.fee',
-        //  ' _addressController.text',
-        //   onPressed: (_) {
-        //     Navigator.of(context).pop();
-           
-        //   },
-        //   onDismiss: (_){
-        //     Navigator.of(context).pop();
-        //   });
-
-
-
-        //                             //  Navigator.of(context)
-        //                             //               .pushNamed(Routes.newSubaddress),
-
-
-        //                            },
-                                 child:Container(
-                                  margin: EdgeInsets.only(left: 10,right: 10,bottom:20),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,                                      
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(right:10),
-                                         width: 25.0,
-                                                height: 25.0,
-                                        child:SvgPicture.asset('assets/images/new-images/plus_fill.svg',color:Color(0xff2979FB)),
-                                      ),
-                                      Text('Add sub address',
-                                                //S.of(context).subaddresses,
-                                                style: TextStyle(
-                                                  decoration: TextDecoration.underline,
-                                                  fontSize: 16.0,
-                                                  
-                                                  fontWeight: FontWeight.w700,
-                                                  color:Color(0xff2979FB) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                                                ),
-                                              ),
-                                      
-                                      
-                                      // Container(
-                                      //   //color: Theme.of(context).accentTextTheme.headline5.color,
-                                      //   child: Column(
-                                      //     children: <Widget>[
-                                      //       ListTile(
-                                      //         title: Text(
-                                      //           S.of(context).subaddresses,
-                                      //           style: TextStyle(
-                                      //             fontSize: 16.0,
-                                      //             color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                                      //           ),
-                                      //         ),
-                                      //         trailing: Container(
-                                      //           width: 28.0,
-                                      //           height: 28.0,
-                                      //           child: InkWell(
-                                      //             onTap: () => Navigator.of(context)
-                                      //                 .pushNamed(Routes.newSubaddress),
-                                      //             borderRadius:
-                                      //             BorderRadius.all(Radius.circular(14.0)),
-                                      //             child: SvgPicture.asset('assets/images/add.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,),
-                                      //           ),
-                                      //         ),
-                                      //       ),
-                                      //       /* Divider(
-                                      //       color: Theme.of(context).dividerTheme.color,
-                                      //       height: 1.0,
-                                      //     )*/
-                                      //     ],
-                                      //   ),
-                                      // )
-                                    ],
+                                      return  SubAddressAlert();
+                                   });
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.only(right:10),
+                                       width: 25.0,
+                                              height: 25.0,
+                                      child:SvgPicture.asset('assets/images/new-images/plus_fill.svg',color:Color(0xff2979FB)),
+                                    ),
                                   ),
-                                 )
+                                  InkWell(
+                                    onTap:(){
+                                       showDialog<void>(context: context, 
+                                   builder: (context){
+
+                                      return  SubAddressAlert();
+                                   });
+                                    } ,
+                                    child: Text('Add sub address',
+                                              //S.of(context).subaddresses,
+                                              style: TextStyle(
+                                                decoration: TextDecoration.underline,
+                                                fontSize: 16.0,
+                                                
+                                                fontWeight: FontWeight.w700,
+                                                color:Color(0xff2979FB) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+                                              ),
+                                            ),
+                                  ),
+                                  
+                                  
+                                  // Container(
+                                  //   //color: Theme.of(context).accentTextTheme.headline5.color,
+                                  //   child: Column(
+                                  //     children: <Widget>[
+                                  //       ListTile(
+                                  //         title: Text(
+                                  //           S.of(context).subaddresses,
+                                  //           style: TextStyle(
+                                  //             fontSize: 16.0,
+                                  //             color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+                                  //           ),
+                                  //         ),
+                                  //         trailing: Container(
+                                  //           width: 28.0,
+                                  //           height: 28.0,
+                                  //           child: InkWell(
+                                  //             onTap: () => Navigator.of(context)
+                                  //                 .pushNamed(Routes.newSubaddress),
+                                  //             borderRadius:
+                                  //             BorderRadius.all(Radius.circular(14.0)),
+                                  //             child: SvgPicture.asset('assets/images/add.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,),
+                                  //           ),
+                                  //         ),
+                                  //       ),
+                                  //       /* Divider(
+                                  //       color: Theme.of(context).dividerTheme.color,
+                                  //       height: 1.0,
+                                  //     )*/
+                                  //     ],
+                                  //   ),
+                                  // )
+                                ],
+                              ),
                              )
                             
                             

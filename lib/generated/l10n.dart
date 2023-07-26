@@ -345,6 +345,20 @@ String get stake {
     );
   }
 
+
+///`Block remaining`
+String Block_remaining(Object status){
+  return Intl.message(
+    status == 0 || status == 1 ? '$status Block Remaining' : '$status Blocks Remaining',
+    name: 'Block_remaining',
+    desc:'',
+    args:[],
+  );
+}
+
+
+
+
   /// `Please try to connect to another node`
   String get please_try_to_connect_to_another_node {
     return Intl.message(
@@ -1943,6 +1957,20 @@ String get amount_detail_nine {
     args:[],
   );
 }
+
+///`5 - Five(0.00000)`
+
+String get amount_details_five {
+  return Intl.message(
+    '5 - Five (0.00000)',
+    name:'amount_details_five',
+    desc:'',
+    args:[],
+  );
+}
+
+
+
 
 ///`0 - Zero(000)`
 String get amount_detail_zero {

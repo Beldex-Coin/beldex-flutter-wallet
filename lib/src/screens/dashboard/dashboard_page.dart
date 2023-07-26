@@ -1,16 +1,13 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:beldex_coin/wallet.dart';
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/dashboard_rescan_dialog.dart';
-import 'package:beldex_wallet/src/screens/root/internet_connection.dart';
-import 'package:beldex_wallet/src/screens/send/send_page.dart';
-import 'package:beldex_wallet/src/screens/settings/widgets/settings_switch_list_row.dart';
-import 'package:beldex_wallet/src/wallet/beldex/beldex_wallet.dart';
+import 'package:beldex_wallet/src/screens/dashboard/dashboards.dart';
 import 'package:beldex_wallet/src/widgets/standart_switch.dart';
 import 'package:beldex_wallet/theme_changer.dart';
+import 'package:beldex_wallet/themes.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:date_range_picker/date_range_picker.dart' as date_rage_picker;
 import 'package:flutter/cupertino.dart';
@@ -40,7 +37,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../palette.dart';
-import '../../../themes.dart';
 
 class DashboardPage extends BasePage {
   final _bodyKey = GlobalKey();
@@ -60,18 +56,15 @@ class DashboardPage extends BasePage {
           height: 20,
           padding: EdgeInsets.only(top: 12.0, bottom: 10),
           decoration: BoxDecoration(
-              //borderRadius: BorderRadius.circular(10),
-              //color: Colors.black,
               ),
           child: SvgPicture.asset(
             'assets/images/new-images/refresh.svg',
             color: Theme.of(context).primaryTextTheme.caption.color,
           )
-          // Icon(Icons.autorenew_outlined,color: Theme.of(context).primaryTextTheme.caption.color,
-          // )
           ),
     );
   }
+
 
   /*@override
   Widget leading(BuildContext context) {
@@ -85,14 +78,14 @@ class DashboardPage extends BasePage {
                 size: 30)));
   }*/
 
-  /* @override
+ /* @override
   Widget middle(BuildContext context) {
     //final walletStore = Provider.of<WalletStore>(context);
 
     return Text(
       S.current.wallet_list_title,
       style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
-    ); */ /*Observer(builder: (_) {
+    ); *//*Observer(builder: (_) {
       return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -110,7 +103,7 @@ class DashboardPage extends BasePage {
                   color: Theme.of(context).primaryTextTheme.headline6.color),
             ),
           ]);
-    })*/ /*
+    })*//*
   }*/
   @override
   Widget middle(BuildContext context) {
@@ -122,7 +115,7 @@ class DashboardPage extends BasePage {
         return Text(
           walletStore.name,
           style: TextStyle(
-              fontSize: 25,
+              fontSize: MediaQuery.of(context).size.height*0.10/3,
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryTextTheme.headline6.color),
         );
@@ -130,7 +123,8 @@ class DashboardPage extends BasePage {
     );
     
   }
-
+ 
+ 
   @override
   Widget trailing(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
@@ -161,28 +155,12 @@ class DashboardPage extends BasePage {
           width: 60,
           height: 60,
           alignment: Alignment.centerLeft,
-          // decoration: BoxDecoration(
-          //   color: Theme.of(context).accentTextTheme.headline6.color,
-          //   borderRadius: BorderRadius.only(
-          //       topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
-          //   boxShadow: [
-          //     BoxShadow(
-          //       color: Theme.of(context).accentTextTheme.headline6.color,
-          //       blurRadius: 2.0,
-          //       spreadRadius: 1.0,
-          //       offset: Offset(2.0, 2.0), // shadow direction: bottom right
-          //     )
-          //   ],
-          // ),
           child: SizedBox(
             height: 55, //55
             width: 55, //37
             child: ButtonTheme(
               minWidth: double.minPositive,
               child: TextButton(
-                  /* highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  padding: EdgeInsets.all(0),*/
                   style: ButtonStyle(
                     overlayColor: MaterialStateColor.resolveWith(
                         (states) => Colors.transparent),
@@ -196,9 +174,7 @@ class DashboardPage extends BasePage {
                         settingsStore.isDarkTheme ? Colors.white : Colors.black,
                     width: 25,
                     height: 25,
-                  ) /*Icon(Icons.account_circle_rounded,
-                      color: Theme.of(context).primaryTextTheme.caption.color,
-                      size: 30)*/
+                  )
                   ),
             ),
           ),
@@ -206,6 +182,7 @@ class DashboardPage extends BasePage {
       ],
     );
   }
+
 
   /*@override
   Widget trailing(BuildContext context) {
@@ -219,6 +196,98 @@ class DashboardPage extends BasePage {
               size: 30)),
     );
   }*/
+
+
+
+@override
+Widget bottomNavigationBar(BuildContext context){
+  final settingsStore = Provider.of<SettingsStore>(context);
+  return Container(
+                    height: MediaQuery.of(context).size.height * 0.35 / 3,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xff24242F)
+                            : Color(0xffEDEDED)),
+                    padding: EdgeInsets.all(15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.of(context)
+                              .pushNamed(Routes.addressBook),
+                          child: Container(
+                              width:
+                                  MediaQuery.of(context).size.width * 1.30 / 3,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff333343)
+                                      : Color(0xffD4D4D4)),
+                              padding: EdgeInsets.all(15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/images/new-images/Address.svg',
+                                    color: settingsStore.isDarkTheme
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 5.0),
+                                    child: Text(S.of(context).address_book,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16)),
+                                  )
+                                ],
+                              )),
+                        ),
+              
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context)
+                                .pushNamed(Routes.transactionlist);
+                          },
+                          child: Container(
+                              width:
+                                  MediaQuery.of(context).size.width * 1.30 / 3,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color(0xff0BA70F)),
+                              padding: EdgeInsets.all(15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                      'assets/images/new-images/transactions.svg'),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 5.0),
+                                    child: Text(S.of(context).transactions,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontSize: 16)),
+                                  ),
+                                ],
+                              )),
+                        )
+                      ],
+                    ));
+               
+}
+
+
+
+
+
+
+
+
+
+
+
 
   @override
   Widget body(BuildContext context) => DashboardPageBody(key: _bodyKey);
@@ -252,9 +321,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
   final _syncingObserverKey = GlobalKey();
   final _listObserverKey = GlobalKey();
   final _listKey = GlobalKey();
-  final _sendbuttonEnableKey = GlobalKey();
-  String syncStatus;
-
+   String syncStatus;
   //
   List<Item> transactions = [
     Item(
@@ -321,7 +388,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
   IconData iconDataVal = Icons.arrow_upward_outlined;
 
-  Future<void> _presentQRScanner(BuildContext context) async {
+ Future<void> _presentQRScanner(BuildContext context) async {
     TextEditingController controller = TextEditingController();
     String qrValue;
     try {
@@ -374,22 +441,32 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
   void getNetworkStatus() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      nStatus = prefs.getBool('networkStatus');
+      nStatus = prefs.getBool('networkStatus') ?? false;
     });
   }
 
+
+
+
+
+
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
-   // final walletStore = Provider.of<WalletStore>(context);
+    //
+    final walletStore = Provider.of<WalletStore>(context);
 
     final balanceStore = Provider.of<BalanceStore>(context);
     final actionListStore = Provider.of<ActionListStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-   // final transactionDateFormat = settingsStore.getCurrentDateFormat(
-   //     formatUSA: 'MMMM d, yyyy, HH:mm', formatDefault: 'd MMMM yyyy, HH:mm');
-   // final networkStatus = NetworkStatus();
-    getNetworkStatus();
+    final transactionDateFormat = settingsStore.getCurrentDateFormat(
+        formatUSA: 'MMMM d, yyyy, HH:mm', formatDefault: 'd MMMM yyyy, HH:mm');
     print('Called');
     return WillPopScope(
       onWillPop: onBackPressed,
@@ -397,33 +474,10 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
           key: _listObserverKey,
           builder: (_) {
             final items = actionListStore.items ?? <String>[];
-           // final itemsCount = items.length + 2;
+            final itemsCount = items.length + 2;
             return Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    child: ListView.builder(
-                        key: _listKey,
-                        padding: EdgeInsets.only(bottom: 15),
-                        itemCount: 2, //itemsCount,
-                        itemBuilder: (context, index) {
-                          if (index == 0) {
-                            return Container(
-                              // margin: EdgeInsets.only(bottom: 20),
-                              decoration: BoxDecoration(
-                                color: Colors
-                                    .transparent, //Theme.of(context).backgroundColor,
-                                /*boxShadow: [
-                                  BoxShadow(
-                                      color: Palette.shadowGreyWithOpacity,
-                                      blurRadius: 10,
-                                      offset: Offset(0, 12))
-                                ]*/
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  //Progress bar
-                                  Observer(
+                  children: [
+                      Observer(
                                       key: _syncingObserverKey,
                                       builder: (_) {
                                         final status = syncStore.status;
@@ -432,6 +486,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                             syncStore.status.progress();
                                         final isFailure =
                                             status is FailedSyncStatus;
+                                        syncStatus = status.title();
                                         //syncStatus = status.title();
                                         print('dashboard ----->');
                                         print(
@@ -462,55 +517,6 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
                                         return Container(
                                           child:
-                                          // nStatus ?
-                                          //   Column(
-                                          //   children: [
-                                          //     SizedBox(
-                                          //       height: 1.5,
-                                          //       child: LinearProgressIndicator(
-                                          //         backgroundColor:
-                                          //             Palette.separator,
-                                          //         valueColor:
-                                          //             AlwaysStoppedAnimation<
-                                          //                     Color>(
-                                          //                 BeldexPalette
-                                          //                     .red //teal
-                                          //                 ),
-                                          //         value: 100,
-                                          //       ),
-                                          //     ),
-                                          //     SizedBox(height: 10),
-                                          //     Row(
-                                          //       mainAxisAlignment:
-                                          //           MainAxisAlignment.center,
-                                          //       children: [
-                                          //         Text('Trying to connect',
-                                          //             style: TextStyle(
-                                          //                 fontSize: 14,
-                                          //                 fontWeight:
-                                          //                     FontWeight.bold,
-                                          //                 color: Colors.grey,//teal
-                                          //                 )),
-                                          //         Padding(
-                                          //               padding:
-                                          //                   const EdgeInsets
-                                          //                           .only(
-                                          //                       left: 5.0),
-                                          //               child: Container(
-                                          //                 height:10,width:10,
-                                          //                 decoration: BoxDecoration(
-                                          //                   shape:BoxShape.circle,
-                                          //                   color: Colors.red
-                                          //                 ),
-                                          //               )
-                                          //             )
-                                                     
-                                          //       ],
-                                          //     ),
-                                              
-                                          //   ],
-                                          // )
-                                          // : 
                                         Column(
                                             children: [
                                               SizedBox(
@@ -583,298 +589,265 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           ),
                                         );
                                       }),
-                                  //Primary Account
-                                  SizedBox(
-                                    height: 10.0,
-                                  ),
-                              
-                                  Row(
-                                    // mainAxisAlignment: MainAxisAlignment.center,
-                                    //crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                     
-                                      Card(
-                                        elevation: 0,
-                                        color: settingsStore.isDarkTheme
+                  
+                  Container(
+                    height:MediaQuery.of(context).size.height*0.65/3,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 10,left:15,right:15),
+                    decoration: BoxDecoration(
+                      color: settingsStore.isDarkTheme
                                             ? Color(0xff272733)
                                             : Color(
-                                                0xffEDEDED), //Color.fromARGB(255, 40, 42, 51),
-                                        margin: EdgeInsets.only(left: 15),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: GestureDetector(
-                                          onTapUp: (_) =>
-                                              balanceStore.isReversing = false,
-                                          onTapDown: (_) =>
-                                              balanceStore.isReversing = true,
-                                          child: Container(
-                                            color: Colors.transparent,
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                2.7 /
-                                                3, //300,
-                                            padding: EdgeInsets.all(16),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: <Widget>[
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Observer(
-                                                        key:
-                                                            _connectionStatusObserverKey,
-                                                        builder: (_) {
-                                                          final savedDisplayMode =
-                                                              settingsStore
-                                                                  .balanceDisplayMode;
-                                                          var balance = '---';
-                                                          final displayMode = balanceStore
-                                                                  .isReversing
-                                                              ? (savedDisplayMode ==
-                                                                      BalanceDisplayMode
-                                                                          .availableBalance
-                                                                  ? BalanceDisplayMode
-                                                                      .fullBalance
-                                                                  : BalanceDisplayMode
-                                                                      .availableBalance)
-                                                              : savedDisplayMode;
-
-                                                          if (displayMode ==
-                                                              BalanceDisplayMode
-                                                                  .availableBalance) {
-                                                            balance = balanceStore
-                                                                    .unlockedBalanceString ??
-                                                                '00.000000000';
-                                                            print(
-                                                                'Dashboard availableBalance --> $balance');
-                                                          }
-
-                                                          if (displayMode ==
-                                                              BalanceDisplayMode
-                                                                  .fullBalance) {
-                                                            balance = balanceStore
-                                                                    .fullBalanceString ??
-                                                                '00.000000000';
-                                                            print(
-                                                                'Dashboard fullBalance --> $balance');
-                                                          }
-
-                                                          return Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .baseline,
-                                                            textBaseline:
-                                                                TextBaseline
-                                                                    .alphabetic,
-                                                            children: [
-                                                              Text(
-                                                                '$balance ',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .primaryTextTheme
-                                                                      .caption
-                                                                      .color,
-                                                                  fontSize: 23,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                'BDX',
-                                                                style:
-                                                                    TextStyle(
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .primaryTextTheme
-                                                                      .caption
-                                                                      .color,
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w600,
-                                                                ),
-                                                              ),
-                                                              //SizedBox(width:40),
-                                                              // Container(
-                                                              //   child:SvgPicture.asset('assets/images/new-images/scanners.svg')
-                                                              // )
-                                                            ],
-                                                          );
-                                                        }),
-                                                    //  GestureDetector(
-                                                    //   onTap: () async => _presentQRScanner(context),
-                                                    //    child: Container(
-                                                    //                 child:SvgPicture.asset('assets/images/new-images/scanners.svg',color: settingsStore.isDarkTheme? Color(0xffFFFFFF): Color(0xff16161D),)
-                                                    //               ),
-                                                    //  )
-                                                  ],
-                                                ),
-                                                Padding(
-                                                    padding:
-                                                        EdgeInsets.only(top: 7),
-                                                    child: Observer(
-                                                        key:
-                                                            _balanceObserverKey,
-                                                        builder: (_) {
-                                                          final savedDisplayMode =
-                                                              settingsStore
-                                                                  .balanceDisplayMode;
-                                                          final displayMode = settingsStore
-                                                                  .enableFiatCurrency
-                                                              ? (balanceStore
-                                                                      .isReversing
-                                                                  ? (savedDisplayMode ==
-                                                                          BalanceDisplayMode
-                                                                              .availableBalance
-                                                                      ? BalanceDisplayMode
-                                                                          .fullBalance
-                                                                      : BalanceDisplayMode
-                                                                          .availableBalance)
-                                                                  : savedDisplayMode)
-                                                              : BalanceDisplayMode
-                                                                  .hiddenBalance;
-                                                          final symbol =
-                                                              settingsStore
-                                                                  .fiatCurrency
-                                                                  .toString();
-                                                          var balance = '---';
-
-                                                          if (displayMode ==
-                                                              BalanceDisplayMode
-                                                                  .availableBalance) {
-                                                            balance =
-                                                                '${balanceStore.fiatUnlockedBalance} $symbol';
-                                                          }
-
-                                                          if (displayMode ==
-                                                              BalanceDisplayMode
-                                                                  .fullBalance) {
-                                                            balance =
-                                                                '${balanceStore.fiatFullBalance} $symbol';
-                                                          }
-
-                                                          return Text(balance,
-                                                              style: TextStyle(
-                                                                  color: Color(
-                                                                      0xff0BA70F), //Theme.of(context).hintColor,//Colors.grey,
-                                                                  //Palette.wildDarkBlue,
-                                                                  fontSize:
-                                                                      14));
-                                                        })),
-                                                Padding(
-                                                  padding: EdgeInsets.only(
-                                                      top: 30.0),
-                                                  child: Row(
+                                                0xffEDEDED),
+                     borderRadius: BorderRadius.circular(10)
+                    ),
+                    child: Column(
+                      children: [
+                                   Container(
+                                    padding: EdgeInsets.only(left:15,right:10,top:15,bottom:8),
+                                     child: Row(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .spaceBetween,
                                                     children: [
                                                       Observer(
-                                                        key:
-                                                            _sendbuttonEnableKey,
-                                                        builder: (_) {
-                                                          final status =
-                                                              syncStore.status;
-                                                          syncStatus =
-                                                              status.title();
-                                                          return GestureDetector(
-                                                            onTap: syncStatus ==
-                                                                        'SYNCHRONIZED' &&
-                                                                    !nStatus
-                                                                ? () {
-                                                                    Navigator.of(
-                                                                            context,
-                                                                            rootNavigator:
-                                                                                true)
-                                                                        .pushNamed(
-                                                                            Routes.send);
-                                                                  }
-                                                                : null,
-                                                            child: Container(
-                                                              width: 142,
-                                                              height: 46,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8),
-                                                                color: syncStatus ==
-                                                                            'SYNCHRONIZED' &&
-                                                                        !nStatus
-                                                                    ? Color(
-                                                                        0xff0BA70F)
-                                                                    : settingsStore
-                                                                            .isDarkTheme
+                                                          key:
+                                                              _connectionStatusObserverKey,
+                                                          builder: (_) {
+                                                            final savedDisplayMode =
+                                                                settingsStore
+                                                                    .balanceDisplayMode;
+                                                            var balance = '---';
+                                                            final displayMode = balanceStore
+                                                                    .isReversing
+                                                                ? (savedDisplayMode ==
+                                                                        BalanceDisplayMode
+                                                                            .availableBalance
+                                                                    ? BalanceDisplayMode
+                                                                        .fullBalance
+                                                                    : BalanceDisplayMode
+                                                                        .availableBalance)
+                                                                : savedDisplayMode;
+
+                                                            if (displayMode ==
+                                                                BalanceDisplayMode
+                                                                    .availableBalance) {
+                                                              balance = balanceStore
+                                                                      .unlockedBalanceString ??
+                                                                  '00.000000000';
+                                                              print(
+                                                                  'Dashboard availableBalance --> $balance');
+                                                            }
+
+                                                            if (displayMode ==
+                                                                BalanceDisplayMode
+                                                                    .fullBalance) {
+                                                              balance = balanceStore
+                                                                      .fullBalanceString ??
+                                                                  '00.000000000';
+                                                              print(
+                                                                  'Dashboard fullBalance --> $balance');
+                                                            }
+
+                                                            return Row(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .baseline,
+                                                              textBaseline:
+                                                                  TextBaseline
+                                                                      .alphabetic,
+                                                              children: [
+                                                                Text(
+                                                                  '$balance ',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryTextTheme
+                                                                        .caption
+                                                                        .color,
+                                                                    fontSize: MediaQuery.of(context).size.height*0.12/3,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  'BDX',
+                                                                  style:
+                                                                      TextStyle(
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryTextTheme
+                                                                        .caption
+                                                                        .color,
+                                                                    fontSize: 14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                  ),
+                                                                ),
+                                                                //SizedBox(width:40),
+                                                                // Container(
+                                                                //   child:SvgPicture.asset('assets/images/new-images/scanners.svg')
+                                                                // )
+                                                              ],
+                                                            );
+                                                          }),
+                                                      //  GestureDetector(
+                                                      //   onTap: () async => _presentQRScanner(context),
+                                                      //    child: Container(
+                                                      //                 child:SvgPicture.asset('assets/images/new-images/scanners.svg',color: settingsStore.isDarkTheme? Color(0xffFFFFFF): Color(0xff16161D),)
+                                                      //               ),
+                                                      //  )
+                                                    ],
+                                                  ),
+                                   ),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(left:15.0,bottom: 10),
+                                                  child: Row(
+                                                    children: [
+                                                      Observer(
+                                                          key:
+                                                              _balanceObserverKey,
+                                                          builder: (_) {
+                                                            final savedDisplayMode =
+                                                                settingsStore
+                                                                    .balanceDisplayMode;
+                                                            final displayMode = settingsStore
+                                                                    .enableFiatCurrency
+                                                                ? (balanceStore
+                                                                        .isReversing
+                                                                    ? (savedDisplayMode ==
+                                                                            BalanceDisplayMode
+                                                                                .availableBalance
+                                                                        ? BalanceDisplayMode
+                                                                            .fullBalance
+                                                                        : BalanceDisplayMode
+                                                                            .availableBalance)
+                                                                    : savedDisplayMode)
+                                                                : BalanceDisplayMode
+                                                                    .hiddenBalance;
+                                                            final symbol =
+                                                                settingsStore
+                                                                    .fiatCurrency
+                                                                    .toString();
+                                                            var balance = '---';
+
+                                                            if (displayMode ==
+                                                                BalanceDisplayMode
+                                                                    .availableBalance) {
+                                                              balance =
+                                                                  '${balanceStore.fiatUnlockedBalance} $symbol';
+                                                            }
+
+                                                            if (displayMode ==
+                                                                BalanceDisplayMode
+                                                                    .fullBalance) {
+                                                              balance =
+                                                                  '${balanceStore.fiatFullBalance} $symbol';
+                                                            }
+
+                                                            return Text(balance,
+                                                                style: TextStyle(
+                                                                    color: Color(
+                                                                        0xff0BA70F), //Theme.of(context).hintColor,//Colors.grey,
+                                                                    //Palette.wildDarkBlue,
+                                                                    fontSize:MediaQuery.of(context).size.height*0.07/3
+                                                                        ));
+                                                          }),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height:15
+                                                ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Observer(
+                                          builder: (_) {
+                                            return InkWell(
+                                      onTap: () {
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pushNamed(Routes.send);
+                                      },
+                                      child:  Container(
+                                                                  width: 142,
+                                                                  height: 46,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(
+                                                                                8),
+                                                                    color: syncStatus ==
+                                                                                'SYNCHRONIZED'// &&
+                                                                           // !nStatus
                                                                         ? Color(
-                                                                            0xff333343)
-                                                                        : Color(
-                                                                            0xffE8E8E8),
-                                                              ),
-                                                              child: Row(
-                                                                crossAxisAlignment:
-                                                                    CrossAxisAlignment
-                                                                        .center,
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .center,
-                                                                children: [
-                                                                  Container(
-                                                                      height:
-                                                                          20,
-                                                                      width: 20,
-                                                                      child: SvgPicture
-                                                                          .asset(
-                                                                        'assets/images/new-images/send.svg',
-                                                                        color: syncStatus == 'SYNCHRONIZED' &&
-                                                                                !nStatus
-                                                                            ? Colors.white
-                                                                            : settingsStore.isDarkTheme
-                                                                                ? Color(0xff6C6C78)
-                                                                                : Color(0xffB2B2B6),
-                                                                      )),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            8.0),
-                                                                    child: Text(
-                                                                      S
-                                                                          .of(context)
-                                                                          .send,
-                                                                      style: TextStyle(
-                                                                          color: syncStatus == 'SYNCHRONIZED' && !nStatus
-                                                                              ? Colors.white
-                                                                              : settingsStore.isDarkTheme
-                                                                                  ? Color(0xff6C6C78)
-                                                                                  : Color(0xffB2B2B6),
-                                                                          fontWeight: FontWeight.bold,
-                                                                          fontSize: 16),
-                                                                    ),
-                                                                  )
-                                                                ],
-                                                              ),
-                                                            ),
-                                                          );
-                                                        },
-                                                      ),
-                                                      GestureDetector(
-                                                        onTap: () {
-                                                          Navigator.of(context)
-                                                              .pushNamed(Routes
-                                                                  .receive);
-                                                        },
-                                                        child: Container(
+                                                                            0xff0BA70F)
+                                                                        : settingsStore
+                                                                                .isDarkTheme
+                                                                            ? Color(
+                                                                                0xff333343)
+                                                                            : Color(
+                                                                                0xffE8E8E8),
+                                                                  ),
+                                                                  child: Row(
+                                                                    crossAxisAlignment:
+                                                                        CrossAxisAlignment
+                                                                            .center,
+                                                                    mainAxisAlignment:
+                                                                        MainAxisAlignment
+                                                                            .center,
+                                                                    children: [
+                                                                      Container(
+                                                                          height:
+                                                                              20,
+                                                                          width: 20,
+                                                                          child: SvgPicture
+                                                                              .asset(
+                                                                            'assets/images/new-images/send.svg',
+                                                                            color: syncStatus == 'SYNCHRONIZED'// &&
+                                                                                   // !nStatus
+                                                                                ? Colors.white
+                                                                                : settingsStore.isDarkTheme
+                                                                                    ? Color(0xff6C6C78)
+                                                                                    : Color(0xffB2B2B6),
+                                                                          )),
+                                                                      Padding(
+                                                                        padding: const EdgeInsets
+                                                                                .only(
+                                                                            left:
+                                                                                8.0),
+                                                                        child: Text(
+                                                                          S
+                                                                              .of(context)
+                                                                              .send,
+                                                                          style: TextStyle(
+                                                                              color: syncStatus == 'SYNCHRONIZED' //&& !nStatus
+                                                                                  ? Colors.white
+                                                                                  : settingsStore.isDarkTheme
+                                                                                      ? Color(0xff6C6C78)
+                                                                                      : Color(0xffB2B2B6),
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontSize: 16),
+                                                                        ),
+                                                                      )
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                    );
+                                          }
+                                        ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.of(context,
+                                                rootNavigator: true)
+                                            .pushNamed(Routes.receive);
+                                      },
+                                      child:Container(
                                                           width: 142,
                                                           height: 46,
                                                           decoration:
@@ -923,37 +896,30 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                             ],
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                 
-                                ],
-                              ),
-                            );
-                          }
+                                    ),
+                                      ],
+                                    )
+                      ],
+                    ),
+                  ),
+                Column(
+                  children: [
 
-                          return Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 1.25 / 3,
-                              margin: EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                  color: settingsStore.isDarkTheme
-                                      ? Color(0xff24242F)
-                                      : Color(0xffEDEDED),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Observer(
-                                builder: (_) {
-                                  final status = syncStore.status;
-                                  final syncStat = status.title();
-                                  return Column(
+                  ],
+                ),
+                Expanded(
+                  child: Container(
+                    margin: EdgeInsets.only(left:15,right:15,bottom:10),
+                    height: MediaQuery.of(context).size.height*1.1/3,
+                    width:double.infinity,
+                    decoration: BoxDecoration(  
+                      color: settingsStore.isDarkTheme
+                                              ? Color(0xff272733)
+                                              : Color(
+                                                  0xffEDEDED),
+                      borderRadius: BorderRadius.circular(10.0)
+                    ),
+                    child: Column(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
@@ -968,8 +934,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                         ),
                                       ),
                                       GestureDetector(
-                                        onTap: syncStat == 'SYNCHRONIZED' &&
-                                                !nStatus
+                                        onTap: syncStatus == 'SYNCHRONIZED' //&&
+                                               // !nStatus
                                             ? () {
                                                 //scannerAction();
                                                 _presentQRScanner(context);
@@ -1002,9 +968,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                               ),
                                               child: SvgPicture.asset(
                                                 'assets/images/new-images/flashqr.svg',
-                                                color: syncStat ==
-                                                            'SYNCHRONIZED' &&
-                                                        !nStatus
+                                                color: syncStatus ==
+                                                            'SYNCHRONIZED'// &&
+                                                       // !nStatus
                                                     ? Color(0xff222222)
                                                     : Color(0xffD9D9D9),
                                               )),
@@ -1019,106 +985,722 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                             style: TextStyle(fontSize: 16)),
                                       )
                                     ],
-                                  );
-                                },
-                              ));
-
-                        }),
+                                  ),
                   ),
                 ),
-                Container(
-                    height: MediaQuery.of(context).size.height * 0.35 / 3,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xff24242F)
-                            : Color(0xffEDEDED)),
-                    padding: EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () => Navigator.of(context)
-                              .pushNamed(Routes.addressBook),
-                          child: Container(
-                              width:
-                                  MediaQuery.of(context).size.width * 1.30 / 3,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: settingsStore.isDarkTheme
-                                      ? Color(0xff333343)
-                                      : Color(0xffD4D4D4)),
-                              padding: EdgeInsets.all(15),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/images/new-images/Address.svg',
-                                    color: settingsStore.isDarkTheme
-                                        ? Colors.white
-                                        : Colors.black,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 5.0),
-                                    child: Text(S.of(context).address_book,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16)),
-                                  )
-                                ],
-                              )),
-                        ),
-                        // Container(
-                        //   width:MediaQuery.of(context).size.width*1.30/3,
-                        //   decoration: BoxDecoration(
-                        //     borderRadius: BorderRadius.circular(10),
-                        //     color: settingsStore.isDarkTheme ? Color(0xff333343) : Color(0xffD4D4D4)
-                        //   ),
-                        //   padding: EdgeInsets.all(15),
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     children: [
-                        //       SvgPicture.asset('assets/images/new-images/Address.svg'),
-                        //       Padding(
-                        //         padding: EdgeInsets.only(left:8.0),
-                        //         child: Text(S.of(context).address_book,style: TextStyle( fontWeight: FontWeight.bold,
-                        //                                                       fontSize: 16),),
-                        //       )
-                        //     ],
-                        //   )
-                        // ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(Routes.transactionlist);
-                          },
-                          child: Container(
-                              width:
-                                  MediaQuery.of(context).size.width * 1.30 / 3,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Color(0xff0BA70F)),
-                              padding: EdgeInsets.all(15),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                      'assets/images/new-images/transactions.svg'),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 5.0),
-                                    child: Text(S.of(context).transactions,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 16)),
-                                  ),
-                                ],
-                              )),
-                        )
-                      ],
-                    ))
-              ],
+
+                
+                
+                
+                
+                  ],
             );
+            
+            
+            
+            
+            
+            
+            
+            
+            //  Stack(
+            //   children: [
+            //     ListView.builder(
+            //         key: _listKey,
+            //         padding: EdgeInsets.only(bottom: 15),
+            //         itemCount: itemsCount,
+            //         itemBuilder: (context, index) {
+            //           if (index == 0) {
+            //             return Container(
+            //               margin: EdgeInsets.only(bottom: 20),
+            //               decoration: BoxDecoration(
+            //                 color: Colors.transparent
+            //                 // color:  settingsStore.isDarkTheme
+            //                 //                 ? Color(0xff272733)
+            //                 //                 : Color(
+            //                 //                     0xffEDEDED),
+            //                 /*boxShadow: [
+            //                   BoxShadow(
+            //                       color: Palette.shadowGreyWithOpacity,
+            //                       blurRadius: 10,
+            //                       offset: Offset(0, 12))
+            //                 ]*/
+            //               ),
+            //               child: Column(
+            //                 children: <Widget>[
+            //                   //Progress bar
+            //                   Observer(
+            //                     key: _syncingObserverKey,
+            //                     builder: (_) {
+            //                       final status = syncStore.status;
+            //                       final statusText = status.title();
+            //                       final progress = syncStore.status.progress();
+            //                       final isFailure = status is FailedSyncStatus;
+
+            //                       print('dashboard page status --> $status');
+            //                       print('dashboard page progress --> $progress');
+
+            //                       var descriptionText = '';
+            //                       print('dashboard page status is SyncingSyncStatus ${status is SyncingSyncStatus}');
+            //                       if (status is SyncingSyncStatus) {
+            //                         /*descriptionText = S
+            //                             .of(context)
+            //                             .Blocks_remaining(
+            //                                 syncStore.status.toString());*/
+            //                         descriptionText = '';
+            //                         print('dashboard page syncStore.status.toString() ${syncStore.status.toString()}');
+            //                         print('dashboard page descriptionText $descriptionText');
+            //                       }
+
+            //                       if (status is FailedSyncStatus) {
+            //                         descriptionText = S
+            //                             .of(context)
+            //                             .please_try_to_connect_to_another_node;
+            //                       }
+
+            //                       return Container(
+            //                         child: Column(
+            //                           children: [
+            //                             SizedBox(
+            //                               height: 3,
+            //                               child: LinearProgressIndicator(
+            //                                 backgroundColor: Palette.separator,
+            //                                 valueColor:
+            //                                     AlwaysStoppedAnimation<Color>(
+            //                                         BeldexPalette.teal),
+            //                                 value: progress,
+            //                               ),
+            //                             ),
+            //                             SizedBox(height: 10),
+            //                             Text(statusText,
+            //                                 style: TextStyle(
+            //                                     fontSize: 14,
+            //                                     fontWeight: FontWeight.bold,
+            //                                     color: isFailure
+            //                                         ? BeldexPalette.red
+            //                                         : BeldexPalette.teal)),
+            //                             Text(descriptionText,
+            //                                 style: TextStyle(
+            //                                     fontSize: 11,
+            //                                     color: Theme.of(context).primaryTextTheme.caption.color,//Palette.wildDarkBlue,
+            //                                     height: 2.0))
+            //                           ],
+            //                         ),
+            //                       );
+            //                     }),
+            //                   //Primary Account
+                           
+            //                 // SizedBox(
+            //                 //   height: 10,
+            //                 // ),
+            //                 Container(
+            //                   height: 200,
+            //                   width: double.infinity,
+            //                   margin: EdgeInsets.only(left:20,right:20,bottom: 20),
+            //                   decoration: BoxDecoration(  
+            //                     color: settingsStore.isDarkTheme
+            //                                 ? Color(0xff272733)
+            //                                 : Color(
+            //                                     0xffEDEDED),
+            //                    borderRadius: BorderRadius.circular(10)
+            //                   ),
+            //                   child: Column(
+            //                     children: [
+
+            //                     ],
+            //                   ),
+            //                 ),
+                           
+            //                Container(
+            //                 height:200,
+            //                 color:settingsStore.isDarkTheme
+            //                               ? Color(0xff272733)
+            //                               : Color(
+            //                                   0xffEDEDED),
+            //                 child:Column()
+            //                )
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+                           
+            //                 ])
+            //             );
+            //           }
+
+            //           // if (index == 1 && actionListStore.totalCount > 0) {
+            //           //   return Column(
+            //           //     mainAxisAlignment: MainAxisAlignment.center,
+            //           //     crossAxisAlignment: CrossAxisAlignment.center,
+            //           //     children: [
+            //           //       SizedBox(
+            //           //         height: 10,
+            //           //       ),
+            //           //       Divider(
+            //           //         height: 10,
+            //           //       ),
+            //           //       Padding(
+            //           //         padding:
+            //           //             EdgeInsets.only(right: 20, top: 10),
+            //           //         child: Row(
+            //           //             mainAxisAlignment: MainAxisAlignment.end,
+            //           //             children: <Widget>[
+            //           //               Theme(
+            //           //                 data: Theme.of(context).copyWith(
+            //           //                     accentColor: Colors.green,
+            //           //                     primaryColor: Colors.blue,),
+            //           //                 child: Builder(
+            //           //                   builder: (context) => PopupMenuButton<int>(
+            //           //                     itemBuilder: (context) => [
+            //           //                       PopupMenuItem(
+            //           //                           enabled: false,
+            //           //                           value: -1,
+            //           //                           child: Text(S.of(context).transactions,
+            //           //                               style: TextStyle(
+            //           //                                   fontWeight: FontWeight.bold,
+            //           //                                   color: Theme.of(context)
+            //           //                                       .primaryTextTheme
+            //           //                                       .caption
+            //           //                                       .color))),
+            //           //                       PopupMenuItem(
+            //           //                           value: 0,
+            //           //                           child: Observer(
+            //           //                               builder: (_) => Row(
+            //           //                                   mainAxisAlignment:
+            //           //                                   MainAxisAlignment
+            //           //                                       .spaceBetween,
+            //           //                                   children: [
+            //           //                                     Text(S
+            //           //                                         .of(context)
+            //           //                                         .incoming),
+            //           //                                     Theme(
+            //           //                                       data: Theme.of(context).copyWith(accentColor: Colors.green,checkboxTheme: CheckboxThemeData(fillColor:MaterialStateProperty.all(Colors.green),checkColor: MaterialStateProperty.all(Colors.white),)),
+            //           //                                       child: Checkbox(
+            //           //                                         value: actionListStore
+            //           //                                             .transactionFilterStore
+            //           //                                             .displayIncoming,
+            //           //                                         onChanged: (value) =>
+            //           //                                             actionListStore
+            //           //                                                 .transactionFilterStore
+            //           //                                                 .toggleIncoming(),
+            //           //                                       ),
+            //           //                                     )
+            //           //                                   ]))),
+            //           //                       PopupMenuItem(
+            //           //                           value: 1,
+            //           //                           child: Observer(
+            //           //                               builder: (_) => Row(
+            //           //                                   mainAxisAlignment:
+            //           //                                   MainAxisAlignment
+            //           //                                       .spaceBetween,
+            //           //                                   children: [
+            //           //                                     Text(S
+            //           //                                         .of(context)
+            //           //                                         .outgoing),
+            //           //                                     Theme(
+            //           //                                       data: Theme.of(context).copyWith(accentColor: Colors.green,checkboxTheme: CheckboxThemeData(fillColor:MaterialStateProperty.all(Colors.green),checkColor: MaterialStateProperty.all(Colors.white),)),
+            //           //                                       child: Checkbox(
+            //           //                                         value: actionListStore
+            //           //                                             .transactionFilterStore
+            //           //                                             .displayOutgoing,
+            //           //                                         onChanged: (value) =>
+            //           //                                             actionListStore
+            //           //                                                 .transactionFilterStore
+            //           //                                                 .toggleOutgoing(),
+            //           //                                       ),
+            //           //                                     )
+            //           //                                   ]))),
+            //           //                       PopupMenuItem(
+            //           //                           value: 2,
+            //           //                           child: Text(S
+            //           //                               .of(context)
+            //           //                               .transactions_by_date)),
+            //           //                     ],
+            //           //                     onSelected: (item) async {
+            //           //                       print('item length --> $item');
+            //           //                       if (item == 2) {
+            //           //                         final picked =
+            //           //                         await date_rage_picker.showDatePicker(
+            //           //                           context: context,
+            //           //                           initialFirstDate: DateTime.now()
+            //           //                               .subtract(Duration(days: 1)),
+            //           //                           initialLastDate: (DateTime.now()),
+            //           //                           firstDate: DateTime(2015),
+            //           //                           lastDate: DateTime.now()
+            //           //                               .add(Duration(days: 1)),);
+
+            //           //                         print('picked length --> ${picked.length}');
+
+            //           //                         if (picked != null &&
+            //           //                             picked.length == 2) {
+            //           //                           actionListStore.transactionFilterStore
+            //           //                               .changeStartDate(picked.first);
+            //           //                           actionListStore.transactionFilterStore
+            //           //                               .changeEndDate(picked.last);
+            //           //                         }
+            //           //                       }
+            //           //                     },
+            //           //                     child: SvgPicture.asset('assets/images/filter.svg',width:18,height:18,color: Theme.of(context).primaryTextTheme.caption.color,)/*Text(S.of(context).filters,
+            //           //                         style: TextStyle(
+            //           //                             fontSize: 16.0,
+            //           //                             color: Theme.of(context)
+            //           //                                 .primaryTextTheme
+            //           //                                 .subtitle2
+            //           //                                 .color))*/,
+            //           //                   )
+            //           //                 ),
+            //           //               )
+
+            //           //             ]),
+            //           //       ),
+            //           //     ],
+            //           //   );
+            //           // }
+
+            //           // index -= 2;
+
+            //           // if (index < 0 || index >= items.length) {
+            //           //   return Column(
+            //           //     children: [
+            //           //       SizedBox(height: 50,),
+            //           //       Text('No transactions yet',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16.0),),
+            //           //       SizedBox(height: 25,),
+            //           //       Text('After you first transaction, you will\nbe able to view it here.',textAlign: TextAlign.center,),
+            //           //       SizedBox(height: 40,),
+            //           //       SvgPicture.asset('assets/images/no_transaction.svg')
+            //           //     ],
+            //           //   );
+            //           // }
+
+            //           // final item = items[index];
+
+            //           // if (item is DateSectionItem) {
+            //           //   return DateSectionRow(date: item.date);
+            //           // }
+
+            //           // if (item is TransactionListItem) {
+            //           //   final transaction = item.transaction;
+            //           //   final savedDisplayMode =
+            //           //       settingsStore.balanceDisplayMode;
+            //           //   final formattedAmount =
+            //           //       savedDisplayMode == BalanceDisplayMode.hiddenBalance
+            //           //           ? '---'
+            //           //           : transaction.amountFormatted();
+            //           //   final formattedFiatAmount =
+            //           //       savedDisplayMode == BalanceDisplayMode.hiddenBalance
+            //           //           ? '---'
+            //           //           : transaction.fiatAmount();
+
+            //           //   return TransactionRow(
+            //           //       onTap: () => Navigator.of(context).pushNamed(
+            //           //           Routes.transactionDetails,
+            //           //           arguments: transaction),
+            //           //       direction: transaction.direction,
+            //           //       formattedDate:
+            //           //           transactionDateFormat.format(transaction.date),
+            //           //       formattedAmount: formattedAmount,
+            //           //       formattedFiatAmount: formattedFiatAmount,
+            //           //       isPending: transaction.isPending);
+            //           // }
+
+            //           return Container();
+            //         }),
+            //    /* SizedBox.expand(
+            //       child: DraggableScrollableSheet(
+            //         minChildSize: 0.43,
+            //         initialChildSize: 0.43,
+            //         maxChildSize: 0.98,
+            //         builder: (BuildContext context,
+            //             ScrollController scrollController) {
+            //           return Container(
+            //             decoration: BoxDecoration(
+            //                 color: Color.fromARGB(255, 40, 42, 51),
+            //                 borderRadius: BorderRadius.only(
+            //                     topLeft: Radius.circular(15),
+            //                     topRight: Radius.circular(15))),
+            //             child: Column(
+            //               children: [
+            //                 Container(
+            //                   width: 90,
+            //                   height: 7,
+            //                   margin: EdgeInsets.only(top: 25, bottom: 15),
+            //                   decoration: BoxDecoration(
+            //                       color: Color.fromARGB(255, 23, 23, 26),
+            //                       borderRadius:
+            //                           BorderRadius.all(Radius.circular(10))),
+            //                 ),
+            //                 Text(
+            //                   'Transactions',
+            //                   style: TextStyle(
+            //                       fontWeight: FontWeight.bold, fontSize: 16),
+            //                 ),
+            //                 *//*Container(
+            //                   margin: EdgeInsets.only(left: 65,right: 30),
+            //                   child: Row(
+            //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //                     children: [
+            //                       Text(
+            //                         'Transactions',
+            //                         style: TextStyle(
+            //                             fontWeight: FontWeight.bold, fontSize: 18),
+            //                       ),
+            //                       Container(
+            //                         width: 40,
+            //                         height: 40,
+            //                         padding: EdgeInsets.all(10),
+            //                         decoration: BoxDecoration(
+            //                           color: Colors.black,
+            //                           borderRadius: BorderRadius.all(Radius.circular(10))
+            //                         ),
+            //                         child: SvgPicture.asset('assets/images/filter_svg.svg',color: Colors.white,),
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ),*//*
+            //                 Container(
+            //                   margin:
+            //                       EdgeInsets.only(left: 10, right: 10, top: 20),
+            //                   child: Row(
+            //                     mainAxisAlignment:
+            //                         MainAxisAlignment.spaceEvenly,
+            //                     children: [
+            //                       *//*   Text(
+            //                         'Transactions',
+            //                         style: TextStyle(
+            //                             fontWeight: FontWeight.bold,
+            //                             fontSize: 16),
+            //                       ),*//*
+            //                       InkWell(
+            //                         onTap: () {
+            //                           if (iconDataVal ==
+            //                               Icons.arrow_downward_outlined) {
+            //                             transactions.sort(
+            //                                 (a, b) => b.text.compareTo(a.text));
+            //                             //transactions.reversed;
+            //                             setState(() {
+            //                               iconDataVal =
+            //                                   Icons.arrow_upward_outlined;
+            //                             });
+            //                           } else {
+            //                             transactions.sort(
+            //                                 (a, b) => a.text.compareTo(b.text));
+            //                             setState(() {
+            //                               iconDataVal =
+            //                                   Icons.arrow_downward_outlined;
+            //                             });
+            //                           }
+            //                         },
+            //                         child: Row(
+            //                           children: [
+            //                             Text(
+            //                               'Date',
+            //                               style: TextStyle(
+            //                                   fontWeight: FontWeight.bold,
+            //                                   fontSize: 16),
+            //                             ),
+            //                             Icon(iconDataVal),
+            //                           ],
+            //                         ),
+            //                       ),
+            //                       InkWell(
+            //                         onTap: () {
+            //                           transactions = [
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 99.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'receive',
+            //                                 icon: Icons.arrow_downward,
+            //                                 text: '25.01.2021',
+            //                                 amount: '+\$ 105.00',
+            //                                 color: Colors.green),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'receive',
+            //                                 icon: Icons.arrow_downward,
+            //                                 text: '20.01.2021',
+            //                                 amount: '+\$ 60.00',
+            //                                 color: Colors.green),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'receive',
+            //                                 icon: Icons.arrow_downward,
+            //                                 text: '20.01.2021',
+            //                                 amount: '+\$ 60.00',
+            //                                 color: Colors.green),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'receive',
+            //                                 icon: Icons.arrow_downward,
+            //                                 text: '20.01.2021',
+            //                                 amount: '+\$ 60.00',
+            //                                 color: Colors.green),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red)
+            //                           ];
+            //                           transactions.removeWhere(
+            //                               (item) => item.id == 'receive');
+            //                           //transactions.where((item) => item.id.contains('send'));
+            //                           //transactions.sort((a, b) => a.id.compareTo(Colors.red));
+            //                           print(transactions);
+            //                           setState(() {});
+            //                         },
+            //                         child: Container(
+            //                           width: 30,
+            //                           height: 30,
+            //                           padding: EdgeInsets.all(5),
+            //                           decoration: BoxDecoration(
+            //                               color: Colors.black,
+            //                               borderRadius: BorderRadius.all(
+            //                                   Radius.circular(5))),
+            //                           child: SvgPicture.asset(
+            //                             'assets/images/send_icon_svg.svg',
+            //                             color: Colors.red,
+            //                           ),
+            //                         ),
+            //                       ),
+            //                       InkWell(
+            //                         onTap: () {
+            //                           transactions = [
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 99.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'receive',
+            //                                 icon: Icons.arrow_downward,
+            //                                 text: '25.01.2021',
+            //                                 amount: '+\$ 105.00',
+            //                                 color: Colors.green),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'receive',
+            //                                 icon: Icons.arrow_downward,
+            //                                 text: '20.01.2021',
+            //                                 amount: '+\$ 60.00',
+            //                                 color: Colors.green),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'receive',
+            //                                 icon: Icons.arrow_downward,
+            //                                 text: '20.01.2021',
+            //                                 amount: '+\$ 60.00',
+            //                                 color: Colors.green),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'receive',
+            //                                 icon: Icons.arrow_downward,
+            //                                 text: '20.01.2021',
+            //                                 amount: '+\$ 60.00',
+            //                                 color: Colors.green),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red)
+            //                           ];
+            //                           transactions.removeWhere(
+            //                               (item) => item.id == 'send');
+            //                           setState(() {});
+            //                         },
+            //                         child: Container(
+            //                           width: 30,
+            //                           height: 30,
+            //                           padding: EdgeInsets.all(5),
+            //                           decoration: BoxDecoration(
+            //                               color: Colors.black,
+            //                               borderRadius: BorderRadius.all(
+            //                                   Radius.circular(5))),
+            //                           child: SvgPicture.asset(
+            //                             'assets/images/receive_icon_svg.svg',
+            //                             color: Colors.green,
+            //                           ),
+            //                         ),
+            //                       ),
+            //                       InkWell(
+            //                         onTap: () {
+            //                           transactions = [
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 99.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'receive',
+            //                                 icon: Icons.arrow_downward,
+            //                                 text: '25.01.2021',
+            //                                 amount: '+\$ 105.00',
+            //                                 color: Colors.green),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'receive',
+            //                                 icon: Icons.arrow_downward,
+            //                                 text: '20.01.2021',
+            //                                 amount: '+\$ 60.00',
+            //                                 color: Colors.green),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'receive',
+            //                                 icon: Icons.arrow_downward,
+            //                                 text: '20.01.2021',
+            //                                 amount: '+\$ 60.00',
+            //                                 color: Colors.green),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red),
+            //                             Item(
+            //                                 id: 'receive',
+            //                                 icon: Icons.arrow_downward,
+            //                                 text: '20.01.2021',
+            //                                 amount: '+\$ 60.00',
+            //                                 color: Colors.green),
+            //                             Item(
+            //                                 id: 'send',
+            //                                 icon: Icons.arrow_upward,
+            //                                 text: '01.02.2021',
+            //                                 amount: '-\$ 105.00',
+            //                                 color: Colors.red)
+            //                           ];
+            //                           setState(() {});
+            //                         },
+            //                         child: Container(
+            //                           width: 30,
+            //                           height: 30,
+            //                           padding: EdgeInsets.all(5),
+            //                           decoration: BoxDecoration(
+            //                               color: Colors.black,
+            //                               borderRadius: BorderRadius.all(
+            //                                   Radius.circular(5))),
+            //                           child: SvgPicture.asset(
+            //                             'assets/images/send_receive_icon_svg.svg',
+            //                           ),
+            //                         ),
+            //                       ),
+            //                     ],
+            //                   ),
+            //                 ),
+            //                 SizedBox(
+            //                   height: 15,
+            //                 ),
+            //                 Expanded(
+            //                   child: ListView.separated(
+            //                     controller: scrollController,
+            //                     itemCount: transactions.length,
+            //                     separatorBuilder: (context, i) {
+            //                       return Divider(
+            //                         color: Theme.of(context).backgroundColor,
+            //                         //Theme.of(context).dividerTheme.color,
+            //                         height: 5.0,
+            //                       );
+            //                     },
+            //                     itemBuilder: (BuildContext context, int index) {
+            //                       return ListTile(
+            //                           contentPadding:
+            //                               EdgeInsets.only(left: 25, right: 25),
+            //                           leading: Icon(
+            //                             transactions[index].icon,
+            //                             color: transactions[index].color,
+            //                           ),
+            //                           title: Text(
+            //                             transactions[index].text,
+            //                             style: TextStyle(fontSize: 16),
+            //                           ),
+            //                           trailing: Text(
+            //                             transactions[index].amount,
+            //                             style: TextStyle(
+            //                                 color: transactions[index].color,
+            //                                 fontWeight: FontWeight.bold,
+            //                                 fontSize: 16),
+            //                           ));
+            //                     },
+            //                   ),
+            //                 ),
+            //               ],
+            //             ),
+            //           );
+            //         },
+            //       ),
+            //     )*/
+            //   ],
+            // );
           }),
     );
   }
@@ -1128,13 +1710,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          final settingsStore = Provider.of<SettingsStore>(context);
           return Dialog(
             elevation: 0,
-            backgroundColor: settingsStore.isDarkTheme
-                ? Color(0xff272733)
-                : Color(
-                    0xffffffff), //Theme.of(context).cardTheme.color,//Colors.black,
+            backgroundColor: Theme.of(context).cardTheme.color,//Colors.black,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)), //this right here
             child: Container(
@@ -1163,50 +1741,36 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           SizedBox(
-                            width: 55,
+                            width: 45,
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  backgroundColor: settingsStore.isDarkTheme
-                                      ? Color(0xff333343)
-                                      : Color(
-                                          0xffDADADA) //Theme.of(context).cardTheme.shadowColor,
-                                  //Color.fromRGBO(38, 38, 38, 1.0),
-                                  ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10)),
+                                backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop(false);
                               },
                               child: Text(
                                 S.of(context).no,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Theme.of(context)
-                                      .primaryTextTheme
-                                      .caption
-                                      .color,
-                                ),
+                                style: TextStyle(color: Theme.of(context).primaryTextTheme.caption.color,),
                               ),
                             ),
                           ),
                           SizedBox(
-                            width: 55,
+                            width: 45,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                backgroundColor: Color(
-                                    0xff0BA70F), // Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
                               ),
                               onPressed: () {
                                 Navigator.of(context).pop(true);
                               },
                               child: Text(
                                 S.of(context).yes,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.white,
-                                ),
+                                style: TextStyle(color: Theme.of(context).primaryTextTheme.caption.color,),
                               ),
                             ),
                           ),
@@ -1231,6 +1795,8 @@ class Item {
   String amount;
   Color color;
 }
+
+
 
 Future showMenuForRescan(
     BuildContext context, String title, String body, String fee, String address,
@@ -1482,13 +2048,15 @@ class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
           Text(
             'You have scanned from the block height',
             textAlign: TextAlign.center,
+            style:TextStyle(fontSize: 13)
           ),
           Text(bHeight.toString(),
               textAlign: TextAlign.center,
               style: TextStyle(color: Color(0xff0BA70F))),
           Text(
-            'However we recommend to scan the blockchain from the block height at which you \ncreated the wallet to get all transactions\n and correct balance',
+            'However we recommend to scan the blockchain from the block height at which you created the wallet to get all transactions and correct balance',
             textAlign: TextAlign.center,
+            style:TextStyle(fontSize: 13)
           ),
 
           Padding(
@@ -1496,13 +2064,13 @@ class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
             child: GestureDetector(
               onTap: ()=>Navigator.pop(context),
               child: Container(
-                height:50,width: 90,
+                height:45,width: 90,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Color(0xff0BA70F)
                 ),
                 child:Center(
-                  child:Text('OK',style:TextStyle(color:Colors.white))
+                  child:Text('OK',style:TextStyle(color:Colors.white,fontWeight:FontWeight.w800))
                 )
               ),
             ),
@@ -1531,9 +2099,4 @@ class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
     );
   }
 }
-
-
-
-
-
 

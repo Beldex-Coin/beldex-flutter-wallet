@@ -432,7 +432,40 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                   //     ? 
 
                       
-                     : Offstage()
+                     : InkWell(
+                        onTap: () {
+                         Navigator.of(context).pop();
+                        },
+                        child: Container(
+                            width: MediaQuery.of(context).size.width*2.6/3, //290,
+                            padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              color: 
+                              Color(0xff0BA70F)  , //,
+                              borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Center(
+                              child:Text(S.of(context).ok,
+                              style:TextStyle(
+                              color: 
+                               Color(0xffffffff), 
+                             
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold
+                              
+                              )
+                              )
+                            )
+                            // PrimaryButton(
+                            //     onPressed: () => onClose(context),
+                            //     text: S.of(context).restore_next,
+                            //     color: Theme.of(context)
+                            //         .primaryTextTheme
+                            //         .button
+                            //         .backgroundColor,
+                            //     borderColor: Palette.darkGrey),
+                          ),
+                      )
                 ],
               ),
             );

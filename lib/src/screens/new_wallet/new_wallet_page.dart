@@ -102,7 +102,8 @@ class _WalletNameFormState extends State<WalletNameForm> {
   final _scrollController = ScrollController(keepScrollOffset: true);
   final _controller = ScrollController(keepScrollOffset: true);
   int _selectedIndex = 0;
-
+  bool isError = false;
+  bool canremove = false;
   void _onSelected(int index) {
     final seedLanguageStore = context.read<SeedLanguageStore>();
     setState(() {
@@ -114,6 +115,84 @@ class _WalletNameFormState extends State<WalletNameForm> {
       }
     });
   }
+
+
+
+void _loading(bool _canLoad) {
+    // setState(() {
+    //   canLoad = true;
+    // });
+
+    // Simulate an asynchronous task, e.g., fetching data from an API
+    // Future.delayed(Duration(seconds: 3), () {
+    //   setState(() {
+    //     canLoad = false;
+    //   });
+
+    //   // Close the HUD progress loader
+    //   Navigator.pop(context);
+    // });
+   if(_canLoad){
+    // Show the HUD progress loader
+    showHUDLoader(context);
+   }else{
+     Navigator.pop(context);
+   }
+    
+  }
+
+
+
+
+void showHUDLoader(BuildContext context) {
+  //final settingsStore = Provider.of<SettingsStore>(context,listen: false);
+    showDialog<void>(
+      context: context,
+      //barrierColor: Colors.transparent,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          // Prevent closing the dialog when the user presses the back button
+          onWillPop: () async => false,
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+
+            //backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
+            content: 
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Text('Creating new wallet...',style:TextStyle(fontSize: 18,fontWeight: FontWeight.w700)),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +243,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
         Padding(
           padding: EdgeInsets.only(left: 10, right: 10, bottom: 15, top: 10),
           child: Container(
-            height: 60,
+            height:isError ? 90 : 60,
             child: Form(
                 key: _formKey,
                 child: Card(
@@ -188,34 +267,59 @@ class _WalletNameFormState extends State<WalletNameForm> {
                       controller: nameController,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: InputDecoration(
-                        suffixIcon: Transform.rotate(
+                        suffixIcon:  Transform.rotate(
                           angle: 135 * math.pi / 180,
                           child: IconButton(
                             icon: Icon(
                               Icons.add_rounded,
-                              color: Theme.of(context)
+                              color:canremove ? Colors.transparent :  Theme.of(context)
                                   .primaryTextTheme
                                   .caption
                                   .color,
                             ),
                             onPressed: () {
+                              setState(() {
+                                                              
+                                                            });
+                              canremove = true;
+                              isError = true;
                               nameController.text = '';
                             },
                           ),
                         ),
                         border: InputBorder.none,
                         hintStyle: TextStyle(
-                            fontSize: 16.0, color: Theme.of(context).hintColor),
+                            fontSize: 16.0, color: settingsStore.isDarkTheme ? Color(0xff747474) : Color(0xff6F6F6F)),
                         hintText: S.of(context).enter_wallet_name,
                       ),
                       validator: (value) {
                         final pattern = RegExp(r'^[a-zA-Z]{1,15}$');
                         if (!pattern.hasMatch(value)) {
-                          return 'Name should not exceed 15 characters';
+                          return 'Enter valid name upto 15 characters';
                         } else {
                           walletCreationStore.validateWalletName(value);
+                          // if(walletCreationStore.errorMessage == null)
+                          // {
+                          //     setState(() {
+                          //               isError = false;
+                          //          });
+                          // }
                           return walletCreationStore.errorMessage;
                         }
+                      
+                      },
+                      onChanged: (value){
+                          setState(() {
+                               isError = false;  
+                            });
+                            if(value.length > 15 || value.isEmpty){
+                              isError = true;
+                            }
+                            if(value.isEmpty){
+                              canremove = true;
+                            }else{
+                              canremove = false;
+                            }
                       },
                     ),
                   ),
@@ -445,9 +549,17 @@ class _WalletNameFormState extends State<WalletNameForm> {
             return GestureDetector(
               onTap: ()async {
                 if (_formKey.currentState.validate()) {
+                  _loading(true);
+                  isError = false; setState(() {
+                                    });
                  await walletCreationStore.create(
                       name: nameController.text,
                       language: seedLanguageStore.selectedSeedLanguage);
+                    _loading(false);
+                }else{
+                  setState(() {
+                          isError = true;
+                                    });
                 }
               },
               child: Container(
@@ -517,4 +629,5 @@ class _WalletNameFormState extends State<WalletNameForm> {
         )*/
     );
   }
+
 }

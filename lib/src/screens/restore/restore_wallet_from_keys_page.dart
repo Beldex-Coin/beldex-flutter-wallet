@@ -118,9 +118,9 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             Container(
-                  //color: Colors.yellow,
-                  child: Text(S.of(context).enter_wallet_name,style:TextStyle(fontSize:18,fontWeight:FontWeight.w700))),
+            //  Container(
+            //       //color: Colors.yellow,
+            //       child: Text(S.of(context).enter_wallet_name,style:TextStyle(fontSize:18,fontWeight:FontWeight.w700))),
             Column(
             //  mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -342,25 +342,25 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           }
                          
                           
-                         if(canShowPopup){
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                                     margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.30/3,
-                                                                     left: MediaQuery.of(context).size.height*0.30/3,
-                                                                     right: MediaQuery.of(context).size.height*0.30/3
-                                                                     ),
-                                                                      elevation:0, //5,
-                                                                      behavior: SnackBarBehavior.floating,
-                                                                      shape: RoundedRectangleBorder(
-                                                                          borderRadius: BorderRadius.circular(15.0) //only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                                                                      ),
-                                                                      content: Text('You restored via keys',
-                                                                        style: TextStyle(color: Color(0xffffffff),
-                                                                          fontWeight:FontWeight.w700,fontSize:15) ,textAlign: TextAlign.center,),
-                                                                      backgroundColor:Color(0xff0BA70F), //Color(0xff0BA70F).withOpacity(0.10), //.fromARGB(255, 46, 113, 43),
-                                                                      duration: Duration(
-                                                                          milliseconds: 1900),
-                                                                    ));
-                         }
+                        //  if(canShowPopup){
+                        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        //                                              margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.30/3,
+                        //                                              left: MediaQuery.of(context).size.height*0.30/3,
+                        //                                              right: MediaQuery.of(context).size.height*0.30/3
+                        //                                              ),
+                        //                                               elevation:0, //5,
+                        //                                               behavior: SnackBarBehavior.floating,
+                        //                                               shape: RoundedRectangleBorder(
+                        //                                                   borderRadius: BorderRadius.circular(15.0) //only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
+                        //                                               ),
+                        //                                               content: Text('You restored via keys',
+                        //                                                 style: TextStyle(color: Color(0xffffffff),
+                        //                                                   fontWeight:FontWeight.w700,fontSize:15) ,textAlign: TextAlign.center,),
+                        //                                               backgroundColor:Color(0xff0BA70F), //Color(0xff0BA70F).withOpacity(0.10), //.fromARGB(255, 46, 113, 43),
+                        //                                               duration: Duration(
+                        //                                                   milliseconds: 1900),
+                        //                                             ));
+                        //  }
 
                         },
                         text: S.of(context).restore_recover,
@@ -416,6 +416,18 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
             : 0);
     super.initState();
   }
+
+@override
+  void dispose() {
+     dateController.text = '';
+    restoreHeightController.text = '';
+    super.dispose();
+  }
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {

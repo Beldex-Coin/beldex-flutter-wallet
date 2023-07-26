@@ -427,7 +427,7 @@ class _SendTransactionSuccessfullyState extends State<SendTransactionSuccessfull
   }
 
 void callFuture()async{
-  Future.delayed(Duration(seconds: 3),(){
+  Future.delayed(Duration(seconds: 4),(){
      Navigator.of(context)..pop()..pop();
   });
 }
