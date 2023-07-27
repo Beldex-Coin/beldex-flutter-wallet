@@ -109,6 +109,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/new-images/
     - assets/images/
     - assets/node_list.yml
     - assets/testnet_node_list.yml
