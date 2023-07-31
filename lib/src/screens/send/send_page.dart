@@ -137,7 +137,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
   bool _effectsInstalled = false;
   
-  bool _isFlashTransaction = false;
+ // bool _isFlashTransaction = false;
   final _formKey = GlobalKey<FormState>();
 
   //
@@ -180,14 +180,14 @@ void getQrvalue()async{
    final prefs = await SharedPreferences.getInstance();
    setState(() {
         final controllerValue = prefs.getString('qrValue');
-        final isFlashTrans = prefs.getBool('isFlashTransaction');
+       // final isFlashTrans = prefs.getBool('isFlashTransaction');
         if(controllerValue.isNotEmpty || controllerValue != '') {
           _addressController.text = controllerValue;
         }
 
-       if(isFlashTrans) {
-         _isFlashTransaction = isFlashTrans;
-       }
+      //  if(isFlashTrans) {
+      //    _isFlashTransaction = isFlashTrans;
+      //  }
       });
    
 
@@ -1149,7 +1149,7 @@ void showHUDLoader(BuildContext context) {
                                       .grey, //Theme.of(context).accentTextTheme.overline.backgroundColor,
                                 )),
                             Text(
-                               _isFlashTransaction ? '${calculateEstimatedFee(priority:BeldexTransactionPriority.flash)}': '${calculateEstimatedFee(priority:settingsStore.transactionPriority  //BeldexTransactionPriority.flash
+                               '${calculateEstimatedFee(priority:settingsStore.transactionPriority  //BeldexTransactionPriority.flash
                                 )}',
                                 //'${calculateEstimatedFee(priority: BeldexTransactionPriority.slow)}',
                                 style: TextStyle(
@@ -1168,7 +1168,7 @@ void showHUDLoader(BuildContext context) {
                         width: double.infinity,
                         child: Text(
                             S.of(context).send_priority(
-                              _isFlashTransaction ? BeldexTransactionPriority.flash.toString() : settingsStore.transactionPriority.toString()),
+                               settingsStore.transactionPriority.toString()),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 14,
@@ -1498,15 +1498,15 @@ bottomSection:
                                             isSuccessful = false;
                                             return;
                                           }
-                                         if(_isFlashTransaction)
-                                         {
-                                          print('inside the flash transaction-->-->');
-                                          await sendStore.createTransaction(
-                                            address: _addressController.text,
-                                            tPriority: BeldexTransactionPriority.flash
-                                          );
+                                        //  if(_isFlashTransaction)
+                                        //  {
+                                        //   print('inside the flash transaction-->-->');
+                                        //   await sendStore.createTransaction(
+                                        //     address: _addressController.text,
+                                        //     tPriority: BeldexTransactionPriority.flash
+                                        //   );
                                           
-                                         }
+                                        //  }
                                             Navigator.of(auth.context).pop();
                                             _loading(true);
                                          print('create transaction ---> going to');

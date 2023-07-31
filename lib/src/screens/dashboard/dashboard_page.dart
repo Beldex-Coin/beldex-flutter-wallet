@@ -408,7 +408,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('qrValue', qrValue);
-      await prefs.setBool('isFlashTransaction', true);
+      //await prefs.setBool('isFlashTransaction', true);
       setState(() {});
       await Navigator.of(context).pushNamed(Routes.send);
 
@@ -433,7 +433,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
   @override
   void dispose() {
-    subscription.cancel();
+   // if(subscription.)
+    subscription?.cancel();
     super.dispose();
   }
 
@@ -767,12 +768,15 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       children: [
                                         Observer(
                                           builder: (_) {
+                                            final status = syncStore.status;
+                                        
+                                            final syncS =  status.title();
                                             return InkWell(
-                                      onTap: () {
+                                      onTap: syncS == 'SYNCHRONIZED' ? () {
                                             Navigator.of(context,
                                                     rootNavigator: true)
                                                 .pushNamed(Routes.send);
-                                      },
+                                      }:null,
                                       child:  Container(
                                                                   width: 142,
                                                                   height: 46,
@@ -782,7 +786,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                                         BorderRadius
                                                                             .circular(
                                                                                 8),
-                                                                    color: syncStatus ==
+                                                                    color: syncS ==
                                                                                 'SYNCHRONIZED'// &&
                                                                            // !nStatus
                                                                         ? Color(
@@ -809,7 +813,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                                           child: SvgPicture
                                                                               .asset(
                                                                             'assets/images/new-images/send.svg',
-                                                                            color: syncStatus == 'SYNCHRONIZED'// &&
+                                                                            color: syncS == 'SYNCHRONIZED'// &&
                                                                                    // !nStatus
                                                                                 ? Colors.white
                                                                                 : settingsStore.isDarkTheme
@@ -933,8 +937,12 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                               fontWeight: FontWeight.w800),
                                         ),
                                       ),
-                                      GestureDetector(
-                                        onTap: syncStatus == 'SYNCHRONIZED' //&&
+                                      Observer(builder: (_){
+                                        final status = syncStore.status;
+                                        
+                                            final syncSt =  status.title();
+                                        return GestureDetector(
+                                        onTap: syncSt == 'SYNCHRONIZED' //&&
                                                // !nStatus
                                             ? () {
                                                 //scannerAction();
@@ -968,14 +976,16 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                               ),
                                               child: SvgPicture.asset(
                                                 'assets/images/new-images/flashqr.svg',
-                                                color: syncStatus ==
+                                                color: syncSt ==
                                                             'SYNCHRONIZED'// &&
                                                        // !nStatus
                                                     ? Color(0xff222222)
                                                     : Color(0xffD9D9D9),
                                               )),
                                         ),
-                                      ),
+                                      );
+                                      },),
+                                      
                                       Padding(
                                         padding:
                                             const EdgeInsets.only(bottom: 10.0),

@@ -46,4 +46,5 @@ class Routes {
   static const newStake = '/stake/new';
   static const auth1 = '/auth1';
   static const transactionlist = '/transactionlist';
+  static const flash = '/flash';
 }
