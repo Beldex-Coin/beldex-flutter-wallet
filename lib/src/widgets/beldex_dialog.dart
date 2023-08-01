@@ -383,7 +383,7 @@ class ConfirmBeldexDialog extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                      GestureDetector(
-                      onTap:()=> onDismiss,
+                      onTap:onDismiss != null ? ()=> onDismiss(context) : null,
                        child: Container(
                         //height:40,
                         //width:70,
