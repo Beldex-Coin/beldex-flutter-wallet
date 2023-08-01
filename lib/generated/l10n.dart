@@ -357,7 +357,15 @@ String Block_remaining(Object status){
 }
 
 
-
+///`Display Block remaining`
+String Display_block_remaining(Object status){
+  return Intl.message(
+    status == 0 || status == 1 ? '$status Block Remaining' : '$status Blocks Remaining',
+    name: 'Display_block_remaining',
+    desc:'',
+    args:[status],
+  );
+}
 
   /// `Please try to connect to another node`
   String get please_try_to_connect_to_another_node {
