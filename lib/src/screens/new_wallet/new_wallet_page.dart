@@ -135,9 +135,10 @@ void _loading(bool _canLoad) {
    if(_canLoad){
     // Show the HUD progress loader
     showHUDLoader(context);
-   }else{
-     Navigator.pop(context);
    }
+  //  else{
+  //    Navigator.pop(context);
+  //  }
     
   }
 

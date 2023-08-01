@@ -986,24 +986,27 @@ bool getAmountValidation(String value){
         //               ),
                       //Flexible(child: Container()),
                       SizedBox(height:MediaQuery.of(context).size.height*0.20/3),
-                      InkWell(
-                        onTap: ()=> _incrementCounter(walletStore.subaddress.address,amountController.text),
-                        child: Container(
-                          margin: EdgeInsets.all(15),
-                          padding: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            color: Color(0xff0BA70F),
-                            borderRadius: BorderRadius.circular(10)
-                          ),
-                          child:Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.share,color:Colors.white),
-                              Padding(
-                                padding: const EdgeInsets.only(left:8.0),
-                                child: Text('Share QR',style: TextStyle(fontSize:16,color:Color(0xffffffff) ,fontWeight:FontWeight.bold),),
-                              ),
-                            ],
+                      Container(
+                        margin: EdgeInsets.all(15),
+                        child: InkWell(
+                          onTap: ()=> _incrementCounter(walletStore.subaddress.address,amountController.text),
+                          child: Container(
+                            
+                            padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              color: Color(0xff0BA70F),
+                              borderRadius: BorderRadius.circular(10)
+                            ),
+                            child:Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.share,color:Colors.white),
+                                Padding(
+                                  padding: const EdgeInsets.only(left:8.0),
+                                  child: Text('Share QR',style: TextStyle(fontSize:16,color:Color(0xffffffff) ,fontWeight:FontWeight.bold),),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       )
