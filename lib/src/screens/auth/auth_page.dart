@@ -27,7 +27,7 @@ class AuthPageState extends State<AuthPage> {
   final _pinCodeKey = GlobalKey<PinCodeState>();
 
   void changeProcessText(String text) {
-    _key.currentState.showSnackBar(
+  ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(text), backgroundColor: Colors.green));
   }
 

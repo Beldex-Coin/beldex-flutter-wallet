@@ -110,7 +110,8 @@ abstract class WalletRestorationStoreBase with Store {
   }
 
   void validateWalletName(String value) {
-    const pattern = '^[a-zA-Z0-9_]{1,15}\$';
+   // const pattern = '^[a-zA-Z0-9_]{1,15}\$';
+    const pattern = r'^(?=.{1,15}$)[a-zA-Z0-9]+$';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
     errorMessage = isValid ? null : S.current.error_text_wallet_name;

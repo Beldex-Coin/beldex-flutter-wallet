@@ -39,13 +39,14 @@ Widget trailing(BuildContext context){
   return Container();
 }
   @override
-  Widget body(BuildContext context) => ContactForm(contact);
+  Widget body(BuildContext context) => ContactForm(contact,context);
 }
 
 class ContactForm extends StatefulWidget {
-  ContactForm(this.contact);
+  ContactForm(this.contact, this.contxt);
 
   final Contact contact;
+  final BuildContext contxt;
 
   @override
   State<ContactForm> createState() => ContactFormState();
@@ -58,9 +59,9 @@ class ContactFormState extends State<ContactForm> {
   final _addressController = TextEditingController();
   bool coinVisibility = false;
   final ScrollController _scrollController = ScrollController();
-
+  List<String> addNameList=[];
   CryptoCurrency _selectedCrypto = CryptoCurrency.bdx;
-
+  bool nameExists = false;
   @override
   void initState() {
     super.initState();
@@ -72,6 +73,7 @@ class ContactFormState extends State<ContactForm> {
       _currencyTypeController.text = _selectedCrypto.toString();
       _addressController.text = widget.contact.address;
     }
+    getAllAddressNames(widget.contxt);
   }
 
   @override
@@ -168,6 +170,29 @@ bool validateInput(String input) {
 }
 
 
+
+
+void getAllAddressNames(BuildContext context1){
+    final addressBookStore = Provider.of<AddressBookStore>(context1);
+    setState(() {
+          for(var i=0;i<addressBookStore.contactList.length;i++){
+            addNameList.add(addressBookStore.contactList[i].name);
+          }  
+        });
+      
+}
+
+
+
+bool _checkName(String enteredName) {
+    setState(() {
+      nameExists = addNameList.contains(enteredName);
+    });
+    return nameExists;
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     final addressBookStore = Provider.of<AddressBookStore>(context);
@@ -188,6 +213,9 @@ bool validateInput(String input) {
                       return 'Name should not be empty';
                     }else if(!validateInput(value)){
                       return 'Enter a valid name';
+                    }
+                    if(_checkName(value) && widget.contact == null){
+                      return 'This Name already Exist';
                     }
                   addressBookStore.validateContactName(value);
                   return addressBookStore.errorMessage;
@@ -357,8 +385,10 @@ bool validateInput(String input) {
                             name: _contactNameController.text,
                             address: _addressController.text,
                             type: _selectedCrypto);
-
-                        await addressBookStore.add(contact: newContact);
+                         
+                          await addressBookStore.add(contact: newContact);
+                        
+                       
                       } else {
                         widget.contact.name = _contactNameController.text;
                         widget.contact.address = _addressController.text;

@@ -296,7 +296,7 @@ void showHUDLoader(BuildContext context) {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(13.0),
-                  child: Text('Creating the transaction',style:TextStyle(fontSize: 18,fontWeight: FontWeight.w700)),
+                  child: Text('Creating the Transaction',style:TextStyle(fontSize: 18,fontWeight: FontWeight.w700)),
                 )
               ],
             ),

@@ -21,6 +21,89 @@ class WalletAlertDialog extends StatefulWidget {
 }
 
 class _WalletAlertDialogState extends State<WalletAlertDialog> {
+
+
+
+void _loading(bool _canLoad) {
+    // setState(() {
+    //   canLoad = true;
+    // });
+
+    // Simulate an asynchronous task, e.g., fetching data from an API
+    // Future.delayed(Duration(seconds: 3), () {
+    //   setState(() {
+    //     canLoad = false;
+    //   });
+
+    //   // Close the HUD progress loader
+    //   Navigator.pop(context);
+    // });
+   if(_canLoad){
+    // Show the HUD progress loader
+    showHUDLoader(context);
+   }else{
+     Navigator.pop(context);
+   }
+    
+  }
+
+
+
+
+void showHUDLoader(BuildContext context) {
+  //final settingsStore = Provider.of<SettingsStore>(context,listen: false);
+    showDialog<void>(
+      context: context,
+      //barrierColor: Colors.transparent,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          // Prevent closing the dialog when the user presses the back button
+          onWillPop: () async => false,
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+
+            //backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
+            content: 
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Text('Changing Wallet...',style:TextStyle(fontSize: 18,fontWeight: FontWeight.w700)),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
@@ -39,30 +122,33 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
        content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          MaterialButton(onPressed: (){
+          MaterialButton(onPressed: ()async{
               //  walletMenu.action(0, widget.wallet, false);
 
-
-
-  setState(() {
-       Navigator.of(context).pushNamed(Routes.auth, arguments:
+      await Navigator.of(context).pushNamed(Routes.auth, arguments:
             (bool isAuthenticatedSuccessfully, AuthPageState auth) async {
           if (!isAuthenticatedSuccessfully) {
             return;
           }
-
+           
           try {
-            auth.changeProcessText(
-                S.of(context).wallet_list_loading_wallet(widget.wallet.name));
+            setState(() {});
+             Navigator.of(context).pop();
+            _loading(true);
+            // auth.changeProcessText(
+            //     S.of(context).wallet_list_loading_wallet(widget.wallet.name));
             await _walletListStore.loadWallet(widget.wallet);
             auth.close();
-            Navigator.of(context)..pop()..pop();
+            _loading(false);
+             Navigator.of(context).pop();
+            // Navigator.of(context)..pop()..pop();
           } catch (e) {
+            _loading(false);
             auth.changeProcessText(S
                 .of(context)
                 .wallet_list_failed_to_load(widget.wallet.name, e.toString()));
           }
-        });
+        
 
     });
     

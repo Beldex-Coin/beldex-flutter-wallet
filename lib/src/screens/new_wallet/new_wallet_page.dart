@@ -168,7 +168,7 @@ void showHUDLoader(BuildContext context) {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(13.0),
-                  child: Text('Creating new wallet...',style:TextStyle(fontSize: 18,fontWeight: FontWeight.w700)),
+                  child: Text('Creating new Wallet...',style:TextStyle(fontSize: 18,fontWeight: FontWeight.w700)),
                 )
               ],
             ),
@@ -294,7 +294,8 @@ void showHUDLoader(BuildContext context) {
                         hintText: S.of(context).enter_wallet_name,
                       ),
                       validator: (value) {
-                        final pattern = RegExp(r'^[a-zA-Z]{1,15}$');
+                       // final pattern = RegExp(r'^[a-zA-Z]{1,15}$');
+                        final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
                         if (!pattern.hasMatch(value)) {
                           return 'Enter valid name upto 15 characters';
                         } else {

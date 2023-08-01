@@ -26,7 +26,7 @@ class AddressBookPage extends BasePage {
 
   @override
   Widget trailing(BuildContext context) {
-   // if (!isEditable) return null;
+    // if (!isEditable) return null;
 
     final addressBookStore = Provider.of<AddressBookStore>(context);
 
@@ -36,39 +36,43 @@ class AddressBookPage extends BasePage {
         await addressBookStore.updateContactList();
       },
       child: Container(
-        width: 26,
-        height: 26,
-        decoration: BoxDecoration(
-          color:Color(0xff0BA70F),
-          shape: BoxShape.circle,
-        ),
-        margin: EdgeInsets.only(right:10),
-        child:Icon(Icons.add,color:Color(0xffffffff),size: 26,)
-        // decoration: BoxDecoration(
-        //     color:Colors.yellow, // Theme.of(context).cardTheme.shadowColor, //Colors.black,
-        //     borderRadius: BorderRadius.all(Radius.circular(10))),
-        // child: ButtonTheme(
-        //   minWidth: double.minPositive,
-        //   child: TextButton(
-        //       style: ButtonStyle(
-        //         //foregroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
-        //         overlayColor: MaterialStateColor.resolveWith(
-        //             (states) => Colors.transparent),
-        //       ),
-        //       onPressed: () async {
-        //         await Navigator.of(context)
-        //             .pushNamed(Routes.addressBookAddContact);
-        //         await addressBookStore.updateContactList();
-        //       },
-        //       child: 
-        //       SvgPicture.asset(
-        //         'assets/images/add.svg',
-        //         color:
-        //             Theme.of(context).accentTextTheme.caption.decorationColor,
-        //       )
-        //       ),
-        // ),
-      ),
+          width: 26,
+          height: 26,
+          decoration: BoxDecoration(
+            color: Color(0xff0BA70F),
+            shape: BoxShape.circle,
+          ),
+          margin: EdgeInsets.only(right: 10),
+          child: Icon(
+            Icons.add,
+            color: Color(0xffffffff),
+            size: 26,
+          )
+          // decoration: BoxDecoration(
+          //     color:Colors.yellow, // Theme.of(context).cardTheme.shadowColor, //Colors.black,
+          //     borderRadius: BorderRadius.all(Radius.circular(10))),
+          // child: ButtonTheme(
+          //   minWidth: double.minPositive,
+          //   child: TextButton(
+          //       style: ButtonStyle(
+          //         //foregroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
+          //         overlayColor: MaterialStateColor.resolveWith(
+          //             (states) => Colors.transparent),
+          //       ),
+          //       onPressed: () async {
+          //         await Navigator.of(context)
+          //             .pushNamed(Routes.addressBookAddContact);
+          //         await addressBookStore.updateContactList();
+          //       },
+          //       child:
+          //       SvgPicture.asset(
+          //         'assets/images/add.svg',
+          //         color:
+          //             Theme.of(context).accentTextTheme.caption.decorationColor,
+          //       )
+          //       ),
+          // ),
+          ),
     );
     /*Container(
         width: 28.0,
@@ -98,100 +102,282 @@ class AddressBookPage extends BasePage {
   @override
   Widget body(BuildContext context) {
     final addressBookStore = Provider.of<AddressBookStore>(context);
-   final settingsStore = Provider.of<SettingsStore>(context);
-    return
-     addressBookStore.contactList.isEmpty ?
-    Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          margin:EdgeInsets.only(left:MediaQuery.of(context).size.width*0.36/3),
-          //color: Colors.yellow,
-          height: MediaQuery.of(context).size.height*1/3,
-          child: SvgPicture.asset(
-            settingsStore.isDarkTheme ? 'assets/images/new-images/address_empty_darktheme.svg' 
-            : 'assets/images/new-images/address_empty_whitetheme.svg'
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left:20.0),
-          child: Container(
-            child:Text('No addresses in book',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 18,
-              color:settingsStore.isDarkTheme ? Color(0xff646474):Color(0xff82828D)),)
-          ),
-        )
-      ],
-    ):
-      Column(
-        children: [
-          Observer(
-              builder: (_) =>Expanded(
+    final settingsStore = Provider.of<SettingsStore>(context);
+    return addressBookStore.contactList.isEmpty
+        ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                margin: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.36 / 3),
+                //color: Colors.yellow,
+                height: MediaQuery.of(context).size.height * 1 / 3,
+                child: SvgPicture.asset(settingsStore.isDarkTheme
+                    ? 'assets/images/new-images/address_empty_darktheme.svg'
+                    : 'assets/images/new-images/address_empty_whitetheme.svg'),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0),
                 child: Container(
-                  child: ListView.builder(
-                    itemCount: 
-                    addressBookStore.contactList == null
-                          ? 0
-                          : addressBookStore.contactList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final contact = addressBookStore.contactList[index];
+                    child: Text(
+                  'No addresses in book',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 18,
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff646474)
+                          : Color(0xff82828D)),
+                )),
+              )
+            ],
+          )
+        : Column(
+            children: [
+              Observer(
+                  builder: (_) => Expanded(
+                        child: Container(
+                          child: ListView.builder(
+                              itemCount: addressBookStore.contactList == null
+                                  ? 0
+                                  : addressBookStore.contactList.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                final contact =
+                                    addressBookStore.contactList[index];
 
-                      return Container(
-            height: 150,
-            width: double.infinity,
-                  margin: EdgeInsets.all(15.0),
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color:Color(0xffDADADA),
-                      
-                    ),
-                    borderRadius: BorderRadius.circular(10)
-                  ),
-                  child:Column(children: [
-                     Container(
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED)
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left:8.0,),
-                            child: Text(contact.name,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16),),
-                          ),
-                          InkWell(
-                            onTap: (){
-                                Clipboard.setData(ClipboardData(
-                                                              text: contact.address));
-                                                          displaySnackBar(context,S.of(context).copied);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.only(right:8.0),
-                              child: SvgPicture.asset('assets/images/new-images/copy.svg',color:settingsStore.isDarkTheme ? Color(0xffffffff): Color(0xff16161D)),
-                            ),
-                          )
-                        ],
-                      ),
-                     ),
-                     Padding(
-                       padding: const EdgeInsets.all(8.0),
-                       child: Text(contact.address,style:TextStyle(color:settingsStore.isDarkTheme ? Color(0xffFFFFFF) : Color(0xff626262))),
-                     )
-                  ],)
-            );
-                    } ),
-                ),
-              )),
-          
-        ],
-       ) ;
+                                return !isEditable
+                                    ? Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.60 /
+                                                3,
+                                        width: double.infinity,
+                                        margin: EdgeInsets.all(15.0),
+                                        padding: EdgeInsets.all(10),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: Color(0xffDADADA),
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Column(
+                                          children: [
+                                            Container(
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  color:
+                                                      settingsStore.isDarkTheme
+                                                          ? Color(0xff272733)
+                                                          : Color(0xffEDEDED)),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                      left: 8.0,
+                                                    ),
+                                                    child: Text(
+                                                      contact.name,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w800,
+                                                          fontSize: 16),
+                                                    ),
+                                                  ),
+                                                  InkWell(
+                                                    onTap: () {
+                                                      Clipboard.setData(
+                                                          ClipboardData(
+                                                              text: contact
+                                                                  .address));
+                                                      // displaySnackBar(context,
+                                                      //     S.of(context).copied);
+                                                          print('address copied-->');
+                                                    },
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              right: 8.0),
+                                                      child: SvgPicture.asset(
+                                                          'assets/images/new-images/copy.svg',
+                                                          color: settingsStore
+                                                                  .isDarkTheme
+                                                              ? Color(
+                                                                  0xffffffff)
+                                                              : Color(
+                                                                  0xff16161D)),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(contact.address,
+                                                  style: TextStyle(
+                                                      color: settingsStore
+                                                              .isDarkTheme
+                                                          ? Color(0xffFFFFFF)
+                                                          : Color(0xff626262))),
+                                            )
+                                          ],
+                                        ))
+                                    : Slidable(
+                                        key: Key('${contact.key}'),
+                                        actionPane: SlidableDrawerActionPane(),
+                                        secondaryActions: <Widget>[
+                                          IconSlideAction(
+                                            caption: 'Edit',
+                                            // color: Colors.blue,
+                                            foregroundColor: Colors.blue,
+                                            icon: Icons.edit,
+                                            onTap: () async {
+                                              await Navigator.of(context)
+                                                  .pushNamed(
+                                                      Routes
+                                                          .addressBookAddContact,
+                                                      arguments: contact);
+                                              await addressBookStore
+                                                  .updateContactList();
+                                            },
+                                          ),
+                                          IconSlideAction(
+                                            caption: 'Delete',
+                                            // color: Colors.red,
+                                            foregroundColor: Colors.red,
+                                            icon: CupertinoIcons.delete,
+                                            onTap: () async {
+                                              await showAlertDialog(context)
+                                                  .then((isDelete) async {
+                                                if (isDelete != null &&
+                                                    isDelete) {
+                                                  await addressBookStore.delete(
+                                                      contact: contact);
+                                                  await addressBookStore
+                                                      .updateContactList();
+                                                }
+                                              });
+                                            },
+                                          ),
+                                        ],
+                                        dismissal: SlidableDismissal(
+                                          child: SlidableDrawerDismissal(),
+                                          onDismissed: (actionType) async {
+                                            await addressBookStore.delete(
+                                                contact: contact);
+                                            await addressBookStore
+                                                .updateContactList();
+                                          },
+                                          onWillDismiss: (actionType) async {
+                                            return await showAlertDialog(
+                                                context);
+                                          },
+                                        ),
+                                        child: Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.60 /
+                                                3,
+                                            width: double.infinity,
+                                            margin: EdgeInsets.all(15.0),
+                                            padding: EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Color(0xffDADADA),
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            child: Column(
+                                              children: [
+                                                Container(
+                                                  height: 40,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: settingsStore
+                                                              .isDarkTheme
+                                                          ? Color(0xff272733)
+                                                          : Color(0xffEDEDED)),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(
+                                                          left: 8.0,
+                                                        ),
+                                                        child: Text(
+                                                          contact.name,
+                                                          style: TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w800,
+                                                              fontSize: 16),
+                                                        ),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Clipboard.setData(
+                                                              ClipboardData(
+                                                                  text: contact
+                                                                      .address));
+                                                          displaySnackBar(
+                                                              context,
+                                                              S
+                                                                  .of(context)
+                                                                  .copied);
+                                                                  print('address copied');
+                                                        },
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 8.0),
+                                                          child: SvgPicture.asset(
+                                                              'assets/images/new-images/copy.svg',
+                                                              color: settingsStore
+                                                                      .isDarkTheme
+                                                                  ? Color(
+                                                                      0xffffffff)
+                                                                  : Color(
+                                                                      0xff16161D)),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Text(contact.address,
+                                                      style: TextStyle(
+                                                          color: settingsStore
+                                                                  .isDarkTheme
+                                                              ? Color(
+                                                                  0xffFFFFFF)
+                                                              : Color(
+                                                                  0xff626262))),
+                                                )
+                                              ],
+                                            )),
+                                      );
+                              }),
+                        ),
+                      )),
+            ],
+          );
   }
 
   Color _getCurrencyBackgroundColor(CryptoCurrency currency) {
