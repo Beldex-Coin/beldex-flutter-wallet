@@ -488,7 +488,7 @@ void callFuture()async{
                               decoration: BoxDecoration(
                                // color:Color(0xff0BA70F),
                                 shape: BoxShape.circle,
-                              ),child:Image.asset('assets/images/new-images/process_completed.gif') //Icon(Icons.check,color: Colors.white,size:30),
+                              ),child:Image.asset('assets/images/new-images/process_completed_3.gif') //Icon(Icons.check,color: Colors.white,size:30),
                             ),
                              Text('Transaction initiated successfully',style: TextStyle(fontSize:18,fontWeight:FontWeight.w900),)
                              

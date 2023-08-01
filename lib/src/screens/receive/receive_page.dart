@@ -189,7 +189,7 @@ String currentSubAddress ='';
   void dispose() {
     amountController.dispose();
     // if(overlayEntry.mounted){
-    //      overlayEntry.dispose(); 
+         overlayEntry.dispose(); 
     // }
  
     //overlayEntry.remove();

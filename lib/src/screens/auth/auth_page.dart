@@ -54,7 +54,7 @@ class AuthPageState extends State<AuthPage> {
         biometricAuth.isAuthenticated().then((isAuth) {
           if (isAuth) {
             authStore.biometricAuth();
-            _key.currentState.showSnackBar(
+             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(S.of(context).authenticated),
                 backgroundColor: Colors.green,
@@ -71,7 +71,7 @@ class AuthPageState extends State<AuthPage> {
           if (widget.onAuthenticationFinished != null) {
             widget.onAuthenticationFinished(true, this);
           } else {
-            _key.currentState.showSnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(S.of(context).authenticated),
                 backgroundColor: Colors.green,
@@ -83,7 +83,7 @@ class AuthPageState extends State<AuthPage> {
 
       if (state is AuthenticationInProgress) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          _key.currentState.showSnackBar(
+           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(S.of(context).authentication),
               backgroundColor: Colors.green,
@@ -95,8 +95,8 @@ class AuthPageState extends State<AuthPage> {
       if (state is AuthenticationFailure) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _pinCodeKey.currentState.clear();
-          _key.currentState.hideCurrentSnackBar();
-          _key.currentState.showSnackBar(
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(S.of(context).failed_authentication(state.error)),
               backgroundColor: Colors.red,
@@ -113,8 +113,8 @@ class AuthPageState extends State<AuthPage> {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _pinCodeKey.currentState.clear();
           // ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          _key.currentState.hideCurrentSnackBar();
-          _key.currentState.showSnackBar(
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(S.of(context).failed_authentication(state.error)),
               backgroundColor: Colors.red,

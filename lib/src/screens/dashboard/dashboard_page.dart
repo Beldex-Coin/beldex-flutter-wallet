@@ -66,45 +66,7 @@ class DashboardPage extends BasePage {
   }
 
 
-  /*@override
-  Widget leading(BuildContext context) {
-    return SizedBox(
-        width: 30,
-        child: FlatButton(
-            padding: EdgeInsets.all(0),
-            onPressed: () => _presentWalletMenu(context),
-            child: Icon(Icons.sync_rounded,
-                color: Theme.of(context).primaryTextTheme.caption.color,
-                size: 30)));
-  }*/
 
- /* @override
-  Widget middle(BuildContext context) {
-    //final walletStore = Provider.of<WalletStore>(context);
-
-    return Text(
-      S.current.wallet_list_title,
-      style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600),
-    ); *//*Observer(builder: (_) {
-      return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              walletStore.name,
-              style: TextStyle(
-                  color: Theme.of(context).primaryTextTheme.headline6.color),
-            ),
-            SizedBox(height: 5),
-            Text(
-              walletStore.account != null ? '${walletStore.account.label}' : '',
-              style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 10,
-                  color: Theme.of(context).primaryTextTheme.headline6.color),
-            ),
-          ]);
-    })*//*
-  }*/
   @override
   Widget middle(BuildContext context) {
     //final walletStore = Provider.of<WalletStore>(context);
@@ -184,18 +146,6 @@ class DashboardPage extends BasePage {
   }
 
 
-  /*@override
-  Widget trailing(BuildContext context) {
-    return SizedBox(
-      width: 30,
-      child: FlatButton(
-          padding: EdgeInsets.all(0),
-          onPressed: () => Navigator.of(context).pushNamed(Routes.profile),
-          child: Icon(Icons.account_circle_rounded,
-              color: Theme.of(context).primaryTextTheme.caption.color,
-              size: 30)),
-    );
-  }*/
 
 
 
@@ -292,19 +242,19 @@ Widget bottomNavigationBar(BuildContext context){
   @override
   Widget body(BuildContext context) => DashboardPageBody(key: _bodyKey);
 
-  void _presentWalletMenu(BuildContext bodyContext) {
-    final walletMenu = WalletMenu(bodyContext);
+//   void _presentWalletMenu(BuildContext bodyContext) {
+//     final walletMenu = WalletMenu(bodyContext);
 
-    showDialog<void>(
-        builder: (_) => Picker(
-            items: walletMenu.items,
-            selectedAtIndex: -1,
-            title: S.of(bodyContext).wallet_menu,
-            pickerHeight: 250,
-            onItemSelected: (String item) =>
-                walletMenu.action(walletMenu.items.indexOf(item))),
-        context: bodyContext);
-  }
+//     showDialog<void>(
+//         builder: (_) => Picker(
+//             items: walletMenu.items,
+//             selectedAtIndex: -1,
+//             title: S.of(bodyContext).wallet_menu,
+//             pickerHeight: 250,
+//             onItemSelected: (String item) =>
+//                 walletMenu.action(walletMenu.items.indexOf(item))),
+//         context: bodyContext);
+//   }
 }
 
 class DashboardPageBody extends StatefulWidget {
@@ -317,74 +267,74 @@ class DashboardPageBody extends StatefulWidget {
 class DashboardPageBodyState extends State<DashboardPageBody> {
   final _connectionStatusObserverKey = GlobalKey();
   final _balanceObserverKey = GlobalKey();
-  final _balanceTitleObserverKey = GlobalKey();
+  //final _balanceTitleObserverKey = GlobalKey();
   final _syncingObserverKey = GlobalKey();
   final _listObserverKey = GlobalKey();
-  final _listKey = GlobalKey();
+  //final _listKey = GlobalKey();
    String syncStatus;
   //
-  List<Item> transactions = [
-    Item(
-        id: 'send',
-        icon: Icons.arrow_upward,
-        text: '01.02.2021',
-        amount: '-\$ 99.00',
-        color: Colors.red),
-    Item(
-        id: 'receive',
-        icon: Icons.arrow_downward,
-        text: '25.01.2021',
-        amount: '+\$ 105.00',
-        color: Colors.green),
-    Item(
-        id: 'send',
-        icon: Icons.arrow_upward,
-        text: '01.02.2021',
-        amount: '-\$ 105.00',
-        color: Colors.red),
-    Item(
-        id: 'send',
-        icon: Icons.arrow_upward,
-        text: '01.02.2021',
-        amount: '-\$ 105.00',
-        color: Colors.red),
-    Item(
-        id: 'receive',
-        icon: Icons.arrow_downward,
-        text: '20.01.2021',
-        amount: '+\$ 60.00',
-        color: Colors.green),
-    Item(
-        id: 'send',
-        icon: Icons.arrow_upward,
-        text: '01.02.2021',
-        amount: '-\$ 105.00',
-        color: Colors.red),
-    Item(
-        id: 'receive',
-        icon: Icons.arrow_downward,
-        text: '20.01.2021',
-        amount: '+\$ 60.00',
-        color: Colors.green),
-    Item(
-        id: 'send',
-        icon: Icons.arrow_upward,
-        text: '01.02.2021',
-        amount: '-\$ 105.00',
-        color: Colors.red),
-    Item(
-        id: 'receive',
-        icon: Icons.arrow_downward,
-        text: '20.01.2021',
-        amount: '+\$ 60.00',
-        color: Colors.green),
-    Item(
-        id: 'send',
-        icon: Icons.arrow_upward,
-        text: '01.02.2021',
-        amount: '-\$ 105.00',
-        color: Colors.red)
-  ];
+  // List<Item> transactions = [
+  //   Item(
+  //       id: 'send',
+  //       icon: Icons.arrow_upward,
+  //       text: '01.02.2021',
+  //       amount: '-\$ 99.00',
+  //       color: Colors.red),
+  //   Item(
+  //       id: 'receive',
+  //       icon: Icons.arrow_downward,
+  //       text: '25.01.2021',
+  //       amount: '+\$ 105.00',
+  //       color: Colors.green),
+  //   Item(
+  //       id: 'send',
+  //       icon: Icons.arrow_upward,
+  //       text: '01.02.2021',
+  //       amount: '-\$ 105.00',
+  //       color: Colors.red),
+  //   Item(
+  //       id: 'send',
+  //       icon: Icons.arrow_upward,
+  //       text: '01.02.2021',
+  //       amount: '-\$ 105.00',
+  //       color: Colors.red),
+  //   Item(
+  //       id: 'receive',
+  //       icon: Icons.arrow_downward,
+  //       text: '20.01.2021',
+  //       amount: '+\$ 60.00',
+  //       color: Colors.green),
+  //   Item(
+  //       id: 'send',
+  //       icon: Icons.arrow_upward,
+  //       text: '01.02.2021',
+  //       amount: '-\$ 105.00',
+  //       color: Colors.red),
+  //   Item(
+  //       id: 'receive',
+  //       icon: Icons.arrow_downward,
+  //       text: '20.01.2021',
+  //       amount: '+\$ 60.00',
+  //       color: Colors.green),
+  //   Item(
+  //       id: 'send',
+  //       icon: Icons.arrow_upward,
+  //       text: '01.02.2021',
+  //       amount: '-\$ 105.00',
+  //       color: Colors.red),
+  //   Item(
+  //       id: 'receive',
+  //       icon: Icons.arrow_downward,
+  //       text: '20.01.2021',
+  //       amount: '+\$ 60.00',
+  //       color: Colors.green),
+  //   Item(
+  //       id: 'send',
+  //       icon: Icons.arrow_upward,
+  //       text: '01.02.2021',
+  //       amount: '-\$ 105.00',
+  //       color: Colors.red)
+  // ];
 
   IconData iconDataVal = Icons.arrow_upward_outlined;
 

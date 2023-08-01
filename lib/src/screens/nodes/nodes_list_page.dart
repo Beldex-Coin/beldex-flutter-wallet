@@ -300,7 +300,7 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                                   S.of(context).remove_node,
                                   S.of(context).remove_node_message,
                                   onDismiss: (context) =>
-                                      Navigator.pop(context, false),
+                                      Navigator.pop(context, true),
                                   onConfirm: (context) {
                                     result = true;
                                     Navigator.pop(context, true);
