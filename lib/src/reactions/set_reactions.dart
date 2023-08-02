@@ -55,7 +55,7 @@ void onCurrentWalletChange(
     PriceStore priceStore}) {
   _onCurrentWalletChangeDisposer?.call();
 
-  reaction((_) => walletStore.name, (String _) {
+_onCurrentWalletChangeDisposer = reaction((_) => walletStore.name, (String _) {
     walletStore.connectToNode(node: settingsStore.node);
     startUpdatingPrice(settingsStore: settingsStore, priceStore: priceStore);
   });
@@ -67,7 +67,7 @@ void onSyncStatusChange(
     SettingsStore settingsStore}) {
   _onSyncStatusChangeDisposer?.call();
 
-  reaction((_) => syncStore.status, (SyncStatus status) async {
+ _onSyncStatusChangeDisposer = reaction((_) => syncStore.status, (SyncStatus status) async {
     if (status is ConnectedSyncStatus) {
       await walletStore.startSync();
     }

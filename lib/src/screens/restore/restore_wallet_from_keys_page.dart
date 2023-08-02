@@ -81,12 +81,23 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
   final _viewKeyController = TextEditingController();
   final _spendKeyController = TextEditingController();
   bool canShowPopup = false;
+  ReactionDisposer restoreKeysDisposer;
+
+@override
+  void dispose() {
+    restoreKeysDisposer?.call();
+    super.dispose();
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     final walletRestorationStore = Provider.of<WalletRestorationStore>(context);
     final seedLanguageStore = Provider.of<SeedLanguageStore>(context);
  final settingsStore = Provider.of<SettingsStore>(context);
-    reaction((_) => walletRestorationStore.state, (WalletRestorationState state) {
+  restoreKeysDisposer =  reaction((_) => walletRestorationStore.state, (WalletRestorationState state) {
       if (state is WalletRestoredSuccessfully) {
         Navigator.of(context).popUntil((route) => route.isFirst);
       }

@@ -149,6 +149,12 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   var addressErrorMessage = "";
   bool amountValidation = false;
   var amountErrorMessage = "";
+ final List<ReactionDisposer> reactionDisposers = []; // dispose the reactions we used in this file to avoid the memory leaks 
+ final List<ReactionDisposer> whenDisposers = []; //dispose the when functions we used in this file to avoid the memory leaks
+
+
+
+
 
   @override
   void initState() {
@@ -165,7 +171,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       ..forward()
       ..repeat(reverse: true);
 
- getQrvalue();
+// getQrvalue();
 if(widget.controllerValue != null || widget.controllerValue != ''){
   setState(() {
      _addressController.text = widget.controllerValue;
@@ -222,13 +228,32 @@ bool getAddressBasicValidation(String value){
 }
 
 
+
+// Dispose of the 'reaction' and 'when' reactions
+  void _disposeReactions() {
+    // Dispose the 'reaction'
+    whenDisposers[0](); // The first disposer is the 'reaction' disposer
+
+    // Dispose all the 'when' reactions
+    for (var i = 1; i < whenDisposers.length; i++) {
+      whenDisposers[i]();
+    }
+    for(var i=0;i< reactionDisposers.length;i++){
+      reactionDisposers[i]();
+    }
+  }
+
+
+
+
+
   @override
   void dispose() {
     animationController.dispose();
 
 
    clearQrValue();
-
+  _disposeReactions();
     super.dispose();
   }
 
@@ -1634,7 +1659,7 @@ bottomSection:
     if (_effectsInstalled) return;
 
     final sendStore = Provider.of<SendStore>(context);
-    reaction((_) => sendStore.fiatAmount, (String amount) {
+  final rdisposer1 =  reaction((_) => sendStore.fiatAmount, (String amount) {
       print('amount inside reaction $amount');
       if (amount != _fiatAmountController.text) {
         _fiatAmountController.text = amount;
@@ -1642,12 +1667,14 @@ bottomSection:
 
       }
     });
-    reaction((_) => sendStore.cryptoAmount, (String amount) {
+    reactionDisposers.add(rdisposer1);
+
+   final rdisposer2 = reaction((_) => sendStore.cryptoAmount, (String amount) {
       if (amount != _cryptoAmountController.text) {
         _cryptoAmountController.text = amount;
       }
     });
-
+    reactionDisposers.add(rdisposer2);
     _fiatAmountController.addListener(() {
       final fiatAmount = _fiatAmountController.text;
       print('fiat amount ----> $fiatAmount');
@@ -1668,16 +1695,17 @@ bottomSection:
       }
     });
 
-    reaction((_) => sendStore.state, (SendingState state) {
-      if (state is SendingFailed) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          showSimpleBeldexDialog(context, 'Alert', state.error,
+  final rdisposer3 =  reaction((_) => sendStore.state, (SendingState state) {
+
+   final wDisposer1 = when( (_) => state is SendingFailed, (){
+       WidgetsBinding.instance.addPostFrameCallback((_) {
+          showSimpleBeldexDialog(context, 'Alert', ( state as SendingFailed).error,
               onPressed: (_) => Navigator.of(context).pop());
         });
-      }
-
-      if (state is TransactionCreatedSuccessfully && sendStore.pendingTransaction != null) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
+    });
+    whenDisposers.add(wDisposer1);
+   final wDisposer2 = when( (_)=> state is TransactionCreatedSuccessfully && sendStore.pendingTransaction != null,(){
+         WidgetsBinding.instance.addPostFrameCallback((_) {
           print('inside the transaction created successfully---->');
         showSimpleConfirmDialog(context,
          S.of(context).confirm_sending,
@@ -1695,9 +1723,9 @@ bottomSection:
           }
           );
         });
-      }
-
-      if (state is TransactionCommitted) {
+    } );
+   whenDisposers.add(wDisposer2);
+   final wDisposer3 = when( (_)=> state is TransactionCommitted ,(){
         WidgetsBinding.instance.addPostFrameCallback((_) {
            print('inside the transaction commiteed ---->');
           showSimpleSentTrans( context, S.of(context).sending, sendStore.pendingTransaction.amount,'fee',_addressController.text,
@@ -1711,9 +1739,55 @@ bottomSection:
           }
           );
         });
-      }
     });
+   
+   whenDisposers.add(wDisposer3);
 
+      // if (state is SendingFailed) {
+      //   WidgetsBinding.instance.addPostFrameCallback((_) {
+      //     showSimpleBeldexDialog(context, 'Alert', state.error,
+      //         onPressed: (_) => Navigator.of(context).pop());
+      //   });
+      // }
+
+      // if (state is TransactionCreatedSuccessfully && sendStore.pendingTransaction != null) {
+      //   WidgetsBinding.instance.addPostFrameCallback((_) {
+      //     print('inside the transaction created successfully---->');
+      //   showSimpleConfirmDialog(context,
+      //    S.of(context).confirm_sending,
+      //     sendStore.pendingTransaction.amount,
+      //     sendStore.pendingTransaction.fee,
+      //     _addressController.text,
+      //     onPressed: (_) {
+      //       Navigator.of(context).pop();
+      //       sendStore.commitTransaction();
+      //     },
+      //     onDismiss: (_){
+      //       _addressController.text = '';
+      //       _cryptoAmountController.text = '';
+      //       Navigator.of(context).pop();
+      //     }
+      //     );
+      //   });
+      // }
+
+      // if (state is TransactionCommitted) {
+      //   WidgetsBinding.instance.addPostFrameCallback((_) {
+      //      print('inside the transaction commiteed ---->');
+      //     showSimpleSentTrans( context, S.of(context).sending, sendStore.pendingTransaction.amount,'fee',_addressController.text,
+      //         onPressed: (_) {
+      //       _addressController.text = '';
+      //       _cryptoAmountController.text = '';
+      //       Navigator.of(context)..pop()..pop();
+      //     },
+      //      onDismiss: (_){
+      //       Navigator.of(context)..pop()..pop();
+      //     }
+      //     );
+      //   });
+      // }
+    });
+    whenDisposers.add(rdisposer3);
     _effectsInstalled = true;
   }
 }

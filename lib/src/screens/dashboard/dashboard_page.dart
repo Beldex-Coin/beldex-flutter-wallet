@@ -340,31 +340,39 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
  Future<void> _presentQRScanner(BuildContext context) async {
     TextEditingController controller = TextEditingController();
-    String qrValue;
+    String qrValue,famount;
+    
     try {
       final code = await presentQRScanner();
       final uri = Uri.parse(code);
       var address = '';
-
+      var amount = '';
       if (uri == null) {
         controller.text = code;
         qrValue = code;
         return;
       }
+      
+    if (uri != null) {
+                            address = uri.path;
+                            if(uri.queryParameters[uri.queryParameters.keys.first]!=null){
+                              amount = uri.queryParameters[uri.queryParameters.keys.first];
+                            }
+                          } else {
+                            address = uri.toString();
+                          }
 
-      address = uri.path;
+
+     // address = uri.path;
       controller.text = address;
       qrValue = address;
-
+      famount = amount;
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('qrValue', qrValue);
-      //await prefs.setBool('isFlashTransaction', true);
+      await prefs.setString('flashAmount', famount);
       setState(() {});
       await Navigator.of(context).pushNamed(Routes.send);
 
-      // if (onURIScanned != null) {
-      //   onURIScanned(uri);
-      // }
     } catch (e) {
       /* ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Invalid BDX address'),

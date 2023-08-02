@@ -180,11 +180,14 @@ void getQrvalue()async{
    final prefs = await SharedPreferences.getInstance();
    setState(() {
         final controllerValue = prefs.getString('qrValue');
+        final amountConValue = prefs.getString('flashAmount');
         // final isFlashTrans = prefs.getBool('isFlashTransaction');
         if(controllerValue.isNotEmpty || controllerValue != '') {
           _addressController.text = controllerValue;
         }
-
+       if(amountConValue.isNotEmpty || amountConValue != ''){
+        _cryptoAmountController.text = amountConValue;
+       }
       //  if(isFlashTrans) {
       //    _isFlashTransaction = isFlashTrans;
       //  }
@@ -198,6 +201,7 @@ void clearQrValue()async{
     final prefs = await SharedPreferences.getInstance();
 
     await prefs.setString('qrValue', '');
+    await prefs.setString('flashAmount','');
     // await prefs.setBool('isFlashTransaction', false);
 }
 

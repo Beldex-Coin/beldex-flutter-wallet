@@ -25,7 +25,7 @@ class AuthPage extends StatefulWidget {
 class AuthPageState extends State<AuthPage> {
   final _key = GlobalKey<ScaffoldState>();
   final _pinCodeKey = GlobalKey<PinCodeState>();
-
+   ReactionDisposer authDisposer;
   void changeProcessText(String text) {
   ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(text), backgroundColor: Colors.green));
@@ -38,10 +38,11 @@ class AuthPageState extends State<AuthPage> {
     setState(() {});
   }
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    authDisposer?.call();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +66,7 @@ class AuthPageState extends State<AuthPage> {
       });
     }
 
-    reaction((_) => authStore.state, (AuthState state) {
+    authDisposer = reaction((_) => authStore.state, (AuthState state) {
       if (state is AuthenticatedSuccessfully) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (widget.onAuthenticationFinished != null) {

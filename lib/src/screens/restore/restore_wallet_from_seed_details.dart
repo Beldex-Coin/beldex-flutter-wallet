@@ -45,11 +45,21 @@ class _RestoreFromSeedDetailsFormState
   final _blockchainHeightKey = GlobalKey<BlockchainHeightState>();
   final _nameController = TextEditingController();
   String heighterrorMessage; 
+  ReactionDisposer restoreSeedDisposer;
+
+
+ @override
+   void dispose() {
+     restoreSeedDisposer?.call();
+     super.dispose();
+   }
+
+
   @override
   Widget build(BuildContext context) {
     final walletRestorationStore = Provider.of<WalletRestorationStore>(context);
 
-    reaction((_) => walletRestorationStore.state, (WalletRestorationState state) {
+  restoreSeedDisposer =  reaction((_) => walletRestorationStore.state, (WalletRestorationState state) {
       if (state is WalletRestoredSuccessfully) {
         Navigator.of(context).popUntil((route) => route.isFirst);
       }

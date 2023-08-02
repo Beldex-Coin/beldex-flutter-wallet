@@ -67,7 +67,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
 
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
-
+  ReactionDisposer walletDisposer;
   Future setName() async {
     while (true) {
       final name = await generateName();
@@ -80,13 +80,13 @@ class _WalletNameFormState extends State<WalletNameForm> {
     }
   }
 
-  List<String> avatarList = [
-    "assets/images/avatar1.png",
-    "assets/images/avatar2.png",
-    "assets/images/avatar3.png",
-    "assets/images/avatar4.png",
-    "assets/images/avatar5.png"
-  ];
+  // List<String> avatarList = [
+  //   "assets/images/avatar1.png",
+  //   "assets/images/avatar2.png",
+  //   "assets/images/avatar3.png",
+  //   "assets/images/avatar4.png",
+  //   "assets/images/avatar5.png"
+  // ];
   final List<String> seedLocales = [
     S.current.seed_language_english,
     S.current.seed_language_chinese,
@@ -119,19 +119,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
 
 
 void _loading(bool _canLoad) {
-    // setState(() {
-    //   canLoad = true;
-    // });
-
-    // Simulate an asynchronous task, e.g., fetching data from an API
-    // Future.delayed(Duration(seconds: 3), () {
-    //   setState(() {
-    //     canLoad = false;
-    //   });
-
-    //   // Close the HUD progress loader
-    //   Navigator.pop(context);
-    // });
+  
    if(_canLoad){
     // Show the HUD progress loader
     showHUDLoader(context);
@@ -182,7 +170,11 @@ void showHUDLoader(BuildContext context) {
 
 
 
-
+@override
+  void dispose() {
+    walletDisposer?.call();
+    super.dispose();
+  }
 
 
 
@@ -201,7 +193,7 @@ void showHUDLoader(BuildContext context) {
     final seedLanguageStore = Provider.of<SeedLanguageStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
 
-    reaction((_) => walletCreationStore.state, (WalletCreationState state) {
+  walletDisposer =  reaction((_) => walletCreationStore.state, (WalletCreationState state) {
       if (state is WalletCreatedSuccessfully) {
         Navigator.of(context).popUntil((route) => route.isFirst);
       }
