@@ -189,7 +189,7 @@ String currentSubAddress ='';
   void dispose() {
     amountController.dispose();
     // if(overlayEntry.mounted){
-         overlayEntry.dispose(); 
+         overlayEntry?.dispose(); 
     // }
  
     //overlayEntry.remove();
@@ -235,8 +235,8 @@ String currentSubAddress ='';
     final walletStore = Provider.of<WalletStore>(context);
     final subaddressListStore = Provider.of<SubaddressListStore>(context);
 
-    final currentColor = Theme.of(context).selectedRowColor;
-    final notCurrentColor = Color.fromARGB(255, 40,42,51);//Theme.of(context).scaffoldBackgroundColor;
+    // final currentColor = Theme.of(context).selectedRowColor;
+    // final notCurrentColor = Color.fromARGB(255, 40,42,51);//Theme.of(context).scaffoldBackgroundColor;
     final settingsStore = Provider.of<SettingsStore>(context);
     amountController.addListener(() {
       if (_formKey.currentState.validate()) {
@@ -247,17 +247,68 @@ String currentSubAddress ='';
     });
    
 
-bool getAmountValidation(String value){
-      final pattern = RegExp(r'^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}([.][0-9]{0,5}))$');
-                                      if(!pattern.hasMatch(value)){
-                                        return false;
+bool getAmountValidation(String amount){
+
+    
+
+      // final pattern = RegExp(r'^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}([.][0-9]{0,5}))$');
+      //                                 if(!pattern.hasMatch(amount)){
+      //                                   return false;
                                         
-                                      }else{
-                                        return true;
-                                      }
+      //                                 }else{
+      //                                   return true;
+      //                                 }
+
+
+ final maxValue = 150000000.00000;
+  final value = amount.replaceAll(',', '.');
+  final regExp = r'^(([0-9]{0,9})?|\.[0-9]{0,5})?|([0-9]{0,9}(\.[0-9]{0,5})?)$';
+  var isValid = false;
+
+  if (RegExp(regExp).hasMatch(value)) {
+    if (value == '.') {
+      isValid = false;
+    } else {
+      try {
+        final dValue = double.parse(value);
+        isValid = (dValue <= maxValue && dValue > 0);
+      } catch (e) {
+        isValid = false;
+      }
+    }
+  }
+
+  return isValid;
+
+
+
+
+
+
+
+
 }
 
+//  val maxValue = 150000000.00000
+//         val value = amount.replace(',', '.')
+//         val regExp ="^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}+([.][0-9]{0,5}))\$"
+//         var isValid = false
 
+//         isValid = if (value.matches(Regex(regExp))) {
+//             if (value == ".") {
+//                 false
+//             } else {
+//                 try {
+//                     val dValue = value.toDouble()
+//                     (dValue <= maxValue && dValue > 0)
+//                 } catch (e:Exception) {
+//                     false
+//                 }
+//             }
+//         } else {
+//             false
+//         }
+//         return isValid
 
 
 
@@ -641,89 +692,7 @@ bool getAmountValidation(String value){
                               ],
                             ),
                           ),
-                          // canShow ? Positioned(
-                          //      // top:mHeight*0.02/3,
-                          //       child:
-                          //       Padding(
-                          //           padding: EdgeInsets.only(
-                          //               left: MediaQuery.of(context).size.height *
-                          //                   0.08 /
-                          //                   3,
-                          //               right: MediaQuery.of(context).size.height *
-                          //                   0.10 /
-                          //                   3,
-                          //               top: MediaQuery.of(context).size.height *
-                          //                   0.03 /
-                          //                   3),
-                          //           child: Container(
-                          //             height: MediaQuery.of(context).size.height *
-                          //                 0.70 /
-                          //                 3,
-                          //             width:
-                          //                 MediaQuery.of(context).size.width * 2.7 / 3,
-                          //             color: appModel.darkTheme
-                          //                 ? Color(0xff292937)
-                          //                 : Colors.white,
-                          //             child:
-                          //             ListView.builder(
-                          //                 padding: EdgeInsets.zero,
-                          //                 shrinkWrap: true,
-                          //                 itemCount: exitData.length,
-                          //                 itemBuilder:
-                          //                     (BuildContext context, int index) {
-                          //                   // print("data inside listview ${exitData[index]}");
-                          //                   return Container(
-                          //                     margin: EdgeInsets.all(0),
-                          //                     //padding: const EdgeInsets.only(top:0.0,bottom:0.0),
-                          //                     child: ExpansionTile(
-                          //                       // backgroundColor: Colors.yellow,
-                          //                       tilePadding: EdgeInsets.only(
-                          //                           left: mHeight * 0.08 / 3,
-                          //                           right: mHeight * 0.08 / 3),
-                          //                       title: Text(
-                          //                         exitData[index].type,
-                          //                         style: TextStyle(
-                          //                             color: index == 0
-                          //                                 ? Color(0xff1CBE20)
-                          //                                 : Color(0xff1994FC),
-                          //                             fontSize: MediaQuery.of(context)
-                          //                                     .size
-                          //                                     .height *
-                          //                                 0.06 /
-                          //                                 3,
-                          //                             fontWeight: FontWeight.bold),
-                          //                       ),
-                          //                       iconColor: index == 0
-                          //                           ? Color(0xff1CBE20)
-                          //                           : Color(0xff1994FC),
-                          //                       collapsedIconColor: index == 0
-                          //                           ? Color(0xff1CBE20)
-                          //                           : Color(0xff1994FC),
-                          //                       subtitle: Text(
-                          //                         "${exitData[index].node.length} Nodes",
-                          //                         style: TextStyle(
-                          //                             color: Colors.grey,
-                          //                             fontSize: MediaQuery.of(context)
-                          //                                     .size
-                          //                                     .height *
-                          //                                 0.04 /
-                          //                                 3),
-                          //                       ),
-                          //                       children: <Widget>[
-                          //                         Column(
-                          //                           children: _buildExpandableContent(
-                          //                               exitData[index].node),
-                          //                         ),
-                          //                       ],
-                          //                     ),
-                          //                   );
-                          //                 }
-                          //                 // _buildList(exitData[index]),
-                          //                 ),
-                          //           ),
-                          //         ),
-                          //     )
-                          //     : SizedBox.shrink()
+                      
                         ],
                       ),
                     ),
@@ -736,152 +705,6 @@ bool getAmountValidation(String value){
 
 
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-        //               Container(
-        //                  margin: EdgeInsets.only(top:10,left:15.0,right:15.0,bottom:10),
-        //                  decoration: BoxDecoration(
-        //                   border: Border.all(
-        //                     color: settingsStore.isDarkTheme ? Color(0xff464657) : Color(0xffDADADA),
-                            
-        //                   ),
-        //                   borderRadius: BorderRadius.circular(10.0)
-        //                  ),
-        //                  child:
-        //                  Column(
-        //                   children: [
-        //                    Observer(builder:(_){
-                           
-        //                     return Container(
-        //                        margin: EdgeInsets.all(15),
-        //                                       padding: EdgeInsets.all(15),
-        //                                       decoration: BoxDecoration(
-        //                                         borderRadius: BorderRadius.circular(10),
-        //                                         color:settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED)
-        //                                       ),
-        //                                       child: GestureDetector(
-        //                                         onTap: (){
-        //                                           setState(() {
-        //                                                        isExpand = !isExpand;                                          
-        //                                             });
-
-        //                                         },
-        //                                         child: Row(
-        //                                           key:globalKey,
-        //                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //                                           children: [
-        //                                             Container(width:40),
-        //                                             Expanded(child: Text('title')),
-        //                                             Container(
-        //                                               width:40,
-        //                                               child:Icon(isExpand ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, ) 
-        //                                             )
-        //                                           ],
-        //                                         ),
-        //                                       )
-
-        //                     );
-        //                    }),
-        //                     //  Observer(builder: (_) {
-        //                     //       return ListView.separated(
-        //                     //           shrinkWrap: true,
-        //                     //           physics: NeverScrollableScrollPhysics(),
-        //                     //           itemCount: subaddressListStore.subaddresses.length,
-        //                     //           separatorBuilder: (context, i) {
-        //                     //             return Divider(
-        //                     //               color: Colors.transparent,//Theme.of(context).dividerTheme.color,
-        //                     //               height: 1.0,
-        //                     //             );
-        //                     //           },
-        //                     //           itemBuilder: (context, i) {
-        //                     //             return Observer(builder: (_) {
-        //                     //               final subaddress =
-        //                     //               subaddressListStore.subaddresses[i];
-        //                     //               final isCurrent = walletStore.subaddress.address ==
-        //                     //                   subaddress.address;
-        //                     //               final label = subaddress.label.isNotEmpty
-        //                     //                   ? subaddress.label
-        //                     //                   : subaddress.address;
-
-        //                     //               return InkWell(
-        //                     //                 onTap: () => walletStore.setSubaddress(subaddress),
-        //                     //                 child:
-        //                     //                isCurrent ? Container(
-        //                     //                   margin: EdgeInsets.all(15),
-        //                     //                   padding: EdgeInsets.all(15),
-        //                     //                   decoration: BoxDecoration(
-        //                     //                     borderRadius: BorderRadius.circular(10),
-        //                     //                     color:settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED)
-        //                     //                   ),
-        //                     //                   child:Text(label,
-        //                     //                    textAlign: TextAlign.center,
-        //                     //                     style: TextStyle(
-        //                     //                       fontSize: 16.0,
-        //                     //                      // fontFamily: 'Poppins',
-        //                     //                      fontWeight: FontWeight.w700,
-        //                     //                       color:Color(0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-        //                     //                     ),
-        //                     //                   )
-        //                     //                 ):
-        //                     //                 //child:
-        //                     //                 //  isCurrent ? Card(
-        //                     //                 //   elevation: 2,
-        //                     //                 //   color: Theme.of(context).accentTextTheme.overline.backgroundColor,//Color.fromARGB(255, 40,42,51),
-        //                     //                 //   shape: RoundedRectangleBorder(
-        //                     //                 //       borderRadius: BorderRadius.circular(15)
-        //                     //                 //   ),
-        //                     //                 //   child: Container(
-        //                     //                 //     margin: EdgeInsets.only(left: 10),
-        //                     //                 //     padding: EdgeInsets.all(15),
-        //                     //                 //     child: Text(
-        //                     //                 //       label,
-        //                     //                 //       style: TextStyle(
-        //                     //                 //         fontSize: 16.0,
-        //                     //                 //         color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-        //                     //                 //       ),
-        //                     //                 //     ),
-        //                     //                 //   ),
-        //                     //                 // ):
-        //                     //                 Container(
-        //                     //                   margin: EdgeInsets.only(left: 10),
-        //                     //                   padding: EdgeInsets.all(15),
-        //                     //                   child: Text(
-        //                     //                     label,
-        //                     //                     textAlign: TextAlign.center,
-        //                     //                     style: TextStyle(
-        //                     //                       fontSize: 16.0,
-        //                     //                       fontWeight: FontWeight.w700,
-        //                     //                       color:Color(0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-        //                     //                     ),
-        //                     //                   ),
-        //                     //                 ),
-        //                     //               );
-        //                     //             });
-        //                     //           });
-        //                     //     }),
-        //                         InkWell(
-        //                            onTap: (){
-
-        //                            addSubAddressDialog(context,
-        //  S.of(context).confirm_sending,
-        //   'sendStore.pendingTransaction.amount',
-        //  ' sendStore.pendingTransaction.fee',
-        //  ' _addressController.text',
-        //   onPressed: (_) {
-        //     Navigator.of(context).pop();
-           
-        //   },
-        //   onDismiss: (_){
-        //     Navigator.of(context).pop();
-        //   });
-
-
-
-        //                             //  Navigator.of(context)
-        //                             //               .pushNamed(Routes.newSubaddress),
-
-
-        //                            },
 
 
 
@@ -895,97 +718,7 @@ bool getAmountValidation(String value){
 
 
 
-
-
-
-
-
-
-
-        //                   //           await showDialog<void>(context: context, builder: (BuildContext context){
-        //                   // return Dialog(
-        //                   //   backgroundColor: Colors.transparent,
-        //                   //  child:Container(
-        //                   //    height:MediaQuery.of(context).size.height*1.0/3,
-        //                   //    padding: EdgeInsets.all(10),
-        //                   //    decoration: BoxDecoration(
-        //                   //       color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF), //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
-        //                   // borderRadius: BorderRadius.circular(20)),
-                             
-        //                   //    child:Column(
-        //                   //     children: [
-        //                   //        Center(
-        //                   //         child:Text('Sub Address',style:TextStyle(fontSize:18)),
-                                  
-        //                   //        )
-        //                   //     ],
-        //                   //    )
-        //                   //  )  
-        //                   // );});
-        //                            //},
-        //                           child: Container(
-        //                             margin: EdgeInsets.only(left: 10,right: 10,bottom:20),
-        //                             child: Row(
-        //                               mainAxisAlignment: MainAxisAlignment.center,                                      
-        //                               children: <Widget>[
-        //                                 Container(
-        //                                   margin: EdgeInsets.only(right:10),
-        //                                    width: 25.0,
-        //                                           height: 25.0,
-        //                                   child:SvgPicture.asset('assets/images/new-images/plus_fill.svg',color:Color(0xff2979FB)),
-        //                                 ),
-        //                                 Text('Add sub address',
-        //                                           //S.of(context).subaddresses,
-        //                                           style: TextStyle(
-        //                                             decoration: TextDecoration.underline,
-        //                                             fontSize: 16.0,
-                                                    
-        //                                             fontWeight: FontWeight.w700,
-        //                                             color:Color(0xff2979FB) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-        //                                           ),
-        //                                         ),
-                                        
-                                        
-        //                                 // Container(
-        //                                 //   //color: Theme.of(context).accentTextTheme.headline5.color,
-        //                                 //   child: Column(
-        //                                 //     children: <Widget>[
-        //                                 //       ListTile(
-        //                                 //         title: Text(
-        //                                 //           S.of(context).subaddresses,
-        //                                 //           style: TextStyle(
-        //                                 //             fontSize: 16.0,
-        //                                 //             color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-        //                                 //           ),
-        //                                 //         ),
-        //                                 //         trailing: Container(
-        //                                 //           width: 28.0,
-        //                                 //           height: 28.0,
-        //                                 //           child: InkWell(
-        //                                 //             onTap: () => Navigator.of(context)
-        //                                 //                 .pushNamed(Routes.newSubaddress),
-        //                                 //             borderRadius:
-        //                                 //             BorderRadius.all(Radius.circular(14.0)),
-        //                                 //             child: SvgPicture.asset('assets/images/add.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,),
-        //                                 //           ),
-        //                                 //         ),
-        //                                 //       ),
-        //                                 //       /* Divider(
-        //                                 //       color: Theme.of(context).dividerTheme.color,
-        //                                 //       height: 1.0,
-        //                                 //     )*/
-        //                                 //     ],
-        //                                 //   ),
-        //                                 // )
-        //                               ],
-        //                             ),
-        //                           ),
-        //                         ),
-        //                   ],
-        //                  )
-        //               ),
-                      //Flexible(child: Container()),
-                      SizedBox(height:MediaQuery.of(context).size.height*0.20/3),
+                            SizedBox(height:MediaQuery.of(context).size.height*0.20/3),
                       Container(
                         margin: EdgeInsets.all(15),
                         child: InkWell(
@@ -1011,116 +744,7 @@ bool getAmountValidation(String value){
                         ),
                       )
 
-                        // Card(
-                        //   margin: EdgeInsets.only(left: constants.leftPx,right: constants.rightPx),
-                        //   elevation: 2,
-                        //   color: Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
-                        //   shape: RoundedRectangleBorder(
-                        //       borderRadius: BorderRadius.circular(10)
-                        //   ),
-                        //   child: Padding(
-                        //     padding: const EdgeInsets.all(10.0),
-                        //     child: Column(
-                        //       children: <Widget>[
-                               
-                        //         Container(
-                        //           margin: EdgeInsets.only(left: 10,right: 10),
-                        //           child: Row(
-                        //             children: <Widget>[
-                        //               Expanded(
-                        //                   child: Container(
-                        //                     //color: Theme.of(context).accentTextTheme.headline5.color,
-                        //                     child: Column(
-                        //                       children: <Widget>[
-                        //                         ListTile(
-                        //                           title: Text(
-                        //                             S.of(context).subaddresses,
-                        //                             style: TextStyle(
-                        //                               fontSize: 16.0,
-                        //                               color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                        //                             ),
-                        //                           ),
-                        //                           trailing: Container(
-                        //                             width: 28.0,
-                        //                             height: 28.0,
-                        //                             child: InkWell(
-                        //                               onTap: () => Navigator.of(context)
-                        //                                   .pushNamed(Routes.newSubaddress),
-                        //                               borderRadius:
-                        //                               BorderRadius.all(Radius.circular(14.0)),
-                        //                               child: SvgPicture.asset('assets/images/add.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,),
-                        //                             ),
-                        //                           ),
-                        //                         ),
-                        //                         /* Divider(
-                        //                         color: Theme.of(context).dividerTheme.color,
-                        //                         height: 1.0,
-                        //                       )*/
-                        //                       ],
-                        //                     ),
-                        //                   ))
-                        //             ],
-                        //           ),
-                        //         ),
-                        //         Observer(builder: (_) {
-                        //           return ListView.separated(
-                        //               shrinkWrap: true,
-                        //               physics: NeverScrollableScrollPhysics(),
-                        //               itemCount: subaddressListStore.subaddresses.length,
-                        //               separatorBuilder: (context, i) {
-                        //                 return Divider(
-                        //                   color: Colors.transparent,//Theme.of(context).dividerTheme.color,
-                        //                   height: 1.0,
-                        //                 );
-                        //               },
-                        //               itemBuilder: (context, i) {
-                        //                 return Observer(builder: (_) {
-                        //                   final subaddress =
-                        //                   subaddressListStore.subaddresses[i];
-                        //                   final isCurrent = walletStore.subaddress.address ==
-                        //                       subaddress.address;
-                        //                   final label = subaddress.label.isNotEmpty
-                        //                       ? subaddress.label
-                        //                       : subaddress.address;
-
-                        //                   return InkWell(
-                        //                     onTap: () => walletStore.setSubaddress(subaddress),
-                        //                     child: isCurrent ? Card(
-                        //                       elevation: 2,
-                        //                       color: Theme.of(context).accentTextTheme.overline.backgroundColor,//Color.fromARGB(255, 40,42,51),
-                        //                       shape: RoundedRectangleBorder(
-                        //                           borderRadius: BorderRadius.circular(15)
-                        //                       ),
-                        //                       child: Container(
-                        //                         margin: EdgeInsets.only(left: 10),
-                        //                         padding: EdgeInsets.all(15),
-                        //                         child: Text(
-                        //                           label,
-                        //                           style: TextStyle(
-                        //                             fontSize: 16.0,
-                        //                             color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                        //                           ),
-                        //                         ),
-                        //                       ),
-                        //                     ):Container(
-                        //                       margin: EdgeInsets.only(left: 10),
-                        //                       padding: EdgeInsets.all(15),
-                        //                       child: Text(
-                        //                         label,
-                        //                         style: TextStyle(
-                        //                           fontSize: 16.0,
-                        //                           color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                        //                         ),
-                        //                       ),
-                        //                     ),
-                        //                   );
-                        //                 });
-                        //               });
-                        //         }),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
+                       
                       ],
                     ),
                   ),
@@ -1221,54 +845,73 @@ bool getAmountValidation(String value){
 Widget displayContainer(BuildContext context){
   final settingsStore = Provider.of<SettingsStore>(context);
   getSubAddress(context);
- return Container(
-                                              height:
-                                                  MediaQuery.of(context).size.height *
-                                                      0.19 /
-                                                      3,
-                                              decoration: BoxDecoration(
-                                                  color:settingsStore.isDarkTheme ?  Color(0xff292937) : Color(0xffEDEDED),
-                                                      
-                                                  borderRadius: BorderRadius.all(
-                                                      Radius.circular(10))),
-                                              child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 4.0,
-                                                      right: 6.0,
-                                                      top: 3.0,
-                                                      bottom: 5.0),
-                                                  child: Row(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment.center,
-                                                    children: [
-                                                      Container(
-                                                          margin: EdgeInsets.all(8),
-                                                          width: 20,
-                                                          //height:mHeight*0.15/3,width: mHeight*0.20/3,
-                                                          // margin:EdgeInsets.only(right:mHeight*0.03/3,),
-                                                          child: Icon(
-                                                                  Icons.more_horiz,
-                                                                  color: Colors.transparent
-                                                                )),
-                                                      Expanded(
-                                                          child: Center(
-                                                        child: Text('$currentSubAddress',
-                                                            overflow:
-                                                                TextOverflow.ellipsis,
-                                                            maxLines: 1,
-                                                            style: TextStyle(
-                                                              fontSize: 16.0,
-                                                              fontWeight: FontWeight.w700,
-                                                                color:settingsStore.isDarkTheme ? Color(
-                                                                    0xff00DC00) : Color(0xff0BA70F))),
-                                                      )),
-                                                      Container(
-                                                          child: Icon(
-                                                        Icons.arrow_drop_down,
-                                                        color: Colors.grey,
-                                                      ))
-                                                    ],
-                                                  )));
+ return Stack(
+   children: [
+     Container(
+                                                  height:
+                                                      MediaQuery.of(context).size.height *
+                                                          0.19 /
+                                                          3,
+                                                  decoration: BoxDecoration(
+                                                      color:settingsStore.isDarkTheme ?  Color(0xff292937) : Color(0xffEDEDED),
+                                                          
+                                                      borderRadius: BorderRadius.all(
+                                                          Radius.circular(10))),
+                                                  child: Padding(
+                                                      padding: const EdgeInsets.only(
+                                                          left: 4.0,
+                                                          right: 6.0,
+                                                          top: 3.0,
+                                                          bottom: 5.0),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment.center,
+                                                        children: [
+                                                          Container(
+                                                              margin: EdgeInsets.all(8),
+                                                              width: 20,
+                                                              //height:mHeight*0.15/3,width: mHeight*0.20/3,
+                                                              // margin:EdgeInsets.only(right:mHeight*0.03/3,),
+                                                              child: Icon(
+                                                                      Icons.more_horiz,
+                                                                      color: Colors.transparent
+                                                                    )),
+                                                          Expanded(
+                                                              child: Center(
+                                                            child: Text('$currentSubAddress',
+                                                                overflow:
+                                                                    TextOverflow.ellipsis,
+                                                                maxLines: 1,
+                                                                style: TextStyle(
+                                                                  fontSize: 16.0,
+                                                                  fontWeight: FontWeight.w700,
+                                                                    color:settingsStore.isDarkTheme ? Color(
+                                                                        0xff00DC00) : Color(0xff0BA70F))),
+                                                          )),
+                                                          Container(
+                                                              child: Icon(
+                                                            Icons.arrow_drop_down,
+                                                            color: Colors.grey,
+                                                          ))
+                                                        ],
+                                                      ))),
+              
+        // Container(
+        //     height:MediaQuery.of(context).size.height *
+        //                                                   0.19 /
+        //                                                   3,
+        //                                           decoration: BoxDecoration(
+        //                                               color:settingsStore.isDarkTheme ?  Color(0xff292937) : Color(0xffEDEDED),
+                                                          
+        //                                               borderRadius: BorderRadius.all(
+        //                                                   Radius.circular(10))),
+        //   child: DropdownButton<String>(
+
+        //     items:)
+        // )     
+   
+   ],
+ );
 }
 
 

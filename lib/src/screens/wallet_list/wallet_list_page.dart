@@ -71,7 +71,7 @@ class WalletListBodyState extends State<WalletListBody> {
   }
 
 
-
+ final _scrollController = ScrollController(keepScrollOffset: true);
 
 
 // reload wallet dialog box
@@ -82,90 +82,104 @@ class WalletListBodyState extends State<WalletListBody> {
     _walletListStore = Provider.of<WalletListStore>(context);
     
     final settingsStore = Provider.of<SettingsStore>(context);
-    return ScrollableWithBottomSection(
-        content: Column(
+    return
+    //  ScrollableWithBottomSection(
+    //     content: 
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              height:MediaQuery.of(context).size.height*0.60/3,
-            ),
+            // SizedBox(
+            //   height:MediaQuery.of(context).size.height*0.60/3,
+            // ),
             Container(
-             // margin: EdgeInsets.only(top: 40,),
+             margin: EdgeInsets.all(15),
+             height:MediaQuery.of(context).size.height*1.1/3,
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED)
               ),
-              child: Observer(
-                builder: (_) =>
-                    ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        separatorBuilder: (_, index) =>
-                            Divider(color: Colors.transparent,
-                                height: 10.0),
-                        itemCount: _walletListStore.wallets.length,
-                        itemBuilder: (__, index) {
-                          final wallet = _walletListStore.wallets[index];
-                          final isCurrentWallet =
-                          _walletListStore.isCurrentWallet(wallet);
+              child: RawScrollbar(
+                
+                controller: _scrollController,
+                      thickness: 8,
+                      thumbColor: settingsStore.isDarkTheme
+                          ? Color(0xff3A3A45)
+                          : Color(0xffC2C2C2),
+                      radius: Radius.circular(10.0),
+                      isAlwaysShown: true,
+                child: Observer(
+                  builder: (_) =>
+                      ListView.builder(
+                          controller: _scrollController,
+                          shrinkWrap: true,
+                         // physics: const NeverScrollableScrollPhysics(),
+                          // separatorBuilder: (_, index) =>
+                          //     Divider(color: Colors.transparent,
+                          //         height: 10.0),
+                          itemCount: _walletListStore.wallets.length,
+                          itemBuilder: (__, index) {
+                            final wallet = _walletListStore.wallets[index];
+                            final isCurrentWallet =
+                            _walletListStore.isCurrentWallet(wallet);
 
-                          return InkWell(
-                              onTap: () =>
-                              isCurrentWallet
-                                  ? null
-                                  : presetMenuForWallet(wallet, context),
-                              child: Container(
-                                //height: 80,
-                               // padding: EdgeInsets.all(10),
-                                child: Card(
-                                  elevation:0, //5,
-                                 // color:settingsStore.isDarkTheme ? Color(0xff383848) :Colors.transparent,  //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: Center(
-                                    child:Container(
-                                      width: double.infinity,
-                                      //margin: EdgeInsets.all(8.0),
-                                      padding:EdgeInsets.all(15.0),
-                                      decoration: BoxDecoration(
-                                        color:settingsStore.isDarkTheme ? isCurrentWallet ? Color(0xff383848) : Color(0xff1B1B23) : Color(0xffFFFFFF),
-                                        borderRadius: BorderRadius.circular(10)
-                                      ),
-                                      child: Text(
-                                          wallet.name,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: isCurrentWallet
-                                                  ? Color(0xff1AB51E) //Theme.of(context).primaryTextTheme.caption.color
-                                                  : settingsStore.isDarkTheme ? Color(0xff737382) : Color(0xff9292A7),
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w800),
+                            return InkWell(
+                                onTap: () =>
+                                isCurrentWallet
+                                    ? null
+                                    : presetMenuForWallet(wallet, context),
+                                child: Container(
+                                  //height: 80,
+                                 // padding: EdgeInsets.all(10),
+                                  child: Card(
+                                    elevation:0, //5,
+                                   // color:settingsStore.isDarkTheme ? Color(0xff383848) :Colors.transparent,  //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10)),
+                                    child: Center(
+                                      child:Container(
+                                        width: double.infinity,
+                                        //margin: EdgeInsets.all(8.0),
+                                        padding:EdgeInsets.all(15.0),
+                                        decoration: BoxDecoration(
+                                          color:settingsStore.isDarkTheme ? isCurrentWallet ? Color(0xff383848) : Color(0xff1B1B23) : Color(0xffFFFFFF),
+                                          borderRadius: BorderRadius.circular(10)
                                         ),
-                                    ),
-                                  )
-                                  
-                                  // ListTile(
-                                  //     title: Text(
-                                  //       wallet.name,
-                                  //       style: TextStyle(
-                                  //           color: isCurrentWallet
-                                  //               ? Color(0xff383848) //Theme.of(context).primaryTextTheme.caption.color
-                                  //               : Colors.grey.withOpacity(0.6),
-                                  //           fontSize: 16.0,
-                                  //           fontWeight: FontWeight.w600),
-                                  //     ),
-                                  //     trailing: isCurrentWallet
-                                  //         ? Icon(
-                                  //       Icons.check_circle,
-                                  //       color: Theme.of(context).primaryTextTheme.button.backgroundColor,
-                                  //       size: 23.0,
-                                  //     )
-                                  //         : null),
-                                ),
-                              ));
-                        }),
+                                        child: Text(
+                                            wallet.name,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: isCurrentWallet
+                                                    ? Color(0xff1AB51E) //Theme.of(context).primaryTextTheme.caption.color
+                                                    : settingsStore.isDarkTheme ? Color(0xff737382) : Color(0xff9292A7),
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                      ),
+                                    )
+                                    
+                                    // ListTile(
+                                    //     title: Text(
+                                    //       wallet.name,
+                                    //       style: TextStyle(
+                                    //           color: isCurrentWallet
+                                    //               ? Color(0xff383848) //Theme.of(context).primaryTextTheme.caption.color
+                                    //               : Colors.grey.withOpacity(0.6),
+                                    //           fontSize: 16.0,
+                                    //           fontWeight: FontWeight.w600),
+                                    //     ),
+                                    //     trailing: isCurrentWallet
+                                    //         ? Icon(
+                                    //       Icons.check_circle,
+                                    //       color: Theme.of(context).primaryTextTheme.button.backgroundColor,
+                                    //       size: 23.0,
+                                    //     )
+                                    //         : null),
+                                  ),
+                                ));
+                          }),
+                ),
               ),
             ),
         
@@ -259,9 +273,9 @@ class WalletListBodyState extends State<WalletListBody> {
         ),
                ])
           ],
-        ),
-        
         );
+        
+       // );
   }
 }
 

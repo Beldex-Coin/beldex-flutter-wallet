@@ -330,6 +330,7 @@ class SeedWidgetState extends State<SeedWidget> {
                               : null,
                           style: TextStyle(fontSize: 16.0),
                           controller: _seedController,
+                          inputFormatters: [WordLimitInputFormatter(25)],
                           textInputAction: TextInputAction.done,
                           decoration: InputDecoration(
                             border:InputBorder.none,
@@ -451,31 +452,43 @@ class SeedWidgetState extends State<SeedWidget> {
                 //     SizedBox(width: 10,)
                 //   ],
                 // ),
-                Padding(
-                    padding: EdgeInsets.only(top:20,),
-                    child: (selectedItem == null && items.length == maxLength)
-                        ? PrimaryButton(
-                        text: S.of(context).restore_next,
-                        isDisabled: !isSeedValid(),
-                        onPressed: () => widget.onFinish != null
-                            ? widget.onFinish()
-                            : null,
-                        color: Theme.of(context).primaryTextTheme.button.backgroundColor,
-                        borderColor: Theme.of(context).primaryTextTheme.button.backgroundColor)
-                        : SizedBox(
-                      width: 250,
-                          child: PrimaryButton(
-                          text: selectedItem != null
-                              ? S.of(context).save
-                              : S.of(context).add_new_word,
-                          onPressed: () => isCurrentMnemoticValid
-                              ? saveCurrentMnemoticToItems()
-                              : null,
-                          onDisabledPressed: () => showErrorIfExist(),
-                          isDisabled: !isCurrentMnemoticValid,
-                          color: Theme.of(context).primaryTextTheme.button.backgroundColor,
-                          borderColor: Theme.of(context).primaryTextTheme.button.backgroundColor),
-                        ))
+                Column(
+                  //mainAxisAlignment: MainAxisAlignment.end,
+                  //mainAxisSize: MainAxisSize.max,
+                  children: [
+                    SizedBox(
+                      height:150
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(top:20,),
+                        child: (selectedItem == null && items.length == maxLength) && (_seedController.text != null || _seedController.text !='')
+                            ? PrimaryButton(
+                            text: S.of(context).restore_next,
+                            isDisabled: !isSeedValid(),
+                            onPressed: () => widget.onFinish != null
+                                ? widget.onFinish()
+                                : null,
+                            color: Theme.of(context).primaryTextTheme.button.backgroundColor,
+                            borderColor: Theme.of(context).primaryTextTheme.button.backgroundColor)
+                            : 
+                            SizedBox(
+                          width: 250,
+                              child: Container()
+                              // PrimaryButton(
+                              // text: selectedItem != null
+                              //     ? S.of(context).save
+                              //     : S.of(context).add_new_word,
+                              // onPressed: () => isCurrentMnemoticValid
+                              //     ? saveCurrentMnemoticToItems()
+                              //     : null,
+                              // onDisabledPressed: () => showErrorIfExist(),
+                              // isDisabled:true,  //!isCurrentMnemoticValid,
+                              // color: Theme.of(context).primaryTextTheme.button.backgroundColor,
+                              // borderColor:Theme.of(context).primaryTextTheme.button.backgroundColor
+                              // ),
+                            )),
+                  ],
+                )
               ]),
             )
             //)
@@ -484,6 +497,25 @@ class SeedWidgetState extends State<SeedWidget> {
   }
 }
 
+
+class WordLimitInputFormatter extends TextInputFormatter {
+  final int maxWords;
+
+  WordLimitInputFormatter(this.maxWords);
+
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    final newText = newValue.text;
+    final wordCount = newText.split(' ').length;
+
+    if (wordCount <= maxWords) {
+      return newValue; // Allow the input.
+    } else {
+      // Reject the input if the word limit is reached.
+      return oldValue;
+    }
+  }
+}
 
 
 

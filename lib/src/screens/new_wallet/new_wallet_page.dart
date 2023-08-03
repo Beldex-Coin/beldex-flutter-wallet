@@ -69,12 +69,14 @@ class _WalletNameFormState extends State<WalletNameForm> {
   final nameController = TextEditingController();
   ReactionDisposer walletDisposer;
   Future setName() async {
-    while (true) {
+    var flag = true;
+    while (flag) {
       final name = await generateName();
 
       print(name);
       if (name.length <= 15) {
         nameController.text = name;
+        flag = false;
         break;
       }
     }
@@ -271,9 +273,7 @@ void showHUDLoader(BuildContext context) {
                                   .color,
                             ),
                             onPressed: () {
-                              setState(() {
-                                                              
-                                                            });
+                              setState(() {        });
                               canremove = true;
                               isError = true;
                               nameController.text = '';

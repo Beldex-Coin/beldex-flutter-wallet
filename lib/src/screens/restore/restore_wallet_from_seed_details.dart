@@ -27,7 +27,10 @@ class RestoreWalletFromSeedDetailsPage extends BasePage {
   @override
   String get title => 'Wallet Restore';
 
-
+ @override
+ Widget trailing(BuildContext context){
+  return Container();
+ }
 
   @override
   Widget body(BuildContext context) => RestoreFromSeedDetailsForm();
@@ -58,7 +61,7 @@ class _RestoreFromSeedDetailsFormState
   @override
   Widget build(BuildContext context) {
     final walletRestorationStore = Provider.of<WalletRestorationStore>(context);
-
+    final settingsStore = Provider.of<SettingsStore>(context);
   restoreSeedDisposer =  reaction((_) => walletRestorationStore.state, (WalletRestorationState state) {
       if (state is WalletRestoredSuccessfully) {
         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -113,7 +116,7 @@ class _RestoreFromSeedDetailsFormState
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                     hintStyle: TextStyle(
-                                        color: Theme.of(context).hintColor),
+                                        color: settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xff6F6F6F)),
                                     hintText: S.of(context).restore_wallet_name,
                                     /*focusedBorder: UnderlineInputBorder(
                                         borderSide: BorderSide(

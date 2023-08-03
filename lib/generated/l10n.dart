@@ -2448,6 +2448,24 @@ String get amount_detail_zero {
     );
   }
 
+
+
+
+  ///`Enter a valid name upto 15 characters`
+  String get error_msg_for_wallet_name{
+    return Intl.message(
+      'Enter a valid name upto 15 characters',
+      name: 'error_msg_for_wallet_name',
+      desc:'',
+      args:[],
+    );
+  }
+
+
+
+
+
+
   /// `Wallet keys can only contain 64 chars in hex`
   String get error_text_keys {
     return Intl.message(
@@ -2873,6 +2891,18 @@ String get add_address{
       args: [],
     );
   }
+
+///`Do you want to exit the wallet?`
+String get do_you_want_to_exit_the_wallet {
+  return Intl.message(
+    'Do you want to exit the wallet?',
+    name:'do_you_want_to_exit_the_wallet',
+    desc:'',
+    args:[],
+  );
+}
+
+
 
   /// `No`
   String get no {

@@ -345,6 +345,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
     try {
       final code = await presentQRScanner();
       final uri = Uri.parse(code);
+         _loading(true);
       var address = '';
       var amount = '';
       if (uri == null) {
@@ -367,11 +368,13 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
       controller.text = address;
       qrValue = address;
       famount = amount;
+
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('qrValue', qrValue);
       await prefs.setString('flashAmount', famount);
       setState(() {});
-      await Navigator.of(context).pushNamed(Routes.send);
+      _loading(false);
+      await Navigator.of(context).pushNamed(Routes.flash);
 
     } catch (e) {
       /* ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -406,6 +409,65 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
 
 
+
+void _loading(bool _canLoad) {
+    // setState(() {
+    //   canLoad = true;
+    // });
+
+    // Simulate an asynchronous task, e.g., fetching data from an API
+    // Future.delayed(Duration(seconds: 3), () {
+    //   setState(() {
+    //     canLoad = false;
+    //   });
+
+    //   // Close the HUD progress loader
+    //   Navigator.pop(context);
+    // });
+   if(_canLoad){
+    // Show the HUD progress loader
+    showHUDLoader(context);
+   }else{
+     Navigator.pop(context);
+   }
+    
+  }
+
+
+
+
+void showHUDLoader(BuildContext context) {
+  //final settingsStore = Provider.of<SettingsStore>(context,listen: false);
+    showDialog<void>(
+      context: context,
+      //barrierColor: Colors.transparent,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          // Prevent closing the dialog when the user presses the back button
+          onWillPop: () async => false,
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+
+            //backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
+            content: 
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Text('Loading...',style:TextStyle(fontSize: 18,fontWeight: FontWeight.w700)),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
 
 
@@ -1678,9 +1740,13 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
+          final settingsStore = Provider.of<SettingsStore>(context);
           return Dialog(
             elevation: 0,
-            backgroundColor: Theme.of(context).cardTheme.color,//Colors.black,
+            backgroundColor: settingsStore.isDarkTheme
+                ? Color(0xff272733)
+                : Color(
+                    0xffffffff), //Theme.of(context).cardTheme.color,//Colors.black,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)), //this right here
             child: Container(
@@ -1694,12 +1760,15 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                     Text(
                       S.of(context).are_you_sure,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15),
+                      style: TextStyle(fontSize: 17,fontWeight:FontWeight.w800),
                     ),
-                    Text(
-                      S.of(context).do_you_want_to_exit_an_app,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 15),
+                    Padding(
+                      padding: const EdgeInsets.only(top:8.0),
+                      child: Text(
+                        S.of(context).do_you_want_to_exit_the_wallet,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 17,fontWeight:FontWeight.w800),
+                      ),
                     ),
                     SizedBox(
                       height: 20,
@@ -1709,36 +1778,36 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           SizedBox(
-                            width: 45,
+                            width: 80,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                backgroundColor:settingsStore.isDarkTheme ? Color(0xff383848) : Color(0xffE8E8E8) // Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
                               ),
                               onPressed: () {
                                 Navigator.of(context).pop(false);
                               },
                               child: Text(
                                 S.of(context).no,
-                                style: TextStyle(color: Theme.of(context).primaryTextTheme.caption.color,),
+                                style: TextStyle(color: settingsStore.isDarkTheme ? Color(0xff93939B) : Color(0xff222222) ,fontWeight:FontWeight.w800),
                               ),
                             ),
                           ),
                           SizedBox(
-                            width: 45,
+                            width: 80,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                backgroundColor:Color(0xff0BA70F) // Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
                               ),
                               onPressed: () {
                                 Navigator.of(context).pop(true);
                               },
                               child: Text(
                                 S.of(context).yes,
-                                style: TextStyle(color: Theme.of(context).primaryTextTheme.caption.color,),
+                                style: TextStyle(color: Colors.white,fontWeight:FontWeight.w800),
                               ),
                             ),
                           ),

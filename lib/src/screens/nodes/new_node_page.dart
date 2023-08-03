@@ -56,6 +56,67 @@ class NewNodeFormState extends State<NewNodePageForm> {
 
  bool canLoad = false;
 
+void _loading(bool _canLoad) {
+    // setState(() {
+    //   canLoad = true;
+    // });
+
+    // Simulate an asynchronous task, e.g., fetching data from an API
+    // Future.delayed(Duration(seconds: 3), () {
+    //   setState(() {
+    //     canLoad = false;
+    //   });
+
+    //   // Close the HUD progress loader
+    //   Navigator.pop(context);
+    // });
+   if(_canLoad){
+    // Show the HUD progress loader
+    showHUDLoader(context);
+   }else{
+     Navigator.pop(context);
+   }
+    
+  }
+
+
+
+
+void showHUDLoader(BuildContext context) {
+  //final settingsStore = Provider.of<SettingsStore>(context,listen: false);
+    showDialog<void>(
+      context: context,
+      //barrierColor: Colors.transparent,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          // Prevent closing the dialog when the user presses the back button
+          onWillPop: () async => false,
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+
+            //backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
+            content: 
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Text('Checking node connection...',style:TextStyle(fontSize: 16,fontWeight: FontWeight.w700)),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+
 
 
 
@@ -170,20 +231,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                         }
               ),
                    ),
-                  // Padding(
-                  //     padding: EdgeInsets.only(top: 20),
-                  //     child: BeldexTextField(
-                  //       color: Color(0xff333343),
-                  //       hintText: S.of(context).node_port,
-                  //       controller: _nodePortController,
-                  //       keyboardType: TextInputType.numberWithOptions(
-                  //           signed: false, decimal: false),
-                  //       validator: (value) {
-                  //         nodeList.validateNodePort(value);
-                  //         return nodeList.errorMessage;
-                  //       },
-                  //     )),
-
+                 
                    Padding(
                      padding: const EdgeInsets.only(top:8.0,left:20,right:20),
                      child: TextFormField(
@@ -284,9 +332,12 @@ class NewNodeFormState extends State<NewNodePageForm> {
                   validator: (value)=>null
               ),
                    ),
+                
+               // Text('$isNodeChecked'),
 
-
-                 testMode == null || testMode == ''  ? Container() : Container(
+                 testMode == null || testMode == ''  ? Container(
+                  height:10,
+                 ) : Container(
                     padding: EdgeInsets.only(left:20,right:20),
                     margin: EdgeInsets.only(left:20,right:20,top:10,bottom:10),
                     height: MediaQuery.of(context).size.height*0.20/3,
@@ -302,7 +353,10 @@ class NewNodeFormState extends State<NewNodePageForm> {
                       children: [
                        Text('Test Result:',style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.06/3,),),
                       canLoad ? Center(
-                        child:Text('Checking')
+                        child:Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Text('Checking...', style: TextStyle(color: Color(0xff2979FB) ,fontWeight:FontWeight.w800 ,fontSize: MediaQuery.of(context).size.height*0.06/3,)),
+                        )
                       ) : Padding(
                          padding: const EdgeInsets.only(left:10.0),
                          child:  Text(isNodeChecked ? 'Success' :'Connection Failed',style: TextStyle(color:!isNodeChecked ? Colors.red : Color(0xff1AB51E),fontWeight:FontWeight.w800 ,fontSize: MediaQuery.of(context).size.height*0.06/3,)),
@@ -337,9 +391,10 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                if (!_formKey.currentState.validate()) {
                                         return;  
                               }else{
-                                 setState((){ });
-                              testMode = 'testing';
-                              canLoad =true;
+                                _loading(true);
+                                setState((){ });
+                             testMode = 'testing';
+                             canLoad =true;
                             await Future<void>.delayed(Duration(seconds:1 ),(){
                                 setState(() {
                                  canLoad = false;
@@ -347,9 +402,15 @@ class NewNodeFormState extends State<NewNodePageForm> {
                             });
                                  final nodeWithPort = '${_nodeAddressController.text}:${_nodePortController.text}'; //'194.5.152.31:19091'
                                  print('Node with port value $nodeWithPort');
-                                isNodeChecked = await NodeForTest().isWorkingNode(nodeWithPort);  
-                               // testMode = 'done';                            
-                                print('isNodeChecked ------->$isNodeChecked');
+                                 setState(() {                                    
+                                                                  });
+                               final isNodeChecked1 = await NodeForTest().isWorkingNode(nodeWithPort);  
+                                testMode = 'done';
+                               setState(() {
+                                      isNodeChecked = isNodeChecked1;                          
+                                                              });                            
+                                print('isNodeChecked ------->   $isNodeChecked');
+                              _loading(false);
                               }
                              
                              

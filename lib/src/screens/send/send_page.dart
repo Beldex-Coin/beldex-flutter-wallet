@@ -151,7 +151,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   var amountErrorMessage = "";
  final List<ReactionDisposer> reactionDisposers = []; // dispose the reactions we used in this file to avoid the memory leaks 
  final List<ReactionDisposer> whenDisposers = []; //dispose the when functions we used in this file to avoid the memory leaks
-
+ ReactionDisposer rdisposer1,rdisposer2,rdisposer3;
 
 
 
@@ -182,39 +182,44 @@ if(widget.controllerValue != null || widget.controllerValue != ''){
   }
 
 
-void getQrvalue()async{
-   final prefs = await SharedPreferences.getInstance();
-   setState(() {
-        final controllerValue = prefs.getString('qrValue');
-       // final isFlashTrans = prefs.getBool('isFlashTransaction');
-        if(controllerValue.isNotEmpty || controllerValue != '') {
-          _addressController.text = controllerValue;
-        }
-
-      //  if(isFlashTrans) {
-      //    _isFlashTransaction = isFlashTrans;
-      //  }
-      });
-   
-
-}
 
 
-void clearQrValue()async{
-    final prefs = await SharedPreferences.getInstance();
 
-    await prefs.setString('qrValue', '');
-    await prefs.setBool('isFlashTransaction', false);
-}
-
-bool getAmountValidation(String value){
-      final pattern = RegExp(r'^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}([.][0-9]{0,5}))$');
-                                      if(!pattern.hasMatch(value)){
-                                        return false;
+bool getAmountValidation(String amount){
+      // final pattern = RegExp(r'^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}([.][0-9]{0,5}))$');
+      //                                 if(!pattern.hasMatch(value)){
+      //                                   return false;
                                         
-                                      }else{
-                                        return true;
-                                      }
+      //                                 }else{
+      //                                   return true;
+      //                                 }
+
+
+ final maxValue = 150000000.00000;
+  final value = amount.replaceAll(',', '.');
+  final regExp = r'^(([0-9]{0,9})?|\.[0-9]{0,5})?|([0-9]{0,9}(\.[0-9]{0,5})?)$';
+  var isValid = false;
+
+  if (RegExp(regExp).hasMatch(value)) {
+    if (value == '.') {
+      isValid = false;
+    } else {
+      try {
+        final dValue = double.parse(value);
+        isValid = (dValue <= maxValue && dValue > 0);
+      } catch (e) {
+        isValid = false;
+      }
+    }
+  }
+
+  return isValid;
+
+
+
+
+
+
 }
 bool getAddressBasicValidation(String value){
   final pattern = RegExp(r'^[a-zA-Z0-9]+$');
@@ -230,18 +235,6 @@ bool getAddressBasicValidation(String value){
 
 
 // Dispose of the 'reaction' and 'when' reactions
-  void _disposeReactions() {
-    // Dispose the 'reaction'
-    whenDisposers[0](); // The first disposer is the 'reaction' disposer
-
-    // Dispose all the 'when' reactions
-    for (var i = 1; i < whenDisposers.length; i++) {
-      whenDisposers[i]();
-    }
-    for(var i=0;i< reactionDisposers.length;i++){
-      reactionDisposers[i]();
-    }
-  }
 
 
 
@@ -250,10 +243,10 @@ bool getAddressBasicValidation(String value){
   @override
   void dispose() {
     animationController.dispose();
-
-
-   clearQrValue();
-  _disposeReactions();
+    rdisposer1?.call();
+    rdisposer2?.call();
+    rdisposer3?.call();
+ 
     super.dispose();
   }
 
@@ -677,7 +670,15 @@ void showHUDLoader(BuildContext context) {
                             });
                             return null;
                           } else {
-                           if(getAddressBasicValidation(value)){
+                              final alphanumericRegex = RegExp(r'^[a-zA-Z0-9]+$');
+                               
+                            if(!alphanumericRegex.hasMatch(value)){
+                              setState(() {
+                                  addressErrorMessage ='Enter a valid address';                            
+                                                            });
+                               return;
+                            }else{
+                                if(getAddressBasicValidation(value)){
                             sendStore.validateAddress(value,
                                 cryptoCurrency: CryptoCurrency.bdx);
                             if (sendStore.errorMessage != null) {
@@ -699,6 +700,8 @@ void showHUDLoader(BuildContext context) {
                               addressErrorMessage = 'Enter a valid address';
                               return ;
                             }
+                            }
+                           
                             
                           }
                         },
@@ -862,8 +865,8 @@ void showHUDLoader(BuildContext context) {
                                 children: [
                                   Container(
                                       height: 50,
-                                      width: 170,
-                                      padding: EdgeInsets.all(8.0),
+                                     width: 170,
+                                     // padding: EdgeInsets.all(8.0),
                                       margin:
                                           EdgeInsets.only(top: 15, right: 15),
                                       decoration: BoxDecoration(
@@ -876,74 +879,79 @@ void showHUDLoader(BuildContext context) {
                                         children: [
                                            Observer(builder: (_){
                                               return 
-                                              Text(
+                                              Padding(
+                                                padding: const EdgeInsets.only(left:8.0),
+                                                child: Text(
                                             '${settingsStore.fiatCurrency.toString()}',
                                             textAlign: TextAlign.center,
-                                          );
+                                          ),
+                                              );
                                           }),
                                           
-                                          Container(
-                                              width: 120,
-                                              padding: EdgeInsets.only(
-                                                left: 8,
-                                                right: 10,
+                                          Expanded(
+                                            child: Container(
+                                                width: 120,
+                                                padding: EdgeInsets.only(
+                                                  left: 8,
+                                                  right: 10,
+                                                ),
+                                                child: TextField(
+                                                  readOnly: true,
+                                                  controller:
+                                                      _fiatAmountController,
+                                                  decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      /*prefixIcon: SizedBox(
+                                                width: 75,
+                                                child: Padding(
+                                                    padding: EdgeInsets.only(left: 8, top: 12),
+                                                    child: Text('Beldex:',
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            color: Theme.of(context)
+                                                                .accentTextTheme
+                                                                .overline
+                                                                .color))),
                                               ),
-                                              child: TextField(
-                                                readOnly: true,
-                                                controller:
-                                                    _fiatAmountController,
-                                                decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    /*prefixIcon: SizedBox(
-                                              width: 75,
-                                              child: Padding(
-                                                  padding: EdgeInsets.only(left: 8, top: 12),
-                                                  child: Text('Beldex:',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          color: Theme.of(context)
-                                                              .accentTextTheme
-                                                              .overline
-                                                              .color))),
-                                            ),
-                                            suffixIcon: Container(
-                                              width: 1,
-                                              padding: EdgeInsets.only(top: 0),
-                                              child: Center(
-                                                  child: InkWell(
-                                                      onTap: () => sendStore.setSendAll(),
-                                                      child: Text(S.of(context).all,
-                                                          style: TextStyle(
-                                                              fontSize: 10,
-                                                              color: Theme.of(context)
-                                                                  .accentTextTheme
-                                                                  .overline
-                                                                  .decorationColor)))),
-                                            ),*/
-                                                    hintStyle: TextStyle(
-                                                        fontSize: 15.0,
-                                                        color:settingsStore.isDarkTheme ? Color(0xffffffff) : Color(0xff16161D)
-                                                        // color: Theme.of(context)
-                                                        //     .hintColor
-                                                            ),
-                                                    hintText: '00.000000000',
-                                                    /*focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: BeldexPalette.teal, width: 2.0)),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Theme.of(context).focusColor,
-                                                    width: 1.0)),
-                                            errorBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: BeldexPalette.red, width: 1.0)),
-                                            focusedErrorBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: BeldexPalette.red, width: 1.0)),*/
-                                                    errorStyle: TextStyle(
-                                                        color:
-                                                            BeldexPalette.red)),
-                                              ))
+                                              suffixIcon: Container(
+                                                width: 1,
+                                                padding: EdgeInsets.only(top: 0),
+                                                child: Center(
+                                                    child: InkWell(
+                                                        onTap: () => sendStore.setSendAll(),
+                                                        child: Text(S.of(context).all,
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color: Theme.of(context)
+                                                                    .accentTextTheme
+                                                                    .overline
+                                                                    .decorationColor)))),
+                                              ),*/
+                                                      hintStyle: TextStyle(
+                                                          fontSize: 15.0,
+                                                          color:settingsStore.isDarkTheme ? Color(0xffffffff) : Color(0xff16161D)
+                                                          // color: Theme.of(context)
+                                                          //     .hintColor
+                                                              ),
+                                                      hintText: '00.000000000',
+                                                      /*focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: BeldexPalette.teal, width: 2.0)),
+                                              enabledBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Theme.of(context).focusColor,
+                                                      width: 1.0)),
+                                              errorBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: BeldexPalette.red, width: 1.0)),
+                                              focusedErrorBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: BeldexPalette.red, width: 1.0)),*/
+                                                      errorStyle: TextStyle(
+                                                          color:
+                                                              BeldexPalette.red)),
+                                                )),
+                                          )
                                         ],
                                       )),
                                 ],
@@ -1659,7 +1667,7 @@ bottomSection:
     if (_effectsInstalled) return;
 
     final sendStore = Provider.of<SendStore>(context);
-  final rdisposer1 =  reaction((_) => sendStore.fiatAmount, (String amount) {
+   rdisposer1 =  reaction((_) => sendStore.fiatAmount, (String amount) {
       print('amount inside reaction $amount');
       if (amount != _fiatAmountController.text) {
         _fiatAmountController.text = amount;
@@ -1669,7 +1677,7 @@ bottomSection:
     });
     reactionDisposers.add(rdisposer1);
 
-   final rdisposer2 = reaction((_) => sendStore.cryptoAmount, (String amount) {
+    rdisposer2 = reaction((_) => sendStore.cryptoAmount, (String amount) {
       if (amount != _cryptoAmountController.text) {
         _cryptoAmountController.text = amount;
       }
@@ -1695,26 +1703,72 @@ bottomSection:
       }
     });
 
-  final rdisposer3 =  reaction((_) => sendStore.state, (SendingState state) {
+   rdisposer3 =  reaction((_) => sendStore.state, (SendingState state) {
 
-   final wDisposer1 = when( (_) => state is SendingFailed, (){
-       WidgetsBinding.instance.addPostFrameCallback((_) {
-          showSimpleBeldexDialog(context, 'Alert', ( state as SendingFailed).error,
+  //  final wDisposer1 = when( (_) => state is SendingFailed, (){
+  //      WidgetsBinding.instance.addPostFrameCallback((_) {
+  //         showSimpleBeldexDialog(context, 'Alert', ( state as SendingFailed).error,
+  //             onPressed: (_) => Navigator.of(context).pop());
+  //       });
+  //   });
+  //   whenDisposers.add(wDisposer1);
+  //  final wDisposer2 = when( (_)=> state is TransactionCreatedSuccessfully && sendStore.pendingTransaction != null,(){
+  //        WidgetsBinding.instance.addPostFrameCallback((_) {
+  //         print('inside the transaction created successfully---->');
+  //       showSimpleConfirmDialog(context,
+  //        S.of(context).confirm_sending,
+  //         sendStore.pendingTransaction.amount,
+  //         sendStore.pendingTransaction.fee,
+  //         _addressController.text,
+  //         onPressed: (_) {
+  //           Navigator.of(context).pop();
+  //           sendStore.commitTransaction();
+  //         },
+  //         onDismiss: (_){
+  //           _addressController.text = '';
+  //           _cryptoAmountController.text = '';
+  //           Navigator.of(context).pop();
+  //         }
+  //         );
+  //       });
+  //   } );
+  //  whenDisposers.add(wDisposer2);
+  //  final wDisposer3 = when( (_)=> state is TransactionCommitted ,(){
+  //       WidgetsBinding.instance.addPostFrameCallback((_) {
+  //          print('inside the transaction commiteed ---->');
+  //         showSimpleSentTrans( context, S.of(context).sending, sendStore.pendingTransaction.amount,'fee',_addressController.text,
+  //             onPressed: (_) {
+  //           _addressController.text = '';
+  //           _cryptoAmountController.text = '';
+  //           Navigator.of(context)..pop()..pop();
+  //         },
+  //          onDismiss: (_){
+  //           Navigator.of(context)..pop()..pop();
+  //         }
+  //         );
+  //       });
+  //   });
+   
+  //  whenDisposers.add(wDisposer3);
+
+      if (state is SendingFailed) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showSimpleBeldexDialog(context, 'Alert', state.error,
               onPressed: (_) => Navigator.of(context).pop());
         });
-    });
-    whenDisposers.add(wDisposer1);
-   final wDisposer2 = when( (_)=> state is TransactionCreatedSuccessfully && sendStore.pendingTransaction != null,(){
-         WidgetsBinding.instance.addPostFrameCallback((_) {
+      }
+
+      if (state is TransactionCreatedSuccessfully && sendStore.pendingTransaction != null) {
+       WidgetsBinding.instance.addPostFrameCallback((_) {
           print('inside the transaction created successfully---->');
         showSimpleConfirmDialog(context,
          S.of(context).confirm_sending,
           sendStore.pendingTransaction.amount,
           sendStore.pendingTransaction.fee,
           _addressController.text,
-          onPressed: (_) {
+          onPressed: (_)async {
             Navigator.of(context).pop();
-            sendStore.commitTransaction();
+           await sendStore.commitTransaction();
           },
           onDismiss: (_){
             _addressController.text = '';
@@ -1723,9 +1777,9 @@ bottomSection:
           }
           );
         });
-    } );
-   whenDisposers.add(wDisposer2);
-   final wDisposer3 = when( (_)=> state is TransactionCommitted ,(){
+      }
+
+      if (state is TransactionCommitted) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
            print('inside the transaction commiteed ---->');
           showSimpleSentTrans( context, S.of(context).sending, sendStore.pendingTransaction.amount,'fee',_addressController.text,
@@ -1739,55 +1793,9 @@ bottomSection:
           }
           );
         });
+      }
     });
-   
-   whenDisposers.add(wDisposer3);
-
-      // if (state is SendingFailed) {
-      //   WidgetsBinding.instance.addPostFrameCallback((_) {
-      //     showSimpleBeldexDialog(context, 'Alert', state.error,
-      //         onPressed: (_) => Navigator.of(context).pop());
-      //   });
-      // }
-
-      // if (state is TransactionCreatedSuccessfully && sendStore.pendingTransaction != null) {
-      //   WidgetsBinding.instance.addPostFrameCallback((_) {
-      //     print('inside the transaction created successfully---->');
-      //   showSimpleConfirmDialog(context,
-      //    S.of(context).confirm_sending,
-      //     sendStore.pendingTransaction.amount,
-      //     sendStore.pendingTransaction.fee,
-      //     _addressController.text,
-      //     onPressed: (_) {
-      //       Navigator.of(context).pop();
-      //       sendStore.commitTransaction();
-      //     },
-      //     onDismiss: (_){
-      //       _addressController.text = '';
-      //       _cryptoAmountController.text = '';
-      //       Navigator.of(context).pop();
-      //     }
-      //     );
-      //   });
-      // }
-
-      // if (state is TransactionCommitted) {
-      //   WidgetsBinding.instance.addPostFrameCallback((_) {
-      //      print('inside the transaction commiteed ---->');
-      //     showSimpleSentTrans( context, S.of(context).sending, sendStore.pendingTransaction.amount,'fee',_addressController.text,
-      //         onPressed: (_) {
-      //       _addressController.text = '';
-      //       _cryptoAmountController.text = '';
-      //       Navigator.of(context)..pop()..pop();
-      //     },
-      //      onDismiss: (_){
-      //       Navigator.of(context)..pop()..pop();
-      //     }
-      //     );
-      //   });
-      // }
-    });
-    whenDisposers.add(rdisposer3);
+    
     _effectsInstalled = true;
   }
 }

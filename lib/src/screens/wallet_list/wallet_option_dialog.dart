@@ -41,7 +41,8 @@ void _loading(bool _canLoad) {
    if(_canLoad){
     // Show the HUD progress loader
     showHUDLoader(context);
-   }else{
+   }
+   else{
      Navigator.pop(context);
    }
     
@@ -127,19 +128,25 @@ void showHUDLoader(BuildContext context) {
 
       await Navigator.of(context).pushNamed(Routes.auth, arguments:
             (bool isAuthenticatedSuccessfully, AuthPageState auth) async {
+              print('isAuth inside the authpage=====> $isAuthenticatedSuccessfully');
           if (!isAuthenticatedSuccessfully) {
+               print('isAuth inside the authpage when false=====> $isAuthenticatedSuccessfully');
             return;
           }
            
           try {
             setState(() {});
+              print('before loading the authpage=====>');
              Navigator.of(context).pop();
             _loading(true);
+             print('while loading the authpage=====>');
             // auth.changeProcessText(
             //     S.of(context).wallet_list_loading_wallet(widget.wallet.name));
             await _walletListStore.loadWallet(widget.wallet);
+             print('After loading the authpage=====>');
+             _loading(false);
             auth.close();
-            _loading(false);
+            
              Navigator.of(context).pop();
             // Navigator.of(context)..pop()..pop();
           } catch (e) {
@@ -277,6 +284,7 @@ void showHUDLoader(BuildContext context) {
                                           await _walletListStore.remove(widget.wallet);
                                          await _walletListStore.updateWalletList();
                                           auth.close();
+                                          Navigator.pop(context);
                                         } catch (e) {
                                           auth.changeProcessText(S
                                               .of(context)

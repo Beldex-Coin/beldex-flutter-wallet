@@ -23,6 +23,10 @@ class RestoreWalletFromSeedPage extends BasePage {
   final WalletService walletService;
   final SharedPreferences sharedPreferences;
   final formKey = GlobalKey<_RestoreFromSeedFormState>();
+  
+ @override
+  bool get resizeToAvoidBottomInset => false;
+
 
   @override
   String get title => S.current.restore_title_from_seed;

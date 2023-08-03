@@ -144,7 +144,7 @@ class FlashTransactionFormState extends State<FlashTransactionForm> with TickerP
   var controller = StreamController<double>.broadcast();
   double position;
   AnimationController animationController;
-
+  ReactionDisposer rdisposer1,rdisposer2,rdisposer3;
   bool addressValidation = false;
   var addressErrorMessage = "";
   bool amountValidation = false;
@@ -229,7 +229,9 @@ bool getAddressBasicValidation(String value){
   @override
   void dispose() {
     animationController.dispose();
-
+    rdisposer1?.call();
+    rdisposer2?.call();
+   rdisposer3?.call();
 
    clearQrValue();
 
@@ -656,7 +658,14 @@ void showHUDLoader(BuildContext context) {
                             });
                             return null;
                           } else {
-                           if(getAddressBasicValidation(value)){
+                              final alphanumericRegex = RegExp(r'^[a-zA-Z0-9]+$');
+                              if(!alphanumericRegex.hasMatch(value)){
+                                setState(() {          
+                                                                });
+                                addressErrorMessage = 'Enter a valid address';
+                                return;
+                              }else{
+                                if(getAddressBasicValidation(value)){
                             sendStore.validateAddress(value,
                                 cryptoCurrency: CryptoCurrency.bdx);
                             if (sendStore.errorMessage != null) {
@@ -678,6 +687,8 @@ void showHUDLoader(BuildContext context) {
                               addressErrorMessage = 'Enter a valid address';
                               return ;
                             }
+                              }
+                           
                             
                           }
                         },
@@ -855,74 +866,79 @@ void showHUDLoader(BuildContext context) {
                                         children: [
                                            Observer(builder: (_){
                                               return 
-                                              Text(
+                                              Padding(
+                                                padding: const EdgeInsets.only(left:8.0),
+                                                child: Text(
                                             '${settingsStore.fiatCurrency.toString()}',
                                             textAlign: TextAlign.center,
-                                          );
+                                          ),
+                                              );
                                           }),
                                           
-                                          Container(
-                                              width: 120,
-                                              padding: EdgeInsets.only(
-                                                left: 8,
-                                                right: 10,
+                                          Expanded(
+                                            child: Container(
+                                                width: 120,
+                                                padding: EdgeInsets.only(
+                                                  left: 8,
+                                                  right: 10,
+                                                ),
+                                                child: TextField(
+                                                  readOnly: true,
+                                                  controller:
+                                                      _fiatAmountController,
+                                                  decoration: InputDecoration(
+                                                      border: InputBorder.none,
+                                                      /*prefixIcon: SizedBox(
+                                                width: 75,
+                                                child: Padding(
+                                                    padding: EdgeInsets.only(left: 8, top: 12),
+                                                    child: Text('Beldex:',
+                                                        style: TextStyle(
+                                                            fontSize: 18,
+                                                            color: Theme.of(context)
+                                                                .accentTextTheme
+                                                                .overline
+                                                                .color))),
                                               ),
-                                              child: TextField(
-                                                readOnly: true,
-                                                controller:
-                                                    _fiatAmountController,
-                                                decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    /*prefixIcon: SizedBox(
-                                              width: 75,
-                                              child: Padding(
-                                                  padding: EdgeInsets.only(left: 8, top: 12),
-                                                  child: Text('Beldex:',
-                                                      style: TextStyle(
-                                                          fontSize: 18,
-                                                          color: Theme.of(context)
-                                                              .accentTextTheme
-                                                              .overline
-                                                              .color))),
-                                            ),
-                                            suffixIcon: Container(
-                                              width: 1,
-                                              padding: EdgeInsets.only(top: 0),
-                                              child: Center(
-                                                  child: InkWell(
-                                                      onTap: () => sendStore.setSendAll(),
-                                                      child: Text(S.of(context).all,
-                                                          style: TextStyle(
-                                                              fontSize: 10,
-                                                              color: Theme.of(context)
-                                                                  .accentTextTheme
-                                                                  .overline
-                                                                  .decorationColor)))),
-                                            ),*/
-                                                    hintStyle: TextStyle(
-                                                        fontSize: 15.0,
-                                                        color:settingsStore.isDarkTheme ? Color(0xffffffff) : Color(0xff16161D)
-                                                        // color: Theme.of(context)
-                                                        //     .hintColor
-                                                            ),
-                                                    hintText: '00.000000000',
-                                                    /*focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: BeldexPalette.teal, width: 2.0)),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Theme.of(context).focusColor,
-                                                    width: 1.0)),
-                                            errorBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: BeldexPalette.red, width: 1.0)),
-                                            focusedErrorBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: BeldexPalette.red, width: 1.0)),*/
-                                                    errorStyle: TextStyle(
-                                                        color:
-                                                            BeldexPalette.red)),
-                                              ))
+                                              suffixIcon: Container(
+                                                width: 1,
+                                                padding: EdgeInsets.only(top: 0),
+                                                child: Center(
+                                                    child: InkWell(
+                                                        onTap: () => sendStore.setSendAll(),
+                                                        child: Text(S.of(context).all,
+                                                            style: TextStyle(
+                                                                fontSize: 10,
+                                                                color: Theme.of(context)
+                                                                    .accentTextTheme
+                                                                    .overline
+                                                                    .decorationColor)))),
+                                              ),*/
+                                                      hintStyle: TextStyle(
+                                                          fontSize: 15.0,
+                                                          color:settingsStore.isDarkTheme ? Color(0xffffffff) : Color(0xff16161D)
+                                                          // color: Theme.of(context)
+                                                          //     .hintColor
+                                                              ),
+                                                      hintText: '00.000000000',
+                                                      /*focusedBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: BeldexPalette.teal, width: 2.0)),
+                                              enabledBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Theme.of(context).focusColor,
+                                                      width: 1.0)),
+                                              errorBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: BeldexPalette.red, width: 1.0)),
+                                              focusedErrorBorder: OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: BeldexPalette.red, width: 1.0)),*/
+                                                      errorStyle: TextStyle(
+                                                          color:
+                                                              BeldexPalette.red)),
+                                                )),
+                                          )
                                         ],
                                       )),
                                 ],
@@ -1630,7 +1646,7 @@ bottomSection:
     if (_effectsInstalled) return;
 
     final sendStore = Provider.of<SendStore>(context);
-    reaction((_) => sendStore.fiatAmount, (String amount) {
+  rdisposer1 = reaction((_) => sendStore.fiatAmount, (String amount) {
       print('amount inside reaction $amount');
       if (amount != _fiatAmountController.text) {
         _fiatAmountController.text = amount;
@@ -1638,7 +1654,7 @@ bottomSection:
 
       }
     });
-    reaction((_) => sendStore.cryptoAmount, (String amount) {
+   rdisposer2 = reaction((_) => sendStore.cryptoAmount, (String amount) {
       if (amount != _cryptoAmountController.text) {
         _cryptoAmountController.text = amount;
       }
@@ -1664,7 +1680,7 @@ bottomSection:
       }
     });
 
-    reaction((_) => sendStore.state, (SendingState state) {
+  rdisposer3 = reaction((_) => sendStore.state, (SendingState state) {
       if (state is SendingFailed) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           showSimpleBeldexDialog(context, 'Alert', state.error,
@@ -1680,9 +1696,9 @@ bottomSection:
           sendStore.pendingTransaction.amount,
           sendStore.pendingTransaction.fee,
           _addressController.text,
-          onPressed: (_) {
+          onPressed: (_)async{
             Navigator.of(context).pop();
-            sendStore.commitTransaction();
+           await sendStore.commitTransaction();
           },
           onDismiss: (_){
             _addressController.text = '';
