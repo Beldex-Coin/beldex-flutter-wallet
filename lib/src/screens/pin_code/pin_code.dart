@@ -450,17 +450,47 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
-                            title:Text(
-                                    'Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings',
-                                    style: TextStyle(color:settingsStore.isDarkTheme ? Colors.white :Colors.black,fontSize:14),
-                                    textAlign: TextAlign.center,
-                                    
-                                  ),
-                            actions: <Widget>[
-                              FlatButton(
-                                  onPressed: () => Navigator.of(context).pop(),
-                                  child: Text(S.of(context).ok))
-                            ],
+                            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            backgroundColor:settingsStore.isDarkTheme ? Color(0xff13131A) : Color(0xffffffff) ,
+                            content:Container(
+                              margin: EdgeInsets.symmetric(vertical: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                               // mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                          'Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings',
+                                          style: TextStyle(color:settingsStore.isDarkTheme ? Colors.white :Colors.black,fontSize:15),
+                                          textAlign: TextAlign.center,
+
+                                          
+                                        ),
+                                  SizedBox(height:10),
+                                  GestureDetector(
+                                    onTap: ()=> Navigator.of(context).pop(),
+                                    child: Container(
+                                      height:40,width:70,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: Color(0xff0BA70F),
+                                        
+                                      ),
+                                      alignment: Alignment.center,
+                                      child: Text(S.of(context).ok,style: TextStyle(color: Colors.white,fontWeight:FontWeight.w800,fontSize:15),
+                                            textAlign: TextAlign.center,),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+
+                            // actions: <Widget>[
+                            //   FlatButton(
+                            //       onPressed: () => Navigator.of(context).pop(),
+                            //       child: Text(S.of(context).ok))
+                            // ],
                           );
                         });
 

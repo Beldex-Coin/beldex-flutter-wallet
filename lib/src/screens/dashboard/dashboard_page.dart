@@ -53,40 +53,43 @@ class DashboardPage extends BasePage {
             });
       },
       child: Container(
-          height: 20,
+          height: 18,
           padding: EdgeInsets.only(top: 12.0, bottom: 10),
-          decoration: BoxDecoration(
-              ),
+          decoration: BoxDecoration(),
           child: SvgPicture.asset(
             'assets/images/new-images/refresh.svg',
             color: Theme.of(context).primaryTextTheme.caption.color,
-          )
-          ),
+            width: 23,
+            height: 23,
+          )),
     );
   }
-
-
 
   @override
   Widget middle(BuildContext context) {
     //final walletStore = Provider.of<WalletStore>(context);
     final walletStore = Provider.of<WalletStore>(context);
+
+//  double calculateFontSize(String name) {
+//   return name.length <= 8 ? 24.0 : 24.0 - (12 - 8) * 2.0;
+// }
+
     return Observer(
       builder: (_) {
         //print('wallet name -->');
         return Text(
           walletStore.name,
           style: TextStyle(
-              fontSize: MediaQuery.of(context).size.height*0.10/3,
+              fontSize: 24.0 -
+                  (12 - 8) *
+                      2.0, //calculateFontSize('name'),  //MediaQuery.of(context).size.height*0.08/3,
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryTextTheme.headline6.color),
         );
       },
     );
-    
   }
- 
- 
+
   @override
   Widget trailing(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
@@ -111,8 +114,7 @@ class DashboardPage extends BasePage {
                       settingsStore.saveDarkTheme(isDarkTheme: _currentValue);
                       _themeChanger.setTheme(
                           _currentValue ? Themes.darkTheme : Themes.lightTheme);
-                    })
-            ),
+                    })),
         Container(
           width: 60,
           height: 60,
@@ -134,10 +136,9 @@ class DashboardPage extends BasePage {
                     fit: BoxFit.cover,
                     color:
                         settingsStore.isDarkTheme ? Colors.white : Colors.black,
-                    width: 25,
-                    height: 25,
-                  )
-                  ),
+                    width: 23,
+                    height: 23,
+                  )),
             ),
           ),
         ),
@@ -145,99 +146,77 @@ class DashboardPage extends BasePage {
     );
   }
 
-
-
-
-
-@override
-Widget bottomNavigationBar(BuildContext context){
-  final settingsStore = Provider.of<SettingsStore>(context);
-  return Container(
-                    height: MediaQuery.of(context).size.height * 0.35 / 3,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
+  @override
+  Widget bottomNavigationBar(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
+    return Container(
+        height: MediaQuery.of(context).size.height * 0.35 / 3,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            color: settingsStore.isDarkTheme
+                ? Color(0xff24242F)
+                : Color(0xffEDEDED)),
+        padding: EdgeInsets.all(15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            GestureDetector(
+              onTap: () => Navigator.of(context).pushNamed(Routes.addressBook),
+              child: Container(
+                  width: MediaQuery.of(context).size.width * 1.30 / 3,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff333343)
+                          : Color(0xffD4D4D4)),
+                  padding: EdgeInsets.all(15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        'assets/images/new-images/Address.svg',
                         color: settingsStore.isDarkTheme
-                            ? Color(0xff24242F)
-                            : Color(0xffEDEDED)),
-                    padding: EdgeInsets.all(15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () => Navigator.of(context)
-                              .pushNamed(Routes.addressBook),
-                          child: Container(
-                              width:
-                                  MediaQuery.of(context).size.width * 1.30 / 3,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: settingsStore.isDarkTheme
-                                      ? Color(0xff333343)
-                                      : Color(0xffD4D4D4)),
-                              padding: EdgeInsets.all(15),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/images/new-images/Address.svg',
-                                    color: settingsStore.isDarkTheme
-                                        ? Colors.white
-                                        : Colors.black,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 5.0),
-                                    child: Text(S.of(context).address_book,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16)),
-                                  )
-                                ],
-                              )),
-                        ),
-              
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .pushNamed(Routes.transactionlist);
-                          },
-                          child: Container(
-                              width:
-                                  MediaQuery.of(context).size.width * 1.30 / 3,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Color(0xff0BA70F)),
-                              padding: EdgeInsets.all(15),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SvgPicture.asset(
-                                      'assets/images/new-images/transactions.svg'),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 5.0),
-                                    child: Text(S.of(context).transactions,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 16)),
-                                  ),
-                                ],
-                              )),
-                        )
-                      ],
-                    ));
-               
-}
-
-
-
-
-
-
-
-
-
-
-
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: Text(S.of(context).address_book,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16)),
+                      )
+                    ],
+                  )),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushNamed(Routes.transactionlist);
+              },
+              child: Container(
+                  width: MediaQuery.of(context).size.width * 1.30 / 3,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color(0xff0BA70F)),
+                  padding: EdgeInsets.all(15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                          'assets/images/new-images/transactions.svg'),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        child: Text(S.of(context).transactions,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                fontSize: 16)),
+                      ),
+                    ],
+                  )),
+            )
+          ],
+        ));
+  }
 
   @override
   Widget body(BuildContext context) => DashboardPageBody(key: _bodyKey);
@@ -271,7 +250,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
   final _syncingObserverKey = GlobalKey();
   final _listObserverKey = GlobalKey();
   //final _listKey = GlobalKey();
-   String syncStatus;
+  String syncStatus;
   //
   // List<Item> transactions = [
   //   Item(
@@ -338,51 +317,49 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
   IconData iconDataVal = Icons.arrow_upward_outlined;
 
- Future<void> _presentQRScanner(BuildContext context) async {
-    TextEditingController controller = TextEditingController();
-    String qrValue,famount;
-    
-    try {
-      final code = await presentQRScanner();
-      final uri = Uri.parse(code);
-         _loading(true);
-      var address = '';
-      var amount = '';
-      if (uri == null) {
-        controller.text = code;
-        qrValue = code;
-        return;
-      }
-      
-    if (uri != null) {
-                            address = uri.path;
-                            if(uri.queryParameters[uri.queryParameters.keys.first]!=null){
-                              amount = uri.queryParameters[uri.queryParameters.keys.first];
-                            }
-                          } else {
-                            address = uri.toString();
-                          }
+//   Future<void> _presentQRScanner(BuildContext context) async {
+//     TextEditingController controller = TextEditingController();
+//     String qrValue, famount;
 
+//     try {
+//       final code = await presentQRScanner();
+//       final uri = Uri.parse(code);
+     
+//       var address = '';
+//       var amount = '';
+//       if (uri == null) {
+//         controller.text = code;
+//         qrValue = code;
+//         return;
+//       }
+       
+//       if (uri != null) {
+//         address = uri.path;
+//         if (uri.queryParameters[uri.queryParameters.keys.first] != null) {
+//           amount = uri.queryParameters[uri.queryParameters.keys.first];
+//         }
+//       } else {
+//         address = uri.toString();
+//       }
+// _loading(true);
+//       // address = uri.path;
+//       controller.text = address;
+//       qrValue = address;
+//       famount = amount;
 
-     // address = uri.path;
-      controller.text = address;
-      qrValue = address;
-      famount = amount;
-
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('qrValue', qrValue);
-      await prefs.setString('flashAmount', famount);
-      setState(() {});
-      _loading(false);
-      await Navigator.of(context).pushNamed(Routes.flash);
-
-    } catch (e) {
-      /* ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Invalid BDX address'),
-      ));*/
-      print('Error $e');
-    }
-  }
+//       final prefs = await SharedPreferences.getInstance();
+//       await prefs.setString('qrValue', qrValue);
+//       await prefs.setString('flashAmount', famount);
+//       setState(() {});
+//       _loading(false);
+//       await Navigator.of(context).pushNamed(Routes.flash);
+//     } catch (e) {
+//       /* ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//         content: Text('Invalid BDX address'),
+//       ));*/
+//       print('Error $e');
+//     }
+//   }
 
   Connectivity connectivity;
   StreamSubscription<ConnectivityResult> subscription;
@@ -394,7 +371,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
   @override
   void dispose() {
-   // if(subscription.)
+    // if(subscription.)
     subscription?.cancel();
     super.dispose();
   }
@@ -407,37 +384,17 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
     });
   }
 
-
-
-
-void _loading(bool _canLoad) {
-    // setState(() {
-    //   canLoad = true;
-    // });
-
-    // Simulate an asynchronous task, e.g., fetching data from an API
-    // Future.delayed(Duration(seconds: 3), () {
-    //   setState(() {
-    //     canLoad = false;
-    //   });
-
-    //   // Close the HUD progress loader
-    //   Navigator.pop(context);
-    // });
-   if(_canLoad){
-    // Show the HUD progress loader
-    showHUDLoader(context);
-   }else{
-     Navigator.pop(context);
-   }
-    
+  void _loading(bool _canLoad) {
+    if (_canLoad) {
+      // Show the HUD progress loader
+      showHUDLoader(context);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
-
-
-
-void showHUDLoader(BuildContext context) {
-  //final settingsStore = Provider.of<SettingsStore>(context,listen: false);
+  void showHUDLoader(BuildContext context) {
+    //final settingsStore = Provider.of<SettingsStore>(context,listen: false);
     showDialog<void>(
       context: context,
       //barrierColor: Colors.transparent,
@@ -447,19 +404,24 @@ void showHUDLoader(BuildContext context) {
           // Prevent closing the dialog when the user presses the back button
           onWillPop: () async => false,
           child: AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
 
             //backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
-            content: 
-            Column(
+            content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Center(
-                  child: CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),),
+                  child: CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(13.0),
-                  child: Text('Loading...',style:TextStyle(fontSize: 18,fontWeight: FontWeight.w700)),
+                  child: Text('Loading...',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
                 )
               ],
             ),
@@ -468,14 +430,6 @@ void showHUDLoader(BuildContext context) {
       },
     );
   }
-
-
-
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -497,542 +451,427 @@ void showHUDLoader(BuildContext context) {
             final items = actionListStore.items ?? <String>[];
             final itemsCount = items.length + 2;
             return Column(
-                  children: [
-                      Observer(
-                                      key: _syncingObserverKey,
-                                      builder: (_) {
-                                        final status = syncStore.status;
-                                        final statusText = status.title();
-                                        final progress =
-                                            syncStore.status.progress();
-                                        final isFailure =
-                                            status is FailedSyncStatus;
-                                        syncStatus = status.title();
-                                        //syncStatus = status.title();
-                                        print('dashboard ----->');
-                                        print(
-                                            'dashboard page status --> $status');
-                                        print(
-                                            'dashboard page progress --> $progress');
+              children: [
+                Observer(
+                    key: _syncingObserverKey,
+                    builder: (_) {
+                      final status = syncStore.status;
+                      final statusText = status.title();
+                      final progress = syncStore.status.progress();
+                      final isFailure = status is FailedSyncStatus;
+                      syncStatus = status.title();
+                      //syncStatus = status.title();
+                      print('dashboard ----->');
+                      print('dashboard page status --> $status');
+                      print('dashboard page progress --> $progress');
 
-                                        var descriptionText = '';
-                                        print(
-                                            'dashboard page status is SyncingSyncStatus ${status is SyncingSyncStatus}');
-                                        if (status is SyncingSyncStatus) {
-                                          /*descriptionText = S
+                      var descriptionText = '';
+                      print(
+                          'dashboard page status is SyncingSyncStatus ${status is SyncingSyncStatus}');
+                      if (status is SyncingSyncStatus) {
+                        /*descriptionText = S
                                             .of(context)
                                             .Blocks_remaining(
                                                 syncStore.status.toString());*/
-                                          descriptionText = '';
-                                          print(
-                                              'dashboard page syncStore.status.toString() ${syncStore.status.toString()}');
-                                          print(
-                                              'dashboard page descriptionText $descriptionText');
-                                        }
+                        descriptionText = '';
+                        print(
+                            'dashboard page syncStore.status.toString() ${syncStore.status.toString()}');
+                        print(
+                            'dashboard page descriptionText $descriptionText');
+                      }
 
-                                        if (status is FailedSyncStatus) {
-                                          descriptionText = S
-                                              .of(context)
-                                              .please_try_to_connect_to_another_node;
-                                        }
+                      if (status is FailedSyncStatus) {
+                        descriptionText =
+                            S.of(context).please_try_to_connect_to_another_node;
+                      }
 
-                                        return Container(
-                                          child:
-                                        Column(
-                                            children: [
-                                              SizedBox(
-                                                height: 1.5,
-                                                child: LinearProgressIndicator(
-                                                  backgroundColor:
-                                                      Palette.separator,
-                                                  valueColor:
-                                                      AlwaysStoppedAnimation<
-                                                              Color>(
-                                                          BeldexPalette
-                                                              .belgreen //teal
-                                                          ),
-                                                  value: progress,
-                                                ),
-                                              ),
-                                              SizedBox(height: 10),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(statusText.toLowerCase(),
-                                                      style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: isFailure
-                                                              ? BeldexPalette
-                                                                  .red
-                                                              : BeldexPalette
-                                                                  .belgreen //teal
-                                                          )),
-                                                  statusText == 'SYNCHRONIZED'
-                                                      ? GestureDetector(
-                                                          onTap: () async {
-                                                            await showDialog<
-                                                                    void>(
-                                                                context:
-                                                                    context,
-                                                                builder: (_) {
-                                                                  return SyncInfoAlertDialog();
-                                                                });
-                                                          },
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .only(
-                                                                    left: 5.0),
-                                                            child: Icon(
-                                                                Icons
-                                                                    .info_outline,
-                                                                size: 15),
-                                                          ),
-                                                        )
-                                                      : Container()
-                                                ],
-                                              ),
-                                              // : Container(
-                                              //   child:Text('Trying to connect')
-                                              // ),
-                                              Text(descriptionText,
-                                                  style: TextStyle(
-                                                      fontSize: 11,
-                                                      color: Theme.of(context)
-                                                          .primaryTextTheme
-                                                          .caption
-                                                          .color, //Palette.wildDarkBlue,
-                                                      height: 2.0))
-                                            ],
-                                          ),
-                                        );
-                                      }),
-                  
-                  Container(
-                    height:MediaQuery.of(context).size.height*0.65/3,
-                    width: double.infinity,
-                    margin: EdgeInsets.only(bottom: 10,left:15,right:15),
-                    decoration: BoxDecoration(
-                      color: settingsStore.isDarkTheme
-                                            ? Color(0xff272733)
-                                            : Color(
-                                                0xffEDEDED),
-                     borderRadius: BorderRadius.circular(10)
-                    ),
-                    child: Column(
-                      children: [
-                                   Container(
-                                    padding: EdgeInsets.only(left:15,right:10,top:15,bottom:8),
-                                     child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Observer(
-                                                          key:
-                                                              _connectionStatusObserverKey,
-                                                          builder: (_) {
-                                                            final savedDisplayMode =
-                                                                settingsStore
-                                                                    .balanceDisplayMode;
-                                                            var balance = '---';
-                                                            final displayMode = balanceStore
-                                                                    .isReversing
-                                                                ? (savedDisplayMode ==
-                                                                        BalanceDisplayMode
-                                                                            .availableBalance
-                                                                    ? BalanceDisplayMode
-                                                                        .fullBalance
-                                                                    : BalanceDisplayMode
-                                                                        .availableBalance)
-                                                                : savedDisplayMode;
-
-                                                            if (displayMode ==
-                                                                BalanceDisplayMode
-                                                                    .availableBalance) {
-                                                              balance = balanceStore
-                                                                      .unlockedBalanceString ??
-                                                                  '00.000000000';
-                                                              print(
-                                                                  'Dashboard availableBalance --> $balance');
-                                                            }
-
-                                                            if (displayMode ==
-                                                                BalanceDisplayMode
-                                                                    .fullBalance) {
-                                                              balance = balanceStore
-                                                                      .fullBalanceString ??
-                                                                  '00.000000000';
-                                                              print(
-                                                                  'Dashboard fullBalance --> $balance');
-                                                            }
-
-                                                            return Row(
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .baseline,
-                                                              textBaseline:
-                                                                  TextBaseline
-                                                                      .alphabetic,
-                                                              children: [
-                                                                Text(
-                                                                  '$balance ',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .primaryTextTheme
-                                                                        .caption
-                                                                        .color,
-                                                                    fontSize: MediaQuery.of(context).size.height*0.12/3,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                  ),
-                                                                ),
-                                                                Text(
-                                                                  'BDX',
-                                                                  style:
-                                                                      TextStyle(
-                                                                    color: Theme.of(
-                                                                            context)
-                                                                        .primaryTextTheme
-                                                                        .caption
-                                                                        .color,
-                                                                    fontSize: 14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w600,
-                                                                  ),
-                                                                ),
-                                                                //SizedBox(width:40),
-                                                                // Container(
-                                                                //   child:SvgPicture.asset('assets/images/new-images/scanners.svg')
-                                                                // )
-                                                              ],
-                                                            );
-                                                          }),
-                                                      //  GestureDetector(
-                                                      //   onTap: () async => _presentQRScanner(context),
-                                                      //    child: Container(
-                                                      //                 child:SvgPicture.asset('assets/images/new-images/scanners.svg',color: settingsStore.isDarkTheme? Color(0xffFFFFFF): Color(0xff16161D),)
-                                                      //               ),
-                                                      //  )
-                                                    ],
-                                                  ),
-                                   ),
-                                                Padding(
-                                                  padding: const EdgeInsets.only(left:15.0,bottom: 10),
-                                                  child: Row(
-                                                    children: [
-                                                      Observer(
-                                                          key:
-                                                              _balanceObserverKey,
-                                                          builder: (_) {
-                                                            final savedDisplayMode =
-                                                                settingsStore
-                                                                    .balanceDisplayMode;
-                                                            final displayMode = settingsStore
-                                                                    .enableFiatCurrency
-                                                                ? (balanceStore
-                                                                        .isReversing
-                                                                    ? (savedDisplayMode ==
-                                                                            BalanceDisplayMode
-                                                                                .availableBalance
-                                                                        ? BalanceDisplayMode
-                                                                            .fullBalance
-                                                                        : BalanceDisplayMode
-                                                                            .availableBalance)
-                                                                    : savedDisplayMode)
-                                                                : BalanceDisplayMode
-                                                                    .hiddenBalance;
-                                                            final symbol =
-                                                                settingsStore
-                                                                    .fiatCurrency
-                                                                    .toString();
-                                                            var balance = '---';
-
-                                                            if (displayMode ==
-                                                                BalanceDisplayMode
-                                                                    .availableBalance) {
-                                                              balance =
-                                                                  '${balanceStore.fiatUnlockedBalance} $symbol';
-                                                            }
-
-                                                            if (displayMode ==
-                                                                BalanceDisplayMode
-                                                                    .fullBalance) {
-                                                              balance =
-                                                                  '${balanceStore.fiatFullBalance} $symbol';
-                                                            }
-
-                                                            return Text(balance,
-                                                                style: TextStyle(
-                                                                    color: Color(
-                                                                        0xff0BA70F), //Theme.of(context).hintColor,//Colors.grey,
-                                                                    //Palette.wildDarkBlue,
-                                                                    fontSize:MediaQuery.of(context).size.height*0.07/3
-                                                                        ));
-                                                          }),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height:15
-                                                ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Observer(
-                                          builder: (_) {
-                                            final status = syncStore.status;
-                                        
-                                            final syncS =  status.title();
-                                            return InkWell(
-                                      onTap: syncS == 'SYNCHRONIZED' ? () {
-                                            Navigator.of(context,
-                                                    rootNavigator: true)
-                                                .pushNamed(Routes.send);
-                                      }:null,
-                                      child:  Container(
-                                                                  width: 142,
-                                                                  height: 46,
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    borderRadius:
-                                                                        BorderRadius
-                                                                            .circular(
-                                                                                8),
-                                                                    color: syncS ==
-                                                                                'SYNCHRONIZED'// &&
-                                                                           // !nStatus
-                                                                        ? Color(
-                                                                            0xff0BA70F)
-                                                                        : settingsStore
-                                                                                .isDarkTheme
-                                                                            ? Color(
-                                                                                0xff333343)
-                                                                            : Color(
-                                                                                0xffE8E8E8),
-                                                                  ),
-                                                                  child: Row(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .center,
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .center,
-                                                                    children: [
-                                                                      Container(
-                                                                          height:
-                                                                              20,
-                                                                          width: 20,
-                                                                          child: SvgPicture
-                                                                              .asset(
-                                                                            'assets/images/new-images/send.svg',
-                                                                            color: syncS == 'SYNCHRONIZED'// &&
-                                                                                   // !nStatus
-                                                                                ? Colors.white
-                                                                                : settingsStore.isDarkTheme
-                                                                                    ? Color(0xff6C6C78)
-                                                                                    : Color(0xffB2B2B6),
-                                                                          )),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
-                                                                                .only(
-                                                                            left:
-                                                                                8.0),
-                                                                        child: Text(
-                                                                          S
-                                                                              .of(context)
-                                                                              .send,
-                                                                          style: TextStyle(
-                                                                              color: syncStatus == 'SYNCHRONIZED' //&& !nStatus
-                                                                                  ? Colors.white
-                                                                                  : settingsStore.isDarkTheme
-                                                                                      ? Color(0xff6C6C78)
-                                                                                      : Color(0xffB2B2B6),
-                                                                              fontWeight: FontWeight.bold,
-                                                                              fontSize: 16),
-                                                                        ),
-                                                                      )
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                    );
-                                          }
-                                        ),
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.of(context,
-                                                rootNavigator: true)
-                                            .pushNamed(Routes.receive);
-                                      },
-                                      child:Container(
-                                                          width: 142,
-                                                          height: 46,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8),
-                                                            color: Color(
-                                                                0xff2979FB),
-                                                          ),
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Container(
-                                                                  height: 20,
-                                                                  width: 20,
-                                                                  child: SvgPicture
-                                                                      .asset(
-                                                                          'assets/images/new-images/receive.svg')),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .only(
-                                                                        left:
-                                                                            8.0),
-                                                                child: Text(
-                                                                  S
-                                                                      .of(context)
-                                                                      .receive,
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          16),
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
+                      return Container(
+                        child: Column(
+                          children: [
+                            SizedBox(
+                              height: 1.5,
+                              child: LinearProgressIndicator(
+                                backgroundColor: Palette.separator,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                    BeldexPalette.belgreen //teal
                                     ),
-                                      ],
-                                    )
-                      ],
-                    ),
-                  ),
-                Column(
-                  children: [
+                                value: progress,
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(statusText.toLowerCase(),
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: isFailure
+                                            ? BeldexPalette.red
+                                            : BeldexPalette.belgreen //teal
+                                        )),
+                                statusText == 'SYNCHRONIZED'
+                                    ? GestureDetector(
+                                        onTap: () async {
+                                          await showDialog<void>(
+                                              context: context,
+                                              builder: (_) {
+                                                return SyncInfoAlertDialog();
+                                              });
+                                        },
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.only(left: 5.0),
+                                          child: Icon(Icons.info_outline,
+                                              size: 15),
+                                        ),
+                                      )
+                                    : Container()
+                              ],
+                            ),
+                            // : Container(
+                            //   child:Text('Trying to connect')
+                            // ),
+                            Text(descriptionText,
+                                style: TextStyle(
+                                    fontSize: 11,
+                                    color: Theme.of(context)
+                                        .primaryTextTheme
+                                        .caption
+                                        .color, //Palette.wildDarkBlue,
+                                    height: 2.0))
+                          ],
+                        ),
+                      );
+                    }),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.65 / 3,
+                  width: double.infinity,
+                  margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+                  decoration: BoxDecoration(
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff272733)
+                          : Color(0xffEDEDED),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(
+                            left: 15, right: 10, top: 15, bottom: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Observer(
+                                key: _connectionStatusObserverKey,
+                                builder: (_) {
+                                  final savedDisplayMode =
+                                      settingsStore.balanceDisplayMode;
+                                  var balance = '---';
+                                  final displayMode = balanceStore.isReversing
+                                      ? (savedDisplayMode ==
+                                              BalanceDisplayMode
+                                                  .availableBalance
+                                          ? BalanceDisplayMode.fullBalance
+                                          : BalanceDisplayMode.availableBalance)
+                                      : savedDisplayMode;
 
-                  ],
+                                  if (displayMode ==
+                                      BalanceDisplayMode.availableBalance) {
+                                    balance =
+                                        balanceStore.unlockedBalanceString ??
+                                            '00.000000000';
+                                    print(
+                                        'Dashboard availableBalance --> $balance');
+                                  }
+
+                                  if (displayMode ==
+                                      BalanceDisplayMode.fullBalance) {
+                                    balance = balanceStore.fullBalanceString ??
+                                        '00.000000000';
+                                    print('Dashboard fullBalance --> $balance');
+                                  }
+
+                                  return Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.baseline,
+                                    textBaseline: TextBaseline.alphabetic,
+                                    children: [
+                                      Text(
+                                        '$balance ',
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .primaryTextTheme
+                                              .caption
+                                              .color,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.12 /
+                                              3,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      Text(
+                                        'BDX',
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .primaryTextTheme
+                                              .caption
+                                              .color,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      //SizedBox(width:40),
+                                      // Container(
+                                      //   child:SvgPicture.asset('assets/images/new-images/scanners.svg')
+                                      // )
+                                    ],
+                                  );
+                                }),
+                            //  GestureDetector(
+                            //   onTap: () async => _presentQRScanner(context),
+                            //    child: Container(
+                            //                 child:SvgPicture.asset('assets/images/new-images/scanners.svg',color: settingsStore.isDarkTheme? Color(0xffFFFFFF): Color(0xff16161D),)
+                            //               ),
+                            //  )
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15.0, bottom: 10),
+                        child: Row(
+                          children: [
+                            Observer(
+                                key: _balanceObserverKey,
+                                builder: (_) {
+                                  final savedDisplayMode =
+                                      settingsStore.balanceDisplayMode;
+                                  final displayMode = settingsStore
+                                          .enableFiatCurrency
+                                      ? (balanceStore.isReversing
+                                          ? (savedDisplayMode ==
+                                                  BalanceDisplayMode
+                                                      .availableBalance
+                                              ? BalanceDisplayMode.fullBalance
+                                              : BalanceDisplayMode
+                                                  .availableBalance)
+                                          : savedDisplayMode)
+                                      : BalanceDisplayMode.hiddenBalance;
+                                  final symbol =
+                                      settingsStore.fiatCurrency.toString();
+                                  var balance = '---';
+
+                                  if (displayMode ==
+                                      BalanceDisplayMode.availableBalance) {
+                                    balance =
+                                        '${balanceStore.fiatUnlockedBalance} $symbol';
+                                  }
+
+                                  if (displayMode ==
+                                      BalanceDisplayMode.fullBalance) {
+                                    balance =
+                                        '${balanceStore.fiatFullBalance} $symbol';
+                                  }
+
+                                  return Text(balance,
+                                      style: TextStyle(
+                                          color: Color(
+                                              0xff0BA70F), //Theme.of(context).hintColor,//Colors.grey,
+                                          //Palette.wildDarkBlue,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.07 /
+                                              3));
+                                }),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 15),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Observer(builder: (_) {
+                            final status = syncStore.status;
+
+                            final syncS = status.title();
+                            return InkWell(
+                              onTap: syncS == 'SYNCHRONIZED'
+                                  ? () {
+                                      Navigator.of(context, rootNavigator: true)
+                                          .pushNamed(Routes.send);
+                                    }
+                                  : null,
+                              child: Container(
+                                width: 142,
+                                height: 46,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: syncS == 'SYNCHRONIZED' // &&
+                                      // !nStatus
+                                      ? Color(0xff0BA70F)
+                                      : settingsStore.isDarkTheme
+                                          ? Color(0xff333343)
+                                          : Color(0xffE8E8E8),
+                                ),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                        height: 20,
+                                        width: 20,
+                                        child: SvgPicture.asset(
+                                          'assets/images/new-images/send.svg',
+                                          color: syncS == 'SYNCHRONIZED' // &&
+                                              // !nStatus
+                                              ? Colors.white
+                                              : settingsStore.isDarkTheme
+                                                  ? Color(0xff6C6C78)
+                                                  : Color(0xffB2B2B6),
+                                        )),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Text(
+                                        S.of(context).send,
+                                        style: TextStyle(
+                                            color: syncStatus ==
+                                                    'SYNCHRONIZED' //&& !nStatus
+                                                ? Colors.white
+                                                : settingsStore.isDarkTheme
+                                                    ? Color(0xff6C6C78)
+                                                    : Color(0xffB2B2B6),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            );
+                          }),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context, rootNavigator: true)
+                                  .pushNamed(Routes.receive);
+                            },
+                            child: Container(
+                              width: 142,
+                              height: 46,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Color(0xff2979FB),
+                              ),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                      height: 20,
+                                      width: 20,
+                                      child: SvgPicture.asset(
+                                          'assets/images/new-images/receive.svg')),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Text(
+                                      S.of(context).receive,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Column(
+                  children: [],
                 ),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(left:15,right:15,bottom:10),
-                    height: MediaQuery.of(context).size.height*1.1/3,
-                    width:double.infinity,
-                    decoration: BoxDecoration(  
-                      color: settingsStore.isDarkTheme
-                                              ? Color(0xff272733)
-                                              : Color(
-                                                  0xffEDEDED),
-                      borderRadius: BorderRadius.circular(10.0)
-                    ),
+                    margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                    height: MediaQuery.of(context).size.height * 1.1 / 3,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xff272733)
+                            : Color(0xffEDEDED),
+                        borderRadius: BorderRadius.circular(10.0)),
                     child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 10.0),
-                                        child: Text(
-                                          'Flash Transaction',
-                                          style: TextStyle(
-                                              fontSize: 23,
-                                              fontWeight: FontWeight.w800),
-                                        ),
-                                      ),
-                                      Observer(builder: (_){
-                                        final status = syncStore.status;
-                                        
-                                            final syncSt =  status.title();
-                                        return GestureDetector(
-                                        onTap: syncSt == 'SYNCHRONIZED' //&&
-                                               // !nStatus
-                                            ? () {
-                                                //scannerAction();
-                                                _presentQRScanner(context);
-                                              }
-                                            : null,
-                                        child: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.60 /
-                                              3,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.60 /
-                                              3,
-                                          padding: EdgeInsets.all(15),
-                                          decoration: BoxDecoration(
-                                            color: settingsStore.isDarkTheme
-                                                ? Color(0xffD9D9D9)
-                                                : Color(0xffE2E2E2),
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: Container(
-                                              decoration: BoxDecoration(
-                                                color: Color(0xffFFFFFF),
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                              ),
-                                              child: SvgPicture.asset(
-                                                'assets/images/new-images/flashqr.svg',
-                                                color: syncSt ==
-                                                            'SYNCHRONIZED'// &&
-                                                       // !nStatus
-                                                    ? Color(0xff222222)
-                                                    : Color(0xffD9D9D9),
-                                              )),
-                                        ),
-                                      );
-                                      },),
-                                      
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(bottom: 10.0),
-                                        child: Text(
-                                            'Transafer your BDX more faster\n with flash transaction',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(fontSize: 16)),
-                                      )
-                                    ],
-                                  ),
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: Text(
+                            'Flash Transaction',
+                            style: TextStyle(
+                                fontSize: 23, fontWeight: FontWeight.w800),
+                          ),
+                        ),
+                        Observer(
+                          builder: (_) {
+                            final status = syncStore.status;
+
+                            final syncSt = status.title();
+                            return GestureDetector(
+                              onTap: syncSt == 'SYNCHRONIZED' //&&
+                                  // !nStatus
+                                  ? () {
+                                      Navigator.pushNamed(context, Routes.flash);
+                                     // _presentQRScanner(context);
+                                    }
+                                  : null,
+                              child: Container(
+                                height: MediaQuery.of(context).size.height *
+                                    0.60 /
+                                    3,
+                                width: MediaQuery.of(context).size.height *
+                                    0.60 /
+                                    3,
+                                padding: EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xffD9D9D9)
+                                      : Color(0xffE2E2E2),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                      color: Color(0xffFFFFFF),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: SvgPicture.asset(
+                                      'assets/images/new-images/flashqr.svg',
+                                      color: syncSt == 'SYNCHRONIZED' // &&
+                                          // !nStatus
+                                          ? Color(0xff222222)
+                                          : Color(0xffD9D9D9),
+                                    )),
+                              ),
+                            );
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 10.0),
+                          child: Text(
+                              'Transafer your BDX more faster\n with flash transaction',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 16)),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-
-                
-                
-                
-                
-                  ],
+              ],
             );
-            
-            
-            
-            
-            
-            
-            
-            
+
             //  Stack(
             //   children: [
             //     ListView.builder(
@@ -1119,7 +958,7 @@ void showHUDLoader(BuildContext context) {
             //                       );
             //                     }),
             //                   //Primary Account
-                           
+
             //                 // SizedBox(
             //                 //   height: 10,
             //                 // ),
@@ -1127,7 +966,7 @@ void showHUDLoader(BuildContext context) {
             //                   height: 200,
             //                   width: double.infinity,
             //                   margin: EdgeInsets.only(left:20,right:20,bottom: 20),
-            //                   decoration: BoxDecoration(  
+            //                   decoration: BoxDecoration(
             //                     color: settingsStore.isDarkTheme
             //                                 ? Color(0xff272733)
             //                                 : Color(
@@ -1140,7 +979,7 @@ void showHUDLoader(BuildContext context) {
             //                     ],
             //                   ),
             //                 ),
-                           
+
             //                Container(
             //                 height:200,
             //                 color:settingsStore.isDarkTheme
@@ -1149,17 +988,7 @@ void showHUDLoader(BuildContext context) {
             //                                   0xffEDEDED),
             //                 child:Column()
             //                )
-                           
-                           
-                           
-                           
-                           
-                           
-                           
-                           
-                           
-                           
-                           
+
             //                 ])
             //             );
             //           }
@@ -1760,14 +1589,16 @@ void showHUDLoader(BuildContext context) {
                     Text(
                       S.of(context).are_you_sure,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 17,fontWeight:FontWeight.w800),
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:8.0),
+                      padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
                         S.of(context).do_you_want_to_exit_the_wallet,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 17,fontWeight:FontWeight.w800),
+                        style: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.w800),
                       ),
                     ),
                     SizedBox(
@@ -1781,16 +1612,23 @@ void showHUDLoader(BuildContext context) {
                             width: 80,
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                backgroundColor:settingsStore.isDarkTheme ? Color(0xff383848) : Color(0xffE8E8E8) // Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
-                              ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  backgroundColor: settingsStore.isDarkTheme
+                                      ? Color(0xff383848)
+                                      : Color(
+                                          0xffE8E8E8) // Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                  ),
                               onPressed: () {
                                 Navigator.of(context).pop(false);
                               },
                               child: Text(
                                 S.of(context).no,
-                                style: TextStyle(color: settingsStore.isDarkTheme ? Color(0xff93939B) : Color(0xff222222) ,fontWeight:FontWeight.w800),
+                                style: TextStyle(
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff93939B)
+                                        : Color(0xff222222),
+                                    fontWeight: FontWeight.w800),
                               ),
                             ),
                           ),
@@ -1798,16 +1636,19 @@ void showHUDLoader(BuildContext context) {
                             width: 80,
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                backgroundColor:Color(0xff0BA70F) // Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
-                              ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  backgroundColor: Color(
+                                      0xff0BA70F) // Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                  ),
                               onPressed: () {
                                 Navigator.of(context).pop(true);
                               },
                               child: Text(
                                 S.of(context).yes,
-                                style: TextStyle(color: Colors.white,fontWeight:FontWeight.w800),
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800),
                               ),
                             ),
                           ),
@@ -1832,8 +1673,6 @@ class Item {
   String amount;
   Color color;
 }
-
-
 
 Future showMenuForRescan(
     BuildContext context, String title, String body, String fee, String address,
@@ -2082,34 +1921,31 @@ class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            'You have scanned from the block height',
-            textAlign: TextAlign.center,
-            style:TextStyle(fontSize: 13)
-          ),
+          Text('You have scanned from the block height',
+              textAlign: TextAlign.center, style: TextStyle(fontSize: 13)),
           Text(bHeight.toString(),
               textAlign: TextAlign.center,
               style: TextStyle(color: Color(0xff0BA70F))),
           Text(
-            'However we recommend to scan the blockchain from the block height at which you created the wallet to get all transactions and correct balance',
-            textAlign: TextAlign.center,
-            style:TextStyle(fontSize: 13)
-          ),
+              'However we recommend to scan the blockchain from the block height at which you created the wallet to get all transactions and correct balance',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 13)),
 
           Padding(
-            padding: const EdgeInsets.only(top:10.0),
+            padding: const EdgeInsets.only(top: 10.0),
             child: GestureDetector(
-              onTap: ()=>Navigator.pop(context),
+              onTap: () => Navigator.pop(context),
               child: Container(
-                height:45,width: 90,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Color(0xff0BA70F)
-                ),
-                child:Center(
-                  child:Text('OK',style:TextStyle(color:Colors.white,fontWeight:FontWeight.w800))
-                )
-              ),
+                  height: 45,
+                  width: 90,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color(0xff0BA70F)),
+                  child: Center(
+                      child: Text('OK',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w800)))),
             ),
           )
           // MaterialButton(
@@ -2136,4 +1972,3 @@ class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
     );
   }
 }
-
