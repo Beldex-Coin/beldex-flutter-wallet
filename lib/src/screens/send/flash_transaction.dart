@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:beldex_wallet/src/domain/common/fiatCurrencyModel.dart';
 import 'package:beldex_wallet/src/domain/common/fiat_currency.dart';
+import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:beldex_wallet/src/widgets/new_slide_to_act.dart';
@@ -152,6 +153,7 @@ class FlashTransactionFormState extends State<FlashTransactionForm> with TickerP
 
   @override
   void initState() {
+    _presentQRScanner();
     _focusNodeAddress.addListener(() {
       if (!_focusNodeAddress.hasFocus && _addressController.text.isNotEmpty) {
         getOpenAliasRecord(context);
@@ -165,7 +167,7 @@ class FlashTransactionFormState extends State<FlashTransactionForm> with TickerP
       ..forward()
       ..repeat(reverse: true);
 
- getQrvalue();
+// getQrvalue();
 if(widget.controllerValue != null || widget.controllerValue != ''){
   setState(() {
      _addressController.text = widget.controllerValue;
@@ -176,34 +178,96 @@ if(widget.controllerValue != null || widget.controllerValue != ''){
   }
 
 
-void getQrvalue()async{
-   final prefs = await SharedPreferences.getInstance();
-   setState(() {
-        final controllerValue = prefs.getString('qrValue');
-        final amountConValue = prefs.getString('flashAmount');
-        // final isFlashTrans = prefs.getBool('isFlashTransaction');
-        if(controllerValue.isNotEmpty || controllerValue != '') {
-          _addressController.text = controllerValue;
-        }
-       if(amountConValue.isNotEmpty || amountConValue != ''){
-        _cryptoAmountController.text = amountConValue;
-       }
-      //  if(isFlashTrans) {
-      //    _isFlashTransaction = isFlashTrans;
-      //  }
-      });
+
+//////////////////////////////////////////////////
+
+  Future<void> _presentQRScanner() async {
+    TextEditingController controller = TextEditingController();
+    String qrValue, famount;
+
+    try {
+      final code = await presentQRScanner();
+      final uri = Uri.parse(code);
+     
+      var address = '';
+      var amount = '';
+      if (uri == null) {
+        _addressController.text = code;
+        qrValue = code;
+        return;
+      }
+        address = uri.path;
+      _addressController.text = address;
+        // var address = '';
+        // var amount = '';
+                          if (uri != null) {
+                            address = uri.path;
+                            if(uri.queryParameters[uri.queryParameters.keys.first]!=null){
+                              amount = uri.queryParameters[uri.queryParameters.keys.first];
+                            }
+                          } else {
+                            address = uri.toString();
+                          }
+
+                          _addressController.text = address;
+                          _cryptoAmountController.text = amount;
+
+      
+    } catch (e) {
+      /* ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Invalid BDX address'),
+      ));*/
+      print('Error $e');
+    }
+  }
+
+
+  /////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// void getQrvalue()async{
+//    final prefs = await SharedPreferences.getInstance();
+//    setState(() {
+//         final controllerValue = prefs.getString('qrValue');
+//         final amountConValue = prefs.getString('flashAmount');
+//         // final isFlashTrans = prefs.getBool('isFlashTransaction');
+//         if(controllerValue.isNotEmpty || controllerValue != '') {
+//           _addressController.text = controllerValue;
+//         }
+//        if(amountConValue.isNotEmpty || amountConValue != ''){
+//         _cryptoAmountController.text = amountConValue;
+//        }
+//       //  if(isFlashTrans) {
+//       //    _isFlashTransaction = isFlashTrans;
+//       //  }
+//       });
    
 
-}
+// }
 
 
-void clearQrValue()async{
-    final prefs = await SharedPreferences.getInstance();
+// void clearQrValue()async{
+//     final prefs = await SharedPreferences.getInstance();
 
-    await prefs.setString('qrValue', '');
-    await prefs.setString('flashAmount','');
-    // await prefs.setBool('isFlashTransaction', false);
-}
+//     await prefs.setString('qrValue', '');
+//     await prefs.setString('flashAmount','');
+//     // await prefs.setBool('isFlashTransaction', false);
+// }
 
 bool getAmountValidation(String value){
       final pattern = RegExp(r'^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}([.][0-9]{0,5}))$');
@@ -233,7 +297,7 @@ bool getAddressBasicValidation(String value){
     rdisposer2?.call();
    rdisposer3?.call();
 
-   clearQrValue();
+  // clearQrValue();
 
     super.dispose();
   }

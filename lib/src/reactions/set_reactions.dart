@@ -83,7 +83,7 @@ void onSyncStatusChange(
 
 void startReconnectionObserver({SyncStore syncStore, WalletStore walletStore}) {
   _reconnectionTimer?.cancel();
-  _reconnectionTimer = Timer.periodic(Duration(seconds: 1090), (_) async {
+  _reconnectionTimer = Timer.periodic(Duration(seconds: 1060), (_) async {
     try {
       final isConnected = await walletStore.isConnected();
 
