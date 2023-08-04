@@ -8,15 +8,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/routes.dart';
-import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
-import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/src/wallet/wallet_description.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-import 'package:beldex_wallet/src/widgets/scollable_with_bottom_section.dart';
 import 'package:beldex_wallet/src/stores/wallet_list/wallet_list_store.dart';
 import 'package:beldex_wallet/src/screens/wallet_list/wallet_menu.dart';
-import 'package:beldex_wallet/src/widgets/picker.dart';
+import '../../loading_page.dart';
 
 class WalletListPage extends BasePage {
 
@@ -45,29 +42,28 @@ class WalletListBody extends StatefulWidget {
 
 class WalletListBodyState extends State<WalletListBody> {
   WalletListStore _walletListStore;
+  var isAuthenticatedSuccessfully = false;
 
-  void presetMenuForWallet(WalletDescription wallet, BuildContext bodyContext) {
+  Future<void> presetMenuForWallet(WalletDescription wallet, BuildContext bodyContext) async {
     final isCurrentWallet = false;
     final walletMenu = WalletMenu(bodyContext);
     final items = walletMenu.generateItemsForWalletMenu(isCurrentWallet);
 
-    showDialog<void>(
+    await showDialog<bool>(
       context: bodyContext,
-      builder: (_) => 
-      WalletAlertDialog(
-        wallet: wallet,
-        items: items,
-        
-      )
-          // Picker(
-          //     items: items,
-          //     selectedAtIndex: -1,
-          //     title: 'Change wallet',
-          //     onItemSelected: (String item) =>
-          //         walletMenu.action(
-          //             walletMenu.listItems.indexOf(item), wallet,
-          //             isCurrentWallet)),
-    );
+      builder: (_) =>
+        WalletAlertDialog(
+          wallet: wallet,
+          items: items)).then((value){
+      isAuthenticatedSuccessfully = value;
+    });
+  }
+
+  void authStatus(bool value, WalletDescription wallet, BuildContext context) {
+    if(value) {
+      isAuthenticatedSuccessfully = false;
+      Navigator.pushReplacement(context,MaterialPageRoute<void>(builder: (context)=>LoadingPage(wallet:wallet,walletListStore: _walletListStore)));
+    }
   }
 
 
@@ -125,10 +121,16 @@ class WalletListBodyState extends State<WalletListBody> {
                             _walletListStore.isCurrentWallet(wallet);
 
                             return InkWell(
-                                onTap: () =>
-                                isCurrentWallet
-                                    ? null
-                                    : presetMenuForWallet(wallet, context),
+                                onTap: () async {
+                                  isCurrentWallet
+                                      ? null
+                                      : await presetMenuForWallet(
+                                      wallet, context);
+                                  await Future.delayed(
+                                   const Duration(milliseconds: 400), () {
+                                    authStatus(isAuthenticatedSuccessfully, wallet,context);
+                                  });
+                                },
                                 child: Container(
                                   //height: 80,
                                  // padding: EdgeInsets.all(10),
@@ -278,5 +280,3 @@ class WalletListBodyState extends State<WalletListBody> {
        // );
   }
 }
-
-

@@ -22,89 +22,6 @@ class WalletAlertDialog extends StatefulWidget {
 
 class _WalletAlertDialogState extends State<WalletAlertDialog> {
 
-
-
-void _loading(bool _canLoad) {
-    // setState(() {
-    //   canLoad = true;
-    // });
-
-    // Simulate an asynchronous task, e.g., fetching data from an API
-    // Future.delayed(Duration(seconds: 3), () {
-    //   setState(() {
-    //     canLoad = false;
-    //   });
-
-    //   // Close the HUD progress loader
-    //   Navigator.pop(context);
-    // });
-   if(_canLoad){
-    // Show the HUD progress loader
-    showHUDLoader(context);
-   }
-   else{
-     Navigator.pop(context);
-   }
-    
-  }
-
-
-
-
-void showHUDLoader(BuildContext context) {
-  //final settingsStore = Provider.of<SettingsStore>(context,listen: false);
-    showDialog<void>(
-      context: context,
-      //barrierColor: Colors.transparent,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return WillPopScope(
-          // Prevent closing the dialog when the user presses the back button
-          onWillPop: () async => false,
-          child: AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-
-            //backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
-            content: 
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Center(
-                  child: CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(13.0),
-                  child: Text('Changing Wallet...',style:TextStyle(fontSize: 18,fontWeight: FontWeight.w700)),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
@@ -131,47 +48,18 @@ void showHUDLoader(BuildContext context) {
               print('isAuth inside the authpage=====> $isAuthenticatedSuccessfully');
           if (!isAuthenticatedSuccessfully) {
                print('isAuth inside the authpage when false=====> $isAuthenticatedSuccessfully');
-            return;
+            return false;
           }
            
           try {
-            setState(() {});
-              print('before loading the authpage=====>');
-             Navigator.of(context).pop();
-            _loading(true);
-             print('while loading the authpage=====>');
-            // auth.changeProcessText(
-            //     S.of(context).wallet_list_loading_wallet(widget.wallet.name));
-            await _walletListStore.loadWallet(widget.wallet);
-             print('After loading the authpage=====>');
-             _loading(false);
-            auth.close();
-            
-             Navigator.of(context).pop();
-            // Navigator.of(context)..pop()..pop();
+            Navigator.of(context).pop(true);
           } catch (e) {
-            _loading(false);
             auth.changeProcessText(S
                 .of(context)
                 .wallet_list_failed_to_load(widget.wallet.name, e.toString()));
           }
-        
-
     });
-    
-
-
-
-
-
-
-
-
-
-
-
-
-        //      Navigator.of(context).pushNamed(Routes.auth, arguments:
+       //      Navigator.of(context).pushNamed(Routes.auth, arguments:
         //     (bool isAuthenticatedSuccessfully, AuthPageState auth) async {
         //   if (!isAuthenticatedSuccessfully) {
         //     return;
@@ -324,14 +212,10 @@ void showHUDLoader(BuildContext context) {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), 
               child:Text('Remove wallet',style: TextStyle(fontSize:17,color:settingsStore.isDarkTheme ? Colors.white : Colors.black,fontWeight:FontWeight.w800),),
            ),
-           
-           
         ],
        ),
     );
        },
     );
-    
-     
   }
 }
