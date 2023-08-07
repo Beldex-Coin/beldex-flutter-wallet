@@ -67,7 +67,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
 
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
-  ReactionDisposer walletDisposer;
+ // ReactionDisposer walletDisposer;
   Future setName() async {
     var flag = true;
     while (flag) {
@@ -174,7 +174,7 @@ void showHUDLoader(BuildContext context) {
 
 @override
   void dispose() {
-    walletDisposer?.call();
+   // walletDisposer?.call();
     super.dispose();
   }
 
@@ -194,8 +194,7 @@ void showHUDLoader(BuildContext context) {
     final walletCreationStore = Provider.of<WalletCreationStore>(context);
     final seedLanguageStore = Provider.of<SeedLanguageStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-
-  walletDisposer =  reaction((_) => walletCreationStore.state, (WalletCreationState state) {
+  reaction((_) => walletCreationStore.state, (WalletCreationState state) {
       if (state is WalletCreatedSuccessfully) {
         Navigator.of(context).popUntil((route) => route.isFirst);
       }

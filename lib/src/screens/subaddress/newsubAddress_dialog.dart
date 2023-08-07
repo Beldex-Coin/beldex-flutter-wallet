@@ -4,6 +4,8 @@ import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/subaddress_creation/subaddress_creation_state.dart';
 import 'package:beldex_wallet/src/stores/subaddress_creation/subaddress_creation_store.dart';
+import 'package:beldex_wallet/src/stores/subaddress_list/subaddress_list_store.dart';
+import 'package:beldex_wallet/src/wallet/beldex/subaddress_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -17,7 +19,7 @@ class SubAddressAlert extends StatefulWidget {
 class SubAddressAlertState extends State<SubAddressAlert> {
   final _formKey = GlobalKey<FormState>();
   final _labelController = TextEditingController();
-
+ List<String> subAddressList =[];
 
 bool validateInput(String input) {
   if (input.trim().isEmpty || input.startsWith(' ')) {
@@ -27,6 +29,33 @@ bool validateInput(String input) {
   // Other validation rules can be applied here
   return true;
 }
+
+
+
+ @override
+   void initState() {
+    // getSubAddressList();
+     super.initState();
+   }
+
+
+
+  //  void getSubAddressList(){
+  //    final subaddressListStore = Provider.of<SubaddressListStore>(context);
+  //    setState(() {
+  //            for(var i =0;i< subaddressListStore.subaddresses.length;i++){
+  //            subAddressList.add(subaddressListStore.sub)
+  //    } 
+  //         });
+    
+  //  }
+
+
+
+
+
+
+
 
 
   @override

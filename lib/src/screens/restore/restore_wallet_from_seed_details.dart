@@ -87,17 +87,25 @@ class _RestoreFromSeedDetailsFormState
     });
 
     return ScrollableWithBottomSection(
-      contentPadding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+      contentPadding: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0,top:10),
       content: Form(
         key: _formKey,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-                padding: EdgeInsets.only(left: 13, right: 13),
+                padding: EdgeInsets.only(//left: 10, right: 10,
+                top:15),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text('Enter ${S.of(context).restore_wallet_name}',style: TextStyle(fontSize:MediaQuery.of(context).size.height*0.07/3,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff373737)
+                          ,fontWeight: FontWeight.w800),),
+                        ],
+                      ),
                       Row(
                         children: <Widget>[
                           Flexible(

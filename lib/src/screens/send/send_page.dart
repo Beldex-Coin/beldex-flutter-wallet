@@ -186,34 +186,34 @@ if(widget.controllerValue != null || widget.controllerValue != ''){
 
 
 bool getAmountValidation(String amount){
-      // final pattern = RegExp(r'^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}([.][0-9]{0,5}))$');
-      //                                 if(!pattern.hasMatch(value)){
-      //                                   return false;
+      final pattern = RegExp(r'^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}([.][0-9]{0,5}))$');
+                                      if(!pattern.hasMatch(amount)){
+                                        return false;
                                         
-      //                                 }else{
-      //                                   return true;
-      //                                 }
+                                      }else{
+                                        return true;
+                                      }
 
 
- final maxValue = 150000000.00000;
-  final value = amount.replaceAll(',', '.');
-  final regExp = r'^(([0-9]{0,9})?|\.[0-9]{0,5})?|([0-9]{0,9}(\.[0-9]{0,5})?)$';
-  var isValid = false;
+//  final maxValue = 150000000.00000;
+//   final value = amount.replaceAll(',', '.');
+//   final regExp = r'^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}([.][0-9]{0,5}))$';
+//   var isValid = false;
 
-  if (RegExp(regExp).hasMatch(value)) {
-    if (value == '.') {
-      isValid = false;
-    } else {
-      try {
-        final dValue = double.parse(value);
-        isValid = (dValue <= maxValue && dValue > 0);
-      } catch (e) {
-        isValid = false;
-      }
-    }
-  }
+//   if (RegExp(regExp).hasMatch(value)) {
+//     if (value == '.') {
+//       isValid = false;
+//     } else {
+//       try {
+//         final dValue = double.parse(value);
+//         isValid = (dValue <= maxValue && dValue > 0);
+//       } catch (e) {
+//         isValid = false;
+//       }
+//     }
+//   }
 
-  return isValid;
+//   return isValid;
 
 
 
@@ -1531,20 +1531,12 @@ bottomSection:
                                             isSuccessful = false;
                                             return;
                                           }
-                                        //  if(_isFlashTransaction)
-                                        //  {
-                                        //   print('inside the flash transaction-->-->');
-                                        //   await sendStore.createTransaction(
-                                        //     address: _addressController.text,
-                                        //     tPriority: BeldexTransactionPriority.flash
-                                        //   );
-                                          
-                                        //  }
                                             Navigator.of(auth.context).pop();
                                             _loading(true);
                                          print('create transaction ---> going to');
                                           await sendStore.createTransaction(
                                               address: _addressController.text);
+                                          //print('create transaction data -----> $data');
                                            print('create transaction ---> reached');
                                           _loading(false);
                                           isSuccessful = true;
@@ -1752,16 +1744,16 @@ bottomSection:
   //  whenDisposers.add(wDisposer3);
 
       if (state is SendingFailed) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          showSimpleBeldexDialog(context, 'Alert', state.error,
+        WidgetsBinding.instance.addPostFrameCallback((_)async {
+        await showSimpleBeldexDialog(context, 'Alert', state.error,
               onPressed: (_) => Navigator.of(context).pop());
         });
       }
 
       if (state is TransactionCreatedSuccessfully && sendStore.pendingTransaction != null) {
-       WidgetsBinding.instance.addPostFrameCallback((_) {
+       WidgetsBinding.instance.addPostFrameCallback((_)async {
           print('inside the transaction created successfully---->');
-        showSimpleConfirmDialog(context,
+       await showSimpleConfirmDialog(context,
          S.of(context).confirm_sending,
           sendStore.pendingTransaction.amount,
           sendStore.pendingTransaction.fee,
@@ -1780,9 +1772,9 @@ bottomSection:
       }
 
       if (state is TransactionCommitted) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
+        WidgetsBinding.instance.addPostFrameCallback((_)async {
            print('inside the transaction commiteed ---->');
-          showSimpleSentTrans( context, S.of(context).sending, sendStore.pendingTransaction.amount,'fee',_addressController.text,
+        await  showSimpleSentTrans( context, S.of(context).sending, sendStore.pendingTransaction.amount,'fee',_addressController.text,
               onPressed: (_) {
             _addressController.text = '';
             _cryptoAmountController.text = '';
