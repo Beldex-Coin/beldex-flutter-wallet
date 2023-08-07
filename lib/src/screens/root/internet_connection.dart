@@ -44,11 +44,11 @@ Future<void> _checkConnectivity() async {
 
     if (connectivityResult == ConnectivityResult.none) {
       // _showNetworkSnackbar(true);
-      NetworkStatus().setNetworkStatus(true);
+      NetworkStat().setNetworkStatus(true);
       _showNetworkSnackbar(true);
      
     } else {
-      NetworkStatus().setNetworkStatus(false);
+      NetworkStat().setNetworkStatus(false);
        _showNetworkSnackbar(false);
       // walletStore.reconnect();
     }
@@ -76,7 +76,7 @@ Future<void> _checkConnectivity() async {
 
   @override
   Widget build(BuildContext context) {
-      final  networkStatus = NetworkStatus();
+      final  networkStatus = NetworkStat();
     return ValueListenableBuilder<bool>(
               valueListenable: networkStatus.isConnected,
               builder: (context, value, child) {
@@ -114,11 +114,11 @@ Future<void> _checkConnectivity() async {
 ///
 
 
-class NetworkStatus {
-  static final NetworkStatus _instance = NetworkStatus._internal();
-  factory NetworkStatus() => _instance;
+class NetworkStat {
+  static final NetworkStat _instance = NetworkStat._internal();
+  factory NetworkStat() => _instance;
 
-  NetworkStatus._internal();
+  NetworkStat._internal();
 
   final ValueNotifier<bool> isConnected = ValueNotifier<bool>(false);
 

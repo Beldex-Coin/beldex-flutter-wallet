@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/util/network_service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:native_updater/native_updater.dart';
@@ -98,6 +99,8 @@ void main() async {
         sharedPreferences: sharedPreferences, walletsService: walletListService);
     final seedLanguageStore = SeedLanguageStore();
 
+    final networkService = NetworkService().controller.stream;
+
     setReactions(
         settingsStore: settingsStore,
         priceStore: priceStore,
@@ -121,7 +124,8 @@ void main() async {
       Provider(create: (_) => contacts),
       Provider(create: (_) => nodes),
       Provider(create: (_) => transactionDescriptions),
-      Provider(create: (_) => seedLanguageStore)
+      Provider(create: (_) => seedLanguageStore),
+      StreamProvider(create: (_) => networkService, initialData: NetworkStatus.online)
     ], child: BeldexWalletApp()));
   } catch (e) {
     runApp(MaterialApp(

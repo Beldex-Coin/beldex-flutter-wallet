@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/dashboard_rescan_dialog.dart';
-import 'package:beldex_wallet/src/screens/dashboard/dashboards.dart';
+import 'package:beldex_wallet/src/util/network_service.dart';
 import 'package:beldex_wallet/src/widgets/standart_switch.dart';
 import 'package:beldex_wallet/theme_changer.dart';
 import 'package:beldex_wallet/themes.dart';
@@ -376,14 +376,6 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
     super.dispose();
   }
 
-  bool nStatus = true;
-  void getNetworkStatus() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      nStatus = prefs.getBool('networkStatus') ?? false;
-    });
-  }
-
   void _loading(bool _canLoad) {
     if (_canLoad) {
       // Show the HUD progress loader
@@ -442,6 +434,10 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
     final settingsStore = Provider.of<SettingsStore>(context);
     final transactionDateFormat = settingsStore.getCurrentDateFormat(
         formatUSA: 'MMMM d, yyyy, HH:mm', formatDefault: 'd MMMM yyyy, HH:mm');
+    final networkStatus = Provider.of<NetworkStatus>(context);
+    if(networkStatus == NetworkStatus.offline){
+      walletStore.reconnect();
+    }
     print('Called');
     return WillPopScope(
       onWillPop: onBackPressed,
@@ -708,8 +704,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                 height: 46,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
-                                  color: syncS == 'SYNCHRONIZED' // &&
-                                      // !nStatus
+                                  color: syncS == 'SYNCHRONIZED'
                                       ? Color(0xff0BA70F)
                                       : settingsStore.isDarkTheme
                                           ? Color(0xff333343)
@@ -724,8 +719,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                         width: 20,
                                         child: SvgPicture.asset(
                                           'assets/images/new-images/send.svg',
-                                          color: syncS == 'SYNCHRONIZED' // &&
-                                              // !nStatus
+                                          color: syncS == 'SYNCHRONIZED'
                                               ? Colors.white
                                               : settingsStore.isDarkTheme
                                                   ? Color(0xff6C6C78)
@@ -737,7 +731,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                         S.of(context).send,
                                         style: TextStyle(
                                             color: syncStatus ==
-                                                    'SYNCHRONIZED' //&& !nStatus
+                                                    'SYNCHRONIZED'
                                                 ? Colors.white
                                                 : settingsStore.isDarkTheme
                                                     ? Color(0xff6C6C78)
@@ -821,8 +815,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
                             final syncSt = status.title();
                             return GestureDetector(
-                              onTap: syncSt == 'SYNCHRONIZED' //&&
-                                  // !nStatus
+                              onTap: syncSt == 'SYNCHRONIZED'
                                   ? () {
                                       Navigator.pushNamed(context, Routes.flash);
                                      // _presentQRScanner(context);
@@ -849,8 +842,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                     ),
                                     child: SvgPicture.asset(
                                       'assets/images/new-images/flashqr.svg',
-                                      color: syncSt == 'SYNCHRONIZED' // &&
-                                          // !nStatus
+                                      color: syncSt == 'SYNCHRONIZED'
                                           ? Color(0xff222222)
                                           : Color(0xffD9D9D9),
                                     )),
