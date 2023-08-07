@@ -45,16 +45,14 @@ class WalletListBodyState extends State<WalletListBody> {
   var isAuthenticatedSuccessfully = false;
 
   Future<void> presetMenuForWallet(WalletDescription wallet, BuildContext bodyContext) async {
-    final isCurrentWallet = false;
     final walletMenu = WalletMenu(bodyContext);
-    final items = walletMenu.generateItemsForWalletMenu(isCurrentWallet);
 
     await showDialog<bool>(
       context: bodyContext,
       builder: (_) =>
         WalletAlertDialog(
-          wallet: wallet,
-          items: items)).then((value){
+          onItemSelected: (int item) =>
+            walletMenu.action(item, wallet))).then((value){
       isAuthenticatedSuccessfully = value;
     });
   }

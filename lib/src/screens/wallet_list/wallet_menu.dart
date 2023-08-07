@@ -12,25 +12,7 @@ class WalletMenu {
 
   final BuildContext context;
 
-  final List<String> listItems = [
-    S.current.wallet_list_load_wallet,
-    S.current.show_seed,
-    S.current.remove,
-    S.current.rescan
-  ];
-
-  List<String> generateItemsForWalletMenu(bool isCurrentWallet) {
-    final items = <String>[];
-
-    if (!isCurrentWallet) items.add(listItems[0]);
-    if (isCurrentWallet) items.add(listItems[1]);
-    if (!isCurrentWallet) items.add(listItems[2]);
-    if (isCurrentWallet) items.add(listItems[3]);
-
-    return items;
-  }
-
-  void action(int index, WalletDescription wallet, bool isCurrentWallet) {
+  void action(int index, WalletDescription wallet) {
     final _walletListStore = context.read<WalletListStore>();
 
     switch (index) {
@@ -38,15 +20,12 @@ class WalletMenu {
         Navigator.of(context).pushNamed(Routes.auth, arguments:
             (bool isAuthenticatedSuccessfully, AuthPageState auth) async {
           if (!isAuthenticatedSuccessfully) {
-            return;
+            return false;
           }
 
           try {
-            auth.changeProcessText(
-                S.of(context).wallet_list_loading_wallet(wallet.name));
-            await _walletListStore.loadWallet(wallet);
             auth.close();
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(true);
           } catch (e) {
             auth.changeProcessText(S
                 .of(context)
@@ -139,6 +118,7 @@ class WalletMenu {
                                               S.of(context).wallet_list_removing_wallet(wallet.name));
                                           await _walletListStore.remove(wallet);
                                           auth.close();
+                                          Navigator.of(context).pop(false);
                                         } catch (e) {
                                           auth.changeProcessText(S
                                               .of(context)
