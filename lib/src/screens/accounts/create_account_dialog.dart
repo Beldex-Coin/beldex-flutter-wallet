@@ -16,7 +16,7 @@ class CreateAccountDialog extends StatefulWidget {
   State<CreateAccountDialog> createState() => _CreateAccountDialogState();
 }
 
-class _CreateAccountDialogState extends State<CreateAccountDialog> {
+class _CreateAccountDialogState extends State<CreateAccountDialog> with WidgetsBindingObserver {
 
 final _formKey = GlobalKey<FormState>();
   final _textController = TextEditingController();
@@ -24,6 +24,7 @@ final _formKey = GlobalKey<FormState>();
 @override
   void initState() {
     if (widget.account != null) _textController.text = widget.account.label;
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
 
@@ -31,8 +32,16 @@ final _formKey = GlobalKey<FormState>();
  @override
   void dispose() {
     _textController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
+
+@override
+void didChangeAppLifecycleState(AppLifecycleState state) {
+  if (state == AppLifecycleState.paused) {
+    FocusManager.instance.primaryFocus?.unfocus();
+  }
+}
 
 bool validateInput(String input) {
   if (input.trim().isEmpty || input.startsWith(' ')) {
