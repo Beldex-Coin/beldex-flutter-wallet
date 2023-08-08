@@ -39,9 +39,10 @@ import 'package:provider/provider.dart';
 import 'dart:math' as math;
 import 'package:beldex_wallet/src/util/constants.dart' as constants;
 import 'package:shared_preferences/shared_preferences.dart';
-bool canLoad = false;
-class SendPage extends BasePage {
 
+bool canLoad = false;
+
+class SendPage extends BasePage {
   String controller;
 
   @override
@@ -116,13 +117,15 @@ class SendPage extends BasePage {
   bool get resizeToAvoidBottomInset => false;
 
   @override
-  Widget body(BuildContext context) => SendForm(controllerValue: controller,);
+  Widget body(BuildContext context) => SendForm(
+        controllerValue: controller,
+      );
 }
 
 class SendForm extends StatefulWidget {
+  final String controllerValue;
 
-final String controllerValue;
-SendForm({Key key,@required this.controllerValue}):super(key: key);
+  SendForm({Key key, @required this.controllerValue}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => SendFormState();
@@ -136,8 +139,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   final _focusNodeAddress = FocusNode();
 
   bool _effectsInstalled = false;
-  
- // bool _isFlashTransaction = false;
+
+  // bool _isFlashTransaction = false;
   final _formKey = GlobalKey<FormState>();
 
   //
@@ -149,12 +152,11 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   var addressErrorMessage = "";
   bool amountValidation = false;
   var amountErrorMessage = "";
- final List<ReactionDisposer> reactionDisposers = []; // dispose the reactions we used in this file to avoid the memory leaks 
- final List<ReactionDisposer> whenDisposers = []; //dispose the when functions we used in this file to avoid the memory leaks
- ReactionDisposer rdisposer1,rdisposer2,rdisposer3;
-
-
-
+  final List<ReactionDisposer> reactionDisposers =
+      []; // dispose the reactions we used in this file to avoid the memory leaks
+  final List<ReactionDisposer> whenDisposers =
+      []; //dispose the when functions we used in this file to avoid the memory leaks
+  ReactionDisposer rdisposer1, rdisposer2, rdisposer3;
 
   @override
   void initState() {
@@ -172,73 +174,41 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       ..repeat(reverse: true);
 
 // getQrvalue();
-if(widget.controllerValue != null || widget.controllerValue != ''){
-  setState(() {
-     _addressController.text = widget.controllerValue;
-    });
-}
+    if (widget.controllerValue != null || widget.controllerValue != '') {
+      setState(() {
+        _addressController.text = widget.controllerValue;
+      });
+    }
 
     super.initState();
   }
 
+  bool getAmountValidation(String amount) {
+    final maxValue = 150000000.00000;
+    final pattern = RegExp(r'^(([0-9]{1,9})(\.[0-9]{1,5})?$)|\.[0-9]{1,5}?$');
+    var isValid = false;
 
-
-
-
-bool getAmountValidation(String amount){
-      // final pattern = RegExp(r'^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}([.][0-9]{0,5}))$');
-      //                                 if(!pattern.hasMatch(value)){
-      //                                   return false;
-                                        
-      //                                 }else{
-      //                                   return true;
-      //                                 }
-
-
- final maxValue = 150000000.00000;
-  final value = amount.replaceAll(',', '.');
-  final regExp = r'^(([0-9]{0,9})?|\.[0-9]{0,5})?|([0-9]{0,9}(\.[0-9]{0,5})?)$';
-  var isValid = false;
-
-  if (RegExp(regExp).hasMatch(value)) {
-    if (value == '.') {
-      isValid = false;
-    } else {
+    if (pattern.hasMatch(amount)) {
       try {
-        final dValue = double.parse(value);
+        final dValue = double.parse(amount);
         isValid = (dValue <= maxValue && dValue > 0);
       } catch (e) {
         isValid = false;
       }
     }
+    return isValid;
   }
 
-  return isValid;
-
-
-
-
-
-
-}
-bool getAddressBasicValidation(String value){
-  final pattern = RegExp(r'^[a-zA-Z0-9]+$');
-  if(!pattern.hasMatch(value)){
-                                        return false;
-                                        
-                                      }else{
-                                        return true;
-                                      }
-
-}
-
-
+  bool getAddressBasicValidation(String value) {
+    final pattern = RegExp(r'^[a-zA-Z0-9]+$');
+    if (!pattern.hasMatch(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
 // Dispose of the 'reaction' and 'when' reactions
-
-
-
-
 
   @override
   void dispose() {
@@ -246,7 +216,7 @@ bool getAddressBasicValidation(String value){
     rdisposer1?.call();
     rdisposer2?.call();
     rdisposer3?.call();
- 
+
     super.dispose();
   }
 
@@ -264,8 +234,7 @@ bool getAddressBasicValidation(String value){
     }
   }
 
-
-void _loading(bool _canLoad) {
+  void _loading(bool _canLoad) {
     // setState(() {
     //   canLoad = true;
     // });
@@ -279,20 +248,16 @@ void _loading(bool _canLoad) {
     //   // Close the HUD progress loader
     //   Navigator.pop(context);
     // });
-   if(_canLoad){
-    // Show the HUD progress loader
-    showHUDLoader(context);
-   }else{
-     Navigator.pop(context);
-   }
-    
+    if (_canLoad) {
+      // Show the HUD progress loader
+      showHUDLoader(context);
+    } else {
+      Navigator.pop(context);
+    }
   }
 
-
-
-
-void showHUDLoader(BuildContext context) {
-  //final settingsStore = Provider.of<SettingsStore>(context,listen: false);
+  void showHUDLoader(BuildContext context) {
+    //final settingsStore = Provider.of<SettingsStore>(context,listen: false);
     showDialog<void>(
       context: context,
       //barrierColor: Colors.transparent,
@@ -302,19 +267,24 @@ void showHUDLoader(BuildContext context) {
           // Prevent closing the dialog when the user presses the back button
           onWillPop: () async => false,
           child: AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
 
             //backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
-            content: 
-            Column(
+            content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Center(
-                  child: CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),),
+                  child: CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(13.0),
-                  child: Text('Creating the Transaction',style:TextStyle(fontSize: 18,fontWeight: FontWeight.w700)),
+                  child: Text('Creating the Transaction',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
                 )
               ],
             ),
@@ -323,26 +293,6 @@ void showHUDLoader(BuildContext context) {
       },
     );
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -372,7 +322,10 @@ void showHUDLoader(BuildContext context) {
                   padding: EdgeInsets.all(15),
                   decoration: BoxDecoration(
                       color: Colors.transparent,
-                      border: Border.all(color:settingsStore.isDarkTheme ? Color(0xff454557): Color(0xffDADADA)),
+                      border: Border.all(
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xff454557)
+                              : Color(0xffDADADA)),
                       borderRadius: BorderRadius.circular(10)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -648,7 +601,7 @@ void showHUDLoader(BuildContext context) {
                         options: [
                           AddressTextFieldOption.saveAddress,
                           AddressTextFieldOption.qrCode,
-                        
+
                           //AddressTextFieldOption.addressBook
                         ],
                         validator: (value) {
@@ -660,8 +613,6 @@ void showHUDLoader(BuildContext context) {
                             return sendStore.errorMessage;
                           }*/
 
-                            
-
                           if (value.isEmpty) {
                             setState(() {
                               addressValidation = true;
@@ -670,39 +621,35 @@ void showHUDLoader(BuildContext context) {
                             });
                             return null;
                           } else {
-                              final alphanumericRegex = RegExp(r'^[a-zA-Z0-9]+$');
-                               
-                            if(!alphanumericRegex.hasMatch(value)){
+                            final alphanumericRegex = RegExp(r'^[a-zA-Z0-9]+$');
+
+                            if (!alphanumericRegex.hasMatch(value)) {
                               setState(() {
-                                  addressErrorMessage ='Enter a valid address';                            
-                                                            });
-                               return;
-                            }else{
-                                if(getAddressBasicValidation(value)){
-                            sendStore.validateAddress(value,
-                                cryptoCurrency: CryptoCurrency.bdx);
-                            if (sendStore.errorMessage != null) {
-                              setState(() {
-                                addressValidation = true;
-                                addressErrorMessage = 'Invalid bdx address';
+                                addressErrorMessage = 'Enter a valid address';
                               });
+                              return;
                             } else {
-                              setState(() {
-                                addressValidation = false;
-                                addressErrorMessage = '';
-                              });
+                              if (getAddressBasicValidation(value)) {
+                                sendStore.validateAddress(value,
+                                    cryptoCurrency: CryptoCurrency.bdx);
+                                if (sendStore.errorMessage != null) {
+                                  setState(() {
+                                    addressValidation = true;
+                                    addressErrorMessage = 'Invalid bdx address';
+                                  });
+                                } else {
+                                  setState(() {
+                                    addressValidation = false;
+                                    addressErrorMessage = '';
+                                  });
+                                }
+                                return null;
+                              } else {
+                                setState(() {});
+                                addressErrorMessage = 'Enter a valid address';
+                                return;
+                              }
                             }
-                            return null;
-                            }else{
-                              setState(() {
-                                                              
-                                                            });
-                              addressErrorMessage = 'Enter a valid address';
-                              return ;
-                            }
-                            }
-                           
-                            
                           }
                         },
                       ),
@@ -737,9 +684,8 @@ void showHUDLoader(BuildContext context) {
                       ),
 
                       Container(
-                          height: MediaQuery.of(context).size.height *
-                              0.60 /
-                              3, //150,
+                          height: MediaQuery.of(context).size.height * 0.60 / 3,
+                          //150,
                           margin: EdgeInsets.only(
                             top: 15,
                           ),
@@ -770,7 +716,7 @@ void showHUDLoader(BuildContext context) {
                                       signed: false, decimal: true),
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(
-                                        RegExp('[- ]'))
+                                        RegExp('[-, ]'))
                                   ],
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
@@ -832,32 +778,30 @@ void showHUDLoader(BuildContext context) {
                                       });
                                       return null;
                                     } else {
-                                   if(getAmountValidation(value)){
-                                      sendStore.validateBELDEX(
-                                          value, balanceStore.unlockedBalance);
-                                      if (sendStore.errorMessage != null) {
+                                      if (getAmountValidation(value)) {
+                                        sendStore.validateBELDEX(value,
+                                            balanceStore.unlockedBalance);
+                                        if (sendStore.errorMessage != null) {
+                                          setState(() {
+                                            amountValidation = true;
+                                            amountErrorMessage = S.current.pleaseEnterAValidAmount;
+                                          });
+                                          return;
+                                        } else {
+                                          setState(() {
+                                            amountValidation = false;
+                                            amountErrorMessage = "";
+                                          });
+                                        }
+                                        return null;
+                                      } else {
                                         setState(() {
                                           amountValidation = true;
                                           amountErrorMessage =
-                                              'Please enter a valid amount';
+                                              'Enter a valid amount';
                                         });
-                                        return ;
-                                      } else {
-                                        setState(() {
-                                          amountValidation = false;
-                                          amountErrorMessage = "";
-                                        });
+                                        return;
                                       }
-                                      return null;
-                                   }else{
-                                    setState(() {
-                                                                          
-                                                                        });
-                                    amountErrorMessage = 'Enter a valid amount';
-                                    return ;
-                                   }
-
-                                     
                                     }
                                   }),
                               Row(
@@ -865,8 +809,8 @@ void showHUDLoader(BuildContext context) {
                                 children: [
                                   Container(
                                       height: 50,
-                                     width: 170,
-                                     // padding: EdgeInsets.all(8.0),
+                                      width: 170,
+                                      // padding: EdgeInsets.all(8.0),
                                       margin:
                                           EdgeInsets.only(top: 15, right: 15),
                                       decoration: BoxDecoration(
@@ -877,17 +821,16 @@ void showHUDLoader(BuildContext context) {
                                               : Color(0xffFFFFFF)),
                                       child: Row(
                                         children: [
-                                           Observer(builder: (_){
-                                              return 
-                                              Padding(
-                                                padding: const EdgeInsets.only(left:8.0),
-                                                child: Text(
-                                            '${settingsStore.fiatCurrency.toString()}',
-                                            textAlign: TextAlign.center,
-                                          ),
-                                              );
+                                          Observer(builder: (_) {
+                                            return Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 8.0),
+                                              child: Text(
+                                                '${settingsStore.fiatCurrency.toString()}',
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            );
                                           }),
-                                          
                                           Expanded(
                                             child: Container(
                                                 width: 120,
@@ -929,10 +872,15 @@ void showHUDLoader(BuildContext context) {
                                               ),*/
                                                       hintStyle: TextStyle(
                                                           fontSize: 15.0,
-                                                          color:settingsStore.isDarkTheme ? Color(0xffffffff) : Color(0xff16161D)
+                                                          color: settingsStore
+                                                                  .isDarkTheme
+                                                              ? Color(
+                                                                  0xffffffff)
+                                                              : Color(
+                                                                  0xff16161D)
                                                           // color: Theme.of(context)
                                                           //     .hintColor
-                                                              ),
+                                                          ),
                                                       hintText: '00.000000000',
                                                       /*focusedBorder: OutlineInputBorder(
                                                   borderSide: BorderSide(
@@ -948,8 +896,8 @@ void showHUDLoader(BuildContext context) {
                                                   borderSide: BorderSide(
                                                       color: BeldexPalette.red, width: 1.0)),*/
                                                       errorStyle: TextStyle(
-                                                          color:
-                                                              BeldexPalette.red)),
+                                                          color: BeldexPalette
+                                                              .red)),
                                                 )),
                                           )
                                         ],
@@ -1171,7 +1119,7 @@ void showHUDLoader(BuildContext context) {
                       Padding(
                         padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                         child: Row(
-                         // mainAxisAlignment: MainAxisAlignment.end,
+                          // mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             Text('${S.of(context).send_estimated_fee}   ',
                                 style: TextStyle(
@@ -1182,8 +1130,8 @@ void showHUDLoader(BuildContext context) {
                                       .grey, //Theme.of(context).accentTextTheme.overline.backgroundColor,
                                 )),
                             Text(
-                               '${calculateEstimatedFee(priority:settingsStore.transactionPriority  //BeldexTransactionPriority.flash
-                                )}',
+                                '${calculateEstimatedFee(priority: settingsStore.transactionPriority //BeldexTransactionPriority.flash
+                                    )}',
                                 //'${calculateEstimatedFee(priority: BeldexTransactionPriority.slow)}',
                                 style: TextStyle(
                                   fontSize: 14,
@@ -1201,7 +1149,7 @@ void showHUDLoader(BuildContext context) {
                         width: double.infinity,
                         child: Text(
                             S.of(context).send_priority(
-                               settingsStore.transactionPriority.toString()),
+                                settingsStore.transactionPriority.toString()),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 14,
@@ -1299,8 +1247,6 @@ void showHUDLoader(BuildContext context) {
                           );
                         },
                       ),*/
-                     
-                      
                     ]),
                   ),
                 ),
@@ -1501,91 +1447,88 @@ void showHUDLoader(BuildContext context) {
         ),
       ),
 
-bottomSection:
-   Observer(builder: (_) {
-                        return Container(
-                           margin: EdgeInsets.only(left:15,right:15,top: 40),
-                          child: InkWell(
-                            onTap:
-                             syncStore.status is SyncedSyncStatus
-                                ? () async {
-                                    
-                                    final currentFocus = FocusScope.of(context);
+      bottomSection: Observer(builder: (_) {
+        return Container(
+          margin: EdgeInsets.only(left: 15, right: 15, top: 40),
+          child: InkWell(
+            onTap: syncStore.status is SyncedSyncStatus
+                ? () async {
+                    final currentFocus = FocusScope.of(context);
 
-                                    if (!currentFocus.hasPrimaryFocus) {
-                                      currentFocus.unfocus();
-                                    }
-                                    // await Future.delayed(
-                                    //     const Duration(milliseconds: 100), () {});
-                                    if (_formKey.currentState.validate()) {
-                                      if (!addressValidation &&
-                                          !amountValidation) {
-                                        var isSuccessful = false;
+                    if (!currentFocus.hasPrimaryFocus) {
+                      currentFocus.unfocus();
+                    }
+                    // await Future.delayed(
+                    //     const Duration(milliseconds: 100), () {});
+                    if (_formKey.currentState.validate()) {
+                      if (!addressValidation && !amountValidation) {
+                        var isSuccessful = false;
 
-                                        await Navigator.of(context)
-                                            .pushNamed(Routes.auth, arguments:
-                                                (bool isAuthenticatedSuccessfully,
-                                                    AuthPageState auth) async {
-                                          print('inside authendication $isAuthenticatedSuccessfully');
-                                          if (!isAuthenticatedSuccessfully) {
-                                            isSuccessful = false;
-                                            return;
-                                          }
-                                        //  if(_isFlashTransaction)
-                                        //  {
-                                        //   print('inside the flash transaction-->-->');
-                                        //   await sendStore.createTransaction(
-                                        //     address: _addressController.text,
-                                        //     tPriority: BeldexTransactionPriority.flash
-                                        //   );
-                                          
-                                        //  }
-                                            Navigator.of(auth.context).pop();
-                                            _loading(true);
-                                         print('create transaction ---> going to');
-                                          await sendStore.createTransaction(
-                                              address: _addressController.text);
-                                           print('create transaction ---> reached');
-                                          _loading(false);
-                                          isSuccessful = true;
-                                        });
-                                        return isSuccessful;
-                                      }
-                                    } else {
-                                      return false;
-                                    }
-                                  }
-                                : null,
-                            child: Container(
-                             
-                              padding: EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                  color: Color(0xff0BA70F),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height:20,width:20,
-                                    child: SvgPicture.asset(
-                                        'assets/images/new-images/send.svg',),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Text(
-                                      'Send',
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          color: Color(0xffffffff),
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
+                        await Navigator.of(context).pushNamed(Routes.auth,
+                            arguments: (bool isAuthenticatedSuccessfully,
+                                AuthPageState auth) async {
+                          print(
+                              'inside authendication $isAuthenticatedSuccessfully');
+                          if (!isAuthenticatedSuccessfully) {
+                            isSuccessful = false;
+                            return;
+                          }
+                          //  if(_isFlashTransaction)
+                          //  {
+                          //   print('inside the flash transaction-->-->');
+                          //   await sendStore.createTransaction(
+                          //     address: _addressController.text,
+                          //     tPriority: BeldexTransactionPriority.flash
+                          //   );
+
+                          //  }
+                          Navigator.of(auth.context).pop();
+                          _loading(true);
+                          print('create transaction ---> going to');
+                          await sendStore.createTransaction(
+                              address: _addressController.text);
+                          print('create transaction ---> reached');
+                          _loading(false);
+                          isSuccessful = true;
+                        });
+                        return isSuccessful;
+                      }
+                    } else {
+                      return false;
+                    }
+                  }
+                : null,
+            child: Container(
+              padding: EdgeInsets.all(15),
+              decoration: BoxDecoration(
+                  color: Color(0xff0BA70F),
+                  borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 20,
+                    width: 20,
+                    child: SvgPicture.asset(
+                      'assets/images/new-images/send.svg',
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      'Send',
+                      style: TextStyle(
+                          fontSize: 17,
+                          color: Color(0xffffffff),
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }),
 
       // bottomSection: Observer(builder: (_) {
       //   return NewSlideToAct(
@@ -1667,12 +1610,10 @@ bottomSection:
     if (_effectsInstalled) return;
 
     final sendStore = Provider.of<SendStore>(context);
-   rdisposer1 =  reaction((_) => sendStore.fiatAmount, (String amount) {
+    rdisposer1 = reaction((_) => sendStore.fiatAmount, (String amount) {
       print('amount inside reaction $amount');
       if (amount != _fiatAmountController.text) {
         _fiatAmountController.text = amount;
-
-
       }
     });
     reactionDisposers.add(rdisposer1);
@@ -1687,13 +1628,11 @@ bottomSection:
       final fiatAmount = _fiatAmountController.text;
       print('fiat amount ----> $fiatAmount');
       if (sendStore.fiatAmount != fiatAmount) {
-        
         sendStore.changeFiatAmount(fiatAmount);
       }
     });
 
     _cryptoAmountController.addListener(() {
-     
       final cryptoAmount = _cryptoAmountController.text;
       print('crypto amount ----> $cryptoAmount');
       if (sendStore.cryptoAmount != cryptoAmount) {
@@ -1703,53 +1642,52 @@ bottomSection:
       }
     });
 
-   rdisposer3 =  reaction((_) => sendStore.state, (SendingState state) {
+    rdisposer3 = reaction((_) => sendStore.state, (SendingState state) {
+      //  final wDisposer1 = when( (_) => state is SendingFailed, (){
+      //      WidgetsBinding.instance.addPostFrameCallback((_) {
+      //         showSimpleBeldexDialog(context, 'Alert', ( state as SendingFailed).error,
+      //             onPressed: (_) => Navigator.of(context).pop());
+      //       });
+      //   });
+      //   whenDisposers.add(wDisposer1);
+      //  final wDisposer2 = when( (_)=> state is TransactionCreatedSuccessfully && sendStore.pendingTransaction != null,(){
+      //        WidgetsBinding.instance.addPostFrameCallback((_) {
+      //         print('inside the transaction created successfully---->');
+      //       showSimpleConfirmDialog(context,
+      //        S.of(context).confirm_sending,
+      //         sendStore.pendingTransaction.amount,
+      //         sendStore.pendingTransaction.fee,
+      //         _addressController.text,
+      //         onPressed: (_) {
+      //           Navigator.of(context).pop();
+      //           sendStore.commitTransaction();
+      //         },
+      //         onDismiss: (_){
+      //           _addressController.text = '';
+      //           _cryptoAmountController.text = '';
+      //           Navigator.of(context).pop();
+      //         }
+      //         );
+      //       });
+      //   } );
+      //  whenDisposers.add(wDisposer2);
+      //  final wDisposer3 = when( (_)=> state is TransactionCommitted ,(){
+      //       WidgetsBinding.instance.addPostFrameCallback((_) {
+      //          print('inside the transaction commiteed ---->');
+      //         showSimpleSentTrans( context, S.of(context).sending, sendStore.pendingTransaction.amount,'fee',_addressController.text,
+      //             onPressed: (_) {
+      //           _addressController.text = '';
+      //           _cryptoAmountController.text = '';
+      //           Navigator.of(context)..pop()..pop();
+      //         },
+      //          onDismiss: (_){
+      //           Navigator.of(context)..pop()..pop();
+      //         }
+      //         );
+      //       });
+      //   });
 
-  //  final wDisposer1 = when( (_) => state is SendingFailed, (){
-  //      WidgetsBinding.instance.addPostFrameCallback((_) {
-  //         showSimpleBeldexDialog(context, 'Alert', ( state as SendingFailed).error,
-  //             onPressed: (_) => Navigator.of(context).pop());
-  //       });
-  //   });
-  //   whenDisposers.add(wDisposer1);
-  //  final wDisposer2 = when( (_)=> state is TransactionCreatedSuccessfully && sendStore.pendingTransaction != null,(){
-  //        WidgetsBinding.instance.addPostFrameCallback((_) {
-  //         print('inside the transaction created successfully---->');
-  //       showSimpleConfirmDialog(context,
-  //        S.of(context).confirm_sending,
-  //         sendStore.pendingTransaction.amount,
-  //         sendStore.pendingTransaction.fee,
-  //         _addressController.text,
-  //         onPressed: (_) {
-  //           Navigator.of(context).pop();
-  //           sendStore.commitTransaction();
-  //         },
-  //         onDismiss: (_){
-  //           _addressController.text = '';
-  //           _cryptoAmountController.text = '';
-  //           Navigator.of(context).pop();
-  //         }
-  //         );
-  //       });
-  //   } );
-  //  whenDisposers.add(wDisposer2);
-  //  final wDisposer3 = when( (_)=> state is TransactionCommitted ,(){
-  //       WidgetsBinding.instance.addPostFrameCallback((_) {
-  //          print('inside the transaction commiteed ---->');
-  //         showSimpleSentTrans( context, S.of(context).sending, sendStore.pendingTransaction.amount,'fee',_addressController.text,
-  //             onPressed: (_) {
-  //           _addressController.text = '';
-  //           _cryptoAmountController.text = '';
-  //           Navigator.of(context)..pop()..pop();
-  //         },
-  //          onDismiss: (_){
-  //           Navigator.of(context)..pop()..pop();
-  //         }
-  //         );
-  //       });
-  //   });
-   
-  //  whenDisposers.add(wDisposer3);
+      //  whenDisposers.add(wDisposer3);
 
       if (state is SendingFailed) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -1758,49 +1696,48 @@ bottomSection:
         });
       }
 
-      if (state is TransactionCreatedSuccessfully && sendStore.pendingTransaction != null) {
-       WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (state is TransactionCreatedSuccessfully &&
+          sendStore.pendingTransaction != null) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           print('inside the transaction created successfully---->');
-        showSimpleConfirmDialog(context,
-         S.of(context).confirm_sending,
-          sendStore.pendingTransaction.amount,
-          sendStore.pendingTransaction.fee,
-          _addressController.text,
-          onPressed: (_)async {
+          showSimpleConfirmDialog(
+              context,
+              S.of(context).confirm_sending,
+              sendStore.pendingTransaction.amount,
+              sendStore.pendingTransaction.fee,
+              _addressController.text, onPressed: (_) async {
             Navigator.of(context).pop();
-           await sendStore.commitTransaction();
-          },
-          onDismiss: (_){
+            await sendStore.commitTransaction();
+          }, onDismiss: (_) {
             _addressController.text = '';
             _cryptoAmountController.text = '';
             Navigator.of(context).pop();
-          }
-          );
+          });
         });
       }
 
       if (state is TransactionCommitted) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-           print('inside the transaction commiteed ---->');
-          showSimpleSentTrans( context, S.of(context).sending, sendStore.pendingTransaction.amount,'fee',_addressController.text,
-              onPressed: (_) {
+          print('inside the transaction commiteed ---->');
+          showSimpleSentTrans(
+              context,
+              S.of(context).sending,
+              sendStore.pendingTransaction.amount,
+              'fee',
+              _addressController.text, onPressed: (_) {
             _addressController.text = '';
             _cryptoAmountController.text = '';
             Navigator.of(context)..pop()..pop();
-          },
-           onDismiss: (_){
+          }, onDismiss: (_) {
             Navigator.of(context)..pop()..pop();
-          }
-          );
+          });
         });
       }
     });
-    
+
     _effectsInstalled = true;
   }
 }
-
-
 
 // class ConfirmSending extends StatelessWidget {
 //   const ConfirmSending({ Key key }) : super(key: key);
@@ -1857,10 +1794,10 @@ bottomSection:
 //                                   Container(
 //                                     width:70,
 //                                     padding: EdgeInsets.all(10),
-//                                     child: Container(  
+//                                     child: Container(
 //                                       height:40,width:40,
 //                                       padding: EdgeInsets.all(6),
-//                                       decoration: BoxDecoration(  
+//                                       decoration: BoxDecoration(
 //                                         color: Color(0xff00B116),
 //                                         shape: BoxShape.circle,
 //                                       ),
@@ -1885,7 +1822,7 @@ bottomSection:
 //                                   Text('Address'),
 //                                   Container(
 //                                     padding: EdgeInsets.all(10),
-//                                     decoration: BoxDecoration(  
+//                                     decoration: BoxDecoration(
 //                                       color:Colors.white,
 //                                       borderRadius: BorderRadius.circular(10)
 //                                     ),

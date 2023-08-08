@@ -317,5 +317,6 @@
   "yes": "Yes",
   "byUsingThisAppYouAgreeToTheTermsOf": "By using this app, you agree to the Terms of Agreement set forth to below",
   "iAgreeToTermsOfUse": "I agree to Terms of Use",
-  "accept": "Accept"
+  "accept": "Accept",
+  "pleaseEnterAValidAmount": "Please enter a valid amount"
 }

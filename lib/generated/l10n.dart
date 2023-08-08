@@ -2953,6 +2953,16 @@ String get do_you_want_to_exit_the_wallet {
       args: [],
     );
   }
+
+  /// `Please enter a valid amount`
+  String get pleaseEnterAValidAmount {
+    return Intl.message(
+      'Please enter a valid amount',
+      name: 'pleaseEnterAValidAmount',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

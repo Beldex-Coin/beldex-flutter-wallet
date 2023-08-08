@@ -160,6 +160,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "paste" : MessageLookupByLibrary.simpleMessage("Paste"),
     "pending" : MessageLookupByLibrary.simpleMessage(" (pending)"),
     "pin_is_incorrect" : MessageLookupByLibrary.simpleMessage("PIN is incorrect"),
+    "pleaseEnterAValidAmount" : MessageLookupByLibrary.simpleMessage("Please enter a valid amount"),
     "please_make_selection" : MessageLookupByLibrary.simpleMessage("Select from the options below to\neither create or recover your wallet."),
     "please_select" : MessageLookupByLibrary.simpleMessage("Please select:"),
     "please_try_to_connect_to_another_node" : MessageLookupByLibrary.simpleMessage("Please try to connect to another node"),
