@@ -48,108 +48,127 @@ Widget trailing(BuildContext context){
  final settingsStore = Provider.of<SettingsStore>(context);
     return Column(
       children: [
-        Card(
+        Container(
           margin: EdgeInsets.only(left: 20,right: 20,top: 50),
-          elevation:0, //5,
-          color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED),// Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10)
-          ),
-          child:Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+          child: GestureDetector(
+            onTap: (){
+              seedLanguageStore.setCurrentRoute(Routes.restoreWalletFromSeed);
+                        Navigator.pushNamed(context, Routes.seedLanguage);
+            },
+            child: Card(
+              
+              elevation:0, //5,
+              color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED),// Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)
+              ),
+              child:Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Padding(
-                            padding: EdgeInsets.only(right:8.0),
-                            child: SvgPicture.asset('assets/images/new-images/restore_seed.svg'),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(right:8.0),
+                                child: SvgPicture.asset('assets/images/new-images/restore_seed.svg'),
+                              ),
+                              Text(S.of(context).restore_title_from_seed,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color:settingsStore.isDarkTheme ? Color(0xffF7F7F7) :Color(0xff16161D)),),
+                            ],
                           ),
-                          Text(S.of(context).restore_title_from_seed,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color:settingsStore.isDarkTheme ? Color(0xffF7F7F7) :Color(0xff16161D)),),
+                          SizedBox(height: 15),
+                          Text(S.of(context).restore_description_from_seed,style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal),)
                         ],
                       ),
-                      SizedBox(height: 15),
-                      Text(S.of(context).restore_description_from_seed,style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal),)
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: (){
-                    seedLanguageStore.setCurrentRoute(Routes.restoreWalletFromSeed);
-                    Navigator.pushNamed(context, Routes.seedLanguage);
-                  },
-                  child: Container(
-                   // elevation: 5,
-                    //color: Colors.white,
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xff1BB71E)
                     ),
-                    
-                    child: Icon(Icons.arrow_forward_ios_rounded,color: Color(0xffffffff),size: 20,),
-                  ),
-                )
-              ],
+                    InkWell(
+                      onTap: (){
+                        seedLanguageStore.setCurrentRoute(Routes.restoreWalletFromSeed);
+                        Navigator.pushNamed(context, Routes.seedLanguage);
+                      },
+                      child: Container(
+                       // elevation: 5,
+                        //color: Colors.white,
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xff1BB71E)
+                        ),
+                        
+                        child: Icon(Icons.arrow_forward_ios_rounded,color: Color(0xffffffff),size: 20,),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
         ),
-        Card(
+        Container(
           margin: EdgeInsets.only(left: 20,right: 20,top: 20),
-          elevation:0, //5,
-          color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED), //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10)
-          ),
-          child:Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+          child: GestureDetector(
+            onTap: (){
+                seedLanguageStore.setCurrentRoute(Routes.restoreWalletFromKeys);
+                Navigator.pushNamed(context, Routes.seedLanguage);
+            },
+            child: Card(
+              
+              elevation:0, //5,
+              color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED), //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)
+              ),
+              child:Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                           Padding(
-                            padding: EdgeInsets.only(right:8.0),
-                            child: SvgPicture.asset('assets/images/new-images/restore_key.svg'),
+                          Row(
+                            children: [
+                               Padding(
+                                padding: EdgeInsets.only(right:8.0),
+                                child: SvgPicture.asset('assets/images/new-images/restore_key.svg'),
+                              ),
+                              Text(S.of(context).restore_title_from_keys,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color:settingsStore.isDarkTheme ? Color(0xffF7F7F7) :Color(0xff16161D)),),
+                            ],
                           ),
-                          Text(S.of(context).restore_title_from_keys,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color:settingsStore.isDarkTheme ? Color(0xffF7F7F7) :Color(0xff16161D)),),
+                          SizedBox(height: 10,),
+                          Text(S.of(context).restore_description_from_keys,style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal),)
                         ],
                       ),
-                      SizedBox(height: 10,),
-                      Text(S.of(context).restore_description_from_keys,style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal),)
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: (){
-                    seedLanguageStore.setCurrentRoute(Routes.restoreWalletFromKeys);
-                    Navigator.pushNamed(context, Routes.seedLanguage);
-                  },
-                  child: Container(
-                     padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color(0xff2979FB)
                     ),
-                    
-                    child: Icon(Icons.arrow_forward_ios_rounded,color: Color(0xffffffff),size: 20,),
-                  ),
-                )
-              ],
+                    InkWell(
+                      onTap: (){
+                        seedLanguageStore.setCurrentRoute(Routes.restoreWalletFromKeys);
+                        Navigator.pushNamed(context, Routes.seedLanguage);
+                      },
+                      child: Container(
+                         padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xff2979FB)
+                        ),
+                        
+                        child: Icon(Icons.arrow_forward_ios_rounded,color: Color(0xffffffff),size: 20,),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
         ),
       ],
-    )/*BaseRestoreWidget(
+    )
+    /*BaseRestoreWidget(
       firstRestoreButton: RestoreButton(
         onPressed: () {
           seedLanguageStore.setCurrentRoute(Routes.restoreWalletFromSeed);

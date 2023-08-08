@@ -40,6 +40,8 @@ final _formKey = GlobalKey<FormState>();
 void didChangeAppLifecycleState(AppLifecycleState state) {
   if (state == AppLifecycleState.paused) {
     FocusManager.instance.primaryFocus?.unfocus();
+  }else if (state == AppLifecycleState.resumed) {
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 }
 

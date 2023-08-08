@@ -52,14 +52,13 @@ class ReceivePage extends BasePage {
   //       );
   // }
   @override
-  Widget middle(BuildContext context) {
+  Widget middle(BuildContext context){
     return Text(
       'Receive',
-      style: TextStyle(
-          fontSize: 23.0,
-          fontWeight: FontWeight.w900,
-          fontFamily: 'Poppins',
-          color: Theme.of(context).primaryTextTheme.caption.color),
+      style: TextStyle( fontSize: 23.0,
+                fontWeight: FontWeight.w900,
+                fontFamily: 'Poppins',
+                color: Theme.of(context).primaryTextTheme.caption.color),
     );
   }
 
@@ -115,6 +114,19 @@ class ReceivePage extends BasePage {
     // );
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
   /*@override
   Widget leading(BuildContext context) {
     final walletStore = Provider.of<WalletStore>(context);
@@ -156,45 +168,43 @@ class ReceiveBody extends StatefulWidget {
 class ReceiveBodyState extends State<ReceiveBody> {
   final amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool isExpand = false;
-  bool isOpen = false;
-  OverlayEntry overlayEntry;
-  GlobalKey globalKey = GlobalKey();
+   bool isExpand = false;
+bool isOpen = false;
+   OverlayEntry overlayEntry;
+ GlobalKey globalKey = GlobalKey();
 
-  String currentSubAddress = '';
+String currentSubAddress ='';
 
-  @override
+
+ @override
   void initState() {
     super.initState();
-    // getSubAddress();
+   // getSubAddress();
+    
   }
+
+
 
   @override
   void dispose() {
     amountController.dispose();
     // if(overlayEntry.mounted){
-    overlayEntry?.dispose();
+       //  overlayEntry?.dispose(); 
     // }
-
+ 
     //overlayEntry.remove();
     super.dispose();
   }
-
   final _globalKey = new GlobalKey();
   final _globalKey1 = GlobalKey();
-
   //final originalSize=800;
   Future<Uint8List> _capturePng() async {
     try {
       print('inside');
-      RenderRepaintBoundary boundary =
-          _globalKey.currentContext.findRenderObject() as RenderRepaintBoundary;
+      RenderRepaintBoundary boundary = _globalKey.currentContext.findRenderObject() as RenderRepaintBoundary;
       //double pixelRatio = originalSize / MediaQuery.of(context).size.width;
-      ui.Image image = await boundary.toImage(
-        pixelRatio: 3.0,
-      );
-      ByteData byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      ui.Image image = await boundary.toImage(pixelRatio:3.0,);
+      ByteData byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       var pngBytes = byteData.buffer.asUint8List();
       var bs64 = base64Encode(pngBytes);
       print(pngBytes);
@@ -205,21 +215,93 @@ class ReceiveBodyState extends State<ReceiveBody> {
       print(e);
     }
   }
-
   void _incrementCounter(String address, String text) async {
     try {
-      final imageUint8List = await _capturePng();
+    final imageUint8List = await _capturePng();
       await WcFlutterShare.share(
           text: address,
           sharePopupTitle: 'share',
           fileName: 'share.png',
           mimeType: 'image/png',
           bytesOfFile: imageUint8List);
-      setState(() {});
-    } catch (e) {
+      setState(() {
+      });
+    }catch(e){
       print(e.toString());
     }
   }
+
+
+
+bool getAmountValidation(String amount){
+
+    
+
+      // final pattern = RegExp(r'^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}([.][0-9]{0,5}))$');
+      //                                 if(!pattern.hasMatch(amount)){
+      //                                   return false;
+                                        
+      //                                 }else{
+      //                                   return true;
+      //                                 }
+
+
+ final maxValue = 150000000.00000;
+  final value = amount.replaceAll(',', '.');
+  final regExp = r'^(([0-9]{0,9})?|\.[0-9]{0,5})?|([0-9]{0,9}(\.[0-9]{0,5})?)$';
+  var isValid = false;
+
+  if (RegExp(regExp).hasMatch(value)) {
+    if (value == '.') {
+      isValid = false;
+    } else {
+      try {
+        final dValue = double.parse(value);
+        isValid = (dValue <= maxValue && dValue > 0);
+      } catch (e) {
+        isValid = false;
+      }
+    }
+  }
+
+  return isValid;
+
+
+
+
+
+
+
+
+}
+
+
+
+
+
+// List<String> subaddressList = [];
+
+
+// Future getSubAddressList(BuildContext context){
+//   final subaddressListStore = Provider.of<SubaddressListStore>(context,listen: false);
+//   setState(() {
+//       for(var i =0;i<subaddressListStore.subaddresses.length;i++){
+//         subaddressList.add(subaddressListStore.subaddresses[i].label);
+//       }
+//     });
+// }
+
+
+
+
+
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -236,347 +318,300 @@ class ReceiveBodyState extends State<ReceiveBody> {
         walletStore.onChangedAmountValue('');
       }
     });
+   
 
-    return SafeArea(
-        child: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: SingleChildScrollView(
-                child: Column(
-              children: <Widget>[
-                //SizedBox(height: 10,),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //   children: [
-                //     Container(
-                //       width: 50,
-                //       height: 50,
-                //     ),
-                //     Text(
-                //       S.current.receive,
-                //       style: TextStyle(
-                //           fontSize: 16.0,
-                //           fontWeight: FontWeight.w600,
-                //           color: Colors.green),
-                //     ),
-                //     Padding(
-                //       padding: const EdgeInsets.only(right: 20),
-                //       child: InkWell(
-                //         onTap: (){
-                //           _incrementCounter(walletStore.subaddress.address,amountController.text);
-                //           //Share.text('Share address', walletStore.subaddress.address, 'text/plain');
-                //         },
-                //         child: Container(
-                //           width: 40,
-                //           height: 40,
-                //           padding: EdgeInsets.all(2),
-                //           decoration: BoxDecoration(
-                //               color: Theme.of(context).cardTheme.shadowColor,
-                //               borderRadius: BorderRadius.all(Radius.circular(10))
-                //           ),
-                //           child: ButtonTheme(
-                //             minWidth: double.minPositive,
-                //             child: TextButton(
-                //                 onPressed: () {
-                //                   _incrementCounter(walletStore.subaddress.address,amountController.text);
-                //                   //Share.text('Share address', walletStore.subaddress.address, 'text/plain');
-                //                   },
-                //                 child: SvgPicture.asset('assets/images/share_svg.svg',color: Theme.of(context).primaryTextTheme.caption.color,)),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                RepaintBoundary(
-                  key: _globalKey,
-                  child: Container(
-                    // color: Theme.of(context).backgroundColor,
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(left: 35.0, right: 35.0),
-                          //color: Theme.of(context).backgroundColor,
-                          // margin: EdgeInsets.only(bottom: 10),
-                          child: Column(
-                            children: <Widget>[
-                              Observer(builder: (_) {
-                                return Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Container(
-                                      margin: EdgeInsets.only(bottom: 10),
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.60 /
-                                              3,
-                                      //170,
-                                      width:
-                                          MediaQuery.of(context).size.height *
-                                              0.60 /
-                                              3,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: settingsStore.isDarkTheme
-                                            ? Color(0xff1F1F28)
-                                            : Color(0xffEDEDED),
-                                      ),
-                                      padding: EdgeInsets.all(18),
 
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        padding: EdgeInsets.all(10),
-                                        child:
-                                            // Observer(builder: (_){
-                                            //   var qrData =
-                                            // return
-                                            QrImage(
-                                          data: walletStore.subaddress.address +
-                                              walletStore.amountValue,
-                                          backgroundColor: Colors.white,
-                                        ),
-                                        // },)
-                                      ),
-                                    ),
-                                    // Spacer(flex: 1),
-                                    // Flexible(
-                                    //     flex: 2,
-                                    //     child: AspectRatio(
-                                    //       aspectRatio: 1.0,
-                                    //       child: Container(
-                                    //         padding: EdgeInsets.all(5),
-                                    //         color: Colors.white,
-                                    //         child: QrImage(
-                                    //           data: walletStore.subaddress.address + walletStore.amountValue,
-                                    //           backgroundColor: Colors.white,
-                                    //         ),
-                                    //       ),
-                                    //     )),
-                                    //Spacer(flex: 1)
-                                  ],
-                                );
-                              }),
+    return 
+    WillPopScope(
+      onWillPop: ()async{
+       if (overlayEntry != null) {  // checking whether the overlayentry is alive (for dropdown list) and reove on user clicks backbutton.
+          overlayEntry.remove();
+          overlayEntry = null;
+          return false;
+        }
+        return true;
+      },
+      child: 
+      SafeArea(
+          child: GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: SingleChildScrollView(
+                  child: Column(
+                children: <Widget>[
+                  //SizedBox(height: 10,),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Container(
+                  //       width: 50,
+                  //       height: 50,
+                  //     ),
+                  //     Text(
+                  //       S.current.receive,
+                  //       style: TextStyle(
+                  //           fontSize: 16.0,
+                  //           fontWeight: FontWeight.w600,
+                  //           color: Colors.green),
+                  //     ),
+                  //     Padding(
+                  //       padding: const EdgeInsets.only(right: 20),
+                  //       child: InkWell(
+                  //         onTap: (){
+                  //           _incrementCounter(walletStore.subaddress.address,amountController.text);
+                  //           //Share.text('Share address', walletStore.subaddress.address, 'text/plain');
+                  //         },
+                  //         child: Container(
+                  //           width: 40,
+                  //           height: 40,
+                  //           padding: EdgeInsets.all(2),
+                  //           decoration: BoxDecoration(
+                  //               color: Theme.of(context).cardTheme.shadowColor,
+                  //               borderRadius: BorderRadius.all(Radius.circular(10))
+                  //           ),
+                  //           child: ButtonTheme(
+                  //             minWidth: double.minPositive,
+                  //             child: TextButton(
+                  //                 onPressed: () {
+                  //                   _incrementCounter(walletStore.subaddress.address,amountController.text);
+                  //                   //Share.text('Share address', walletStore.subaddress.address, 'text/plain');
+                  //                   },
+                  //                 child: SvgPicture.asset('assets/images/share_svg.svg',color: Theme.of(context).primaryTextTheme.caption.color,)),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                  RepaintBoundary(
+                    key: _globalKey,
+                    child: Container(
+                     // color: Theme.of(context).backgroundColor,
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(left:35.0,right:35.0),
+                            //color: Theme.of(context).backgroundColor,
+                           // margin: EdgeInsets.only(bottom: 10),
+                            child: Column(
+                              children: <Widget>[
+                                Observer(builder: (_) {
+                                   return
+                                   Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Container(
+                                        margin: EdgeInsets.only(bottom: 10),
+                                        height: MediaQuery.of(context).size.height*0.60/3,  //170,
+                                        width: MediaQuery.of(context).size.height*0.60/3,
+                                              decoration: BoxDecoration(
+                                                 borderRadius: BorderRadius.circular(10),
+                                                  color:settingsStore.isDarkTheme ? Color(0xff1F1F28) : Color(0xffEDEDED),
+                                              ),
+                                              padding: EdgeInsets.all(18),
+                                             
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                   color: Colors.white,
+                                                  borderRadius: BorderRadius.circular(10)
+                                                ),
+                                                padding: EdgeInsets.all(10),
+                                                child:
+                                                // Observer(builder: (_){
+                                                //   var qrData =  
+                                                   // return
+                                                      QrImage(
+                                                  data:walletStore.subaddress.address + walletStore.amountValue,
+                                                  backgroundColor: Colors.white,
+                                                 
+                                                ),
+                                               // },)
+                                                
+                                              ),
+                                            ),
+                                     // Spacer(flex: 1),
+                                      // Flexible(
+                                      //     flex: 2,
+                                      //     child: AspectRatio(
+                                      //       aspectRatio: 1.0,
+                                      //       child: Container(
+                                      //         padding: EdgeInsets.all(5),
+                                      //         color: Colors.white,
+                                      //         child: QrImage(
+                                      //           data: walletStore.subaddress.address + walletStore.amountValue,
+                                      //           backgroundColor: Colors.white,
+                                      //         ),
+                                      //       ),
+                                      //     )),
+                                      //Spacer(flex: 1)
+                                    ],
+                                  );
+                               }),
 
-                              // SizedBox(height: 15,),
+                             // SizedBox(height: 15,),
 
-                              Observer(builder: (_) {
-                                return Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+
+
+                                Observer(builder: (_) {
+                                  return Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         Padding(
-                                          padding:
-                                              const EdgeInsets.only(right: 8.0),
-                                          child: Text(
-                                            S.of(context).wallet_address,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w800,
-                                                fontSize: 17,
-                                                color: Color(0xff1BB51E)),
-                                          ),
+                                          padding: const EdgeInsets.only(right:8.0),
+                                          child: Text(S.of(context).wallet_address,style: TextStyle(fontWeight: FontWeight.w800,fontSize:17 ,color:Color(0xff1BB51E)),),
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            Clipboard.setData(ClipboardData(
-                                                text: walletStore
-                                                    .subaddress.address));
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                              margin: EdgeInsets.only(
-                                                  bottom: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.35 /
-                                                      3,
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.30 /
-                                                      3,
-                                                  right: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.30 /
-                                                      3),
-                                              elevation: 0,
-                                              //5,
-                                              behavior:
-                                                  SnackBarBehavior.floating,
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15.0) //only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                                                  ),
-                                              content: Text(
-                                                S.of(context).copied,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 15),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                              backgroundColor:
-                                                  Color(0xff0BA70F),
-                                              //.fromARGB(255, 46, 113, 43),
-                                              duration:
-                                                  Duration(milliseconds: 1500),
-                                            ));
-                                          },
-                                          child: Container(
-                                              height: 20,
-                                              width: 20,
-                                              child: SvgPicture.asset(
-                                                'assets/images/new-images/copy.svg',
-                                                color: settingsStore.isDarkTheme
-                                                    ? Color(0xffFFFFFF)
-                                                    : Color(0xff16161D),
-                                              )),
-                                        )
+                                         GestureDetector(
+                                            onTap: (){
+                                               Clipboard.setData(ClipboardData(
+                                                                text: walletStore.subaddress.address));
+                                                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                             margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.35/3,
+                                                             left: MediaQuery.of(context).size.height*0.30/3,
+                                                             right: MediaQuery.of(context).size.height*0.30/3
+                                                             ),
+                                                              elevation:0, //5,
+                                                              behavior: SnackBarBehavior.floating,
+                                                              shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius.circular(15.0) //only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
+                                                              ),
+                                                              content: Text(S
+                                                                  .of(context)
+                                                                  .copied,style: TextStyle(color: Colors.white,fontWeight:FontWeight.w700,fontSize:15) ,textAlign: TextAlign.center,),
+                                                              backgroundColor: Color(0xff0BA70F), //.fromARGB(255, 46, 113, 43),
+                                                              duration: Duration(
+                                                                  milliseconds: 1500),
+                                                            ));
+                                            },
+
+                                           child: Container(
+                                            height:20,width:20,
+                                            child: SvgPicture.asset('assets/images/new-images/copy.svg',color:settingsStore.isDarkTheme ? Color(0xffFFFFFF): Color(0xff16161D) ,)),
+                                         )
                                       ],
-                                    ),
-                                    Row(
-                                      children: <Widget>[
-                                        Expanded(
-                                            child: Container(
-                                                padding:
-                                                    EdgeInsets.only(top: 20.0),
-                                                child: Center(
-                                                    child: GestureDetector(
-                                                        // onTap: () {
-                                                        //   Clipboard.setData(ClipboardData(
-                                                        //       text: walletStore.subaddress.address));
-                                                        //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                        //     elevation: 5,
-                                                        //     shape: RoundedRectangleBorder(
-                                                        //         borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                                                        //     ),
-                                                        //     content: Text(S
-                                                        //         .of(context)
-                                                        //         .copied_to_clipboard,style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
-                                                        //     backgroundColor: Color.fromARGB(255, 46, 113, 43),
-                                                        //     duration: Duration(
-                                                        //         milliseconds: 1500),
-                                                        //   ));
-                                                        // },
-                                                        child: Text(
-                                                            walletStore
-                                                                .subaddress
-                                                                .address,
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            style: TextStyle(
-                                                              fontSize: 11.0,
-                                                              height: 1.5,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              color: Color(
-                                                                  0xff82828D), //Theme.of(context).primaryTextTheme.headline6.color
-                                                            ))))))
-                                      ],
-                                    ),
-                                  ],
-                                );
-                              }),
-                            ],
+                                      ),
+                                      Row(
+                                        children: <Widget>[
+                                          
+                                          Expanded(
+                                              child: Container(
+                                                  padding: EdgeInsets.only(top:20.0),
+                                                  child: Center(
+                                                      child: GestureDetector(
+                                                          // onTap: () {
+                                                          //   Clipboard.setData(ClipboardData(
+                                                          //       text: walletStore.subaddress.address));
+                                                          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                                          //     elevation: 5,
+                                                          //     shape: RoundedRectangleBorder(
+                                                          //         borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
+                                                          //     ),
+                                                          //     content: Text(S
+                                                          //         .of(context)
+                                                          //         .copied_to_clipboard,style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
+                                                          //     backgroundColor: Color.fromARGB(255, 46, 113, 43),
+                                                          //     duration: Duration(
+                                                          //         milliseconds: 1500),
+                                                          //   ));
+                                                          // },
+                                                          child: Text(
+                                                              walletStore.subaddress.address,
+                                                              textAlign: TextAlign.center,
+                                                              style: TextStyle(
+                                                                fontSize: 11.0,
+                                                                height: 1.5,
+                                                                fontWeight: FontWeight.w600,
+                                                                color: Color(0xff82828D),//Theme.of(context).primaryTextTheme.headline6.color
+                                                              )
+                                                          )
+                                                      )
+                                                  )
+                                              ))
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                }),
+                              ],
+                            ),
                           ),
-                        ),
 
                         Container(
-                          margin:
-                              EdgeInsets.only(top: 20, left: 20, bottom: 15),
+                          margin: EdgeInsets.only(top:20,left:20,bottom: 15),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(
-                                'Enter BDX to Receive',
-                                style: TextStyle(
-                                    fontFamily: 'Poppinsbold', fontSize: 16),
-                              ),
+                              Text('Enter BDX to Receive',style: TextStyle(fontFamily: 'Poppinsbold',fontSize:16),),
                             ],
                           ),
                         ),
-
+                        
                         Container(
-                          padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                          padding: EdgeInsets.only(left:15.0,right: 15.0),
                           child: Form(
-                              key: _formKey,
-                              child: NewBeldexTextField(
-                                  keyboardType: TextInputType.numberWithOptions(
-                                      signed: false, decimal: true),
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.deny(
-                                        RegExp('[-, ]'))
-                                  ],
-                                  hintText: 'Enter ${S.of(context).amount}',
-                                  validator: (value) {
-                                    walletStore.validateAmount(value);
-                                    return walletStore.errorMessage;
-                                  },
-                                  controller: amountController)),
+                                      key: _formKey,
+                                      child: NewBeldexTextField(
+                                          keyboardType:
+                                          TextInputType.numberWithOptions(decimal: true),
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.deny(RegExp('[- ]'))
+                                          ],
+                                          hintText: 'Enter ${S.of(context).amount}',
+                                          validator: (value) {
+                                            if(getAmountValidation(value)){
+                                                walletStore.validateAmount(value);
+                                            return walletStore.errorMessage;
+                                            }else{
+                                              return null;
+                                            }
+
+                                            
+                                           
+                                          },
+                                          controller: amountController
+                                      )),
                         ),
+
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-                        Container(
-                          //color: Colors.yellow,
 
-                          child: Stack(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(
-                                    top: 10,
-                                    left: 15.0,
-                                    right: 15.0,
-                                    bottom: 10),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xff464657)
-                                          : Color(0xffDADADA),
-                                    ),
-                                    borderRadius: BorderRadius.circular(10.0)),
-                                child: Column(
-                                  children: [
-                                    Padding(
-                                        padding: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.08 /
-                                                3,
-                                            right: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.10 /
-                                                3,
-                                            top: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.03 /
-                                                3),
-                                        child: GestureDetector(
+
+                Container( 
+                        //color: Colors.yellow,
+
+                        child: Stack(
+                          children: [
+                            Container(
+                             margin: EdgeInsets.only(top:10,left:15.0,right:15.0,bottom:10),
+                           decoration: BoxDecoration(
+                            border: Border.all(
+                              color: settingsStore.isDarkTheme ? Color(0xff464657) : Color(0xffDADADA),
+                              
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)
+                           ),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                          padding: EdgeInsets.only(
+                                              left: MediaQuery.of(context).size.height * 0.08 / 3,
+                                              right: MediaQuery.of(context).size.height * 0.10 / 3,
+                                              top: MediaQuery.of(context).size.height * 0.03 / 3),
+                                          child: GestureDetector(
                                             onTap: () {
-                                              final mHeight =
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .height;
+                                              final mHeight = MediaQuery.of(context).size.height;
                                               // setState(() {
                                               //   canShow = canShow ? false : true;
                                               // });
                                               setState(() {
                                                 isOpen = isOpen ? false : true;
                                               });
-
-                                              print(
-                                                  "the value of the isOpen $isOpen");
+                                              
+                                              print("the value of the isOpen $isOpen");
 
                                               OverlayState overlayState =
                                                   Overlay.of(context);
@@ -587,320 +622,368 @@ class ReceiveBodyState extends State<ReceiveBody> {
                                                 },
                                               );
 
-                                              overlayState
-                                                  ?.insert(overlayEntry);
+                                              overlayState?.insert(overlayEntry);
                                               // if(isOpen == false)
                                               //   overlayEntry?.remove();
                                             },
-                                            child: displayContainer(context))),
-                                    SizedBox(height: 15),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          left: 10, right: 10, bottom: 20),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          InkWell(
-                                            onTap: () {
-                                              showDialog<void>(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return SubAddressAlert();
-                                                  });
-                                            },
-                                            child: Container(
-                                              margin:
-                                                  EdgeInsets.only(right: 10),
-                                              width: 25.0,
-                                              height: 25.0,
-                                              child: SvgPicture.asset(
-                                                  'assets/images/new-images/plus_fill.svg',
-                                                  color: Color(0xff2979FB)),
-                                            ),
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              showDialog<void>(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return SubAddressAlert();
-                                                  });
-                                            },
-                                            child: Text(
-                                              'Add sub address',
-                                              //S.of(context).subaddresses,
-                                              style: TextStyle(
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Color(
-                                                      0xff2979FB) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                                                  ),
-                                            ),
-                                          ),
+                                            child: displayContainer(context)
+                                          )),
+                                  SizedBox(height:15),
 
-                                          // Container(
-                                          //   //color: Theme.of(context).accentTextTheme.headline5.color,
-                                          //   child: Column(
-                                          //     children: <Widget>[
-                                          //       ListTile(
-                                          //         title: Text(
-                                          //           S.of(context).subaddresses,
-                                          //           style: TextStyle(
-                                          //             fontSize: 16.0,
-                                          //             color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                                          //           ),
-                                          //         ),
-                                          //         trailing: Container(
-                                          //           width: 28.0,
-                                          //           height: 28.0,
-                                          //           child: InkWell(
-                                          //             onTap: () => Navigator.of(context)
-                                          //                 .pushNamed(Routes.newSubaddress),
-                                          //             borderRadius:
-                                          //             BorderRadius.all(Radius.circular(14.0)),
-                                          //             child: SvgPicture.asset('assets/images/add.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,),
-                                          //           ),
-                                          //         ),
-                                          //       ),
-                                          //       /* Divider(
-                                          //       color: Theme.of(context).dividerTheme.color,
-                                          //       height: 1.0,
-                                          //     )*/
-                                          //     ],
-                                          //   ),
-                                          // )
-                                        ],
+
+                                 Container(
+                                  margin: EdgeInsets.only(left: 10,right: 10,bottom:20),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,                                      
+                                    children: <Widget>[
+                                      InkWell(
+                                        onTap: ()async{
+                                         // await getSubAddressList(context);
+                                          await showDialog<void>(context: context, 
+                                       builder: (context){
+
+                                          return  SubAddressAlert();
+                                       });
+                                        },
+                                        child: Container(
+                                          margin: EdgeInsets.only(right:10),
+                                           width: 25.0,
+                                                  height: 25.0,
+                                          child:SvgPicture.asset('assets/images/new-images/plus_fill.svg',color:Color(0xff2979FB)),
+                                        ),
                                       ),
-                                    )
-                                  ],
-                                ),
+                                      InkWell(
+                                        onTap:()async{
+                                         // await getSubAddressList(context);
+                                          await showDialog<void>(context: context, 
+                                       builder: (context){
+                                           
+                                          return  SubAddressAlert();
+                                       });
+                                        } ,
+                                        child: Text('Add sub address',
+                                                  //S.of(context).subaddresses,
+                                                  style: TextStyle(
+                                                    decoration: TextDecoration.underline,
+                                                    fontSize: 16.0,
+                                                    
+                                                    fontWeight: FontWeight.w700,
+                                                    color:Color(0xff2979FB) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+                                                  ),
+                                                ),
+                                      ),
+                                      
+                                      
+                                      // Container(
+                                      //   //color: Theme.of(context).accentTextTheme.headline5.color,
+                                      //   child: Column(
+                                      //     children: <Widget>[
+                                      //       ListTile(
+                                      //         title: Text(
+                                      //           S.of(context).subaddresses,
+                                      //           style: TextStyle(
+                                      //             fontSize: 16.0,
+                                      //             color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+                                      //           ),
+                                      //         ),
+                                      //         trailing: Container(
+                                      //           width: 28.0,
+                                      //           height: 28.0,
+                                      //           child: InkWell(
+                                      //             onTap: () => Navigator.of(context)
+                                      //                 .pushNamed(Routes.newSubaddress),
+                                      //             borderRadius:
+                                      //             BorderRadius.all(Radius.circular(14.0)),
+                                      //             child: SvgPicture.asset('assets/images/add.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,),
+                                      //           ),
+                                      //         ),
+                                      //       ),
+                                      //       /* Divider(
+                                      //       color: Theme.of(context).dividerTheme.color,
+                                      //       height: 1.0,
+                                      //     )*/
+                                      //     ],
+                                      //   ),
+                                      // )
+                                    ],
+                                  ),
+                                 )
+                                
+                                
+                                
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                        
+                          ],
                         ),
+                      ),
 
-                        SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 0.20 / 3),
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                              SizedBox(height:MediaQuery.of(context).size.height*0.20/3),
                         Container(
                           margin: EdgeInsets.all(15),
                           child: InkWell(
-                            onTap: () => _incrementCounter(
-                                walletStore.subaddress.address,
-                                amountController.text),
+                            onTap: ()=> _incrementCounter(walletStore.subaddress.address,amountController.text),
                             child: Container(
+                              
                               padding: EdgeInsets.all(15),
                               decoration: BoxDecoration(
-                                  color: Color(0xff0BA70F),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Row(
+                                color: Color(0xff0BA70F),
+                                borderRadius: BorderRadius.circular(10)
+                              ),
+                              child:Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Icon(Icons.share, color: Colors.white),
+                                  Icon(Icons.share,color:Colors.white),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Text(
-                                      'Share QR',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: Color(0xffffffff),
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                    padding: const EdgeInsets.only(left:8.0),
+                                    child: Text('Share QR',style: TextStyle(fontSize:16,color:Color(0xffffffff) ,fontWeight:FontWeight.bold),),
                                   ),
                                 ],
                               ),
                             ),
                           ),
                         )
-                      ],
+
+                         
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                /* Row(
-                  children: <Widget>[
-                    Expanded(
-                        child: Container(
-                      color: Theme.of(context).accentTextTheme.headline5.color,
-                      child: Column(
-                        children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              S.of(context).subaddresses,
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline5
-                                      .color),
-                            ),
-                            trailing: Container(
-                              width: 28.0,
-                              height: 28.0,
-                              decoration: BoxDecoration(
-                                  color: Theme.of(context).selectedRowColor,
-                                  shape: BoxShape.circle),
-                              child: InkWell(
-                                onTap: () => Navigator.of(context)
-                                    .pushNamed(Routes.newSubaddress),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(14.0)),
-                                child: Icon(
-                                  Icons.add,
-                                  color: BeldexPalette.teal,
-                                  size: 22.0,
+                 /* Row(
+                    children: <Widget>[
+                      Expanded(
+                          child: Container(
+                        color: Theme.of(context).accentTextTheme.headline5.color,
+                        child: Column(
+                          children: <Widget>[
+                            ListTile(
+                              title: Text(
+                                S.of(context).subaddresses,
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: Theme.of(context)
+                                        .primaryTextTheme
+                                        .headline5
+                                        .color),
+                              ),
+                              trailing: Container(
+                                width: 28.0,
+                                height: 28.0,
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context).selectedRowColor,
+                                    shape: BoxShape.circle),
+                                child: InkWell(
+                                  onTap: () => Navigator.of(context)
+                                      .pushNamed(Routes.newSubaddress),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(14.0)),
+                                  child: Icon(
+                                    Icons.add,
+                                    color: BeldexPalette.teal,
+                                    size: 22.0,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Divider(
+                            Divider(
+                              color: Theme.of(context).dividerTheme.color,
+                              height: 1.0,
+                            )
+                          ],
+                        ),
+                      ))
+                    ],
+                  ),
+                  Observer(builder: (_) {
+                    return ListView.separated(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: subaddressListStore.subaddresses.length,
+                        separatorBuilder: (context, i) {
+                          return Divider(
                             color: Theme.of(context).dividerTheme.color,
                             height: 1.0,
-                          )
-                        ],
-                      ),
-                    ))
-                  ],
-                ),
-                Observer(builder: (_) {
-                  return ListView.separated(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: subaddressListStore.subaddresses.length,
-                      separatorBuilder: (context, i) {
-                        return Divider(
-                          color: Theme.of(context).dividerTheme.color,
-                          height: 1.0,
-                        );
-                      },
-                      itemBuilder: (context, i) {
-                        return Observer(builder: (_) {
-                          final subaddress =
-                              subaddressListStore.subaddresses[i];
-                          final isCurrent = walletStore.subaddress.address ==
-                              subaddress.address;
-                          final label = subaddress.label.isNotEmpty
-                              ? subaddress.label
-                              : subaddress.address;
-
-                          return InkWell(
-                            onTap: () => walletStore.setSubaddress(subaddress),
-                            child: Container(
-                              color: isCurrent ? currentColor : notCurrentColor,
-                              child: Column(children: <Widget>[
-                                ListTile(
-                                  title: Text(
-                                    label,
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        color: Theme.of(context)
-                                            .primaryTextTheme
-                                            .headline5
-                                            .color),
-                                  ),
-                                )
-                              ]),
-                            ),
                           );
+                        },
+                        itemBuilder: (context, i) {
+                          return Observer(builder: (_) {
+                            final subaddress =
+                                subaddressListStore.subaddresses[i];
+                            final isCurrent = walletStore.subaddress.address ==
+                                subaddress.address;
+                            final label = subaddress.label.isNotEmpty
+                                ? subaddress.label
+                                : subaddress.address;
+
+                            return InkWell(
+                              onTap: () => walletStore.setSubaddress(subaddress),
+                              child: Container(
+                                color: isCurrent ? currentColor : notCurrentColor,
+                                child: Column(children: <Widget>[
+                                  ListTile(
+                                    title: Text(
+                                      label,
+                                      style: TextStyle(
+                                          fontSize: 16.0,
+                                          color: Theme.of(context)
+                                              .primaryTextTheme
+                                              .headline5
+                                              .color),
+                                    ),
+                                  )
+                                ]),
+                              ),
+                            );
+                          });
                         });
-                      });
-                })*/
-              ],
-            ))));
+                  })*/
+                ],
+              )))),
+    );
   }
 
-  Widget displayContainer(BuildContext context) {
-    final settingsStore = Provider.of<SettingsStore>(context);
-    getSubAddress(context);
-    return Stack(
-      children: [
-        Container(
-            height: MediaQuery.of(context).size.height * 0.19 / 3,
-            decoration: BoxDecoration(
-                color: settingsStore.isDarkTheme
-                    ? Color(0xff292937)
-                    : Color(0xffEDEDED),
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 4.0, right: 6.0, top: 3.0, bottom: 5.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Container(
-                        margin: EdgeInsets.all(8),
-                        width: 20,
-                        //height:mHeight*0.15/3,width: mHeight*0.20/3,
-                        // margin:EdgeInsets.only(right:mHeight*0.03/3,),
-                        child:
-                            Icon(Icons.more_horiz, color: Colors.transparent)),
-                    Expanded(
-                        child: Center(
-                      child: Text('$currentSubAddress',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.w700,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xff00DC00)
-                                  : Color(0xff0BA70F))),
-                    )),
-                    Container(
-                        child: Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.grey,
-                    ))
-                  ],
-                ))),
 
+Widget displayContainer(BuildContext context){
+  final settingsStore = Provider.of<SettingsStore>(context);
+  getSubAddress(context);
+ return Stack(
+   children: [
+     Container(
+                                                  height:
+                                                      MediaQuery.of(context).size.height *
+                                                          0.19 /
+                                                          3,
+                                                  decoration: BoxDecoration(
+                                                      color:settingsStore.isDarkTheme ?  Color(0xff292937) : Color(0xffEDEDED),
+                                                          
+                                                      borderRadius: BorderRadius.all(
+                                                          Radius.circular(10))),
+                                                  child: Padding(
+                                                      padding: const EdgeInsets.only(
+                                                          left: 4.0,
+                                                          right: 6.0,
+                                                          top: 3.0,
+                                                          bottom: 5.0),
+                                                      child: Row(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment.center,
+                                                        children: [
+                                                          Container(
+                                                              margin: EdgeInsets.all(8),
+                                                              width: 20,
+                                                              //height:mHeight*0.15/3,width: mHeight*0.20/3,
+                                                              // margin:EdgeInsets.only(right:mHeight*0.03/3,),
+                                                              child: Icon(
+                                                                      Icons.more_horiz,
+                                                                      color: Colors.transparent
+                                                                    )),
+                                                          Expanded(
+                                                              child: Center(
+                                                            child: Text('$currentSubAddress',
+                                                                overflow:
+                                                                    TextOverflow.ellipsis,
+                                                                maxLines: 1,
+                                                                style: TextStyle(
+                                                                  fontSize: 16.0,
+                                                                  fontWeight: FontWeight.w700,
+                                                                    color:settingsStore.isDarkTheme ? Color(
+                                                                        0xff00DC00) : Color(0xff0BA70F))),
+                                                          )),
+                                                          Container(
+                                                              child: Icon(
+                                                            Icons.arrow_drop_down,
+                                                            color: Colors.grey,
+                                                          ))
+                                                        ],
+                                                      ))),
+              
         // Container(
         //     height:MediaQuery.of(context).size.height *
         //                                                   0.19 /
         //                                                   3,
         //                                           decoration: BoxDecoration(
         //                                               color:settingsStore.isDarkTheme ?  Color(0xff292937) : Color(0xffEDEDED),
-
+                                                          
         //                                               borderRadius: BorderRadius.all(
         //                                                   Radius.circular(10))),
         //   child: DropdownButton<String>(
 
         //     items:)
-        // )
-      ],
-    );
-  }
+        // )     
+   
+   ],
+ );
+}
 
-  void getSubAddress(BuildContext context) async {
-    final subaddressListStore = Provider.of<SubaddressListStore>(context);
-    final walletStore = Provider.of<WalletStore>(context);
 
-    final prefs = await SharedPreferences.getInstance();
+
+void getSubAddress(BuildContext context)async{
+     final subaddressListStore = Provider.of<SubaddressListStore>(context);
+     final walletStore = Provider.of<WalletStore>(context);
+    
+     final  prefs = await SharedPreferences.getInstance();
     dynamic subaddress;
     bool isCurrent;
     //dynamic label;
     dynamic label;
-    setState(() {
-      for (int i = 0; i < subaddressListStore.subaddresses.length; i++) {
-        subaddress = subaddressListStore.subaddresses[i];
-        isCurrent = walletStore.subaddress.address == subaddress.address;
-        label = subaddress.label ?? subaddress.address;
-        if (isCurrent) {
-          prefs.setString('currentSubAddress', label.toString());
-        }
-      }
-      currentSubAddress = prefs.getString('currentSubAddress');
-    });
-  }
+     setState(() {
+            for(int i=0;i<subaddressListStore.subaddresses.length;i++){
+         subaddress = subaddressListStore.subaddresses[i];
+         isCurrent = walletStore.subaddress.address ==
+                                              subaddress.address;
+         label = subaddress.label ?? subaddress.address;
+         if(isCurrent){
+          prefs.setString('currentSubAddress',label.toString());
+         }
+      } 
+        currentSubAddress = prefs.getString('currentSubAddress');
+
+          });
+     
+         
+        
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 ////
-  Widget _buildExitnodeListView(double mHeight) {
-    final subaddressListStore = Provider.of<SubaddressListStore>(context);
-    final walletStore = Provider.of<WalletStore>(context);
-    final settingsStore = Provider.of<SettingsStore>(context);
-    return Material(
+Widget _buildExitnodeListView(double mHeight) {
+  final subaddressListStore = Provider.of<SubaddressListStore>(context);
+  final walletStore = Provider.of<WalletStore>(context);
+  final settingsStore = Provider.of<SettingsStore>(context);
+    return subaddressListStore.subaddresses.length <= 1 ? Container() : Material(
       color: Colors.transparent,
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
@@ -929,82 +1012,117 @@ class ReceiveBodyState extends State<ReceiveBody> {
               //         3),
               // child:
               Container(
-                  height: MediaQuery.of(context).size.height * 0.70 / 3,
-                  width: MediaQuery.of(context).size.width * 2.7 / 3,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(4.0),
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xff292937)
-                        : Color(0xffEDEDED),
-                  ),
-                  child: Observer(
-                    builder: (_) {
-                      return ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          itemCount: subaddressListStore.subaddresses.length,
-                          itemBuilder: (BuildContext context, int i) {
-                            // print("data inside listview ${exitData[index]}");
-                            return Observer(builder: (context) {
-                              final subaddress =
-                                  subaddressListStore.subaddresses[i];
-                              final isCurrent =
-                                  walletStore.subaddress.address ==
-                                      subaddress.address;
-                              final label = subaddress.label.isNotEmpty
-                                  ? subaddress.label
-                                  : subaddress.address;
-                              return InkWell(
-                                onTap: () async {
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  walletStore.setSubaddress(subaddress);
-                                  await prefs.setString(
-                                      'currentSubAddress', label.toString());
-                                  setState(() {
-                                    currentSubAddress =
-                                        prefs.getString('currentSubAddress');
-                                  });
-                                },
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 10),
-                                  padding: EdgeInsets.all(15),
-                                  child: Text(
-                                    label,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w700,
-                                        color: Color(
-                                            0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                                        ),
-                                  ),
-                                ),
-                              );
-                            });
-                          }
-                          // _buildList(exitData[index]),
-                          );
-                    },
-                  )),
+            height: MediaQuery.of(context).size.height * 0.70 / 3,
+            width: MediaQuery.of(context).size.width * 2.7 / 3,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4.0),
+              color:settingsStore.isDarkTheme ? Color(0xff292937) : Color(0xffEDEDED),
+            ),
+            child: Observer(builder: (_){
+
+                 return ListView.builder(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                itemCount: subaddressListStore.subaddresses.length,
+                itemBuilder: (BuildContext context, int i) {
+                  // print("data inside listview ${exitData[index]}");
+                  return Observer(builder: (context){
+                     final subaddress =
+                                          subaddressListStore.subaddresses[i];
+                                          final isCurrent = walletStore.subaddress.address ==
+                                              subaddress.address;
+                                          final label = subaddress.label.isNotEmpty
+                                              ? subaddress.label
+                                              : subaddress.address;
+                        return InkWell(
+                           onTap: ()async{
+                            overlayEntry.remove();
+                            SharedPreferences prefs =await SharedPreferences.getInstance();
+                            walletStore.setSubaddress(subaddress);
+                            await prefs.setString('currentSubAddress',label.toString());
+                             setState(() {
+                                                            
+                                 currentSubAddress = prefs.getString('currentSubAddress');                        
+                                                          });
+
+                           } ,
+                          child: Column(
+                            children: [
+                              Container(
+                                                  margin: EdgeInsets.only(left: 10),
+                                                  padding: EdgeInsets.all(10),
+                                                  // decoration: BoxDecoration(
+                                                  //   border: Border(bottom: BorderSide(color: Colors.grey))
+                                                  // ),
+                                                  child: Text(
+                                                    label,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 16.0,
+                                                      fontWeight: FontWeight.w700,
+                                                      color:Color(0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+                                                    ),
+                                                  ),
+                                                ),
+                                Divider(color: Colors.grey[300],)
+                            ],
+                          ),
+                        );
+                  });
+                  
+                }
+                // _buildList(exitData[index]),
+                );
+            },)
+            
+             
+          ),
           // ),
         ),
       ),
     );
   }
-}
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
 class NewBeldexTextField extends StatelessWidget {
   NewBeldexTextField(
       {this.enabled = true,
-      this.hintText,
-      this.keyboardType,
-      this.controller,
-      this.validator,
-      this.inputFormatters,
-      this.prefixIcon,
-      this.suffixIcon,
-      this.focusNode});
+        this.hintText,
+        this.keyboardType,
+        this.controller,
+        this.validator,
+        this.inputFormatters,
+        this.prefixIcon,
+        this.suffixIcon,
+        this.focusNode});
 
   final bool enabled;
   final String hintText;
@@ -1018,16 +1136,16 @@ class NewBeldexTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final settingsStore = Provider.of<SettingsStore>(context);
+     final settingsStore = Provider.of<SettingsStore>(context);
     return Card(
-      color: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED),
-      //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31,32,39),
+      color:settingsStore.isDarkTheme ? Color(0xff272733):Color(0xffEDEDED),  //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31,32,39),
       elevation: 0,
       shape: RoundedRectangleBorder(
-          side: BorderSide(width: 0.5, color: Colors.transparent),
-          borderRadius: BorderRadius.circular(10)),
+        side: BorderSide(width: 0.5,color: Colors.transparent),
+          borderRadius: BorderRadius.circular(10)
+      ),
       child: Padding(
-        padding: const EdgeInsets.only(left: 25.0),
+        padding: const EdgeInsets.only(left:25.0),
         child: TextFormField(
             onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
             enabled: enabled,
@@ -1043,12 +1161,8 @@ class NewBeldexTextField extends StatelessWidget {
                 border: InputBorder.none,
                 prefixIcon: prefixIcon,
                 suffixIcon: suffixIcon,
-                hintStyle: TextStyle(
-                    fontSize: 15.0,
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xff77778B)
-                        : Color(0xff6F6F6F),
-                    fontWeight: FontWeight.w600),
+                hintStyle:
+                TextStyle(fontSize: 15.0, color: settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xff6F6F6F),fontWeight: FontWeight.w600),
                 hintText: hintText,
                 /*focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: BeldexPalette.teal, width: 2.0)),
@@ -1065,5 +1179,16 @@ class NewBeldexTextField extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 ///

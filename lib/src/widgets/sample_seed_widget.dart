@@ -509,7 +509,7 @@ class SeedWidgetState extends State<SeedWidget> {
                           onTap: (){
                             print('inside the function---> $_seedController');
                             
-                            if( wordCount == 25){
+                            if( wordCount > 0){
                               print('inside first if--->');
                               setState(() {
                                   _errorMessage1 = '';                           

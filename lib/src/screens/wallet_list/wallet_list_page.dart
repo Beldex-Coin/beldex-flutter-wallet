@@ -60,6 +60,18 @@ class WalletListBodyState extends State<WalletListBody> {
   void authStatus(bool value, WalletDescription wallet, BuildContext context) {
     if(value) {
       isAuthenticatedSuccessfully = false;
+    //   showDialog<void>(
+    //   context: context,
+    //   //barrierColor: Colors.transparent,
+    //   barrierDismissible: false,
+    //   builder: (BuildContext context) {
+    //     return WillPopScope(
+    //       // Prevent closing the dialog when the user presses the back button
+    //       onWillPop: () async => false,
+    //       child: LoadingScreen(wallet: wallet,walletListStore: _walletListStore,)
+    //     );
+    //   },
+    // );
       Navigator.pushReplacement(context,MaterialPageRoute<void>(builder: (context)=>LoadingPage(wallet:wallet,walletListStore: _walletListStore)));
     }
   }
@@ -97,12 +109,13 @@ class WalletListBodyState extends State<WalletListBody> {
               child: RawScrollbar(
                 
                 controller: _scrollController,
+                  isAlwaysShown: true,
                       thickness: 8,
                       thumbColor: settingsStore.isDarkTheme
                           ? Color(0xff3A3A45)
                           : Color(0xffC2C2C2),
                       radius: Radius.circular(10.0),
-                      isAlwaysShown: true,
+                    
                 child: Observer(
                   builder: (_) =>
                       ListView.builder(
@@ -276,5 +289,39 @@ class WalletListBodyState extends State<WalletListBody> {
         );
         
        // );
+  }
+}
+
+
+class LoadingScreen extends StatelessWidget {
+   final WalletDescription wallet;
+  final WalletListStore walletListStore;
+   LoadingScreen({ Key key, this.wallet, this.walletListStore }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Future.delayed(
+        const Duration(milliseconds: 250), () {
+      walletListStore.loadWallet(wallet);
+      Navigator.of(context).pop();
+    });
+    return AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+
+            //backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
+            content: 
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Text('Creating the Transaction',style:TextStyle(fontSize: 18,fontWeight: FontWeight.w700)),
+                )
+              ],
+            ),
+          );
   }
 }
