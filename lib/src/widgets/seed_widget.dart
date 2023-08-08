@@ -85,7 +85,7 @@ class SeedWidgetState extends State<SeedWidget> {
   List<MnemoticItem> currentMnemotics;
   bool isCurrentMnemoticValid;
   String _errorMessage;
-  String _errorMessage1='';
+  String _errorMessage1 = '';
 
   @override
   void initState() {
@@ -386,9 +386,7 @@ class SeedWidgetState extends State<SeedWidget> {
                             Container(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text('$wordCount/25')
-                                ],
+                                children: [Text('$wordCount/25')],
                               ),
                             ),
                             Row(
@@ -397,12 +395,12 @@ class SeedWidgetState extends State<SeedWidget> {
                                 Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: GestureDetector(
-                                    onTap: (){
-                                     _seedController.clear();
-                                     setState(() {
-                                            wordCount = 0;                                
-                                        });
-                                    }, 
+                                    onTap: () {
+                                      _seedController.clear();
+                                      setState(() {
+                                        wordCount = 0;
+                                      });
+                                    },
                                     child: Container(
                                       height: 43,
                                       width: 90,
@@ -423,15 +421,16 @@ class SeedWidgetState extends State<SeedWidget> {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () async{
+                                  onTap: () async {
                                     await Clipboard.getData('text/plain').then(
-                                          (clipboard) =>
-                                              replaceText(clipboard.text));
+                                        (clipboard) =>
+                                            replaceText(clipboard.text));
                                     setState(() {
-                                          wordCount = _seedController.text.split(' ').length;                                
-                                                                        });
+                                      wordCount = _seedController.text
+                                          .split(' ')
+                                          .length;
+                                    });
                                   },
-                                     
                                   child: Container(
                                     height: 43,
                                     width: MediaQuery.of(context).size.width *
@@ -478,8 +477,12 @@ class SeedWidgetState extends State<SeedWidget> {
                         ),
                       ),
                     ),
-                   _errorMessage1 != null || _errorMessage1 != '' ? Container():
-                    Text('$_errorMessage1',style: TextStyle(color: Colors.red),),
+                    _errorMessage1 == null || _errorMessage1 == ''
+                        ? Container()
+                        : Text(
+                            '$_errorMessage1',
+                            style: TextStyle(color: Colors.red),
+                          ),
                     // Row(
                     //   mainAxisAlignment: MainAxisAlignment.end,
                     //   children: [
@@ -506,38 +509,41 @@ class SeedWidgetState extends State<SeedWidget> {
                       children: [
                         SizedBox(height: 150),
                         GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             print('inside the function---> $_seedController');
-                            
-                            if( wordCount == 25){
+
+                            if (wordCount == 25) {
                               print('inside first if--->');
                               setState(() {
-                                  _errorMessage1 = '';                           
-                                                            });
-                              if(widget.onFinish != null){
+                                _errorMessage1 = '';
+                              });
+                              if (widget.onFinish != null) {
                                 print('inside second if--->');
-                               return widget.onFinish();
-                              }else{
+                                return widget.onFinish();
+                              } else {
                                 print('inside first else--->');
                                 return null;
                               }
-                            }else{
+                            } else {
                               print('inside second else --->');
                               setState(() {
-                                _errorMessage1 = 'Enter valid seed values';                              
-                                                            });
-                                return null;
+                                _errorMessage1 = S.of(context).pleaseEnterAValidSeed;
+                              });
+                              return null;
                             }
                           },
                           child: Container(
-                            height: 60,
-                            width: 250,
-                            decoration: BoxDecoration(
-                                color: Color(0xff0BA70F),
-                                borderRadius: BorderRadius.circular(10)),
-                            alignment: Alignment.center,
-                           child:Text(S.of(context).restore_next,style:TextStyle(fontSize:16,fontWeight:FontWeight.w700,color: Colors.white))
-                          ),
+                              height: 60,
+                              width: 250,
+                              decoration: BoxDecoration(
+                                  color: Color(0xff0BA70F),
+                                  borderRadius: BorderRadius.circular(10)),
+                              alignment: Alignment.center,
+                              child: Text(S.of(context).restore_next,
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white))),
                         ),
                         // Padding(
                         //     padding: EdgeInsets.only(

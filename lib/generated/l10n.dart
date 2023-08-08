@@ -2963,6 +2963,16 @@ String get do_you_want_to_exit_the_wallet {
       args: [],
     );
   }
+
+  /// `Please enter a valid seed`
+  String get pleaseEnterAValidSeed {
+    return Intl.message(
+      'Please enter a valid seed',
+      name: 'pleaseEnterAValidSeed',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

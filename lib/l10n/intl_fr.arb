@@ -318,5 +318,6 @@
   "byUsingThisAppYouAgreeToTheTermsOf": "En utilisant cette application, vous acceptez les termes de l'accord ci-dessous",
   "iAgreeToTermsOfUse": "J'accepte les conditions d'utilisation",
   "accept": "J'accepte",
-  "pleaseEnterAValidAmount": "Please enter a valid amount"
+  "pleaseEnterAValidAmount": "Please enter a valid amount",
+  "pleaseEnterAValidSeed": "Please enter a valid seed"
 }
