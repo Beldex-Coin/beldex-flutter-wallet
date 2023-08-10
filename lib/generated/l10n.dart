@@ -2398,10 +2398,10 @@ String get amount_detail_zero {
     );
   }
 
-  /// `Beldex value can't exceed available balance.\nThe number of fraction digits must be less or equal to 12`
+  /// `Beldex value can't exceed available balance.\nThe number of fraction digits must be less or equal to 9`
   String get error_text_beldex {
     return Intl.message(
-      'Beldex value can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 12',
+      'Beldex value can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 9',
       name: 'error_text_beldex',
       desc: '',
       args: [],

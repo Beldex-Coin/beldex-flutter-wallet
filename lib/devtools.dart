@@ -1,1 +1,1 @@
-const isTestnet = false; //true;
+const isTestnet = true;

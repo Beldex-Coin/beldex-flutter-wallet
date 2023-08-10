@@ -280,29 +280,7 @@ abstract class SendStoreBase with Store {
       }
     }
     errorMessage = isValid ? null : S.current.error_text_beldex;
-    /*const maxValue = 150000000.00000;
-    const pattern = '^([0-9]+([.][0-9]{0,12})?|[.][0-9]{1,12})\$|ALL';
-    final value = amount.replaceAll(',', '.');
-    final regExp = RegExp(pattern);
-
-    if (regExp.hasMatch(value)) {
-      if (value == 'ALL') {
-        isValid = true;
-      } else {
-        try {
-          final dValue = double.parse(value);
-          final maxAvailable = availableBalance;
-          isValid =
-              (dValue <= maxAvailable && dValue <= maxValue && dValue > 0);
-        } catch (e) {
-          isValid = false;
-        }
-      }
-    } else {
-      isValid = false;
-    }
-
-    errorMessage = isValid ? null : S.current.error_text_beldex;*/
+    
   }
 
   // void validateBELDEX(String amount, int availableBalance) {

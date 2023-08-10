@@ -67,81 +67,7 @@ class ReceivePage extends BasePage {
   Widget trailing(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     return Container();
-    // Container(
-    //   width: 60,
-    //   height: 60,
-    //   alignment: Alignment.centerLeft,
-    //   // decoration: BoxDecoration(
-    //   //   color: Theme.of(context).accentTextTheme.headline6.color,
-    //   //   borderRadius: BorderRadius.only(
-    //   //       topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
-    //   //   boxShadow: [
-    //   //     BoxShadow(
-    //   //       color: Theme.of(context).accentTextTheme.headline6.color,
-    //   //       blurRadius: 2.0,
-    //   //       spreadRadius: 1.0,
-    //   //       offset: Offset(2.0, 2.0), // shadow direction: bottom right
-    //   //     )
-    //   //   ],
-    //   // ),
-    //   child: SizedBox(
-    //     height: 55, //55
-    //     width: 55, //37
-    //     child: ButtonTheme(
-    //       minWidth: double.minPositive,
-    //       child: TextButton(
-    //           /* highlightColor: Colors.transparent,
-    //           splashColor: Colors.transparent,
-    //           padding: EdgeInsets.all(0),*/
-    //           style: ButtonStyle(
-    //             overlayColor:
-    //                 MaterialStateColor.resolveWith((states) => Colors.transparent),
-    //           ),
-    //           onPressed: () =>
-    //               Navigator.of(context).pushNamed(Routes.profile),
-    //           child:
-    //            SvgPicture.asset(
-    //             'assets/images/new-images/setting.svg',
-    //             fit: BoxFit.cover,
-    //             color: settingsStore.isDarkTheme ? Color(0xffFFFFFF) : Color(0xff16161D),
-    //             width: 25,
-    //             height: 25,
-    //           ) /*Icon(Icons.account_circle_rounded,
-    //               color: Theme.of(context).primaryTextTheme.caption.color,
-    //               size: 30)*/
-    //           ),
-    //     ),
-    //   ),
-    // );
   }
-
-  /*@override
-  Widget leading(BuildContext context) {
-    final walletStore = Provider.of<WalletStore>(context);
-
-    return Padding(
-      padding: const EdgeInsets.only(top:20.0,bottom: 5,left: 10),
-      child: Container(
-        width: 25,
-        height: 25,
-        padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.all(Radius.circular(10))
-        ),
-        child: ButtonTheme(
-          minWidth: double.minPositive,
-          child: FlatButton(
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              padding: EdgeInsets.all(0),
-              onPressed: () => Share.text(
-                  'Share address', walletStore.subaddress.address, 'text/plain'),
-              child: SvgPicture.asset('assets/images/share_svg.svg',color: Colors.white,)),
-        ),
-      ),
-    );
-  }*/
 
   @override
   Widget body(BuildContext context) =>
@@ -168,30 +94,6 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver{
     super.initState();
     // getSubAddress();
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   @override
   void dispose() {
     amountController.dispose();
@@ -244,19 +146,6 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver{
     }
   }
 
-// List<String> subaddressList = [];
-
-// Future getSubAddressList(BuildContext context){
-//   final subaddressListStore = Provider.of<SubaddressListStore>(context,listen: false);
-//   setState(() {
-//       for(var i =0;i<subaddressListStore.subaddresses.length;i++){
-//         subaddressList.add(subaddressListStore.subaddresses[i].label);
-//       }
-//     });
-// }
-
-
-
  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     print('inside app life cycle ------>');
@@ -272,12 +161,6 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver{
       }
     }
   }
-
-
-
-
-
-
 void _hideOverlay() {
     if (overlayEntry != null) {
       overlayEntry.remove();
@@ -287,16 +170,6 @@ void _hideOverlay() {
       });
     }
   }
-
-
-
-
-
-
-
-
-
-
   @override
   Widget build(BuildContext context) {
     final walletStore = Provider.of<WalletStore>(context);
@@ -389,21 +262,6 @@ void _hideOverlay() {
                                           // },)
                                         ),
                                       ),
-                                      // Spacer(flex: 1),
-                                      // Flexible(
-                                      //     flex: 2,
-                                      //     child: AspectRatio(
-                                      //       aspectRatio: 1.0,
-                                      //       child: Container(
-                                      //         padding: EdgeInsets.all(5),
-                                      //         color: Colors.white,
-                                      //         child: QrImage(
-                                      //           data: walletStore.subaddress.address + walletStore.amountValue,
-                                      //           backgroundColor: Colors.white,
-                                      //         ),
-                                      //       ),
-                                      //     )),
-                                      //Spacer(flex: 1)
                                     ],
                                   );
                                 }),
@@ -782,94 +640,6 @@ void _hideOverlay() {
                       ),
                     ),
                   ),
-                  /* Row(
-                    children: <Widget>[
-                      Expanded(
-                          child: Container(
-                        color: Theme.of(context).accentTextTheme.headline5.color,
-                        child: Column(
-                          children: <Widget>[
-                            ListTile(
-                              title: Text(
-                                S.of(context).subaddresses,
-                                style: TextStyle(
-                                    fontSize: 16.0,
-                                    color: Theme.of(context)
-                                        .primaryTextTheme
-                                        .headline5
-                                        .color),
-                              ),
-                              trailing: Container(
-                                width: 28.0,
-                                height: 28.0,
-                                decoration: BoxDecoration(
-                                    color: Theme.of(context).selectedRowColor,
-                                    shape: BoxShape.circle),
-                                child: InkWell(
-                                  onTap: () => Navigator.of(context)
-                                      .pushNamed(Routes.newSubaddress),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(14.0)),
-                                  child: Icon(
-                                    Icons.add,
-                                    color: BeldexPalette.teal,
-                                    size: 22.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Divider(
-                              color: Theme.of(context).dividerTheme.color,
-                              height: 1.0,
-                            )
-                          ],
-                        ),
-                      ))
-                    ],
-                  ),
-                  Observer(builder: (_) {
-                    return ListView.separated(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: subaddressListStore.subaddresses.length,
-                        separatorBuilder: (context, i) {
-                          return Divider(
-                            color: Theme.of(context).dividerTheme.color,
-                            height: 1.0,
-                          );
-                        },
-                        itemBuilder: (context, i) {
-                          return Observer(builder: (_) {
-                            final subaddress =
-                                subaddressListStore.subaddresses[i];
-                            final isCurrent = walletStore.subaddress.address ==
-                                subaddress.address;
-                            final label = subaddress.label.isNotEmpty
-                                ? subaddress.label
-                                : subaddress.address;
-
-                            return InkWell(
-                              onTap: () => walletStore.setSubaddress(subaddress),
-                              child: Container(
-                                color: isCurrent ? currentColor : notCurrentColor,
-                                child: Column(children: <Widget>[
-                                  ListTile(
-                                    title: Text(
-                                      label,
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          color: Theme.of(context)
-                                              .primaryTextTheme
-                                              .headline5
-                                              .color),
-                                    ),
-                                  )
-                                ]),
-                              ),
-                            );
-                          });
-                        });
-                  })*/
                 ],
               )))),
     );
@@ -919,20 +689,6 @@ void _hideOverlay() {
                     ))
                   ],
                 ))),
-
-        // Container(
-        //     height:MediaQuery.of(context).size.height *
-        //                                                   0.19 /
-        //                                                   3,
-        //                                           decoration: BoxDecoration(
-        //                                               color:settingsStore.isDarkTheme ?  Color(0xff292937) : Color(0xffEDEDED),
-
-        //                                               borderRadius: BorderRadius.all(
-        //                                                   Radius.circular(10))),
-        //   child: DropdownButton<String>(
-
-        //     items:)
-        // )
       ],
     );
   }
@@ -984,19 +740,6 @@ void _hideOverlay() {
                     left: mHeight * 0.15 / 3,
                     right: mHeight * 0.16 / 3),
                 child:
-
-                    /// Padding(
-                    // padding: EdgeInsets.only(
-                    //     left: MediaQuery.of(context).size.height *
-                    //         0.08 /
-                    //         3,
-                    //     right: MediaQuery.of(context).size.height *
-                    //         0.10 /
-                    //         3,
-                    //     top: MediaQuery.of(context).size.height *
-                    //         0.03 /
-                    //         3),
-                    // child:
                     Container(
                         height: MediaQuery.of(context).size.height * 0.70 / 3,
                         width: MediaQuery.of(context).size.width * 2.7 / 3,
@@ -1137,20 +880,10 @@ class NewBeldexTextField extends StatelessWidget {
                         : Color(0xff6F6F6F),
                     fontWeight: FontWeight.w600),
                 hintText: hintText,
-                /*focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: BeldexPalette.teal, width: 2.0)),
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Theme.of(context).focusColor, width: 1.0)),
-                errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: BeldexPalette.red, width: 1.0)),
-                focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: BeldexPalette.red, width: 1.0)),*/
+            
                 errorStyle: TextStyle(color: BeldexPalette.red)),
             validator: validator),
       ),
     );
   }
 }
-
-///

@@ -1,7 +1,5 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,9 +14,7 @@ import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/src/widgets/scollable_with_bottom_section.dart';
-import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
-import 'package:beldex_wallet/src/screens/seed_language/widgets/seed_language_picker.dart';
 import 'package:beldex_wallet/src/util/generate_name.dart';
 import 'dart:math' as math;
 
@@ -34,17 +30,6 @@ class NewWalletPage extends BasePage {
 
   @override
   String get title => S.current.new_wallet;
-
-  // @override
-  // Widget leading(BuildContext context) {
-  //   return Container(
-  //       padding: const EdgeInsets.only(top: 12.0, left: 10),
-  //       decoration: BoxDecoration(
-  //         //borderRadius: BorderRadius.circular(10),
-  //         //color: Colors.black,
-  //       ),
-  //       child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
-  // }
 
   @override
   Widget trailing(BuildContext context) {
@@ -67,7 +52,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
 
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
- // ReactionDisposer walletDisposer;
+
   Future setName() async {
     var flag = true;
     while (flag) {
@@ -82,13 +67,6 @@ class _WalletNameFormState extends State<WalletNameForm> {
     }
   }
 
-  // List<String> avatarList = [
-  //   "assets/images/avatar1.png",
-  //   "assets/images/avatar2.png",
-  //   "assets/images/avatar3.png",
-  //   "assets/images/avatar4.png",
-  //   "assets/images/avatar5.png"
-  // ];
   final List<String> seedLocales = [
     S.current.seed_language_english,
     S.current.seed_language_chinese,
@@ -102,99 +80,32 @@ class _WalletNameFormState extends State<WalletNameForm> {
     S.current.seed_language_italian
   ];
   final _scrollController = ScrollController(keepScrollOffset: true);
-  final _controller = ScrollController(keepScrollOffset: true);
   int _selectedIndex = 0;
   bool isError = false;
   bool canremove = false;
+
   void _onSelected(int index) {
     final seedLanguageStore = context.read<SeedLanguageStore>();
     setState(() {
       _selectedIndex = index;
       if (_selectedIndex != null) {
-        //selectedSeedLanguage = seedLanguages[seedLocales.indexOf(selectedSeedLanguage)];
         seedLanguageStore.setSelectedSeedLanguage(seedLocales[_selectedIndex]);
         print('seed languages ${seedLocales[_selectedIndex]}');
       }
     });
   }
 
-
-
-void _loading(bool _canLoad) {
-  
-   if(_canLoad){
-    // Show the HUD progress loader
-    showHUDLoader(context);
-   }
-  //  else{
-  //    Navigator.pop(context);
-  //  }
-    
-  }
-
-
-
-
-void showHUDLoader(BuildContext context) {
-  //final settingsStore = Provider.of<SettingsStore>(context,listen: false);
-    showDialog<void>(
-      context: context,
-      //barrierColor: Colors.transparent,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return WillPopScope(
-          // Prevent closing the dialog when the user presses the back button
-          onWillPop: () async => false,
-          child: AlertDialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-
-            //backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
-            content: 
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Center(
-                  child: CircularProgressIndicator( valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(13.0),
-                  child: Text('Creating new Wallet...',style:TextStyle(fontSize: 18,fontWeight: FontWeight.w700)),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-
-
-
-
-@override
+  @override
   void dispose() {
-   // walletDisposer?.call();
     super.dispose();
   }
-
-
-
-
-
-
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
     final walletCreationStore = Provider.of<WalletCreationStore>(context);
     final seedLanguageStore = Provider.of<SeedLanguageStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-  reaction((_) => walletCreationStore.state, (WalletCreationState state) {
+    reaction((_) => walletCreationStore.state, (WalletCreationState state) {
       if (state is WalletCreatedSuccessfully) {
         Navigator.of(context).popUntil((route) => route.isFirst);
       }
@@ -220,11 +131,6 @@ void showHUDLoader(BuildContext context) {
 
     return ScrollableWithBottomSection(
       content: Column(children: [
-        /* Padding(
-            padding: EdgeInsets.all(20),
-            child: Image.asset('assets/images/beldex.png',
-                height: 124, width: 400),
-          ),*/
         Padding(
           padding: EdgeInsets.only(left: 30, right: 20, top: 40),
           child: Align(
@@ -237,15 +143,14 @@ void showHUDLoader(BuildContext context) {
         Padding(
           padding: EdgeInsets.only(left: 10, right: 10, bottom: 15, top: 10),
           child: Container(
-            height:isError ? 90 : 60,
+            height: 60,
             child: Form(
                 key: _formKey,
                 child: Card(
                   color: settingsStore.isDarkTheme
                       ? Color(0xff272733)
-                      : Color(
-                          0xffEDEDED), //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-                  elevation: 0, //3,
+                      : Color(0xffEDEDED),
+                  elevation: 0,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12)),
                   child: Container(
@@ -261,111 +166,51 @@ void showHUDLoader(BuildContext context) {
                       controller: nameController,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: InputDecoration(
-                        suffixIcon:  Transform.rotate(
+                        suffixIcon: Transform.rotate(
                           angle: 135 * math.pi / 180,
                           child: IconButton(
                             icon: Icon(
                               Icons.add_rounded,
-                              color:canremove ? Colors.transparent :  Theme.of(context)
-                                  .primaryTextTheme
-                                  .caption
-                                  .color,
+                              color: canremove
+                                  ? Colors.transparent
+                                  : Theme.of(context)
+                                      .primaryTextTheme
+                                      .caption
+                                      .color,
                             ),
                             onPressed: () {
-                              setState(() {        });
-                              canremove = true;
-                              isError = true;
                               nameController.text = '';
                             },
                           ),
                         ),
                         border: InputBorder.none,
                         hintStyle: TextStyle(
-                            fontSize: 16.0, color: settingsStore.isDarkTheme ? Color(0xff747474) : Color(0xff6F6F6F)),
+                            fontSize: 16.0,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xff747474)
+                                : Color(0xff6F6F6F)),
                         hintText: S.of(context).enter_wallet_name,
                       ),
                       validator: (value) {
-                       // final pattern = RegExp(r'^[a-zA-Z]{1,15}$');
                         final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
                         if (!pattern.hasMatch(value)) {
-                          if(value.contains(' ')){
-                            return 'Enter valid name without space';
-                          }else{
-                           return 'Enter valid name upto 15 characters';
-                          }
-                          
+                          return 'Enter valid name upto 15 characters';
                         } else {
                           walletCreationStore.validateWalletName(value);
-                          // if(walletCreationStore.errorMessage == null)
-                          // {
-                          //     setState(() {
-                          //               isError = false;
-                          //          });
-                          // }
                           return walletCreationStore.errorMessage;
                         }
-                      
-                      },
-                      onChanged: (value){
-                          setState(() {
-                               isError = false;  
-                            });
-                            if(value.length > 15 || value.isEmpty){
-                              isError = true;
-                            }
-                            if(value.isEmpty){
-                              canremove = true;
-                            }else{
-                              canremove = false;
-                            }
                       },
                     ),
                   ),
                 )),
           ),
         ),
-        /*Padding(
-          padding: const EdgeInsets.only(left: 30.0, right: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Select your avatar",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16.0),
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              SizedBox(
-                height: 50,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: avatarList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Image.asset(
-                          avatarList[index],
-                          width: 55,
-                          height: 55,
-                        ),
-                      );
-                    }),
-              )
-            ],
-          ),
-        ),*/
         Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
               color: settingsStore.isDarkTheme
                   ? Color(0xff272733)
                   : Color(0xffEDEDED),
-              // border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(10)),
           margin:
               EdgeInsets.only(left: 10.0, right: 10.0, top: 20, bottom: 20.0),
@@ -388,7 +233,7 @@ void showHUDLoader(BuildContext context) {
                         ? Color(0xff181820)
                         : Color(0xffD4D4D4),
                     child: RawScrollbar(
-                      controller: _controller,
+                      controller: _scrollController,
                       thickness: 8,
                       thumbColor: settingsStore.isDarkTheme
                           ? Color(0xff3A3A45)
@@ -401,7 +246,7 @@ void showHUDLoader(BuildContext context) {
                             ? Color(0xff272733)
                             : Color(0xffEDEDED),
                         child: ListView.builder(
-                            controller: _controller,
+                            controller: _scrollController,
                             scrollDirection: Axis.vertical,
                             itemCount: seedLanguages.length,
                             itemBuilder: (BuildContext context, int index) {
@@ -413,9 +258,8 @@ void showHUDLoader(BuildContext context) {
                                 child: _selectedIndex != null &&
                                         _selectedIndex == index
                                     ? Card(
-                                        color: Theme.of(context)
-                                            .cardColor, //Color.fromARGB(255, 40, 42, 51),
-                                        elevation: 0, //3,
+                                        color: Theme.of(context).cardColor,
+                                        elevation: 0,
                                         shape: RoundedRectangleBorder(
                                             borderRadius:
                                                 BorderRadius.circular(12)),
@@ -460,81 +304,7 @@ void showHUDLoader(BuildContext context) {
                               );
                             }),
                       ),
-                    )
-
-                    //  DraggableScrollbar.rrect(
-                    //   padding: EdgeInsets.only(left: 5),
-                    //   controller: _scrollController,
-                    //   heightScrollThumb: 80,
-                    //   alwaysVisibleScrollThumb: true,
-                    //   backgroundColor:
-                    //       Theme.of(context).primaryTextTheme.button.backgroundColor,
-                    //   /*hoverThickness:12.0,
-                    //     showTrackOnHover: true,
-                    //     radius: Radius.circular(10),
-                    //     isAlwaysShown: true,
-                    //     thickness: 8.0,
-                    //     controller: _scrollController,
-                    //     notificationPredicate: (ScrollNotification notification) {
-                    //       return notification.depth == 0;
-                    //     },*/
-                    //   child: ListView.builder(
-                    //       controller: _scrollController,
-                    //       scrollDirection: Axis.vertical,
-                    //       itemCount: seedLanguages.length,
-                    //       itemBuilder: (BuildContext context, int index) {
-                    //         return InkWell(
-                    //           splashColor: Colors.transparent,
-                    //           onTap: () {
-                    //             _onSelected(index);
-                    //           },
-                    //           child: _selectedIndex != null && _selectedIndex == index
-                    //               ? Card(
-                    //                   color:Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
-                    //                   elevation:0, //3,
-                    //                   shape: RoundedRectangleBorder(
-
-                    //                       borderRadius: BorderRadius.circular(12)),
-                    //                   child: Container(
-                    //                       padding: const EdgeInsets.only(
-                    //                           // left: 10.0,
-                    //                           // right: 10.0,
-                    //                           top: 10.0,
-                    //                           bottom: 10.0),
-                    //                           decoration: BoxDecoration(
-                    //                             border: Border.all(color: Color(0xff0BA70F)),
-                    //                             borderRadius: BorderRadius.circular(10)
-                    //                           ),
-                    //                       child: Center(
-                    //                         child: Text(
-                    //                           seedLocales[index],
-                    //                           style: TextStyle(
-                    //                               fontSize: 18,
-                    //                               fontWeight: FontWeight.bold),
-                    //                         ),
-                    //                       )),
-                    //                 )
-                    //               : Padding(
-                    //                   padding: const EdgeInsets.only(
-                    //                       // left: 10.0,
-                    //                       // right: 10.0,
-                    //                       top: 18.0,
-                    //                       bottom: 18.0),
-                    //                   child: Center(
-                    //                     child: Text(
-                    //                       seedLocales[index],
-                    //                       style: TextStyle(
-                    //                           fontSize: 18,
-                    //                           color: Colors.grey[800],
-                    //                          // fontWeight: FontWeight.bold
-                    //                           ),
-                    //                     ),
-                    //                   ),
-                    //                 ),
-                    //         );
-                    //       }),
-                    // ),
-                    ),
+                    )),
               ),
             ],
           ),
@@ -544,88 +314,33 @@ void showHUDLoader(BuildContext context) {
         ),
         Observer(
           builder: (context) {
-            return GestureDetector(
-              onTap: ()async {
-                if (_formKey.currentState.validate()) {
-                  _loading(true);
-                  isError = false; setState(() {
-                                    });
-                 await walletCreationStore.create(
-                      name: nameController.text,
-                      language: seedLanguageStore.selectedSeedLanguage);
-                    _loading(false);
-                }else{
-                  setState(() {
-                          isError = true;
-                                    });
-                }
-              },
-              child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 50,
-                  margin: EdgeInsets.only(
-                      left: 10.0, right: 10.0, top: 20, bottom: 20.0),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xff0BA70F)),
-                  child: Center(
-                    child: Text(S.of(context).continue_text,
-                        style: TextStyle(
-                            color: Color(0xffffffff),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700)),
-                  )
-                  // SizedBox(
-                  //   width: MediaQuery.of(context).size.width,
-                  //   //250,
-                  //   child: LoadingPrimaryButton(
-                  //     onPressed: () {
-                  //       if (_formKey.currentState.validate()) {
-                  //         walletCreationStore.create(
-                  //             name: nameController.text,
-                  //             language: seedLanguageStore.selectedSeedLanguage);
-                  //       }
-                  //     },
-                  //     text: S.of(context).continue_text,
-                  //     color:
-                  //         Theme.of(context).primaryTextTheme.button.backgroundColor,
-                  //     borderColor:
-                  //         Theme.of(context).primaryTextTheme.button.backgroundColor,
-                  //     isLoading: walletCreationStore.state is WalletIsCreating,
-                  //   ),
-                  // ),
-                  ),
+            return Padding(
+              padding: const EdgeInsets.only(left: 10.0, right: 10),
+              child: SizedBox(
+                width: double.infinity,
+                child: LoadingPrimaryButton(
+                  onPressed: () {
+                    if (_formKey.currentState.validate()) {
+                      walletCreationStore.create(
+                          name: nameController.text,
+                          language: seedLanguageStore.selectedSeedLanguage);
+                    }
+                  },
+                  text: S.of(context).continue_text,
+                  color:
+                      Theme.of(context).primaryTextTheme.button.backgroundColor,
+                  borderColor:
+                      Theme.of(context).primaryTextTheme.button.backgroundColor,
+                  isLoading: walletCreationStore.state is WalletIsCreating,
+                ),
+              ),
             );
           },
         ),
         SizedBox(
           height: 10,
         ),
-        /* Padding(padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
-            child: SeedLanguagePicker(),
-          )*/
       ]),
-      /*bottomSection: Observer(
-          builder: (context) {
-            return SizedBox(
-              width: 250,
-              child: LoadingPrimaryButton(
-                onPressed: () {
-                  if (_formKey.currentState.validate()) {
-                    walletCreationStore.create(name: nameController.text,
-                        language: seedLanguageStore.selectedSeedLanguage);
-                  }
-                },
-                text: S.of(context).continue_text,
-                color: Theme.of(context).primaryTextTheme.button.backgroundColor,
-                borderColor:
-                    Theme.of(context).primaryTextTheme.button.decorationColor,
-                isLoading: walletCreationStore.state is WalletIsCreating,
-              ),
-            );
-          },
-        )*/
     );
   }
-
 }
