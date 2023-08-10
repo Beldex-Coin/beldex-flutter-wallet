@@ -507,7 +507,7 @@ class SeedWidgetState extends State<SeedWidget> {
                       //mainAxisAlignment: MainAxisAlignment.end,
                       //mainAxisSize: MainAxisSize.max,
                       children: [
-                        SizedBox(height: 150),
+                        SizedBox(height: MediaQuery.of(context).size.height*0.70/3),
                         GestureDetector(
                           onTap: () {
                             print('inside the function---> $_seedController');
@@ -534,7 +534,7 @@ class SeedWidgetState extends State<SeedWidget> {
                           },
                           child: Container(
                               height: 60,
-                              width: 250,
+                              width: double.infinity, //250,
                               decoration: BoxDecoration(
                                   color: Color(0xff0BA70F),
                                   borderRadius: BorderRadius.circular(10)),

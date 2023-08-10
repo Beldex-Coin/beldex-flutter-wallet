@@ -153,14 +153,14 @@ class ReceiveBody extends StatefulWidget {
   ReceiveBodyState createState() => ReceiveBodyState();
 }
 
-class ReceiveBodyState extends State<ReceiveBody> {
+class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver{
   final amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isExpand = false;
   bool isOpen = false;
   OverlayEntry overlayEntry;
   GlobalKey globalKey = GlobalKey();
-
+  bool _isOverlayVisible = false;
   String currentSubAddress = '';
 
   @override
@@ -168,6 +168,29 @@ class ReceiveBodyState extends State<ReceiveBody> {
     super.initState();
     // getSubAddress();
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   @override
   void dispose() {
@@ -232,6 +255,48 @@ class ReceiveBodyState extends State<ReceiveBody> {
 //     });
 // }
 
+
+
+ @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print('inside app life cycle ------>');
+    if (state == AppLifecycleState.paused) {
+      print('inside app paused ----->');
+      if (_isOverlayVisible) {
+        _hideOverlay();
+      }
+    }
+    else if(state == AppLifecycleState.resumed){
+      if (_isOverlayVisible) {
+        _hideOverlay();
+      }
+    }
+  }
+
+
+
+
+
+
+void _hideOverlay() {
+    if (overlayEntry != null) {
+      overlayEntry.remove();
+      overlayEntry = null;
+      setState(() {
+        _isOverlayVisible = false;
+      });
+    }
+  }
+
+
+
+
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     final walletStore = Provider.of<WalletStore>(context);
@@ -266,50 +331,7 @@ class ReceiveBodyState extends State<ReceiveBody> {
               child: SingleChildScrollView(
                   child: Column(
                 children: <Widget>[
-                  //SizedBox(height: 10,),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //   children: [
-                  //     Container(
-                  //       width: 50,
-                  //       height: 50,
-                  //     ),
-                  //     Text(
-                  //       S.current.receive,
-                  //       style: TextStyle(
-                  //           fontSize: 16.0,
-                  //           fontWeight: FontWeight.w600,
-                  //           color: Colors.green),
-                  //     ),
-                  //     Padding(
-                  //       padding: const EdgeInsets.only(right: 20),
-                  //       child: InkWell(
-                  //         onTap: (){
-                  //           _incrementCounter(walletStore.subaddress.address,amountController.text);
-                  //           //Share.text('Share address', walletStore.subaddress.address, 'text/plain');
-                  //         },
-                  //         child: Container(
-                  //           width: 40,
-                  //           height: 40,
-                  //           padding: EdgeInsets.all(2),
-                  //           decoration: BoxDecoration(
-                  //               color: Theme.of(context).cardTheme.shadowColor,
-                  //               borderRadius: BorderRadius.all(Radius.circular(10))
-                  //           ),
-                  //           child: ButtonTheme(
-                  //             minWidth: double.minPositive,
-                  //             child: TextButton(
-                  //                 onPressed: () {
-                  //                   _incrementCounter(walletStore.subaddress.address,amountController.text);
-                  //                   //Share.text('Share address', walletStore.subaddress.address, 'text/plain');
-                  //                   },
-                  //                 child: SvgPicture.asset('assets/images/share_svg.svg',color: Theme.of(context).primaryTextTheme.caption.color,)),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
+                 
                   RepaintBoundary(
                     key: _globalKey,
                     child: Container(
@@ -610,9 +632,9 @@ class ReceiveBodyState extends State<ReceiveBody> {
                                                 print(
                                                     "the value of the isOpen $isOpen");
 
-                                                OverlayState overlayState =
-                                                    Overlay.of(context);
-                                                overlayEntry = OverlayEntry(
+                                                final overlayState = Overlay.of(context);
+                                                    if(overlayEntry == null){
+                                                      overlayEntry = OverlayEntry(
                                                   builder: (context) {
                                                     return _buildExitnodeListView(
                                                         mHeight);
@@ -621,8 +643,13 @@ class ReceiveBodyState extends State<ReceiveBody> {
 
                                                 overlayState
                                                     ?.insert(overlayEntry);
-                                                // if(isOpen == false)
-                                                //   overlayEntry?.remove();
+
+                                                  setState(() {
+                                                    _isOverlayVisible = true;                                                
+                                                    });
+
+                                                    }
+                                                                                              
                                               },
                                               child:
                                                   displayContainer(context))),
@@ -944,7 +971,10 @@ class ReceiveBodyState extends State<ReceiveBody> {
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
+                 if (overlayEntry != null) {
                 overlayEntry.remove();
+                overlayEntry = null;
+                 }
               },
               child: Container(
                 height: 200.0,
@@ -996,7 +1026,10 @@ class ReceiveBodyState extends State<ReceiveBody> {
                                         : subaddress.address;
                                     return InkWell(
                                       onTap: () async {
+                                         if (overlayEntry != null) {
                                         overlayEntry.remove();
+                                        overlayEntry = null;
+                                         }
                                         SharedPreferences prefs =
                                             await SharedPreferences
                                                 .getInstance();
@@ -1088,7 +1121,8 @@ class NewBeldexTextField extends StatelessWidget {
             focusNode: focusNode,
             style: TextStyle(
                 fontSize: 16.0,
-                color: Theme.of(context).accentTextTheme.overline.color),
+                //color: Theme.of(context).accentTextTheme.overline.color
+                ),
             keyboardType: keyboardType,
             inputFormatters: inputFormatters,
             autovalidateMode: AutovalidateMode.onUserInteraction,

@@ -43,7 +43,7 @@ class WalletListBody extends StatefulWidget {
 class WalletListBodyState extends State<WalletListBody> {
   WalletListStore _walletListStore;
   var isAuthenticatedSuccessfully = false;
-
+// final _scrollController = ScrollController(keepScrollOffset: true);
   Future<void> presetMenuForWallet(WalletDescription wallet, BuildContext bodyContext) async {
     final walletMenu = WalletMenu(bodyContext);
 
@@ -77,7 +77,7 @@ class WalletListBodyState extends State<WalletListBody> {
   }
 
 
- final _scrollController = ScrollController(keepScrollOffset: true);
+
 
 
 // reload wallet dialog box
@@ -88,6 +88,7 @@ class WalletListBodyState extends State<WalletListBody> {
     _walletListStore = Provider.of<WalletListStore>(context);
     
     final settingsStore = Provider.of<SettingsStore>(context);
+     final _controller = ScrollController(keepScrollOffset: true);
     return
     //  ScrollableWithBottomSection(
     //     content: 
@@ -108,8 +109,8 @@ class WalletListBodyState extends State<WalletListBody> {
               ),
               child: RawScrollbar(
                 
-                controller: _scrollController,
-                  isAlwaysShown: true,
+                controller: _controller,
+                  isAlwaysShown: true, 
                       thickness: 8,
                       thumbColor: settingsStore.isDarkTheme
                           ? Color(0xff3A3A45)
@@ -119,8 +120,9 @@ class WalletListBodyState extends State<WalletListBody> {
                 child: Observer(
                   builder: (_) =>
                       ListView.builder(
-                          controller: _scrollController,
-                          shrinkWrap: true,
+                          controller: _controller,
+                          scrollDirection: Axis.vertical,
+                         // shrinkWrap: true,
                          // physics: const NeverScrollableScrollPhysics(),
                           // separatorBuilder: (_, index) =>
                           //     Divider(color: Colors.transparent,

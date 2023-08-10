@@ -361,7 +361,7 @@ class SettingsFormState extends State<SettingsForm> {
   }
 
   var language = 'english';
-  final ScrollController _scrollController = ScrollController();
+  
   bool balanceVisibility = false;
   bool decimalVisibility = false;
   bool currencyVisibility = false;
@@ -370,7 +370,7 @@ class SettingsFormState extends State<SettingsForm> {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-
+final _scrollController = ScrollController(keepScrollOffset: true);
     return SingleChildScrollView(
         child: Stack(
       children: [
@@ -399,7 +399,8 @@ class SettingsFormState extends State<SettingsForm> {
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
-                        Text(S.current.settings_current_node,style: TextStyle(fontFamily: 'Poppins',fontWeight: FontWeight.w800,fontSize:16,)),
+                        Text(S.current.settings_current_node,style: TextStyle(//fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,fontSize:MediaQuery.of(context).size.height*0.06/3)),
                          settingsStore.node == null ? Container() :
                          Observer(builder: (_){
                           return  Text(settingsStore.node.uri,style:TextStyle(color:Color(0xff1BB71F),fontSize: 13));
@@ -482,7 +483,7 @@ class SettingsFormState extends State<SettingsForm> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text('Display balance as',style: TextStyle(
                                     fontSize: 18,
-                                    fontFamily: 'Poppinsbold',
+                                   // fontFamily: 'Poppinsbold',
                                     fontWeight: FontWeight.bold
                                 ),),
                               ),
@@ -702,9 +703,9 @@ class SettingsFormState extends State<SettingsForm> {
                                   settingsStore.balanceDisplayMode.toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      fontSize: 14.0,
-                                      fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w800,
+                                      fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
+                                     // fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
                                       color: Theme.of(context)
                                           .primaryTextTheme
                                           .headline6
@@ -818,9 +819,9 @@ class SettingsFormState extends State<SettingsForm> {
                                   settingsStore.balanceDetail.toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      fontSize: 14.0,
-                                       fontFamily: 'Poppins',
-                                       fontWeight: FontWeight.w800,
+                                     fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
+                                     // fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
                                       color: Theme.of(context)
                                           .primaryTextTheme
                                           .headline6
@@ -893,24 +894,34 @@ class SettingsFormState extends State<SettingsForm> {
                               //   ),
                               // ),
                               Expanded(
-                                child: ListView.builder(
-                                    itemCount: FiatCurrency.all.length,
-                                    //shrinkWrap: true,
+                                child: Container(
+                                  padding: EdgeInsets.only(right:10),
+                                  child: RawScrollbar(
                                     controller: _scrollController,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return currencyFilter == null ||
-                                              currencyFilter == ''
-                                          ? currencyDropDownListItem(
-                                              settingsStore, index)
-                                          : '${FiatCurrency.all[index]}'
-                                                  .toLowerCase()
-                                                  .contains(currencyFilter
-                                                      .toLowerCase())
+                                     thickness: 8,
+              thumbColor: settingsStore.isDarkTheme ? Color(0xff3A3A45) : Color(0xffC2C2C2),
+              radius: Radius.circular(10.0),
+                                    isAlwaysShown: true,
+                                    child: ListView.builder(
+                                        itemCount: FiatCurrency.all.length,
+                                        //shrinkWrap: true,
+                                        controller: _scrollController,
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
+                                          return currencyFilter == null ||
+                                                  currencyFilter == ''
                                               ? currencyDropDownListItem(
                                                   settingsStore, index)
-                                              : Container();
-                                    }),
+                                              : '${FiatCurrency.all[index]}'
+                                                      .toLowerCase()
+                                                      .contains(currencyFilter
+                                                          .toLowerCase())
+                                                  ? currencyDropDownListItem(
+                                                      settingsStore, index)
+                                                  : Container();
+                                        }),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -947,9 +958,9 @@ class SettingsFormState extends State<SettingsForm> {
                                   settingsStore.fiatCurrency.toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      fontSize: 14.0,
-                                       fontFamily: 'Poppins',
-                                       fontWeight: FontWeight.w800,
+                                     fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
+                                     // fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
                                       color: Theme.of(context)
                                           .primaryTextTheme
                                           .headline6
@@ -1105,9 +1116,9 @@ class SettingsFormState extends State<SettingsForm> {
                                   settingsStore.transactionPriority.toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      fontSize: 14.0,
-                                       fontFamily: 'Poppins',
-                                       fontWeight: FontWeight.w800,
+                                     fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
+                                     // fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
                                       color: Theme.of(context)
                                           .primaryTextTheme
                                           .headline6
@@ -1976,9 +1987,9 @@ class SettingsFormState extends State<SettingsForm> {
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.settings_change_pin,
                           style: TextStyle(
-                              fontSize: 14.0,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w800,
+                              fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
+                                     // fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6
@@ -2020,9 +2031,9 @@ class SettingsFormState extends State<SettingsForm> {
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.change_language,
                           style: TextStyle(
-                              fontSize: 14.0,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w800,
+                             fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
+                                     // fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6
@@ -2148,9 +2159,9 @@ class SettingsFormState extends State<SettingsForm> {
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.settings_terms_and_conditions,
                           style: TextStyle(
-                              fontSize: 14.0,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w800,
+                             fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
+                                     // fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6
@@ -2186,9 +2197,9 @@ class SettingsFormState extends State<SettingsForm> {
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.faq,
                           style: TextStyle(
-                              fontSize: 14.0,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w800,
+                             fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
+                                     // fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6
@@ -2220,9 +2231,9 @@ class SettingsFormState extends State<SettingsForm> {
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.changelog,
                           style: TextStyle(
-                              fontSize: 14.0,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w800,
+                             fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
+                                     // fontFamily: 'Poppins',
+                                      fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6

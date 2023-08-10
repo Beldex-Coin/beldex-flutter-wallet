@@ -356,17 +356,20 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
           ),*/
         ],
       ),
-      bottomSection: SizedBox(
-      width: 250,
-      child: PrimaryButton(
-          onPressed: () =>
-              Navigator.of(context).popAndPushNamed(seedLanguageStore.currentRoute),
-          text: S.of(context).seed_language_next,
-          color:
-          Theme.of(context).primaryTextTheme.button.backgroundColor,
-          borderColor:
-          Theme.of(context).primaryTextTheme.button.backgroundColor),
+      bottomSection: Padding(
+        padding: const EdgeInsets.only(left:10.0,right:10),
+        child: SizedBox(
+        width:double.infinity, //250,
+        child: PrimaryButton(
+            onPressed: () =>
+                Navigator.of(context).popAndPushNamed(seedLanguageStore.currentRoute),
+            text: S.of(context).seed_language_next,
+            color:
+            Theme.of(context).primaryTextTheme.button.backgroundColor,
+            borderColor:
+            Theme.of(context).primaryTextTheme.button.backgroundColor),
     ),
+      ),
     );
   }
 }

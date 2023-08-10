@@ -74,7 +74,7 @@ class ChangeLanguage extends BasePage {
                   child:Container(
                 padding: EdgeInsets.only(right: 6),
                 child: ListView.builder(
-                  controller: _scrollController,
+                  controller: _controller,
                   itemCount: languages.values.length,
                   itemBuilder: (BuildContext context, int index) {
                     final isCurrent = settingsStore.languageCode == null

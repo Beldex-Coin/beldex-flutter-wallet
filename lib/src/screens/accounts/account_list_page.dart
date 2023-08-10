@@ -101,7 +101,7 @@ class AccountListPage extends BasePage {
                 final isCurrent = walletStore.account.id == account.id;
 
                 return Container(
-                  margin: EdgeInsets.all(10),
+                  margin: EdgeInsets.only(left:10,right:10,),
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(  
                     color: settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED),

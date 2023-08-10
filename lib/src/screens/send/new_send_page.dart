@@ -6,6 +6,7 @@ import 'package:beldex_wallet/src/domain/common/fiatCurrencyModel.dart';
 import 'package:beldex_wallet/src/domain/common/fiat_currency.dart';
 import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
+import 'package:beldex_wallet/src/widgets/loading_provider.dart';
 import 'package:beldex_wallet/src/widgets/new_slide_to_act.dart';
 import 'package:delayed_consumer_hud/delayed_consumer_hud.dart';
 import 'package:flutter/cupertino.dart';
@@ -124,6 +125,7 @@ class SendPage extends BasePage {
 
 class SendForm extends StatefulWidget {
   final String controllerValue;
+
   SendForm({Key key, @required this.controllerValue}) : super(key: key);
 
   @override
@@ -183,33 +185,19 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   }
 
   bool getAmountValidation(String amount) {
-    final pattern =
-        RegExp(r'^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}([.][0-9]{0,5}))$');
-    if (!pattern.hasMatch(amount)) {
-      return false;
-    } else {
-      return true;
+    final maxValue = 150000000.00000;
+    final pattern = RegExp(r'^(([0-9]{1,9})(\.[0-9]{1,5})?$)|\.[0-9]{1,5}?$');
+    var isValid = false;
+
+    if (pattern.hasMatch(amount)) {
+      try {
+        final dValue = double.parse(amount);
+        isValid = (dValue <= maxValue && dValue > 0);
+      } catch (e) {
+        isValid = false;
+      }
     }
-
-//  final maxValue = 150000000.00000;
-//   final value = amount.replaceAll(',', '.');
-//   final regExp = r'^(([0-9]{0,9})?|[.][0-9]{0,5})?|([0-9]{0,9}([.][0-9]{0,5}))$';
-//   var isValid = false;
-
-//   if (RegExp(regExp).hasMatch(value)) {
-//     if (value == '.') {
-//       isValid = false;
-//     } else {
-//       try {
-//         final dValue = double.parse(value);
-//         isValid = (dValue <= maxValue && dValue > 0);
-//       } catch (e) {
-//         isValid = false;
-//       }
-//     }
-//   }
-
-//   return isValid;
+    return isValid;
   }
 
   bool getAddressBasicValidation(String value) {
@@ -307,6 +295,53 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     );
   }
 
+
+void setLoaderPage(BuildContext context){
+  final loadingProvider = Provider.of<LoadingProvider>(context);
+     if(loadingProvider.isLoading){
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+       
+           await showDialog<void>(
+      context: context,
+      //barrierColor: Colors.transparent,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          // Prevent closing the dialog when the user presses the back button
+          onWillPop: () async => false,
+          child: AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+
+            //backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Text('Creating the Transaction',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+          
+        });
+     }
+}
+
+
+
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
@@ -315,9 +350,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     final balanceStore = Provider.of<BalanceStore>(context);
     final walletStore = Provider.of<WalletStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
-
+    final loadingProvider = Provider.of<LoadingProvider>(context);
     _setEffects(context);
-
+    setLoaderPage(context);
     return ScrollableWithBottomSection(
       //bottomSectionPadding: EdgeInsets.only(bottom: 230),
       content: GestureDetector(
@@ -697,16 +732,15 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       ),
 
                       Container(
-                          height: MediaQuery.of(context).size.height *
-                              0.60 /
-                              3, //150,
+                          height: MediaQuery.of(context).size.height * 0.60 / 3,
+                          //150,
                           margin: EdgeInsets.only(
                             top: 15,
                           ),
                           padding: EdgeInsets.only(
                             left: 15,
                             top: 10,
-                            bottom: 8,
+                            bottom: 10,
                           ),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -730,7 +764,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       signed: false, decimal: true),
                                   inputFormatters: [
                                     FilteringTextInputFormatter.deny(
-                                        RegExp('[- ]'))
+                                        RegExp('[-, ]'))
                                   ],
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
@@ -798,8 +832,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                         if (sendStore.errorMessage != null) {
                                           setState(() {
                                             amountValidation = true;
-                                            amountErrorMessage =
-                                                'Please enter a valid amount';
+                                            amountErrorMessage = S.current
+                                                .pleaseEnterAValidAmount;
                                           });
                                           return;
                                         } else {
@@ -810,9 +844,11 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                         }
                                         return null;
                                       } else {
-                                        setState(() {});
-                                        amountErrorMessage =
-                                            'Enter a valid amount';
+                                        setState(() {
+                                          amountValidation = true;
+                                          amountErrorMessage =
+                                              'Enter a valid amount';
+                                        });
                                         return;
                                       }
                                     }
@@ -1487,18 +1523,25 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                             return;
                           }
                           Navigator.of(auth.context).pop();
-                          _loading(true);
+                          loadingProvider.showLoader();
+                          //_loading(true);
                           print('create transaction ---> going to');
                           await sendStore.createTransaction(
                               address: _addressController.text);
                           //print('create transaction data -----> $data');
                           print('create transaction ---> reached');
-                          _loading(false);
+                      // await Future.delayed(
+                           // const Duration(milliseconds: 400), () {
+                             loadingProvider.hideLoader();
+                          //  });
+                          
+                         // _loading(false);
                           isSuccessful = true;
                         });
                         return isSuccessful;
                       }
                     } else {
+                      loadingProvider.hideLoader();
                       return false;
                     }
                   }
@@ -1732,9 +1775,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
               _addressController.text, onPressed: (_) {
             _addressController.text = '';
             _cryptoAmountController.text = '';
-            Navigator.of(context)..pop()..pop();
+            Navigator.of(context)..pop()..pop()..pop();
           }, onDismiss: (_) {
-            Navigator.of(context)..pop()..pop();
+            Navigator.of(context)..pop()..pop()..pop();
           });
         });
       }
@@ -1873,3 +1916,4 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 //     );
 //   }
 // }
+

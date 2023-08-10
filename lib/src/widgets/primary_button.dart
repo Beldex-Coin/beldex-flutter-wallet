@@ -34,6 +34,7 @@ class PrimaryButton extends StatelessWidget {
           child: Text(text,
               style: TextStyle(
                   fontSize: 16.0,
+                  fontWeight:FontWeight.w700,
                   color: isDisabled ? Theme.of(context).primaryTextTheme.button.color:Theme.of(context).primaryTextTheme.button.color//Palette.darkGrey : Theme.of(context).primaryTextTheme.button.color
               )),
         ));

@@ -15,6 +15,7 @@ import 'package:beldex_wallet/src/widgets/blockchain_height_widget.dart';
 import 'package:beldex_wallet/src/widgets/scollable_with_bottom_section.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/palette.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // blockheight widget's property
 final dateController = TextEditingController();
@@ -163,9 +164,10 @@ class _RestoreFromSeedDetailsFormState
                  walletRestorationStore.restoreFromSeed(
                     name: _nameController.text,
                     restoreHeight: height);
+                     restoreHeights(height);
                }
                 
-                  
+                 
                 
                
               }else{
@@ -179,6 +181,10 @@ class _RestoreFromSeedDetailsFormState
                 Theme.of(context).primaryTextTheme.button.backgroundColor);
       }),
     );
+  }
+  void restoreHeights(int height)async{
+     final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('currentHeight', height);
   }
 }
 

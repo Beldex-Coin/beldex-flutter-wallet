@@ -331,7 +331,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
         ),
       ),
       bottomSection:SizedBox( 
-                  width: MediaQuery.of(context).size.width*2.5/3,
+                  width:double.infinity,  //MediaQuery.of(context).size.width*2.5/3,
                   child: Observer(builder: (_) {
                     return LoadingPrimaryButton(
                         onPressed: ()async{
@@ -348,6 +348,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                                  setState(() {
                                   canShowPopup = prefs.getBool('isRestored');                     
                                                     });
+                                restoreHeights(height);
                             }
                           
                           }
@@ -401,6 +402,11 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
       }),*/
     );
   }
+  void restoreHeights(int height)async{
+     final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('currentHeight', height);
+  }
+  
 }
 
 

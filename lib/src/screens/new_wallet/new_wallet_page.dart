@@ -288,7 +288,12 @@ void showHUDLoader(BuildContext context) {
                        // final pattern = RegExp(r'^[a-zA-Z]{1,15}$');
                         final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
                         if (!pattern.hasMatch(value)) {
-                          return 'Enter valid name upto 15 characters';
+                          if(value.contains(' ')){
+                            return 'Enter valid name without space';
+                          }else{
+                           return 'Enter valid name upto 15 characters';
+                          }
+                          
                         } else {
                           walletCreationStore.validateWalletName(value);
                           // if(walletCreationStore.errorMessage == null)

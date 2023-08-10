@@ -20,9 +20,11 @@ class LoadingPage extends StatelessWidget{
     return WillPopScope(
       onWillPop:() async =>false,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff) ,
         body: Container(
           width: double.infinity,
-          color: Colors.black,
+          color:settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffE8E8E8),
           child:  Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

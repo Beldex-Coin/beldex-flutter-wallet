@@ -264,8 +264,23 @@ abstract class SendStoreBase with Store {
     errorMessage = isValid ? null : S.current.error_text_address;
   }
 
+
   void validateBELDEX(String amount, int availableBalance) {
-    const maxValue = 18446744.073709551616;
+    final maxValue = 150000000.00000;
+    final pattern = RegExp(r'^(([0-9]{1,9})(\.[0-9]{1,5})?$)|\.[0-9]{1,5}?$');
+    var isValid = false;
+
+    if (pattern.hasMatch(amount)) {
+      try {
+        final dValue = double.parse(amount);
+        final maxAvailable = availableBalance;
+        isValid = (dValue <= maxAvailable && dValue <= maxValue && dValue > 0);
+      } catch (e) {
+        isValid = false;
+      }
+    }
+    errorMessage = isValid ? null : S.current.error_text_beldex;
+    /*const maxValue = 150000000.00000;
     const pattern = '^([0-9]+([.][0-9]{0,12})?|[.][0-9]{1,12})\$|ALL';
     final value = amount.replaceAll(',', '.');
     final regExp = RegExp(pattern);
@@ -287,8 +302,34 @@ abstract class SendStoreBase with Store {
       isValid = false;
     }
 
-    errorMessage = isValid ? null : S.current.error_text_beldex;
+    errorMessage = isValid ? null : S.current.error_text_beldex;*/
   }
+
+  // void validateBELDEX(String amount, int availableBalance) {
+  //   const maxValue = 18446744.073709551616;
+  //   const pattern = '^([0-9]+([.][0-9]{0,12})?|[.][0-9]{1,12})\$|ALL';
+  //   final value = amount.replaceAll(',', '.');
+  //   final regExp = RegExp(pattern);
+
+  //   if (regExp.hasMatch(value)) {
+  //     if (value == 'ALL') {
+  //       isValid = true;
+  //     } else {
+  //       try {
+  //         final dValue = double.parse(value);
+  //         final maxAvailable = availableBalance;
+  //         isValid =
+  //             (dValue <= maxAvailable && dValue <= maxValue && dValue > 0);
+  //       } catch (e) {
+  //         isValid = false;
+  //       }
+  //     }
+  //   } else {
+  //     isValid = false;
+  //   }
+
+  //   errorMessage = isValid ? null : S.current.error_text_beldex;
+  // }
 
   void validateFiat(String amount, {double maxValue}) {
     const minValue = 0.01;

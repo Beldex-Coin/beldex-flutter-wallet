@@ -31,7 +31,13 @@ abstract class BasePage extends StatelessWidget {
       return null;
     }
  final settingsStore = Provider.of<SettingsStore>(context);
- final _backButton = Icon(Icons.arrow_back_sharp, size: 28, color: settingsStore.isDarkTheme ? Colors.white:Colors.black);
+ final _backButton = Container (
+  height:30,width:40,
+  decoration: BoxDecoration(
+ // color: Colors.yellow
+  ),
+  
+  child:SvgPicture.asset( 'assets/images/new-images/back_button_white_theme.svg',color:settingsStore.isDarkTheme ? Colors.white : Colors.black ,height: 80,width:50,fit: BoxFit.fill,));  //Icon(Icons.arrow_back_sharp, size: 28, color: settingsStore.isDarkTheme ? Colors.white:Colors.black);
 return InkWell(
       onTap: (){
         onClose(context);
@@ -39,6 +45,7 @@ return InkWell(
       child: Container(
         width: 60,
         height: 60,
+        padding: EdgeInsets.only(left:15),
         alignment: Alignment.centerLeft,
         decoration: BoxDecoration(
           color: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff) , //Theme.of(context).accentTextTheme.headline6.color,
@@ -54,8 +61,8 @@ return InkWell(
           // ],
         ),
         child: SizedBox(
-          height: 50,
-          width: isModalBackButton ? 37 : 20,
+          height: 30,
+          width:40, //isModalBackButton ? 37 : 20,
           child: ButtonTheme(
             buttonColor: Colors.transparent,
             minWidth: double.minPositive,
