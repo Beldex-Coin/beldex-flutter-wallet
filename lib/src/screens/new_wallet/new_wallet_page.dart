@@ -190,6 +190,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                 ? Color(0xff747474)
                                 : Color(0xff6F6F6F)),
                         hintText: S.of(context).enter_wallet_name,
+                        errorStyle: TextStyle(height: 5),
                       ),
                       validator: (value) {
                         final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
