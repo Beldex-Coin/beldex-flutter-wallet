@@ -114,7 +114,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "error_text_account_name" : MessageLookupByLibrary.simpleMessage("Le nom du compte ne peut contenir que des lettres et des chiffres\net doit comporter entre 1 et 15 caractères"),
     "error_text_address" : MessageLookupByLibrary.simpleMessage("Invalid BDX address"),
     "error_text_amount" : MessageLookupByLibrary.simpleMessage("Le montant ne peut contenir que des nombres"),
-    "error_text_beldex" : MessageLookupByLibrary.simpleMessage("La valeur Beldex ne peut pas dépasser le solde disponible.\nLe nombre de décimales doit être inférieur ou égal à 12"),
+    "error_text_beldex" : MessageLookupByLibrary.simpleMessage("La valeur Beldex ne peut pas dépasser le solde disponible.\nLe nombre de décimales doit être inférieur ou égal à 9"),
     "error_text_contact_name" : MessageLookupByLibrary.simpleMessage("Dans le nom du contact, les symboles ` , \' \" ne doivent pas être inclus\net doit comporter entre 1 et 32 ​​caractères"),
     "error_text_crypto_currency" : MessageLookupByLibrary.simpleMessage("Le nombre de décimales\nm doit être inférieur ou égal à 12."),
     "error_text_fiat" : MessageLookupByLibrary.simpleMessage("La valeur du montant ne peut pas dépasser le solde disponible du compte.\nLe nombre de décimales doit être inférieur ou égal à 2"),

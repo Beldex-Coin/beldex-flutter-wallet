@@ -114,7 +114,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "error_text_account_name" : MessageLookupByLibrary.simpleMessage("Der Kontoname darf nur Buchstaben und Zahlen enthalten\nund muss zwischen 1 und 15 Zeichen lang sein"),
     "error_text_address" : MessageLookupByLibrary.simpleMessage("Invalid BDX address"),
     "error_text_amount" : MessageLookupByLibrary.simpleMessage("Betrag kann nur Zahlen enthalten"),
-    "error_text_beldex" : MessageLookupByLibrary.simpleMessage("Der Beldex-Wert kann das verfügbare Guthaben nicht überschreiten.\nDie Anzahl der Nachkommastellen muss kleiner oder gleich 12 sein"),
+    "error_text_beldex" : MessageLookupByLibrary.simpleMessage("Der Beldex-Wert kann das verfügbare Guthaben nicht überschreiten.\nDie Anzahl der Nachkommastellen muss kleiner oder gleich 9 sein"),
     "error_text_contact_name" : MessageLookupByLibrary.simpleMessage("Im Kontaktname könne die Symbole ` , \' \" nicht enthalten sein\nund muss zwischen 1 und 32 Zeichen lang sein"),
     "error_text_crypto_currency" : MessageLookupByLibrary.simpleMessage("Die Anzahl der Nachkommastellen\nmuss kleiner oder gleich 12 sein."),
     "error_text_fiat" : MessageLookupByLibrary.simpleMessage("Der Wert des Betrags darf den verfügbaren Kontostand nicht überschreiten.\nDie Anzahl der Nachkommastellen muss kleiner oder gleich 2 sein"),

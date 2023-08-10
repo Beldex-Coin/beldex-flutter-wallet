@@ -257,7 +257,7 @@
   "error_text_node_address" : "Veuillez saisir une adresse iPv4",
   "error_text_node_port" : "Le port du Node ne peut contenir que des nombres compris entre 0 et 65535",
   "error_text_payment_id" : "L'ID de paiement ne peut contenir que 16 à 64 caractères hexadécimaux",
-  "error_text_beldex" : "La valeur Beldex ne peut pas dépasser le solde disponible.\nLe nombre de décimales doit être inférieur ou égal à 12",
+  "error_text_beldex" : "La valeur Beldex ne peut pas dépasser le solde disponible.\nLe nombre de décimales doit être inférieur ou égal à 9",
   "error_text_fiat" : "La valeur du montant ne peut pas dépasser le solde disponible du compte.\nLe nombre de décimales doit être inférieur ou égal à 2",
   "error_text_subaddress_name" : "Au nom de la sous-adresse, les symboles ` , ' \" ne pas être inclus\net doit comporter entre 1 et 20 caractères",
   "error_text_amount" : "Le montant ne peut contenir que des nombres",
