@@ -1,15 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:ui';
 
-import 'package:beldex_wallet/src/domain/common/fiatCurrencyModel.dart';
-import 'package:beldex_wallet/src/domain/common/fiat_currency.dart';
+import 'package:beldex_wallet/src/domain/common/contact.dart';
 import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
-import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
-import 'package:beldex_wallet/src/widgets/new_slide_to_act.dart';
-import 'package:delayed_consumer_hud/delayed_consumer_hud.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -34,11 +28,7 @@ import 'package:beldex_wallet/src/wallet/beldex/calculate_estimated_fee.dart';
 import 'package:beldex_wallet/src/widgets/address_text_field.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:beldex_wallet/src/widgets/scollable_with_bottom_section.dart';
-import 'package:beldex_wallet/src/widgets/slide_to_act.dart';
 import 'package:provider/provider.dart';
-import 'dart:math' as math;
-import 'package:beldex_wallet/src/util/constants.dart' as constants;
-import 'package:shared_preferences/shared_preferences.dart';
 
 bool canLoad = false;
 
@@ -344,8 +334,12 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           style: TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.w700)),
                       GestureDetector(
-                          onTap: () => AddressTextField()
-                              .presetAddressBookPicker(context),
+                          onTap: () async{
+                            final contact = await Navigator.of(context, rootNavigator: true).pushNamed(Routes.pickerAddressBook);
+                              if (contact is Contact && contact.address != null) {
+                                _addressController.text = contact.address;
+                              }
+                          },
                           child: SvgPicture.asset(
                               'assets/images/new-images/Address.svg',
                               color: settingsStore.isDarkTheme
