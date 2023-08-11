@@ -777,9 +777,6 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                     ],
                   ),
                 ),
-                Column(
-                  children: [],
-                ),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
@@ -845,7 +842,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: Text(
-                              'Transafer your BDX more faster\n with flash transaction',
+                              'Transfer your BDX more faster\n with flash transaction',
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 16)),
                         )

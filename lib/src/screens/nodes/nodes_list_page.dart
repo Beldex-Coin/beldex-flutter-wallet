@@ -108,7 +108,7 @@ Widget trailing(context){
      Container(
                 width: 28.0,
                 height: 28.0,
-                margin: EdgeInsets.only(right: 25),
+                margin: EdgeInsets.only(right: 15),
                 child: Stack(
                   alignment: Alignment.center,
                   children: <Widget>[
