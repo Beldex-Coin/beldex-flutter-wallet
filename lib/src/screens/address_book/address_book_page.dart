@@ -232,8 +232,8 @@ class AddressBookPage extends BasePage {
                                         secondaryActions: <Widget>[
                                           IconSlideAction(
                                             caption: 'Edit',
-                                            // color: Colors.blue,
-                                            foregroundColor: Colors.blue,
+                                            color: Colors.blue,
+                                            foregroundColor: settingsStore.isDarkTheme? Color(0xff171720) : Color(0xffffffff),
                                             icon: Icons.edit,
                                             onTap: () async {
                                               await Navigator.of(context)
@@ -247,8 +247,8 @@ class AddressBookPage extends BasePage {
                                           ),
                                           IconSlideAction(
                                             caption: 'Delete',
-                                            // color: Colors.red,
-                                            foregroundColor: Colors.red,
+                                            color: Colors.red,
+                                            foregroundColor:settingsStore.isDarkTheme? Color(0xff171720) : Color(0xffffffff),
                                             icon: CupertinoIcons.delete,
                                             onTap: () async {
                                               await showAlertDialog(context)
