@@ -385,6 +385,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
                           //AddressTextFieldOption.addressBook
                         ],
+                        onChanged: (val) => _formKey.currentState.validate(),
                         validator: (value) {
                           if (value.isEmpty) {
                             setState(() {
@@ -503,6 +504,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       hintText: 'Enter Amount',
                                       errorStyle:
                                           TextStyle(color: BeldexPalette.red)),
+                                  onChanged: (val)=> _formKey.currentState.validate(),
                                   validator: (value) {
                                     if (value.isEmpty) {
                                       setState(() {

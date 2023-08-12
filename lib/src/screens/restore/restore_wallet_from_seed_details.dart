@@ -118,7 +118,7 @@ class _RestoreFromSeedDetailsFormState
                                 ),
                                 margin: EdgeInsets.only(top: 20.0),
                                 child: Container(
-                                  padding: EdgeInsets.only(left: 30),
+                                  padding: EdgeInsets.only(left: 30,top: 5,bottom: 5),
                             child: TextFormField(
                                 style: TextStyle(fontSize: 14.0),
                                 controller: _nameController,
@@ -127,14 +127,9 @@ class _RestoreFromSeedDetailsFormState
                                     hintStyle: TextStyle(
                                         color: settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xff6F6F6F)),
                                     hintText: S.of(context).restore_wallet_name,
-                                    /*focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: BeldexPalette.teal,
-                                            width: 2.0)),
-                                    enabledBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Theme.of(context).focusColor,
-                                            width: 1.0))*/),
+                                errorStyle: TextStyle(height: 0.1)
+                                ),
+                                onChanged: (val)=> _formKey.currentState.validate(),
                                 validator: (value) {
                                   walletRestorationStore
                                       .validateWalletName(value);
@@ -251,12 +246,7 @@ restoreHeightController.text = '';
                                     : Color(0xff77778B)),
                             hintText:
                                 S.of(context).widgets_restore_from_blockheight,
-                            /*focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: BeldexPalette.teal, width: 2.0)),
-                        enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context).focusColor, width: 1.0))*/
+                            errorStyle: TextStyle(height: 0.1)
                           ),
                           validator: (value) {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');

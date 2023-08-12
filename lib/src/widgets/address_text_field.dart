@@ -24,7 +24,8 @@ class AddressTextField extends StatelessWidget {
       ],
       this.onURIScanned,
       this.focusNode,
-      this.validator});
+      this.validator,
+      this.onChanged});
 
   static const prefixIconWidth = 20.0;
   static const prefixIconHeight = 20.0;
@@ -37,6 +38,7 @@ class AddressTextField extends StatelessWidget {
   final List<AddressTextFieldOption> options;
   final FormFieldValidator<String> validator;
   final FocusNode focusNode;
+  final ValueChanged<String> onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +115,7 @@ class AddressTextField extends StatelessWidget {
           )),
       hintText: placeholder ?? 'Enter ${S.current.widgets_address}',
       validator: validator,
+      onChanged: onChanged,
     );
   }
 
