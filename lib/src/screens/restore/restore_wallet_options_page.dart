@@ -75,7 +75,7 @@ Widget trailing(BuildContext context){
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(right:8.0),
-                                child: SvgPicture.asset('assets/images/new-images/restore_seed.svg'),
+                                child: SvgPicture.asset('assets/images/new-images/restore_seed.svg',color: settingsStore.isDarkTheme ? Color(0xffAEAEAE) :Color(0xff16161D),),
                               ),
                               Text(S.of(context).restore_title_from_seed,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color:settingsStore.isDarkTheme ? Color(0xffF7F7F7) :Color(0xff16161D)),),
                             ],
@@ -135,7 +135,7 @@ Widget trailing(BuildContext context){
                             children: [
                                Padding(
                                 padding: EdgeInsets.only(right:8.0),
-                                child: SvgPicture.asset('assets/images/new-images/restore_key.svg'),
+                                child: SvgPicture.asset('assets/images/new-images/restore_key.svg',color: settingsStore.isDarkTheme ? Color(0xffAEAEAE) :Color(0xff16161D),),
                               ),
                               Text(S.of(context).restore_title_from_keys,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color:settingsStore.isDarkTheme ? Color(0xffF7F7F7) :Color(0xff16161D)),),
                             ],
