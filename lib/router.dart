@@ -424,7 +424,7 @@ class Router {
       case Routes.dangerzoneKeys:
         return MaterialPageRoute<void>(builder: (context) {
           return DangerzonePage(
-            title: 'Show Keys' ,
+            pageTitle: 'Show Keys' ,
             nextPage: Routes.showKeys,
           );
         });
@@ -432,7 +432,7 @@ class Router {
       case Routes.dangerzoneSeed:
         return MaterialPageRoute<void>(builder: (context) {
           return DangerzonePage(
-            title: 'Show Seed',
+            pageTitle: 'Show Seed',
             nextPage: Routes.seed,
           );
         });
