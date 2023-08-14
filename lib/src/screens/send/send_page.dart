@@ -36,7 +36,7 @@ class SendPage extends BasePage {
   String controller;
 
   @override
-  String get title => S.current.send; //wallet_list_title;
+  String get title => S.current.send;
 
   @override
   Widget trailing(BuildContext context) {
@@ -326,7 +326,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
                 Padding(
                   padding:
-                      const EdgeInsets.only(top: 15.0, left: 5.0, right: 5.0),
+                      const EdgeInsets.only(top: 20.0, left: 5.0, right: 5.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -353,7 +353,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                   child: Container(
                     padding: EdgeInsets.only(
                         //left: constants.leftPx, right: constants.rightPx,
-                        top: 25,
+                        top: 10,
                         bottom: 30),
                     child: Column(children: <Widget>[
                       //Beldex Address
@@ -443,13 +443,13 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
                       Container(
                         margin: EdgeInsets.only(
-                          left: 10,
-                          top: 10,
+                          left: 7,
+                          top: 20,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text('Enter BDX to Send',
+                            Text('Enter BDX to send',
                                 style: TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w700)),
@@ -463,17 +463,18 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                               3, //150,
                           margin: EdgeInsets.only(
                             top: 15,
+                            left: 5,
+                            right: 4,
                           ),
                           padding: EdgeInsets.only(
-                            left: 15,
+                            left: 25,
+                            right:5,
                             top: 10,
                             bottom: 8,
                           ),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xff272733)
-                                  : Color(0xffEDEDED)),
+                              color: Theme.of(context).cardColor),
                           child: Column(
                             children: [
                               TextFormField(
@@ -498,9 +499,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       hintStyle: TextStyle(
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.w700,
-                                          color: settingsStore.isDarkTheme
-                                              ? Color(0xff77778B)
-                                              : Color(0xff6F6F6F)),
+                                          color: Colors.grey.withOpacity(0.6)),
                                       hintText: 'Enter Amount',
                                       errorStyle:
                                           TextStyle(color: BeldexPalette.red)),
@@ -630,7 +629,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+                        padding: const EdgeInsets.only(top: 10.0, bottom: 25,left: 10),
                         child: Row(
                           // mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
@@ -652,9 +651,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                   color: Colors
                                       .grey, //Theme.of(context).primaryTextTheme.overline.backgroundColor,
                                 )),
-                            SizedBox(
-                              width: 5,
-                            ),
                           ],
                         ),
                       ),
@@ -683,7 +679,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
       bottomSection: Observer(builder: (_) {
         return Container(
-          margin: EdgeInsets.only(left: 15, right: 15, top: 40),
+          margin: EdgeInsets.only(left: 15, right: 15, top: 30),
           child: InkWell(
             onTap: syncStore.status is SyncedSyncStatus
                 ? () async {
