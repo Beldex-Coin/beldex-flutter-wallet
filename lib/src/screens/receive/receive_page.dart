@@ -1,14 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:beldex_wallet/src/screens/receive/custom_dropdown.dart';
-import 'package:beldex_wallet/src/screens/receive/scrollbars.dart';
-import 'package:beldex_wallet/src/screens/receive/subaddress_dialog.dart';
-import 'package:beldex_wallet/src/screens/subaddress/new_subaddress_page.dart';
 import 'package:beldex_wallet/src/screens/subaddress/newsubAddress_dialog.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/stores/subaddress_creation/subaddress_creation_store.dart';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -17,14 +11,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/palette.dart';
-import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/screens/receive/qr_image.dart';
 import 'package:beldex_wallet/src/stores/subaddress_list/subaddress_list_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
-import 'package:beldex_wallet/src/widgets/beldex_text_field.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/src/util/constants.dart' as constants;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui' as ui;
 
@@ -35,33 +26,10 @@ class ReceivePage extends BasePage {
   bool get isModalBackButton => false;
 
   @override
-  String get title => S.current.wallet_list_title;
+  String get title => S.current.receive;
 
   @override
   Color get textColor => Colors.white;
-
-  // @override
-  // Widget leading(BuildContext context) {
-  //   return Container(
-  //       padding: const EdgeInsets.only(top: 12.0, left: 10),
-  //       decoration: BoxDecoration(
-  //         //borderRadius: BorderRadius.circular(10),
-  //         //color: Colors.black,
-  //       ),
-  //       //child: //SvgPicture.asset('assets/images/beldex_logo_foreground1.svg')
-  //       );
-  // }
-  @override
-  Widget middle(BuildContext context) {
-    return Text(
-      'Receive',
-      style: TextStyle(
-          fontSize: 23.0,
-          fontWeight: FontWeight.w900,
-          fontFamily: 'Poppins',
-          color: Theme.of(context).primaryTextTheme.caption.color),
-    );
-  }
 
   @override
   Widget trailing(BuildContext context) {

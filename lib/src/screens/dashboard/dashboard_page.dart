@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:ui';
-
-import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/dashboard_rescan_dialog.dart';
 import 'package:beldex_wallet/src/util/network_service.dart';
@@ -9,30 +7,19 @@ import 'package:beldex_wallet/src/widgets/standart_switch.dart';
 import 'package:beldex_wallet/theme_changer.dart';
 import 'package:beldex_wallet/themes.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:date_range_picker/date_range_picker.dart' as date_rage_picker;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
-
-//import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/domain/common/balance_display_mode.dart';
-
-//import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-import 'package:beldex_wallet/src/screens/dashboard/date_section_row.dart';
-import 'package:beldex_wallet/src/screens/dashboard/transaction_row.dart';
-import 'package:beldex_wallet/src/screens/dashboard/wallet_menu.dart';
 import 'package:beldex_wallet/src/stores/action_list/action_list_store.dart';
-import 'package:beldex_wallet/src/stores/action_list/date_section_item.dart';
-import 'package:beldex_wallet/src/stores/action_list/transaction_list_item.dart';
 import 'package:beldex_wallet/src/stores/balance/balance_store.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
-import 'package:beldex_wallet/src/widgets/picker.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -363,6 +350,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
   Connectivity connectivity;
   StreamSubscription<ConnectivityResult> subscription;
+  var reconnect = false;
 
   @override
   void initState() {
@@ -477,8 +465,12 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                       }
 
                       if (status is FailedSyncStatus) {
-                        descriptionText =
-                            S.of(context).please_try_to_connect_to_another_node;
+                        descriptionText = S.of(context).please_try_to_connect_to_another_node;
+                        reconnect = true;
+                        if(networkStatus == NetworkStatus.online && reconnect){
+                          walletStore.reconnect();
+                          reconnect = false;
+                        }
                       }
 
                       return Container(
@@ -785,9 +777,6 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                     ],
                   ),
                 ),
-                Column(
-                  children: [],
-                ),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
@@ -853,7 +842,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: Text(
-                              'Transafer your BDX more faster\n with flash transaction',
+                              'Transfer your BDX more faster\n with flash transaction',
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 16)),
                         )

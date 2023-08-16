@@ -70,7 +70,7 @@ abstract class WalletRestorationStoreBase with Store {
       authStore.restored();
       state = WalletRestoredSuccessfully();
     } catch (e) {
-      state = WalletRestorationFailure(error: e.toString());
+      state = WalletRestorationFailure(error: 'Check your keys');
     }
   }
 

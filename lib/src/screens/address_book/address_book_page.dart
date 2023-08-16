@@ -27,7 +27,7 @@ class AddressBookPage extends BasePage {
 
   @override
   Widget trailing(BuildContext context) {
-    // if (!isEditable) return null;
+    if (!isEditable) return null;
 
     final addressBookStore = Provider.of<AddressBookStore>(context);
 
@@ -43,7 +43,7 @@ class AddressBookPage extends BasePage {
             color: Color(0xff0BA70F),
             shape: BoxShape.circle,
           ),
-          margin: EdgeInsets.only(right: 10),
+          margin: EdgeInsets.only(right: 15),
           child: Icon(
             Icons.add,
             color: Color(0xffffffff),
@@ -191,55 +191,24 @@ class AddressBookPage extends BasePage {
                                                           fontSize: 16),
                                                     ),
                                                   ),
-                                                  Row(
-                                                    children: [
-
-                                                      InkWell(
-                                                        onTap: () {
-                                                          Clipboard.setData(
-                                                              ClipboardData(
-                                                                  text: contact
-                                                                      .address));
-                                                          // displaySnackBar(context,
-                                                          //     S.of(context).copied);
-                                                              print('address copied-->');
-                                                        },
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets.only(
-                                                                  right: 8.0),
-                                                          child: SvgPicture.asset(
-                                                              'assets/images/new-images/copy.svg',
-                                                              color: settingsStore
-                                                                      .isDarkTheme
-                                                                  ? Color(
-                                                                      0xffffffff)
-                                                                  : Color(
-                                                                      0xff16161D)),
-                                                        ),
-                                                      ),
-                                                     
-                                                     InkWell(
-                                                        onTap: () {
-                                                          Share.text('${contact.name} :', contact.address, 'text/plain');
-                                                        },
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsets.only(
-                                                                  right: 8.0),
-                                                          child: SvgPicture.asset(
-                                                              'assets/images/new-images/send.svg',
-                                                              color: settingsStore
-                                                                      .isDarkTheme
-                                                                  ? Color(
-                                                                      0xffffffff)
-                                                                  : Color(
-                                                                      0xff16161D)),
-                                                        ),
-                                                      ),
-                                                  
-                                                    ],
-                                                  )
+                                                  InkWell(
+                                                     onTap: () {
+                                                       Navigator.of(context).pop(contact);
+                                                     },
+                                                     child: Padding(
+                                                       padding:
+                                                           const EdgeInsets.only(
+                                                               right: 8.0),
+                                                       child: SvgPicture.asset(
+                                                           'assets/images/new-images/send.svg',
+                                                           color: settingsStore
+                                                                   .isDarkTheme
+                                                               ? Color(
+                                                                   0xffffffff)
+                                                               : Color(
+                                                                   0xff16161D)),
+                                                     ),
+                                                   )
                                                 ],
                                               ),
                                             ),
@@ -263,8 +232,8 @@ class AddressBookPage extends BasePage {
                                         secondaryActions: <Widget>[
                                           IconSlideAction(
                                             caption: 'Edit',
-                                            // color: Colors.blue,
-                                            foregroundColor: Colors.blue,
+                                            color: Colors.blue,
+                                            foregroundColor: settingsStore.isDarkTheme? Color(0xff171720) : Color(0xffffffff),
                                             icon: Icons.edit,
                                             onTap: () async {
                                               await Navigator.of(context)
@@ -278,8 +247,8 @@ class AddressBookPage extends BasePage {
                                           ),
                                           IconSlideAction(
                                             caption: 'Delete',
-                                            // color: Colors.red,
-                                            foregroundColor: Colors.red,
+                                            color: Colors.red,
+                                            foregroundColor:settingsStore.isDarkTheme? Color(0xff171720) : Color(0xffffffff),
                                             icon: CupertinoIcons.delete,
                                             onTap: () async {
                                               await showAlertDialog(context)
@@ -355,66 +324,33 @@ class AddressBookPage extends BasePage {
                                                               fontSize: 16),
                                                         ),
                                                       ),
-                                                      Row(
-                                                        children: [
-                                                          InkWell(
-                                                            onTap: () {
-                                                              Clipboard.setData(
-                                                                  ClipboardData(
-                                                                      text: contact
-                                                                          .address));
-                                                              displaySnackBar(
-                                                                  context,
-                                                                  S
-                                                                      .of(context)
-                                                                      .copied);
-                                                                      print('address copied');
-                                                            },
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      right: 8.0),
-                                                              child: SvgPicture.asset(
-                                                                  'assets/images/new-images/copy.svg',
-                                                                  color: settingsStore
-                                                                          .isDarkTheme
-                                                                      ? Color(
-                                                                          0xffffffff)
-                                                                      : Color(
-                                                                          0xff16161D)),
-                                                            ),
-                                                          ),
-                                                          InkWell(
-                                                            onTap: () {
-                                                              Share.text('${contact.name} :', contact.address, 'text/plain');
-                                                              // Clipboard.setData(
-                                                              //     ClipboardData(
-                                                              //         text: contact
-                                                              //             .address));
-                                                              // displaySnackBar(
-                                                              //     context,
-                                                              //     S
-                                                              //         .of(context)
-                                                              //         .copied);
-                                                              //         print('address copied');
-                                                            },
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                          .only(
-                                                                      right: 13.0,left:10.0,),
-                                                              child: SvgPicture.asset(
-                                                                  'assets/images/new-images/send.svg',
-                                                                  color: settingsStore
-                                                                          .isDarkTheme
-                                                                      ? Color(
-                                                                          0xffffffff)
-                                                                      : Color(
-                                                                          0xff16161D)),
-                                                            ),
-                                                          ),
-                                                        ],
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Clipboard.setData(
+                                                              ClipboardData(
+                                                                  text: contact
+                                                                      .address));
+                                                          displaySnackBar(
+                                                              context,
+                                                              S
+                                                                  .of(context)
+                                                                  .copied);
+                                                                  print('address copied');
+                                                        },
+                                                        child: Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                      .only(
+                                                                  right: 8.0),
+                                                          child: SvgPicture.asset(
+                                                              'assets/images/new-images/copy.svg',
+                                                              color: settingsStore
+                                                                      .isDarkTheme
+                                                                  ? Color(
+                                                                      0xffffffff)
+                                                                  : Color(
+                                                                      0xff16161D)),
+                                                        ),
                                                       )
                                                     ],
                                                   ),

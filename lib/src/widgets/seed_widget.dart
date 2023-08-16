@@ -342,7 +342,13 @@ class SeedWidgetState extends State<SeedWidget> {
                                     );
                                   }
                                   setState(() {
+                                    _errorMessage1 = '';
                                     wordCount = words.length;
+                                  });
+                                }else{
+                                  _seedController.clear();
+                                  setState(() {
+                                    wordCount = 0;
                                   });
                                 }
                               },

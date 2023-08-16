@@ -3,26 +3,21 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
-import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:flutter_svg/svg.dart';
 
 class DangerzonePage extends BasePage {
-  DangerzonePage({this.nextPage,this.title});
-
   final String nextPage;
-  final String title;
+  final String pageTitle;
+  DangerzonePage({this.nextPage,this.pageTitle});
 
-@override
+  @override
+  String get title => pageTitle;
+
+  @override
 Widget trailing(BuildContext context){
   return Icon(Icons.settings,color:Colors.transparent);
-}
-
-@override
-Widget middle(BuildContext context){
-  return Text('$title',style: TextStyle(fontSize:22,fontWeight: FontWeight.w700),);
 }
 
 

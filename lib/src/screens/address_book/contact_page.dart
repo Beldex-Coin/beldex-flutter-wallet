@@ -208,6 +208,7 @@ bool _checkName(String enteredName) {
                 enabled: !coinVisibility,
                 hintText: 'Enter name',
                 controller: _contactNameController,
+                onChanged: (val)=> _formKey.currentState.validate(),
                 validator: (value) {
                     if(value == null || value == '' ){
                       return 'Name should not be empty';
@@ -335,6 +336,7 @@ bool _checkName(String enteredName) {
                 isActive: !coinVisibility,
                 controller: _addressController,
                 options: [AddressTextFieldOption.qrCode],
+                onChanged: (val)=> _formKey.currentState.validate(),
                 validator: (value) {
                   addressBookStore.validateAddress(value,
                       cryptoCurrency: _selectedCrypto);

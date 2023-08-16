@@ -18,16 +18,10 @@ import '../../loading_page.dart';
 class WalletListPage extends BasePage {
 
   @override
-  String get title => S.current.wallet_list_title;
-
-@override
-Widget middle(BuildContext context){
-  return Text('Wallets',style: TextStyle(fontSize:22,fontWeight:FontWeight.w800),);
-}
+  String get title => S.current.wallets;
 
   @override
   Widget trailing(BuildContext context) {
-    // final _backButton = Icon(Icons.arrow_back_ios_sharp, size: 28);
      return Container();
   }
 

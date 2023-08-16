@@ -6,27 +6,15 @@ import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
-import 'package:beldex_wallet/src/widgets/nav/nav_list_arrow.dart';
-import 'package:beldex_wallet/src/widgets/nav/nav_list_header.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/nav/new_nav_list_arrow.dart';
-import '../../widgets/nav/new_nav_list_header.dart';
 
 class ProfilePage extends BasePage {
   final _bodyKey = GlobalKey();
 
-  // @override
-  // Widget leading(BuildContext context) {
-  //    final settingsStore = Provider.of<SettingsStore>(context);
-  //   return Container(padding:EdgeInsets.only(top: 12.0,left: 10.0),decoration: BoxDecoration(
-  //     //borderRadius: BorderRadius.circular(10),
-  //     //color: Colors.black,
-  //   ),child: Image.asset( settingsStore.isDarkTheme ? 'assets/images/new-images/arrow_white.png': 'assets/images/new-images/arrow_black.png',));
-  // }
-
-
-
+  @override
+  String get title => S.current.settings_title;
 
   @override
   Widget trailing(BuildContext context){
@@ -35,40 +23,6 @@ class ProfilePage extends BasePage {
     );
   }
 
-
-
-
-
-
-
-
-  @override
-  Widget middle(BuildContext context) {
-
-    return Text(
-      'Settings',
-      style: TextStyle( fontSize: 26.0,fontWeight: FontWeight.w600),
-    ) /*Observer(builder: (_) {
-      return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              walletStore.name,
-              style: TextStyle(
-                  color: Theme.of(context).primaryTextTheme.headline6.color),
-            ),
-            SizedBox(height: 5),
-            Text(
-              walletStore.account != null ? '${walletStore.account.label}' : '',
-              style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 10,
-                  color: Theme.of(context).primaryTextTheme.headline6.color),
-            ),
-          ]);
-    })*/
-    ;
-  }
   //Important -->
   /*@override
   Widget trailing(BuildContext context) {
