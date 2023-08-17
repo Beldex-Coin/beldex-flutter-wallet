@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:beldex_wallet/src/screens/subaddress/newsubAddress_dialog.dart';
@@ -33,7 +32,6 @@ class ReceivePage extends BasePage {
 
   @override
   Widget trailing(BuildContext context) {
-    final settingsStore = Provider.of<SettingsStore>(context);
     return Container();
   }
 
@@ -60,39 +58,25 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    // getSubAddress();
   }
 
   @override
   void dispose() {
     amountController.dispose();
-    // if(overlayEntry.mounted){
-    //  overlayEntry?.dispose();
-    // }
-
-    //overlayEntry.remove();
     super.dispose();
   }
 
-  final _globalKey = new GlobalKey();
-  final _globalKey1 = GlobalKey();
+  final _globalKey = GlobalKey();
 
-  //final originalSize=800;
   Future<Uint8List> _capturePng() async {
     try {
-      print('inside');
-      RenderRepaintBoundary boundary =
-          _globalKey.currentContext.findRenderObject() as RenderRepaintBoundary;
-      //double pixelRatio = originalSize / MediaQuery.of(context).size.width;
-      ui.Image image = await boundary.toImage(
+      final boundary =
+      _globalKey.currentContext.findRenderObject() as RenderRepaintBoundary;
+      final image = await boundary.toImage(
         pixelRatio: 3.0,
       );
-      ByteData byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
-      var pngBytes = byteData.buffer.asUint8List();
-      var bs64 = base64Encode(pngBytes);
-      print(pngBytes);
-      print(bs64);
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+      final pngBytes = byteData.buffer.asUint8List();
       setState(() {});
       return pngBytes;
     } catch (e) {
@@ -143,10 +127,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final walletStore = Provider.of<WalletStore>(context);
-    final subaddressListStore = Provider.of<SubaddressListStore>(context);
-
-    // final currentColor = Theme.of(context).selectedRowColor;
-    // final notCurrentColor = Color.fromARGB(255, 40,42,51);//Theme.of(context).scaffoldBackgroundColor;
+    final subAddressListStore = Provider.of<SubaddressListStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
     amountController.addListener(() {
       if (_formKey.currentState.validate()) {
@@ -174,44 +155,43 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
               child: SingleChildScrollView(
                   child: Column(
                 children: <Widget>[
-                  RepaintBoundary(
-                    key: _globalKey,
-                    child: Container(
-                      // color: Theme.of(context).backgroundColor,
-                      child: Column(
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(left: 35.0, right: 35.0),
-                            //color: Theme.of(context).backgroundColor,
-                            // margin: EdgeInsets.only(bottom: 10),
-                            child: Column(
-                              children: <Widget>[
-                                Observer(builder: (_) {
-                                  return Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Container(
-                                        margin: EdgeInsets.only(bottom: 10),
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.60 /
-                                                3,
-                                        //170,
-                                        width:
-                                            MediaQuery.of(context).size.height *
-                                                0.60 /
-                                                3,
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: settingsStore.isDarkTheme
-                                              ? Color(0xff1F1F28)
-                                              : Color(0xffEDEDED),
-                                        ),
-                                        padding: EdgeInsets.all(18),
+                  Container(
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xff171720)
+                        : Color(0xffffffff),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(left: 35.0, right: 35.0),
+                          child: Column(
+                            children: <Widget>[
+                              Observer(builder: (_) {
+                                return Row(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.only(bottom: 10),
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.60 /
+                                              3,
+                                      width:
+                                          MediaQuery.of(context).size.height *
+                                              0.60 /
+                                              3,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(10),
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xff1F1F28)
+                                            : Color(0xffEDEDED),
+                                      ),
+                                      padding: EdgeInsets.all(18),
 
+                                      child: RepaintBoundary(
+                                        key:_globalKey,
                                         child: Container(
                                           decoration: BoxDecoration(
                                               color: Colors.white,
@@ -219,362 +199,340 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                                   BorderRadius.circular(10)),
                                           padding: EdgeInsets.all(10),
                                           child:
-                                              // Observer(builder: (_){
-                                              //   var qrData =
-                                              // return
                                               QrImage(
                                             data:
                                                 walletStore.subaddress.address +
                                                     walletStore.amountValue,
                                             backgroundColor: Colors.white,
                                           ),
-                                          // },)
                                         ),
-                                      ),
-                                    ],
-                                  );
-                                }),
-
-                                // SizedBox(height: 15,),
-
-                                Observer(builder: (_) {
-                                  return Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 8.0),
-                                            child: Text(
-                                              S.of(context).wallet_address,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w800,
-                                                  fontSize: 17,
-                                                  color: Color(0xff1BB51E)),
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              Clipboard.setData(ClipboardData(
-                                                  text: walletStore
-                                                      .subaddress.address));
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                margin: EdgeInsets.only(
-                                                    bottom:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.35 /
-                                                            3,
-                                                    left: MediaQuery.of(context)
-                                                            .size
-                                                            .height *
-                                                        0.30 /
-                                                        3,
-                                                    right:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.30 /
-                                                            3),
-                                                elevation: 0,
-                                                //5,
-                                                behavior:
-                                                    SnackBarBehavior.floating,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15.0) //only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                                                    ),
-                                                content: Text(
-                                                  S.of(context).copied,
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontSize: 15),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                                backgroundColor:
-                                                    Color(0xff0BA70F),
-                                                //.fromARGB(255, 46, 113, 43),
-                                                duration: Duration(
-                                                    milliseconds: 1500),
-                                              ));
-                                            },
-                                            child: Container(
-                                                height: 20,
-                                                width: 20,
-                                                child: SvgPicture.asset(
-                                                  'assets/images/new-images/copy.svg',
-                                                  color:
-                                                      settingsStore.isDarkTheme
-                                                          ? Color(0xffFFFFFF)
-                                                          : Color(0xff16161D),
-                                                )),
-                                          )
-                                        ],
-                                      ),
-                                      Row(
-                                        children: <Widget>[
-                                          Expanded(
-                                              child: Container(
-                                                  padding: EdgeInsets.only(
-                                                      top: 20.0),
-                                                  child: Center(
-                                                      child: GestureDetector(
-                                                          // onTap: () {
-                                                          //   Clipboard.setData(ClipboardData(
-                                                          //       text: walletStore.subaddress.address));
-                                                          //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                          //     elevation: 5,
-                                                          //     shape: RoundedRectangleBorder(
-                                                          //         borderRadius: BorderRadius.only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                                                          //     ),
-                                                          //     content: Text(S
-                                                          //         .of(context)
-                                                          //         .copied_to_clipboard,style: TextStyle(color: Colors.white),textAlign: TextAlign.center,),
-                                                          //     backgroundColor: Color.fromARGB(255, 46, 113, 43),
-                                                          //     duration: Duration(
-                                                          //         milliseconds: 1500),
-                                                          //   ));
-                                                          // },
-                                                          child: Text(
-                                                              walletStore
-                                                                  .subaddress
-                                                                  .address,
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: TextStyle(
-                                                                fontSize: 11.0,
-                                                                height: 1.5,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w600,
-                                                                color: Color(
-                                                                    0xff82828D), //Theme.of(context).primaryTextTheme.headline6.color
-                                                              ))))))
-                                        ],
-                                      ),
-                                    ],
-                                  );
-                                }),
-                              ],
-                            ),
-                          ),
-
-                          Container(
-                            margin:
-                                EdgeInsets.only(top: 20, left: 20, bottom: 15),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Enter BDX to Receive',
-                                  style: TextStyle(
-                                      fontFamily: 'Poppinsbold', fontSize: 16),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          Container(
-                            padding: EdgeInsets.only(left: 15.0, right: 15.0),
-                            child: Form(
-                                key: _formKey,
-                                child: NewBeldexTextField(
-                                    keyboardType:
-                                        TextInputType.numberWithOptions(
-                                            decimal: true),
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.deny(
-                                          RegExp('[-, ]'))
-                                    ],
-                                    hintText: 'Enter ${S.of(context).amount}',
-                                    validator: (value) {
-                                      walletStore.validateAmount(value);
-                                      return walletStore.errorMessage;
-                                    },
-                                    controller: amountController)),
-                          ),
-                          Container(
-                            //color: Colors.yellow,
-                            child: Stack(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: 10,
-                                      left: 15.0,
-                                      right: 15.0,
-                                      bottom: 10),
-                                  decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: settingsStore.isDarkTheme
-                                            ? Color(0xff464657)
-                                            : Color(0xffDADADA),
-                                      ),
-                                      borderRadius:
-                                          BorderRadius.circular(10.0)),
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.08 /
-                                                  3,
-                                              right: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.10 /
-                                                  3,
-                                              top: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.03 /
-                                                  3),
-                                          child: Observer(
-                                            builder: (_) {
-                                              final canClick =
-                                                  subaddressListStore
-                                                              .subaddresses
-                                                              .length ==
-                                                          1
-                                                      ? false
-                                                      : true;
-                                              return GestureDetector(
-                                                  onTap: () {
-                                                    final mHeight =
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .height;
-                                                    // setState(() {
-                                                    //   canShow = canShow ? false : true;
-                                                    // });
-                                                    setState(() {
-                                                      isOpen =
-                                                          isOpen ? false : true;
-                                                    });
-
-                                                    print(
-                                                        "the value of the isOpen $isOpen");
-
-                                                    if (canClick) {
-                                                      if (overlayEntry ==
-                                                          null) {
-                                                        final overlayState =
-                                                            Overlay.of(context);
-                                                        overlayEntry =
-                                                            OverlayEntry(
-                                                          builder: (context) {
-                                                            return _buildExitnodeListView(
-                                                                mHeight);
-                                                          },
-                                                        );
-
-                                                        overlayState?.insert(
-                                                            overlayEntry);
-
-                                                        setState(() {
-                                                          _isOverlayVisible =
-                                                              true;
-                                                        });
-                                                      }
-                                                    }
-                                                  },
-                                                  child: displayContainer(
-                                                      context));
-                                            },
-                                          )),
-                                      SizedBox(height: 15),
-                                      Container(
-                                        margin: EdgeInsets.only(
-                                            left: 10, right: 10, bottom: 20),
-                                        child: GestureDetector(
-                                          onTap: ()async{
-                                             await showDialog<void>(
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return SubAddressAlert( subaddressListStore:subaddressListStore);
-                                                      });
-                                          },
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              Container(
-                                                margin:
-                                                    EdgeInsets.only(right: 10),
-                                                width: 25.0,
-                                                height: 25.0,
-                                                child: SvgPicture.asset(
-                                                    'assets/images/new-images/plus_fill.svg',
-                                                    color: Color(0xff2979FB)),
-                                              ),
-                                              Text(
-                                                'Add sub address',
-                                                //S.of(context).subaddresses,
-                                                style: TextStyle(
-                                                    decoration: TextDecoration
-                                                        .underline,
-                                                    fontSize: 16.0,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Color(
-                                                        0xff2979FB) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                                                    ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          SizedBox(
-                              height: MediaQuery.of(context).size.height *
-                                  0.20 /
-                                  3),
-                          Container(
-                            margin: EdgeInsets.all(15),
-                            child: InkWell(
-                              onTap: () => _incrementCounter(
-                                  walletStore.subaddress.address,
-                                  amountController.text),
-                              child: Container(
-                                padding: EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                    color: Color(0xff0BA70F),
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.share, color: Colors.white),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
-                                      child: Text(
-                                        'Share QR',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Color(0xffffffff),
-                                            fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                   ],
+                                );
+                              }),
+                              Observer(builder: (_) {
+                                return Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 8.0),
+                                          child: Text(
+                                            S.of(context).wallet_address,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w800,
+                                                fontSize: 17,
+                                                color: Color(0xff1BB51E)),
+                                          ),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Clipboard.setData(ClipboardData(
+                                                text: walletStore
+                                                    .subaddress.address));
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(SnackBar(
+                                              margin: EdgeInsets.only(
+                                                  bottom:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .height *
+                                                          0.35 /
+                                                          3,
+                                                  left: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.30 /
+                                                      3,
+                                                  right:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .height *
+                                                          0.30 /
+                                                          3),
+                                              elevation: 0,
+                                              //5,
+                                              behavior:
+                                                  SnackBarBehavior.floating,
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15.0),
+                                                  ),
+                                              content: Text(
+                                                S.of(context).copied,
+                                                style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight:
+                                                        FontWeight.w700,
+                                                    fontSize: 15),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                              backgroundColor:
+                                                  Color(0xff0BA70F),
+                                              duration: Duration(
+                                                  milliseconds: 1500),
+                                            ));
+                                          },
+                                          child: Container(
+                                              height: 20,
+                                              width: 20,
+                                              child: SvgPicture.asset(
+                                                'assets/images/new-images/copy.svg',
+                                                color:
+                                                    settingsStore.isDarkTheme
+                                                        ? Color(0xffFFFFFF)
+                                                        : Color(0xff16161D),
+                                              )),
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                            child: Container(
+                                                padding: EdgeInsets.only(
+                                                    top: 20.0),
+                                                child: Center(
+                                                    child: GestureDetector(
+                                                        child: Text(
+                                                            walletStore
+                                                                .subaddress
+                                                                .address,
+                                                            textAlign:
+                                                                TextAlign
+                                                                    .center,
+                                                            style: TextStyle(
+                                                              fontSize: 11.0,
+                                                              height: 1.5,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              color: Color(
+                                                                  0xff82828D), //Theme.of(context).primaryTextTheme.headline6.color
+                                                            ))))))
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              }),
+                            ],
+                          ),
+                        ),
+
+                        Container(
+                          margin:
+                              EdgeInsets.only(top: 20, left: 20, bottom: 15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Enter BDX to Receive',
+                                style: TextStyle(
+                                    fontFamily: 'Poppinsbold', fontSize: 16),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Container(
+                          padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                          child: Form(
+                              key: _formKey,
+                              child: NewBeldexTextField(
+                                  keyboardType:
+                                      TextInputType.numberWithOptions(
+                                          decimal: true),
+                                  inputFormatters: [
+                                    FilteringTextInputFormatter.deny(
+                                        RegExp('[-, ]'))
+                                  ],
+                                  hintText: 'Enter ${S.of(context).amount}',
+                                  validator: (value) {
+                                    walletStore.validateAmount(value);
+                                    return walletStore.errorMessage;
+                                  },
+                                  controller: amountController,
+                                  onChanged: (val){
+                                  _globalKey.currentContext.findRenderObject().reassemble();
+                                },)),
+                        ),
+                        Container(
+                          child: Stack(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: 10,
+                                    left: 15.0,
+                                    right: 15.0,
+                                    bottom: 10),
+                                decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xff464657)
+                                          : Color(0xffDADADA),
+                                    ),
+                                    borderRadius:
+                                        BorderRadius.circular(10.0)),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.only(
+                                            left: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.08 /
+                                                3,
+                                            right: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.10 /
+                                                3,
+                                            top: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.03 /
+                                                3),
+                                        child: Observer(
+                                          builder: (_) {
+                                            final canClick =
+                                                subAddressListStore
+                                                            .subaddresses
+                                                            .length ==
+                                                        1
+                                                    ? false
+                                                    : true;
+                                            return GestureDetector(
+                                                onTap: () {
+                                                  final mHeight =
+                                                      MediaQuery.of(context)
+                                                          .size
+                                                          .height;
+                                                  // setState(() {
+                                                  //   canShow = canShow ? false : true;
+                                                  // });
+                                                  setState(() {
+                                                    isOpen =
+                                                        isOpen ? false : true;
+                                                  });
+
+                                                  print(
+                                                      "the value of the isOpen $isOpen");
+
+                                                  if (canClick) {
+                                                    if (overlayEntry ==
+                                                        null) {
+                                                      final overlayState =
+                                                          Overlay.of(context);
+                                                      overlayEntry =
+                                                          OverlayEntry(
+                                                        builder: (context) {
+                                                          return _buildExitnodeListView(
+                                                              mHeight);
+                                                        },
+                                                      );
+
+                                                      overlayState?.insert(
+                                                          overlayEntry);
+
+                                                      setState(() {
+                                                        _isOverlayVisible =
+                                                            true;
+                                                      });
+                                                    }
+                                                  }
+                                                },
+                                                child: displayContainer(
+                                                    context));
+                                          },
+                                        )),
+                                    SizedBox(height: 15),
+                                    Container(
+                                      margin: EdgeInsets.only(
+                                          left: 10, right: 10, bottom: 20),
+                                      child: GestureDetector(
+                                        onTap: (){
+                                          showDialog<void>(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return SubAddressAlert( subAddressListStore:subAddressListStore);
+                                                    });
+                                        },
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              margin:
+                                                  EdgeInsets.only(right: 10),
+                                              width: 25.0,
+                                              height: 25.0,
+                                              child: SvgPicture.asset(
+                                                  'assets/images/new-images/plus_fill.svg',
+                                                  color: Color(0xff2979FB)),
+                                            ),
+                                            Text(
+                                              'Add sub address',
+                                              //S.of(context).subaddresses,
+                                              style: TextStyle(
+                                                  decoration: TextDecoration
+                                                      .underline,
+                                                  fontSize: 16.0,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Color(
+                                                      0xff2979FB)
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ),
+                            ],
+                          ),
+                        ),
+
+                        SizedBox(
+                            height: MediaQuery.of(context).size.height *
+                                0.20 /
+                                3),
+                        Container(
+                          margin: EdgeInsets.all(15),
+                          child: InkWell(
+                            onTap: () => _incrementCounter(
+                                walletStore.subaddress.address,
+                                amountController.text),
+                            child: Container(
+                              padding: EdgeInsets.all(15),
+                              decoration: BoxDecoration(
+                                  color: Color(0xff0BA70F),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.share, color: Colors.white),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 8.0),
+                                    child: Text(
+                                      'Share QR',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xffffffff),
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          )
-                        ],
-                      ),
+                          ),
+                        )
+                      ],
                     ),
                   ),
                 ],
@@ -631,17 +589,16 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
   }
 
   void getSubAddress(BuildContext context) async {
-    final subaddressListStore = Provider.of<SubaddressListStore>(context);
+    final subAddressListStore = Provider.of<SubaddressListStore>(context);
     final walletStore = Provider.of<WalletStore>(context);
 
     final prefs = await SharedPreferences.getInstance();
     dynamic subaddress;
     bool isCurrent;
-    //dynamic label;
     dynamic label;
     setState(() {
-      for (int i = 0; i < subaddressListStore.subaddresses.length; i++) {
-        subaddress = subaddressListStore.subaddresses[i];
+      for (var i = 0; i < subAddressListStore.subaddresses.length; i++) {
+        subaddress = subAddressListStore.subaddresses[i];
         isCurrent = walletStore.subaddress.address == subaddress.address;
         label = subaddress.label ?? subaddress.address;
         if (isCurrent) {
@@ -654,10 +611,10 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
 
 ////
   Widget _buildExitnodeListView(double mHeight) {
-    final subaddressListStore = Provider.of<SubaddressListStore>(context);
+    final subAddressListStore = Provider.of<SubaddressListStore>(context);
     final walletStore = Provider.of<WalletStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    return subaddressListStore.subaddresses.length <= 1
+    return subAddressListStore.subaddresses.length <= 1
         ? Container()
         : Material(
             color: Colors.transparent,
@@ -690,12 +647,12 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                         return ListView.builder(
                             padding: EdgeInsets.zero,
                             shrinkWrap: true,
-                            itemCount: subaddressListStore.subaddresses.length,
+                            itemCount: subAddressListStore.subaddresses.length,
                             itemBuilder: (BuildContext context, int i) {
                               // print("data inside listview ${exitData[index]}");
                               return Observer(builder: (context) {
                                 final subaddress =
-                                    subaddressListStore.subaddresses[i];
+                                    subAddressListStore.subaddresses[i];
                                 final isCurrent =
                                     walletStore.subaddress.address ==
                                         subaddress.address;
@@ -766,7 +723,8 @@ class NewBeldexTextField extends StatelessWidget {
       this.inputFormatters,
       this.prefixIcon,
       this.suffixIcon,
-      this.focusNode});
+      this.focusNode,
+      this.onChanged});
 
   final bool enabled;
   final String hintText;
@@ -777,13 +735,13 @@ class NewBeldexTextField extends StatelessWidget {
   final Widget prefixIcon;
   final Widget suffixIcon;
   final FocusNode focusNode;
+  final ValueChanged<String> onChanged;
 
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     return Card(
       color: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED),
-      //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31,32,39),
       elevation: 0,
       shape: RoundedRectangleBorder(
           side: BorderSide(width: 0.5, color: Colors.transparent),
@@ -797,7 +755,6 @@ class NewBeldexTextField extends StatelessWidget {
             focusNode: focusNode,
             style: TextStyle(
               fontSize: 16.0,
-              //color: Theme.of(context).accentTextTheme.overline.color
             ),
             keyboardType: keyboardType,
             inputFormatters: inputFormatters,
@@ -814,7 +771,8 @@ class NewBeldexTextField extends StatelessWidget {
                     fontWeight: FontWeight.w600),
                 hintText: hintText,
                 errorStyle: TextStyle(color: BeldexPalette.red)),
-            validator: validator),
+            validator: validator,
+            onChanged: onChanged,),
       ),
     );
   }
