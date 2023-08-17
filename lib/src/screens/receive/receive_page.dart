@@ -47,7 +47,7 @@ class ReceiveBody extends StatefulWidget {
   ReceiveBodyState createState() => ReceiveBodyState();
 }
 
-class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver{
+class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
   final amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isExpand = false;
@@ -62,6 +62,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver{
     super.initState();
     // getSubAddress();
   }
+
   @override
   void dispose() {
     amountController.dispose();
@@ -114,7 +115,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver{
     }
   }
 
- @override
+  @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     print('inside app life cycle ------>');
     if (state == AppLifecycleState.paused) {
@@ -122,14 +123,14 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver{
       if (_isOverlayVisible) {
         _hideOverlay();
       }
-    }
-    else if(state == AppLifecycleState.resumed){
+    } else if (state == AppLifecycleState.resumed) {
       if (_isOverlayVisible) {
         _hideOverlay();
       }
     }
   }
-void _hideOverlay() {
+
+  void _hideOverlay() {
     if (overlayEntry != null) {
       overlayEntry.remove();
       overlayEntry = null;
@@ -138,6 +139,7 @@ void _hideOverlay() {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final walletStore = Provider.of<WalletStore>(context);
@@ -172,7 +174,6 @@ void _hideOverlay() {
               child: SingleChildScrollView(
                   child: Column(
                 children: <Widget>[
-                 
                   RepaintBoundary(
                     key: _globalKey,
                     child: Container(
@@ -400,12 +401,8 @@ void _hideOverlay() {
                                     },
                                     controller: amountController)),
                           ),
-
-///////////////////////////////////////////////////////////////////////////////////////
-
                           Container(
                             //color: Colors.yellow,
-
                             child: Stack(
                               children: [
                                 Container(
@@ -441,62 +438,76 @@ void _hideOverlay() {
                                                       .height *
                                                   0.03 /
                                                   3),
-                                          child: GestureDetector(
-                                              onTap: () {
-                                                final mHeight =
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .height;
-                                                // setState(() {
-                                                //   canShow = canShow ? false : true;
-                                                // });
-                                                setState(() {
-                                                  isOpen =
-                                                      isOpen ? false : true;
-                                                });
-
-                                                print(
-                                                    "the value of the isOpen $isOpen");
-
-                                                final overlayState = Overlay.of(context);
-                                                    if(overlayEntry == null){
-                                                      overlayEntry = OverlayEntry(
-                                                  builder: (context) {
-                                                    return _buildExitnodeListView(
-                                                        mHeight);
-                                                  },
-                                                );
-
-                                                overlayState
-                                                    ?.insert(overlayEntry);
-
-                                                  setState(() {
-                                                    _isOverlayVisible = true;                                                
+                                          child: Observer(
+                                            builder: (_) {
+                                              final canClick =
+                                                  subaddressListStore
+                                                              .subaddresses
+                                                              .length ==
+                                                          1
+                                                      ? false
+                                                      : true;
+                                              return GestureDetector(
+                                                  onTap: () {
+                                                    final mHeight =
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .height;
+                                                    // setState(() {
+                                                    //   canShow = canShow ? false : true;
+                                                    // });
+                                                    setState(() {
+                                                      isOpen =
+                                                          isOpen ? false : true;
                                                     });
 
+                                                    print(
+                                                        "the value of the isOpen $isOpen");
+
+                                                    if (canClick) {
+                                                      if (overlayEntry ==
+                                                          null) {
+                                                        final overlayState =
+                                                            Overlay.of(context);
+                                                        overlayEntry =
+                                                            OverlayEntry(
+                                                          builder: (context) {
+                                                            return _buildExitnodeListView(
+                                                                mHeight);
+                                                          },
+                                                        );
+
+                                                        overlayState?.insert(
+                                                            overlayEntry);
+
+                                                        setState(() {
+                                                          _isOverlayVisible =
+                                                              true;
+                                                        });
+                                                      }
                                                     }
-                                                                                              
-                                              },
-                                              child:
-                                                  displayContainer(context))),
+                                                  },
+                                                  child: displayContainer(
+                                                      context));
+                                            },
+                                          )),
                                       SizedBox(height: 15),
                                       Container(
                                         margin: EdgeInsets.only(
                                             left: 10, right: 10, bottom: 20),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            InkWell(
-                                              onTap: () async {
-                                                // await getSubAddressList(context);
-                                                await showDialog<void>(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return SubAddressAlert();
-                                                    });
-                                              },
-                                              child: Container(
+                                        child: GestureDetector(
+                                          onTap: ()async{
+                                             await showDialog<void>(
+                                                      context: context,
+                                                      builder: (context) {
+                                                        return SubAddressAlert( subaddressListStore:subaddressListStore);
+                                                      });
+                                          },
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
                                                 margin:
                                                     EdgeInsets.only(right: 10),
                                                 width: 25.0,
@@ -505,17 +516,7 @@ void _hideOverlay() {
                                                     'assets/images/new-images/plus_fill.svg',
                                                     color: Color(0xff2979FB)),
                                               ),
-                                            ),
-                                            InkWell(
-                                              onTap: () async {
-                                                // await getSubAddressList(context);
-                                                await showDialog<void>(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return SubAddressAlert();
-                                                    });
-                                              },
-                                              child: Text(
+                                              Text(
                                                 'Add sub address',
                                                 //S.of(context).subaddresses,
                                                 style: TextStyle(
@@ -527,40 +528,8 @@ void _hideOverlay() {
                                                         0xff2979FB) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
                                                     ),
                                               ),
-                                            ),
-
-                                            // Container(
-                                            //   //color: Theme.of(context).accentTextTheme.headline5.color,
-                                            //   child: Column(
-                                            //     children: <Widget>[
-                                            //       ListTile(
-                                            //         title: Text(
-                                            //           S.of(context).subaddresses,
-                                            //           style: TextStyle(
-                                            //             fontSize: 16.0,
-                                            //             color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                                            //           ),
-                                            //         ),
-                                            //         trailing: Container(
-                                            //           width: 28.0,
-                                            //           height: 28.0,
-                                            //           child: InkWell(
-                                            //             onTap: () => Navigator.of(context)
-                                            //                 .pushNamed(Routes.newSubaddress),
-                                            //             borderRadius:
-                                            //             BorderRadius.all(Radius.circular(14.0)),
-                                            //             child: SvgPicture.asset('assets/images/add.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,),
-                                            //           ),
-                                            //         ),
-                                            //       ),
-                                            //       /* Divider(
-                                            //       color: Theme.of(context).dividerTheme.color,
-                                            //       height: 1.0,
-                                            //     )*/
-                                            //     ],
-                                            //   ),
-                                            // )
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       )
                                     ],
@@ -695,10 +664,10 @@ void _hideOverlay() {
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
-                 if (overlayEntry != null) {
-                overlayEntry.remove();
-                overlayEntry = null;
-                 }
+                if (overlayEntry != null) {
+                  overlayEntry.remove();
+                  overlayEntry = null;
+                }
               },
               child: Container(
                 height: 200.0,
@@ -707,83 +676,79 @@ void _hideOverlay() {
                     bottom: MediaQuery.of(context).size.height * 0.38 / 3,
                     left: mHeight * 0.15 / 3,
                     right: mHeight * 0.16 / 3),
-                child:
-                    Container(
-                        height: MediaQuery.of(context).size.height * 0.70 / 3,
-                        width: MediaQuery.of(context).size.width * 2.7 / 3,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4.0),
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xff292937)
-                              : Color(0xffEDEDED),
-                        ),
-                        child: Observer(
-                          builder: (_) {
-                            return ListView.builder(
-                                padding: EdgeInsets.zero,
-                                shrinkWrap: true,
-                                itemCount:
-                                    subaddressListStore.subaddresses.length,
-                                itemBuilder: (BuildContext context, int i) {
-                                  // print("data inside listview ${exitData[index]}");
-                                  return Observer(builder: (context) {
-                                    final subaddress =
-                                        subaddressListStore.subaddresses[i];
-                                    final isCurrent =
-                                        walletStore.subaddress.address ==
-                                            subaddress.address;
-                                    final label = subaddress.label.isNotEmpty
-                                        ? subaddress.label
-                                        : subaddress.address;
-                                    return InkWell(
-                                      onTap: () async {
-                                         if (overlayEntry != null) {
-                                        overlayEntry.remove();
-                                        overlayEntry = null;
-                                         }
-                                        SharedPreferences prefs =
-                                            await SharedPreferences
-                                                .getInstance();
-                                        walletStore.setSubaddress(subaddress);
-                                        await prefs.setString(
-                                            'currentSubAddress',
-                                            label.toString());
-                                        setState(() {
-                                          currentSubAddress = prefs
-                                              .getString('currentSubAddress');
-                                        });
-                                      },
-                                      child: Column(
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.only(left: 10),
-                                            padding: EdgeInsets.all(10),
-                                            // decoration: BoxDecoration(
-                                            //   border: Border(bottom: BorderSide(color: Colors.grey))
-                                            // ),
-                                            child: Text(
-                                              label,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontWeight: FontWeight.w700,
-                                                  color: Color(
-                                                      0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                                                  ),
-                                            ),
-                                          ),
-                                          Divider(
-                                            color: Colors.grey[300],
-                                          )
-                                        ],
+                child: Container(
+                    height: MediaQuery.of(context).size.height * 0.70 / 3,
+                    width: MediaQuery.of(context).size.width * 2.7 / 3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4.0),
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff292937)
+                          : Color(0xffEDEDED),
+                    ),
+                    child: Observer(
+                      builder: (_) {
+                        return ListView.builder(
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            itemCount: subaddressListStore.subaddresses.length,
+                            itemBuilder: (BuildContext context, int i) {
+                              // print("data inside listview ${exitData[index]}");
+                              return Observer(builder: (context) {
+                                final subaddress =
+                                    subaddressListStore.subaddresses[i];
+                                final isCurrent =
+                                    walletStore.subaddress.address ==
+                                        subaddress.address;
+                                final label = subaddress.label.isNotEmpty
+                                    ? subaddress.label
+                                    : subaddress.address;
+                                return InkWell(
+                                  onTap: () async {
+                                    if (overlayEntry != null) {
+                                      overlayEntry.remove();
+                                      overlayEntry = null;
+                                    }
+                                    final prefs =
+                                        await SharedPreferences.getInstance();
+                                    walletStore.setSubaddress(subaddress);
+                                    await prefs.setString(
+                                        'currentSubAddress', label.toString());
+                                    setState(() {
+                                      currentSubAddress =
+                                          prefs.getString('currentSubAddress');
+                                    });
+                                  },
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.all(10),
+                                        // decoration: BoxDecoration(
+                                        //   border: Border(bottom: BorderSide(color: Colors.grey))
+                                        // ),
+                                        child: Text(
+                                          label,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w700,
+                                              color: Color(
+                                                  0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+                                              ),
+                                        ),
                                       ),
-                                    );
-                                  });
-                                }
-                                // _buildList(exitData[index]),
+                                      Divider(
+                                        color:settingsStore.isDarkTheme ? Color(0xff454555) : Colors.grey[300],
+                                      )
+                                    ],
+                                  ),
                                 );
-                          },
-                        )),
+                              });
+                            }
+                            // _buildList(exitData[index]),
+                            );
+                      },
+                    )),
                 // ),
               ),
             ),
@@ -831,9 +796,9 @@ class NewBeldexTextField extends StatelessWidget {
             controller: controller,
             focusNode: focusNode,
             style: TextStyle(
-                fontSize: 16.0,
-                //color: Theme.of(context).accentTextTheme.overline.color
-                ),
+              fontSize: 16.0,
+              //color: Theme.of(context).accentTextTheme.overline.color
+            ),
             keyboardType: keyboardType,
             inputFormatters: inputFormatters,
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -848,7 +813,6 @@ class NewBeldexTextField extends StatelessWidget {
                         : Color(0xff6F6F6F),
                     fontWeight: FontWeight.w600),
                 hintText: hintText,
-            
                 errorStyle: TextStyle(color: BeldexPalette.red)),
             validator: validator),
       ),

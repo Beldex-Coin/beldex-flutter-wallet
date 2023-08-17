@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CreateAccountDialog extends StatefulWidget {
-  CreateAccountDialog({Key key, this.account}) : super(key: key);
+  CreateAccountDialog({Key key, this.account, this.accList}) : super(key: key);
   final Account account;
-
+  final List<Account> accList;
   @override
   State<CreateAccountDialog> createState() => _CreateAccountDialogState();
 }
@@ -17,13 +17,30 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
     with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>();
   final _textController = TextEditingController();
-
+  List<String> accnameList =[];
   @override
   void initState() {
     if (widget.account != null) _textController.text = widget.account.label;
     WidgetsBinding.instance.addObserver(this);
+    getAccList();
     super.initState();
   }
+
+
+void getAccList(){
+  setState(() {
+      if(widget.accList != null){
+        for(var i=0;i<widget.accList.length;i++){
+          accnameList.add(widget.accList[i].label);
+        }
+      }
+    });
+    print(accnameList);
+}
+
+bool checkNameAlreadyExist(String accName){
+  return accnameList.contains(accName);
+}
 
   @override
   void dispose() {
@@ -90,8 +107,11 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                         ),
                       ),
                       validator: (value) {
+                        
                         if (!validateInput(value) || value.length > 15) {
                           return 'Enter valid name upto 15 characters';
+                        }else if(checkNameAlreadyExist(value)){
+                         return 'Account already exist';
                         } else {
                           accountListStore.validateAccountName(value);
                           return accountListStore.errorMessage;
@@ -132,16 +152,20 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                       MaterialButton(
                         onPressed: () {
                           if (!_formKey.currentState.validate()) {
-                            return;
+                            return null;
                           }
-                          if (widget.account != null) {
+                          if (widget.account != null && !checkNameAlreadyExist(_textController.text)) {
                             accountListStore.renameAccount(
                                 index: widget.account.id,
                                 label: _textController.text);
-                          } else {
+                          } else if(checkNameAlreadyExist(_textController.text)){
+                            
+                            return 'Account already exist';
+                          }else {
                             accountListStore.addAccount(
                                 label: _textController.text);
                           }
+                         // Navigator.of(context).pop();
                           Navigator.of(context).pop(_textController.text);
                         },
                         // async {
@@ -166,19 +190,6 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                       )
                     ],
                   )
-
-                  //  Container(
-                  //   alignment: Alignment.center,
-                  //   padding: EdgeInsets.all(15),
-
-                  //   width: double.infinity,
-                  //   decoration: BoxDecoration(
-                  //      color: Color(0xff0BA70F),
-                  //      borderRadius: BorderRadius.circular(10),
-                  //   ),
-
-                  //      child:Text('Add')
-                  //  ),
                 ],
               ),
             ),

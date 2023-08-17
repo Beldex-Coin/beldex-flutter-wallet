@@ -6,12 +6,18 @@ import 'package:beldex_wallet/src/stores/subaddress_creation/subaddress_creation
 import 'package:beldex_wallet/src/stores/subaddress_creation/subaddress_creation_store.dart';
 import 'package:beldex_wallet/src/stores/subaddress_list/subaddress_list_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/subaddress_list.dart';
+import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 class SubAddressAlert extends StatefulWidget {
+
+final SubaddressListStore subaddressListStore;
+
+  const SubAddressAlert({Key key, this.subaddressListStore}) : super(key: key);
+
   @override
   SubAddressAlertState createState() => SubAddressAlertState();
 }
@@ -20,7 +26,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
   final _formKey = GlobalKey<FormState>();
   final _labelController = TextEditingController();
  List<String> subAddressList =[];
-
+ bool isLoading = false;
 bool validateInput(String input) {
   if (input.trim().isEmpty || input.startsWith(' ')) {
     // Value consists only of spaces or contains a leading space
@@ -34,23 +40,26 @@ bool validateInput(String input) {
 
  @override
    void initState() {
-    // getSubAddressList();
+     getSubAddressList();
      super.initState();
    }
 
 
 
-  //  void getSubAddressList(){
-  //    final subaddressListStore = Provider.of<SubaddressListStore>(context);
-  //    setState(() {
-  //            for(var i =0;i< subaddressListStore.subaddresses.length;i++){
-  //            subAddressList.add(subaddressListStore.sub)
-  //    } 
-  //         });
+   void getSubAddressList(){
+     
+     setState(() {
+             for(var i =0;i< widget.subaddressListStore.subaddresses.length;i++){
+             subAddressList.add(widget.subaddressListStore.subaddresses[i].label);
+     } 
+          });
     
-  //  }
+   }
 
 
+bool checkSubAddressAlreadyExist(String label){
+  return subAddressList.contains(label);
+}
 
 
 
@@ -115,6 +124,8 @@ bool validateInput(String input) {
                      final regex = RegExp(r'^[a-zA-Z0-9]+$');
                      if(!(regex.hasMatch(value)) || !validateInput(value)){
                        return 'Enter a valid sub address';
+                     }else if(checkSubAddressAlreadyExist(value)){
+                      return 'Subaddress already exist';
                      }else {
                         subaddressCreationStore.validateSubaddressName(value);
                         return subaddressCreationStore.errorMessage;
@@ -122,19 +133,33 @@ bool validateInput(String input) {
                       }
               ),
               SizedBox(height: 10,),
-              MaterialButton(onPressed: () async {
-                  if (_formKey.currentState.validate()) {
+              LoadingPrimaryButton(onPressed: ()async{
+                 if (_formKey.currentState.validate()) {
+                    setState(() {
+                        isLoading = true;                  
+                                        });
                     await subaddressCreationStore.add(label: _labelController.text);
+                    setState(() {
+                            isLoading = false;              
+                                        });
                     Navigator.of(context).pop();
                   }
-                },
-                elevation: 0,
-              color: Color(0xff0BA70F),
-              height: MediaQuery.of(context).size.height*0.20/3,
-              minWidth: double.infinity,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), 
-              child:(subaddressCreationStore.state is SubaddressIsCreating) ? CupertinoActivityIndicator(animating: true) : Text('Create',style: TextStyle(fontSize:17,color:Colors.white,fontWeight:FontWeight.w800),),
+              }, text: 'Create', color: Color(0xff0BA70F), borderColor: Color(0xff0BA70F),
+              isLoading: isLoading
               )
+              // MaterialButton(onPressed: () async {
+              //     if (_formKey.currentState.validate()) {
+              //       await subaddressCreationStore.add(label: _labelController.text);
+              //       Navigator.of(context).pop();
+              //     }
+              //   },
+              //   elevation: 0,
+              // color: Color(0xff0BA70F),
+              // height: MediaQuery.of(context).size.height*0.20/3,
+              // minWidth: double.infinity,
+              // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), 
+              // child:(subaddressCreationStore.state is SubaddressIsCreating) ? CupertinoActivityIndicator(animating: true) : Text('Create',style: TextStyle(fontSize:17,color:Colors.white,fontWeight:FontWeight.w800),),
+              // )
             //  Container(
             //   alignment: Alignment.center,
             //   padding: EdgeInsets.all(15),

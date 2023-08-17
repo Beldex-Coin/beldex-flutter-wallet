@@ -22,179 +22,156 @@ class AccountListPage extends BasePage {
   @override
   Widget trailing(BuildContext context) {
     final accountListStore = Provider.of<AccountListStore>(context);
+    final accounts = accountListStore.accounts;
 
     return InkWell(
       onTap: () {
-        //await Navigator.of(context).pushNamed(Routes.accountCreation);
-        showDialog<void>(context: context, builder: (_)=>CreateAccountDialog());
+        print('----> $accounts---->');
+        showDialog<void>(context: context, builder: (_)=>CreateAccountDialog(accList: accounts,));
         accountListStore.updateAccountList();
       },
       child: Container(
-       // width: 30,
-        //height: 30,
         padding: EdgeInsets.only(right:10),
-        // decoration: BoxDecoration(
-        //     color: Theme.of(context).cardTheme.shadowColor,//Colors.black,
-        //     borderRadius: BorderRadius.all(Radius.circular(10))),
         child: Icon(Icons.add,color:Color(0xff0BA70F),size: 35,)
-        // ButtonTheme(
-        //   minWidth: double.minPositive,
-        //   child: TextButton(
-        //       style: ButtonStyle(
-        //         //foregroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
-        //         overlayColor:
-        //         MaterialStateColor.resolveWith((states) => Colors.transparent),
-        //       ),
-        //       onPressed: () async {
-        //         await Navigator.of(context).pushNamed(Routes.accountCreation);
-        //         accountListStore.updateAccountList();
-        //       },
-        //       child: SvgPicture.asset('assets/images/add.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,)),
-        // ),
       ),
     );
-    /*Container(
-        width: 28.0,
-        height: 28.0,
-        decoration: BoxDecoration(
-            shape: BoxShape.circle, color: Theme.of(context).selectedRowColor),
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Icon(Icons.add, color: BeldexPalette.teal, size: 22.0),
-            ButtonTheme(
-              minWidth: 28.0,
-              height: 28.0,
-              child: FlatButton(
-                  shape: CircleBorder(),
-                  onPressed: () async {
-                    await Navigator.of(context)
-                        .pushNamed(Routes.accountCreation);
-                    accountListStore.updateAccountList();
-                  },
-                  child: Offstage()),
-            )
-          ],
-        ));*/
   }
 
   @override
   Widget body(BuildContext context) {
     final accountListStore = Provider.of<AccountListStore>(context);
     final walletStore = Provider.of<WalletStore>(context);
-
-    final currentColor = Theme.of(context).selectedRowColor;
-    final notCurrentColor = Theme.of(context).backgroundColor;
     final settingsStore = Provider.of<SettingsStore>(context);
-    return Container(
-      margin: EdgeInsets.only(top: 40, left: constants.leftPx, right: constants.rightPx),
-      child: Observer(builder: (_) {
-        final accounts = accountListStore.accounts;
-        return ListView.separated(
-            separatorBuilder: (_, index) =>
-                Divider(color: Colors.transparent, height: 10.0),
-            itemCount: accounts == null ? 0 : accounts.length,
-            itemBuilder: (BuildContext context, int index) {
-              final account = accounts[index];
+      final _controller = ScrollController(keepScrollOffset: true);
+    return Column(
+         crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
 
-              return Observer(builder: (_) {
-                final isCurrent = walletStore.account.id == account.id;
+        Container(
+           height:MediaQuery.of(context).size.height*1/3,
+        decoration: BoxDecoration(
+         color: settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED),
+         borderRadius: BorderRadius.circular(10)
+        ),
+          margin: EdgeInsets.only(top: 40, left: constants.leftPx, right: constants.rightPx),
+            padding: EdgeInsets.only(bottom: 10),
+          child: Observer(builder: (_) {
+            final accounts = accountListStore.accounts;
+            print('accounts-----> ${accounts.length}');
+            return RawScrollbar(
+               controller: _controller,
+              thickness: 8,
+              thumbColor: settingsStore.isDarkTheme ? Color(0xff3A3A45) : Color(0xffC2C2C2),
+              radius: Radius.circular(10.0),
+              isAlwaysShown: true,
+              child: ListView.builder(
+                   controller: _controller,
+                  itemCount: accounts == null ? 0 : accounts.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    final account = accounts[index];
 
-                return Container(
-                  margin: EdgeInsets.only(left:10,right:10,),
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(  
-                    color: settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED),
-                    borderRadius: BorderRadius.circular(10)
-                  ),
-                  child: Slidable(
-                    key: Key(account.id.toString()),
-                    actionPane: SlidableDrawerActionPane(),
-                    secondaryActions: <Widget>[
-                      IconSlideAction(
-                        caption: S.of(context).edit,
-                        color: Colors.blue,
-                        icon: Icons.edit,
-                        onTap: (){
-                          showDialog<void>(context: context, builder: (_){
-                            return CreateAccountDialog(account: account,);
-                          });
-                          // await Navigator.of(context).pushNamed(
-                          //     Routes.accountCreation,
-                          //     arguments: account);
-                          // await accountListStore.updateAccountList().then((_) {
-                          //   if (isCurrent) walletStore.setAccount(accountListStore.accounts[index]);
-                          // });
-                        },
-                      )
-                    ],
-                    child: InkWell(
-                      onTap: () {
-                        if(isCurrent){
-                          return;
-                        }else{
-                           onConfirmation(context,walletStore,account,isCurrent);
-                        }
-                       
-                     /*   if (isCurrent) return;
+                    return Observer(builder: (_) {
+                      final isCurrent = walletStore.account.id == account.id;
 
-                        walletStore.setAccount(account);
-                        Navigator.of(context).pop();*/
-                      },
-                      child: Container(
-                                               //Color.fromARGB(255, 40, 42, 51),
-                       decoration: BoxDecoration(
-                         color:  settingsStore.isDarkTheme ? isCurrent ? Color(0xff383848) : Color(0xff1B1B23) : Color(0xffFFFFFF),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Padding(
-                          padding:EdgeInsets.all(15),
-                          child:Text(
-                                account.label,
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: isCurrent
-                                        ? Color(0xff1AB51E)
-                                        : settingsStore.isDarkTheme ? Color(0xff737382) : Color(0xff9292A7),
-                                    fontSize: 16.0,
-
-                                    fontWeight: FontWeight.w800),
-                              ),
+                      return Container(
+                       // margin: EdgeInsets.only(left:10,right:10,),
+                         padding: EdgeInsets.only(left:10,right:10,top:10),
+                        decoration: BoxDecoration(  
+                          color: settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED),
+                          borderRadius: BorderRadius.circular(10)
                         ),
-                      ),
-                    ) /*Container(
-                      color: isCurrent ? currentColor : notCurrentColor,
-                      child: Column(
-                        children: <Widget>[
-                          ListTile(
-                            title: Text(
-                              account.label,
-                              style: TextStyle(
-                                  fontSize: 16.0,
-                                  color: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline5
-                                      .color),
-                            ),
+                        child: Slidable(
+                          key: Key(account.id.toString()),
+                          actionPane: SlidableDrawerActionPane(),
+                          secondaryActions: <Widget>[
+                            IconSlideAction(
+                              caption: S.of(context).edit,
+                              color: Colors.blue,
+                              icon: Icons.edit,
+                              onTap: (){
+                                showDialog<void>(context: context, builder: (_){
+                                  return CreateAccountDialog(account: account,accList: accounts,);
+                                });
+                                // await Navigator.of(context).pushNamed(
+                                //     Routes.accountCreation,
+                                //     arguments: account);
+                                 accountListStore.updateAccountList();//.then((_) {
+                                 // if (isCurrent) walletStore.setAccount(accountListStore.accounts[index]);
+                               // });
+                              },
+                            )
+                          ],
+                          child: InkWell(
                             onTap: () {
-                              if (isCurrent) return;
+                              if(isCurrent){
+                                return;
+                              }else{
+                                 onConfirmation(context,walletStore,account,isCurrent);
+                              }
+                             
+                           /*   if (isCurrent) return;
 
                               walletStore.setAccount(account);
-                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();*/
                             },
-                          ),
-                          Divider(
-                            color: Theme.of(context).dividerTheme.color,
-                            height: 1.0,
-                          )
-                        ],
-                      ),
-                    )*/
-                    ,
-                  ),
-                );
-              });
-            });
-      }),
+                            child: Container(
+                                                     //Color.fromARGB(255, 40, 42, 51),
+                             decoration: BoxDecoration(
+                               color:  settingsStore.isDarkTheme ? isCurrent ? Color(0xff383848) : Color(0xff1B1B23) : Color(0xffFFFFFF),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding:EdgeInsets.all(15),
+                                child:Text(
+                                      account.label,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          color: isCurrent
+                                              ? Color(0xff1AB51E)
+                                              : settingsStore.isDarkTheme ? Color(0xff737382) : Color(0xff9292A7),
+                                          fontSize: 16.0,
+
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                              ),
+                            ),
+                          ) /*Container(
+                            color: isCurrent ? currentColor : notCurrentColor,
+                            child: Column(
+                              children: <Widget>[
+                                ListTile(
+                                  title: Text(
+                                    account.label,
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        color: Theme.of(context)
+                                            .primaryTextTheme
+                                            .headline5
+                                            .color),
+                                  ),
+                                  onTap: () {
+                                    if (isCurrent) return;
+
+                                    walletStore.setAccount(account);
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                                Divider(
+                                  color: Theme.of(context).dividerTheme.color,
+                                  height: 1.0,
+                                )
+                              ],
+                            ),
+                          )*/
+                          ,
+                        ),
+                      );
+                    });
+                  }),
+            );
+          }),
+        ),
+      ],
     );
   }
 
