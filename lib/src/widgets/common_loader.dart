@@ -1,27 +1,11 @@
 import 'dart:async';
 
-import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/widgets/loading_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
-
-// class CommonLoader extends BasePage {
-
-//    @override
-//   int get toolBarHeight => 0;
-
-//  @override
-//  Widget leading(BuildContext context){
-//   return Container();
-//  }
-
-//   @override
-//   Widget body(BuildContext context) => CommonLoaderScreen();
-// }
 
 class CommonLoader extends StatelessWidget {
   CommonLoader({Key key, this.address, this.sendStore}) : super(key: key);
@@ -73,7 +57,6 @@ class CommonLoader extends StatelessWidget {
                     fontSize: height * 0.07 / 3,fontWeight: FontWeight.w700,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff222222)),
               ),
             )
-            // loadingProvider.setLoadingString != '' ? Text('${loadingProvider.setLoadingString}') : Container()
         ],
       )),
           )),
