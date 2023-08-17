@@ -9,6 +9,7 @@ class CreateAccountDialog extends StatefulWidget {
   CreateAccountDialog({Key key, this.account, this.accList}) : super(key: key);
   final Account account;
   final List<Account> accList;
+
   @override
   State<CreateAccountDialog> createState() => _CreateAccountDialogState();
 }
@@ -17,7 +18,8 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
     with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>();
   final _textController = TextEditingController();
-  List<String> accnameList =[];
+  List<String> accnameList = [];
+
   @override
   void initState() {
     if (widget.account != null) _textController.text = widget.account.label;
@@ -26,21 +28,20 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
     super.initState();
   }
 
-
-void getAccList(){
-  setState(() {
-      if(widget.accList != null){
-        for(var i=0;i<widget.accList.length;i++){
+  void getAccList() {
+    setState(() {
+      if (widget.accList != null) {
+        for (var i = 0; i < widget.accList.length; i++) {
           accnameList.add(widget.accList[i].label);
         }
       }
     });
     print(accnameList);
-}
+  }
 
-bool checkNameAlreadyExist(String accName){
-  return accnameList.contains(accName);
-}
+  bool checkNameAlreadyExist(String accName) {
+    return accnameList.contains(accName);
+  }
 
   @override
   void dispose() {
@@ -70,127 +71,134 @@ bool checkNameAlreadyExist(String accName){
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-
     final walletService = Provider.of<WalletService>(context);
     return Provider(
         create: (_) => AccountListStore(walletService: walletService),
         builder: (context, child) {
           final accountListStore = Provider.of<AccountListStore>(context);
-          //     final subaddressCreationStore =
-          //     Provider.of<SubadrressCreationStore>(context,listen: false);
-          return AlertDialog(
-            //contentPadding: EdgeInsets.all(12),
-            // insetPadding: EdgeInsets.symmetric(horizontal: 5),
-            backgroundColor: settingsStore.isDarkTheme
-                ? Color(0xff272733)
-                : Color(0xffffffff),
+          return Dialog(
+            insetPadding: EdgeInsets.all(15),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            title: Center(
-                child: Text('Add Account',
-                    style: TextStyle(fontWeight: FontWeight.w800))),
-            content: Form(
-              key: _formKey,
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  TextFormField(
-                      controller: _textController,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      decoration: InputDecoration(
-                        hintText: 'Account name',
-                        hintStyle: TextStyle(color: Color(0xff77778B)),
-                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
+            backgroundColor: settingsStore.isDarkTheme
+                ? Color(0xff272733)
+                : Color(0xffFFFFFF),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.all(20),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Add Account',
+                      style: TextStyle(
+                          fontSize: 18,
+                          // fontFamily: 'Poppinsbold',
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                        controller: _textController,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(
+                          hintText: 'Account name',
+                          hintStyle: TextStyle(color: Color(0xff77778B)),
+                          contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(
+                              color: Color(0xff2979FB),
+                            ),
+                          ),
                         ),
-                      ),
-                      validator: (value) {
-                        
-                        if (!validateInput(value) || value.length > 15) {
-                          return 'Enter valid name upto 15 characters';
-                        }else if(checkNameAlreadyExist(value)){
-                         return 'Account already exist';
-                        } else {
-                          accountListStore.validateAccountName(value);
-                          return accountListStore.errorMessage;
-                        }
-                      }),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      MaterialButton(
-                        onPressed: () => Navigator.pop(context),
-                        // async {
-                        //     if (_formKey.currentState.validate()) {
-                        //       await subaddressCreationStore.add(label: _labelController.text);
-                        //       Navigator.of(context).pop();
-                        //     }
-                        //   },
-                        elevation: 0,
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xff383848)
-                            : Color(0xffE8E8E8),
-                        height: MediaQuery.of(context).size.height * 0.18 / 3,
-                        minWidth: MediaQuery.of(context).size.width * 0.89 / 3,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text(
-                          'Cancel',
-                          style: TextStyle(
-                              fontSize: 17,
-                              color: settingsStore.isDarkTheme
-                                  ? Colors.white
-                                  : Colors.black,
-                              fontWeight: FontWeight.w800),
-                        ),
-                      ),
-                      MaterialButton(
-                        onPressed: () {
-                          if (!_formKey.currentState.validate()) {
-                            return null;
-                          }
-                          if (widget.account != null && !checkNameAlreadyExist(_textController.text)) {
-                            accountListStore.renameAccount(
-                                index: widget.account.id,
-                                label: _textController.text);
-                          } else if(checkNameAlreadyExist(_textController.text)){
-                            
+                        validator: (value) {
+                          if (!validateInput(value) || value.length > 15) {
+                            return 'Enter valid name upto 15 characters';
+                          } else if (checkNameAlreadyExist(value)) {
                             return 'Account already exist';
-                          }else {
-                            accountListStore.addAccount(
-                                label: _textController.text);
+                          } else {
+                            accountListStore.validateAccountName(value);
+                            return accountListStore.errorMessage;
                           }
-                         // Navigator.of(context).pop();
-                          Navigator.of(context).pop(_textController.text);
-                        },
-                        // async {
-                        //     if (_formKey.currentState.validate()) {
-                        //       await subaddressCreationStore.add(label: _labelController.text);
-                        //       Navigator.of(context).pop();
-                        //     }
-                        //   },
-                        elevation: 0,
-                        color: Color(0xff0BA70F),
-                        height: MediaQuery.of(context).size.height * 0.18 / 3,
-                        minWidth: MediaQuery.of(context).size.width * 0.89 / 3,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Text(
-                          widget.account != null ? 'Rename' : 'Add',
-                          style: TextStyle(
-                              fontSize: 17,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w800),
+                        }),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: MaterialButton(
+                            onPressed: () => Navigator.pop(context),
+                            elevation: 0,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xff383848)
+                                : Color(0xffE8E8E8),
+                            height:
+                                MediaQuery.of(context).size.height * 0.18 / 3,
+                            minWidth: MediaQuery.of(context).size.width / 2,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Text(
+                              'Cancel',
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  color: settingsStore.isDarkTheme
+                                      ? Colors.white
+                                      : Colors.black,
+                                  fontWeight: FontWeight.w800),
+                            ),
+                          ),
                         ),
-                      )
-                    ],
-                  )
-                ],
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: MaterialButton(
+                            onPressed: () {
+                              if (!_formKey.currentState.validate()) {
+                                return null;
+                              }
+                              if (widget.account != null &&
+                                  !checkNameAlreadyExist(
+                                      _textController.text)) {
+                                accountListStore.renameAccount(
+                                    index: widget.account.id,
+                                    label: _textController.text);
+                              } else if (checkNameAlreadyExist(
+                                  _textController.text)) {
+                                return 'Account already exist';
+                              } else {
+                                accountListStore.addAccount(
+                                    label: _textController.text);
+                              }
+                              Navigator.of(context).pop();
+                            },
+                            elevation: 0,
+                            color: Color(0xff0BA70F),
+                            height:
+                                MediaQuery.of(context).size.height * 0.18 / 3,
+                            minWidth: MediaQuery.of(context).size.width / 2,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Text(
+                              widget.account != null ? 'Rename' : 'Add',
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w800),
+                            ),
+                          ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           );

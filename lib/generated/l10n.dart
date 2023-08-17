@@ -2973,6 +2973,46 @@ String get do_you_want_to_exit_the_wallet {
       args: [],
     );
   }
+
+  /// `Change Wallet`
+  String get changeWallet {
+    return Intl.message(
+      'Change Wallet',
+      name: 'changeWallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove Wallet`
+  String get removeWallet {
+    return Intl.message(
+      'Remove Wallet',
+      name: 'removeWallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reconnect Wallet`
+  String get reconnectWallet {
+    return Intl.message(
+      'Reconnect Wallet',
+      name: 'reconnectWallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rescan Wallet`
+  String get rescanWallet {
+    return Intl.message(
+      'Rescan Wallet',
+      name: 'rescanWallet',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

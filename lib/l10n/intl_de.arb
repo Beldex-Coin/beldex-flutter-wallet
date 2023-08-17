@@ -318,5 +318,9 @@
   "iAgreeToTermsOfUse": "Ich stimme den Nutzungsbedingungen zu",
   "accept": "Annehmen",
   "pleaseEnterAValidAmount": "Please enter a valid amount",
-  "pleaseEnterAValidSeed": "Please enter a valid seed"
+  "pleaseEnterAValidSeed": "Please enter a valid seed",
+  "changeWallet": "Change Wallet",
+  "removeWallet": "Remove Wallet",
+  "reconnectWallet": "Reconnect Wallet",
+  "rescanWallet": "Rescan Wallet"
 }

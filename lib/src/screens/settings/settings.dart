@@ -10,7 +10,6 @@ import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/domain/common/balance_display_mode.dart';
-import 'package:beldex_wallet/src/domain/common/balance_display_mode.dart';
 import 'package:beldex_wallet/src/domain/common/fiat_currency.dart';
 import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -26,16 +25,11 @@ import 'package:beldex_wallet/src/screens/settings/widgets/settings_text_list_ro
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/crypto_amount_format.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
-//import 'package:beldex_wallet/src/widgets/nav/nav_list_arrow.dart';
-//import 'package:beldex_wallet/src/widgets/nav/nav_list_header.dart';
 import 'package:beldex_wallet/src/widgets/nav/new_nav_list_arrow.dart';
 import 'package:beldex_wallet/src/widgets/nav/new_nav_list_header.dart';
 import 'package:local_auth/local_auth.dart';
-//import 'package:beldex_wallet/src/widgets/present_picker.dart';
-//import 'package:beldex_wallet/src/widgets/present_picker_drop_down_list.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:beldex_wallet/src/util/constants.dart' as constants;
 
 class SettingsPage extends BasePage {
   @override
@@ -43,17 +37,6 @@ class SettingsPage extends BasePage {
 
   @override
   Color get backgroundColor => Palette.lightGrey2;
-
-  // @override
-  // Widget leading(BuildContext context) {
-  //   return Container(
-  //       padding: const EdgeInsets.only(top: 12.0, left: 10),
-  //       decoration: BoxDecoration(
-  //           //borderRadius: BorderRadius.circular(10),
-  //           //color: Colors.black,
-  //           ),
-  //       child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
-  // }
 
   @override
   Widget trailing(BuildContext context) {
@@ -459,7 +442,7 @@ class SettingsFormState extends State<SettingsForm> {
                               builder: (BuildContext context) {
                                 return Dialog(
                                   backgroundColor: Colors.transparent,
-                                  //title: Text("Success"),
+                                  insetPadding: EdgeInsets.all(15),
                                   child: Container(
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height *
@@ -775,15 +758,14 @@ class SettingsFormState extends State<SettingsForm> {
                               builder: (BuildContext context) {
                                 return Dialog(
                                   backgroundColor: Colors.transparent,
-                                  //title: Text("Success"),
+                                  insetPadding: EdgeInsets.all(15),
                                   child: Container(
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height *
                                         1 /
                                         3, // 210,
                                     // margin: EdgeInsets.only(top: 50,left:15,right:15),
-                                    padding:
-                                        EdgeInsets.only(top: 10, bottom: 10),
+                                    padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                         // boxShadow: [
                                         //   BoxShadow(
@@ -933,12 +915,14 @@ class SettingsFormState extends State<SettingsForm> {
                               builder: (BuildContext context) {
                                 return Dialog(
                                   backgroundColor: Colors.transparent,
+                                  insetPadding: EdgeInsets.all(15),
                                   child: Container(
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height *
                                         1 /
                                         3,
                                     // margin: EdgeInsets.only(top: 190),
+                                    padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                         // boxShadow: [
                                         //   BoxShadow(
@@ -958,11 +942,7 @@ class SettingsFormState extends State<SettingsForm> {
                                         Column(
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.only(
-                                                  top: 15.0,
-                                                  left: 10.0,
-                                                  right: 10.0,
-                                                  bottom: 15),
+                                              padding: EdgeInsets.all(8.0),
                                               child: Text(
                                                 'Currency',
                                                 style: TextStyle(
@@ -1099,12 +1079,14 @@ class SettingsFormState extends State<SettingsForm> {
                               builder: (BuildContext context) {
                                 return Dialog(
                                   backgroundColor: Colors.transparent,
+                                  insetPadding: EdgeInsets.all(15),
                                   child: Container(
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height *
                                         0.70 /
                                         3,
                                     // margin: EdgeInsets.only(top: 190),
+                                    padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                         // boxShadow: [
                                         //   BoxShadow(
