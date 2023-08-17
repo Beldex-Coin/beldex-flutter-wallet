@@ -28,9 +28,7 @@ class AddressBookPage extends BasePage {
   @override
   Widget trailing(BuildContext context) {
     if (!isEditable) return null;
-
     final addressBookStore = Provider.of<AddressBookStore>(context);
-
     return InkWell(
       onTap: () async {
         await Navigator.of(context).pushNamed(Routes.addressBookAddContact);
@@ -49,55 +47,8 @@ class AddressBookPage extends BasePage {
             color: Color(0xffffffff),
             size: 26,
           )
-          // decoration: BoxDecoration(
-          //     color:Colors.yellow, // Theme.of(context).cardTheme.shadowColor, //Colors.black,
-          //     borderRadius: BorderRadius.all(Radius.circular(10))),
-          // child: ButtonTheme(
-          //   minWidth: double.minPositive,
-          //   child: TextButton(
-          //       style: ButtonStyle(
-          //         //foregroundColor: MaterialStateColor.resolveWith((states) => Colors.white),
-          //         overlayColor: MaterialStateColor.resolveWith(
-          //             (states) => Colors.transparent),
-          //       ),
-          //       onPressed: () async {
-          //         await Navigator.of(context)
-          //             .pushNamed(Routes.addressBookAddContact);
-          //         await addressBookStore.updateContactList();
-          //       },
-          //       child:
-          //       SvgPicture.asset(
-          //         'assets/images/add.svg',
-          //         color:
-          //             Theme.of(context).accentTextTheme.caption.decorationColor,
-          //       )
-          //       ),
-          // ),
           ),
     );
-    /*Container(
-        width: 28.0,
-        height: 28.0,
-        decoration: BoxDecoration(
-            shape: BoxShape.circle, color: Theme.of(context).selectedRowColor),
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Icon(Icons.add, color: BeldexPalette.teal, size: 22.0),
-            ButtonTheme(
-              minWidth: 28.0,
-              height: 28.0,
-              child: FlatButton(
-                  shape: CircleBorder(),
-                  onPressed: () async {
-                    await Navigator.of(context)
-                        .pushNamed(Routes.addressBookAddContact);
-                    await addressBookStore.updateContactList();
-                  },
-                  child: Offstage()),
-            )
-          ],
-        ));*/
   }
 
   @override

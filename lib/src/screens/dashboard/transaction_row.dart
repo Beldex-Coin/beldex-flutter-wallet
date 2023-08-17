@@ -39,27 +39,14 @@ class TransactionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-
-    // if(settingsStore.shouldSaveRecipientAddress &&
-    //   transaction.recipientAddress != null
-    // ){
-
-    // }
-
     return InkWell(
         // onTap: onTap,
         child: Container(
       margin: EdgeInsets.only(left: 18, right: 18),
-      //padding: EdgeInsets.only(top: 14, bottom: 14, left: 10, right: 20),
       decoration: BoxDecoration(
         //color: Color(0xff24242F),
         color:
             settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED),
-        // border: Border(
-        //     bottom: BorderSide(
-        //         color: Theme.of(context).accentTextTheme.headline5.decorationColor,//PaletteDark.darkGrey
-        //         width: 0.5,
-        //         style: BorderStyle.solid))
       ),
       child: Column(
         children: [
@@ -79,28 +66,12 @@ class TransactionRow extends StatelessWidget {
                         Container(
                             height: 27,
                             width: 27,
-                            // margin: EdgeInsets.only(right:8.0),
-                            // Icon(
-                            //   direction == TransactionDirection.incoming
-                            //       ? Icons.arrow_downward_rounded
-                            //       : Icons.arrow_upward_rounded,
-                            //   color: direction == TransactionDirection.incoming
-                            //       ? Colors.green
-                            //       : Colors.red,
-                            // ),
                             decoration: BoxDecoration(
-                              //color:Colors.yellow,
-                              //  direction == TransactionDirection.incoming
-                              //     ? Colors.transparent
-                              //     : Colors.transparent,
                               shape: BoxShape.circle,
                             ),
                             child: direction == TransactionDirection.incoming
                                 ? SvgPicture.asset(
-                                    // direction == TransactionDirection.incoming ?
                                     'assets/images/new-images/incoming.svg',
-                                    // :
-
                                     color: direction ==
                                             TransactionDirection.incoming
                                         ? Colors.green
@@ -168,88 +139,6 @@ class TransactionRow extends StatelessWidget {
                     ],
                   ),
                 ),
-
-                //   Expanded(
-                //     child: Container(
-                //       child:
-                //        Column(
-                //     children: [
-                //       Row(children: <Widget>[
-                //         Container(
-                //           height: 27,
-                //           width: 27,
-                //          // margin: EdgeInsets.only(right:8.0),
-                //           // Icon(
-                //           //   direction == TransactionDirection.incoming
-                //           //       ? Icons.arrow_downward_rounded
-                //           //       : Icons.arrow_upward_rounded,
-                //           //   color: direction == TransactionDirection.incoming
-                //           //       ? Colors.green
-                //           //       : Colors.red,
-                //           // ),
-                //           decoration: BoxDecoration(
-                //            // color:Colors.yellow,
-                //             //  direction == TransactionDirection.incoming
-                //             //     ? Colors.transparent
-                //             //     : Colors.transparent,
-                //             shape: BoxShape.circle,
-                //           ),
-                //           child: SvgPicture.asset(
-
-                //             direction == TransactionDirection.incoming ?
-                //             'assets/images/new-images/incoming.svg'
-                //             :'assets/images/new-images/outgoing.svg',
-                //              color: direction == TransactionDirection.incoming
-                //                 ? Colors.green
-                //                 : Colors.red,
-                //                 //fit:BoxFit.cover
-                //             ),
-                //         ),
-                //         Expanded(
-                //             child: Padding(
-                //           padding: const EdgeInsets.only(left: 10, right: 10),
-                //           child: Column(
-                //             children: <Widget>[
-                //               Row(
-                //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //                   children: <Widget>[
-
-                //                     Text(formattedAmount,
-                //                         style: TextStyle(
-                //                           fontWeight: FontWeight.w900,
-                //                             fontSize: 14, color: settingsStore.isDarkTheme ? Color(0xffACACAC) : Color(0xff626262))),
-                //                             Text(
-                //                         (direction == TransactionDirection.incoming
-                //                                 ? S.of(context).received
-                //                                 : S.of(context).sent) +
-                //                             (isPending ? S.of(context).pending : // isStake ? S.of(context).stake :
-                //                              ''),
-                //                         style: TextStyle(
-                //                             fontSize: 14,
-                //                             color:settingsStore.isDarkTheme ? Color(0xffACACAC) : Color(0xff626262))),
-                //                   ]),
-                //               SizedBox(height: 6),
-                //               Row(
-                //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //                   children: <Widget>[
-                //                     Text(formattedDate,
-                //                         style: TextStyle(
-                //                             fontSize: 13, color: settingsStore.isDarkTheme ? Color(0xffACACAC) : Color(0xff626262))),
-                //                     // Text(formattedFiatAmount,
-                //                     //     style: const TextStyle(
-                //                     //         fontSize: 14, color: Palette.blueGrey))
-                //                   ]),
-                //             ],
-                //           ),
-                //         )),
-                //         //Icon(Icons.keyboard_arrow_down)
-                //       ]),
-
-                //     ],
-                // ),
-                //     ),
-                //   ),
-
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -257,15 +146,6 @@ class TransactionRow extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Padding(
-                        //   padding: const EdgeInsets.only(left:8.0),
-                        //   child: Text(S.of(context).transaction_details_transaction_id,style: TextStyle(
-                        //     fontSize: 14,
-                        //     fontFamily: 'Poppins',
-                        //     fontWeight: FontWeight.w900
-
-                        //   )),
-                        // ),
                         Container(
                           // color: Colors.yellow,
                           decoration: BoxDecoration(
@@ -283,9 +163,7 @@ class TransactionRow extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                        S
-                                            .of(context)
-                                            .transaction_details_transaction_id,
+                                        S.of(context).transaction_details_transaction_id,
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontFamily: 'Poppins',
@@ -297,21 +175,9 @@ class TransactionRow extends StatelessWidget {
                                     Expanded(
                                         child: GestureDetector(
                                       onTap: () {
-                                        // if(index==0) {
                                         final url =
                                             'https://explorer.beldex.io/tx/${transaction.id}'; //testnet.beldex.dev/tx/  //explorer.beldex.io
                                         _launchUrl(url);
-                                        // }else{
-                                        //   Clipboard.setData(ClipboardData(text: item.value));
-                                        //   Scaffold.of(context).showSnackBar(
-                                        //     SnackBar(
-                                        //       content: Text(
-                                        //           S.of(context).transaction_details_copied(item.title)),
-                                        //       backgroundColor: Colors.green,
-                                        //       duration: Duration(milliseconds: 1500),
-                                        //     ),
-                                        //   );
-                                        // }
                                       },
                                       child: Text(
                                         transaction.id,
@@ -347,9 +213,8 @@ class TransactionRow extends StatelessWidget {
                                           elevation: 0, //5,
                                           behavior: SnackBarBehavior.floating,
                                           shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(
-                                                  15.0) //only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0)),
                                           content: Text(
                                             S.of(context).copied,
                                             style: TextStyle(
@@ -358,8 +223,7 @@ class TransactionRow extends StatelessWidget {
                                                 fontSize: 15),
                                             textAlign: TextAlign.center,
                                           ),
-                                          backgroundColor: Color(
-                                              0xff0BA70F), //Color(0xff0BA70F).withOpacity(0.10), //.fromARGB(255, 46, 113, 43),
+                                          backgroundColor: Color(0xff0BA70F),
                                           duration:
                                               Duration(milliseconds: 1500),
                                         ));
@@ -383,9 +247,6 @@ class TransactionRow extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // Divider(
-                        //   color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
-                        // ),
                         SizedBox(height: 10),
                         Container(
                           decoration: BoxDecoration(
@@ -438,9 +299,6 @@ class TransactionRow extends StatelessWidget {
                                     Container(
                                         padding: EdgeInsets.only(bottom: 5.0),
                                         child: Text('${transaction.height}')),
-                                    // Container(
-                                    //   child:Text('height 1 block',style:TextStyle(color:Colors.blue))
-                                    // )
                                   ],
                                 )
                               ],
@@ -448,9 +306,6 @@ class TransactionRow extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 10),
-                        //  Divider(
-                        //   color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
-                        // ),
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -478,11 +333,6 @@ class TransactionRow extends StatelessWidget {
                             ),
                           ),
                         ),
-                        //                     settingsStore.shouldSaveRecipientAddress &&
-                        // transaction.recipientAddress != null ? Divider(
-                        //                       color:settingsStore.isDarkTheme ? Color(0xff8787A8) : Color(0xffC9C9C9),
-                        //                     ):Container(),
-
                         settingsStore.shouldSaveRecipientAddress &&
                                 transaction.recipientAddress != null
                             ? Container(
@@ -555,8 +405,7 @@ class TransactionRow extends StatelessWidget {
                                                 shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            15.0) //only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                                                    ),
+                                                            15.0)),
                                                 content: Text(
                                                   S.of(context).copied,
                                                   style: TextStyle(
@@ -566,8 +415,8 @@ class TransactionRow extends StatelessWidget {
                                                       fontSize: 15),
                                                   textAlign: TextAlign.center,
                                                 ),
-                                                backgroundColor: Color(
-                                                    0xff0BA70F), //.fromARGB(255, 46, 113, 43),
+                                                backgroundColor:
+                                                    Color(0xff0BA70F),
                                                 duration: Duration(
                                                     milliseconds: 1500),
                                               ));
@@ -605,187 +454,6 @@ class TransactionRow extends StatelessWidget {
           )
         ],
       ),
-
-      // Column(
-      //   children: [
-      //     Row(children: <Widget>[
-      //       Container(
-      //         height: 27,
-      //         width: 27,
-      //        // margin: EdgeInsets.only(right:8.0),
-      //         // Icon(
-      //         //   direction == TransactionDirection.incoming
-      //         //       ? Icons.arrow_downward_rounded
-      //         //       : Icons.arrow_upward_rounded,
-      //         //   color: direction == TransactionDirection.incoming
-      //         //       ? Colors.green
-      //         //       : Colors.red,
-      //         // ),
-      //         decoration: BoxDecoration(
-      //          // color:Colors.yellow,
-      //           //  direction == TransactionDirection.incoming
-      //           //     ? Colors.transparent
-      //           //     : Colors.transparent,
-      //           shape: BoxShape.circle,
-      //         ),
-      //         child: SvgPicture.asset(
-
-      //           direction == TransactionDirection.incoming ?
-      //           'assets/images/new-images/incoming.svg'
-      //           :'assets/images/new-images/outgoing.svg',
-      //            color: direction == TransactionDirection.incoming
-      //               ? Colors.green
-      //               : Colors.red,
-      //               //fit:BoxFit.cover
-      //           ),
-      //       ),
-      //       Expanded(
-      //           child: Padding(
-      //         padding: const EdgeInsets.only(left: 10, right: 10),
-      //         child: Column(
-      //           children: <Widget>[
-      //             Row(
-      //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //                 children: <Widget>[
-
-      //                   Text(formattedAmount,
-      //                       style: TextStyle(
-      //                         fontWeight: FontWeight.w900,
-      //                           fontSize: 14, color: settingsStore.isDarkTheme ? Color(0xffACACAC) : Color(0xff626262))),
-      //                           Text(
-      //                       (direction == TransactionDirection.incoming
-      //                               ? S.of(context).received
-      //                               : S.of(context).sent) +
-      //                           (isPending ? S.of(context).pending : // isStake ? S.of(context).stake :
-      //                            ''),
-      //                       style: TextStyle(
-      //                           fontSize: 14,
-      //                           color:settingsStore.isDarkTheme ? Color(0xffACACAC) : Color(0xff626262))),
-      //                 ]),
-      //             SizedBox(height: 6),
-      //             Row(
-      //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      //                 children: <Widget>[
-      //                   Text(formattedDate,
-      //                       style: TextStyle(
-      //                           fontSize: 13, color: settingsStore.isDarkTheme ? Color(0xffACACAC) : Color(0xff626262))),
-      //                   // Text(formattedFiatAmount,
-      //                   //     style: const TextStyle(
-      //                   //         fontSize: 14, color: Palette.blueGrey))
-      //                 ]),
-      //           ],
-      //         ),
-      //       )),
-      //       Icon(Icons.keyboard_arrow_down)
-      //     ]),
-      //   flag ? Container(
-      //       height:200,
-      //       child: Column(
-      //         children: [
-      //           Text('data'),
-      //         ],
-      //       ),
-      //     )
-      //     : SizedBox.shrink(),
-      //   ],
-      // ),
     ));
   }
 }
-
-// import 'package:flutter/material.dart';
-// import 'package:beldex_wallet/generated/l10n.dart';
-// import 'package:beldex_wallet/palette.dart';
-// import 'package:beldex_wallet/src/wallet/transaction/transaction_direction.dart';
-
-// class TransactionRow extends StatelessWidget {
-//   TransactionRow(
-//       {this.direction,
-//       this.formattedDate,
-//       this.formattedAmount,
-//       this.formattedFiatAmount,
-//       this.isPending,
-//       @required this.onTap, //this.isStake
-//       });
-
-//   final VoidCallback onTap;
-//   final TransactionDirection direction;
-//   final String formattedDate;
-//   final String formattedAmount;
-//   final String formattedFiatAmount;
-//   final bool isPending;
-//  // final bool isStake;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return InkWell(
-//         onTap: onTap,
-//         child: Container(
-//           padding: EdgeInsets.only(top: 14, bottom: 14, left: 20, right: 20),
-//           decoration: BoxDecoration(
-//               border: Border(
-//                   bottom: BorderSide(
-//                       color: Theme.of(context).accentTextTheme.headline5.decorationColor,//PaletteDark.darkGrey
-//                       width: 0.5,
-//                       style: BorderStyle.solid))),
-//           child: Row(children: <Widget>[
-//             Container(
-//               height: 27,
-//               width: 27,
-//               child: Icon(
-//                 direction == TransactionDirection.incoming
-//                     ? Icons.arrow_downward_rounded
-//                     : Icons.arrow_upward_rounded,
-//                 color: direction == TransactionDirection.incoming
-//                     ? Colors.green
-//                     : Colors.red,
-//               ),
-//               decoration: BoxDecoration(
-//                 color: direction == TransactionDirection.incoming
-//                     ? Colors.transparent
-//                     : Colors.transparent,
-//                 shape: BoxShape.circle,
-//               ),
-//             ),
-//             Expanded(
-//                 child: Padding(
-//               padding: const EdgeInsets.only(left: 10, right: 10),
-//               child: Column(
-//                 children: <Widget>[
-//                   Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                       children: <Widget>[
-//                         Text(
-//                             (direction == TransactionDirection.incoming
-//                                     ? S.of(context).received
-//                                     : S.of(context).sent) +
-//                                 (isPending ? S.of(context).pending : // isStake ? S.of(context).stake :
-//                                  ''),
-//                             style: TextStyle(
-//                                 fontSize: 16,
-//                                 color: Theme.of(context)
-//                                     .primaryTextTheme
-//                                     .subtitle1
-//                                     .color)),
-//                         Text(formattedAmount,
-//                             style: const TextStyle(
-//                                 fontSize: 16, color: Palette.purpleBlue))
-//                       ]),
-//                   SizedBox(height: 6),
-//                   Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                       children: <Widget>[
-//                         Text(formattedDate,
-//                             style: const TextStyle(
-//                                 fontSize: 13, color: Palette.blueGrey)),
-//                         Text(formattedFiatAmount,
-//                             style: const TextStyle(
-//                                 fontSize: 14, color: Palette.blueGrey))
-//                       ]),
-//                 ],
-//               ),
-//             ))
-//           ]),
-//         ));
-//   }
-// }

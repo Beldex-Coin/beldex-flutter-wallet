@@ -54,22 +54,13 @@ class DashboardPage extends BasePage {
 
   @override
   Widget middle(BuildContext context) {
-    //final walletStore = Provider.of<WalletStore>(context);
     final walletStore = Provider.of<WalletStore>(context);
-
-//  double calculateFontSize(String name) {
-//   return name.length <= 8 ? 24.0 : 24.0 - (12 - 8) * 2.0;
-// }
-
     return Observer(
       builder: (_) {
-        //print('wallet name -->');
         return Text(
           walletStore.name,
           style: TextStyle(
-              fontSize: 24.0 -
-                  (12 - 8) *
-                      2.0, //calculateFontSize('name'),  //MediaQuery.of(context).size.height*0.08/3,
+              fontSize: 24.0 - (12 - 8) * 2.0,
               fontWeight: FontWeight.bold,
               color: Theme.of(context).primaryTextTheme.headline6.color),
         );
@@ -80,7 +71,6 @@ class DashboardPage extends BasePage {
   @override
   Widget trailing(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-
     final _themeChanger = Provider.of<ThemeChanger>(context);
     return Row(
       children: [
@@ -311,7 +301,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 //     try {
 //       final code = await presentQRScanner();
 //       final uri = Uri.parse(code);
-     
+
 //       var address = '';
 //       var amount = '';
 //       if (uri == null) {
@@ -319,7 +309,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 //         qrValue = code;
 //         return;
 //       }
-       
+
 //       if (uri != null) {
 //         address = uri.path;
 //         if (uri.queryParameters[uri.queryParameters.keys.first] != null) {
@@ -364,66 +354,17 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
     super.dispose();
   }
 
-  void _loading(bool _canLoad) {
-    if (_canLoad) {
-      // Show the HUD progress loader
-      showHUDLoader(context);
-    } else {
-      Navigator.pop(context);
-    }
-  }
-
-  void showHUDLoader(BuildContext context) {
-    //final settingsStore = Provider.of<SettingsStore>(context,listen: false);
-    showDialog<void>(
-      context: context,
-      //barrierColor: Colors.transparent,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return WillPopScope(
-          // Prevent closing the dialog when the user presses the back button
-          onWillPop: () async => false,
-          child: AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-
-            //backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Center(
-                  child: CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(13.0),
-                  child: Text('Loading...',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    //
     final walletStore = Provider.of<WalletStore>(context);
-
     final balanceStore = Provider.of<BalanceStore>(context);
     final actionListStore = Provider.of<ActionListStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    final transactionDateFormat = settingsStore.getCurrentDateFormat(
-        formatUSA: 'MMMM d, yyyy, HH:mm', formatDefault: 'd MMMM yyyy, HH:mm');
+    // final transactionDateFormat = settingsStore.getCurrentDateFormat(
+    //     formatUSA: 'MMMM d, yyyy, HH:mm', formatDefault: 'd MMMM yyyy, HH:mm');
     final networkStatus = Provider.of<NetworkStatus>(context);
-    if(networkStatus == NetworkStatus.offline){
+    if (networkStatus == NetworkStatus.offline) {
       walletStore.reconnect();
     }
     print('Called');
@@ -432,8 +373,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
       child: Observer(
           key: _listObserverKey,
           builder: (_) {
-            final items = actionListStore.items ?? <String>[];
-            final itemsCount = items.length + 2;
+            //final items = actionListStore.items ?? <String>[];
+           // final itemsCount = items.length + 2;
             return Column(
               children: [
                 Observer(
@@ -463,16 +404,16 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         print(
                             'dashboard page descriptionText $descriptionText');
                       }
-
                       if (status is FailedSyncStatus) {
-                        descriptionText = S.of(context).please_try_to_connect_to_another_node;
+                        descriptionText =
+                            S.of(context).please_try_to_connect_to_another_node;
                         reconnect = true;
-                        if(networkStatus == NetworkStatus.online && reconnect){
+                        if (networkStatus == NetworkStatus.online &&
+                            reconnect) {
                           walletStore.reconnect();
                           reconnect = false;
                         }
                       }
-
                       return Container(
                         child: Column(
                           children: [
@@ -517,16 +458,13 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                     : Container()
                               ],
                             ),
-                            // : Container(
-                            //   child:Text('Trying to connect')
-                            // ),
                             Text(descriptionText,
                                 style: TextStyle(
                                     fontSize: 11,
                                     color: Theme.of(context)
                                         .primaryTextTheme
                                         .caption
-                                        .color, //Palette.wildDarkBlue,
+                                        .color,
                                     height: 2.0))
                           ],
                         ),
@@ -568,17 +506,14 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                     balance =
                                         balanceStore.unlockedBalanceString ??
                                             '00.000000000';
-                                    print(
-                                        'Dashboard availableBalance --> $balance');
+                                    print('Dashboard availableBalance --> $balance');
                                   }
-
                                   if (displayMode ==
                                       BalanceDisplayMode.fullBalance) {
                                     balance = balanceStore.fullBalanceString ??
                                         '00.000000000';
                                     print('Dashboard fullBalance --> $balance');
                                   }
-
                                   return Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.baseline,
@@ -610,19 +545,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      //SizedBox(width:40),
-                                      // Container(
-                                      //   child:SvgPicture.asset('assets/images/new-images/scanners.svg')
-                                      // )
                                     ],
                                   );
                                 }),
-                            //  GestureDetector(
-                            //   onTap: () async => _presentQRScanner(context),
-                            //    child: Container(
-                            //                 child:SvgPicture.asset('assets/images/new-images/scanners.svg',color: settingsStore.isDarkTheme? Color(0xffFFFFFF): Color(0xff16161D),)
-                            //               ),
-                            //  )
                           ],
                         ),
                       ),
@@ -664,9 +589,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
                                   return Text(balance,
                                       style: TextStyle(
-                                          color: Color(
-                                              0xff0BA70F), //Theme.of(context).hintColor,//Colors.grey,
-                                          //Palette.wildDarkBlue,
+                                          color: Color(0xff0BA70F),
                                           fontSize: MediaQuery.of(context)
                                                   .size
                                                   .height *
@@ -722,8 +645,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       child: Text(
                                         S.of(context).send,
                                         style: TextStyle(
-                                            color: syncStatus ==
-                                                    'SYNCHRONIZED'
+                                            color: syncStatus == 'SYNCHRONIZED'
                                                 ? Colors.white
                                                 : settingsStore.isDarkTheme
                                                     ? Color(0xff6C6C78)
@@ -806,8 +728,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                             return GestureDetector(
                               onTap: syncSt == 'SYNCHRONIZED'
                                   ? () {
-                                      Navigator.pushNamed(context, Routes.flash);
-                                     // _presentQRScanner(context);
+                                      Navigator.pushNamed(
+                                          context, Routes.flash);
+                                      // _presentQRScanner(context);
                                     }
                                   : null,
                               child: Container(
@@ -852,695 +775,6 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                 ),
               ],
             );
-
-            //  Stack(
-            //   children: [
-            //     ListView.builder(
-            //         key: _listKey,
-            //         padding: EdgeInsets.only(bottom: 15),
-            //         itemCount: itemsCount,
-            //         itemBuilder: (context, index) {
-            //           if (index == 0) {
-            //             return Container(
-            //               margin: EdgeInsets.only(bottom: 20),
-            //               decoration: BoxDecoration(
-            //                 color: Colors.transparent
-            //                 // color:  settingsStore.isDarkTheme
-            //                 //                 ? Color(0xff272733)
-            //                 //                 : Color(
-            //                 //                     0xffEDEDED),
-            //                 /*boxShadow: [
-            //                   BoxShadow(
-            //                       color: Palette.shadowGreyWithOpacity,
-            //                       blurRadius: 10,
-            //                       offset: Offset(0, 12))
-            //                 ]*/
-            //               ),
-            //               child: Column(
-            //                 children: <Widget>[
-            //                   //Progress bar
-            //                   Observer(
-            //                     key: _syncingObserverKey,
-            //                     builder: (_) {
-            //                       final status = syncStore.status;
-            //                       final statusText = status.title();
-            //                       final progress = syncStore.status.progress();
-            //                       final isFailure = status is FailedSyncStatus;
-
-            //                       print('dashboard page status --> $status');
-            //                       print('dashboard page progress --> $progress');
-
-            //                       var descriptionText = '';
-            //                       print('dashboard page status is SyncingSyncStatus ${status is SyncingSyncStatus}');
-            //                       if (status is SyncingSyncStatus) {
-            //                         /*descriptionText = S
-            //                             .of(context)
-            //                             .Blocks_remaining(
-            //                                 syncStore.status.toString());*/
-            //                         descriptionText = '';
-            //                         print('dashboard page syncStore.status.toString() ${syncStore.status.toString()}');
-            //                         print('dashboard page descriptionText $descriptionText');
-            //                       }
-
-            //                       if (status is FailedSyncStatus) {
-            //                         descriptionText = S
-            //                             .of(context)
-            //                             .please_try_to_connect_to_another_node;
-            //                       }
-
-            //                       return Container(
-            //                         child: Column(
-            //                           children: [
-            //                             SizedBox(
-            //                               height: 3,
-            //                               child: LinearProgressIndicator(
-            //                                 backgroundColor: Palette.separator,
-            //                                 valueColor:
-            //                                     AlwaysStoppedAnimation<Color>(
-            //                                         BeldexPalette.teal),
-            //                                 value: progress,
-            //                               ),
-            //                             ),
-            //                             SizedBox(height: 10),
-            //                             Text(statusText,
-            //                                 style: TextStyle(
-            //                                     fontSize: 14,
-            //                                     fontWeight: FontWeight.bold,
-            //                                     color: isFailure
-            //                                         ? BeldexPalette.red
-            //                                         : BeldexPalette.teal)),
-            //                             Text(descriptionText,
-            //                                 style: TextStyle(
-            //                                     fontSize: 11,
-            //                                     color: Theme.of(context).primaryTextTheme.caption.color,//Palette.wildDarkBlue,
-            //                                     height: 2.0))
-            //                           ],
-            //                         ),
-            //                       );
-            //                     }),
-            //                   //Primary Account
-
-            //                 // SizedBox(
-            //                 //   height: 10,
-            //                 // ),
-            //                 Container(
-            //                   height: 200,
-            //                   width: double.infinity,
-            //                   margin: EdgeInsets.only(left:20,right:20,bottom: 20),
-            //                   decoration: BoxDecoration(
-            //                     color: settingsStore.isDarkTheme
-            //                                 ? Color(0xff272733)
-            //                                 : Color(
-            //                                     0xffEDEDED),
-            //                    borderRadius: BorderRadius.circular(10)
-            //                   ),
-            //                   child: Column(
-            //                     children: [
-
-            //                     ],
-            //                   ),
-            //                 ),
-
-            //                Container(
-            //                 height:200,
-            //                 color:settingsStore.isDarkTheme
-            //                               ? Color(0xff272733)
-            //                               : Color(
-            //                                   0xffEDEDED),
-            //                 child:Column()
-            //                )
-
-            //                 ])
-            //             );
-            //           }
-
-            //           // if (index == 1 && actionListStore.totalCount > 0) {
-            //           //   return Column(
-            //           //     mainAxisAlignment: MainAxisAlignment.center,
-            //           //     crossAxisAlignment: CrossAxisAlignment.center,
-            //           //     children: [
-            //           //       SizedBox(
-            //           //         height: 10,
-            //           //       ),
-            //           //       Divider(
-            //           //         height: 10,
-            //           //       ),
-            //           //       Padding(
-            //           //         padding:
-            //           //             EdgeInsets.only(right: 20, top: 10),
-            //           //         child: Row(
-            //           //             mainAxisAlignment: MainAxisAlignment.end,
-            //           //             children: <Widget>[
-            //           //               Theme(
-            //           //                 data: Theme.of(context).copyWith(
-            //           //                     accentColor: Colors.green,
-            //           //                     primaryColor: Colors.blue,),
-            //           //                 child: Builder(
-            //           //                   builder: (context) => PopupMenuButton<int>(
-            //           //                     itemBuilder: (context) => [
-            //           //                       PopupMenuItem(
-            //           //                           enabled: false,
-            //           //                           value: -1,
-            //           //                           child: Text(S.of(context).transactions,
-            //           //                               style: TextStyle(
-            //           //                                   fontWeight: FontWeight.bold,
-            //           //                                   color: Theme.of(context)
-            //           //                                       .primaryTextTheme
-            //           //                                       .caption
-            //           //                                       .color))),
-            //           //                       PopupMenuItem(
-            //           //                           value: 0,
-            //           //                           child: Observer(
-            //           //                               builder: (_) => Row(
-            //           //                                   mainAxisAlignment:
-            //           //                                   MainAxisAlignment
-            //           //                                       .spaceBetween,
-            //           //                                   children: [
-            //           //                                     Text(S
-            //           //                                         .of(context)
-            //           //                                         .incoming),
-            //           //                                     Theme(
-            //           //                                       data: Theme.of(context).copyWith(accentColor: Colors.green,checkboxTheme: CheckboxThemeData(fillColor:MaterialStateProperty.all(Colors.green),checkColor: MaterialStateProperty.all(Colors.white),)),
-            //           //                                       child: Checkbox(
-            //           //                                         value: actionListStore
-            //           //                                             .transactionFilterStore
-            //           //                                             .displayIncoming,
-            //           //                                         onChanged: (value) =>
-            //           //                                             actionListStore
-            //           //                                                 .transactionFilterStore
-            //           //                                                 .toggleIncoming(),
-            //           //                                       ),
-            //           //                                     )
-            //           //                                   ]))),
-            //           //                       PopupMenuItem(
-            //           //                           value: 1,
-            //           //                           child: Observer(
-            //           //                               builder: (_) => Row(
-            //           //                                   mainAxisAlignment:
-            //           //                                   MainAxisAlignment
-            //           //                                       .spaceBetween,
-            //           //                                   children: [
-            //           //                                     Text(S
-            //           //                                         .of(context)
-            //           //                                         .outgoing),
-            //           //                                     Theme(
-            //           //                                       data: Theme.of(context).copyWith(accentColor: Colors.green,checkboxTheme: CheckboxThemeData(fillColor:MaterialStateProperty.all(Colors.green),checkColor: MaterialStateProperty.all(Colors.white),)),
-            //           //                                       child: Checkbox(
-            //           //                                         value: actionListStore
-            //           //                                             .transactionFilterStore
-            //           //                                             .displayOutgoing,
-            //           //                                         onChanged: (value) =>
-            //           //                                             actionListStore
-            //           //                                                 .transactionFilterStore
-            //           //                                                 .toggleOutgoing(),
-            //           //                                       ),
-            //           //                                     )
-            //           //                                   ]))),
-            //           //                       PopupMenuItem(
-            //           //                           value: 2,
-            //           //                           child: Text(S
-            //           //                               .of(context)
-            //           //                               .transactions_by_date)),
-            //           //                     ],
-            //           //                     onSelected: (item) async {
-            //           //                       print('item length --> $item');
-            //           //                       if (item == 2) {
-            //           //                         final picked =
-            //           //                         await date_rage_picker.showDatePicker(
-            //           //                           context: context,
-            //           //                           initialFirstDate: DateTime.now()
-            //           //                               .subtract(Duration(days: 1)),
-            //           //                           initialLastDate: (DateTime.now()),
-            //           //                           firstDate: DateTime(2015),
-            //           //                           lastDate: DateTime.now()
-            //           //                               .add(Duration(days: 1)),);
-
-            //           //                         print('picked length --> ${picked.length}');
-
-            //           //                         if (picked != null &&
-            //           //                             picked.length == 2) {
-            //           //                           actionListStore.transactionFilterStore
-            //           //                               .changeStartDate(picked.first);
-            //           //                           actionListStore.transactionFilterStore
-            //           //                               .changeEndDate(picked.last);
-            //           //                         }
-            //           //                       }
-            //           //                     },
-            //           //                     child: SvgPicture.asset('assets/images/filter.svg',width:18,height:18,color: Theme.of(context).primaryTextTheme.caption.color,)/*Text(S.of(context).filters,
-            //           //                         style: TextStyle(
-            //           //                             fontSize: 16.0,
-            //           //                             color: Theme.of(context)
-            //           //                                 .primaryTextTheme
-            //           //                                 .subtitle2
-            //           //                                 .color))*/,
-            //           //                   )
-            //           //                 ),
-            //           //               )
-
-            //           //             ]),
-            //           //       ),
-            //           //     ],
-            //           //   );
-            //           // }
-
-            //           // index -= 2;
-
-            //           // if (index < 0 || index >= items.length) {
-            //           //   return Column(
-            //           //     children: [
-            //           //       SizedBox(height: 50,),
-            //           //       Text('No transactions yet',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16.0),),
-            //           //       SizedBox(height: 25,),
-            //           //       Text('After you first transaction, you will\nbe able to view it here.',textAlign: TextAlign.center,),
-            //           //       SizedBox(height: 40,),
-            //           //       SvgPicture.asset('assets/images/no_transaction.svg')
-            //           //     ],
-            //           //   );
-            //           // }
-
-            //           // final item = items[index];
-
-            //           // if (item is DateSectionItem) {
-            //           //   return DateSectionRow(date: item.date);
-            //           // }
-
-            //           // if (item is TransactionListItem) {
-            //           //   final transaction = item.transaction;
-            //           //   final savedDisplayMode =
-            //           //       settingsStore.balanceDisplayMode;
-            //           //   final formattedAmount =
-            //           //       savedDisplayMode == BalanceDisplayMode.hiddenBalance
-            //           //           ? '---'
-            //           //           : transaction.amountFormatted();
-            //           //   final formattedFiatAmount =
-            //           //       savedDisplayMode == BalanceDisplayMode.hiddenBalance
-            //           //           ? '---'
-            //           //           : transaction.fiatAmount();
-
-            //           //   return TransactionRow(
-            //           //       onTap: () => Navigator.of(context).pushNamed(
-            //           //           Routes.transactionDetails,
-            //           //           arguments: transaction),
-            //           //       direction: transaction.direction,
-            //           //       formattedDate:
-            //           //           transactionDateFormat.format(transaction.date),
-            //           //       formattedAmount: formattedAmount,
-            //           //       formattedFiatAmount: formattedFiatAmount,
-            //           //       isPending: transaction.isPending);
-            //           // }
-
-            //           return Container();
-            //         }),
-            //    /* SizedBox.expand(
-            //       child: DraggableScrollableSheet(
-            //         minChildSize: 0.43,
-            //         initialChildSize: 0.43,
-            //         maxChildSize: 0.98,
-            //         builder: (BuildContext context,
-            //             ScrollController scrollController) {
-            //           return Container(
-            //             decoration: BoxDecoration(
-            //                 color: Color.fromARGB(255, 40, 42, 51),
-            //                 borderRadius: BorderRadius.only(
-            //                     topLeft: Radius.circular(15),
-            //                     topRight: Radius.circular(15))),
-            //             child: Column(
-            //               children: [
-            //                 Container(
-            //                   width: 90,
-            //                   height: 7,
-            //                   margin: EdgeInsets.only(top: 25, bottom: 15),
-            //                   decoration: BoxDecoration(
-            //                       color: Color.fromARGB(255, 23, 23, 26),
-            //                       borderRadius:
-            //                           BorderRadius.all(Radius.circular(10))),
-            //                 ),
-            //                 Text(
-            //                   'Transactions',
-            //                   style: TextStyle(
-            //                       fontWeight: FontWeight.bold, fontSize: 16),
-            //                 ),
-            //                 *//*Container(
-            //                   margin: EdgeInsets.only(left: 65,right: 30),
-            //                   child: Row(
-            //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //                     children: [
-            //                       Text(
-            //                         'Transactions',
-            //                         style: TextStyle(
-            //                             fontWeight: FontWeight.bold, fontSize: 18),
-            //                       ),
-            //                       Container(
-            //                         width: 40,
-            //                         height: 40,
-            //                         padding: EdgeInsets.all(10),
-            //                         decoration: BoxDecoration(
-            //                           color: Colors.black,
-            //                           borderRadius: BorderRadius.all(Radius.circular(10))
-            //                         ),
-            //                         child: SvgPicture.asset('assets/images/filter_svg.svg',color: Colors.white,),
-            //                       ),
-            //                     ],
-            //                   ),
-            //                 ),*//*
-            //                 Container(
-            //                   margin:
-            //                       EdgeInsets.only(left: 10, right: 10, top: 20),
-            //                   child: Row(
-            //                     mainAxisAlignment:
-            //                         MainAxisAlignment.spaceEvenly,
-            //                     children: [
-            //                       *//*   Text(
-            //                         'Transactions',
-            //                         style: TextStyle(
-            //                             fontWeight: FontWeight.bold,
-            //                             fontSize: 16),
-            //                       ),*//*
-            //                       InkWell(
-            //                         onTap: () {
-            //                           if (iconDataVal ==
-            //                               Icons.arrow_downward_outlined) {
-            //                             transactions.sort(
-            //                                 (a, b) => b.text.compareTo(a.text));
-            //                             //transactions.reversed;
-            //                             setState(() {
-            //                               iconDataVal =
-            //                                   Icons.arrow_upward_outlined;
-            //                             });
-            //                           } else {
-            //                             transactions.sort(
-            //                                 (a, b) => a.text.compareTo(b.text));
-            //                             setState(() {
-            //                               iconDataVal =
-            //                                   Icons.arrow_downward_outlined;
-            //                             });
-            //                           }
-            //                         },
-            //                         child: Row(
-            //                           children: [
-            //                             Text(
-            //                               'Date',
-            //                               style: TextStyle(
-            //                                   fontWeight: FontWeight.bold,
-            //                                   fontSize: 16),
-            //                             ),
-            //                             Icon(iconDataVal),
-            //                           ],
-            //                         ),
-            //                       ),
-            //                       InkWell(
-            //                         onTap: () {
-            //                           transactions = [
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 99.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'receive',
-            //                                 icon: Icons.arrow_downward,
-            //                                 text: '25.01.2021',
-            //                                 amount: '+\$ 105.00',
-            //                                 color: Colors.green),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'receive',
-            //                                 icon: Icons.arrow_downward,
-            //                                 text: '20.01.2021',
-            //                                 amount: '+\$ 60.00',
-            //                                 color: Colors.green),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'receive',
-            //                                 icon: Icons.arrow_downward,
-            //                                 text: '20.01.2021',
-            //                                 amount: '+\$ 60.00',
-            //                                 color: Colors.green),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'receive',
-            //                                 icon: Icons.arrow_downward,
-            //                                 text: '20.01.2021',
-            //                                 amount: '+\$ 60.00',
-            //                                 color: Colors.green),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red)
-            //                           ];
-            //                           transactions.removeWhere(
-            //                               (item) => item.id == 'receive');
-            //                           //transactions.where((item) => item.id.contains('send'));
-            //                           //transactions.sort((a, b) => a.id.compareTo(Colors.red));
-            //                           print(transactions);
-            //                           setState(() {});
-            //                         },
-            //                         child: Container(
-            //                           width: 30,
-            //                           height: 30,
-            //                           padding: EdgeInsets.all(5),
-            //                           decoration: BoxDecoration(
-            //                               color: Colors.black,
-            //                               borderRadius: BorderRadius.all(
-            //                                   Radius.circular(5))),
-            //                           child: SvgPicture.asset(
-            //                             'assets/images/send_icon_svg.svg',
-            //                             color: Colors.red,
-            //                           ),
-            //                         ),
-            //                       ),
-            //                       InkWell(
-            //                         onTap: () {
-            //                           transactions = [
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 99.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'receive',
-            //                                 icon: Icons.arrow_downward,
-            //                                 text: '25.01.2021',
-            //                                 amount: '+\$ 105.00',
-            //                                 color: Colors.green),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'receive',
-            //                                 icon: Icons.arrow_downward,
-            //                                 text: '20.01.2021',
-            //                                 amount: '+\$ 60.00',
-            //                                 color: Colors.green),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'receive',
-            //                                 icon: Icons.arrow_downward,
-            //                                 text: '20.01.2021',
-            //                                 amount: '+\$ 60.00',
-            //                                 color: Colors.green),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'receive',
-            //                                 icon: Icons.arrow_downward,
-            //                                 text: '20.01.2021',
-            //                                 amount: '+\$ 60.00',
-            //                                 color: Colors.green),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red)
-            //                           ];
-            //                           transactions.removeWhere(
-            //                               (item) => item.id == 'send');
-            //                           setState(() {});
-            //                         },
-            //                         child: Container(
-            //                           width: 30,
-            //                           height: 30,
-            //                           padding: EdgeInsets.all(5),
-            //                           decoration: BoxDecoration(
-            //                               color: Colors.black,
-            //                               borderRadius: BorderRadius.all(
-            //                                   Radius.circular(5))),
-            //                           child: SvgPicture.asset(
-            //                             'assets/images/receive_icon_svg.svg',
-            //                             color: Colors.green,
-            //                           ),
-            //                         ),
-            //                       ),
-            //                       InkWell(
-            //                         onTap: () {
-            //                           transactions = [
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 99.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'receive',
-            //                                 icon: Icons.arrow_downward,
-            //                                 text: '25.01.2021',
-            //                                 amount: '+\$ 105.00',
-            //                                 color: Colors.green),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'receive',
-            //                                 icon: Icons.arrow_downward,
-            //                                 text: '20.01.2021',
-            //                                 amount: '+\$ 60.00',
-            //                                 color: Colors.green),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'receive',
-            //                                 icon: Icons.arrow_downward,
-            //                                 text: '20.01.2021',
-            //                                 amount: '+\$ 60.00',
-            //                                 color: Colors.green),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red),
-            //                             Item(
-            //                                 id: 'receive',
-            //                                 icon: Icons.arrow_downward,
-            //                                 text: '20.01.2021',
-            //                                 amount: '+\$ 60.00',
-            //                                 color: Colors.green),
-            //                             Item(
-            //                                 id: 'send',
-            //                                 icon: Icons.arrow_upward,
-            //                                 text: '01.02.2021',
-            //                                 amount: '-\$ 105.00',
-            //                                 color: Colors.red)
-            //                           ];
-            //                           setState(() {});
-            //                         },
-            //                         child: Container(
-            //                           width: 30,
-            //                           height: 30,
-            //                           padding: EdgeInsets.all(5),
-            //                           decoration: BoxDecoration(
-            //                               color: Colors.black,
-            //                               borderRadius: BorderRadius.all(
-            //                                   Radius.circular(5))),
-            //                           child: SvgPicture.asset(
-            //                             'assets/images/send_receive_icon_svg.svg',
-            //                           ),
-            //                         ),
-            //                       ),
-            //                     ],
-            //                   ),
-            //                 ),
-            //                 SizedBox(
-            //                   height: 15,
-            //                 ),
-            //                 Expanded(
-            //                   child: ListView.separated(
-            //                     controller: scrollController,
-            //                     itemCount: transactions.length,
-            //                     separatorBuilder: (context, i) {
-            //                       return Divider(
-            //                         color: Theme.of(context).backgroundColor,
-            //                         //Theme.of(context).dividerTheme.color,
-            //                         height: 5.0,
-            //                       );
-            //                     },
-            //                     itemBuilder: (BuildContext context, int index) {
-            //                       return ListTile(
-            //                           contentPadding:
-            //                               EdgeInsets.only(left: 25, right: 25),
-            //                           leading: Icon(
-            //                             transactions[index].icon,
-            //                             color: transactions[index].color,
-            //                           ),
-            //                           title: Text(
-            //                             transactions[index].text,
-            //                             style: TextStyle(fontSize: 16),
-            //                           ),
-            //                           trailing: Text(
-            //                             transactions[index].amount,
-            //                             style: TextStyle(
-            //                                 color: transactions[index].color,
-            //                                 fontWeight: FontWeight.bold,
-            //                                 fontSize: 16),
-            //                           ));
-            //                     },
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //           );
-            //         },
-            //       ),
-            //     )*/
-            //   ],
-            // );
           }),
     );
   }
@@ -1556,9 +790,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
             backgroundColor: settingsStore.isDarkTheme
                 ? Color(0xff272733)
                 : Color(
-                    0xffffffff), //Theme.of(context).cardTheme.color,//Colors.black,
+                    0xffffffff),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0)), //this right here
+                borderRadius: BorderRadius.circular(20.0)),
             child: Container(
               height: 170,
               child: Padding(
@@ -1598,7 +832,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                   backgroundColor: settingsStore.isDarkTheme
                                       ? Color(0xff383848)
                                       : Color(
-                                          0xffE8E8E8) // Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                          0xffE8E8E8)
                                   ),
                               onPressed: () {
                                 Navigator.of(context).pop(false);
@@ -1620,7 +854,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10)),
                                   backgroundColor: Color(
-                                      0xff0BA70F) // Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                      0xff0BA70F)
                                   ),
                               onPressed: () {
                                 Navigator.of(context).pop(true);
@@ -1911,7 +1145,6 @@ class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
               'However we recommend to scan the blockchain from the block height at which you created the wallet to get all transactions and correct balance',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 13)),
-
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: GestureDetector(
@@ -1929,25 +1162,6 @@ class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
                               fontWeight: FontWeight.w800)))),
             ),
           )
-          // MaterialButton(
-          //   onPressed: () async {
-          //     await Navigator.of(context).pushNamed(Routes.rescan);
-          //     Navigator.pop(context);
-          //   },
-          //   elevation: 0,
-          //   color: Color(0xff0BA70F),
-          //   height: MediaQuery.of(context).size.height * 0.20 / 3,
-          //   minWidth: double.infinity,
-          //   shape:
-          //       RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          //   child: Text(
-          //     'Rescan wallet',
-          //     style: TextStyle(
-          //         fontSize: 17,
-          //         color: Colors.white,
-          //         fontWeight: FontWeight.w800),
-          //   ),
-          // ),
         ],
       ),
     );

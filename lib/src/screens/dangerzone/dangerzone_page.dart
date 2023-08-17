@@ -107,16 +107,6 @@ Widget trailing(BuildContext context){
           fontSize:19,
           color: Colors.white
           ),),) 
-          
-          // PrimaryButton(
-          //     onPressed: () {
-          //       Navigator.popAndPushNamed(context, nextPage);
-          //     },
-          //     text: S.of(context).yes_im_sure,
-          //     color: Theme.of(context).primaryTextTheme.button.backgroundColor,
-              
-          //     borderColor:
-          //     Theme.of(context).primaryTextTheme.button.backgroundColor),
         ),
       )
     ]);

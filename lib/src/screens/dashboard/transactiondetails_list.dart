@@ -33,32 +33,37 @@ class TransactionDetailsList extends BasePage {
   @override
   Widget leading(BuildContext context) {
     return InkWell(
-      onTap:() {
+      onTap: () {
         _presentWalletMenu(context);
       },
       child: Container(
-        height: 20,
-          padding: EdgeInsets.only(top: 12.0,bottom: 10),
+          height: 20,
+          padding: EdgeInsets.only(top: 12.0, bottom: 10),
           decoration: BoxDecoration(
               //borderRadius: BorderRadius.circular(10),
               //color: Colors.black,
               ),
-          child: SvgPicture.asset('assets/images/new-images/refresh.svg',color: Theme.of(context).primaryTextTheme.caption.color,)
+          child: SvgPicture.asset(
+            'assets/images/new-images/refresh.svg',
+            color: Theme.of(context).primaryTextTheme.caption.color,
+          )
           // Icon(Icons.autorenew_outlined,color: Theme.of(context).primaryTextTheme.caption.color,
           // )
           ),
     );
   }
+
   @override
   Widget middle(BuildContext context) {
     //final walletStore = Provider.of<WalletStore>(context);
-  final walletStore = Provider.of<WalletStore>(context);
-    return Text(walletStore.name,style: TextStyle(fontSize: 25,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .headline6
-                                                      .color ),); //Image.asset('assets/images/title_with_logo.png', height: 134, width: 160);
+    final walletStore = Provider.of<WalletStore>(context);
+    return Text(
+      walletStore.name,
+      style: TextStyle(
+          fontSize: 25,
+          fontWeight: FontWeight.bold,
+          color: Theme.of(context).primaryTextTheme.headline6.color),
+    ); //Image.asset('assets/images/title_with_logo.png', height: 134, width: 160);
   }
 
   @override
@@ -91,13 +96,11 @@ class TransactionDetailsList extends BasePage {
               splashColor: Colors.transparent,
               padding: EdgeInsets.all(0),*/
               style: ButtonStyle(
-                overlayColor:
-                    MaterialStateColor.resolveWith((states) => Colors.transparent),
+                overlayColor: MaterialStateColor.resolveWith(
+                    (states) => Colors.transparent),
               ),
-              onPressed: () =>
-                  Navigator.of(context).pushNamed(Routes.profile),
-              child:
-               SvgPicture.asset(
+              onPressed: () => Navigator.of(context).pushNamed(Routes.profile),
+              child: SvgPicture.asset(
                 'assets/images/new-images/setting.svg',
                 fit: BoxFit.cover,
                 color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
@@ -126,13 +129,14 @@ class TransactionDetailsList extends BasePage {
   }*/
 
   @override
-  Widget body(BuildContext context) => TransactionDetailsListBody(key: _bodyKey);
+  Widget body(BuildContext context) =>
+      TransactionDetailsListBody(key: _bodyKey);
 
   void _presentWalletMenu(BuildContext bodyContext) {
     final walletMenu = WalletMenu(bodyContext);
 
     showDialog<void>(
-     // barrierColor: Color(0xff),
+        // barrierColor: Color(0xff),
         builder: (_) => Picker(
             items: walletMenu.items,
             selectedAtIndex: -1,
@@ -145,13 +149,15 @@ class TransactionDetailsList extends BasePage {
 }
 
 class TransactionDetailsListBody extends StatefulWidget {
- TransactionDetailsListBody({Key key}) : super(key: key);
+  TransactionDetailsListBody({Key key}) : super(key: key);
 
   @override
-  TransactionDetailsListBodyState createState() => TransactionDetailsListBodyState();
+  TransactionDetailsListBodyState createState() =>
+      TransactionDetailsListBodyState();
 }
 
-class TransactionDetailsListBodyState extends State<TransactionDetailsListBody> {
+class TransactionDetailsListBodyState
+    extends State<TransactionDetailsListBody> {
   final _connectionStatusObserverKey = GlobalKey();
   final _balanceObserverKey = GlobalKey();
   final _balanceTitleObserverKey = GlobalKey();
@@ -245,177 +251,237 @@ class TransactionDetailsListBodyState extends State<TransactionDetailsListBody> 
           final items = actionListStore.items ?? <String>[];
           final itemsCount = items.length + 2;
           return Scaffold(
-            backgroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
-            appBar: AppBar( 
-              elevation: 0, 
-              backgroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
-              leading: GestureDetector(
-                onTap: ()=>Navigator.pop(context),
-                child: Icon(Icons.arrow_back,color: settingsStore.isDarkTheme ? Colors.white:Colors.black,)),
+            backgroundColor: settingsStore.isDarkTheme
+                ? Color(0xff171720)
+                : Color(0xffffffff),
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: settingsStore.isDarkTheme
+                  ? Color(0xff171720)
+                  : Color(0xffffffff),
+              leading: Container(
+                width: 60,
+                padding: EdgeInsets.only(left: 15, top: 20, bottom: 5),
+                alignment: Alignment.centerLeft,
+                child: SizedBox(
+                  height: 30,
+                  width: 40,
+                  child: ButtonTheme(
+                    buttonColor: Colors.transparent,
+                    minWidth: double.minPositive,
+                    child: TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: SvgPicture.asset(
+                          'assets/images/new-images/back_button_white_theme.svg',
+                          color: settingsStore.isDarkTheme
+                              ? Colors.white
+                              : Colors.black,
+                          height: 80,
+                          width: 50,
+                          fit: BoxFit.fill,
+                        )),
+                  ),
+                ),
+              ),
+              // GestureDetector(
+              //   onTap: ()=>Navigator.pop(context),
+              //   child: Icon(Icons.arrow_back,color: settingsStore.isDarkTheme ? Colors.white:Colors.black,)),
               centerTitle: true,
-              title: Text(
-                                    S.of(context).transactions_text,
-                                    style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),
-                                  ),
+              title: Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  S.of(context).transactions_text,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                ),
+              ),
               actions: [
                 Container(
-                  
-                  //margin: EdgeInsets.only(right:MediaQuery.of(context).size.height*0.09/3),
-                  child: Container(
-                      margin: EdgeInsets.only(left:15,right:0,bottom: 15.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        //color: Colors.yellow,
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          // SizedBox(
-                          //   height: 5,
-                          // ),
-                          // Divider(
-                          //   height: 10,
-                          // ),
-                          Padding(
-                            padding:
-                                EdgeInsets.only(right: 20, top: 10),
-                            child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  // Text(
-                                  //   S.of(context).transactions_text,
-                                  //   style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),
-                                  // ),
-                                  Theme(
-                                    data: Theme.of(context).copyWith(
-                                        accentColor: Colors.green,
-                                        primaryColor: Colors.blue,
-                                        
-                                        backgroundColor: settingsStore.isDarkTheme ? Color(0xff292935):Color(0xffffffff)),
-                                    child: Builder(
-                                      builder: (context) => PopupMenuButton<int>(
-                                        itemBuilder: (context) => [
-                                          PopupMenuItem(
-                                              enabled: false,
-                                              value: -1,
-                                              child: Text('Filter by',// S.of(context).transactions,
-                                                  style: TextStyle(
-                                                      fontWeight: FontWeight.bold,
-                                                      color: Theme.of(context)
-                                                          .primaryTextTheme
-                                                          .caption
-                                                          .color))),
-                                          PopupMenuItem(
-                                              value: 0,
-                                              child: Observer(
-                                                  builder: (_) => Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                      children: [
-                                                        Text(S
-                                                            .of(context)
-                                                            .incoming),
-                                                        Theme(
-                                                          data: Theme.of(context).copyWith(accentColor: Colors.green,checkboxTheme: CheckboxThemeData(fillColor:MaterialStateProperty.all(Colors.green),checkColor: MaterialStateProperty.all(Colors.white),)),
-                                                          child: Checkbox(
-                                                            value: actionListStore
-                                                                .transactionFilterStore
-                                                                .displayIncoming,
-                                                            onChanged: (value) =>
-                                                                actionListStore
-                                                                    .transactionFilterStore
-                                                                    .toggleIncoming(),
-                                                          ),
-                                                        )
-                                                      ]))),
-                                          PopupMenuItem(
-                                              value: 1,
-                                              child: Observer(
-                                                  builder: (_) => Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                      children: [
-                                                        Text(S
-                                                            .of(context)
-                                                            .outgoing),
-                                                        Theme(
-                                                          data: Theme.of(context).copyWith(accentColor: Colors.green,checkboxTheme: CheckboxThemeData(fillColor:MaterialStateProperty.all(Colors.green),checkColor: MaterialStateProperty.all(Colors.white),)),
-                                                          child: Checkbox(
-                                                            value: actionListStore
-                                                                .transactionFilterStore
-                                                                .displayOutgoing,
-                                                            onChanged: (value) =>
-                                                                actionListStore
-                                                                    .transactionFilterStore
-                                                                    .toggleOutgoing(),
-                                                          ),
-                                                        )
-                                                      ]))),
-                                          PopupMenuItem(
-                                              value: 2,
-                                              child: Text(S
-                                                  .of(context)
-                                                  .transactions_by_date)),
-                                        ],
-                                        onSelected: (item) async {
-                                          print('item length --> $item');
-                                          if (item == 2) {
-                                           final picked = await date_rage_picker.showDatePicker(context: context,
-                                           initialFirstDate: DateTime.now().subtract(Duration(days: 1)),
-                                   initialLastDate: DateTime.now(),
-                                  
-                                            firstDate: DateTime(2015), 
-                                            lastDate: DateTime.now()
-                                            );
 
-                                           if(picked != null){
-                                             actionListStore.transactionFilterStore.changeStartDate(picked.first);
-                                            actionListStore.transactionFilterStore.changeEndDate(picked == null ? null : picked.last.add(Duration(days: 1)));
+                    //margin: EdgeInsets.only(right:MediaQuery.of(context).size.height*0.09/3),
+                    child: Container(
+                  margin:
+                      EdgeInsets.only(left: 15, right: 0, bottom: 15.0, top: 8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    //color: Colors.yellow,
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      // SizedBox(
+                      //   height: 5,
+                      // ),
+                      // Divider(
+                      //   height: 10,
+                      // ),
+                      Padding(
+                        padding: EdgeInsets.only(right: 20, top: 10),
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              // Text(
+                              //   S.of(context).transactions_text,
+                              //   style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),
+                              // ),
+                              Theme(
+                                data: Theme.of(context).copyWith(
+                                    accentColor: Colors.green,
+                                    primaryColor: Colors.blue,
+                                    backgroundColor: settingsStore.isDarkTheme
+                                        ? Color(0xff292935)
+                                        : Color(0xffffffff)),
+                                child: Builder(
+                                    builder: (context) => PopupMenuButton<int>(
+                                          itemBuilder: (context) => [
+                                            PopupMenuItem(
+                                                enabled: false,
+                                                value: -1,
+                                                child: Text(
+                                                    'Filter by', // S.of(context).transactions,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Theme.of(context)
+                                                            .primaryTextTheme
+                                                            .caption
+                                                            .color))),
+                                            PopupMenuItem(
+                                                value: 0,
+                                                child: Observer(
+                                                    builder: (_) => Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(S
+                                                                  .of(context)
+                                                                  .incoming),
+                                                              Theme(
+                                                                data: Theme.of(
+                                                                        context)
+                                                                    .copyWith(
+                                                                        accentColor:
+                                                                            Colors
+                                                                                .green,
+                                                                        checkboxTheme:
+                                                                            CheckboxThemeData(
+                                                                          fillColor:
+                                                                              MaterialStateProperty.all(Colors.green),
+                                                                          checkColor:
+                                                                              MaterialStateProperty.all(Colors.white),
+                                                                        )),
+                                                                child: Checkbox(
+                                                                  value: actionListStore
+                                                                      .transactionFilterStore
+                                                                      .displayIncoming,
+                                                                  onChanged: (value) =>
+                                                                      actionListStore
+                                                                          .transactionFilterStore
+                                                                          .toggleIncoming(),
+                                                                ),
+                                                              )
+                                                            ]))),
+                                            PopupMenuItem(
+                                                value: 1,
+                                                child: Observer(
+                                                    builder: (_) => Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(S
+                                                                  .of(context)
+                                                                  .outgoing),
+                                                              Theme(
+                                                                data: Theme.of(
+                                                                        context)
+                                                                    .copyWith(
+                                                                        accentColor:
+                                                                            Colors
+                                                                                .green,
+                                                                        checkboxTheme:
+                                                                            CheckboxThemeData(
+                                                                          fillColor:
+                                                                              MaterialStateProperty.all(Colors.green),
+                                                                          checkColor:
+                                                                              MaterialStateProperty.all(Colors.white),
+                                                                        )),
+                                                                child: Checkbox(
+                                                                  value: actionListStore
+                                                                      .transactionFilterStore
+                                                                      .displayOutgoing,
+                                                                  onChanged: (value) =>
+                                                                      actionListStore
+                                                                          .transactionFilterStore
+                                                                          .toggleOutgoing(),
+                                                                ),
+                                                              )
+                                                            ]))),
+                                            PopupMenuItem(
+                                                value: 2,
+                                                child: Text(S
+                                                    .of(context)
+                                                    .transactions_by_date)),
+                                          ],
+                                          onSelected: (item) async {
+                                            print('item length --> $item');
+                                            if (item == 2) {
+                                              final picked =
+                                                  await date_rage_picker
+                                                      .showDatePicker(
+                                                          context: context,
+                                                          initialFirstDate:
+                                                              DateTime.now()
+                                                                  .subtract(
+                                                                      Duration(
+                                                                          days:
+                                                                              1)),
+                                                          initialLastDate:
+                                                              DateTime.now(),
+                                                          firstDate:
+                                                              DateTime(2015),
+                                                          lastDate:
+                                                              DateTime.now());
 
-                                           }
-                                           
-                                            // final picked =
-                                            // await date_rage_picker.showDatePicker(
-                                            //   context: context,
-                                            //   initialFirstDate: DateTime.now()
-                                            //       .subtract(Duration(days: 1)),
-                                            //   initialLastDate: (DateTime.now()),
-                                            //   firstDate: DateTime(2015),
-                                            //   lastDate: DateTime.now(),
-                                            //      // .add(Duration(days: 1)), // hide the date
-                                            //       );
-
-                                            // print('picked length --> ${picked.length}');
-                                            // print('picked date first ${picked.first}');
-                                            // print('picked date last ${picked.last}');
-                                            // if (picked != null &&
-                                            //     picked.length == 2) {
-                                            //   actionListStore.transactionFilterStore
-                                            //       .changeStartDate(picked.first);
-                                            //   actionListStore.transactionFilterStore
-                                            //       .changeEndDate(picked.last);
-                                            // }
-                                          }
-                                        },
-                                        child: SvgPicture.asset('assets/images/new-images/filter.svg',width:18,height:18,color: Theme.of(context).primaryTextTheme.caption.color,)/*Text(S.of(context).filters,
+                                              if (picked != null) {
+                                                actionListStore
+                                                    .transactionFilterStore
+                                                    .changeStartDate(
+                                                        picked.first);
+                                                actionListStore
+                                                    .transactionFilterStore
+                                                    .changeEndDate(picked ==
+                                                            null
+                                                        ? null
+                                                        : picked.last.add(
+                                                            Duration(days: 1)));
+                                              }
+                                            }
+                                          },
+                                          child: SvgPicture.asset(
+                                            'assets/images/new-images/filter.svg',
+                                            width: 18,
+                                            height: 18,
+                                            color: Theme.of(context)
+                                                .primaryTextTheme
+                                                .caption
+                                                .color,
+                                          ) /*Text(S.of(context).filters,
                                             style: TextStyle(
                                                 fontSize: 16.0,
                                                 color: Theme.of(context)
                                                     .primaryTextTheme
                                                     .subtitle2
-                                                    .color))*/,
-                                      )
-                                    ),
-                                  )
-
-                                ]),
-                          ),
-                        ],
+                                                    .color))*/
+                                          ,
+                                        )),
+                              )
+                            ]),
                       ),
-                    ))
+                    ],
+                  ),
+                ))
               ],
             ),
             body: ListView.builder(
@@ -423,248 +489,65 @@ class TransactionDetailsListBodyState extends State<TransactionDetailsListBody> 
                 padding: EdgeInsets.only(bottom: 15),
                 itemCount: itemsCount,
                 itemBuilder: (context, index) {
-                  
-                if(index==0){
-                  return Container();
-                }
-
-
-
-
-
-
-
+                  if (index == 0) {
+                    return Container();
+                  }
 
                   if (index == 1 && actionListStore.totalCount > 0) {
                     return Container();
-                    // return Container(
-                    //   margin: EdgeInsets.only(left:15,right:0,bottom: 15.0),
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: BorderRadius.circular(10.0),
-                    //     //color: Colors.yellow,
-                    //   ),
-                    //   child: Column(
-                    //     mainAxisAlignment: MainAxisAlignment.center,
-                    //     crossAxisAlignment: CrossAxisAlignment.center,
-                    //     children: [
-                    //       // SizedBox(
-                    //       //   height: 5,
-                    //       // ),
-                    //       // Divider(
-                    //       //   height: 10,
-                    //       // ),
-                    //       Padding(
-                    //         padding:
-                    //             EdgeInsets.only(right: 20, top: 10),
-                    //         child: Row(
-                    //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //             children: <Widget>[
-                    //               Text(
-                    //                 S.of(context).transactions_text,
-                    //                 style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),
-                    //               ),
-                    //               Theme(
-                    //                 data: Theme.of(context).copyWith(
-                    //                     accentColor: Colors.green,
-                    //                     primaryColor: Colors.blue,
-                                        
-                    //                     backgroundColor: settingsStore.isDarkTheme ? Color(0xff292935):Color(0xffffffff)),
-                    //                 child: Builder(
-                    //                   builder: (context) => PopupMenuButton<int>(
-                    //                     itemBuilder: (context) => [
-                    //                       PopupMenuItem(
-                    //                           enabled: false,
-                    //                           value: -1,
-                    //                           child: Text('Filter by',// S.of(context).transactions,
-                    //                               style: TextStyle(
-                    //                                   fontWeight: FontWeight.bold,
-                    //                                   color: Theme.of(context)
-                    //                                       .primaryTextTheme
-                    //                                       .caption
-                    //                                       .color))),
-                    //                       PopupMenuItem(
-                    //                           value: 0,
-                    //                           child: Observer(
-                    //                               builder: (_) => Row(
-                    //                                   mainAxisAlignment:
-                    //                                   MainAxisAlignment
-                    //                                       .spaceBetween,
-                    //                                   children: [
-                    //                                     Text(S
-                    //                                         .of(context)
-                    //                                         .incoming),
-                    //                                     Theme(
-                    //                                       data: Theme.of(context).copyWith(accentColor: Colors.green,checkboxTheme: CheckboxThemeData(fillColor:MaterialStateProperty.all(Colors.green),checkColor: MaterialStateProperty.all(Colors.white),)),
-                    //                                       child: Checkbox(
-                    //                                         value: actionListStore
-                    //                                             .transactionFilterStore
-                    //                                             .displayIncoming,
-                    //                                         onChanged: (value) =>
-                    //                                             actionListStore
-                    //                                                 .transactionFilterStore
-                    //                                                 .toggleIncoming(),
-                    //                                       ),
-                    //                                     )
-                    //                                   ]))),
-                    //                       PopupMenuItem(
-                    //                           value: 1,
-                    //                           child: Observer(
-                    //                               builder: (_) => Row(
-                    //                                   mainAxisAlignment:
-                    //                                   MainAxisAlignment
-                    //                                       .spaceBetween,
-                    //                                   children: [
-                    //                                     Text(S
-                    //                                         .of(context)
-                    //                                         .outgoing),
-                    //                                     Theme(
-                    //                                       data: Theme.of(context).copyWith(accentColor: Colors.green,checkboxTheme: CheckboxThemeData(fillColor:MaterialStateProperty.all(Colors.green),checkColor: MaterialStateProperty.all(Colors.white),)),
-                    //                                       child: Checkbox(
-                    //                                         value: actionListStore
-                    //                                             .transactionFilterStore
-                    //                                             .displayOutgoing,
-                    //                                         onChanged: (value) =>
-                    //                                             actionListStore
-                    //                                                 .transactionFilterStore
-                    //                                                 .toggleOutgoing(),
-                    //                                       ),
-                    //                                     )
-                    //                                   ]))),
-                    //                       PopupMenuItem(
-                    //                           value: 2,
-                    //                           child: Text(S
-                    //                               .of(context)
-                    //                               .transactions_by_date)),
-                    //                     ],
-                    //                     onSelected: (item) async {
-                    //                       print('item length --> $item');
-                    //                       if (item == 2) {
-                    //                         final picked =
-                    //                         await date_rage_picker.showDatePicker(
-                    //                           context: context,
-                    //                           initialFirstDate: DateTime.now()
-                    //                               .subtract(Duration(days: 1)),
-                    //                           initialLastDate: (DateTime.now()),
-                    //                           firstDate: DateTime(2015),
-                    //                           lastDate: DateTime.now()
-                    //                               .add(Duration(days: 1)),);
-
-                    //                         print('picked length --> ${picked.length}');
-
-                    //                         if (picked != null &&
-                    //                             picked.length == 2) {
-                    //                           actionListStore.transactionFilterStore
-                    //                               .changeStartDate(picked.first);
-                    //                           actionListStore.transactionFilterStore
-                    //                               .changeEndDate(picked.last);
-                    //                         }
-                    //                       }
-                    //                     },
-                    //                     child: SvgPicture.asset('assets/images/new-images/filter.svg',width:18,height:18,color: Theme.of(context).primaryTextTheme.caption.color,)/*Text(S.of(context).filters,
-                    //                         style: TextStyle(
-                    //                             fontSize: 16.0,
-                    //                             color: Theme.of(context)
-                    //                                 .primaryTextTheme
-                    //                                 .subtitle2
-                    //                                 .color))*/,
-                    //                   )
-                    //                 ),
-                    //               )
-
-                    //             ]),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // );
                   }
 
                   index -= 2;
 
                   if (index < 0 || index >= items.length) {
-                     return  Container(
-                height:MediaQuery.of(context).size.height*2.6/3,
-                margin: EdgeInsets.only(top:8.0,bottom:10.0,right:15.0,left:15.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                color: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED), //Color(0xff24242F),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                   children: [
-                    settingsStore.isDarkTheme ?
-                    SvgPicture.asset('assets/images/new-images/notrans_black.svg'):
-                    SvgPicture.asset('assets/images/new-images/notrans_white.svg'),
-                    Padding(
-                      padding: const EdgeInsets.only(top:8.0,bottom:8.0),
-                      child: Text(S.of(context).no_trans_yet,style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16.0),),
-                    ),
-                    Text('After your first transaction,\n you will be able to view it here.',textAlign: TextAlign.center,style: TextStyle(color:Color(0xff82828D)),),
-                   ],
-                  ),
-              );
-                   
+                    return Container(
+                      height: MediaQuery.of(context).size.height * 2.6 / 3,
+                      margin: EdgeInsets.only(
+                          top: 8.0, bottom: 10.0, right: 15.0, left: 15.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xff272733)
+                            : Color(0xffEDEDED), //Color(0xff24242F),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          settingsStore.isDarkTheme
+                              ? SvgPicture.asset(
+                                  'assets/images/new-images/notrans_black.svg')
+                              : SvgPicture.asset(
+                                  'assets/images/new-images/notrans_white.svg'),
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                            child: Text(
+                              S.of(context).no_trans_yet,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w800, fontSize: 16.0),
+                            ),
+                          ),
+                          Text(
+                            'After your first transaction,\n you will be able to view it here.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Color(0xff82828D)),
+                          ),
+                        ],
+                      ),
+                    );
                   }
 
                   final item = items[index];
-                
-             
-              //   if(item is TransactionListItem){
-              //      final transaction = item.transaction;
-              //       final savedDisplayMode =
-              //           settingsStore.balanceDisplayMode;
-              //       final formattedAmount =
-              //           savedDisplayMode == BalanceDisplayMode.hiddenBalance
-              //               ? '---'
-              //               : transaction.amountFormatted();
-              //       final formattedFiatAmount =
-              //           savedDisplayMode == BalanceDisplayMode.hiddenBalance
-              //               ? '---'
-              //               : transaction.fiatAmount();
-                
-                
-
-
-              // return  Container(
-              //        decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0,),topRight: Radius.circular(8.0,)),
-              //       color: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED)
-              //     ),
-              //      child:Column(
-              //       children: [
-              //         //Text('sample'),
-              //         if(item is DateSectionItem) DateSectionRow(date:item.date),
-              //         if(item is TransactionListItem)
-                         
-              //            TransactionRow(
-              //           onTap: () => Navigator.of(context).pushNamed(
-              //               Routes.transactionDetails,
-              //               arguments: transaction),
-              //           direction: transaction.direction,
-              //           formattedDate:
-              //               transactionDateFormat.format(transaction.date),
-              //           formattedAmount: formattedAmount,
-              //           formattedFiatAmount: formattedFiatAmount,
-              //           isPending: transaction.isPending,
-              //           //isStake: transaction.isStake,
-              //           )
-                      
-                      
-              //       ],
-              //      )
-              //   );
-
-              //   }
-
-
-
                   if (item is DateSectionItem) {
-                    return DateSectionRow(date: item.date,index: index,);
+                    return DateSectionRow(
+                      date: item.date,
+                      index: index,
+                    );
                   }
 
                   if (item is TransactionListItem) {
                     final transaction = item.transaction;
-                    final savedDisplayMode =
-                        settingsStore.balanceDisplayMode;
+                    final savedDisplayMode = settingsStore.balanceDisplayMode;
                     final formattedAmount =
                         savedDisplayMode == BalanceDisplayMode.hiddenBalance
                             ? '---'
@@ -675,18 +558,18 @@ class TransactionDetailsListBodyState extends State<TransactionDetailsListBody> 
                             : transaction.fiatAmount();
 
                     return TransactionRow(
-                        onTap: () => Navigator.of(context).pushNamed(
-                            Routes.transactionDetails,
-                            arguments: transaction),
-                        direction: transaction.direction,
-                        formattedDate:
-                            transactionDateFormat.format(transaction.date),
-                        formattedAmount: formattedAmount,
-                        formattedFiatAmount: formattedFiatAmount,
-                        isPending: transaction.isPending,
-                        transaction: transaction,
-                        //isStake: transaction.isStake,
-                        );
+                      onTap: () => Navigator.of(context).pushNamed(
+                          Routes.transactionDetails,
+                          arguments: transaction),
+                      direction: transaction.direction,
+                      formattedDate:
+                          transactionDateFormat.format(transaction.date),
+                      formattedAmount: formattedAmount,
+                      formattedFiatAmount: formattedFiatAmount,
+                      isPending: transaction.isPending,
+                      transaction: transaction,
+                      //isStake: transaction.isStake,
+                    );
                   }
 
                   return Container();
@@ -703,7 +586,10 @@ class TransactionDetailsListBodyState extends State<TransactionDetailsListBody> 
           final settingsStore = Provider.of<SettingsStore>(context);
           return Dialog(
             elevation: 0,
-            backgroundColor:settingsStore.isDarkTheme ? Color(0xff272733):Color(0xffffffff), //Theme.of(context).cardTheme.color,//Colors.black,
+            backgroundColor: settingsStore.isDarkTheme
+                ? Color(0xff272733)
+                : Color(
+                    0xffffffff), //Theme.of(context).cardTheme.color,//Colors.black,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)), //this right here
             child: Container(
@@ -735,11 +621,14 @@ class TransactionDetailsListBodyState extends State<TransactionDetailsListBody> 
                             width: 55,
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                backgroundColor:settingsStore.isDarkTheme ? Color(0xff333343) : Color(0xffDADADA) //Theme.of(context).cardTheme.shadowColor,
-                                //Color.fromRGBO(38, 38, 38, 1.0),
-                              ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  backgroundColor: settingsStore.isDarkTheme
+                                      ? Color(0xff333343)
+                                      : Color(
+                                          0xffDADADA) //Theme.of(context).cardTheme.shadowColor,
+                                  //Color.fromRGBO(38, 38, 38, 1.0),
+                                  ),
                               onPressed: () {
                                 Navigator.of(context).pop(false);
                               },
@@ -747,7 +636,11 @@ class TransactionDetailsListBodyState extends State<TransactionDetailsListBody> 
                                 S.of(context).no,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w800,
-                                  color: Theme.of(context).primaryTextTheme.caption.color,),
+                                  color: Theme.of(context)
+                                      .primaryTextTheme
+                                      .caption
+                                      .color,
+                                ),
                               ),
                             ),
                           ),
@@ -757,16 +650,18 @@ class TransactionDetailsListBodyState extends State<TransactionDetailsListBody> 
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                backgroundColor:Color(0xff0BA70F),// Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                backgroundColor: Color(
+                                    0xff0BA70F), // Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
                               ),
                               onPressed: () {
                                 Navigator.of(context).pop(true);
                               },
                               child: Text(
                                 S.of(context).yes,
-                                style: TextStyle
-                                (fontWeight: FontWeight.w800,
-                                  color: Colors.white,),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ),

@@ -55,25 +55,15 @@ class SettingsPage extends BasePage {
   //       child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
   // }
 
-
-
   @override
-  Widget trailing(BuildContext context){
+  Widget trailing(BuildContext context) {
     return Container(
-      child: Icon(Icons.settings, color: Colors.transparent,),
+      child: Icon(
+        Icons.settings,
+        color: Colors.transparent,
+      ),
     );
   }
-
-
-
-
-
-
-
-
-
-
-
 
   @override
   Widget body(BuildContext context) {
@@ -112,8 +102,6 @@ class SettingsFormState extends State<SettingsForm> {
     _items.addAll([
       SettingsItem(
           title: S.current.settings_nodes, attribute: Attributes.header),
-      
-      
       SettingsItem(
           onTaped: () => Navigator.of(context).pushNamed(Routes.nodeList),
           title: S.current.settings_current_node,
@@ -361,7 +349,7 @@ class SettingsFormState extends State<SettingsForm> {
   }
 
   var language = 'english';
-  
+
   bool balanceVisibility = false;
   bool decimalVisibility = false;
   bool currencyVisibility = false;
@@ -370,14 +358,16 @@ class SettingsFormState extends State<SettingsForm> {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-final _scrollController = ScrollController(keepScrollOffset: true);
+    final _scrollController = ScrollController(keepScrollOffset: true);
     return SingleChildScrollView(
         child: Stack(
       children: [
         Column(
           children: <Widget>[
             //Nodes Header
-            NewNavListHeader(title: S.current.settings_nodes,),
+            NewNavListHeader(
+              title: S.current.settings_nodes,
+            ),
             //Current Node
             GestureDetector(
               onTap: () {
@@ -389,8 +379,9 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                 }
               },
               child: Container(
-                padding:EdgeInsets.all(10.0),
-                margin: EdgeInsets.only(left:15.0,right:15.0,top:10,bottom:10),
+                padding: EdgeInsets.all(10.0),
+                margin: EdgeInsets.only(
+                    left: 15.0, right: 15.0, top: 10, bottom: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -399,26 +390,33 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                       crossAxisAlignment: CrossAxisAlignment.baseline,
                       textBaseline: TextBaseline.alphabetic,
                       children: [
-                        Text(S.current.settings_current_node,style: TextStyle(//fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w400,fontSize:MediaQuery.of(context).size.height*0.06/3)),
-                         settingsStore.node == null ? Container() :
-                         Observer(builder: (_){
-                          return  Text(settingsStore.node.uri,style:TextStyle(color:Color(0xff1BB71F),fontSize: 13));
-                         })
-                         
+                        Text(S.current.settings_current_node,
+                            style: TextStyle(
+                                //fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w400,
+                                fontSize: MediaQuery.of(context).size.height *
+                                    0.06 /
+                                    3)),
+                        settingsStore.node == null
+                            ? Container()
+                            : Observer(builder: (_) {
+                                return Text(settingsStore.node.uri,
+                                    style: TextStyle(
+                                        color: Color(0xff1BB71F),
+                                        fontSize: 13));
+                              })
                       ],
                     ),
-                    Icon(Icons.keyboard_arrow_right_outlined,size: 30,color: Color(0xff3F3F4D),),
-
+                    Icon(
+                      Icons.keyboard_arrow_right_outlined,
+                      size: 30,
+                      color: Color(0xff3F3F4D),
+                    ),
                   ],
                 ),
               ),
             ),
-            
-            
-            
-            
-            
+
             // NewNavListArrow(
             //  // leading: SizedBox.shrink(),
             //   balanceVisibility: balanceVisibility,
@@ -439,9 +437,10 @@ final _scrollController = ScrollController(keepScrollOffset: true);
             //Wallets Header
             NewNavListHeader(title: S.current.settings_wallets),
             Card(
-            //  margin: EdgeInsets.only(left: constants.leftPx, right: constants.rightPx, top: 20),
-              elevation:0, //2,
-              color:Colors.transparent, //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+              //  margin: EdgeInsets.only(left: constants.leftPx, right: constants.rightPx, top: 20),
+              elevation: 0, //2,
+              color: Colors
+                  .transparent, //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Stack(
@@ -454,241 +453,284 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                         decimalVisibility: decimalVisibility,
                         currencyVisibility: currencyVisibility,
                         feePriorityVisibility: feePriorityVisibility,
-                        onTaped: ()async {
-          await showDialog<void>(context: context, builder: (BuildContext context){
-            return Dialog(
-              backgroundColor: Colors.transparent,
-      //title: Text("Success"),
-      child: 
-      Container(
-                      width: MediaQuery.of(context).size.width,
-                      height:MediaQuery.of(context).size.height*0.90/3, // 210,
-                      //margin: EdgeInsets.only(top: 50,left:15,right:15),
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //       blurRadius: 1,
-                          //       spreadRadius: 1,
-                          //       offset: Offset(0.0, 2.0))
-                          // ],
-                          //border: Border.all(color:Colors.white),
-                          color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF), //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Stack(
-                        children: [
-                          Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('Display balance as',style: TextStyle(
-                                    fontSize: 18,
-                                   // fontFamily: 'Poppinsbold',
-                                    fontWeight: FontWeight.bold
-                                ),),
-                              ),
-                              // Divider(
-                              //   height: 1,
-                              //   color:Theme.of(context).dividerColor,
-                              // ),
-                              // Padding(
-                              //   padding: EdgeInsets.all(8.0),
-                              //   child: TextField(
-                              //     controller: searchDecimalController,
-                              //     decoration: InputDecoration(
-                              //       hintText: 'Search Decimals',
-                              //       contentPadding:
-                              //           EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                              //       border: OutlineInputBorder(
-                              //           borderRadius: BorderRadius.circular(10.0)),
-                              //     ),
-                              //   ),
-                              // ),
-                              Expanded(
-                                child:  ListView.builder(
-                                    itemCount: BalanceDisplayMode.all.length,
-                                    shrinkWrap: true,
-                                    controller: _scrollController,
-                                    itemBuilder: (BuildContext context, int index) {
-                                      return InkWell(
-                                        onTap: () async {
-                                          final settingsStore =
-                                              context.read<SettingsStore>();
-                                          // if (balanceVisibility == false) {
-                                          //   setState(() {
-                                          //     balanceVisibility = true;
-                                          //   });
-                                          // } else {
-                                          //   setState(() {
-                                          //     balanceVisibility = false;
-                                          //   });
-                                          // }
-                                          
-                                          if (BalanceDisplayMode.all[index] != null) {
-                                            await settingsStore
-                                                .setCurrentBalanceDisplayMode(
-                                                    balanceDisplayMode:
-                                                        BalanceDisplayMode.all[index]);
-                                          }
-                                          Navigator.pop(context);
-                                        },
-                                        child: Card(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10)),
-                                          elevation:  0.0,
-                                          color: settingsStore.balanceDisplayMode ==
-                                                  BalanceDisplayMode.all[index]
-                                              ? Color(0xff2979FB) //Theme.of(context).backgroundColor
-                                              : Colors.transparent,//Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
-                                          child: Container(
-                                              width: MediaQuery.of(context).size.width,
+                        onTaped: () async {
+                          await showDialog<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  backgroundColor: Colors.transparent,
+                                  //title: Text("Success"),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.90 /
+                                        3, // 210,
+                                    //margin: EdgeInsets.only(top: 50,left:15,right:15),
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        // boxShadow: [
+                                        //   BoxShadow(
+                                        //       blurRadius: 1,
+                                        //       spreadRadius: 1,
+                                        //       offset: Offset(0.0, 2.0))
+                                        // ],
+                                        //border: Border.all(color:Colors.white),
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xff272733)
+                                            : Color(
+                                                0xffFFFFFF), //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                                        borderRadius:
+                                            BorderRadius.circular(20)),
+                                    child: Stack(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Padding(
                                               padding:
-                                                  EdgeInsets.only(top: 15, bottom: 15),
-                                              child: Observer(
-                                                builder: (_) => Text(
-                                                  BalanceDisplayMode.all[index]
-                                                      .toString(),
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: settingsStore
-                                                                  .balanceDisplayMode !=
-                                                              BalanceDisplayMode
-                                                                  .all[index]
-                                                          ? Colors.grey.withOpacity(0.6)
-                                                          : Color(0xffFFFFFF),
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              )),
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Display balance as',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    // fontFamily: 'Poppinsbold',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                            // Divider(
+                                            //   height: 1,
+                                            //   color:Theme.of(context).dividerColor,
+                                            // ),
+                                            // Padding(
+                                            //   padding: EdgeInsets.all(8.0),
+                                            //   child: TextField(
+                                            //     controller: searchDecimalController,
+                                            //     decoration: InputDecoration(
+                                            //       hintText: 'Search Decimals',
+                                            //       contentPadding:
+                                            //           EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                                            //       border: OutlineInputBorder(
+                                            //           borderRadius: BorderRadius.circular(10.0)),
+                                            //     ),
+                                            //   ),
+                                            // ),
+                                            Expanded(
+                                              child: ListView.builder(
+                                                  itemCount: BalanceDisplayMode
+                                                      .all.length,
+                                                  shrinkWrap: true,
+                                                  controller: _scrollController,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return InkWell(
+                                                      onTap: () async {
+                                                        final settingsStore =
+                                                            context.read<
+                                                                SettingsStore>();
+                                                        // if (balanceVisibility == false) {
+                                                        //   setState(() {
+                                                        //     balanceVisibility = true;
+                                                        //   });
+                                                        // } else {
+                                                        //   setState(() {
+                                                        //     balanceVisibility = false;
+                                                        //   });
+                                                        // }
+                                                        if (BalanceDisplayMode
+                                                                .all[index] !=
+                                                            null) {
+                                                          await settingsStore
+                                                              .setCurrentBalanceDisplayMode(
+                                                                  balanceDisplayMode:
+                                                                      BalanceDisplayMode
+                                                                              .all[
+                                                                          index]);
+                                                        }
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Card(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
+                                                        elevation: 0.0,
+                                                        color: settingsStore
+                                                                    .balanceDisplayMode ==
+                                                                BalanceDisplayMode
+                                                                    .all[index]
+                                                            ? Color(
+                                                                0xff2979FB) //Theme.of(context).backgroundColor
+                                                            : Colors
+                                                                .transparent,
+                                                        child: Container(
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 15,
+                                                                    bottom: 15),
+                                                            child: Observer(
+                                                              builder: (_) =>
+                                                                  Text(
+                                                                BalanceDisplayMode
+                                                                    .all[index]
+                                                                    .toString(),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    color: settingsStore.balanceDisplayMode !=
+                                                                            BalanceDisplayMode.all[
+                                                                                index]
+                                                                        ? Colors
+                                                                            .grey
+                                                                            .withOpacity(
+                                                                                0.6)
+                                                                        : Color(
+                                                                            0xffFFFFFF),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                            )),
+                                                      ),
+                                                    );
+                                                  }),
+                                            ),
+                                          ],
                                         ),
-                                      );
-                                    }),
-                              ),
-                            ],
-                          ),
-                          Container(margin:EdgeInsets.only(top: 7,right: 10),alignment:Alignment.topRight,child: InkWell(
-                            onTap: (){
-                              Navigator.pop(context);
-                              // if (decimalVisibility == false) {
-                              //   setState(() {
-                              //     decimalVisibility = true;
-                              //   });
-                              // } else {
-                              //   setState(() {
-                              //     decimalVisibility = false;
-                              //   });
-                              // }
-                            },
-                            child: Container(decoration: BoxDecoration(
-                                //color: Theme.of(context).accentTextTheme.caption.decorationColor,
-                                shape: BoxShape.circle
-                            ),child: Icon(Icons.close)),
-                          ))
-                        ],
-                      ),
-                    ),
-      // Container(   
-      //   height:MediaQuery.of(context).size.height*1/3,
-      //   width:MediaQuery.of(context).size.width*2/3,
-      //   child:Column(
-      //     children: [
-      //       Padding(
-      //         padding: const EdgeInsets.all(8.0),
-      //         child: Container(
-      //          child:Row(children: [
-      //          Text('Display balance as',style: TextStyle(
-      //                                 fontSize: 18,
-      //                                 fontWeight: FontWeight.bold,
-      //                             ),),
-      //           Icon(Icons.close),
-      //          ],)
-      //         ),
-      //       ),
-      //       DraggableScrollbar.rrect(
-      //                              // padding:
-      //                                 //  EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
-      //                               controller: _scrollController,
-      //                               heightScrollThumb: 25,
-      //                               //alwaysVisibleScrollThumb: true,
-      //                               backgroundColor: Theme.of(context)
-      //                                   .primaryTextTheme
-      //                                   .button
-      //                                   .backgroundColor,
-      //                               child: ListView.builder(
-      //                                   itemCount: BalanceDisplayMode.all.length,
-      //                                   shrinkWrap: true,
-      //                                   controller: _scrollController,
-      //                                   itemBuilder: (BuildContext context, int index) {
-      //                                     return InkWell(
-      //                                       onTap: () async {
-      //                                         final settingsStore =
-      //                                             context.read<SettingsStore>();
-      //                                         // if (balanceVisibility == false) {
-      //                                         //   setState(() {
-      //                                         //     balanceVisibility = true;
-      //                                         //   });
-      //                                         // } else {
-      //                                         //   setState(() {
-      //                                         //     balanceVisibility = false;
-      //                                         //   });
-      //                                         // }
-      //                                         Navigator.pop(context);
-      //                                         if (BalanceDisplayMode.all[index] != null) {
-      //                                           await settingsStore
-      //                                               .setCurrentBalanceDisplayMode(
-      //                                                   balanceDisplayMode:
-      //                                                       BalanceDisplayMode.all[index]);
-      //                                         }
-      //                                       },
-      //                                       child: Padding(
-      //                                         padding: EdgeInsets.only(left: 20.0, right: 20.0),
-      //                                         child: Card(
-      //                                           shape: RoundedRectangleBorder(
-      //                                               borderRadius: BorderRadius.circular(10)),
-      //                                           elevation: settingsStore.balanceDisplayMode ==
-      //                                                   BalanceDisplayMode.all[index]
-      //                                               ? 2.0
-      //                                               : 0.0,
-      //                                           color: settingsStore.balanceDisplayMode ==
-      //                                                   BalanceDisplayMode.all[index]
-      //                                               ? Theme.of(context).backgroundColor
-      //                                               : Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
-      //                                           child: Container(
-      //                                               width: MediaQuery.of(context).size.width,
-      //                                               padding:
-      //                                                   EdgeInsets.only(top: 15, bottom: 15),
-      //                                               child: Observer(
-      //                                                 builder: (_) => Text(
-      //                                                   BalanceDisplayMode.all[index]
-      //                                                       .toString(),
-      //                                                   textAlign: TextAlign.center,
-      //                                                   style: TextStyle(
-      //                                                       fontSize: 14,
-      //                                                       color: settingsStore
-      //                                                                   .balanceDisplayMode !=
-      //                                                               BalanceDisplayMode
-      //                                                                   .all[index]
-      //                                                           ? Colors.grey.withOpacity(0.6)
-      //                                                           : Theme.of(context)
-      //                                                               .primaryTextTheme
-      //                                                               .headline6
-      //                                                               .color,
-      //                                                       fontWeight: FontWeight.bold),
-      //                                                 ),
-      //                                               )),
-      //                                         ),
-      //                                       ),
-      //                                     );
-      //                                   }),
-      //                             ),
-      //     ],
-      //   ),
-      // ),
-    );
-          });
-        
-
-
+                                        Container(
+                                            margin: EdgeInsets.only(
+                                                top: 7, right: 10),
+                                            alignment: Alignment.topRight,
+                                            child: InkWell(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                                // if (decimalVisibility == false) {
+                                                //   setState(() {
+                                                //     decimalVisibility = true;
+                                                //   });
+                                                // } else {
+                                                //   setState(() {
+                                                //     decimalVisibility = false;
+                                                //   });
+                                                // }
+                                              },
+                                              child: Container(
+                                                  decoration: BoxDecoration(
+                                                      //color: Theme.of(context).accentTextTheme.caption.decorationColor,
+                                                      shape: BoxShape.circle),
+                                                  child: Icon(Icons.close)),
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                  // Container(
+                                  //   height:MediaQuery.of(context).size.height*1/3,
+                                  //   width:MediaQuery.of(context).size.width*2/3,
+                                  //   child:Column(
+                                  //     children: [
+                                  //       Padding(
+                                  //         padding: const EdgeInsets.all(8.0),
+                                  //         child: Container(
+                                  //          child:Row(children: [
+                                  //          Text('Display balance as',style: TextStyle(
+                                  //                                 fontSize: 18,
+                                  //                                 fontWeight: FontWeight.bold,
+                                  //                             ),),
+                                  //           Icon(Icons.close),
+                                  //          ],)
+                                  //         ),
+                                  //       ),
+                                  //       DraggableScrollbar.rrect(
+                                  //                              // padding:
+                                  //                                 //  EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
+                                  //                               controller: _scrollController,
+                                  //                               heightScrollThumb: 25,
+                                  //                               //alwaysVisibleScrollThumb: true,
+                                  //                               backgroundColor: Theme.of(context)
+                                  //                                   .primaryTextTheme
+                                  //                                   .button
+                                  //                                   .backgroundColor,
+                                  //                               child: ListView.builder(
+                                  //                                   itemCount: BalanceDisplayMode.all.length,
+                                  //                                   shrinkWrap: true,
+                                  //                                   controller: _scrollController,
+                                  //                                   itemBuilder: (BuildContext context, int index) {
+                                  //                                     return InkWell(
+                                  //                                       onTap: () async {
+                                  //                                         final settingsStore =
+                                  //                                             context.read<SettingsStore>();
+                                  //                                         // if (balanceVisibility == false) {
+                                  //                                         //   setState(() {
+                                  //                                         //     balanceVisibility = true;
+                                  //                                         //   });
+                                  //                                         // } else {
+                                  //                                         //   setState(() {
+                                  //                                         //     balanceVisibility = false;
+                                  //                                         //   });
+                                  //                                         // }
+                                  //                                         Navigator.pop(context);
+                                  //                                         if (BalanceDisplayMode.all[index] != null) {
+                                  //                                           await settingsStore
+                                  //                                               .setCurrentBalanceDisplayMode(
+                                  //                                                   balanceDisplayMode:
+                                  //                                                       BalanceDisplayMode.all[index]);
+                                  //                                         }
+                                  //                                       },
+                                  //                                       child: Padding(
+                                  //                                         padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                                  //                                         child: Card(
+                                  //                                           shape: RoundedRectangleBorder(
+                                  //                                               borderRadius: BorderRadius.circular(10)),
+                                  //                                           elevation: settingsStore.balanceDisplayMode ==
+                                  //                                                   BalanceDisplayMode.all[index]
+                                  //                                               ? 2.0
+                                  //                                               : 0.0,
+                                  //                                           color: settingsStore.balanceDisplayMode ==
+                                  //                                                   BalanceDisplayMode.all[index]
+                                  //                                               ? Theme.of(context).backgroundColor
+                                  //                                               : Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                                  //                                           child: Container(
+                                  //                                               width: MediaQuery.of(context).size.width,
+                                  //                                               padding:
+                                  //                                                   EdgeInsets.only(top: 15, bottom: 15),
+                                  //                                               child: Observer(
+                                  //                                                 builder: (_) => Text(
+                                  //                                                   BalanceDisplayMode.all[index]
+                                  //                                                       .toString(),
+                                  //                                                   textAlign: TextAlign.center,
+                                  //                                                   style: TextStyle(
+                                  //                                                       fontSize: 14,
+                                  //                                                       color: settingsStore
+                                  //                                                                   .balanceDisplayMode !=
+                                  //                                                               BalanceDisplayMode
+                                  //                                                                   .all[index]
+                                  //                                                           ? Colors.grey.withOpacity(0.6)
+                                  //                                                           : Theme.of(context)
+                                  //                                                               .primaryTextTheme
+                                  //                                                               .headline6
+                                  //                                                               .color,
+                                  //                                                       fontWeight: FontWeight.bold),
+                                  //                                                 ),
+                                  //                                               )),
+                                  //                                         ),
+                                  //                                       ),
+                                  //                                     );
+                                  //                                   }),
+                                  //                             ),
+                                  //     ],
+                                  //   ),
+                                  // ),
+                                );
+                              });
 
                           // if (balanceVisibility == false &&
                           //     decimalVisibility == false &&
@@ -703,8 +745,11 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                   settingsStore.balanceDisplayMode.toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
-                                     // fontFamily: 'Poppins',
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.06 /
+                                              3, //14.0,
+                                      // fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w400,
                                       color: Theme.of(context)
                                           .primaryTextTheme
@@ -718,100 +763,130 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                         decimalVisibility: decimalVisibility,
                         currencyVisibility: currencyVisibility,
                         feePriorityVisibility: feePriorityVisibility,
-                        onTaped: ()async {
+                        onTaped: () async {
                           // if (balanceVisibility == false &&
                           //     decimalVisibility == false &&
                           //     currencyVisibility == false &&
                           //     feePriorityVisibility == false) {
                           //   _setBalanceDetail(context);
                           // }
-             await showDialog<void>(context: context, builder: (BuildContext context){
-            return Dialog(
-              backgroundColor: Colors.transparent,
-      //title: Text("Success"),
-      child: 
- Container(
-                      width: MediaQuery.of(context).size.width,
-                      height:MediaQuery.of(context).size.height*1/3, // 210,
-                      margin: EdgeInsets.only(top: 50,left:15,right:15),
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //       blurRadius: 1,
-                          //       spreadRadius: 1,
-                          //       offset: Offset(0.0, 2.0))
-                          // ],
-                          //border: Border.all(color:Colors.white),
-                          color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF), //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Stack(
-                        children: [
-                          Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('Decimals',style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: 'Poppinsbold',
-                                    fontWeight: FontWeight.bold
-                                ),),
-                              ),
-                              Expanded(
-                                child: DraggableScrollbar.rrect(
-                                  padding: EdgeInsets.only(
-                                      left: 5, right: 5, top: 10, bottom: 10),
-                                  controller: _scrollController,
-                                  heightScrollThumb: 25,
-                                  alwaysVisibleScrollThumb: false,
-                                  backgroundColor: Theme.of(context)
-                                      .primaryTextTheme
-                                      .button
-                                      .backgroundColor,
-                                  child: ListView.builder(
-                                      itemCount: AmountDetail.all.length,
-                                      //shrinkWrap: true,
-                                      controller: _scrollController,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        return decimalFilter == null ||
-                                                decimalFilter == ''
-                                            ? decimalDropDownListItem(
-                                                settingsStore, index)
-                                            : '${AmountDetail.all[index]}'
-                                                    .toLowerCase()
-                                                    .contains(
-                                                        decimalFilter.toLowerCase())
-                                                ? decimalDropDownListItem(
-                                                    settingsStore, index)
-                                                : Container();
-                                      }),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(margin:EdgeInsets.only(top: 7,right: 10),alignment:Alignment.topRight,child: InkWell(
-                            onTap: (){
-                              // if (decimalVisibility == false) {
-                              //   setState(() {
-                              //     decimalVisibility = true;
-                              //   });
-                              // } else {
-                              //   setState(() {
-                              //     decimalVisibility = false;
-                              //   });
-                              // }
-                              Navigator.pop(context);
-                            },
-                            child: Container(decoration: BoxDecoration(
-                                //color: Theme.of(context).accentTextTheme.caption.decorationColor,
-                                shape: BoxShape.circle
-                            ),child: Icon(Icons.close)),
-                          ))
-                        ],
-                      ),
-                    ),
-            );});
+                          await showDialog<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  backgroundColor: Colors.transparent,
+                                  //title: Text("Success"),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        1 /
+                                        3, // 210,
+                                    // margin: EdgeInsets.only(top: 50,left:15,right:15),
+                                    padding:
+                                        EdgeInsets.only(top: 10, bottom: 10),
+                                    decoration: BoxDecoration(
+                                        // boxShadow: [
+                                        //   BoxShadow(
+                                        //       blurRadius: 1,
+                                        //       spreadRadius: 1,
+                                        //       offset: Offset(0.0, 2.0))
+                                        // ],
+                                        //border: Border.all(color:Colors.white),
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xff272733)
+                                            : Color(
+                                                0xffFFFFFF), //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Stack(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Decimals',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontFamily: 'Poppinsbold',
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: DraggableScrollbar.rrect(
+                                                padding: EdgeInsets.only(
+                                                    left: 5,
+                                                    right: 5,
+                                                    top: 10,
+                                                    bottom: 10),
+                                                controller: _scrollController,
+                                                heightScrollThumb: 25,
+                                                alwaysVisibleScrollThumb: false,
+                                                backgroundColor:
+                                                    Theme.of(context)
+                                                        .primaryTextTheme
+                                                        .button
+                                                        .backgroundColor,
+                                                child: ListView.builder(
+                                                    itemCount:
+                                                        AmountDetail.all.length,
+                                                    //shrinkWrap: true,
+                                                    controller:
+                                                        _scrollController,
+                                                    itemBuilder:
+                                                        (BuildContext context,
+                                                            int index) {
+                                                      return decimalFilter ==
+                                                                  null ||
+                                                              decimalFilter ==
+                                                                  ''
+                                                          ? decimalDropDownListItem(
+                                                              settingsStore,
+                                                              index)
+                                                          : '${AmountDetail.all[index]}'
+                                                                  .toLowerCase()
+                                                                  .contains(
+                                                                      decimalFilter
+                                                                          .toLowerCase())
+                                                              ? decimalDropDownListItem(
+                                                                  settingsStore,
+                                                                  index)
+                                                              : Container();
+                                                    }),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.only(
+                                                top: 7, right: 10),
+                                            alignment: Alignment.topRight,
+                                            child: InkWell(
+                                              onTap: () {
+                                                // if (decimalVisibility == false) {
+                                                //   setState(() {
+                                                //     decimalVisibility = true;
+                                                //   });
+                                                // } else {
+                                                //   setState(() {
+                                                //     decimalVisibility = false;
+                                                //   });
+                                                // }
+                                                Navigator.pop(context);
+                                              },
+                                              child: Container(
+                                                  decoration: BoxDecoration(
+                                                      //color: Theme.of(context).accentTextTheme.caption.decorationColor,
+                                                      shape: BoxShape.circle),
+                                                  child: Icon(Icons.close)),
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              });
                         },
                         title: S.current.settings_balance_detail,
                         widget: Observer(
@@ -819,8 +894,11 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                   settingsStore.balanceDetail.toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                     fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
-                                     // fontFamily: 'Poppins',
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.06 /
+                                              3, //14.0,
+                                      // fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w400,
                                       color: Theme.of(context)
                                           .primaryTextTheme
@@ -842,7 +920,7 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                         decimalVisibility: decimalVisibility,
                         currencyVisibility: currencyVisibility,
                         feePriorityVisibility: feePriorityVisibility,
-                        onTaped: ()async {
+                        onTaped: () async {
                           // if (balanceVisibility == false &&
                           //     decimalVisibility == false &&
                           //     currencyVisibility == false &&
@@ -850,107 +928,139 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                           //   _setCurrency(context);
                           // }
 
-                          await showDialog<void>(context: context, builder: (BuildContext context){
-                             return Dialog(
-                              backgroundColor:Colors.transparent ,
-                              child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height*1/3,
-                     // margin: EdgeInsets.only(top: 190),
-                      decoration: BoxDecoration(
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //       blurRadius: 1,
-                          //       spreadRadius: 1,
-                          //       offset: Offset(0.0, 2.0))
-                          // ],
-                          // border: Border.all(color:Colors.white),
-                           color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF),//Color.fromARGB(255, 31, 32, 39),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Stack(
-                        children: [
-                          Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(top:15.0,left:10.0,right:10.0,bottom: 15),
-                                child: Text('Currency',style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppinsbold'
-                                ),),
-                              ),
-                              
-                              // Padding(
-                              //   padding: EdgeInsets.all(8.0),
-                              //   child: TextField(
-                              //     controller: searchCurrencyController,
-                              //     decoration: InputDecoration(
-                              //       hintText: 'Search Currency',
-                              //       contentPadding:
-                              //           EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                              //       border: OutlineInputBorder(
-                              //           borderRadius: BorderRadius.circular(10.0)),
-                              //     ),
-                              //   ),
-                              // ),
-                              Expanded(
-                                child: Container(
-                                  padding: EdgeInsets.only(right:10),
-                                  child: RawScrollbar(
-                                    controller: _scrollController,
-                                     thickness: 8,
-              thumbColor: settingsStore.isDarkTheme ? Color(0xff3A3A45) : Color(0xffC2C2C2),
-              radius: Radius.circular(10.0),
-                                    isAlwaysShown: true,
-                                    child: ListView.builder(
-                                        itemCount: FiatCurrency.all.length,
-                                        //shrinkWrap: true,
-                                        controller: _scrollController,
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          return currencyFilter == null ||
-                                                  currencyFilter == ''
-                                              ? currencyDropDownListItem(
-                                                  settingsStore, index)
-                                              : '${FiatCurrency.all[index]}'
-                                                      .toLowerCase()
-                                                      .contains(currencyFilter
-                                                          .toLowerCase())
-                                                  ? currencyDropDownListItem(
-                                                      settingsStore, index)
-                                                  : Container();
-                                        }),
+                          await showDialog<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  backgroundColor: Colors.transparent,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        1 /
+                                        3,
+                                    // margin: EdgeInsets.only(top: 190),
+                                    decoration: BoxDecoration(
+                                        // boxShadow: [
+                                        //   BoxShadow(
+                                        //       blurRadius: 1,
+                                        //       spreadRadius: 1,
+                                        //       offset: Offset(0.0, 2.0))
+                                        // ],
+                                        // border: Border.all(color:Colors.white),
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xff272733)
+                                            : Color(
+                                                0xffFFFFFF), //Color.fromARGB(255, 31, 32, 39),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Stack(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 15.0,
+                                                  left: 10.0,
+                                                  right: 10.0,
+                                                  bottom: 15),
+                                              child: Text(
+                                                'Currency',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: 'Poppinsbold'),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: TextField(
+                                                controller:
+                                                    searchCurrencyController,
+                                                decoration: InputDecoration(
+                                                  hintText: 'Search Currency',
+                                                  contentPadding:
+                                                      EdgeInsets.fromLTRB(20.0,
+                                                          15.0, 20.0, 15.0),
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0)),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                padding:
+                                                    EdgeInsets.only(right: 10),
+                                                child: RawScrollbar(
+                                                  controller: _scrollController,
+                                                  thickness: 8,
+                                                  thumbColor:
+                                                      settingsStore.isDarkTheme
+                                                          ? Color(0xff3A3A45)
+                                                          : Color(0xffC2C2C2),
+                                                  radius: Radius.circular(10.0),
+                                                  isAlwaysShown: true,
+                                                  child: ListView.builder(
+                                                      itemCount: FiatCurrency
+                                                          .all.length,
+                                                      //shrinkWrap: true,
+                                                      controller:
+                                                          _scrollController,
+                                                      itemBuilder:
+                                                          (BuildContext context,
+                                                              int index) {
+                                                        return currencyFilter ==
+                                                                    null ||
+                                                                currencyFilter ==
+                                                                    ''
+                                                            ? currencyDropDownListItem(
+                                                                settingsStore,
+                                                                index)
+                                                            : '${FiatCurrency.all[index]}'
+                                                                    .toLowerCase()
+                                                                    .contains(
+                                                                        currencyFilter
+                                                                            .toLowerCase())
+                                                                ? currencyDropDownListItem(
+                                                                    settingsStore,
+                                                                    index)
+                                                                : Container();
+                                                      }),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.only(
+                                                top: 7, right: 10),
+                                            alignment: Alignment.topRight,
+                                            child: InkWell(
+                                              onTap: () {
+                                                // if (currencyVisibility == false) {
+                                                //   setState(() {
+                                                //     currencyVisibility = true;
+                                                //   });
+                                                // } else {
+                                                //   setState(() {
+                                                //     currencyVisibility = false;
+                                                //   });
+                                                // }
+                                                Navigator.pop(context);
+                                              },
+                                              child: Container(
+                                                  //decoration: BoxDecoration(
+                                                  // color: Theme.of(context).accentTextTheme.caption.decorationColor,
+                                                  //shape: BoxShape.circle
+                                                  //  ),
+                                                  child: Icon(Icons.close)),
+                                            ))
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(margin:EdgeInsets.only(top: 7,right: 10),alignment:Alignment.topRight,child: InkWell(
-                            onTap: (){
-                              // if (currencyVisibility == false) {
-                              //   setState(() {
-                              //     currencyVisibility = true;
-                              //   });
-                              // } else {
-                              //   setState(() {
-                              //     currencyVisibility = false;
-                              //   });
-                              // }
-                              Navigator.pop(context);
-                            },
-                            child: Container(
-                              //decoration: BoxDecoration(
-                               // color: Theme.of(context).accentTextTheme.caption.decorationColor,
-                                //shape: BoxShape.circle
-                          //  ),
-                          child: Icon(Icons.close)),
-                          ))
-                        ],
-                      ),
-                    ),
-
-                             );
-                          });
+                                );
+                              });
                         },
                         title: S.current.settings_currency,
                         widget: Observer(
@@ -958,8 +1068,11 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                   settingsStore.fiatCurrency.toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                     fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
-                                     // fontFamily: 'Poppins',
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.06 /
+                                              3, //14.0,
+                                      // fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w400,
                                       color: Theme.of(context)
                                           .primaryTextTheme
@@ -973,7 +1086,7 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                         decimalVisibility: decimalVisibility,
                         currencyVisibility: currencyVisibility,
                         feePriorityVisibility: feePriorityVisibility,
-                        onTaped: ()async {
+                        onTaped: () async {
                           // if (balanceVisibility == false &&
                           //     decimalVisibility == false &&
                           //     currencyVisibility == false &&
@@ -981,134 +1094,177 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                           //   _setTransactionPriority(context);
                           // }
 
-                        await showDialog<void>(context: context, builder: (BuildContext context){
-                          return Dialog(
-                            backgroundColor: Colors.transparent,
-                            child: Container(
-                               width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height*0.70/3,
-                     // margin: EdgeInsets.only(top: 190),
-                      decoration: BoxDecoration(
-                          // boxShadow: [
-                          //   BoxShadow(
-                          //       blurRadius: 1,
-                          //       spreadRadius: 1,
-                          //       offset: Offset(0.0, 2.0))
-                          // ],
-                          // border: Border.all(color:Colors.white),
-                           color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF),//Color.fromARGB(255, 31, 32, 39),
-                          borderRadius: BorderRadius.circular(10)),
-                          child: Stack(
-                        children: [
-                          Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text('Fee Priority',style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppinsbold'
-                                ),),
-                              ),
-                              // Divider(
-                              //   height: 1,
-                              //   color: Theme.of(context).dividerColor,
-                              // ),
-                              ListView.builder(
-                                  itemCount: BeldexTransactionPriority.all.length,
-                                  shrinkWrap: true,
-                                  controller: _scrollController,
-                                  itemBuilder: (BuildContext context, int index) {
-                                    return InkWell(
-                                      onTap: () async {
-                                        final settingsStore =
-                                            context.read<SettingsStore>();
-                                        // if (feePriorityVisibility == false) {
-                                        //   setState(() {
-                                        //     feePriorityVisibility = true;
-                                        //   });
-                                        // } else {
-                                        //   setState(() {
-                                        //     feePriorityVisibility = false;
-                                        //   });
-                                        // }
+                          await showDialog<void>(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Dialog(
+                                  backgroundColor: Colors.transparent,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.70 /
+                                        3,
+                                    // margin: EdgeInsets.only(top: 190),
+                                    decoration: BoxDecoration(
+                                        // boxShadow: [
+                                        //   BoxShadow(
+                                        //       blurRadius: 1,
+                                        //       spreadRadius: 1,
+                                        //       offset: Offset(0.0, 2.0))
+                                        // ],
+                                        // border: Border.all(color:Colors.white),
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xff272733)
+                                            : Color(
+                                                0xffFFFFFF), //Color.fromARGB(255, 31, 32, 39),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Stack(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Fee Priority',
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontFamily: 'Poppinsbold'),
+                                              ),
+                                            ),
+                                            // Divider(
+                                            //   height: 1,
+                                            //   color: Theme.of(context).dividerColor,
+                                            // ),
+                                            ListView.builder(
+                                                itemCount:
+                                                    BeldexTransactionPriority
+                                                        .all.length,
+                                                shrinkWrap: true,
+                                                controller: _scrollController,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  return InkWell(
+                                                    onTap: () async {
+                                                      final settingsStore =
+                                                          context.read<
+                                                              SettingsStore>();
+                                                      // if (feePriorityVisibility == false) {
+                                                      //   setState(() {
+                                                      //     feePriorityVisibility = true;
+                                                      //   });
+                                                      // } else {
+                                                      //   setState(() {
+                                                      //     feePriorityVisibility = false;
+                                                      //   });
+                                                      // }
 
-                                        if (BeldexTransactionPriority.all[index] !=
-                                            null) {
-                                          await settingsStore
-                                              .setCurrentTransactionPriority(
-                                                  priority: BeldexTransactionPriority
-                                                      .all[index]);
-                                        }
-                                        Navigator.pop(context);
-                                      },
-                                      child: Padding(
-                                        padding:
-                                            EdgeInsets.only(left: 20.0, right: 20.0),
-                                        child: Card(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          elevation:
-                                          //  settingsStore
-                                          //             .transactionPriority ==
-                                          //         BeldexTransactionPriority.all[index]
-                                          //     ? 2.0
-                                          //     : 
-                                              0.0,
-                                          color: settingsStore.transactionPriority ==
-                                                  BeldexTransactionPriority.all[index]
-                                              ? Color(0xff2979FB) //Theme.of(context).backgroundColor
-                                              : Colors.transparent,//Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
-                                          child: Container(
-                                              width:
-                                                  MediaQuery.of(context).size.width,
-                                              padding: EdgeInsets.only(
-                                                  top: 15, bottom: 15),
-                                              child: Observer(
-                                                builder: (_) => Text(
-                                                  BeldexTransactionPriority.all[index]
-                                                      .toString(),
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: settingsStore
-                                                                  .transactionPriority !=
-                                                              BeldexTransactionPriority
-                                                                  .all[index]
-                                                          ? Colors.grey
-                                                              .withOpacity(0.6)
-                                                          : Color(0xffffffff),
-                                                      fontWeight: FontWeight.bold),
-                                                ),
-                                              )),
+                                                      if (BeldexTransactionPriority
+                                                              .all[index] !=
+                                                          null) {
+                                                        await settingsStore
+                                                            .setCurrentTransactionPriority(
+                                                                priority:
+                                                                    BeldexTransactionPriority
+                                                                            .all[
+                                                                        index]);
+                                                      }
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Padding(
+                                                      padding: EdgeInsets.only(
+                                                          left: 20.0,
+                                                          right: 20.0),
+                                                      child: Card(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10)),
+                                                        elevation:
+                                                            //  settingsStore
+                                                            //             .transactionPriority ==
+                                                            //         BeldexTransactionPriority.all[index]
+                                                            //     ? 2.0
+                                                            //     :
+                                                            0.0,
+                                                        color: settingsStore
+                                                                    .transactionPriority ==
+                                                                BeldexTransactionPriority
+                                                                    .all[index]
+                                                            ? Color(
+                                                                0xff2979FB) //Theme.of(context).backgroundColor
+                                                            : Colors
+                                                                .transparent, //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                                                        child: Container(
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width,
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    top: 15,
+                                                                    bottom: 15),
+                                                            child: Observer(
+                                                              builder: (_) =>
+                                                                  Text(
+                                                                BeldexTransactionPriority
+                                                                    .all[index]
+                                                                    .toString(),
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    color: settingsStore.transactionPriority !=
+                                                                            BeldexTransactionPriority.all[
+                                                                                index]
+                                                                        ? Colors
+                                                                            .grey
+                                                                            .withOpacity(
+                                                                                0.6)
+                                                                        : Color(
+                                                                            0xffffffff),
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold),
+                                                              ),
+                                                            )),
+                                                      ),
+                                                    ),
+                                                  );
+                                                }),
+                                          ],
                                         ),
-                                      ),
-                                    );
-                                  }),
-                            ],
-                          ),
-                          Container(margin:EdgeInsets.only(top: 7,right: 10),alignment:Alignment.topRight,child: InkWell(
-                            onTap: (){
-                              // if (feePriorityVisibility == false) {
-                              //   setState(() {
-                              //     feePriorityVisibility = true;
-                              //   });
-                              // } else {
-                              //   setState(() {
-                              //     feePriorityVisibility = false;
-                              //   });
-                              // }
-                              Navigator.pop(context);
-                            },
-                            child:  Icon(Icons.close),
-                          ))
-                        ],
-                      ) ,
-                            ),
-                          );
-                        });
-
+                                        Container(
+                                            margin: EdgeInsets.only(
+                                                top: 7, right: 10),
+                                            alignment: Alignment.topRight,
+                                            child: InkWell(
+                                              onTap: () {
+                                                // if (feePriorityVisibility == false) {
+                                                //   setState(() {
+                                                //     feePriorityVisibility = true;
+                                                //   });
+                                                // } else {
+                                                //   setState(() {
+                                                //     feePriorityVisibility = false;
+                                                //   });
+                                                // }
+                                                Navigator.pop(context);
+                                              },
+                                              child: Icon(Icons.close),
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              });
                         },
                         title: S.current.settings_fee_priority,
                         widget: Observer(
@@ -1116,8 +1272,11 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                   settingsStore.transactionPriority.toString(),
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                     fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
-                                     // fontFamily: 'Poppins',
+                                      fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.06 /
+                                              3, //14.0,
+                                      // fontFamily: 'Poppins',
                                       fontWeight: FontWeight.w400,
                                       color: Theme.of(context)
                                           .primaryTextTheme
@@ -1137,7 +1296,7 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                   ),
                   //Display Balance as DropDown List
                   Visibility(
-                    visible:false, //balanceVisibility,
+                    visible: false, //balanceVisibility,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: 220,
@@ -1148,8 +1307,11 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                 spreadRadius: 1,
                                 offset: Offset(0.0, 2.0))
                           ],
-                          border: Border.all(color:Colors.white),
-                          color: Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                          border: Border.all(color: Colors.white),
+                          color: Theme.of(context)
+                              .accentTextTheme
+                              .headline6
+                              .backgroundColor, //Color.fromARGB(255, 31, 32, 39),
                           borderRadius: BorderRadius.circular(10)),
                       child: Stack(
                         children: [
@@ -1157,18 +1319,21 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('Display balance as',style: TextStyle(
+                                child: Text(
+                                  'Display balance as',
+                                  style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                ),),
+                                  ),
+                                ),
                               ),
                               Divider(
                                 height: 1,
                                 color: Theme.of(context).dividerColor,
                               ),
                               DraggableScrollbar.rrect(
-                                padding:
-                                    EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
+                                padding: EdgeInsets.only(
+                                    left: 5, right: 5, top: 10, bottom: 10),
                                 controller: _scrollController,
                                 heightScrollThumb: 25,
                                 //alwaysVisibleScrollThumb: true,
@@ -1180,7 +1345,8 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                     itemCount: BalanceDisplayMode.all.length,
                                     shrinkWrap: true,
                                     controller: _scrollController,
-                                    itemBuilder: (BuildContext context, int index) {
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
                                       return InkWell(
                                         onTap: () async {
                                           final settingsStore =
@@ -1195,33 +1361,48 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                             });
                                           }
 
-                                          if (BalanceDisplayMode.all[index] != null) {
+                                          if (BalanceDisplayMode.all[index] !=
+                                              null) {
                                             await settingsStore
                                                 .setCurrentBalanceDisplayMode(
                                                     balanceDisplayMode:
-                                                        BalanceDisplayMode.all[index]);
+                                                        BalanceDisplayMode
+                                                            .all[index]);
                                           }
                                         },
                                         child: Padding(
-                                          padding: EdgeInsets.only(left: 20.0, right: 20.0),
+                                          padding: EdgeInsets.only(
+                                              left: 20.0, right: 20.0),
                                           child: Card(
                                             shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(10)),
-                                            elevation: settingsStore.balanceDisplayMode ==
-                                                    BalanceDisplayMode.all[index]
+                                                borderRadius:
+                                                    BorderRadius.circular(10)),
+                                            elevation: settingsStore
+                                                        .balanceDisplayMode ==
+                                                    BalanceDisplayMode
+                                                        .all[index]
                                                 ? 2.0
                                                 : 0.0,
-                                            color: settingsStore.balanceDisplayMode ==
-                                                    BalanceDisplayMode.all[index]
-                                                ? Theme.of(context).backgroundColor
-                                                : Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                                            color: settingsStore
+                                                        .balanceDisplayMode ==
+                                                    BalanceDisplayMode
+                                                        .all[index]
+                                                ? Theme.of(context)
+                                                    .backgroundColor
+                                                : Theme.of(context)
+                                                    .accentTextTheme
+                                                    .headline6
+                                                    .backgroundColor, //Color.fromARGB(255, 31, 32, 39),
                                             child: Container(
-                                                width: MediaQuery.of(context).size.width,
-                                                padding:
-                                                    EdgeInsets.only(top: 15, bottom: 15),
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                padding: EdgeInsets.only(
+                                                    top: 15, bottom: 15),
                                                 child: Observer(
                                                   builder: (_) => Text(
-                                                    BalanceDisplayMode.all[index]
+                                                    BalanceDisplayMode
+                                                        .all[index]
                                                         .toString(),
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
@@ -1230,12 +1411,15 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                                                     .balanceDisplayMode !=
                                                                 BalanceDisplayMode
                                                                     .all[index]
-                                                            ? Colors.grey.withOpacity(0.6)
+                                                            ? Colors.grey
+                                                                .withOpacity(
+                                                                    0.6)
                                                             : Theme.of(context)
                                                                 .primaryTextTheme
                                                                 .headline6
                                                                 .color,
-                                                        fontWeight: FontWeight.bold),
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                 )),
                                           ),
@@ -1245,23 +1429,32 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                               ),
                             ],
                           ),
-                          Container(margin:EdgeInsets.only(top: 7,right: 10),alignment:Alignment.topRight,child: InkWell(
-                            onTap: (){
-                              if (balanceVisibility == false) {
-                                setState(() {
-                                  balanceVisibility = true;
-                                });
-                              } else {
-                                setState(() {
-                                  balanceVisibility = false;
-                                });
-                              }
-                            },
-                            child: Container(decoration: BoxDecoration(
-                                color: Theme.of(context).accentTextTheme.caption.decorationColor,
-                                shape: BoxShape.circle
-                            ),child: Icon(Icons.close,)),
-                          ))
+                          Container(
+                              margin: EdgeInsets.only(top: 7, right: 10),
+                              alignment: Alignment.topRight,
+                              child: InkWell(
+                                onTap: () {
+                                  if (balanceVisibility == false) {
+                                    setState(() {
+                                      balanceVisibility = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      balanceVisibility = false;
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .accentTextTheme
+                                            .caption
+                                            .decorationColor,
+                                        shape: BoxShape.circle),
+                                    child: Icon(
+                                      Icons.close,
+                                    )),
+                              ))
                         ],
                       ),
                     ),
@@ -1361,8 +1554,9 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                     visible: decimalVisibility,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      height:MediaQuery.of(context).size.height*1/3, // 210,
-                      margin: EdgeInsets.only(top: 50,left:15,right:15),
+                      height:
+                          MediaQuery.of(context).size.height * 1 / 3, // 210,
+                      margin: EdgeInsets.only(top: 50, left: 15, right: 15),
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           // boxShadow: [
@@ -1372,7 +1566,10 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                           //       offset: Offset(0.0, 2.0))
                           // ],
                           //border: Border.all(color:Colors.white),
-                          color:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF), //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xff272733)
+                              : Color(
+                                  0xffFFFFFF), //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
                           borderRadius: BorderRadius.circular(10)),
                       child: Stack(
                         children: [
@@ -1380,11 +1577,13 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('Decimals',style: TextStyle(
-                                    fontSize: 18,
-                                    fontFamily: 'Poppinsbold',
-                                    fontWeight: FontWeight.bold
-                                ),),
+                                child: Text(
+                                  'Decimals',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'Poppinsbold',
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                               // Divider(
                               //   height: 1,
@@ -1426,8 +1625,8 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                                 settingsStore, index)
                                             : '${AmountDetail.all[index]}'
                                                     .toLowerCase()
-                                                    .contains(
-                                                        decimalFilter.toLowerCase())
+                                                    .contains(decimalFilter
+                                                        .toLowerCase())
                                                 ? decimalDropDownListItem(
                                                     settingsStore, index)
                                                 : Container();
@@ -1436,23 +1635,27 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                               ),
                             ],
                           ),
-                          Container(margin:EdgeInsets.only(top: 7,right: 10),alignment:Alignment.topRight,child: InkWell(
-                            onTap: (){
-                              if (decimalVisibility == false) {
-                                setState(() {
-                                  decimalVisibility = true;
-                                });
-                              } else {
-                                setState(() {
-                                  decimalVisibility = false;
-                                });
-                              }
-                            },
-                            child: Container(decoration: BoxDecoration(
-                                //color: Theme.of(context).accentTextTheme.caption.decorationColor,
-                                shape: BoxShape.circle
-                            ),child: Icon(Icons.close)),
-                          ))
+                          Container(
+                              margin: EdgeInsets.only(top: 7, right: 10),
+                              alignment: Alignment.topRight,
+                              child: InkWell(
+                                onTap: () {
+                                  if (decimalVisibility == false) {
+                                    setState(() {
+                                      decimalVisibility = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      decimalVisibility = false;
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        //color: Theme.of(context).accentTextTheme.caption.decorationColor,
+                                        shape: BoxShape.circle),
+                                    child: Icon(Icons.close)),
+                              ))
                         ],
                       ),
                     ),
@@ -1547,8 +1750,6 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                       ),
                     ),
                   ),*/
-       
-                  
 
                   Visibility(
                     visible: currencyVisibility,
@@ -1563,8 +1764,11 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                 spreadRadius: 1,
                                 offset: Offset(0.0, 2.0))
                           ],
-                          border: Border.all(color:Colors.white),
-                          color: Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                          border: Border.all(color: Colors.white),
+                          color: Theme.of(context)
+                              .accentTextTheme
+                              .headline6
+                              .backgroundColor, //Color.fromARGB(255, 31, 32, 39),
                           borderRadius: BorderRadius.circular(10)),
                       child: Stack(
                         children: [
@@ -1572,10 +1776,12 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('Currency',style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold
-                                ),),
+                                child: Text(
+                                  'Currency',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                               Divider(
                                 height: 1,
@@ -1587,10 +1793,11 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                   controller: searchCurrencyController,
                                   decoration: InputDecoration(
                                     hintText: 'Search Currency',
-                                    contentPadding:
-                                        EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                                    contentPadding: EdgeInsets.fromLTRB(
+                                        20.0, 15.0, 20.0, 15.0),
                                     border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10.0)),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0)),
                                   ),
                                 ),
                               ),
@@ -1627,23 +1834,30 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                               ),
                             ],
                           ),
-                          Container(margin:EdgeInsets.only(top: 7,right: 10),alignment:Alignment.topRight,child: InkWell(
-                            onTap: (){
-                              if (currencyVisibility == false) {
-                                setState(() {
-                                  currencyVisibility = true;
-                                });
-                              } else {
-                                setState(() {
-                                  currencyVisibility = false;
-                                });
-                              }
-                            },
-                            child: Container(decoration: BoxDecoration(
-                                color: Theme.of(context).accentTextTheme.caption.decorationColor,
-                                shape: BoxShape.circle
-                            ),child: Icon(Icons.close)),
-                          ))
+                          Container(
+                              margin: EdgeInsets.only(top: 7, right: 10),
+                              alignment: Alignment.topRight,
+                              child: InkWell(
+                                onTap: () {
+                                  if (currencyVisibility == false) {
+                                    setState(() {
+                                      currencyVisibility = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      currencyVisibility = false;
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .accentTextTheme
+                                            .caption
+                                            .decorationColor,
+                                        shape: BoxShape.circle),
+                                    child: Icon(Icons.close)),
+                              ))
                         ],
                       ),
                     ),
@@ -1662,8 +1876,11 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                 spreadRadius: 1,
                                 offset: Offset(0.0, 2.0))
                           ],
-                          border: Border.all(color:Colors.white),
-                          color: Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                          border: Border.all(color: Colors.white),
+                          color: Theme.of(context)
+                              .accentTextTheme
+                              .headline6
+                              .backgroundColor, //Color.fromARGB(255, 31, 32, 39),
                           borderRadius: BorderRadius.circular(10)),
                       child: Stack(
                         children: [
@@ -1671,11 +1888,13 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text('Fee Priority',style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    fontFamily: 'Poppinsbold'
-                                ),),
+                                child: Text(
+                                  'Fee Priority',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Poppinsbold'),
+                                ),
                               ),
                               Divider(
                                 height: 1,
@@ -1687,12 +1906,17 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                 controller: _scrollController,
                                 heightScrollThumb: 25,
                                 //alwaysVisibleScrollThumb: true,
-                                backgroundColor: Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                                backgroundColor: Theme.of(context)
+                                    .accentTextTheme
+                                    .headline6
+                                    .backgroundColor, //Color.fromARGB(255, 31, 32, 39),
                                 child: ListView.builder(
-                                    itemCount: BeldexTransactionPriority.all.length,
+                                    itemCount:
+                                        BeldexTransactionPriority.all.length,
                                     shrinkWrap: true,
                                     controller: _scrollController,
-                                    itemBuilder: (BuildContext context, int index) {
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
                                       return InkWell(
                                         onTap: () async {
                                           final settingsStore =
@@ -1707,38 +1931,49 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                             });
                                           }
 
-                                          if (BeldexTransactionPriority.all[index] !=
+                                          if (BeldexTransactionPriority
+                                                  .all[index] !=
                                               null) {
                                             await settingsStore
                                                 .setCurrentTransactionPriority(
-                                                    priority: BeldexTransactionPriority
-                                                        .all[index]);
+                                                    priority:
+                                                        BeldexTransactionPriority
+                                                            .all[index]);
                                           }
                                         },
                                         child: Padding(
-                                          padding:
-                                              EdgeInsets.only(left: 20.0, right: 20.0),
+                                          padding: EdgeInsets.only(
+                                              left: 20.0, right: 20.0),
                                           child: Card(
                                             shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(10)),
                                             elevation: settingsStore
                                                         .transactionPriority ==
-                                                    BeldexTransactionPriority.all[index]
+                                                    BeldexTransactionPriority
+                                                        .all[index]
                                                 ? 2.0
                                                 : 0.0,
-                                            color: settingsStore.transactionPriority ==
-                                                    BeldexTransactionPriority.all[index]
-                                                ? Theme.of(context).backgroundColor
-                                                : Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                                            color: settingsStore
+                                                        .transactionPriority ==
+                                                    BeldexTransactionPriority
+                                                        .all[index]
+                                                ? Theme.of(context)
+                                                    .backgroundColor
+                                                : Theme.of(context)
+                                                    .accentTextTheme
+                                                    .headline6
+                                                    .backgroundColor, //Color.fromARGB(255, 31, 32, 39),
                                             child: Container(
-                                                width:
-                                                    MediaQuery.of(context).size.width,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
                                                 padding: EdgeInsets.only(
                                                     top: 15, bottom: 15),
                                                 child: Observer(
                                                   builder: (_) => Text(
-                                                    BeldexTransactionPriority.all[index]
+                                                    BeldexTransactionPriority
+                                                        .all[index]
                                                         .toString(),
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
@@ -1748,12 +1983,14 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                                                 BeldexTransactionPriority
                                                                     .all[index]
                                                             ? Colors.grey
-                                                                .withOpacity(0.6)
+                                                                .withOpacity(
+                                                                    0.6)
                                                             : Theme.of(context)
                                                                 .primaryTextTheme
                                                                 .headline6
                                                                 .color,
-                                                        fontWeight: FontWeight.bold),
+                                                        fontWeight:
+                                                            FontWeight.bold),
                                                   ),
                                                 )),
                                           ),
@@ -1763,23 +2000,30 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                               ),
                             ],
                           ),
-                          Container(margin:EdgeInsets.only(top: 7,right: 10),alignment:Alignment.topRight,child: InkWell(
-                            onTap: (){
-                              if (feePriorityVisibility == false) {
-                                setState(() {
-                                  feePriorityVisibility = true;
-                                });
-                              } else {
-                                setState(() {
-                                  feePriorityVisibility = false;
-                                });
-                              }
-                            },
-                            child: Container(decoration: BoxDecoration(
-                                color: Theme.of(context).accentTextTheme.caption.decorationColor,
-                                shape: BoxShape.circle
-                            ),child: Icon(Icons.close)),
-                          ))
+                          Container(
+                              margin: EdgeInsets.only(top: 7, right: 10),
+                              alignment: Alignment.topRight,
+                              child: InkWell(
+                                onTap: () {
+                                  if (feePriorityVisibility == false) {
+                                    setState(() {
+                                      feePriorityVisibility = true;
+                                    });
+                                  } else {
+                                    setState(() {
+                                      feePriorityVisibility = false;
+                                    });
+                                  }
+                                },
+                                child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .accentTextTheme
+                                            .caption
+                                            .decorationColor,
+                                        shape: BoxShape.circle),
+                                    child: Icon(Icons.close)),
+                              ))
                         ],
                       ),
                     ),
@@ -1964,9 +2208,10 @@ final _scrollController = ScrollController(keepScrollOffset: true);
             //Personal Header
             NewNavListHeader(title: S.current.settings_personal),
             Card(
-             // margin: EdgeInsets.only(left: constants.leftPx, right: constants.rightPx, top: 20),
-              elevation:0, //2,
-              color:Colors.transparent,// Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+              // margin: EdgeInsets.only(left: constants.leftPx, right: constants.rightPx, top: 20),
+              elevation: 0, //2,
+              color: Colors
+                  .transparent, // Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
               // shape: RoundedRectangleBorder(
               //     borderRadius: BorderRadius.circular(10)),
               child: Column(
@@ -1975,26 +2220,36 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                   Theme(
                     data: ThemeData(
                       splashColor: balanceVisibility == false &&
-                          decimalVisibility == false &&
-                          currencyVisibility == false &&
-                          feePriorityVisibility == false ?Colors.grey:Colors.transparent,
-                      highlightColor:  balanceVisibility == false &&
-                          decimalVisibility == false &&
-                          currencyVisibility == false &&
-                          feePriorityVisibility == false ?Colors.grey:Colors.transparent,
+                              decimalVisibility == false &&
+                              currencyVisibility == false &&
+                              feePriorityVisibility == false
+                          ? Colors.grey
+                          : Colors.transparent,
+                      highlightColor: balanceVisibility == false &&
+                              decimalVisibility == false &&
+                              currencyVisibility == false &&
+                              feePriorityVisibility == false
+                          ? Colors.grey
+                          : Colors.transparent,
                     ),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.settings_change_pin,
                           style: TextStyle(
-                              fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
-                                     // fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w400,
+                              fontSize: MediaQuery.of(context).size.height *
+                                  0.06 /
+                                  3, //14.0,
+                              // fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6
                                   .color)),
-                      trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,color: Color(0xff3F3F4D),),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 20,
+                        color: Color(0xff3F3F4D),
+                      ),
                       onTap: () {
                         if (balanceVisibility == false &&
                             decimalVisibility == false &&
@@ -2019,26 +2274,36 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                   Theme(
                     data: ThemeData(
                       splashColor: balanceVisibility == false &&
-                          decimalVisibility == false &&
-                          currencyVisibility == false &&
-                          feePriorityVisibility == false ?Colors.grey:Colors.transparent,
-                      highlightColor:  balanceVisibility == false &&
-                          decimalVisibility == false &&
-                          currencyVisibility == false &&
-                          feePriorityVisibility == false ?Colors.grey:Colors.transparent,
+                              decimalVisibility == false &&
+                              currencyVisibility == false &&
+                              feePriorityVisibility == false
+                          ? Colors.grey
+                          : Colors.transparent,
+                      highlightColor: balanceVisibility == false &&
+                              decimalVisibility == false &&
+                              currencyVisibility == false &&
+                              feePriorityVisibility == false
+                          ? Colors.grey
+                          : Colors.transparent,
                     ),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.change_language,
                           style: TextStyle(
-                             fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
-                                     // fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w400,
+                              fontSize: MediaQuery.of(context).size.height *
+                                  0.06 /
+                                  3, //14.0,
+                              // fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6
                                   .color)),
-                      trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,color: Color(0xff3F3F4D),),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 20,
+                        color: Color(0xff3F3F4D),
+                      ),
                       onTap: () {
                         if (balanceVisibility == false &&
                             decimalVisibility == false &&
@@ -2051,7 +2316,11 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                   ),
                   //Allow biometric authentication
                   SettingsSwitchListRow(
-                    title: Platform.isAndroid?S.current.settings_allow_biometric_authentication:_availableBiometrics.contains(BiometricType.face)?'Allow face id authentication':S.current.settings_allow_biometric_authentication,
+                    title: Platform.isAndroid
+                        ? S.current.settings_allow_biometric_authentication
+                        : _availableBiometrics.contains(BiometricType.face)
+                            ? 'Allow face id authentication'
+                            : S.current.settings_allow_biometric_authentication,
                     balanceVisibility: balanceVisibility,
                     decimalVisibility: decimalVisibility,
                     currencyVisibility: currencyVisibility,
@@ -2060,10 +2329,10 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                   //Dark mode
                   SettingsSwitchListRow(
                     title: S.current.settings_dark_mode,
-                     balanceVisibility: balanceVisibility,
-                        decimalVisibility: decimalVisibility,
-                        currencyVisibility: currencyVisibility,
-                        feePriorityVisibility: feePriorityVisibility,
+                    balanceVisibility: balanceVisibility,
+                    decimalVisibility: decimalVisibility,
+                    currencyVisibility: currencyVisibility,
+                    feePriorityVisibility: feePriorityVisibility,
                   ),
                 ],
               ),
@@ -2072,13 +2341,13 @@ final _scrollController = ScrollController(keepScrollOffset: true);
             NewNavListHeader(title: S.current.settings_support),
             Card(
               //margin: EdgeInsets.only(left: constants.leftPx, right: constants.rightPx, top: 20),
-              elevation:0, //2,
-              color: Colors.transparent,// Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+              elevation: 0, //2,
+              color: Colors
+                  .transparent, // Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Column(
                 children: [
-                  
                   //Email
                   // SettingsLinktListRow(
                   //   balanceVisibility: balanceVisibility,
@@ -2147,26 +2416,36 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                   Theme(
                     data: ThemeData(
                       splashColor: balanceVisibility == false &&
-                          decimalVisibility == false &&
-                          currencyVisibility == false &&
-                          feePriorityVisibility == false ?Colors.grey:Colors.transparent,
-                      highlightColor:  balanceVisibility == false &&
-                          decimalVisibility == false &&
-                          currencyVisibility == false &&
-                          feePriorityVisibility == false ?Colors.grey:Colors.transparent,
+                              decimalVisibility == false &&
+                              currencyVisibility == false &&
+                              feePriorityVisibility == false
+                          ? Colors.grey
+                          : Colors.transparent,
+                      highlightColor: balanceVisibility == false &&
+                              decimalVisibility == false &&
+                              currencyVisibility == false &&
+                              feePriorityVisibility == false
+                          ? Colors.grey
+                          : Colors.transparent,
                     ),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.settings_terms_and_conditions,
                           style: TextStyle(
-                             fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
-                                     // fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w400,
+                              fontSize: MediaQuery.of(context).size.height *
+                                  0.06 /
+                                  3, //14.0,
+                              // fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6
                                   .color)),
-                      trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,color: Color(0xff3F3F4D),),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 20,
+                        color: Color(0xff3F3F4D),
+                      ),
                       onTap: () {
                         if (balanceVisibility == false &&
                             decimalVisibility == false &&
@@ -2185,26 +2464,36 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                   Theme(
                     data: ThemeData(
                       splashColor: balanceVisibility == false &&
-                          decimalVisibility == false &&
-                          currencyVisibility == false &&
-                          feePriorityVisibility == false ?Colors.grey:Colors.transparent,
-                      highlightColor:  balanceVisibility == false &&
-                          decimalVisibility == false &&
-                          currencyVisibility == false &&
-                          feePriorityVisibility == false ?Colors.grey:Colors.transparent,
+                              decimalVisibility == false &&
+                              currencyVisibility == false &&
+                              feePriorityVisibility == false
+                          ? Colors.grey
+                          : Colors.transparent,
+                      highlightColor: balanceVisibility == false &&
+                              decimalVisibility == false &&
+                              currencyVisibility == false &&
+                              feePriorityVisibility == false
+                          ? Colors.grey
+                          : Colors.transparent,
                     ),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.faq,
                           style: TextStyle(
-                             fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
-                                     // fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w400,
+                              fontSize: MediaQuery.of(context).size.height *
+                                  0.06 /
+                                  3, //14.0,
+                              // fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6
                                   .color)),
-                      trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,color: Color(0xff3F3F4D),),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 20,
+                        color: Color(0xff3F3F4D),
+                      ),
                       onTap: () {
                         if (balanceVisibility == false &&
                             decimalVisibility == false &&
@@ -2219,26 +2508,36 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                   Theme(
                     data: ThemeData(
                       splashColor: balanceVisibility == false &&
-                          decimalVisibility == false &&
-                          currencyVisibility == false &&
-                          feePriorityVisibility == false ?Colors.grey:Colors.transparent,
-                      highlightColor:  balanceVisibility == false &&
-                          decimalVisibility == false &&
-                          currencyVisibility == false &&
-                          feePriorityVisibility == false ?Colors.grey:Colors.transparent,
+                              decimalVisibility == false &&
+                              currencyVisibility == false &&
+                              feePriorityVisibility == false
+                          ? Colors.grey
+                          : Colors.transparent,
+                      highlightColor: balanceVisibility == false &&
+                              decimalVisibility == false &&
+                              currencyVisibility == false &&
+                              feePriorityVisibility == false
+                          ? Colors.grey
+                          : Colors.transparent,
                     ),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                       title: Text(S.current.changelog,
                           style: TextStyle(
-                             fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
-                                     // fontFamily: 'Poppins',
-                                      fontWeight: FontWeight.w400,
+                              fontSize: MediaQuery.of(context).size.height *
+                                  0.06 /
+                                  3, //14.0,
+                              // fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme
                                   .headline6
                                   .color)),
-                      trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,color: Color(0xff3F3F4D),),
+                      trailing: Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 20,
+                        color: Color(0xff3F3F4D),
+                      ),
                       onTap: () {
                         if (balanceVisibility == false &&
                             decimalVisibility == false &&
@@ -2297,50 +2596,58 @@ final _scrollController = ScrollController(keepScrollOffset: true);
               //color: Colors.yellow,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                 children: [
-                   Padding(padding:EdgeInsets.only(right:10,left:10) ,child: GestureDetector(
-                    onTap: (){
-                       _launchUrl(_emailUrl);
-                    },
-                    child: SvgPicture.asset('assets/images/new-images/mail.svg'))),
-                    Padding(
-                      padding: const EdgeInsets.only(right:10.0,left:10),
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(right: 10, left: 10),
                       child: GestureDetector(
-                        onTap: ()=>_launchUrl(_githubUrl),
-                        child: SvgPicture.asset('assets/images/new-images/github.svg')),
-                    ),
-                     Padding(
-                       padding: const EdgeInsets.only(right:20.0,left:10),
-                       child: GestureDetector(
-                        onTap: ()=>_launchUrl(_telegramUrl),
-                        child: SvgPicture.asset('assets/images/new-images/telegram.svg')),
-                     ),
-                      GestureDetector(
-                        onTap: ()=>_launchUrl(_twitterUrl),
-                        child: SvgPicture.asset('assets/images/new-images/twitter.svg')),
-                 ],
+                          onTap: () {
+                            _launchUrl(_emailUrl);
+                          },
+                          child: SvgPicture.asset(
+                              'assets/images/new-images/mail.svg'))),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0, left: 10),
+                    child: GestureDetector(
+                        onTap: () => _launchUrl(_githubUrl),
+                        child: SvgPicture.asset(
+                            'assets/images/new-images/github.svg')),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20.0, left: 10),
+                    child: GestureDetector(
+                        onTap: () => _launchUrl(_telegramUrl),
+                        child: SvgPicture.asset(
+                            'assets/images/new-images/telegram.svg')),
+                  ),
+                  GestureDetector(
+                      onTap: () => _launchUrl(_twitterUrl),
+                      child: SvgPicture.asset(
+                          'assets/images/new-images/twitter.svg')),
+                ],
               ),
             ),
-
-
 
             Theme(
               data: ThemeData(
                 splashColor: balanceVisibility == false &&
-                    decimalVisibility == false &&
-                    currencyVisibility == false &&
-                    feePriorityVisibility == false ?Colors.grey:Colors.transparent,
-                highlightColor:  balanceVisibility == false &&
-                    decimalVisibility == false &&
-                    currencyVisibility == false &&
-                    feePriorityVisibility == false ?Colors.grey:Colors.transparent,
+                        decimalVisibility == false &&
+                        currencyVisibility == false &&
+                        feePriorityVisibility == false
+                    ? Colors.grey
+                    : Colors.transparent,
+                highlightColor: balanceVisibility == false &&
+                        decimalVisibility == false &&
+                        currencyVisibility == false &&
+                        feePriorityVisibility == false
+                    ? Colors.grey
+                    : Colors.transparent,
               ),
               child: ListTile(
                 //contentPadding: EdgeInsets.only(left: 60.0),
                 title: Center(
                   child: Text(S.current.version(settingsStore.currentVersion),
                       style:
-                          TextStyle(fontSize: 16.0, color:Color(0xff9292A7))),
+                          TextStyle(fontSize: 16.0, color: Color(0xff9292A7))),
                 ),
               ),
             )
@@ -2355,7 +2662,7 @@ final _scrollController = ScrollController(keepScrollOffset: true);
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: 210,
-              margin: EdgeInsets.only(left: 40,right: 40),
+              margin: EdgeInsets.only(left: 40, right: 40),
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -2363,17 +2670,21 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                         spreadRadius: 1,
                         offset: Offset(0.0, 2.0))
                   ],
-                  border: Border.all(color:Colors.white),
-                  color: Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                  border: Border.all(color: Colors.white),
+                  color: Theme.of(context)
+                      .accentTextTheme
+                      .headline6
+                      .backgroundColor, //Color.fromARGB(255, 31, 32, 39),
                   borderRadius: BorderRadius.circular(10)),
               child: Column(
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text('Display balance as',style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold
-                    ),),
+                    child: Text(
+                      'Display balance as',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
                   ),
                   Divider(
                     height: 1,
@@ -2381,7 +2692,7 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                   ),
                   DraggableScrollbar.rrect(
                     padding:
-                    EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
+                        EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
                     controller: _scrollController,
                     heightScrollThumb: 25,
                     //alwaysVisibleScrollThumb: true,
@@ -2397,7 +2708,7 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                           return InkWell(
                             onTap: () async {
                               final settingsStore =
-                              context.read<SettingsStore>();
+                                  context.read<SettingsStore>();
                               if (balanceVisibility == false) {
                                 setState(() {
                                   balanceVisibility = true;
@@ -2411,8 +2722,8 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                               if (BalanceDisplayMode.all[index] != null) {
                                 await settingsStore
                                     .setCurrentBalanceDisplayMode(
-                                    balanceDisplayMode:
-                                    BalanceDisplayMode.all[index]);
+                                        balanceDisplayMode:
+                                            BalanceDisplayMode.all[index]);
                               }
                             },
                             child: Padding(
@@ -2421,17 +2732,20 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
                                 elevation: settingsStore.balanceDisplayMode ==
-                                    BalanceDisplayMode.all[index]
+                                        BalanceDisplayMode.all[index]
                                     ? 2.0
                                     : 0.0,
                                 color: settingsStore.balanceDisplayMode ==
-                                    BalanceDisplayMode.all[index]
+                                        BalanceDisplayMode.all[index]
                                     ? Theme.of(context).backgroundColor
-                                    : Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+                                    : Theme.of(context)
+                                        .accentTextTheme
+                                        .headline6
+                                        .backgroundColor, //Color.fromARGB(255, 31, 32, 39),
                                 child: Container(
                                     width: MediaQuery.of(context).size.width,
                                     padding:
-                                    EdgeInsets.only(top: 15, bottom: 15),
+                                        EdgeInsets.only(top: 15, bottom: 15),
                                     child: Observer(
                                       builder: (_) => Text(
                                         BalanceDisplayMode.all[index]
@@ -2440,14 +2754,14 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                                         style: TextStyle(
                                             fontSize: 16,
                                             color: settingsStore
-                                                .balanceDisplayMode !=
-                                                BalanceDisplayMode
-                                                    .all[index]
+                                                        .balanceDisplayMode !=
+                                                    BalanceDisplayMode
+                                                        .all[index]
                                                 ? Colors.grey.withOpacity(0.6)
                                                 : Theme.of(context)
-                                                .primaryTextTheme
-                                                .headline6
-                                                .color,
+                                                    .primaryTextTheme
+                                                    .headline6
+                                                    .color,
                                             fontWeight: FontWeight.bold),
                                       ),
                                     )),
@@ -2546,8 +2860,7 @@ final _scrollController = ScrollController(keepScrollOffset: true);
         }
         Navigator.pop(context);
       },
-      child: 
-      Padding(
+      child: Padding(
         padding: EdgeInsets.only(left: 20.0, right: 20.0),
         child: Card(
           shape:
@@ -2556,10 +2869,9 @@ final _scrollController = ScrollController(keepScrollOffset: true);
           // settingsStore.balanceDetail == AmountDetail.all[index]
           //     ? 2.0
           //     : 0.0,
-          color:
-           settingsStore.balanceDetail != AmountDetail.all[index]
+          color: settingsStore.balanceDetail != AmountDetail.all[index]
               ? Colors.transparent
-              : Color(0xff2979FB),//Color.fromARGB(255, 31, 32, 39),
+              : Color(0xff2979FB), //Color.fromARGB(255, 31, 32, 39),
           child: Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -2572,7 +2884,8 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                       color: settingsStore.balanceDetail !=
                               AmountDetail.all[index]
                           ? Colors.grey.withOpacity(0.6)
-                          : Color(0xffffffff), //Theme.of(context).primaryTextTheme.headline6.color,
+                          : Color(
+                              0xffffffff), //Theme.of(context).primaryTextTheme.headline6.color,
                       fontWeight: FontWeight.bold),
                 ),
               )),
@@ -2610,8 +2923,9 @@ final _scrollController = ScrollController(keepScrollOffset: true);
           elevation:
               settingsStore.fiatCurrency == FiatCurrency.all[index] ? 2.0 : 0.0,
           color: settingsStore.fiatCurrency == FiatCurrency.all[index]
-              ? Color(0xff2979FB) : Colors.transparent, //Theme.of(context).backgroundColor
-                //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
+              ? Color(0xff2979FB)
+              : Colors.transparent, //Theme.of(context).backgroundColor
+          //Theme.of(context).accentTextTheme.headline6.backgroundColor,//Color.fromARGB(255, 31, 32, 39),
           child: Container(
               width: MediaQuery.of(context).size.width,
               padding: EdgeInsets.only(top: 15, bottom: 15),
@@ -2624,7 +2938,8 @@ final _scrollController = ScrollController(keepScrollOffset: true);
                       color: settingsStore.fiatCurrency !=
                               FiatCurrency.all[index]
                           ? Colors.grey.withOpacity(0.6)
-                          : Color(0xffffffff), //Theme.of(context).primaryTextTheme.headline6.color,
+                          : Color(
+                              0xffffffff), //Theme.of(context).primaryTextTheme.headline6.color,
                       fontWeight: FontWeight.bold),
                 ),
               )),
