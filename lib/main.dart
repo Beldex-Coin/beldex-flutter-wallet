@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/util/network_service.dart';
 import 'package:beldex_wallet/src/widgets/loading_provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -99,7 +100,7 @@ void main() async {
     final loginStore = LoginStore(
         sharedPreferences: sharedPreferences, walletsService: walletListService);
     final seedLanguageStore = SeedLanguageStore();
-
+    final sendStore = SendStore();
     final networkService = NetworkService().controller.stream;
 
     setReactions(
@@ -127,7 +128,8 @@ void main() async {
       Provider(create: (_) => transactionDescriptions),
       Provider(create: (_) => seedLanguageStore),
       StreamProvider(create: (_) => networkService, initialData: NetworkStatus.online),
-      ChangeNotifierProvider(create: (_)=> LoadingProvider())
+      ChangeNotifierProvider(create: (_)=> LoadingProvider()),
+      Provider(create: (_) => sendStore)
     ], child: BeldexWalletApp()));
   } catch (e) {
     runApp(MaterialApp(

@@ -1,30 +1,50 @@
+import 'dart:async';
+
+import 'package:beldex_wallet/src/screens/base_page.dart';
+import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/stores/wallet_list/wallet_list_store.dart';
-import 'package:beldex_wallet/src/wallet/wallet_description.dart';
+import 'package:beldex_wallet/src/widgets/loading_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 
-class LoadingPage extends StatelessWidget{
-  final WalletDescription wallet;
-  final WalletListStore walletListStore;
-  LoadingPage({ Key key, this.wallet,this.walletListStore }) : super(key: key);
+// class CommonLoader extends BasePage {
+
+//    @override
+//   int get toolBarHeight => 0;
+
+//  @override
+//  Widget leading(BuildContext context){
+//   return Container();
+//  }
+
+//   @override
+//   Widget body(BuildContext context) => CommonLoaderScreen();
+// }
+
+class CommonLoader extends StatelessWidget {
+  CommonLoader({Key key, this.address, this.sendStore}) : super(key: key);
+
+  final String address;
+  final SendStore sendStore;
 
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
-    Future.delayed(
-        const Duration(milliseconds: 250), () {
-      walletListStore.loadWallet(wallet);
+    Future.delayed(const Duration(milliseconds: 250), ()async{
+     await sendStore.createTransaction(address: address);
       Navigator.of(context).pop();
     });
+
     return WillPopScope(
       onWillPop: () async => false,
       child: Center(
           child: Scaffold(
             body: Container(
-              color: settingsStore.isDarkTheme ?
-                        Color(0xff171720) : Color(0xffffffff),
+              color: settingsStore.isDarkTheme
+                        ? Color(0xff171720) : Color(0xffffffff),
                   width: double.infinity,
                 child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -48,9 +68,9 @@ class LoadingPage extends StatelessWidget{
             Padding(
               padding: const EdgeInsets.only(top: 15.0),
               child: Text(
-                'Loading the Wallet',
+                'Creating the Transaction',
                 style: TextStyle(
-                    fontSize: height * 0.07 / 3, fontWeight: FontWeight.w700,color: Colors.black),
+                    fontSize: height * 0.07 / 3,fontWeight: FontWeight.w700,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff222222)),
               ),
             )
             // loadingProvider.setLoadingString != '' ? Text('${loadingProvider.setLoadingString}') : Container()
@@ -58,8 +78,5 @@ class LoadingPage extends StatelessWidget{
       )),
           )),
     );
-
   }
-
-
 }

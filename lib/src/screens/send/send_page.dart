@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:beldex_wallet/src/domain/common/contact.dart';
 import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
+import 'package:beldex_wallet/src/widgets/common_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -163,52 +164,15 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     }
   }
 
-  void _loading(bool _canLoad) {
-    if (_canLoad) {
-      // Show the HUD progress loader
-      showHUDLoader(context);
-    } else {
-      Navigator.pop(context);
-    }
-  }
 
-  void showHUDLoader(BuildContext context) {
-    //final settingsStore = Provider.of<SettingsStore>(context,listen: false);
-    showDialog<void>(
-      context: context,
-      //barrierColor: Colors.transparent,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return WillPopScope(
-          // Prevent closing the dialog when the user presses the back button
-          onWillPop: () async => false,
-          child: AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
 
-            //backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Center(
-                  child: CircularProgressIndicator(
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(13.0),
-                  child: Text('Creating the Transaction',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
+void _startCreatingTransaction(SendStore sendStore,String address){
+
+  print('address -----> $address');
+  Navigator.push(context, MaterialPageRoute<void>(builder: (context)=> CommonLoader(address: address,sendStore: sendStore)));
+
+ }
+
 
   @override
   Widget build(BuildContext context) {
@@ -704,13 +668,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                             return;
                           }
                           Navigator.of(auth.context).pop();
-                          _loading(true);
-                          print('create transaction ---> going to');
-                          await sendStore.createTransaction(
-                              address: _addressController.text);
-                          //print('create transaction data -----> $data');
-                          print('create transaction ---> reached');
-                          _loading(false);
+                           _startCreatingTransaction(sendStore, _addressController.text);
                           isSuccessful = true;
                         });
                         return isSuccessful;
@@ -791,52 +749,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     });
 
     rdisposer3 = reaction((_) => sendStore.state, (SendingState state) {
-      //  final wDisposer1 = when( (_) => state is SendingFailed, (){
-      //      WidgetsBinding.instance.addPostFrameCallback((_) {
-      //         showSimpleBeldexDialog(context, 'Alert', ( state as SendingFailed).error,
-      //             onPressed: (_) => Navigator.of(context).pop());
-      //       });
-      //   });
-      //   whenDisposers.add(wDisposer1);
-      //  final wDisposer2 = when( (_)=> state is TransactionCreatedSuccessfully && sendStore.pendingTransaction != null,(){
-      //        WidgetsBinding.instance.addPostFrameCallback((_) {
-      //         print('inside the transaction created successfully---->');
-      //       showSimpleConfirmDialog(context,
-      //        S.of(context).confirm_sending,
-      //         sendStore.pendingTransaction.amount,
-      //         sendStore.pendingTransaction.fee,
-      //         _addressController.text,
-      //         onPressed: (_) {
-      //           Navigator.of(context).pop();
-      //           sendStore.commitTransaction();
-      //         },
-      //         onDismiss: (_){
-      //           _addressController.text = '';
-      //           _cryptoAmountController.text = '';
-      //           Navigator.of(context).pop();
-      //         }
-      //         );
-      //       });
-      //   } );
-      //  whenDisposers.add(wDisposer2);
-      //  final wDisposer3 = when( (_)=> state is TransactionCommitted ,(){
-      //       WidgetsBinding.instance.addPostFrameCallback((_) {
-      //          print('inside the transaction commiteed ---->');
-      //         showSimpleSentTrans( context, S.of(context).sending, sendStore.pendingTransaction.amount,'fee',_addressController.text,
-      //             onPressed: (_) {
-      //           _addressController.text = '';
-      //           _cryptoAmountController.text = '';
-      //           Navigator.of(context)..pop()..pop();
-      //         },
-      //          onDismiss: (_){
-      //           Navigator.of(context)..pop()..pop();
-      //         }
-      //         );
-      //       });
-      //   });
-
-      //  whenDisposers.add(wDisposer3);
-
       if (state is SendingFailed) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           await showSimpleBeldexDialog(context, 'Alert', state.error,
