@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/dashboard_rescan_dialog.dart';
 import 'package:beldex_wallet/src/util/network_service.dart';
@@ -347,6 +348,83 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
     super.initState();
   }
 
+
+
+Future<void> _presentQRScanner(BuildContext context) async {
+ // if(widget.flashvalue != null && widget.flashvalue == true){
+    // TextEditingController controller = TextEditingController();
+     final _addressController = TextEditingController();
+     final _cryptoAmountController = TextEditingController();
+    String qrValue, famount;
+
+    try {
+      final code = await presentQRScanner();
+      final uri = Uri.parse(code);
+     
+      var address = '';
+      var amount = '';
+      if (uri == null) {
+        _addressController.text = code;
+        qrValue = code;
+        return;
+      }
+        address = uri.path;
+      _addressController.text = address;
+        // var address = '';
+        // var amount = '';
+                          if (uri != null) {
+                            address = uri.path;
+                            if(uri.queryParameters[uri.queryParameters.keys.first]!=null){
+                              amount = uri.queryParameters[uri.queryParameters.keys.first];
+                            }
+                          } else {
+                            address = uri.toString();
+                          }
+
+                          _addressController.text = address;
+                          _cryptoAmountController.text = amount;
+           if(_addressController.text != null || _cryptoAmountController.text != null){
+           // print('address value----> ')
+             await Navigator.pushNamed(
+                                          context, Routes.send,
+                                          arguments: {
+                                            'flash'   : true,
+                                            'address' : _addressController.text,
+                                            'amount'  : _cryptoAmountController.text
+                                          }
+                                         );
+           }else{
+            return null;
+           }
+      
+    } catch (e) {
+      /* ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Invalid BDX address'),
+      ));*/
+      print('Error $e');
+    }
+  // }else{
+  //   return null;
+  // }
+   
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   @override
   void dispose() {
     // if(subscription.)
@@ -358,7 +436,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
   Widget build(BuildContext context) {
     final walletStore = Provider.of<WalletStore>(context);
     final balanceStore = Provider.of<BalanceStore>(context);
-    final actionListStore = Provider.of<ActionListStore>(context);
+    //final actionListStore = Provider.of<ActionListStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
     // final transactionDateFormat = settingsStore.getCurrentDateFormat(
@@ -514,38 +592,44 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                         '00.000000000';
                                     print('Dashboard fullBalance --> $balance');
                                   }
-                                  return Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.baseline,
-                                    textBaseline: TextBaseline.alphabetic,
-                                    children: [
-                                      Text(
-                                        '$balance ',
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .primaryTextTheme
-                                              .caption
-                                              .color,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.12 /
-                                              3,
-                                          fontWeight: FontWeight.bold,
+                                  return GestureDetector(
+                                     onTapUp: (_) =>
+                                          balanceStore.isReversing = false,
+                                      onTapDown: (_) =>
+                                          balanceStore.isReversing = true,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.baseline,
+                                      textBaseline: TextBaseline.alphabetic,
+                                      children: [
+                                        Text(
+                                          '$balance ',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .primaryTextTheme
+                                                .caption
+                                                .color,
+                                            fontSize: MediaQuery.of(context)
+                                                    .size
+                                                    .height *
+                                                0.12 /
+                                                3,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                      ),
-                                      Text(
-                                        'BDX',
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .primaryTextTheme
-                                              .caption
-                                              .color,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
+                                        Text(
+                                          'BDX',
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .primaryTextTheme
+                                                .caption
+                                                .color,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   );
                                 }),
                           ],
@@ -727,10 +811,14 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                             final syncSt = status.title();
                             return GestureDetector(
                               onTap: syncSt == 'SYNCHRONIZED'
-                                  ? () {
-                                      Navigator.pushNamed(
-                                          context, Routes.flash);
-                                      // _presentQRScanner(context);
+                                  ? (){
+                                    //  final isFlash = true;
+                                    // Navigator.pushNamed(
+                                    //       context, Routes.send,
+                                    //       arguments: isFlash
+                                         
+                                    //      );
+                                       _presentQRScanner(context);
                                     }
                                   : null,
                               child: Container(
@@ -765,7 +853,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: Text(
-                              'Transfer your BDX more faster\n with flash transaction',
+                              'Transfer your BDX more faster\n with Flash Transaction',
                               textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 16)),
                         )

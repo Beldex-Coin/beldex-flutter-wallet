@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:beldex_wallet/src/domain/common/contact.dart';
+import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
 import 'package:beldex_wallet/src/widgets/common_loader.dart';
 import 'package:flutter/cupertino.dart';
@@ -34,14 +35,14 @@ import 'package:provider/provider.dart';
 bool canLoad = false;
 
 class SendPage extends BasePage {
-  String controller;
-
+  SendPage({this.flashMap});
+  //final  bool flashvalue;
+  final Map<String, dynamic> flashMap;
   @override
   String get title => S.current.send;
 
   @override
   Widget trailing(BuildContext context) {
-    final settingsStore = Provider.of<SettingsStore>(context);
     return Container();
   }
 
@@ -55,14 +56,18 @@ class SendPage extends BasePage {
   bool get resizeToAvoidBottomInset => false;
 
   @override
-  Widget body(BuildContext context) => SendForm(
-        controllerValue: controller,
-      );
+  Widget body(BuildContext context) {
+    return SendForm(
+      //flashvalue: flashvalue,
+      flashMap: flashMap,
+    );
+  }
 }
 
 class SendForm extends StatefulWidget {
-  final String controllerValue;
-  SendForm({Key key, @required this.controllerValue}) : super(key: key);
+  // final dynamic flashvalue;
+  final Map<String, dynamic> flashMap;
+  SendForm({Key key, this.flashMap}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => SendFormState();
@@ -87,7 +92,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   final List<ReactionDisposer> whenDisposers =
       []; //dispose the when functions we used in this file to avoid the memory leaks
   ReactionDisposer rdisposer1, rdisposer2, rdisposer3;
-
+  bool isFlashTransaction = false;
   @override
   void initState() {
     _focusNodeAddress.addListener(() {
@@ -102,15 +107,73 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     )
       ..forward()
       ..repeat(reverse: true);
-
-// getQrvalue();
-    if (widget.controllerValue != null || widget.controllerValue != '') {
-      setState(() {
-        _addressController.text = widget.controllerValue;
-      });
-    }
+    getFlashData();
+//_presentQRScanner();  // when user enters from flash transaction
+    // if (widget.controllerValue != null || widget.controllerValue != '') {
+    //   setState(() {
+    //     _addressController.text = widget.controllerValue;
+    //   });
+    // }
 
     super.initState();
+  }
+
+// fetch flash transaction data from
+
+  void getFlashData() {
+    //String address,amount;
+    setState(() {
+      if (widget.flashMap != null) {
+        isFlashTransaction = widget.flashMap['flash'] as bool;
+        _addressController.text = (widget.flashMap['address'] as String) ?? '';
+        _cryptoAmountController.text =
+            (widget.flashMap['amount'] as String) ?? '';
+      }
+    });
+  }
+
+  ///scanner for Flash transaction
+
+  Future<void> _presentQRScanner() async {
+    // if(widget.flashvalue != null && widget.flashvalue == true){
+    TextEditingController controller = TextEditingController();
+    String qrValue, famount;
+
+    try {
+      final code = await presentQRScanner();
+      final uri = Uri.parse(code);
+
+      var address = '';
+      var amount = '';
+      if (uri == null) {
+        _addressController.text = code;
+        qrValue = code;
+        return;
+      }
+      address = uri.path;
+      _addressController.text = address;
+      // var address = '';
+      // var amount = '';
+      if (uri != null) {
+        address = uri.path;
+        if (uri.queryParameters[uri.queryParameters.keys.first] != null) {
+          amount = uri.queryParameters[uri.queryParameters.keys.first];
+        }
+      } else {
+        address = uri.toString();
+      }
+
+      _addressController.text = address;
+      _cryptoAmountController.text = amount;
+    } catch (e) {
+      /* ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Invalid BDX address'),
+      ));*/
+      print('Error $e');
+    }
+    // }else{
+    //   return null;
+    // }
   }
 
   bool getAmountValidation(String amount) {
@@ -164,15 +227,14 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     }
   }
 
-
-
-void _startCreatingTransaction(SendStore sendStore,String address){
-
-  print('address -----> $address');
-  Navigator.push(context, MaterialPageRoute<void>(builder: (context)=> CommonLoader(address: address,sendStore: sendStore)));
-
- }
-
+  void _startCreatingTransaction(SendStore sendStore, String address) {
+    print('address -----> $address');
+    Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+            builder: (context) =>
+                CommonLoader(address: address, sendStore: sendStore)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +349,6 @@ void _startCreatingTransaction(SendStore sendStore,String address){
                     ],
                   ),
                 ),
-
                 Padding(
                   padding:
                       const EdgeInsets.only(top: 20.0, left: 5.0, right: 5.0),
@@ -298,11 +359,13 @@ void _startCreatingTransaction(SendStore sendStore,String address){
                           style: TextStyle(
                               fontSize: 18.0, fontWeight: FontWeight.w700)),
                       GestureDetector(
-                          onTap: () async{
-                            final contact = await Navigator.of(context, rootNavigator: true).pushNamed(Routes.pickerAddressBook);
-                              if (contact is Contact && contact.address != null) {
-                                _addressController.text = contact.address;
-                              }
+                          onTap: () async {
+                            final contact =
+                                await Navigator.of(context, rootNavigator: true)
+                                    .pushNamed(Routes.pickerAddressBook);
+                            if (contact is Contact && contact.address != null) {
+                              _addressController.text = contact.address;
+                            }
                           },
                           child: SvgPicture.asset(
                               'assets/images/new-images/Address.svg',
@@ -432,7 +495,7 @@ void _startCreatingTransaction(SendStore sendStore,String address){
                           ),
                           padding: EdgeInsets.only(
                             left: 25,
-                            right:5,
+                            right: 5,
                             top: 10,
                             bottom: 8,
                           ),
@@ -467,7 +530,8 @@ void _startCreatingTransaction(SendStore sendStore,String address){
                                       hintText: 'Enter Amount',
                                       errorStyle:
                                           TextStyle(color: BeldexPalette.red)),
-                                  onChanged: (val)=> _formKey.currentState.validate(),
+                                  onChanged: (val) =>
+                                      _formKey.currentState.validate(),
                                   validator: (value) {
                                     if (value.isEmpty) {
                                       setState(() {
@@ -593,7 +657,8 @@ void _startCreatingTransaction(SendStore sendStore,String address){
                       ),
 
                       Padding(
-                        padding: const EdgeInsets.only(top: 10.0, bottom: 25,left: 10),
+                        padding: const EdgeInsets.only(
+                            top: 10.0, bottom: 25, left: 10),
                         child: Row(
                           // mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
@@ -668,7 +733,8 @@ void _startCreatingTransaction(SendStore sendStore,String address){
                             return;
                           }
                           Navigator.of(auth.context).pop();
-                           _startCreatingTransaction(sendStore, _addressController.text);
+                          _startCreatingTransaction(
+                              sendStore, _addressController.text);
                           isSuccessful = true;
                         });
                         return isSuccessful;
@@ -767,7 +833,12 @@ void _startCreatingTransaction(SendStore sendStore,String address){
               sendStore.pendingTransaction.fee,
               _addressController.text, onPressed: (_) async {
             Navigator.of(context).pop();
+             await Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+            builder: (context) => CommitTransactionloader()));
             await sendStore.commitTransaction();
+            //await sendStore.commitTransaction();
           }, onDismiss: (_) {
             _addressController.text = '';
             _cryptoAmountController.text = '';
@@ -796,5 +867,74 @@ void _startCreatingTransaction(SendStore sendStore,String address){
     });
 
     _effectsInstalled = true;
+  }
+
+//   void _startCommitingTransaction(SendStore sendStore) {
+//     Navigator.push(
+//         context,
+//         MaterialPageRoute<void>(
+//             builder: (context) => CommitTransactionloader(sendStore: sendStore)));
+//   }
+ }
+
+class CommitTransactionloader extends StatelessWidget {
+  CommitTransactionloader({Key key})
+      : super(key: key);
+
+ // final SendStore sendStore;
+
+  @override
+  Widget build(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
+    final height = MediaQuery.of(context).size.height;
+    Future.delayed(const Duration(milliseconds: 250), () async {
+      //await sendStore.commitTransaction();
+      Navigator.of(context).pop();
+    });
+
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Center(
+          child: Scaffold(
+        body: Container(
+            color: settingsStore.isDarkTheme
+                ? Color(0xff171720)
+                : Color(0xffffffff),
+            width: double.infinity,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                    height: height * 0.35 / 3,
+                    width: height * 0.35 / 3,
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xff272733)
+                            : Color(0xffEDEDED),
+                        shape: BoxShape.circle),
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        Color(0xff0BA70F),
+                      ),
+                      strokeWidth: 6,
+                    )),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15.0),
+                  child: Text(
+                    'Commiting the Transaction',
+                    style: TextStyle(
+                        fontSize: height * 0.07 / 3,
+                        fontWeight: FontWeight.w700,
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xffEBEBEB)
+                            : Color(0xff222222)),
+                  ),
+                )
+              ],
+            )),
+      )),
+    );
   }
 }

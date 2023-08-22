@@ -221,7 +221,7 @@ class Router {
                           walletService: walletService,
                           priceStore: priceStore,
                           transactionDescriptions: transactionDescriptions)),
-                ], child: SendPage()));
+                ], child: SendPage(flashMap: settings.arguments as Map<String,dynamic>)));
 
       case Routes.receive:
         return MaterialPageRoute<void>(
