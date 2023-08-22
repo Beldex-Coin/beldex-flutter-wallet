@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:beldex_wallet/src/screens/subaddress/newsubAddress_dialog.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -17,8 +18,10 @@ import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui' as ui;
-
+//import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
+
+String currentSubAddress = '';
 
 class ReceivePage extends BasePage {
   @override
@@ -53,7 +56,6 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
   OverlayEntry overlayEntry;
   GlobalKey globalKey = GlobalKey();
   bool _isOverlayVisible = false;
-  String currentSubAddress = '';
 
   @override
   void initState() {
@@ -71,7 +73,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
   Future<Uint8List> _capturePng() async {
     try {
       final boundary =
-      _globalKey.currentContext.findRenderObject() as RenderRepaintBoundary;
+          _globalKey.currentContext.findRenderObject() as RenderRepaintBoundary;
       final image = await boundary.toImage(
         pixelRatio: 3.0,
       );
@@ -167,8 +169,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             children: <Widget>[
                               Observer(builder: (_) {
                                 return Row(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Container(
@@ -182,24 +183,21 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                               0.60 /
                                               3,
                                       decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(10),
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff1F1F28)
                                             : Color(0xffEDEDED),
                                       ),
                                       padding: EdgeInsets.all(18),
-
                                       child: RepaintBoundary(
-                                        key:_globalKey,
+                                        key: _globalKey,
                                         child: Container(
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
                                                   BorderRadius.circular(10)),
                                           padding: EdgeInsets.all(10),
-                                          child:
-                                              QrImage(
+                                          child: QrImage(
                                             data:
                                                 walletStore.subaddress.address +
                                                     walletStore.amountValue,
@@ -219,8 +217,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                           MainAxisAlignment.center,
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 8.0),
+                                          padding:
+                                              const EdgeInsets.only(right: 8.0),
                                           child: Text(
                                             S.of(context).wallet_address,
                                             style: TextStyle(
@@ -237,45 +235,41 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(SnackBar(
                                               margin: EdgeInsets.only(
-                                                  bottom:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height *
-                                                          0.35 /
-                                                          3,
+                                                  bottom: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.35 /
+                                                      3,
                                                   left: MediaQuery.of(context)
                                                           .size
                                                           .height *
                                                       0.30 /
                                                       3,
-                                                  right:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .height *
-                                                          0.30 /
-                                                          3),
+                                                  right: MediaQuery.of(context)
+                                                          .size
+                                                          .height *
+                                                      0.30 /
+                                                      3),
                                               elevation: 0,
                                               //5,
                                               behavior:
                                                   SnackBarBehavior.floating,
                                               shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          15.0),
-                                                  ),
+                                                borderRadius:
+                                                    BorderRadius.circular(15.0),
+                                              ),
                                               content: Text(
                                                 S.of(context).copied,
                                                 style: TextStyle(
                                                     color: Colors.white,
-                                                    fontWeight:
-                                                        FontWeight.w700,
+                                                    fontWeight: FontWeight.w700,
                                                     fontSize: 15),
                                                 textAlign: TextAlign.center,
                                               ),
                                               backgroundColor:
                                                   Color(0xff0BA70F),
-                                              duration: Duration(
-                                                  milliseconds: 1500),
+                                              duration:
+                                                  Duration(milliseconds: 1500),
                                             ));
                                           },
                                           child: Container(
@@ -283,10 +277,9 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                               width: 20,
                                               child: SvgPicture.asset(
                                                 'assets/images/new-images/copy.svg',
-                                                color:
-                                                    settingsStore.isDarkTheme
-                                                        ? Color(0xffFFFFFF)
-                                                        : Color(0xff16161D),
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffFFFFFF)
+                                                    : Color(0xff16161D),
                                               )),
                                         )
                                       ],
@@ -295,17 +288,16 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                       children: <Widget>[
                                         Expanded(
                                             child: Container(
-                                                padding: EdgeInsets.only(
-                                                    top: 20.0),
+                                                padding:
+                                                    EdgeInsets.only(top: 20.0),
                                                 child: Center(
                                                     child: GestureDetector(
                                                         child: Text(
                                                             walletStore
                                                                 .subaddress
                                                                 .address,
-                                                            textAlign:
-                                                                TextAlign
-                                                                    .center,
+                                                            textAlign: TextAlign
+                                                                .center,
                                                             style: TextStyle(
                                                               fontSize: 11.0,
                                                               height: 1.5,
@@ -323,7 +315,6 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             ],
                           ),
                         ),
-
                         Container(
                           margin:
                               EdgeInsets.only(top: 20, left: 20, bottom: 15),
@@ -338,28 +329,29 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             ],
                           ),
                         ),
-
                         Container(
                           padding: EdgeInsets.only(left: 15.0, right: 15.0),
                           child: Form(
                               key: _formKey,
                               child: NewBeldexTextField(
-                                  keyboardType:
-                                      TextInputType.numberWithOptions(
-                                          decimal: true),
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.deny(
-                                        RegExp('[-, ]'))
-                                  ],
-                                  hintText: 'Enter ${S.of(context).amount}',
-                                  validator: (value) {
-                                    walletStore.validateAmount(value);
-                                    return walletStore.errorMessage;
-                                  },
-                                  controller: amountController,
-                                  onChanged: (val){
-                                  _globalKey.currentContext.findRenderObject().reassemble();
-                                },)),
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.deny(
+                                      RegExp('[-, ]'))
+                                ],
+                                hintText: 'Enter ${S.of(context).amount}',
+                                validator: (value) {
+                                  walletStore.validateAmount(value);
+                                  return walletStore.errorMessage;
+                                },
+                                controller: amountController,
+                                onChanged: (val) {
+                                  _globalKey.currentContext
+                                      .findRenderObject()
+                                      .reassemble();
+                                },
+                              )),
                         ),
                         Container(
                           child: Stack(
@@ -376,91 +368,114 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                           ? Color(0xff464657)
                                           : Color(0xffDADADA),
                                     ),
-                                    borderRadius:
-                                        BorderRadius.circular(10.0)),
+                                    borderRadius: BorderRadius.circular(10.0)),
                                 child: Column(
                                   children: [
+                                    //SubAddressDropDownList(settingsStore: settingsStore,),
                                     Padding(
-                                        padding: EdgeInsets.only(
-                                            left: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.08 /
-                                                3,
-                                            right: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.10 /
-                                                3,
-                                            top: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.03 /
-                                                3),
-                                        child: Observer(
-                                          builder: (_) {
-                                            final canClick =
-                                                subAddressListStore
-                                                            .subaddresses
-                                                            .length ==
-                                                        1
-                                                    ? false
-                                                    : true;
-                                            return GestureDetector(
-                                                onTap: () {
-                                                  final mHeight =
-                                                      MediaQuery.of(context)
-                                                          .size
-                                                          .height;
-                                                  // setState(() {
-                                                  //   canShow = canShow ? false : true;
-                                                  // });
-                                                  setState(() {
-                                                    isOpen =
-                                                        isOpen ? false : true;
-                                                  });
-
-                                                  print(
-                                                      "the value of the isOpen $isOpen");
-
-                                                  if (canClick) {
-                                                    if (overlayEntry ==
-                                                        null) {
-                                                      final overlayState =
-                                                          Overlay.of(context);
-                                                      overlayEntry =
-                                                          OverlayEntry(
-                                                        builder: (context) {
-                                                          return _buildExitnodeListView(
-                                                              mHeight);
-                                                        },
-                                                      );
-
-                                                      overlayState?.insert(
-                                                          overlayEntry);
-
-                                                      setState(() {
-                                                        _isOverlayVisible =
-                                                            true;
-                                                      });
-                                                    }
-                                                  }
-                                                },
-                                                child: displayContainer(
-                                                    context));
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: GestureDetector(
+                                          onTap: () async {
+                                            await showDialog<void>(
+                                                context: context,
+                                                builder: (_) {
+                                                  return SubAddressDropDownList(
+                                                    settingsStore:
+                                                        settingsStore,
+                                                    walletStore: walletStore,
+                                                    subaddressListStore:
+                                                        subAddressListStore,
+                                                  );
+                                                });
                                           },
-                                        )),
+                                          child: displayContainer(context)),
+                                    ),
+
+                                    // Padding(
+                                    //     padding: EdgeInsets.only(
+                                    //         left: MediaQuery.of(context)
+                                    //                 .size
+                                    //                 .height *
+                                    //             0.08 /
+                                    //             3,
+                                    //         right: MediaQuery.of(context)
+                                    //                 .size
+                                    //                 .height *
+                                    //             0.10 /
+                                    //             3,
+                                    //         top: MediaQuery.of(context)
+                                    //                 .size
+                                    //                 .height *
+                                    //             0.03 /
+                                    //             3),
+                                    //     child: Observer(
+                                    //       builder: (_) {
+                                    //         final canClick =
+                                    //             subAddressListStore
+                                    //                         .subaddresses
+                                    //                         .length ==
+                                    //                     1
+                                    //                 ? false
+                                    //                 : true;
+                                    //         return GestureDetector(
+                                    //             onTap: () {
+                                    //               final mHeight =
+                                    //                   MediaQuery.of(context)
+                                    //                       .size
+                                    //                       .height;
+                                    //               // setState(() {
+                                    //               //   canShow = canShow ? false : true;
+                                    //               // });
+                                    //               setState(() {
+                                    //                 isOpen =
+                                    //                     isOpen ? false : true;
+                                    //               });
+
+                                    //               print(
+                                    //                   "the value of the isOpen $isOpen");
+
+                                    //               if (canClick) {
+                                    //                 if (overlayEntry ==
+                                    //                     null) {
+                                    //                   final overlayState =
+                                    //                       Overlay.of(context);
+                                    //                   overlayEntry =
+                                    //                       OverlayEntry(
+                                    //                     builder: (context) {
+                                    //                       return _buildExitnodeListView(
+                                    //                           mHeight);
+                                    //                     },
+                                    //                   );
+
+                                    //                   overlayState?.insert(
+                                    //                       overlayEntry);
+
+                                    //                   setState(() {
+                                    //                     _isOverlayVisible =
+                                    //                         true;
+                                    //                   });
+                                    //                 }
+                                    //               }
+                                    //             },
+                                    //             child: displayContainer(
+                                    //                 context));
+                                    //       },
+                                    //     ),
+
+                                    //     ),
                                     SizedBox(height: 15),
                                     Container(
                                       margin: EdgeInsets.only(
                                           left: 10, right: 10, bottom: 20),
                                       child: GestureDetector(
-                                        onTap: (){
+                                        onTap: () {
                                           showDialog<void>(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return SubAddressAlert( subAddressListStore:subAddressListStore);
-                                                    });
+                                              context: context,
+                                              builder: (context) {
+                                                return SubAddressAlert(
+                                                    subAddressListStore:
+                                                        subAddressListStore);
+                                              });
                                         },
                                         child: Row(
                                           mainAxisAlignment:
@@ -479,13 +494,11 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                               'Add sub address',
                                               //S.of(context).subaddresses,
                                               style: TextStyle(
-                                                  decoration: TextDecoration
-                                                      .underline,
+                                                  decoration:
+                                                      TextDecoration.underline,
                                                   fontSize: 16.0,
                                                   fontWeight: FontWeight.w700,
-                                                  color: Color(
-                                                      0xff2979FB)
-                                                  ),
+                                                  color: Color(0xff2979FB)),
                                             ),
                                           ],
                                         ),
@@ -497,11 +510,9 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             ],
                           ),
                         ),
-
                         SizedBox(
-                            height: MediaQuery.of(context).size.height *
-                                0.20 /
-                                3),
+                            height:
+                                MediaQuery.of(context).size.height * 0.20 / 3),
                         Container(
                           margin: EdgeInsets.all(15),
                           child: InkWell(
@@ -695,7 +706,9 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                         ),
                                       ),
                                       Divider(
-                                        color:settingsStore.isDarkTheme ? Color(0xff454555) : Colors.grey[300],
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xff454555)
+                                            : Colors.grey[300],
                                       )
                                     ],
                                   ),
@@ -749,31 +762,161 @@ class NewBeldexTextField extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 25.0),
         child: TextFormField(
-            onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
-            enabled: enabled,
-            controller: controller,
-            focusNode: focusNode,
-            style: TextStyle(
-              fontSize: 16.0,
-            ),
-            keyboardType: keyboardType,
-            inputFormatters: inputFormatters,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                prefixIcon: prefixIcon,
-                suffixIcon: suffixIcon,
-                hintStyle: TextStyle(
-                    fontSize: 15.0,
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xff77778B)
-                        : Color(0xff6F6F6F),
-                    fontWeight: FontWeight.w600),
-                hintText: hintText,
-                errorStyle: TextStyle(color: BeldexPalette.red)),
-            validator: validator,
-            onChanged: onChanged,),
+          onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
+          enabled: enabled,
+          controller: controller,
+          focusNode: focusNode,
+          style: TextStyle(
+            fontSize: 16.0,
+          ),
+          keyboardType: keyboardType,
+          inputFormatters: inputFormatters,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          decoration: InputDecoration(
+              border: InputBorder.none,
+              prefixIcon: prefixIcon,
+              suffixIcon: suffixIcon,
+              hintStyle: TextStyle(
+                  fontSize: 15.0,
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xff77778B)
+                      : Color(0xff6F6F6F),
+                  fontWeight: FontWeight.w600),
+              hintText: hintText,
+              errorStyle: TextStyle(color: BeldexPalette.red)),
+          validator: validator,
+          onChanged: onChanged,
+        ),
       ),
+    );
+  }
+}
+
+class SubAddressDropDownList extends StatefulWidget {
+  final SettingsStore settingsStore;
+  final WalletStore walletStore;
+  final SubaddressListStore subaddressListStore;
+  const SubAddressDropDownList(
+      {Key key, this.settingsStore, this.walletStore, this.subaddressListStore})
+      : super(key: key);
+
+  @override
+  State<SubAddressDropDownList> createState() => _SubAddressDropDownListState();
+}
+
+class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
+final _controller = ScrollController(keepScrollOffset: true);
+  @override
+  Widget build(BuildContext context) {
+    //  final subAddressListStore = Provider.of<SubaddressListStore>(context);
+    // final walletStore = Provider.of<WalletStore>(context);
+    // final settingsStore = Provider.of<SettingsStore>(context);
+    return AlertDialog(
+      insetPadding: EdgeInsets.all(8),
+      backgroundColor:widget.settingsStore.isDarkTheme
+                  ? Color(0xff272733)
+                  : Color(0xffFFFFFF) ,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      title: Center(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Icon(Icons.class__outlined,color: Colors.transparent,),
+          Text('Sub Addresses', style: TextStyle(fontWeight: FontWeight.w800)),
+           GestureDetector(
+            onTap: ()=>Navigator.pop(context),
+            child: Icon(Icons.close))
+        ],
+      )),
+      content: Container(
+          width: double.maxFinite,
+          height: MediaQuery.of(context).size.height * 0.80 / 3,
+          decoration: BoxDecoration(
+              color: widget.settingsStore.isDarkTheme
+                  ? Color(0xff272733)
+                  : Color(0xffFFFFFF),
+             borderRadius: BorderRadius.circular(10)     
+              ),
+          child: Column(
+            children: [
+              Expanded(
+                child: RawScrollbar(
+                  isAlwaysShown: true,
+                  controller: _controller,
+                  child: ListView.builder(
+                    controller: _controller,
+                      shrinkWrap: true,
+                     // physics: NeverScrollableScrollPhysics(),
+                      itemCount: widget.subaddressListStore.subaddresses.length,
+                      itemBuilder: (context, i) {
+                        return Observer(builder: (_) {
+                          final subaddress = widget.subaddressListStore.subaddresses[i];
+                          final isCurrent = widget.walletStore.subaddress.address ==
+                              subaddress.address;
+                          final label = subaddress.label.isNotEmpty
+                              ? subaddress.label
+                              : subaddress.address;
+                          return InkWell(
+                            onTap:isCurrent ? null : () async {
+                              //  widget.walletStore.setSubaddress(subaddress),
+                              final prefs = await SharedPreferences.getInstance();
+                              widget.walletStore.setSubaddress(subaddress);
+                              Navigator.pop(context);
+                              await prefs.setString(
+                                  'currentSubAddress', label.toString());
+                              setState(() {
+                                currentSubAddress =
+                                    prefs.getString('currentSubAddress');
+                              });
+                            },
+                            child: isCurrent
+                                ? Card(
+                                    elevation: 0,
+                                    color:Color(0xff2979FB),
+                                    // color: Theme.of(context)
+                                    //     .accentTextTheme
+                                    //     .overline
+                                    //     .backgroundColor, //Color.fromARGB(255, 40,42,51),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(15)),
+                                    child: Container(
+                                      margin: EdgeInsets.only(left: 10),
+                                      padding: EdgeInsets.all(15),
+                                      child: Center(
+                                        child: Text(
+                                          label,
+                                          style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.w800,
+                                            color: Colors.white, //Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    margin: EdgeInsets.only(left: 10),
+                                    padding: EdgeInsets.all(15),
+                                    child: Center(
+                                      child: Text(
+                                        label,
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                          color: Theme.of(context)
+                                              .primaryTextTheme
+                                              .caption
+                                              .color, //Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                          );
+                        });
+                      }),
+                ),
+              ),
+            ],
+          )),
     );
   }
 }
