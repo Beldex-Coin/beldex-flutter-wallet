@@ -18,25 +18,30 @@ import 'dart:math' as math;
 import '../../../routes.dart';
 
 abstract class PinCodeWidget extends StatefulWidget {
-  PinCodeWidget({Key key, this.onPinCodeEntered, this.hasLengthSwitcher, this.notifyParent})
+  PinCodeWidget(
+      {Key key,
+      this.onPinCodeEntered,
+      this.hasLengthSwitcher,
+      this.notifyParent})
       : super(key: key);
 
   final Function(List<int> pin, PinCodeState state) onPinCodeEntered;
   final bool hasLengthSwitcher;
   final Function() notifyParent;
- 
 }
 
 class PinCode extends PinCodeWidget {
-  PinCode(Function(List<int> pin, PinCodeState state) onPinCodeEntered,
-      bool hasLengthSwitcher, Key key,Function() notifyParent,
-      )
-      : super(
-            key: key,
-            onPinCodeEntered: onPinCodeEntered,
-            hasLengthSwitcher: hasLengthSwitcher,
-  notifyParent : notifyParent,
-  );
+  PinCode(
+    Function(List<int> pin, PinCodeState state) onPinCodeEntered,
+    bool hasLengthSwitcher,
+    Key key,
+    Function() notifyParent,
+  ) : super(
+          key: key,
+          onPinCodeEntered: onPinCodeEntered,
+          hasLengthSwitcher: hasLengthSwitcher,
+          notifyParent: notifyParent,
+        );
 //  bool canShowBackArrow = true;
 
   @override
@@ -58,13 +63,6 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   void setTitle(String title) => setState(() => this.title = title);
 
   void clear() => setState(() => pin = List<int>.filled(pinLength, null));
-
-
-
-
-
-
-
 
   void onPinCodeEntered(PinCodeState state) =>
       widget.onPinCodeEntered.call(state.pin, this);
@@ -97,6 +95,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
 
     setState(() {});
   }
+
   LocalAuthentication auth;
   List<BiometricType> _availableBiometrics = <BiometricType>[];
 
@@ -105,7 +104,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
     auth = LocalAuthentication();
     //-->
     getSetupArrow();
-   _getAvailableBiometrics();
+    _getAvailableBiometrics();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(afterLayout);
   }
@@ -172,44 +171,42 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   ),
   ),
   backgroundColor:  Theme.of(context).backgroundColor)*/
-  
 
- void getSetupArrow()async{
-    final prefs =await SharedPreferences.getInstance();
-    setState(() { });
-          isUnlockScreen = prefs.getBool('removeArrow');
-       
- }
+  void getSetupArrow() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {});
+    isUnlockScreen = prefs.getBool('removeArrow');
+  }
 
-
-@override
+  @override
   void dispose() {
     resetUnlockScreenValue();
     super.dispose();
   }
 
- void resetUnlockScreenValue()async{
-   final prefs =await SharedPreferences.getInstance();
-  await prefs.setBool('removeArrow',false);
+  void resetUnlockScreenValue() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('removeArrow', false);
+  }
 
- }
   @override
   Widget build(BuildContext context) {
-     final settingsStore = Provider.of<SettingsStore>(context);
-  
-    return  Scaffold(
-      backgroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
-    // appBar: AppBar(
-    //   elevation: 0,
-    //   title: Text(isUnlockScreen ? 'Enter pin' : S.of(context).settingup_pin,style: TextStyle(color:Theme.of(context).primaryTextTheme.caption.color,fontSize:26,fontWeight: FontWeight.w800),) ,
-    //   centerTitle: true,
-    //   backgroundColor: Colors.transparent,
-    //   leading: Navigator.canPop(context) ? GestureDetector(
-    //     onTap: ()=>Navigator.pop(context),
-    //     child: Container(child: Icon(Icons.arrow_back,color:settingsStore.isDarkTheme ? Colors.white: Colors.black))): Container(),
-    //   leadingWidth: 70.0,
-    // ),
-    body: body(context));
+    final settingsStore = Provider.of<SettingsStore>(context);
+
+    return Scaffold(
+        backgroundColor:
+            settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+        // appBar: AppBar(
+        //   elevation: 0,
+        //   title: Text(isUnlockScreen ? 'Enter pin' : S.of(context).settingup_pin,style: TextStyle(color:Theme.of(context).primaryTextTheme.caption.color,fontSize:26,fontWeight: FontWeight.w800),) ,
+        //   centerTitle: true,
+        //   backgroundColor: Colors.transparent,
+        //   leading: Navigator.canPop(context) ? GestureDetector(
+        //     onTap: ()=>Navigator.pop(context),
+        //     child: Container(child: Icon(Icons.arrow_back,color:settingsStore.isDarkTheme ? Colors.white: Colors.black))): Container(),
+        //   leadingWidth: 70.0,
+        // ),
+        body: body(context));
   }
 
   List<Color> colorList = [
@@ -232,23 +229,26 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   Alignment end = Alignment.topRight;
 
   Widget body(BuildContext context) {
-     final settingsStore = Provider.of<SettingsStore>(context);
+    final settingsStore = Provider.of<SettingsStore>(context);
     return SafeArea(
         child: Container(
-     // color: Theme.of(context).backgroundColor,
+      // color: Theme.of(context).backgroundColor,
       padding: EdgeInsets.only(left: 40.0, right: 40.0, bottom: 40.0),
       child: Column(children: <Widget>[
         Spacer(
           flex: 2,
         ),
-      Container(
-       padding:EdgeInsets.only(top:10.0,bottom: 40.0,left: 40.0,right:40.0),
-        height:MediaQuery.of(context).size.height*0.60/3,
-        width: double.infinity,
-       // color:Colors.yellow,
-        child: SvgPicture.asset('assets/images/new-images/Password.svg',width:150,),
-      ),
-
+        Container(
+          padding:
+              EdgeInsets.only(top: 10.0, bottom: 40.0, left: 40.0, right: 40.0),
+          height: MediaQuery.of(context).size.height * 0.60 / 3,
+          width: double.infinity,
+          // color:Colors.yellow,
+          child: SvgPicture.asset(
+            'assets/images/new-images/Password.svg',
+            width: 150,
+          ),
+        ),
 
         // ClipOval(
         //   clipBehavior: Clip.antiAlias,
@@ -356,7 +356,10 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
         ),*/
         //Spacer(flex: 4),
         Text(title,
-            style: TextStyle(fontSize: 19,fontWeight: FontWeight.w600, color: Theme.of(context).primaryTextTheme.caption.color)),
+            style: TextStyle(
+                fontSize: 19,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).primaryTextTheme.caption.color)),
         Spacer(flex: 1),
         Container(
           width: 190,
@@ -373,17 +376,23 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                       height: size,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: isFilled ? settingsStore.isDarkTheme ? Color(0xffFFFFFF) : Colors.black : Colors.transparent,
+                        color: isFilled
+                            ? settingsStore.isDarkTheme
+                                ? Color(0xffFFFFFF)
+                                : Colors.black
+                            : Colors.transparent,
                         //border: Border.all(color: isFilled ? BeldexPalette.teal:Theme.of(context).primaryTextTheme.headline5.color),
                       )),
-                      Container(
-                        margin: EdgeInsets.only(right:5),
-                        width:25,
-                        child: Divider(
-                          color: settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xffDADADA),thickness: 3,
-                        ),
-                      )
-                  
+                  Container(
+                    margin: EdgeInsets.only(right: 5),
+                    width: 25,
+                    child: Divider(
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff77778B)
+                          : Color(0xffDADADA),
+                      thickness: 3,
+                    ),
+                  )
                 ],
               );
             }),
@@ -392,12 +401,14 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
         if (widget.hasLengthSwitcher) ...[
           Container(
             width: 220,
-            margin: EdgeInsets.only(top:8.0,left:25,right:25),
+            margin: EdgeInsets.only(top: 8.0, left: 25, right: 25),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED)
-            ),
-            child: TextButton( //FlatButton
+                borderRadius: BorderRadius.circular(10),
+                color: settingsStore.isDarkTheme
+                    ? Color(0xff272733)
+                    : Color(0xffEDEDED)),
+            child: TextButton(
+                //FlatButton
                 onPressed: () {
                   changePinLength(pinLength == PinCodeState.fourPinLength
                       ? PinCodeState.sixPinLength
@@ -408,9 +419,16 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                   children: [
                     Text(
                       _changePinLengthText(),
-                      style: TextStyle(fontSize: 17.0,fontWeight: FontWeight.w800 ,color: Theme.of(context).primaryTextTheme.caption.color),
+                      style: TextStyle(
+                          fontSize: 17.0,
+                          fontWeight: FontWeight.w800,
+                          color:
+                              Theme.of(context).primaryTextTheme.caption.color),
                     ),
-                    Icon(Icons.keyboard_arrow_right,color: settingsStore.isDarkTheme ? Colors.white: Colors.black)
+                    Icon(Icons.keyboard_arrow_right,
+                        color: settingsStore.isDarkTheme
+                            ? Colors.white
+                            : Colors.black)
                   ],
                 )),
           )
@@ -430,105 +448,147 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                           const marginLeft = 15.0;
 
                           if (index == 9) {
-                            return Container( 
-                              padding:EdgeInsets.all(10),
-                              margin: EdgeInsets.only(
-                                  left: marginLeft, right: marginRight),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                               // color: Colors.pink,
-                              ),
-                              child:GestureDetector(
-                                onTap: (){
-                                  if(settingsStore.allowBiometricAuthentication){
-                                    _getAvailableBiometrics();
-                                     showBiometricDialog(context, S.of(context).biometric_auth_reason);
-                                  }else{
+                            return Container(
+                                padding: EdgeInsets.all(10),
+                                margin: EdgeInsets.only(
+                                    left: marginLeft, right: marginRight),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  // color: Colors.pink,
+                                ),
+                                child: GestureDetector(
+                                    onTap: () {
+                                      if (settingsStore
+                                          .allowBiometricAuthentication) {
+                                        _getAvailableBiometrics();
+                                        showBiometricDialog(
+                                            context,
+                                            S
+                                                .of(context)
+                                                .biometric_auth_reason);
+                                      } else {
+                                        showDialog<void>(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10)),
+                                                backgroundColor:
+                                                    settingsStore.isDarkTheme
+                                                        ? Color(0xff13131A)
+                                                        : Color(0xffffffff),
+                                                content: Container(
+                                                  margin: EdgeInsets.symmetric(
+                                                      vertical: 20),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    // mainAxisAlignment: MainAxisAlignment.center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: [
+                                                      Text(
+                                                        'Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings',
+                                                        style: TextStyle(
+                                                            color: settingsStore
+                                                                    .isDarkTheme
+                                                                ? Colors.white
+                                                                : Colors.black,
+                                                            fontSize: 15),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                      SizedBox(height: 20),
+                                                      GestureDetector(
+                                                        onTap: () =>
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop(),
+                                                        child: Container(
+                                                          height: 40,
+                                                          width: 70,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                            color: Color(
+                                                                0xff0BA70F),
+                                                          ),
+                                                          alignment:
+                                                              Alignment.center,
+                                                          child: Text(
+                                                            S.of(context).ok,
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w800,
+                                                                fontSize: 15),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
 
+                                                // actions: <Widget>[
+                                                //   FlatButton(
+                                                //       onPressed: () => Navigator.of(context).pop(),
+                                                //       child: Text(S.of(context).ok))
+                                                // ],
+                                              );
+                                            });
 
-                                   showDialog<void>(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            backgroundColor:settingsStore.isDarkTheme ? Color(0xff13131A) : Color(0xffffffff) ,
-                            content:Container(
-                              margin: EdgeInsets.symmetric(vertical: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                               // mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(
-                                          'Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings',
-                                          style: TextStyle(color:settingsStore.isDarkTheme ? Colors.white :Colors.black,fontSize:15),
-                                          textAlign: TextAlign.center,
+                                        //     ScaffoldMessenger.of(context).showSnackBar(
+                                        //       SnackBar(
+                                        //   elevation: 5,
+                                        //   shape: RoundedRectangleBorder(
+                                        //       borderRadius: BorderRadius.only(
+                                        //           topLeft: Radius.circular(10),
+                                        //           topRight: Radius.circular(10))),
+                                        //   content: Text(
+                                        //     'Biometric feature currenly diabled.Kindly enable allow biometric authentication feature inside the app settings',
+                                        //     style: TextStyle(color: Colors.white),
+                                        //     textAlign: TextAlign.center,
+                                        //   ),
+                                        //   backgroundColor:
+                                        //       Color.fromARGB(255, 46, 113, 43),
+                                        //   duration: Duration(milliseconds: 1500),
+                                        // )
+                                        //     );
 
-                                          
-                                        ),
-                                  SizedBox(height:10),
-                                  GestureDetector(
-                                    onTap: ()=> Navigator.of(context).pop(),
-                                    child: Container(
-                                      height:40,width:70,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: Color(0xff0BA70F),
-                                        
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Text(S.of(context).ok,style: TextStyle(color: Colors.white,fontWeight:FontWeight.w800,fontSize:15),
-                                            textAlign: TextAlign.center,),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-
-                            // actions: <Widget>[
-                            //   FlatButton(
-                            //       onPressed: () => Navigator.of(context).pop(),
-                            //       child: Text(S.of(context).ok))
-                            // ],
-                          );
-                        });
-
-
-                                //     ScaffoldMessenger.of(context).showSnackBar(
-                                //       SnackBar(
-                                //   elevation: 5,
-                                //   shape: RoundedRectangleBorder(
-                                //       borderRadius: BorderRadius.only(
-                                //           topLeft: Radius.circular(10),
-                                //           topRight: Radius.circular(10))),
-                                //   content: Text(
-                                //     'Biometric feature currenly diabled.Kindly enable allow biometric authentication feature inside the app settings',
-                                //     style: TextStyle(color: Colors.white),
-                                //     textAlign: TextAlign.center,
-                                //   ),
-                                //   backgroundColor:
-                                //       Color.fromARGB(255, 46, 113, 43),
-                                //   duration: Duration(milliseconds: 1500),
-                                // )
-                                //     );
-                                    
-                                  }
-                                 
-                                },
-                                child: SvgPicture.asset('assets/images/new-images/fingerprint.svg',color: settingsStore.isDarkTheme?Color(0xffFFFFFF):Color(0xff060606),))
-                            );
+                                      }
+                                    },
+                                    child: SvgPicture.asset(
+                                      'assets/images/new-images/fingerprint.svg',
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xffFFFFFF)
+                                          : Color(0xff060606),
+                                    )));
                           } else if (index == 10) {
                             index = 0;
                           } else if (index == 11) {
                             return Container(
                               margin: EdgeInsets.only(
                                   left: marginLeft, right: marginRight),
-                              child: TextButton( //FlatButton
+                              child: TextButton(
+                                //FlatButton
                                 onPressed: () => _pop(),
                                 // color: Colors.transparent,
                                 // shape: CircleBorder(),
-                                child: Icon(Icons.backspace_outlined, color: Theme.of(context).primaryTextTheme.caption.color),
+                                child: Icon(Icons.backspace_outlined,
+                                    color: Theme.of(context)
+                                        .primaryTextTheme
+                                        .caption
+                                        .color),
                               ),
                             );
                           } else {
@@ -538,14 +598,19 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                           return Container(
                             margin: EdgeInsets.only(
                                 left: marginLeft, right: marginRight),
-                                //color:Colors.green,
+                            //color:Colors.green,
                             child: TextButton(
                               onPressed: () => _push(index),
                               // color: Colors.transparent,
                               // shape: CircleBorder(),
                               child: Text('$index',
                                   style: TextStyle(
-                                      fontSize: 23.0, fontWeight: FontWeight.w800, color: Theme.of(context).primaryTextTheme.caption.color)),
+                                      fontSize: 23.0,
+                                      fontWeight: FontWeight.w800,
+                                      color: Theme.of(context)
+                                          .primaryTextTheme
+                                          .caption
+                                          .color)),
                             ),
                           );
                         }),

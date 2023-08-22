@@ -85,14 +85,14 @@ class BeldexBioDialog extends StatelessWidget {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(left:5,bottom:8.0),
-                                child: Text('unlock Beldex Wallet',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color:settingsStore.isDarkTheme ? Color(0xffEBEBEB): Color(0xff16161D)),),
+                                child: Text('Unlock Beldex Wallet',style: TextStyle(fontSize: 20,fontWeight: FontWeight.w600,color:settingsStore.isDarkTheme ? Color(0xffEBEBEB): Color(0xff16161D)),),
                               ),
                             ],
                           ),
                           Container(
                             
                            // color: Colors.yellow,
-                            child: Text('Confirm your screen lock PIN,pattern and password',style: TextStyle(fontSize: 13,color:settingsStore.isDarkTheme ? Color(0xff909090): Color(0xff303030)),)),
+                            child: Text('Confirm your screen lock PIN,Pattern and password',style: TextStyle(fontSize: 13,color:settingsStore.isDarkTheme ? Color(0xff909090): Color(0xff303030)),)),
                        
                         Container(
                           margin: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.10/3),
@@ -100,7 +100,7 @@ class BeldexBioDialog extends StatelessWidget {
                         ),
                         Container(
                           padding: EdgeInsets.only(top:10),
-                          child:Text('Touch the fingerprint sensor',style: TextStyle(fontSize:13,color: Color(0xff909090)),)
+                          child:Text('Touch the Fingerprint sensor',style: TextStyle(fontSize:13,color: Color(0xff909090)),)
                         ),
                         GestureDetector(
                           onTap: ()=>Navigator.pop(context),

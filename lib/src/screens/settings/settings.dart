@@ -958,6 +958,11 @@ class SettingsFormState extends State<SettingsForm> {
                                                     searchCurrencyController,
                                                 decoration: InputDecoration(
                                                   hintText: 'Search Currency',
+                                                   suffixIcon: IconButton(icon: Icon(Icons.close), onPressed: (){
+                                          setState(() {
+                                              searchCurrencyController.text='';                                        
+                                              });
+                                        }),
                                                   contentPadding:
                                                       EdgeInsets.fromLTRB(20.0,
                                                           15.0, 20.0, 15.0),
@@ -972,7 +977,8 @@ class SettingsFormState extends State<SettingsForm> {
                                               child: Container(
                                                 padding:
                                                     EdgeInsets.only(right: 10),
-                                                child: RawScrollbar(
+                                                child: Observer(builder: (_){
+                                                   return  RawScrollbar(
                                                   controller: _scrollController,
                                                   thickness: 8,
                                                   thumbColor:
@@ -1007,7 +1013,9 @@ class SettingsFormState extends State<SettingsForm> {
                                                                     index)
                                                                 : Container();
                                                       }),
-                                                ),
+                                                );
+                                                },)
+                                                
                                               ),
                                             ),
                                           ],

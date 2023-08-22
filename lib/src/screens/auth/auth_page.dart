@@ -159,7 +159,7 @@ class AuthPageState extends State<AuthPage> {
           title: Padding(
             padding: EdgeInsets.only(top: 20, bottom: 5),
             child: Text(
-              'Enter pin',
+              'Enter Pin',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 22,
