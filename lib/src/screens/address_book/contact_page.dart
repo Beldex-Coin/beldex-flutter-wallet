@@ -362,6 +362,7 @@ bool _checkName(String enteredName) {
                   child:Text('Reset',textAlign:TextAlign.center, style: TextStyle(fontSize:17,fontWeight: FontWeight.w800,color: settingsStore.isDarkTheme ? Color(0xff93939B) :Color(0xff16161D)),)
               ),
            ),
+             SizedBox(width: 5,),
              GestureDetector(
               onTap: coinVisibility ? null:() async {
                     if (!_formKey.currentState.validate()) {return; }
