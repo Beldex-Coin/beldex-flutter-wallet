@@ -2,23 +2,29 @@ import 'dart:async';
 
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 
 class CommonLoader extends StatelessWidget {
-  CommonLoader({Key key, this.address, this.sendStore}) : super(key: key);
+  CommonLoader({Key key, this.address, this.sendStore,this.isFlashTransaction}) : super(key: key);
 
   final String address;
   final SendStore sendStore;
+  final bool isFlashTransaction;
 
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
     Future.delayed(const Duration(milliseconds: 250), ()async{
-     await sendStore.createTransaction(address: address);
+      if(isFlashTransaction) {
+        await sendStore.createTransaction(address: address,tPriority:BeldexTransactionPriority.flash);
+      }else{
+        await sendStore.createTransaction(address: address);
+      }
       Navigator.of(context).pop();
     });
 

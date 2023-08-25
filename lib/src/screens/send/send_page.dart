@@ -58,7 +58,6 @@ class SendPage extends BasePage {
   @override
   Widget body(BuildContext context) {
     return SendForm(
-      //flashvalue: flashvalue,
       flashMap: flashMap,
     );
   }
@@ -108,72 +107,20 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       ..forward()
       ..repeat(reverse: true);
     getFlashData();
-//_presentQRScanner();  // when user enters from flash transaction
-    // if (widget.controllerValue != null || widget.controllerValue != '') {
-    //   setState(() {
-    //     _addressController.text = widget.controllerValue;
-    //   });
-    // }
-
     super.initState();
   }
 
-// fetch flash transaction data from
-
+  // fetch flash transaction data from
   void getFlashData() {
-    //String address,amount;
     setState(() {
       if (widget.flashMap != null) {
         isFlashTransaction = widget.flashMap['flash'] as bool;
         _addressController.text = (widget.flashMap['address'] as String) ?? '';
-        _cryptoAmountController.text =
-            (widget.flashMap['amount'] as String) ?? '';
+        if(widget.flashMap['amount'] != null) {
+          _cryptoAmountController.text = (widget.flashMap['amount'] as String);
+        }
       }
     });
-  }
-
-  ///scanner for Flash transaction
-
-  Future<void> _presentQRScanner() async {
-    // if(widget.flashvalue != null && widget.flashvalue == true){
-    TextEditingController controller = TextEditingController();
-    String qrValue, famount;
-
-    try {
-      final code = await presentQRScanner();
-      final uri = Uri.parse(code);
-
-      var address = '';
-      var amount = '';
-      if (uri == null) {
-        _addressController.text = code;
-        qrValue = code;
-        return;
-      }
-      address = uri.path;
-      _addressController.text = address;
-      // var address = '';
-      // var amount = '';
-      if (uri != null) {
-        address = uri.path;
-        if (uri.queryParameters[uri.queryParameters.keys.first] != null) {
-          amount = uri.queryParameters[uri.queryParameters.keys.first];
-        }
-      } else {
-        address = uri.toString();
-      }
-
-      _addressController.text = address;
-      _cryptoAmountController.text = amount;
-    } catch (e) {
-      /* ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Invalid BDX address'),
-      ));*/
-      print('Error $e');
-    }
-    // }else{
-    //   return null;
-    // }
   }
 
   bool getAmountValidation(String amount) {
@@ -227,13 +174,13 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     }
   }
 
-  void _startCreatingTransaction(SendStore sendStore, String address) {
+  void _startCreatingTransaction(SendStore sendStore, String address, bool isFlashTransaction) {
     print('address -----> $address');
     Navigator.push(
         context,
         MaterialPageRoute<void>(
             builder: (context) =>
-                CommonLoader(address: address, sendStore: sendStore)));
+                CommonLoader(address: address, sendStore: sendStore,isFlashTransaction:isFlashTransaction)));
   }
 
   @override
@@ -393,24 +340,16 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           var amount = '';
                           if (uri != null) {
                             address = uri.path;
-                            if (uri.queryParameters[
-                                    uri.queryParameters.keys.first] !=
-                                null) {
-                              amount = uri.queryParameters[
-                                  uri.queryParameters.keys.first];
+                            if (uri.queryParameters.isNotEmpty) {
+                              amount = uri.queryParameters[uri.queryParameters.keys.first];
                             }
-                          } else {
-                            address = uri.toString();
                           }
-
                           _addressController.text = address;
                           _cryptoAmountController.text = amount;
                         },
                         options: [
                           AddressTextFieldOption.saveAddress,
                           AddressTextFieldOption.qrCode,
-
-                          //AddressTextFieldOption.addressBook
                         ],
                         onChanged: (val) => _formKey.currentState.validate(),
                         validator: (value) {
@@ -727,14 +666,14 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                             arguments: (bool isAuthenticatedSuccessfully,
                                 AuthPageState auth) async {
                           print(
-                              'inside authendication $isAuthenticatedSuccessfully');
+                              'inside authentication $isAuthenticatedSuccessfully');
                           if (!isAuthenticatedSuccessfully) {
                             isSuccessful = false;
                             return;
                           }
                           Navigator.of(auth.context).pop();
                           _startCreatingTransaction(
-                              sendStore, _addressController.text);
+                              sendStore, _addressController.text,isFlashTransaction);
                           isSuccessful = true;
                         });
                         return isSuccessful;
@@ -836,9 +775,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
              await Navigator.push(
         context,
         MaterialPageRoute<void>(
-            builder: (context) => CommitTransactionloader()));
-            await sendStore.commitTransaction();
-            //await sendStore.commitTransaction();
+            builder: (context) => CommitTransactionLoader(sendStore: sendStore)));
           }, onDismiss: (_) {
             _addressController.text = '';
             _cryptoAmountController.text = '';
@@ -849,7 +786,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
       if (state is TransactionCommitted) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
-          print('inside the transaction commiteed ---->');
+          print('inside the transaction committed ---->');
+          Navigator.of(context).pop();
           await showSimpleSentTrans(
               context,
               S.of(context).sending,
@@ -868,28 +806,20 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
     _effectsInstalled = true;
   }
-
-//   void _startCommitingTransaction(SendStore sendStore) {
-//     Navigator.push(
-//         context,
-//         MaterialPageRoute<void>(
-//             builder: (context) => CommitTransactionloader(sendStore: sendStore)));
-//   }
  }
 
-class CommitTransactionloader extends StatelessWidget {
-  CommitTransactionloader({Key key})
+class CommitTransactionLoader extends StatelessWidget {
+  CommitTransactionLoader({Key key,this.sendStore})
       : super(key: key);
 
- // final SendStore sendStore;
+  final SendStore sendStore;
 
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
     Future.delayed(const Duration(milliseconds: 250), () async {
-      //await sendStore.commitTransaction();
-      Navigator.of(context).pop();
+      await sendStore.commitTransaction();
     });
 
     return WillPopScope(
@@ -923,7 +853,7 @@ class CommitTransactionloader extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 15.0),
                   child: Text(
-                    'Commiting the Transaction',
+                    'Committing the Transaction',
                     style: TextStyle(
                         fontSize: height * 0.07 / 3,
                         fontWeight: FontWeight.w700,

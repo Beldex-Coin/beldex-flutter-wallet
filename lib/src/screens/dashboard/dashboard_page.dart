@@ -348,82 +348,31 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
     super.initState();
   }
 
-
-
-Future<void> _presentQRScanner(BuildContext context) async {
- // if(widget.flashvalue != null && widget.flashvalue == true){
-    // TextEditingController controller = TextEditingController();
-     final _addressController = TextEditingController();
-     final _cryptoAmountController = TextEditingController();
-    String qrValue, famount;
-
+  Future<void> _presentQRScanner(BuildContext context) async {
     try {
       final code = await presentQRScanner();
       final uri = Uri.parse(code);
-     
       var address = '';
       var amount = '';
-      if (uri == null) {
-        _addressController.text = code;
-        qrValue = code;
-        return;
-      }
+      if (uri != null) {
         address = uri.path;
-      _addressController.text = address;
-        // var address = '';
-        // var amount = '';
-                          if (uri != null) {
-                            address = uri.path;
-                            if(uri.queryParameters[uri.queryParameters.keys.first]!=null){
-                              amount = uri.queryParameters[uri.queryParameters.keys.first];
-                            }
-                          } else {
-                            address = uri.toString();
-                          }
-
-                          _addressController.text = address;
-                          _cryptoAmountController.text = amount;
-           if(_addressController.text != null || _cryptoAmountController.text != null){
-           // print('address value----> ')
-             await Navigator.pushNamed(
-                                          context, Routes.send,
-                                          arguments: {
-                                            'flash'   : true,
-                                            'address' : _addressController.text,
-                                            'amount'  : _cryptoAmountController.text
-                                          }
-                                         );
-           }else{
-            return null;
-           }
-      
+        if (uri.queryParameters.isNotEmpty) {
+          amount = uri.queryParameters[uri.queryParameters.keys.first];
+        }
+      } else {
+        address = code;
+      }
+      if (address.isNotEmpty || amount.isNotEmpty) {
+        await Navigator.pushNamed(context, Routes.send, arguments: {
+          'flash': true,
+          'address': address,
+          'amount': amount
+        });
+      }
     } catch (e) {
-      /* ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Invalid BDX address'),
-      ));*/
       print('Error $e');
     }
-  // }else{
-  //   return null;
-  // }
-   
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   @override
   void dispose() {
