@@ -323,5 +323,6 @@
   "changeWallet": "Change Wallet",
   "removeWallet": "Remove Wallet",
   "reconnectWallet": "Reconnect Wallet",
-  "rescanWallet": "Rescan Wallet"
+  "rescanWallet": "Rescan Wallet",
+  "enterWalletName": "Enter Wallet Name"
 }

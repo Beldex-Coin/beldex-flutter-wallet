@@ -109,6 +109,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "digit_pin" : MessageLookupByLibrary.simpleMessage("-digit PIN"),
     "do_you_want_to_exit_an_app" : MessageLookupByLibrary.simpleMessage("Do you want to exit an App"),
     "edit" : MessageLookupByLibrary.simpleMessage("Edit"),
+    "enterWalletName" : MessageLookupByLibrary.simpleMessage("Enter Wallet Name"),
     "enter_your_pin" : MessageLookupByLibrary.simpleMessage("Enter your PIN"),
     "enter_your_pin_again" : MessageLookupByLibrary.simpleMessage("Enter your pin again"),
     "error" : MessageLookupByLibrary.simpleMessage("Error"),

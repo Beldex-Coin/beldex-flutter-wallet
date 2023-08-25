@@ -142,69 +142,66 @@ class _WalletNameFormState extends State<WalletNameForm> {
         ),
         Padding(
           padding: EdgeInsets.only(left: 10, right: 10, bottom: 15, top: 10),
-          child: Container(
-            height: 60,
-            child: Form(
-                key: _formKey,
-                child: Card(
-                  color: settingsStore.isDarkTheme
-                      ? Color(0xff272733)
-                      : Color(0xffEDEDED),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Container(
-                    margin: EdgeInsets.only(left: 30),
-                    child: TextFormField(
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        color: settingsStore.isDarkTheme
-                            ? Colors.white
-                            : Colors
-                                .black, //Theme.of(context).accentTextTheme.subtitle2.color
-                      ),
-                      controller: nameController,
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      decoration: InputDecoration(
-                        suffixIcon: Transform.rotate(
-                          angle: 135 * math.pi / 180,
-                          child: IconButton(
-                            icon: Icon(
-                              Icons.add_rounded,
-                              color: canremove
-                                  ? Colors.transparent
-                                  : Theme.of(context)
-                                      .primaryTextTheme
-                                      .caption
-                                      .color,
-                            ),
-                            onPressed: () {
-                              nameController.text = '';
-                            },
-                          ),
-                        ),
-                        border: InputBorder.none,
-                        hintStyle: TextStyle(
-                            fontSize: 16.0,
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xff747474)
-                                : Color(0xff6F6F6F)),
-                        hintText: S.of(context).enter_wallet_name,
-                        errorStyle: TextStyle(height: 5),
-                      ),
-                      validator: (value) {
-                        final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
-                        if (!pattern.hasMatch(value)) {
-                          return 'Enter valid name upto 15 characters';
-                        } else {
-                          walletCreationStore.validateWalletName(value);
-                          return walletCreationStore.errorMessage;
-                        }
-                      },
+          child: Form(
+              key: _formKey,
+              child: Card(
+                color: settingsStore.isDarkTheme
+                    ? Color(0xff272733)
+                    : Color(0xffEDEDED),
+                elevation: 0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
+                child: Container(
+                  margin: EdgeInsets.only(left: 30),
+                  child: TextFormField(
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: settingsStore.isDarkTheme
+                          ? Colors.white
+                          : Colors
+                              .black, //Theme.of(context).accentTextTheme.subtitle2.color
                     ),
+                    controller: nameController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: InputDecoration(
+                      suffixIcon: Transform.rotate(
+                        angle: 135 * math.pi / 180,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.add_rounded,
+                            color: canremove
+                                ? Colors.transparent
+                                : Theme.of(context)
+                                    .primaryTextTheme
+                                    .caption
+                                    .color,
+                          ),
+                          onPressed: () {
+                            nameController.text = '';
+                          },
+                        ),
+                      ),
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(
+                          fontSize: 16.0,
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xff747474)
+                              : Color(0xff6F6F6F)),
+                      hintText: S.of(context).enter_restore_wallet_name,
+                      errorStyle: TextStyle(height: 0.5),
+                    ),
+                    validator: (value) {
+                      final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
+                      if (!pattern.hasMatch(value)) {
+                        return 'Enter valid name upto 15 characters';
+                      } else {
+                        walletCreationStore.validateWalletName(value);
+                        return walletCreationStore.errorMessage;
+                      }
+                    },
                   ),
-                )),
-          ),
+                ),
+              )),
         ),
         Container(
           width: MediaQuery.of(context).size.width,

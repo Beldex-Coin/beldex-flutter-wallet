@@ -103,7 +103,7 @@ class _RestoreFromSeedDetailsFormState
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text('Enter ${S.of(context).restore_wallet_name}',style: TextStyle(fontSize:MediaQuery.of(context).size.height*0.07/3,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff373737)
+                          Text(S.of(context).enterWalletName,style: TextStyle(fontSize:MediaQuery.of(context).size.height*0.07/3,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff373737)
                           ,fontWeight: FontWeight.w800),),
                         ],
                       ),
@@ -126,7 +126,7 @@ class _RestoreFromSeedDetailsFormState
                                   border: InputBorder.none,
                                     hintStyle: TextStyle(
                                         color: settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xff6F6F6F)),
-                                    hintText: S.of(context).restore_wallet_name,
+                                    hintText: S.of(context).enter_restore_wallet_name,
                                 errorStyle: TextStyle(height: 0.1)
                                 ),
                                 onChanged: (val)=> _formKey.currentState.validate(),

@@ -3013,6 +3013,16 @@ String get do_you_want_to_exit_the_wallet {
       args: [],
     );
   }
+
+  /// `Enter Wallet Name`
+  String get enterWalletName {
+    return Intl.message(
+      'Enter Wallet Name',
+      name: 'enterWalletName',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
