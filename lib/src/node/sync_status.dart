@@ -18,7 +18,13 @@ class SyncingSyncStatus extends SyncStatus {
   double progress() => ptc;
 
   @override
-  String title() => S.current.Blocks_remaining('$blocksLeft');
+  String title(){
+    if(blocksLeft == 1 || blocksLeft == 0) {
+      return '$blocksLeft block remaining';
+    }else{
+      return S.current.Blocks_remaining('$blocksLeft');
+    }
+  }
 
   @override
   String toString() => '$blocksLeft';
