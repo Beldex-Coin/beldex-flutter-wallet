@@ -351,7 +351,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           AddressTextFieldOption.saveAddress,
                           AddressTextFieldOption.qrCode,
                         ],
-                        onChanged: (val) => _formKey.currentState.validate(),
                         validator: (value) {
                           if (value.isEmpty) {
                             setState(() {
@@ -469,8 +468,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       hintText: 'Enter Amount',
                                       errorStyle:
                                           TextStyle(color: BeldexPalette.red)),
-                                  onChanged: (val) =>
-                                      _formKey.currentState.validate(),
                                   validator: (value) {
                                     if (value.isEmpty) {
                                       setState(() {
@@ -818,7 +815,7 @@ class CommitTransactionLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
-    Future.delayed(const Duration(milliseconds: 250), () async {
+    Future.delayed(const Duration(milliseconds: 50), () async {
       await sendStore.commitTransaction();
     });
 
