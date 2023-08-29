@@ -23,6 +23,7 @@ class WelcomePage extends BasePage {
     final textScaleFactor = _screenWidth < _baseWidth ? 0.76 : 1.0;
 
     return Stack(
+      fit: StackFit.expand,
       children: [
         /*Positioned(
           top: -25,
