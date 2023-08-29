@@ -23,7 +23,6 @@ class WelcomePage extends BasePage {
     final textScaleFactor = _screenWidth < _baseWidth ? 0.76 : 1.0;
 
     return Stack(
-      fit: StackFit.expand,
       children: [
         /*Positioned(
           top: -25,
@@ -38,8 +37,8 @@ class WelcomePage extends BasePage {
             ),
           ),
         ),*/
-        Positioned(left:-140,top: -100,right: -90,child: Container( width: MediaQuery.of(context).size.width,
-            height: 380,child: SvgPicture.asset('assets/images/group.svg'))),
+        Positioned(left:-140,top: -100,right: -80,child: Container( width: MediaQuery.of(context).size.width,
+            height: 380,child: SvgPicture.asset('assets/images/group.svg',fit: BoxFit.fill,))),
         Align(
           alignment: Alignment.topCenter,
           child: Container(
