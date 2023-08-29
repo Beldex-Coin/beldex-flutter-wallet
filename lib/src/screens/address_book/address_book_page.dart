@@ -292,7 +292,6 @@ class AddressBookPage extends BasePage {
                               ),
                             ],
                             dismissal: SlidableDismissal(
-                              child: SlidableDrawerDismissal(),
                               onDismissed: (actionType) async {
                                 await addressBookStore.delete(contact: contact);
                                 await addressBookStore.updateContactList();
@@ -300,6 +299,7 @@ class AddressBookPage extends BasePage {
                               onWillDismiss: (actionType) async {
                                 return await showAlertDialog(context);
                               },
+                              child: SlidableDrawerDismissal(),
                             ),
                             child: Stack(
                               children: [

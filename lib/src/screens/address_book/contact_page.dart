@@ -156,7 +156,6 @@ class ContactFormState extends State<ContactForm> {
   @override
   Widget build(BuildContext context) {
     final addressBookStore = Provider.of<AddressBookStore>(context);
-
     return ScrollableWithBottomSection(
         content: Form(
           key: _formKey,
@@ -169,8 +168,14 @@ class ContactFormState extends State<ContactForm> {
                 hintText: S.of(context).contact_name,
                 controller: _contactNameController,
                 validator: (value) {
-                  addressBookStore.validateContactName(value);
+                  final _nameRegex = RegExp(r'^[^\s].*[^\s]$');
+                  if(!_nameRegex.hasMatch(value)){
+                    return 'Please enter a valid name';
+                  }else{
+                    addressBookStore.validateContactName(value);
                   return addressBookStore.errorMessage;
+                  }
+                 
                 },
               ),
               SizedBox(height: 14.0),
@@ -335,7 +340,8 @@ class ContactFormState extends State<ContactForm> {
                     style: TextStyle(fontSize: 16,color: Theme.of(context).primaryTextTheme.caption.color),
                   ),
                 ),
-              ) /*PrimaryButton(
+              ) 
+              /*PrimaryButton(
                   onPressed: () {
                     setState(() {
                       _selectedCrypto = CryptoCurrency.xmr;
