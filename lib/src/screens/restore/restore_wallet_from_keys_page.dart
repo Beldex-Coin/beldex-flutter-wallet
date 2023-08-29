@@ -129,6 +129,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           child: TextFormField(
                             style: TextStyle(fontSize: 14.0),
                             controller: _nameController,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintStyle: TextStyle(
@@ -138,7 +139,6 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                               hintText: S.of(context).enter_restore_wallet_name,
                               errorStyle: TextStyle(height: 0.10),
                             ),
-                            onChanged: (val)=>_formKey.currentState.validate(),
                             validator: (value) {
                               walletRestorationStore.validateWalletName(value);
                               return walletRestorationStore.errorMessage;
@@ -166,6 +166,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                             controller: _addressController,
                             keyboardType: TextInputType.multiline,
                             maxLines: null,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintStyle: TextStyle(
@@ -175,7 +176,6 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                               hintText: S.of(context).restore_address,
                               errorStyle: TextStyle(height: 0.10),
                             ),
-                            onChanged: (val)=>_formKey.currentState.validate(),
                             validator: (value) {
                               walletRestorationStore.validateAddress(value);
                               return walletRestorationStore.errorMessage;
@@ -201,6 +201,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           child: TextFormField(
                             style: TextStyle(fontSize: 14.0),
                             controller: _viewKeyController,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintStyle: TextStyle(
@@ -210,7 +211,6 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                               hintText: S.of(context).restore_view_key_private,
                               errorStyle: TextStyle(height: 0.10),
                             ),
-                            onChanged: (val)=>_formKey.currentState.validate(),
                             validator: (value) {
                               walletRestorationStore.validateKeys(value);
                               return walletRestorationStore.errorMessage;
@@ -236,6 +236,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           child: TextFormField(
                             style: TextStyle(fontSize: 14.0),
                             controller: _spendKeyController,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintStyle: TextStyle(
@@ -245,7 +246,6 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                               hintText: S.of(context).restore_spend_key_private,
                               errorStyle: TextStyle(height: 0.10),
                             ),
-                            onChanged: (val)=>_formKey.currentState.validate(),
                             validator: (value) {
                               walletRestorationStore.validateKeys(value);
                               return walletRestorationStore.errorMessage;
@@ -397,7 +397,6 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                                 S.of(context).widgets_restore_from_blockheight,
                             errorStyle: TextStyle(height: 0.10),
                           ),
-                          onChanged: (val)=>_formKey1.currentState.validate(),
                           validator: (value) {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
                             if (!pattern.hasMatch(value)) {

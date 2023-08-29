@@ -48,7 +48,6 @@ class ContactFormState extends State<ContactForm> {
   final ScrollController _scrollController = ScrollController();
   List<String> addNameList=[];
   CryptoCurrency _selectedCrypto = CryptoCurrency.bdx;
-  bool nameExists = false;
   @override
   void initState() {
     super.initState();
@@ -172,11 +171,8 @@ void getAllAddressNames(BuildContext context1){
 
 
 bool _checkName(String enteredName) {
-    setState(() {
-      nameExists = addNameList.contains(enteredName);
-    });
-    return nameExists;
-  }
+    return addNameList.contains(enteredName);
+}
 
 
 
@@ -195,7 +191,7 @@ bool _checkName(String enteredName) {
                 enabled: !coinVisibility,
                 hintText: 'Enter name',
                 controller: _contactNameController,
-                onChanged: (val)=> _formKey.currentState.validate(),
+                autoValidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
                     if(value == null || value == '' ){
                       return 'Name should not be empty';
@@ -323,8 +319,13 @@ bool _checkName(String enteredName) {
                 isActive: !coinVisibility,
                 controller: _addressController,
                 options: [AddressTextFieldOption.qrCode],
-                onChanged: (val)=> _formKey.currentState.validate(),
+                autoValidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
+                  for(var items in addressBookStore.contactList) {
+                    if (items.address.contains(value)) {
+                      return 'The Address already Exist';
+                    }
+                  }
                   addressBookStore.validateAddress(value,
                       cryptoCurrency: _selectedCrypto);
                   return addressBookStore.errorMessage;

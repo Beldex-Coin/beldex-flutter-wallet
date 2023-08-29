@@ -12,7 +12,7 @@ class BeldexTextField extends StatelessWidget {
       this.inputFormatters,
       this.prefixIcon,
       this.suffixIcon,
-      this.focusNode, this.color,this.onChanged});
+      this.focusNode, this.color,this.onChanged,this.autoValidateMode});
 
   final bool enabled;
   final String hintText;
@@ -25,6 +25,7 @@ class BeldexTextField extends StatelessWidget {
   final FocusNode focusNode;
   final Color color;
   final ValueChanged<String> onChanged;
+  final AutovalidateMode autoValidateMode;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -47,7 +48,7 @@ class BeldexTextField extends StatelessWidget {
             keyboardType: keyboardType,
             inputFormatters: inputFormatters,
             onChanged: onChanged,
-            //autovalidateMode: AutovalidateMode.onUserInteraction,
+            autovalidateMode: autoValidateMode,
             decoration: InputDecoration(
                 border: InputBorder.none,
                 prefixIcon: prefixIcon,
