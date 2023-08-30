@@ -37,8 +37,8 @@ class WelcomePage extends BasePage {
             ),
           ),
         ),*/
-        Positioned(left:-140,top: -100,right: -90,child: Container( width: MediaQuery.of(context).size.width,
-            height: 380,child: SvgPicture.asset('assets/images/group.svg'))),
+        Positioned(left:-140,top: -100,right: -80,child: Container( width: MediaQuery.of(context).size.width,
+            height: 380,child: SvgPicture.asset('assets/images/group.svg',fit: BoxFit.fill,))),
         Align(
           alignment: Alignment.topCenter,
           child: Container(
