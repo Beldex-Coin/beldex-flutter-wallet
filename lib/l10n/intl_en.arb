@@ -348,5 +348,7 @@
   "zeroDecimal": "0 - Zero (000)",
   "doYouWantToExitTheWallet": "Do you want to exit the wallet?",
   "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate": "Make sure to backup of your\nrecovery Seed, wallet address\nand private keys",
-  "blockRemaining": "{status} Block Remaining"
+  "blockRemaining": "{status} Block Remaining",
+  "flashTransaction": "Flash Transaction",
+  "transferYourBdxMoreFasternWithFlashTransaction": "Transfer your BDX more faster\n with Flash Transaction"
 }

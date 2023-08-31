@@ -385,278 +385,319 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
   Widget build(BuildContext context) {
     final walletStore = Provider.of<WalletStore>(context);
     final balanceStore = Provider.of<BalanceStore>(context);
-    //final actionListStore = Provider.of<ActionListStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    // final transactionDateFormat = settingsStore.getCurrentDateFormat(
-    //     formatUSA: 'MMMM d, yyyy, HH:mm', formatDefault: 'd MMMM yyyy, HH:mm');
     final networkStatus = Provider.of<NetworkStatus>(context);
     if (networkStatus == NetworkStatus.offline) {
       walletStore.reconnect();
     }
-    print('Called');
     return WillPopScope(
       onWillPop: onBackPressed,
       child: Observer(
           key: _listObserverKey,
           builder: (_) {
-            //final items = actionListStore.items ?? <String>[];
-           // final itemsCount = items.length + 2;
-            return Column(
-              children: [
-                Observer(
-                    key: _syncingObserverKey,
-                    builder: (_) {
-                      final status = syncStore.status;
-                      final statusText = status.title();
-                      final progress = syncStore.status.progress();
-                      final isFailure = status is FailedSyncStatus;
-                      syncStatus = status.title();
-                      //syncStatus = status.title();
-                      print('dashboard ----->');
-                      print('dashboard page status --> $status');
-                      print('dashboard page progress --> $progress');
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Observer(
+                      key: _syncingObserverKey,
+                      builder: (_) {
+                        final status = syncStore.status;
+                        final statusText = status.title();
+                        final progress = syncStore.status.progress();
+                        final isFailure = status is FailedSyncStatus;
+                        syncStatus = status.title();
+                        //syncStatus = status.title();
+                        print('dashboard ----->');
+                        print('dashboard page status --> $status');
+                        print('dashboard page progress --> $progress');
 
-                      var descriptionText = '';
-                      print(
-                          'dashboard page status is SyncingSyncStatus ${status is SyncingSyncStatus}');
-                      if (status is SyncingSyncStatus) {
-                        /*descriptionText = S
-                                            .of(context)
-                                            .Blocks_remaining(
-                                                syncStore.status.toString());*/
-                        descriptionText = '';
+                        var descriptionText = '';
                         print(
-                            'dashboard page syncStore.status.toString() ${syncStore.status.toString()}');
-                        print(
-                            'dashboard page descriptionText $descriptionText');
-                      }
-                      if (status is FailedSyncStatus) {
-                        descriptionText =
-                            S.of(context).please_try_to_connect_to_another_node;
-                        reconnect = true;
-                        if (networkStatus == NetworkStatus.online &&
-                            reconnect) {
-                          walletStore.reconnect();
-                          reconnect = false;
+                            'dashboard page status is SyncingSyncStatus ${status is SyncingSyncStatus}');
+                        if (status is SyncingSyncStatus) {
+                          /*descriptionText = S
+                                              .of(context)
+                                              .Blocks_remaining(
+                                                  syncStore.status.toString());*/
+                          descriptionText = '';
+                          print(
+                              'dashboard page syncStore.status.toString() ${syncStore.status.toString()}');
+                          print(
+                              'dashboard page descriptionText $descriptionText');
                         }
-                      }
-                      return Container(
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 1.5,
-                              child: LinearProgressIndicator(
-                                backgroundColor: Palette.separator,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                    BeldexPalette.belgreen //teal
-                                    ),
-                                value: progress,
+                        if (status is FailedSyncStatus) {
+                          descriptionText =
+                              S.of(context).please_try_to_connect_to_another_node;
+                          reconnect = true;
+                          if (networkStatus == NetworkStatus.online &&
+                              reconnect) {
+                            walletStore.reconnect();
+                            reconnect = false;
+                          }
+                        }
+                        return Container(
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 1.5,
+                                child: LinearProgressIndicator(
+                                  backgroundColor: Palette.separator,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      BeldexPalette.belgreen //teal
+                                      ),
+                                  value: progress,
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(statusText,
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: isFailure
-                                            ? BeldexPalette.red
-                                            : BeldexPalette.belgreen //teal
-                                        )),
-                                statusText == 'SYNCHRONIZED'
-                                    ? GestureDetector(
-                                        onTap: () async {
-                                          await showDialog<void>(
-                                              context: context,
-                                              builder: (_) {
-                                                return SyncInfoAlertDialog();
-                                              });
-                                        },
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 5.0),
-                                          child: Icon(Icons.info_outline,
-                                              size: 15),
-                                        ),
-                                      )
-                                    : Container()
-                              ],
-                            ),
-                            Text(descriptionText,
-                                style: TextStyle(
-                                    fontSize: 11,
-                                    color: Theme.of(context)
-                                        .primaryTextTheme
-                                        .caption
-                                        .color,
-                                    height: 2.0))
-                          ],
-                        ),
-                      );
-                    }),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.65 / 3,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
-                  decoration: BoxDecoration(
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xff272733)
-                          : Color(0xffEDEDED),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(
-                            left: 15, right: 10, top: 15, bottom: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Observer(
-                                key: _connectionStatusObserverKey,
-                                builder: (_) {
-                                  final savedDisplayMode =
-                                      settingsStore.balanceDisplayMode;
-                                  var balance = '---';
-                                  final displayMode = balanceStore.isReversing
-                                      ? (savedDisplayMode ==
-                                              BalanceDisplayMode
-                                                  .availableBalance
-                                          ? BalanceDisplayMode.fullBalance
-                                          : BalanceDisplayMode.availableBalance)
-                                      : savedDisplayMode;
+                              SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(statusText,
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: isFailure
+                                              ? BeldexPalette.red
+                                              : BeldexPalette.belgreen //teal
+                                          )),
+                                  statusText == 'SYNCHRONIZED'
+                                      ? GestureDetector(
+                                          onTap: () async {
+                                            await showDialog<void>(
+                                                context: context,
+                                                builder: (_) {
+                                                  return SyncInfoAlertDialog();
+                                                });
+                                          },
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 5.0),
+                                            child: Icon(Icons.info_outline,
+                                                size: 15),
+                                          ),
+                                        )
+                                      : Container()
+                                ],
+                              ),
+                              Text(descriptionText,
+                                  style: TextStyle(
+                                      fontSize: 11,
+                                      color: Theme.of(context)
+                                          .primaryTextTheme
+                                          .caption
+                                          .color,
+                                      height: 2.0))
+                            ],
+                          ),
+                        );
+                      }),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.65 / 3,
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+                    decoration: BoxDecoration(
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xff272733)
+                            : Color(0xffEDEDED),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(
+                              left: 15, right: 10, top: 15, bottom: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Observer(
+                                  key: _connectionStatusObserverKey,
+                                  builder: (_) {
+                                    final savedDisplayMode =
+                                        settingsStore.balanceDisplayMode;
+                                    var balance = '---';
+                                    final displayMode = balanceStore.isReversing
+                                        ? (savedDisplayMode ==
+                                                BalanceDisplayMode
+                                                    .availableBalance
+                                            ? BalanceDisplayMode.fullBalance
+                                            : BalanceDisplayMode.availableBalance)
+                                        : savedDisplayMode;
 
-                                  if (displayMode ==
-                                      BalanceDisplayMode.availableBalance) {
-                                    balance =
-                                        balanceStore.unlockedBalanceString ??
-                                            '00.000000000';
-                                    print('Dashboard availableBalance --> $balance');
-                                  }
-                                  if (displayMode ==
-                                      BalanceDisplayMode.fullBalance) {
-                                    balance = balanceStore.fullBalanceString ??
-                                        '00.000000000';
-                                    print('Dashboard fullBalance --> $balance');
-                                  }
-                                  return GestureDetector(
-                                     onTapUp: (_) =>
-                                          balanceStore.isReversing = false,
-                                      onTapDown: (_) =>
-                                          balanceStore.isReversing = true,
-                                    child: Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.baseline,
-                                      textBaseline: TextBaseline.alphabetic,
-                                      children: [
-                                        Text(
-                                          '$balance ',
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .primaryTextTheme
-                                                .caption
-                                                .color,
+                                    if (displayMode ==
+                                        BalanceDisplayMode.availableBalance) {
+                                      balance =
+                                          balanceStore.unlockedBalanceString ??
+                                              '00.000000000';
+                                      print('Dashboard availableBalance --> $balance');
+                                    }
+                                    if (displayMode ==
+                                        BalanceDisplayMode.fullBalance) {
+                                      balance = balanceStore.fullBalanceString ??
+                                          '00.000000000';
+                                      print('Dashboard fullBalance --> $balance');
+                                    }
+                                    return GestureDetector(
+                                       onTapUp: (_) =>
+                                            balanceStore.isReversing = false,
+                                        onTapDown: (_) =>
+                                            balanceStore.isReversing = true,
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.baseline,
+                                        textBaseline: TextBaseline.alphabetic,
+                                        children: [
+                                          Text(
+                                            '$balance ',
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryTextTheme
+                                                  .caption
+                                                  .color,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.12 /
+                                                  3,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'BDX',
+                                            style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryTextTheme
+                                                  .caption
+                                                  .color,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15.0, bottom: 10),
+                          child: Row(
+                            children: [
+                              Observer(
+                                  key: _balanceObserverKey,
+                                  builder: (_) {
+                                    final savedDisplayMode =
+                                        settingsStore.balanceDisplayMode;
+                                    final displayMode = settingsStore
+                                            .enableFiatCurrency
+                                        ? (balanceStore.isReversing
+                                            ? (savedDisplayMode ==
+                                                    BalanceDisplayMode
+                                                        .availableBalance
+                                                ? BalanceDisplayMode.fullBalance
+                                                : BalanceDisplayMode
+                                                    .availableBalance)
+                                            : savedDisplayMode)
+                                        : BalanceDisplayMode.hiddenBalance;
+                                    final symbol =
+                                        settingsStore.fiatCurrency.toString();
+                                    var balance = '---';
+
+                                    if (displayMode ==
+                                        BalanceDisplayMode.availableBalance) {
+                                      balance =
+                                          '${balanceStore.fiatUnlockedBalance} $symbol';
+                                    }
+
+                                    if (displayMode ==
+                                        BalanceDisplayMode.fullBalance) {
+                                      balance =
+                                          '${balanceStore.fiatFullBalance} $symbol';
+                                    }
+
+                                    return Text(balance,
+                                        style: TextStyle(
+                                            color: Color(0xff0BA70F),
                                             fontSize: MediaQuery.of(context)
                                                     .size
                                                     .height *
-                                                0.12 /
-                                                3,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Text(
-                                          'BDX',
-                                          style: TextStyle(
-                                            color: Theme.of(context)
-                                                .primaryTextTheme
-                                                .caption
-                                                .color,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                          ],
+                                                0.07 /
+                                                3));
+                                  }),
+                            ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15.0, bottom: 10),
-                        child: Row(
+                        SizedBox(height: 15),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Observer(
-                                key: _balanceObserverKey,
-                                builder: (_) {
-                                  final savedDisplayMode =
-                                      settingsStore.balanceDisplayMode;
-                                  final displayMode = settingsStore
-                                          .enableFiatCurrency
-                                      ? (balanceStore.isReversing
-                                          ? (savedDisplayMode ==
-                                                  BalanceDisplayMode
-                                                      .availableBalance
-                                              ? BalanceDisplayMode.fullBalance
-                                              : BalanceDisplayMode
-                                                  .availableBalance)
-                                          : savedDisplayMode)
-                                      : BalanceDisplayMode.hiddenBalance;
-                                  final symbol =
-                                      settingsStore.fiatCurrency.toString();
-                                  var balance = '---';
+                            Observer(builder: (_) {
+                              final status = syncStore.status;
 
-                                  if (displayMode ==
-                                      BalanceDisplayMode.availableBalance) {
-                                    balance =
-                                        '${balanceStore.fiatUnlockedBalance} $symbol';
-                                  }
-
-                                  if (displayMode ==
-                                      BalanceDisplayMode.fullBalance) {
-                                    balance =
-                                        '${balanceStore.fiatFullBalance} $symbol';
-                                  }
-
-                                  return Text(balance,
-                                      style: TextStyle(
-                                          color: Color(0xff0BA70F),
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.07 /
-                                              3));
-                                }),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 15),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Observer(builder: (_) {
-                            final status = syncStore.status;
-
-                            final syncS = status.title();
-                            return InkWell(
-                              onTap: syncS == 'SYNCHRONIZED'
-                                  ? () {
-                                      Navigator.of(context, rootNavigator: true)
-                                          .pushNamed(Routes.send);
-                                    }
-                                  : null,
+                              final syncS = status.title();
+                              return InkWell(
+                                onTap: syncS == 'SYNCHRONIZED'
+                                    ? () {
+                                        Navigator.of(context, rootNavigator: true)
+                                            .pushNamed(Routes.send);
+                                      }
+                                    : null,
+                                child: Container(
+                                  width: 142,
+                                  height: 46,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+                                    color: syncS == 'SYNCHRONIZED'
+                                        ? Color(0xff0BA70F)
+                                        : settingsStore.isDarkTheme
+                                            ? Color(0xff333343)
+                                            : Color(0xffE8E8E8),
+                                  ),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                          height: 20,
+                                          width: 20,
+                                          child: SvgPicture.asset(
+                                            'assets/images/new-images/send.svg',
+                                            color: syncS == 'SYNCHRONIZED'
+                                                ? Colors.white
+                                                : settingsStore.isDarkTheme
+                                                    ? Color(0xff6C6C78)
+                                                    : Color(0xffB2B2B6),
+                                          )),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 8.0),
+                                        child: Text(
+                                          S.of(context).send,
+                                          style: TextStyle(
+                                              color: syncStatus == 'SYNCHRONIZED'
+                                                  ? Colors.white
+                                                  : settingsStore.isDarkTheme
+                                                      ? Color(0xff6C6C78)
+                                                      : Color(0xffB2B2B6),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context, rootNavigator: true)
+                                    .pushNamed(Routes.receive);
+                              },
                               child: Container(
                                 width: 142,
                                 height: 46,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
-                                  color: syncS == 'SYNCHRONIZED'
-                                      ? Color(0xff0BA70F)
-                                      : settingsStore.isDarkTheme
-                                          ? Color(0xff333343)
-                                          : Color(0xffE8E8E8),
+                                  color: Color(0xff2979FB),
                                 ),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -666,76 +707,30 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                         height: 20,
                                         width: 20,
                                         child: SvgPicture.asset(
-                                          'assets/images/new-images/send.svg',
-                                          color: syncS == 'SYNCHRONIZED'
-                                              ? Colors.white
-                                              : settingsStore.isDarkTheme
-                                                  ? Color(0xff6C6C78)
-                                                  : Color(0xffB2B2B6),
-                                        )),
+                                            'assets/images/new-images/receive.svg')),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 8.0),
                                       child: Text(
-                                        S.of(context).send,
+                                        S.of(context).receive,
                                         style: TextStyle(
-                                            color: syncStatus == 'SYNCHRONIZED'
-                                                ? Colors.white
-                                                : settingsStore.isDarkTheme
-                                                    ? Color(0xff6C6C78)
-                                                    : Color(0xffB2B2B6),
+                                            color: Colors.white,
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),
-                            );
-                          }),
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context, rootNavigator: true)
-                                  .pushNamed(Routes.receive);
-                            },
-                            child: Container(
-                              width: 142,
-                              height: 46,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Color(0xff2979FB),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                      height: 20,
-                                      width: 20,
-                                      child: SvgPicture.asset(
-                                          'assets/images/new-images/receive.svg')),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 8.0),
-                                    child: Text(
-                                      S.of(context).receive,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
-                                    ),
-                                  ),
-                                ],
-                              ),
                             ),
-                          ),
-                        ],
-                      )
-                    ],
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Container(
+                  Container(
                     margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    height: MediaQuery.of(context).size.height * 1.1 / 3,
+                    padding: EdgeInsets.only(top: 10,bottom: 10),
+                    height: MediaQuery.of(context).size.height * 0.87 / 2,
                     width: double.infinity,
                     decoration: BoxDecoration(
                         color: settingsStore.isDarkTheme
@@ -745,38 +740,22 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Text(
-                            'Flash Transaction',
-                            style: TextStyle(
-                                fontSize: 23, fontWeight: FontWeight.w800),
-                          ),
+                        Text(
+                          S.of(context).flashTransaction,
+                          style: TextStyle(
+                              fontSize: 23, fontWeight: FontWeight.w800),
                         ),
                         Observer(
                           builder: (_) {
                             final status = syncStore.status;
-
                             final syncSt = status.title();
                             return GestureDetector(
                               onTap: syncSt == 'SYNCHRONIZED'
                                   ? (){
-                                    //  final isFlash = true;
-                                    // Navigator.pushNamed(
-                                    //       context, Routes.send,
-                                    //       arguments: isFlash
-                                         
-                                    //      );
                                        _presentQRScanner(context);
                                     }
                                   : null,
                               child: Container(
-                                height: MediaQuery.of(context).size.height *
-                                    0.60 /
-                                    3,
-                                width: MediaQuery.of(context).size.height *
-                                    0.60 /
-                                    3,
                                 padding: EdgeInsets.all(15),
                                 decoration: BoxDecoration(
                                   color: settingsStore.isDarkTheme
@@ -799,18 +778,15 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                             );
                           },
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
-                          child: Text(
-                              'Transfer your BDX more faster\n with Flash Transaction',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 16)),
-                        )
+                        Text(
+                            S.of(context).transferYourBdxMoreFasternWithFlashTransaction,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 16))
                       ],
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             );
           }),
     );

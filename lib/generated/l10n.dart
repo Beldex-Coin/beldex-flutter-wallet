@@ -2854,6 +2854,26 @@ class S {
       args: [status],
     );
   }
+
+  /// `Flash Transaction`
+  String get flashTransaction {
+    return Intl.message(
+      'Flash Transaction',
+      name: 'flashTransaction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transfer your BDX more faster\n with Flash Transaction`
+  String get transferYourBdxMoreFasternWithFlashTransaction {
+    return Intl.message(
+      'Transfer your BDX more faster\n with Flash Transaction',
+      name: 'transferYourBdxMoreFasternWithFlashTransaction',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
