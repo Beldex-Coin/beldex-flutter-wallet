@@ -442,7 +442,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                           if(sendStore.errorMessage!=null) {
                                             setState(() {
                                               amountValidation = true;
-                                              amountErrorMessage = 'The enter a valid amount';
+                                              amountErrorMessage = 'Please enter a valid amount';
                                             });
                                           }else{
                                             setState(() {

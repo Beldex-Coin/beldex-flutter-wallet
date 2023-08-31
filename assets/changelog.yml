@@ -36,3 +36,9 @@
   changes:
     - Fixed issues in Add node feature
     - Minor bug fixed
+- 
+  version: 1.0.7
+  changes:
+    - Added support for Android version 13
+    - Fix UI issues
+    - Minor Bug fixes
