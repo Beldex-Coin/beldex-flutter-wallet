@@ -90,8 +90,6 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
 
 @override
   void dispose() {
-    setState(() {
-          });
     isCopied = false;
     super.dispose();
   }

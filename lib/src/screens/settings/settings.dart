@@ -243,6 +243,7 @@ class SettingsFormState extends State<SettingsForm> {
 
   LocalAuthentication auth;
   List<BiometricType> _availableBiometrics = <BiometricType>[];
+  StateSetter _searchCurrencySetState;
 
   @override
   void initState() {
@@ -256,7 +257,7 @@ class SettingsFormState extends State<SettingsForm> {
       });
     });
     searchCurrencyController.addListener(() {
-      setState(() {
+      _searchCurrencySetState(() {
         currencyFilter = searchCurrencyController.text;
       });
     });
@@ -912,7 +913,8 @@ class SettingsFormState extends State<SettingsForm> {
 
                           await showDialog<void>(
                               context: context,
-                              builder: (BuildContext context) {
+                              builder: (BuildContext context) => StatefulBuilder(builder: (BuildContext context, StateSetter setState){
+                                _searchCurrencySetState = setState;
                                 return Dialog(
                                   backgroundColor: Colors.transparent,
                                   insetPadding: EdgeInsets.all(15),
@@ -924,19 +926,19 @@ class SettingsFormState extends State<SettingsForm> {
                                     // margin: EdgeInsets.only(top: 190),
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
-                                        // boxShadow: [
-                                        //   BoxShadow(
-                                        //       blurRadius: 1,
-                                        //       spreadRadius: 1,
-                                        //       offset: Offset(0.0, 2.0))
-                                        // ],
-                                        // border: Border.all(color:Colors.white),
+                                      // boxShadow: [
+                                      //   BoxShadow(
+                                      //       blurRadius: 1,
+                                      //       spreadRadius: 1,
+                                      //       offset: Offset(0.0, 2.0))
+                                      // ],
+                                      // border: Border.all(color:Colors.white),
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff272733)
                                             : Color(
-                                                0xffFFFFFF), //Color.fromARGB(255, 31, 32, 39),
+                                            0xffFFFFFF), //Color.fromARGB(255, 31, 32, 39),
                                         borderRadius:
-                                            BorderRadius.circular(10)),
+                                        BorderRadius.circular(10)),
                                     child: Stack(
                                       children: [
                                         Column(
@@ -955,67 +957,72 @@ class SettingsFormState extends State<SettingsForm> {
                                               padding: EdgeInsets.all(8.0),
                                               child: TextField(
                                                 controller:
-                                                    searchCurrencyController,
+                                                searchCurrencyController,
                                                 decoration: InputDecoration(
                                                   hintText: 'Search Currency',
-                                                   suffixIcon: IconButton(icon: Icon(Icons.close), onPressed: (){
-                                          setState(() {
-                                              searchCurrencyController.text='';                                        
-                                              });
-                                        }),
+                                                  suffixIcon: IconButton(icon: Icon(Icons.close,color: settingsStore.isDarkTheme
+                                                      ? Color(0xffffffff):Color(0xff171720),), onPressed: (){
+                                                    searchCurrencyController.clear();
+                                                  }),
                                                   contentPadding:
-                                                      EdgeInsets.fromLTRB(20.0,
-                                                          15.0, 20.0, 15.0),
+                                                  EdgeInsets.fromLTRB(20.0,
+                                                      15.0, 20.0, 15.0),
                                                   border: OutlineInputBorder(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0)),
+                                                      BorderRadius.circular(
+                                                          10.0)),
+                                                  focusedBorder: OutlineInputBorder(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    borderSide: BorderSide(
+                                                      color: Color(0xff2979FB),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
                                             ),
                                             Expanded(
                                               child: Container(
-                                                padding:
-                                                    EdgeInsets.only(right: 10),
-                                                child: Observer(builder: (_){
-                                                   return  RawScrollbar(
-                                                  controller: _scrollController,
-                                                  thickness: 8,
-                                                  thumbColor:
+                                                  padding:
+                                                  EdgeInsets.only(right: 10),
+                                                  child: Observer(builder: (_){
+                                                    return  RawScrollbar(
+                                                      controller: _scrollController,
+                                                      thickness: 8,
+                                                      thumbColor:
                                                       settingsStore.isDarkTheme
                                                           ? Color(0xff3A3A45)
                                                           : Color(0xffC2C2C2),
-                                                  radius: Radius.circular(10.0),
-                                                  isAlwaysShown: true,
-                                                  child: ListView.builder(
-                                                      itemCount: FiatCurrency
-                                                          .all.length,
-                                                      //shrinkWrap: true,
-                                                      controller:
+                                                      radius: Radius.circular(10.0),
+                                                      isAlwaysShown: true,
+                                                      child: ListView.builder(
+                                                          itemCount: FiatCurrency
+                                                              .all.length,
+                                                          //shrinkWrap: true,
+                                                          controller:
                                                           _scrollController,
-                                                      itemBuilder:
-                                                          (BuildContext context,
+                                                          itemBuilder:
+                                                              (BuildContext context,
                                                               int index) {
-                                                        return currencyFilter ==
-                                                                    null ||
+                                                            return currencyFilter ==
+                                                                null ||
                                                                 currencyFilter ==
                                                                     ''
-                                                            ? currencyDropDownListItem(
+                                                                ? currencyDropDownListItem(
                                                                 settingsStore,
                                                                 index)
-                                                            : '${FiatCurrency.all[index]}'
-                                                                    .toLowerCase()
-                                                                    .contains(
-                                                                        currencyFilter
-                                                                            .toLowerCase())
+                                                                : '${FiatCurrency.all[index]}'
+                                                                .toLowerCase()
+                                                                .contains(
+                                                                currencyFilter
+                                                                    .toLowerCase())
                                                                 ? currencyDropDownListItem(
-                                                                    settingsStore,
-                                                                    index)
+                                                                settingsStore,
+                                                                index)
                                                                 : Container();
-                                                      }),
-                                                );
-                                                },)
-                                                
+                                                          }),
+                                                    );
+                                                  },)
+
                                               ),
                                             ),
                                           ],
@@ -1038,17 +1045,17 @@ class SettingsFormState extends State<SettingsForm> {
                                                 Navigator.pop(context);
                                               },
                                               child: Container(
-                                                  //decoration: BoxDecoration(
-                                                  // color: Theme.of(context).accentTextTheme.caption.decorationColor,
-                                                  //shape: BoxShape.circle
-                                                  //  ),
+                                                //decoration: BoxDecoration(
+                                                // color: Theme.of(context).accentTextTheme.caption.decorationColor,
+                                                //shape: BoxShape.circle
+                                                //  ),
                                                   child: Icon(Icons.close)),
                                             ))
                                       ],
                                     ),
                                   ),
                                 );
-                              });
+                              }));
                         },
                         title: S.current.settings_currency,
                         widget: Observer(
