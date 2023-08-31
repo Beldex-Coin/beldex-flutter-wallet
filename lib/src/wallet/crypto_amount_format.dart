@@ -26,13 +26,13 @@ class AmountDetail {
   String toString() {
     switch (index) {
       case (0):
-        return S.current.amount_details_five;
+        return S.current.fiveDecimals;
       case (1):
-        return S.current.amount_detail_four;
+        return S.current.fourDecimals;
       case (2):
-        return S.current.amount_detail_two;
+        return S.current.twoDecimals;
       case (3):
-        return S.current.amount_detail_zero;
+        return S.current.zeroDecimal;
       default:
         return '';
     }

@@ -38,33 +38,12 @@ class S {
   /// `Welcome to\nBeldex Wallet`
   String get welcome {
     return Intl.message(
-      'Welcome to\nBeldex Wallet ',
+      'Welcome to\nBeldex Wallet',
       name: 'welcome',
       desc: '',
       args: [],
     );
   }
-
-//`Beldex Wallet`
- String get beldex_wall {
-   return Intl.message(
-    'Beldex Wallet',
-    name: 'beldex_wall',
-    desc: '',
-    args: [],
-   );
- }
-
-//`Welcome to Beldex Wallet :)`
-String get welcome_to_bel_wallet {
-  return Intl.message(
-    'Welcome to Beldex Wallet :)',
-    name: 'welcome_to_bel_wallet',
-    desc: '',
-    args:[],
-  );
-}
-
 
   /// `Awesome wallet\nfor Beldex`
   String get first_wallet_text {
@@ -79,36 +58,12 @@ String get welcome_to_bel_wallet {
   /// `Select from the options below to\neither create or recover your wallet.`
   String get please_make_selection {
     return Intl.message(
-      'Select an option below to create or\n recover existing wallet.',
+      'Select from the options below to\neither create or recover your wallet.',
       name: 'please_make_selection',
       desc: '',
       args: [],
     );
   }
-
-
-///`Select an optiona below to create or recover existing wallet`
-
-String get select_an_option{
-  return Intl.message(
-    'Select an optiona below to create or\n recover existing wallet',
-    name:'select_an_option',
-    desc:'',
-    args:[],
-  );
-}
-
-///`Select an option below to create or recover existing wallet`
-
-String get select_an_options{
-  return Intl.message(
-    'Select an option below to create or\n recover existing wallet',
-    name:'select_an_options',
-    desc:'',
-    args:[],
-  );
-}
-
 
   /// `Create New Wallet`
   String get create_new {
@@ -119,51 +74,6 @@ String get select_an_options{
       args: [],
     );
   }
-
-
-/// `Wallet`
-String get setting_page_wallet {
-  return Intl.message(
-    'Wallet',
-    name: 'setting_page_wallet',
-    desc: '',
-    args:[],
-  );
-}
-
-/// `Account`
-String get setting_page_account {
-  return Intl.message(
-    'Account',
-    name: 'setting_page_account',
-    desc:'',
-    args:[],
-  );
-}
-
-///`Seed & Keys`
-String get setting_page_seedkeys {
-  return Intl.message(
-    'Seed & Keys',
-    name: 'setting_page_seedkeys',
-    desc:'',
-    args:[],
-  );
-}
-
-
-///`Stake`
-String get stake {
-  return Intl.message(
-   'Stake',
-   name:'stake',
-   desc:'',
-   args:[],
-  );
-}
-
-
-
 
   /// `Use Existing Wallet`
   String get restore_wallet {
@@ -345,28 +255,6 @@ String get stake {
     );
   }
 
-
-///`Block remaining`
-String Block_remaining(Object status){
-  return Intl.message(
-    status == 0 || status == 1 ? '$status Block Remaining' : '$status Blocks Remaining',
-    name: 'Block_remaining',
-    desc:'',
-    args:[],
-  );
-}
-
-
-///`Display Block remaining`
-String Display_block_remaining(Object status){
-  return Intl.message(
-    status == 0 || status == 1 ? '$status Block Remaining' : '$status Blocks Remaining',
-    name: 'Display_block_remaining',
-    desc:'',
-    args:[status],
-  );
-}
-
   /// `Please try to connect to another node`
   String get please_try_to_connect_to_another_node {
     return Intl.message(
@@ -406,17 +294,6 @@ String Display_block_remaining(Object status){
       args: [],
     );
   }
-
-
- ///`Setup pin`
- String get settingup_pin {
-  return Intl.message(
-    'Setup pin',
-    name: 'settingup_pin',
-    desc: '',
-    args: [],
-      );
-}
 
   /// `Send`
   String get send {
@@ -658,26 +535,6 @@ String Display_block_remaining(Object status){
     );
   }
 
-///`Copied`
-String get copied{
-  return Intl.message(
-    'Copied',
-    name:'copied',
-    desc:'',
-    args:[],
-  );
-}
-
-  ///`Wallet address`
-  String get wallet_address{
-    return Intl.message(
-      'Wallet Address',
-      name:'wallet_address',
-      desc:'',
-      args:[],
-    );
-  }
-
   /// `Fetching`
   String get fetching {
     return Intl.message(
@@ -727,28 +584,6 @@ String get copied{
       args: [],
     );
   }
-
-
- ///`Unlock beldex wallet`
- String get unlock_beldex_wallet {
-  return Intl.message(
-    'Unlock beldex wallet',
-    name:'unlock_beldex_wallet',
-    desc:'',
-    args:[],
-  );
- }
-
-
-///`Confirm your screen lock PIN,Pattern or Password`
-String get confirm_your_screen_lock{
-  return Intl.message(
-    'Confirm your screen lock PIN,Pattern or Password',
-    name:'confirm_your_screen_lock',
-    desc:'',
-    args:[],
-  );
-}
 
   /// `Confirm sending`
   String get confirm_sending {
@@ -859,15 +694,7 @@ String get confirm_your_screen_lock{
       args: [],
     );
   }
- ///`Enter wallet name`
- String get enter_wallet_name{
-  return Intl.message(
-    'Enter wallet name',
-    name:'enter_wallet_name',
-    desc:'',
-    args: []
-  );
- }
+
   /// `Continue`
   String get continue_text {
     return Intl.message(
@@ -877,28 +704,6 @@ String get confirm_your_screen_lock{
       args: [],
     );
   }
-
-
-///`No Transactions yet`
-String get no_trans_yet{
-  return Intl.message(
-    'No transactions yet!',
-    name:'no_trans_yet',
-    desc:'',
-    args:[],
-  );
-}
-
-
- ///`Transactions`
- String get transactions_text{
-  return Intl.message(
-    'Transactions',
-    name: 'transactions_text',
-    desc:'',
-    args:[],
-  );
- }
 
   /// `New Node`
   String get node_new {
@@ -1160,28 +965,6 @@ String get no_trans_yet{
     );
   }
 
-///`Recovery Seed/Key`
-String get recovery_seed_keys{
-  return Intl.message(
-    'Recovery Seed/Key',
-    name:'recovery_seed_keys',
-    desc:'',
-    args:[],
-    );
-}
-
-///`Make sure to backup of your Recovery Seed, Wallet Address and private keys`
-String get remove_wallets{
-  return Intl.message(
-   'Make sure to backup of your\nrecovery Seed, wallet address\nand private keys',
-   name:'remove_wallets',
-   desc:'',
-   args:[],
-  );
-}
-
-
-
   /// `Restore from seed`
   String get restore_title_from_seed {
     return Intl.message(
@@ -1231,16 +1014,6 @@ String get remove_wallets{
       args: [],
     );
   }
-
-///`Enter wallet name`
-String get enter_restore_wallet_name {
-  return Intl.message(
-    'Enter wallet name',
-    name:'enter_restore_wallet_name',
-    desc:'',
-    args:[],
-  );
-}
 
   /// `Address`
   String get restore_address {
@@ -1331,38 +1104,6 @@ String get enter_restore_wallet_name {
       args: [],
     );
   }
-
-///`choose seed language`
-String get choose_seed_lang {
-  return Intl.message(
-    'Choose seed language',
-    name:'choose_seed_lang',
-    desc:'',
-    args:[],
-  );
-}
-
-///`Select language`
-String get select_language{
-  return Intl.message(
-   'Select language',
-   name:'select_language',
-   desc:'',
-   args:[],
-  );
-}
-
-
-
-///`choose language`
-String get choose_app_language {
-  return Intl.message(
-    'Choose language',
-    name:'choose_app_language',
-    desc:'',
-    args:[],
-  );
-}
 
   /// `Next`
   String get seed_language_next {
@@ -1934,70 +1675,6 @@ String get choose_app_language {
     );
   }
 
-
-///`2 - Two(0.00)`
-String get amount_detail_two {
-  return Intl.message(
-   '2 - Two (0.00)',
-   name:'amount_detail_two',
-   desc:'',
-   args:[],
-  );
-}
-
-///`4 - Four(0.0000)`
-String get amount_detail_four {
-  return Intl.message(
-    '4 - Four (0.0000)',
-    name:'amount_detail_four',
-    desc:'',
-    args:[],
-  );
-}
-
-
-///`9 - Nine(0.000000000)`
-String get amount_detail_nine {
-  return Intl.message(
-    '9 - Nine (0.000000000)',
-    name:'amount_detail_nine',
-    desc:'',
-    args:[],
-  );
-}
-
-///`5 - Five(0.00000)`
-
-String get amount_details_five {
-  return Intl.message(
-    '5 - Five (0.00000)',
-    name:'amount_details_five',
-    desc:'',
-    args:[],
-  );
-}
-
-
-
-
-///`0 - Zero(000)`
-String get amount_detail_zero {
-  return Intl.message(
-    '0 - Zero (000)',
-    desc:'',
-    args:[],
-  );
-}
-
-
-
-
-
-
-
-
-
-
   /// `Setup PIN`
   String get setup_pin {
     return Intl.message(
@@ -2448,24 +2125,6 @@ String get amount_detail_zero {
     );
   }
 
-
-
-
-  ///`Enter a valid name upto 15 characters`
-  String get error_msg_for_wallet_name{
-    return Intl.message(
-      'Enter a valid name upto 15 characters',
-      name: 'error_msg_for_wallet_name',
-      desc:'',
-      args:[],
-    );
-  }
-
-
-
-
-
-
   /// `Wallet keys can only contain 64 chars in hex`
   String get error_text_keys {
     return Intl.message(
@@ -2776,22 +2435,6 @@ String get amount_detail_zero {
     );
   }
 
-  ///`Important`
-  String get important{
-    return Intl.message( 
-      'IMPORTANT',
-      name:'important',
-      desc: '',
-      args:[],
-    );
-  }
-
-
-
-
-
-
-
   /// `Yes, I'm sure!`
   String get yes_im_sure {
     return Intl.message(
@@ -2812,7 +2455,6 @@ String get amount_detail_zero {
     );
   }
 
-
   /// `NEVER input your Beldex wallet {item} into any software or website other than the OFFICIAL Beldex wallets downloaded directly from the {app_store}, the Beldex website, or the Beldex GitHub.\nAre you sure you want to access your wallet {item}?`
   String dangerzone_warning(Object item, Object app_store) {
     return Intl.message(
@@ -2822,45 +2464,6 @@ String get amount_detail_zero {
       args: [item, app_store],
     );
   }
-
-///`Never input your Beldex wallet {item} into any software or website other than the official Beldex wallets downloaded directly from the {app_store}, the beldex website, or the beldex GitHub.`
-
-String important_warning(Object item, Object app_store){
-  return Intl.message(
-  'Never input your Beldex wallet $item into any software or website other\n than the official Beldex wallets downloaded directly from the $app_store,\n the beldex website, or the beldex GitHub.',
-   name:'important_warning',
-   desc:'',
-   args:[item,app_store],
-  );
-}
-
-///`Are you sure you want to access your {item}?`
-
-String are_u_sure_for_seedkeys(Object item) {
-  return Intl.message(
-   'Are you sure you want to access your $item?',
-   name: 'are_u_sure_for_seedkeys',
-   desc:'',
-   args:[item],
-  );
-
-}
-
-///`Add address`
-String get add_address{
-  return Intl.message(
-   'Add address',
-   name:'add_address',
-   desc:'',
-   args:[],
-  );
-}
-
-
-
-
-
-
 
   /// `Keys`
   String get keys_title {
@@ -2891,18 +2494,6 @@ String get add_address{
       args: [],
     );
   }
-
-///`Do you want to exit the wallet?`
-String get do_you_want_to_exit_the_wallet {
-  return Intl.message(
-    'Do you want to exit the wallet?',
-    name:'do_you_want_to_exit_the_wallet',
-    desc:'',
-    args:[],
-  );
-}
-
-
 
   /// `No`
   String get no {
@@ -3021,6 +2612,246 @@ String get do_you_want_to_exit_the_wallet {
       name: 'enterWalletName',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `No transactions yet!`
+  String get noTransactionsYet {
+    return Intl.message(
+      'No transactions yet!',
+      name: 'noTransactionsYet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `After your first transaction,\n you will be able to view it here.`
+  String get afterYourFirstTransactionnYouWillBeAbleToView {
+    return Intl.message(
+      'After your first transaction,\n you will be able to view it here.',
+      name: 'afterYourFirstTransactionnYouWillBeAbleToView',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copied`
+  String get copied {
+    return Intl.message(
+      'Copied',
+      name: 'copied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add address`
+  String get addAddress {
+    return Intl.message(
+      'Add address',
+      name: 'addAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `IMPORTANT`
+  String get important {
+    return Intl.message(
+      'IMPORTANT',
+      name: 'important',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Never input your Beldex wallet {item} into any software or website other\n than the official Beldex wallets downloaded directly from the {appStore},\n the beldex website, or the beldex GitHub.`
+  String neverInputYourBeldexWalletItemIntoAnySoftwareOr(Object item, Object appStore) {
+    return Intl.message(
+      'Never input your Beldex wallet $item into any software or website other\n than the official Beldex wallets downloaded directly from the $appStore,\n the beldex website, or the beldex GitHub.',
+      name: 'neverInputYourBeldexWalletItemIntoAnySoftwareOr',
+      desc: '',
+      args: [item, appStore],
+    );
+  }
+
+  /// `Enter wallet name`
+  String get enterWalletName_ {
+    return Intl.message(
+      'Enter wallet name',
+      name: 'enterWalletName_',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose seed language`
+  String get chooseSeedLanguage {
+    return Intl.message(
+      'Choose seed language',
+      name: 'chooseSeedLanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet`
+  String get wallet {
+    return Intl.message(
+      'Wallet',
+      name: 'wallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Seed & Keys`
+  String get seedKeys {
+    return Intl.message(
+      'Seed & Keys',
+      name: 'seedKeys',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet Address`
+  String get walletAddress {
+    return Intl.message(
+      'Wallet Address',
+      name: 'walletAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recovery Seed/Key`
+  String get recoverySeedkey {
+    return Intl.message(
+      'Recovery Seed/Key',
+      name: 'recoverySeedkey',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select language`
+  String get selectLanguage {
+    return Intl.message(
+      'Select language',
+      name: 'selectLanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose language`
+  String get chooseLanguage {
+    return Intl.message(
+      'Choose language',
+      name: 'chooseLanguage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome to Beldex Wallet :)`
+  String get welcomeToBeldexWallet {
+    return Intl.message(
+      'Welcome to Beldex Wallet :)',
+      name: 'welcomeToBeldexWallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select an option below to create or\n recover existing wallet`
+  String get selectAnOptionBelowToCreateOrnRecoverExistingWallet {
+    return Intl.message(
+      'Select an option below to create or\n recover existing wallet',
+      name: 'selectAnOptionBelowToCreateOrnRecoverExistingWallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid name upto 15 characters`
+  String get enterAValidNameUpto15Characters {
+    return Intl.message(
+      'Enter a valid name upto 15 characters',
+      name: 'enterAValidNameUpto15Characters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `5 - Five (0.00000)`
+  String get fiveDecimals {
+    return Intl.message(
+      '5 - Five (0.00000)',
+      name: 'fiveDecimals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `4 - Four (0.0000)`
+  String get fourDecimals {
+    return Intl.message(
+      '4 - Four (0.0000)',
+      name: 'fourDecimals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `2 - Two (0.00)`
+  String get twoDecimals {
+    return Intl.message(
+      '2 - Two (0.00)',
+      name: 'twoDecimals',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `0 - Zero (000)`
+  String get zeroDecimal {
+    return Intl.message(
+      '0 - Zero (000)',
+      name: 'zeroDecimal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you want to exit the wallet?`
+  String get doYouWantToExitTheWallet {
+    return Intl.message(
+      'Do you want to exit the wallet?',
+      name: 'doYouWantToExitTheWallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Make sure to backup of your\nrecovery Seed, wallet address\nand private keys`
+  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate {
+    return Intl.message(
+      'Make sure to backup of your\nrecovery Seed, wallet address\nand private keys',
+      name: 'makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{status} Block Remaining`
+  String blockRemaining(Object status) {
+    return Intl.message(
+      '$status Block Remaining',
+      name: 'blockRemaining',
+      desc: '',
+      args: [status],
     );
   }
 }

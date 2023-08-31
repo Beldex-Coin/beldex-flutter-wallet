@@ -49,6 +49,6 @@ abstract class WalletCreationStoreBase with Store {
     const pattern = '^[a-zA-Z0-9_]{1,255}\$';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
-    errorMessage = isValid ? null : S.current.error_msg_for_wallet_name;
+    errorMessage = isValid ? null : S.current.enterAValidNameUpto15Characters;
   }
 }

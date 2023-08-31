@@ -62,7 +62,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
           children: [
             Container(
               margin:EdgeInsets.only(left:MediaQuery.of(context).size.width*0.4/3),
-              child:Text(S.of(context).setting_page_wallet,style: TextStyle(fontSize: 20.0, color:Color(0xff737385)),),
+              child:Text(S.of(context).wallet,style: TextStyle(fontSize: 20.0, color:Color(0xff737385)),),
             ),
             NewNavListArrow(
               balanceVisibility: false,
@@ -89,7 +89,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
               
               Container(
               margin:EdgeInsets.only(left:MediaQuery.of(context).size.width*0.4/3,top:MediaQuery.of(context).size.width*0.3/3),
-              child:Text(S.of(context).setting_page_account,style: TextStyle(fontSize: 20.0, color:Color(0xff737385)),),
+              child:Text(S.of(context).account,style: TextStyle(fontSize: 20.0, color:Color(0xff737385)),),
             ),
            // NewNavListHeader(title: S.current.wallet_menu),
             // NewNavListArrow(
@@ -125,7 +125,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
             //Important -->
               Container(
               margin:EdgeInsets.only(left:MediaQuery.of(context).size.width*0.4/3,top:MediaQuery.of(context).size.width*0.3/3),
-              child:Text(S.of(context).setting_page_seedkeys,style: TextStyle(fontSize: 20.0, color:Color(0xff737385)),),
+              child:Text(S.of(context).seedKeys,style: TextStyle(fontSize: 20.0, color:Color(0xff737385)),),
             ),
             //NewNavListHeader(title: S.current.dangerzone),
             NewNavListArrow(

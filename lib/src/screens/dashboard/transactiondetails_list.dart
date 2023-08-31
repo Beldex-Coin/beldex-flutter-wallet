@@ -86,7 +86,7 @@ class TransactionDetailsListBodyState
               title: Padding(
                 padding: const EdgeInsets.only(top: 8.0),
                 child: Text(
-                  S.of(context).transactions_text,
+                  S.of(context).transactions,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                 ),
               ),
@@ -121,7 +121,7 @@ class TransactionDetailsListBodyState
                                                   enabled: false,
                                                   value: -1,
                                                   child: Text(
-                                                      'Filter by', // S.of(context).transactions,
+                                                      'Filter by',
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -305,13 +305,13 @@ class TransactionDetailsListBodyState
                               padding:
                                   const EdgeInsets.only(top: 8.0, bottom: 8.0),
                               child: Text(
-                                S.of(context).no_trans_yet,
+                                S.of(context).noTransactionsYet,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w800, fontSize: 16.0),
                               ),
                             ),
                             Text(
-                              'After your first transaction,\n you will be able to view it here.',
+                              S.of(context).afterYourFirstTransactionnYouWillBeAbleToView,
                               textAlign: TextAlign.center,
                               style: TextStyle(color: Color(0xff82828D)),
                             ),

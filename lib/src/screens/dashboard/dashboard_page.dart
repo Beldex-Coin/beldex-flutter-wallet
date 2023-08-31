@@ -458,7 +458,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(statusText.toLowerCase(),
+                                Text(statusText,
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
@@ -847,7 +847,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        S.of(context).do_you_want_to_exit_the_wallet,
+                        S.of(context).doYouWantToExitTheWallet,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: 17, fontWeight: FontWeight.w800),

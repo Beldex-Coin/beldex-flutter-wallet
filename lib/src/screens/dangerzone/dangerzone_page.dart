@@ -54,7 +54,6 @@ Widget trailing(BuildContext context){
               Padding(
                 padding: EdgeInsets.all(10),
                 child: Text(
-                  //S.of(context).dangerzone,
                   S.of(context).important,
                   style: TextStyle(
                     fontSize: 30.0,
@@ -79,9 +78,7 @@ Widget trailing(BuildContext context){
               Padding(
                   padding: EdgeInsets.all(10),
                   child: Text(
-                    S.of(context).important_warning(
-                          item, appStore
-                        ),
+                    S.of(context).neverInputYourBeldexWalletItemIntoAnySoftwareOr(item, appStore),
                     style: TextStyle(
                       fontSize: 16.0,
                       color: Theme.of(context).primaryTextTheme.caption.color,

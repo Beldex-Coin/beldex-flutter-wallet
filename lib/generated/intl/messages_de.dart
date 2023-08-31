@@ -21,57 +21,63 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(status) => "${status} verbleibende Blöcke";
 
-  static m1(masterNodeKey) => "Möchtest du wirkklich dein Stake von ${masterNodeKey} entsperren?";
+  static m1(status) => "${status} Verbleibende Blockierung";
 
-  static m2(node) => "Möchten Sie den aktuellen Knoten wirklich auf ändern? ${node}?";
+  static m2(masterNodeKey) => "Möchtest du wirkklich dein Stake von ${masterNodeKey} entsperren?";
 
-  static m3(language) => "Ändern Sie die Sprache zu ${language}?";
+  static m3(node) => "Möchten Sie den aktuellen Knoten wirklich auf ändern? ${node}?";
 
-  static m4(amount, fee) => "Transaktion festschreiben\nMenge: ${amount}\nGebühr: ${fee}";
+  static m4(language) => "Ändern Sie die Sprache zu ${language}?";
 
-  static m5(key) => "Kopiert ${key} in die Zwischenablage";
+  static m5(amount, fee) => "Transaktion festschreiben\nMenge: ${amount}\nGebühr: ${fee}";
 
-  static m6(item, app_store) => "Geben sie NIEMALS ihren Beldex wallet ${item} in einer andere software oder website außer den OFFIZIELLEN Beldex wallets aus dem ${app_store}, der Beldex website, der dem Beldex GitHub.\nMöchtest du wirklich fortfahren?";
+  static m6(key) => "Kopiert ${key} in die Zwischenablage";
 
-  static m7(state_error) => "Authentifizierung fehlgeschlagen. ${state_error}";
+  static m7(item, app_store) => "Geben sie NIEMALS ihren Beldex wallet ${item} in einer andere software oder website außer den OFFIZIELLEN Beldex wallets aus dem ${app_store}, der Beldex website, der dem Beldex GitHub.\nMöchtest du wirklich fortfahren?";
 
-  static m8(item) => "Geben sie NIEMALS ihren Beldex wallet ${item} weiter!";
+  static m8(state_error) => "Authentifizierung fehlgeschlagen. ${state_error}";
 
-  static m9(recipient_name) => "Sie senden Geld an\n${recipient_name}";
+  static m9(item, appStore) => "Geben Sie Ihr Beldex-Wallet ${item} niemals in eine andere Software oder Website ein als die offiziellen Beldex-Wallets, die Sie direkt aus dem ${appStore},\\n der Beldex-Website oder dem Beldex GitHub heruntergeladen haben.";
 
-  static m10(name) => "Keine Route definiert für ${name}";
+  static m10(item) => "Geben sie NIEMALS ihren Beldex wallet ${item} weiter!";
 
-  static m11(transactionPriority) => "${transactionPriority} Priorität ist als Standardgebühr festgelegt.\nGehen Sie zu Einstellung, um die Transaktionspriorität zu ändern.";
+  static m11(recipient_name) => "Sie senden Geld an\n${recipient_name}";
 
-  static m12(title) => "${title} in die Zwischenablage kopiert";
+  static m12(name) => "Keine Route definiert für ${name}";
 
-  static m13(currentVersion) => "Ausführung ${currentVersion}";
+  static m13(transactionPriority) => "${transactionPriority} Priorität ist als Standardgebühr festgelegt.\nGehen Sie zu Einstellung, um die Transaktionspriorität zu ändern.";
 
-  static m14(wallet_name, error) => "Laden fehlgeschlagen ${wallet_name} Wallet. ${error}";
+  static m14(title) => "${title} in die Zwischenablage kopiert";
 
-  static m15(wallet_name, error) => "Fehler beim Entfernen ${wallet_name} Wallet. ${error}";
+  static m15(currentVersion) => "Ausführung ${currentVersion}";
 
-  static m16(wallet_name) => "Wallet ${wallet_name} wird geladen";
+  static m16(wallet_name, error) => "Laden fehlgeschlagen ${wallet_name} Wallet. ${error}";
 
-  static m17(wallet_name) => "Wallet ${wallet_name} entfernen";
+  static m17(wallet_name, error) => "Fehler beim Entfernen ${wallet_name} Wallet. ${error}";
+
+  static m18(wallet_name) => "Wallet ${wallet_name} wird geladen";
+
+  static m19(wallet_name) => "Wallet ${wallet_name} entfernen";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
     "Blocks_remaining" : m0,
-    "accept" : MessageLookupByLibrary.simpleMessage("Annehmen"),
+    "accept" : MessageLookupByLibrary.simpleMessage("Akzeptieren"),
     "account" : MessageLookupByLibrary.simpleMessage("Konto"),
     "accounts" : MessageLookupByLibrary.simpleMessage("Konten"),
     "add" : MessageLookupByLibrary.simpleMessage("Hinzufügen"),
+    "addAddress" : MessageLookupByLibrary.simpleMessage("Adresse hinzufügen"),
     "add_new_word" : MessageLookupByLibrary.simpleMessage("Neues Wort hinzufügen"),
     "address_book" : MessageLookupByLibrary.simpleMessage("Adressbuch"),
     "address_book_menu" : MessageLookupByLibrary.simpleMessage("Adressbuch"),
+    "afterYourFirstTransactionnYouWillBeAbleToView" : MessageLookupByLibrary.simpleMessage("Nach Ihrer ersten Transaktion\n Sie können es hier ansehen."),
     "all" : MessageLookupByLibrary.simpleMessage("ALLE"),
     "amount" : MessageLookupByLibrary.simpleMessage("Menge "),
     "amount_detail_detailed" : MessageLookupByLibrary.simpleMessage("4 - Detailliert"),
     "amount_detail_none" : MessageLookupByLibrary.simpleMessage("0 - Keine"),
     "amount_detail_normal" : MessageLookupByLibrary.simpleMessage("2 - Normal"),
     "amount_detail_ultra" : MessageLookupByLibrary.simpleMessage("9 - Ultra"),
-    "are_you_sure" : MessageLookupByLibrary.simpleMessage("Are you sure?"),
+    "are_you_sure" : MessageLookupByLibrary.simpleMessage("Bist du sicher?"),
     "auth_store_ban_timeout" : MessageLookupByLibrary.simpleMessage("Auszeit verbieten"),
     "auth_store_banned_for" : MessageLookupByLibrary.simpleMessage("Gebannt für "),
     "auth_store_banned_minutes" : MessageLookupByLibrary.simpleMessage(" Protokoll"),
@@ -83,33 +89,40 @@ class MessageLookup extends MessageLookupByLibrary {
     "beldex_full_balance" : MessageLookupByLibrary.simpleMessage("Beldex volles Guthaben"),
     "beldex_hidden" : MessageLookupByLibrary.simpleMessage("Beldex versteckt"),
     "biometric_auth_reason" : MessageLookupByLibrary.simpleMessage("Scannen Sie Ihren Fingerabdruck zur Authentifizierung"),
-    "body_confirm_unlock_stake" : m1,
+    "blockRemaining" : m1,
+    "body_confirm_unlock_stake" : m2,
     "byUsingThisAppYouAgreeToTheTermsOf" : MessageLookupByLibrary.simpleMessage("Durch die Nutzung dieser App stimmen Sie den unten aufgeführten Vertragsbedingungen zu"),
     "cancel" : MessageLookupByLibrary.simpleMessage("Abbrechen"),
     "change" : MessageLookupByLibrary.simpleMessage("Veränderung"),
-    "changeWallet" : MessageLookupByLibrary.simpleMessage("Change Wallet"),
-    "change_current_node" : m2,
+    "changeWallet" : MessageLookupByLibrary.simpleMessage("Geldbörse wechseln"),
+    "change_current_node" : m3,
     "change_language" : MessageLookupByLibrary.simpleMessage("Sprache ändern"),
-    "change_language_to" : m3,
+    "change_language_to" : m4,
     "changelog" : MessageLookupByLibrary.simpleMessage("Änderungsprotokoll"),
+    "chooseLanguage" : MessageLookupByLibrary.simpleMessage("Sprache wählen"),
+    "chooseSeedLanguage" : MessageLookupByLibrary.simpleMessage("Wählen Sie die Seed-Sprache"),
     "clear" : MessageLookupByLibrary.simpleMessage("Löschen"),
-    "commit_transaction_amount_fee" : m4,
+    "commit_transaction_amount_fee" : m5,
     "confirm" : MessageLookupByLibrary.simpleMessage("Bestätigen"),
     "confirm_sending" : MessageLookupByLibrary.simpleMessage("Bestätigen Sie das Senden"),
     "contact" : MessageLookupByLibrary.simpleMessage("Kontakt"),
     "contact_name" : MessageLookupByLibrary.simpleMessage("Name des Ansprechpartners"),
     "continue_text" : MessageLookupByLibrary.simpleMessage("Fortsetzen"),
-    "copied_key_to_clipboard" : m5,
+    "copied" : MessageLookupByLibrary.simpleMessage("Kopiert"),
+    "copied_key_to_clipboard" : m6,
     "copied_to_clipboard" : MessageLookupByLibrary.simpleMessage("In die Zwischenablage kopiert"),
     "copy" : MessageLookupByLibrary.simpleMessage("Kopieren"),
     "create_new" : MessageLookupByLibrary.simpleMessage("Neu erstellen"),
     "dangerzone" : MessageLookupByLibrary.simpleMessage("Gefahrenzone"),
-    "dangerzone_warning" : m6,
+    "dangerzone_warning" : m7,
     "delete" : MessageLookupByLibrary.simpleMessage("Löschen"),
     "digit_pin" : MessageLookupByLibrary.simpleMessage("-stelliger PIN"),
-    "do_you_want_to_exit_an_app" : MessageLookupByLibrary.simpleMessage("Do you want to exit an App"),
+    "doYouWantToExitTheWallet" : MessageLookupByLibrary.simpleMessage("Möchten Sie das Wallet verlassen?"),
+    "do_you_want_to_exit_an_app" : MessageLookupByLibrary.simpleMessage("Möchten Sie eine App beenden?"),
     "edit" : MessageLookupByLibrary.simpleMessage("Bearbeiten"),
-    "enterWalletName" : MessageLookupByLibrary.simpleMessage("Enter Wallet Name"),
+    "enterAValidNameUpto15Characters" : MessageLookupByLibrary.simpleMessage("Geben Sie einen gültigen Namen mit bis zu 15 Zeichen ein"),
+    "enterWalletName" : MessageLookupByLibrary.simpleMessage("Geben Sie den Wallet-Namen ein"),
+    "enterWalletName_" : MessageLookupByLibrary.simpleMessage("Geben Sie den Wallet-Namen ein"),
     "enter_your_pin" : MessageLookupByLibrary.simpleMessage("PIN eingeben"),
     "enter_your_pin_again" : MessageLookupByLibrary.simpleMessage("Geben Sie Ihre PIN erneut ein"),
     "error" : MessageLookupByLibrary.simpleMessage("Error"),
@@ -127,26 +140,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "error_text_service_node" : MessageLookupByLibrary.simpleMessage("Master Node Schlüssel können nur 64 hexadezimale Zeichen enthalten"),
     "error_text_subaddress_name" : MessageLookupByLibrary.simpleMessage("Im Namen der Unteradresse könne die Symbole ` , \' \" nicht enthalten sein\nund muss zwischen 1 und 20 Zeichen lang sein"),
     "error_text_wallet_name" : MessageLookupByLibrary.simpleMessage("Der Walletname darf nur Buchstaben und Zahlen enthalten\nund muss zwischen 1 und 15 Zeichen lang sein"),
-    "failed_authentication" : m7,
+    "failed_authentication" : m8,
     "faq" : MessageLookupByLibrary.simpleMessage("FAQ"),
     "fetching" : MessageLookupByLibrary.simpleMessage("aktualisieren"),
     "filters" : MessageLookupByLibrary.simpleMessage("Filter"),
     "first_wallet_text" : MessageLookupByLibrary.simpleMessage("Das tolle Wallet\nfür Beldex"),
+    "fiveDecimals" : MessageLookupByLibrary.simpleMessage("5 - Five (0.00000)"),
+    "fourDecimals" : MessageLookupByLibrary.simpleMessage("4 - Four (0.0000)"),
     "full_balance" : MessageLookupByLibrary.simpleMessage("Volles Guthaben"),
     "hidden_balance" : MessageLookupByLibrary.simpleMessage("Verstecktes Guthaben"),
     "iAgreeToTermsOfUse" : MessageLookupByLibrary.simpleMessage("Ich stimme den Nutzungsbedingungen zu"),
     "id" : MessageLookupByLibrary.simpleMessage("ID: "),
+    "important" : MessageLookupByLibrary.simpleMessage("WICHTIG"),
     "incoming" : MessageLookupByLibrary.simpleMessage("Eingehend"),
     "incorrect_seed" : MessageLookupByLibrary.simpleMessage("Der eingegebene Text ist ungültig."),
     "keys_title" : MessageLookupByLibrary.simpleMessage("Schlüssel"),
     "loading_your_wallet" : MessageLookupByLibrary.simpleMessage("Wallet wird geladen"),
     "login" : MessageLookupByLibrary.simpleMessage("Einloggen"),
-    "never_give_your" : m8,
+    "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate" : MessageLookupByLibrary.simpleMessage("Stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Daten erstellen\nWiederherstellungs-Seed, Wallet-Adresse\nUnd private Schlüssel"),
+    "neverInputYourBeldexWalletItemIntoAnySoftwareOr" : m9,
+    "never_give_your" : m10,
     "new_subaddress_create" : MessageLookupByLibrary.simpleMessage("Erstellen"),
     "new_subaddress_label_name" : MessageLookupByLibrary.simpleMessage("Name"),
     "new_subaddress_title" : MessageLookupByLibrary.simpleMessage("Neue Unteradresse"),
     "new_wallet" : MessageLookupByLibrary.simpleMessage("Neues wallet"),
-    "no" : MessageLookupByLibrary.simpleMessage("No"),
+    "no" : MessageLookupByLibrary.simpleMessage("NEIN"),
+    "noTransactionsYet" : MessageLookupByLibrary.simpleMessage("Noch keine Transaktionen!"),
     "node_address" : MessageLookupByLibrary.simpleMessage("Knotenadresse"),
     "node_new" : MessageLookupByLibrary.simpleMessage("Neuer Knoten"),
     "node_port" : MessageLookupByLibrary.simpleMessage("Knotenport"),
@@ -155,15 +174,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "nodes_list_reset_to_default_message" : MessageLookupByLibrary.simpleMessage("Möchten Sie die Einstellungen wirklich auf die Standardeinstellungen zurücksetzen?"),
     "nothing_staked" : MessageLookupByLibrary.simpleMessage("Noch nichts gestaked"),
     "ok" : MessageLookupByLibrary.simpleMessage("OK"),
-    "openalias_alert_content" : m9,
+    "openalias_alert_content" : m11,
     "openalias_alert_title" : MessageLookupByLibrary.simpleMessage("Beldex-Empfänger erkannt"),
     "outgoing" : MessageLookupByLibrary.simpleMessage("Ausgehend"),
     "password" : MessageLookupByLibrary.simpleMessage("Passwort"),
     "paste" : MessageLookupByLibrary.simpleMessage("Einfügen"),
     "pending" : MessageLookupByLibrary.simpleMessage(" (steht aus)"),
     "pin_is_incorrect" : MessageLookupByLibrary.simpleMessage("PIN ist falsch"),
-    "pleaseEnterAValidAmount" : MessageLookupByLibrary.simpleMessage("Please enter a valid amount"),
-    "pleaseEnterAValidSeed" : MessageLookupByLibrary.simpleMessage("Please enter a valid seed"),
+    "pleaseEnterAValidAmount" : MessageLookupByLibrary.simpleMessage("Bitte geben Sie einen gültigen Betrag ein"),
+    "pleaseEnterAValidSeed" : MessageLookupByLibrary.simpleMessage("Bitte geben Sie einen gültigen Seed ein"),
     "please_make_selection" : MessageLookupByLibrary.simpleMessage("Bitte treffen Sie unten eine Auswahl zu\nErstellen oder Wiederherstellen Ihres Wallets."),
     "please_select" : MessageLookupByLibrary.simpleMessage("Bitte auswählen:"),
     "please_try_to_connect_to_another_node" : MessageLookupByLibrary.simpleMessage("Bitte versuchen Sie, eine Verbindung zu einem anderen Knoten herzustellen"),
@@ -171,16 +190,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "receive_amount" : MessageLookupByLibrary.simpleMessage("Menge"),
     "received" : MessageLookupByLibrary.simpleMessage("Empfangen"),
     "reconnect" : MessageLookupByLibrary.simpleMessage("Erneut verbinden"),
-    "reconnectWallet" : MessageLookupByLibrary.simpleMessage("Reconnect Wallet"),
+    "reconnectWallet" : MessageLookupByLibrary.simpleMessage("Wallet erneut verbinden"),
     "reconnect_alert_text" : MessageLookupByLibrary.simpleMessage("Sind Sie sicher, dass Sie die Verbindung wiederherstellen möchten?"),
     "reconnection" : MessageLookupByLibrary.simpleMessage("Wiederverbindung"),
+    "recoverySeedkey" : MessageLookupByLibrary.simpleMessage("Wiederherstellungssamen/-schlüssel"),
     "reload_fiat" : MessageLookupByLibrary.simpleMessage("Fiat-Kurs neuladen"),
     "remove" : MessageLookupByLibrary.simpleMessage("Löschen"),
-    "removeWallet" : MessageLookupByLibrary.simpleMessage("Remove Wallet"),
+    "removeWallet" : MessageLookupByLibrary.simpleMessage("Wallet entfernen"),
     "remove_node" : MessageLookupByLibrary.simpleMessage("Knoten entfernen"),
     "remove_node_message" : MessageLookupByLibrary.simpleMessage("Möchten Sie den ausgewählten Knoten wirklich entfernen?"),
     "rescan" : MessageLookupByLibrary.simpleMessage("Erneut scannen"),
-    "rescanWallet" : MessageLookupByLibrary.simpleMessage("Rescan Wallet"),
+    "rescanWallet" : MessageLookupByLibrary.simpleMessage("Wallet erneut scannen"),
     "reset" : MessageLookupByLibrary.simpleMessage("Zurücksetzen"),
     "restore_address" : MessageLookupByLibrary.simpleMessage("Adresse"),
     "restore_description_from_backup" : MessageLookupByLibrary.simpleMessage("Sie können die gesamte Beldex Wallet-App aus ihrer Sicherungsdatei wiederherstellen."),
@@ -201,8 +221,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "restore_wallet" : MessageLookupByLibrary.simpleMessage("Wallet wiederherstellen"),
     "restore_wallet_name" : MessageLookupByLibrary.simpleMessage("Walletname"),
     "restore_wallet_restore_description" : MessageLookupByLibrary.simpleMessage("Beschreibung zur Wiederherstellung des Wallets"),
-    "router_no_route" : m10,
+    "router_no_route" : m12,
     "save" : MessageLookupByLibrary.simpleMessage("Speichern"),
+    "seedKeys" : MessageLookupByLibrary.simpleMessage("Samen & Schlüssel"),
     "seed_language_chinese" : MessageLookupByLibrary.simpleMessage("Chinesisch"),
     "seed_language_choose" : MessageLookupByLibrary.simpleMessage("Bitte wählen Sie die Ausgangssprache"),
     "seed_language_dutch" : MessageLookupByLibrary.simpleMessage("Niederländisch"),
@@ -217,13 +238,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "seed_language_spanish" : MessageLookupByLibrary.simpleMessage("Spanisch"),
     "seed_share" : MessageLookupByLibrary.simpleMessage("Teilen Sie Seed"),
     "seed_title" : MessageLookupByLibrary.simpleMessage("Seed"),
+    "selectAnOptionBelowToCreateOrnRecoverExistingWallet" : MessageLookupByLibrary.simpleMessage("Wählen Sie unten eine Option zum Erstellen oder aus\n  Vorhandene Wallet wiederherstellen"),
+    "selectLanguage" : MessageLookupByLibrary.simpleMessage("Sprache auswählen"),
     "send" : MessageLookupByLibrary.simpleMessage("Senden"),
     "send_beldex" : MessageLookupByLibrary.simpleMessage("Beldex Senden"),
     "send_beldex_address" : MessageLookupByLibrary.simpleMessage("Beldex-Adresse"),
     "send_creating_transaction" : MessageLookupByLibrary.simpleMessage("Transaktion erstellen"),
     "send_error_currency" : MessageLookupByLibrary.simpleMessage("Die Währung kann nur Zahlen enthalten"),
     "send_estimated_fee" : MessageLookupByLibrary.simpleMessage("Geschätzte Gebühr:"),
-    "send_priority" : m11,
+    "send_priority" : m13,
     "send_title" : MessageLookupByLibrary.simpleMessage("Senden Sie"),
     "send_your_wallet" : MessageLookupByLibrary.simpleMessage("Dein Wallet"),
     "sending" : MessageLookupByLibrary.simpleMessage("Senden"),
@@ -275,7 +298,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "title_stakes" : MessageLookupByLibrary.simpleMessage("Stakes"),
     "today" : MessageLookupByLibrary.simpleMessage("Heute"),
     "transaction_details_amount" : MessageLookupByLibrary.simpleMessage("Betrag"),
-    "transaction_details_copied" : m12,
+    "transaction_details_copied" : m14,
     "transaction_details_date" : MessageLookupByLibrary.simpleMessage("Datum"),
     "transaction_details_height" : MessageLookupByLibrary.simpleMessage("Höhe"),
     "transaction_details_recipient_address" : MessageLookupByLibrary.simpleMessage("Empfängeradresse"),
@@ -286,19 +309,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "transaction_sent" : MessageLookupByLibrary.simpleMessage("Transaktion gesendet!"),
     "transactions" : MessageLookupByLibrary.simpleMessage("Transaktionen"),
     "transactions_by_date" : MessageLookupByLibrary.simpleMessage("Transaktionen nach Datum"),
+    "twoDecimals" : MessageLookupByLibrary.simpleMessage("2 - Two (0.00)"),
     "unable_unlock_stake" : MessageLookupByLibrary.simpleMessage("Stake Entsperrung nicht möglich"),
     "unlock_stake_requested" : MessageLookupByLibrary.simpleMessage("Stake Entsperrung angefragt"),
     "use" : MessageLookupByLibrary.simpleMessage("Wechseln zu "),
-    "version" : m13,
+    "version" : m15,
     "view_key_private" : MessageLookupByLibrary.simpleMessage("Anzeige-Schlüssel (geheim)"),
     "view_key_public" : MessageLookupByLibrary.simpleMessage("Anzeige-Schlüssel (öffentlich)"),
+    "wallet" : MessageLookupByLibrary.simpleMessage("Geldbörse"),
+    "walletAddress" : MessageLookupByLibrary.simpleMessage("Wallet-Adresse"),
     "wallet_keys" : MessageLookupByLibrary.simpleMessage("Wallet Schlüssel"),
     "wallet_list_create_new_wallet" : MessageLookupByLibrary.simpleMessage("Neues wallet erstellen"),
-    "wallet_list_failed_to_load" : m14,
-    "wallet_list_failed_to_remove" : m15,
+    "wallet_list_failed_to_load" : m16,
+    "wallet_list_failed_to_remove" : m17,
     "wallet_list_load_wallet" : MessageLookupByLibrary.simpleMessage("Wallet laden"),
-    "wallet_list_loading_wallet" : m16,
-    "wallet_list_removing_wallet" : m17,
+    "wallet_list_loading_wallet" : m18,
+    "wallet_list_removing_wallet" : m19,
     "wallet_list_restore_wallet" : MessageLookupByLibrary.simpleMessage("Wallet wiederherstellen"),
     "wallet_list_title" : MessageLookupByLibrary.simpleMessage("Beldex Wallet"),
     "wallet_menu" : MessageLookupByLibrary.simpleMessage("Wallet-Menü"),
@@ -306,14 +332,16 @@ class MessageLookup extends MessageLookupByLibrary {
     "wallet_restoration_store_incorrect_seed_length" : MessageLookupByLibrary.simpleMessage("Falsche Seed-länge"),
     "wallets" : MessageLookupByLibrary.simpleMessage("Wallets"),
     "welcome" : MessageLookupByLibrary.simpleMessage("Willkommen\nim Beldex WALLET"),
+    "welcomeToBeldexWallet" : MessageLookupByLibrary.simpleMessage("Willkommen bei Beldex Wallet :)"),
     "widgets_address" : MessageLookupByLibrary.simpleMessage("Adresse"),
     "widgets_or" : MessageLookupByLibrary.simpleMessage("oder"),
     "widgets_restore_from_blockheight" : MessageLookupByLibrary.simpleMessage("Aus Blockhöhe wiederherstellen"),
     "widgets_restore_from_date" : MessageLookupByLibrary.simpleMessage("Vom Datum wiederherstellen"),
     "widgets_seed" : MessageLookupByLibrary.simpleMessage("Seed"),
-    "yes" : MessageLookupByLibrary.simpleMessage("Yes"),
+    "yes" : MessageLookupByLibrary.simpleMessage("Ja"),
     "yes_im_sure" : MessageLookupByLibrary.simpleMessage("Ja, Ich bin mir sicher!"),
     "yesterday" : MessageLookupByLibrary.simpleMessage("Gestern"),
-    "your_contributions" : MessageLookupByLibrary.simpleMessage("Deine Anteile")
+    "your_contributions" : MessageLookupByLibrary.simpleMessage("Deine Anteile"),
+    "zeroDecimal" : MessageLookupByLibrary.simpleMessage("0 - Zero (000)")
   };
 }

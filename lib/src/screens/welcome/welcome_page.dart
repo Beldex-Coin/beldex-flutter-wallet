@@ -44,7 +44,7 @@ class WelcomePage extends BasePage {
             ),
             Padding(
               padding: const EdgeInsets.only(top:8.0),
-              child: Text(S.of(context).beldex_wall,
+              child: Text(S.of(context).wallet_list_title,
                style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
@@ -59,7 +59,7 @@ class WelcomePage extends BasePage {
               child:SvgPicture.asset(settingsStore.isDarkTheme ? 'assets/images/new-images/Empty_screen_image.svg': 'assets/images/new-images/Empty_screen_image_white.svg')
             ),
             Text(
-              S.of(context).welcome_to_bel_wallet,
+              S.of(context).welcomeToBeldexWallet,
             style: TextStyle(
               fontSize: _screenHeight*0.05/3,
               fontWeight: FontWeight.w700,
@@ -69,7 +69,7 @@ class WelcomePage extends BasePage {
             Padding(
               padding: const EdgeInsets.only(top:8.0),
               child: Text(
-                S.of(context).select_an_options,
+                S.of(context).selectAnOptionBelowToCreateOrnRecoverExistingWallet,
                 textAlign: TextAlign.center,
               style: TextStyle(
                

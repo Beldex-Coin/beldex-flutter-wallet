@@ -20,7 +20,7 @@ class SyncingSyncStatus extends SyncStatus {
   @override
   String title(){
     if(blocksLeft == 1 || blocksLeft == 0) {
-      return '$blocksLeft block remaining';
+      return S.current.blockRemaining('$blocksLeft');
     }else{
       return S.current.Blocks_remaining('$blocksLeft');
     }

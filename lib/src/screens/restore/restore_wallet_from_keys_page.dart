@@ -136,7 +136,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff77778B)
                                       : Color(0xff77778B)),
-                              hintText: S.of(context).enter_restore_wallet_name,
+                              hintText: S.of(context).enterWalletName_,
                               errorStyle: TextStyle(height: 0.10),
                             ),
                             validator: (value) {

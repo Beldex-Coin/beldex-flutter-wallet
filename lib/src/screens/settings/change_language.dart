@@ -50,7 +50,7 @@ class ChangeLanguage extends BasePage {
             child: Column(
               children: [
                 Text(
-                  S.of(context).choose_app_language,
+                  S.of(context).chooseLanguage,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 19,fontWeight: FontWeight.w700),
                 ),

@@ -114,7 +114,7 @@ abstract class WalletRestorationStoreBase with Store {
     const pattern = r'^(?=.{1,15}$)[a-zA-Z0-9]+$';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
-    errorMessage = isValid ? null : S.current.error_msg_for_wallet_name;
+    errorMessage = isValid ? null : S.current.enterAValidNameUpto15Characters;
   }
 
   void validateAddress(String value, {CryptoCurrency cryptoCurrency}) {

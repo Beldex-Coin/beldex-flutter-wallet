@@ -283,9 +283,7 @@ class AddressBookPage extends BasePage {
                                                                       .address));
                                                           displaySnackBar(
                                                               context,
-                                                              S
-                                                                  .of(context)
-                                                                  .copied);
+                                                              S.of(context).copied);
                                                                   print('address copied');
                                                         },
                                                         child: Padding(

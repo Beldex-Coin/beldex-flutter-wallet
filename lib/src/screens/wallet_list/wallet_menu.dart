@@ -69,7 +69,7 @@ class WalletMenu {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top:8.0),
-                          child: Text(S.of(context).remove_wallets,
+                          child: Text(S.of(context).makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate,
                            // 'Make sure to take a backup of your Mnemonic seed, wallet address and private keys',
                             textAlign: TextAlign.center,
                             style: TextStyle(fontSize: 16,color: Theme.of(context).primaryTextTheme.caption.color),

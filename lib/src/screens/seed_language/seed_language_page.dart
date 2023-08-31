@@ -15,7 +15,7 @@ import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart'
 
 class SeedLanguage extends BasePage {
   @override
-  String get title => S.current.select_language;
+  String get title => S.current.selectLanguage;
 
   // @override
   // Widget leading(BuildContext context) {
@@ -96,7 +96,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
           child: Column(
             children: [
               Text(
-                S.of(context).choose_seed_lang,
+                S.of(context).chooseSeedLanguage,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18,fontWeight: FontWeight.w700),
               ),

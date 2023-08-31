@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:beldex_wallet/src/screens/subaddress/newsubAddress_dialog.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -18,7 +17,6 @@ import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:ui' as ui;
-//import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:wc_flutter_share/wc_flutter_share.dart';
 
 String currentSubAddress = '';
@@ -220,7 +218,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                           padding:
                                               const EdgeInsets.only(right: 8.0),
                                           child: Text(
-                                            S.of(context).wallet_address,
+                                            S.of(context).walletAddress,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w800,
                                                 fontSize: 17,

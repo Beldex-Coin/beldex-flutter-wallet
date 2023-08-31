@@ -187,7 +187,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                           color: settingsStore.isDarkTheme
                               ? Color(0xff747474)
                               : Color(0xff6F6F6F)),
-                      hintText: S.of(context).enter_restore_wallet_name,
+                      hintText: S.of(context).enterWalletName_,
                       errorStyle: TextStyle(height: 0.5),
                     ),
                     validator: (value) {
@@ -216,7 +216,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
           child: Column(
             children: [
               Text(
-                S.of(context).choose_seed_lang,
+                S.of(context).chooseSeedLanguage,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
               ),

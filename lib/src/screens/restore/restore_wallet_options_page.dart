@@ -16,7 +16,7 @@ class RestoreWalletOptionsPage extends BasePage {
   static const _aspectRatioImage = 2.086;
 
   @override
-  String get title => S.current.recovery_seed_keys; //restore_seed_keys_restore;
+  String get title => S.current.recoverySeedkey; //restore_seed_keys_restore;
 
   @override
   Color get backgroundColor => Palette.creamyGrey;

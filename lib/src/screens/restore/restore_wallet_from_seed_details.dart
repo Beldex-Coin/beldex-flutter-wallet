@@ -126,7 +126,7 @@ class _RestoreFromSeedDetailsFormState
                                   border: InputBorder.none,
                                     hintStyle: TextStyle(
                                         color: settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xff6F6F6F)),
-                                    hintText: S.of(context).enter_restore_wallet_name,
+                                    hintText: S.of(context).enterWalletName_,
                                 errorStyle: TextStyle(height: 0.1)
                                 ),
                                 onChanged: (val)=> _formKey.currentState.validate(),

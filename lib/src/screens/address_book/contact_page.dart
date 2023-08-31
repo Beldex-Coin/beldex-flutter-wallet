@@ -21,7 +21,7 @@ class ContactPage extends BasePage {
   final Contact contact;
 
   @override
-  String get title => S.current.add_address;
+  String get title => S.current.addAddress;
 
 @override
 Widget trailing(BuildContext context){
