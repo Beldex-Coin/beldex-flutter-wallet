@@ -19,13 +19,12 @@ class CommonLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
-    Future.delayed(const Duration(milliseconds: 250), ()async{
+    Future.delayed(const Duration(seconds: 1), ()async{
       if(isFlashTransaction) {
         await sendStore.createTransaction(address: address,tPriority:BeldexTransactionPriority.flash);
       }else{
         await sendStore.createTransaction(address: address);
       }
-      Navigator.of(context).pop();
     });
 
     return WillPopScope(

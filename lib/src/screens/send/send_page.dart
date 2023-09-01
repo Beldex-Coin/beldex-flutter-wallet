@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:beldex_wallet/src/domain/common/contact.dart';
-import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
 import 'package:beldex_wallet/src/widgets/common_loader.dart';
 import 'package:flutter/cupertino.dart';
@@ -762,6 +761,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
           sendStore.pendingTransaction != null) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           print('inside the transaction created successfully---->');
+          Navigator.of(context).pop();
           await showSimpleConfirmDialog(
               context,
               S.of(context).confirm_sending,
@@ -785,7 +785,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           print('inside the transaction committed ---->');
           Navigator.of(context).pop();
-          await showSimpleSentTrans(
+          await showDialogTransactionSuccessfully(
               context,
               S.of(context).sending,
               sendStore.pendingTransaction.amount,
@@ -815,7 +815,7 @@ class CommitTransactionLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
-    Future.delayed(const Duration(milliseconds: 50), () async {
+    Future.delayed(const Duration(seconds: 1), () async {
       await sendStore.commitTransaction();
     });
 
