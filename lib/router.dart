@@ -1,5 +1,4 @@
 import 'package:beldex_wallet/src/screens/dashboard/transactiondetails_list.dart';
-import 'package:beldex_wallet/src/screens/send/flash_transaction.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -231,25 +230,6 @@ class Router {
                       create: (_) =>
                           SubaddressListStore(walletService: walletService))
                 ], child: ReceivePage()));
-      case Routes.flash:
-        return MaterialPageRoute<void>(
-            fullscreenDialog: true,
-            builder: (_) => MultiProvider(providers: [
-                  ProxyProvider<SettingsStore, BalanceStore>(
-                    update: (_, settingsStore, __) => BalanceStore(
-                        walletService: walletService,
-                        settingsStore: settingsStore,
-                        priceStore: priceStore),
-                  ),
-                  Provider(
-                    create: (_) => SyncStore(walletService: walletService),
-                  ),
-                  Provider(
-                      create: (_) => SendStore(
-                          walletService: walletService,
-                          priceStore: priceStore,
-                          transactionDescriptions: transactionDescriptions)),
-                ], child: FlashPage()));
       case Routes.transactionDetails:
         return MaterialPageRoute<void>(
             builder: (_) => TransactionDetailsPage(

@@ -295,50 +295,6 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
   IconData iconDataVal = Icons.arrow_upward_outlined;
 
-//   Future<void> _presentQRScanner(BuildContext context) async {
-//     TextEditingController controller = TextEditingController();
-//     String qrValue, famount;
-
-//     try {
-//       final code = await presentQRScanner();
-//       final uri = Uri.parse(code);
-
-//       var address = '';
-//       var amount = '';
-//       if (uri == null) {
-//         controller.text = code;
-//         qrValue = code;
-//         return;
-//       }
-
-//       if (uri != null) {
-//         address = uri.path;
-//         if (uri.queryParameters[uri.queryParameters.keys.first] != null) {
-//           amount = uri.queryParameters[uri.queryParameters.keys.first];
-//         }
-//       } else {
-//         address = uri.toString();
-//       }
-// _loading(true);
-//       // address = uri.path;
-//       controller.text = address;
-//       qrValue = address;
-//       famount = amount;
-
-//       final prefs = await SharedPreferences.getInstance();
-//       await prefs.setString('qrValue', qrValue);
-//       await prefs.setString('flashAmount', famount);
-//       setState(() {});
-//       _loading(false);
-//       await Navigator.of(context).pushNamed(Routes.flash);
-//     } catch (e) {
-//       /* ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-//         content: Text('Invalid BDX address'),
-//       ));*/
-//       print('Error $e');
-//     }
-//   }
-
   Connectivity connectivity;
   StreamSubscription<ConnectivityResult> subscription;
   var reconnect = false;
