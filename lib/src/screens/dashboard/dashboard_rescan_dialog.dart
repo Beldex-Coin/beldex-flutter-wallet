@@ -77,12 +77,13 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
                 canRescan = false;
               }
               return MaterialButton(
+                disabledColor: settingsStore.isDarkTheme ? Color(0xff333343) : Color(0xffE8E8E8),
                 onPressed:canRescan ? () async {
                   await Navigator.of(context).pushNamed(Routes.rescan);
                   Navigator.pop(context);
                 } : null,
                 elevation: 0,
-                color:canRescan ? Color(0xff0BA70F) : settingsStore.isDarkTheme ? Color(0xff333343) : Color(0xffE8E8E8),
+                color:Color(0xff0BA70F),
                 height: MediaQuery.of(context).size.height * 0.20 / 3,
                 minWidth:  MediaQuery.of(context).size.width * 1.3 / 2,
                 shape: RoundedRectangleBorder(
