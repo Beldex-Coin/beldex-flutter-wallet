@@ -392,8 +392,8 @@ class SettingsFormState extends State<SettingsForm> {
                       ],
                     ),
                     Icon(
-                      Icons.keyboard_arrow_right_outlined,
-                      size: 30,
+                      Icons.arrow_forward_ios_rounded,
+                      size: 20,
                       color: Color(0xff3F3F4D),
                     ),
                   ],
