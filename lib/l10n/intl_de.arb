@@ -349,5 +349,6 @@
   "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate": "Stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Daten erstellen\nWiederherstellungs-Seed, Wallet-Adresse\nUnd private Schlüssel",
   "blockRemaining": "{status} Verbleibende Blockierung",
   "flashTransaction": "Flash-Transaktion",
-  "transferYourBdxMoreFasternWithFlashTransaction": "Tanchbir, deine Bits mehr Pastor\n  Mit Flash-Transaktion"
+  "transferYourBdxMoreFasternWithFlashTransaction": "Tanchbir, deine Bits mehr Pastor\n  Mit Flash-Transaktion",
+  "youDontHaveEnoughAvailableBalance": "Ihr Guthaben reicht nicht aus"
 }

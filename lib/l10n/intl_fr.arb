@@ -350,5 +350,6 @@
   "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate": "Assurez-vous de sauvegarder votre\nGraine de récupération, adresse du portefeuille\nEt clés privées",
   "blockRemaining": "{status} Bloc restant",
   "flashTransaction": "Transaction flash",
-  "transferYourBdxMoreFasternWithFlashTransaction": "Transférez votre BDX plus rapidement\n  avec Transaction Flash"
+  "transferYourBdxMoreFasternWithFlashTransaction": "Transférez votre BDX plus rapidement\n  avec Transaction Flash",
+  "youDontHaveEnoughAvailableBalance": "Vous n'avez pas suffisamment de solde disponible"
 }

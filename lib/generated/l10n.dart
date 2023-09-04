@@ -2874,6 +2874,16 @@ class S {
       args: [],
     );
   }
+
+  /// `You don’t have enough available balance`
+  String get youDontHaveEnoughAvailableBalance {
+    return Intl.message(
+      'You don’t have enough available balance',
+      name: 'youDontHaveEnoughAvailableBalance',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

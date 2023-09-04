@@ -343,6 +343,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yes" : MessageLookupByLibrary.simpleMessage("Yes"),
     "yes_im_sure" : MessageLookupByLibrary.simpleMessage("Yes, I\'m sure!"),
     "yesterday" : MessageLookupByLibrary.simpleMessage("Yesterday"),
+    "youDontHaveEnoughAvailableBalance" : MessageLookupByLibrary.simpleMessage("You don’t have enough available balance"),
     "your_contributions" : MessageLookupByLibrary.simpleMessage("Your Contributions"),
     "zeroDecimal" : MessageLookupByLibrary.simpleMessage("0 - Zero (000)")
   };
