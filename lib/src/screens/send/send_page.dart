@@ -749,7 +749,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     rdisposer3 = reaction((_) => sendStore.state, (SendingState state) {
       if (state is SendingFailed) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
-          await showSimpleBeldexDialog(context, 'Alert', state.error,
+          Navigator.of(context).pop();
+          await showSimpleBeldexDialog(context, S.of(context).alert, state.error,
               onPressed: (_) => Navigator.of(context).pop());
         });
       }

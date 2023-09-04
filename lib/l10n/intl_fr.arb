@@ -351,5 +351,6 @@
   "blockRemaining": "{status} Bloc restant",
   "flashTransaction": "Transaction flash",
   "transferYourBdxMoreFasternWithFlashTransaction": "Transférez votre BDX plus rapidement\n  avec Transaction Flash",
-  "youDontHaveEnoughAvailableBalance": "Vous n'avez pas suffisamment de solde disponible"
+  "youDontHaveEnoughAvailableBalance": "Vous n'avez pas suffisamment de solde disponible",
+  "alert": "Alert"
 }

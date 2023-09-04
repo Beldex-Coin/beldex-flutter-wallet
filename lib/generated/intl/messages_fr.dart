@@ -71,6 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "address_book" : MessageLookupByLibrary.simpleMessage("Carnet d\'adresses"),
     "address_book_menu" : MessageLookupByLibrary.simpleMessage("Carnet d\'adresses"),
     "afterYourFirstTransactionnYouWillBeAbleToView" : MessageLookupByLibrary.simpleMessage("Après votre première transaction,\n  Vous pourrez le voir ici."),
+    "alert" : MessageLookupByLibrary.simpleMessage("Alert"),
     "all" : MessageLookupByLibrary.simpleMessage("TOUT"),
     "amount" : MessageLookupByLibrary.simpleMessage("Montant: "),
     "amount_detail_detailed" : MessageLookupByLibrary.simpleMessage("4 - Détaillé"),
