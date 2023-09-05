@@ -13,8 +13,7 @@ class LoadingPage extends StatelessWidget{
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
-    Future.delayed(
-        const Duration(milliseconds: 250), () {
+    Future.delayed(const Duration(seconds: 1), () {
       walletListStore.loadWallet(wallet);
       Navigator.of(context).pop();
     });
