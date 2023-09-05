@@ -353,5 +353,8 @@
   "transferYourBdxMoreFasternWithFlashTransaction": "Transfer your BDX more faster\n with Flash Transaction",
   "enterYourPin": "Enter Your PIN",
   "walletSettings": "Wallet Settings",
-  "recoverySeed": "Recovery Seed"
+  "recoverySeed": "Recovery Seed",
+  "transferYourBdxMoreFasternWithFlashTransaction": "Transfer your BDX more faster\n with Flash Transaction",
+  "youDontHaveEnoughAvailableBalance": "You don't have enough available balance",
+  "alert": "Alert"
 }

@@ -71,6 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "address_book" : MessageLookupByLibrary.simpleMessage("Carnet d\'adresses"),
     "address_book_menu" : MessageLookupByLibrary.simpleMessage("Carnet d\'adresses"),
     "afterYourFirstTransactionnYouWillBeAbleToView" : MessageLookupByLibrary.simpleMessage("Après votre première transaction,\n  Vous pourrez le voir ici."),
+    "alert" : MessageLookupByLibrary.simpleMessage("Alerte"),
     "all" : MessageLookupByLibrary.simpleMessage("TOUT"),
     "amount" : MessageLookupByLibrary.simpleMessage("Montant: "),
     "amount_detail_detailed" : MessageLookupByLibrary.simpleMessage("4 - Détaillé"),
@@ -345,6 +346,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yes" : MessageLookupByLibrary.simpleMessage("Oui"),
     "yes_im_sure" : MessageLookupByLibrary.simpleMessage("Oui, je suis sûr!"),
     "yesterday" : MessageLookupByLibrary.simpleMessage("hier"),
+    "youDontHaveEnoughAvailableBalance" : MessageLookupByLibrary.simpleMessage("Vous n\'avez pas suffisamment de solde disponible"),
     "your_contributions" : MessageLookupByLibrary.simpleMessage("Vos contributions"),
     "zeroDecimal" : MessageLookupByLibrary.simpleMessage("0 - Zero (000)")
   };

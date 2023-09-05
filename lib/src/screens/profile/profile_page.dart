@@ -9,6 +9,7 @@ import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/nav/new_nav_list_arrow.dart';
+import 'package:beldex_wallet/src/util/constants.dart' as constants;
 
 class ProfilePage extends BasePage {
   final _bodyKey = GlobalKey();
@@ -61,7 +62,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
           physics: NeverScrollableScrollPhysics(),
           children: [
             Container(
-              margin:EdgeInsets.only(left:MediaQuery.of(context).size.width*0.4/3),
+              margin:EdgeInsets.only(left:MediaQuery.of(context).size.width*0.4/4),
               child:Text(S.of(context).wallet,style: TextStyle(fontSize: 20.0, color:Color(0xff737385)),),
             ),
             NewNavListArrow(
@@ -88,7 +89,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                     Navigator.of(context).pushNamed(Routes.settings)),
               
               Container(
-              margin:EdgeInsets.only(left:MediaQuery.of(context).size.width*0.4/3,top:MediaQuery.of(context).size.width*0.3/3),
+              margin:EdgeInsets.only(left:MediaQuery.of(context).size.width*0.4/4,top:MediaQuery.of(context).size.width*0.3/3),
               child:Text(S.of(context).account,style: TextStyle(fontSize: 20.0, color:Color(0xff737385)),),
             ),
            // NewNavListHeader(title: S.current.wallet_menu),
@@ -124,7 +125,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                     Navigator.of(context).pushNamed(Routes.accountList)),
             //Important -->
               Container(
-              margin:EdgeInsets.only(left:MediaQuery.of(context).size.width*0.4/3,top:MediaQuery.of(context).size.width*0.3/3),
+              margin:EdgeInsets.only(left:MediaQuery.of(context).size.width*0.4/4,top:MediaQuery.of(context).size.width*0.3/3),
               child:Text(S.of(context).seedKeys,style: TextStyle(fontSize: 20.0, color:Color(0xff737385)),),
             ),
             //NewNavListHeader(title: S.current.dangerzone),

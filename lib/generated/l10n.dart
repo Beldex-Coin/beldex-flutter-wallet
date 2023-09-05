@@ -2894,6 +2894,26 @@ class S {
       args: [],
     );
   }
+
+  /// `You don't have enough available balance`
+  String get youDontHaveEnoughAvailableBalance {
+    return Intl.message(
+      'You don\'t have enough available balance',
+      name: 'youDontHaveEnoughAvailableBalance',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Alert`
+  String get alert {
+    return Intl.message(
+      'Alert',
+      name: 'alert',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

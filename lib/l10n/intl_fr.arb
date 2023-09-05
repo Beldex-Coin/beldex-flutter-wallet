@@ -353,5 +353,8 @@
   "transferYourBdxMoreFasternWithFlashTransaction": "Transférez votre BDX plus rapidement\n  avec Transaction Flash",
   "enterYourPin": "Entrez votre code PIN",
   "walletSettings": "Paramètres du portefeuille",
-  "recoverySeed": "Semence de récupération"
+  "recoverySeed": "Semence de récupération",
+  "transferYourBdxMoreFasternWithFlashTransaction": "Transférez votre BDX plus rapidement\n  avec Transaction Flash",
+  "youDontHaveEnoughAvailableBalance": "Vous n'avez pas suffisamment de solde disponible",
+  "alert": "Alerte"
 }

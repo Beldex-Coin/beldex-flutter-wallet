@@ -477,13 +477,10 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       return null;
                                     } else {
                                       if (getAmountValidation(value)) {
-                                        sendStore.validateBELDEX(value,
-                                            balanceStore.unlockedBalance);
-                                        if (sendStore.errorMessage != null) {
+                                        if (sendStore.compareAvailableBalance(value, balanceStore.unlockedBalance)) {
                                           setState(() {
                                             amountValidation = true;
-                                            amountErrorMessage = S.current
-                                                .pleaseEnterAValidAmount;
+                                            amountErrorMessage = S.of(context).youDontHaveEnoughAvailableBalance;
                                           });
                                           return;
                                         } else {
@@ -496,8 +493,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       } else {
                                         setState(() {
                                           amountValidation = true;
-                                          amountErrorMessage =
-                                              'Enter a valid amount';
+                                          amountErrorMessage = S.current
+                                                  .pleaseEnterAValidAmount;
                                         });
                                         return;
                                       }
@@ -752,7 +749,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     rdisposer3 = reaction((_) => sendStore.state, (SendingState state) {
       if (state is SendingFailed) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
-          await showSimpleBeldexDialog(context, 'Alert', state.error,
+          Navigator.of(context).pop();
+          await showSimpleBeldexDialog(context, S.of(context).alert, state.error,
               onPressed: (_) => Navigator.of(context).pop());
         });
       }

@@ -264,6 +264,17 @@ abstract class SendStoreBase with Store {
     errorMessage = isValid ? null : S.current.error_text_address;
   }
 
+  bool compareAvailableBalance(String amount, int availableBalance) {
+    var isValid = false;
+    try {
+      final dValue = double.parse(amount);
+      final maxAvailable = availableBalance;
+      isValid = (dValue <= maxAvailable);
+    } catch (e) {
+      isValid = false;
+    }
+    return isValid;
+  }
 
   void validateBELDEX(String amount, int availableBalance) {
     final maxValue = 150000000.00000;
@@ -280,7 +291,7 @@ abstract class SendStoreBase with Store {
       }
     }
     errorMessage = isValid ? null : S.current.error_text_beldex;
-    
+
   }
 
   // void validateBELDEX(String amount, int availableBalance) {

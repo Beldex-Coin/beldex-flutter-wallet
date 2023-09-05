@@ -71,6 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "address_book" : MessageLookupByLibrary.simpleMessage("Adressbuch"),
     "address_book_menu" : MessageLookupByLibrary.simpleMessage("Adressbuch"),
     "afterYourFirstTransactionnYouWillBeAbleToView" : MessageLookupByLibrary.simpleMessage("Nach Ihrer ersten Transaktion\n Sie können es hier ansehen."),
+    "alert" : MessageLookupByLibrary.simpleMessage("Alarm"),
     "all" : MessageLookupByLibrary.simpleMessage("ALLE"),
     "amount" : MessageLookupByLibrary.simpleMessage("Menge "),
     "amount_detail_detailed" : MessageLookupByLibrary.simpleMessage("4 - Detailliert"),
@@ -345,6 +346,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yes" : MessageLookupByLibrary.simpleMessage("Ja"),
     "yes_im_sure" : MessageLookupByLibrary.simpleMessage("Ja, Ich bin mir sicher!"),
     "yesterday" : MessageLookupByLibrary.simpleMessage("Gestern"),
+    "youDontHaveEnoughAvailableBalance" : MessageLookupByLibrary.simpleMessage("Ihr Guthaben reicht nicht aus"),
     "your_contributions" : MessageLookupByLibrary.simpleMessage("Deine Anteile"),
     "zeroDecimal" : MessageLookupByLibrary.simpleMessage("0 - Zero (000)")
   };
