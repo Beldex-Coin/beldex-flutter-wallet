@@ -767,9 +767,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
               S.of(context).confirm_sending,
               sendStore.pendingTransaction.amount,
               sendStore.pendingTransaction.fee,
-              _addressController.text, onPressed: (_) async {
+              _addressController.text, onPressed: (_){
             Navigator.of(context).pop();
-             await Navigator.push(
+              Navigator.push(
         context,
         MaterialPageRoute<void>(
             builder: (context) => CommitTransactionLoader(sendStore: sendStore)));

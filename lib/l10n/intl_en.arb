@@ -38,7 +38,7 @@
   "transactions" : "Transactions",
   "incoming" : "Incoming",
   "outgoing" : "Outgoing",
-  "transactions_by_date" : "Transactions by date",
+  "transactions_by_date" : "Transactions by Date",
   "filters" : "Filters",
   "today" : "Today",
   "yesterday" : "Yesterday",
@@ -48,7 +48,7 @@
   "rescan" : "Rescan",
   "reconnect" : "Reconnect",
   "wallets" : "Wallets",
-  "show_seed" : "Show seed",
+  "show_seed" : "Show Seed",
   "show_keys" : "Show keys",
   "address_book_menu" : "Address book",
   "reconnection" : "Reconnection",
@@ -76,12 +76,12 @@
   "changelog" : "Changelog",
 
 
-  "enter_your_pin" : "Enter your PIN",
+
   "loading_your_wallet" : "Loading your wallet",
 
 
-  "new_wallet" : "New wallet",
-  "wallet_name" : "Wallet name",
+  "new_wallet" : "New Wallet",
+  "wallet_name" : "Wallet Name",
   "continue_text" : "Continue",
 
 
@@ -117,11 +117,11 @@
   "restore_title_from_backup" : "Restore from a back-up file",
   "restore_description_from_backup" : "You can restore the whole Beldex Wallet app from your back-up file",
   "restore_seed_keys_restore" : "Seed/Keys Restore",
-  "restore_title_from_seed" : "Restore from seed",
-  "restore_description_from_seed" : "Use the 25-word Mnemonic key or seed phrase to restore your wallet.",
-  "restore_title_from_keys" : "Restore from keys",
-  "restore_description_from_keys" : "Use the generated keystrokes saved from private keys to restore your wallet ",
-  "restore_wallet_name" : "Wallet name",
+  "restore_title_from_seed" : "Restore from Seed",
+  "restore_description_from_seed" : "Use the 25-word Mnemonic Key or Seed Phrase to Restore your Wallet.",
+  "restore_title_from_keys" : "Restore from Keys",
+  "restore_description_from_keys" : "Use the generated keystrokes saved from private keys to Restore your Wallet ",
+  "restore_wallet_name" : "Wallet Name",
   "restore_address" : "Address",
   "restore_view_key_private" : "View key (private)",
   "restore_spend_key_private" : "Spend key (private)",
@@ -153,7 +153,7 @@
   "send_beldex_address" : "Beldex address",
   "all" : "ALL",
   "send_error_currency" : "Currency can only contain numbers",
-  "send_estimated_fee" : "Estimated fee:",
+  "send_estimated_fee" : "Estimated Fee:",
   "send_priority" : "{transactionPriority} priority is set as the default fee.\nGo to setting to change the transaction priority.",
   "send_creating_transaction" : "Creating transaction",
 
@@ -176,14 +176,14 @@
   "settings_nodes" : "Nodes",
   "settings_current_node" : "Current node",
   "settings_wallets" : "Wallets",
-  "settings_display_balance_as" : "Display balance as",
+  "settings_display_balance_as" : "Display Balance As",
   "settings_balance_detail": "Decimals",
   "settings_currency" : "Currency",
-  "settings_fee_priority" : "Fee priority",
+  "settings_fee_priority" : "Fee Priority",
   "settings_save_recipient_address" : "Save recipient address",
   "settings_personal" : "Personal",
   "settings_change_pin" : "Change PIN",
-  "settings_change_language" : "Select language",
+  "settings_change_language" : "Select Language",
   "settings_allow_biometric_authentication" : "Allow biometric authentication",
   "settings_dark_mode" : "Dark mode",
   "settings_transactions" : "Transactions",
@@ -191,7 +191,7 @@
   "settings_all" : "ALL",
   "settings_none" : "None",
   "settings_support" : "Support",
-  "settings_terms_and_conditions" : "Terms and conditions",
+  "settings_terms_and_conditions" : "Terms & Conditions",
   "settings_enable_fiat_currency": "Enable Fiat Currency conversion",
   "pin_is_incorrect" : "PIN is incorrect",
 
@@ -242,8 +242,8 @@
 
 
   "widgets_address" : "Address",
-  "widgets_restore_from_blockheight" : "Restore from blockheight",
-  "widgets_restore_from_date" : "Restore from date",
+  "widgets_restore_from_blockheight" : "Restore from Blockheight",
+  "widgets_restore_from_date" : "Restore from Date",
   "widgets_or" : "OR",
   "widgets_seed" : "Seed",
 
@@ -308,7 +308,7 @@
 
   "dangerzone": "Dangerzone",
   "yes_im_sure": "Yes, I'm sure!",
-  "never_give_your": "NEVER give your Beldex wallet {item} to ANYONE!",
+  "never_give_your": "Never Give your Beldex Wallet {item} to Anyone!",
   "dangerzone_warning": "NEVER input your Beldex wallet {item} into any software or website other than the OFFICIAL Beldex wallets downloaded directly from the {app_store}, the Beldex website, or the Beldex GitHub.\nAre you sure you want to access your wallet {item}?",
   "keys_title": "Keys",
   "are_you_sure": "Are you sure?",
@@ -330,9 +330,9 @@
   "copied": "Copied",
   "addAddress": "Add address",
   "important": "IMPORTANT",
-  "neverInputYourBeldexWalletItemIntoAnySoftwareOr":"Never input your Beldex wallet {item} into any software or website other\\n than the official Beldex wallets downloaded directly from the {appStore},\\n the beldex website, or the beldex GitHub.",
+  "neverInputYourBeldexWalletItemIntoAnySoftwareOr":"Never input your Beldex wallet {item} into any software or website other than the official Beldex wallets downloaded directly from the {appStore},the beldex website, or the beldex GitHub.",
   "enterWalletName_": "Enter wallet name",
-  "chooseSeedLanguage": "Choose seed language",
+  "chooseSeedLanguage": "Choose Seed Language",
   "wallet": "Wallet",
   "seedKeys": "Seed & Keys",
   "walletAddress": "Wallet Address",
@@ -350,5 +350,8 @@
   "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate": "Make sure to backup of your\nrecovery Seed, wallet address\nand private keys",
   "blockRemaining": "{status} Block Remaining",
   "flashTransaction": "Flash Transaction",
-  "transferYourBdxMoreFasternWithFlashTransaction": "Transfer your BDX more faster\n with Flash Transaction"
+  "transferYourBdxMoreFasternWithFlashTransaction": "Transfer your BDX more faster\n with Flash Transaction",
+  "enterYourPin": "Enter Your PIN",
+  "walletSettings": "Wallet Settings",
+  "recoverySeed": "Recovery Seed"
 }

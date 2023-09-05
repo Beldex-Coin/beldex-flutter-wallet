@@ -54,7 +54,7 @@ class SetupPinCodeForm extends PinCodeWidget {
 class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
     extends PinCodeState<WidgetType> {
   _SetupPinCodeFormState() {
-    title = S.current.enter_your_pin;
+    title = S.current.enterYourPin;
   }
 
   bool isEnteredOriginalPin() => _originalPin.isNotEmpty;
@@ -228,7 +228,7 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
 
   void reset() {
     clear();
-    setTitle(S.current.enter_your_pin);
+    setTitle(S.current.enterYourPin);
     _originalPin = [];
   }
 

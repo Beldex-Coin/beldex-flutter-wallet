@@ -57,7 +57,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   bool isUnlockScreen = false;
   int pinLength = defaultPinLength;
   List<int> pin = List<int>.filled(defaultPinLength, null);
-  String title = S.current.enter_your_pin;
+  String title = S.current.enterYourPin;
   double _aspectRatio = 0;
 
   void setTitle(String title) => setState(() => this.title = title);
@@ -196,6 +196,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
     return Scaffold(
         backgroundColor:
             settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+            resizeToAvoidBottomInset: false,
         // appBar: AppBar(
         //   elevation: 0,
         //   title: Text(isUnlockScreen ? 'Enter pin' : S.of(context).settingup_pin,style: TextStyle(color:Theme.of(context).primaryTextTheme.caption.color,fontSize:26,fontWeight: FontWeight.w800),) ,

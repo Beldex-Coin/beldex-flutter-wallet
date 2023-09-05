@@ -489,7 +489,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                                   color: Color(0xff2979FB)),
                                             ),
                                             Text(
-                                              'Add sub address',
+                                              'Add Sub Address',
                                               //S.of(context).subaddresses,
                                               style: TextStyle(
                                                   decoration:

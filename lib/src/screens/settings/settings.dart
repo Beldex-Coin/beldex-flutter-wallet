@@ -33,7 +33,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends BasePage {
   @override
-  String get title => S.current.settings_title;
+  String get title => S.current.walletSettings;
 
   @override
   Color get backgroundColor => Palette.lightGrey2;

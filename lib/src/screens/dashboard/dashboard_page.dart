@@ -409,7 +409,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(statusText,
+                                  Text('${statusText[0].toUpperCase() + statusText.substring(1).toLowerCase()}',
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,

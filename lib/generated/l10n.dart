@@ -345,10 +345,10 @@ class S {
     );
   }
 
-  /// `Transactions by date`
+  /// `Transactions by Date`
   String get transactions_by_date {
     return Intl.message(
-      'Transactions by date',
+      'Transactions by Date',
       name: 'transactions_by_date',
       desc: '',
       args: [],
@@ -445,10 +445,10 @@ class S {
     );
   }
 
-  /// `Show seed`
+  /// `Show Seed`
   String get show_seed {
     return Intl.message(
-      'Show seed',
+      'Show Seed',
       name: 'show_seed',
       desc: '',
       args: [],
@@ -655,16 +655,6 @@ class S {
     );
   }
 
-  /// `Enter your PIN`
-  String get enter_your_pin {
-    return Intl.message(
-      'Enter your PIN',
-      name: 'enter_your_pin',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Loading your wallet`
   String get loading_your_wallet {
     return Intl.message(
@@ -675,20 +665,20 @@ class S {
     );
   }
 
-  /// `New wallet`
+  /// `New Wallet`
   String get new_wallet {
     return Intl.message(
-      'New wallet',
+      'New Wallet',
       name: 'new_wallet',
       desc: '',
       args: [],
     );
   }
 
-  /// `Wallet name`
+  /// `Wallet Name`
   String get wallet_name {
     return Intl.message(
-      'Wallet name',
+      'Wallet Name',
       name: 'wallet_name',
       desc: '',
       args: [],
@@ -965,50 +955,50 @@ class S {
     );
   }
 
-  /// `Restore from seed`
+  /// `Restore from Seed`
   String get restore_title_from_seed {
     return Intl.message(
-      'Restore from seed',
+      'Restore from Seed',
       name: 'restore_title_from_seed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Use the 25-word Mnemonic key or seed phrase to restore your wallet.`
+  /// `Use the 25-word Mnemonic Key or Seed Phrase to Restore your Wallet.`
   String get restore_description_from_seed {
     return Intl.message(
-      'Use the 25-word Mnemonic key or seed phrase to restore your wallet.',
+      'Use the 25-word Mnemonic Key or Seed Phrase to Restore your Wallet.',
       name: 'restore_description_from_seed',
       desc: '',
       args: [],
     );
   }
 
-  /// `Restore from keys`
+  /// `Restore from Keys`
   String get restore_title_from_keys {
     return Intl.message(
-      'Restore from keys',
+      'Restore from Keys',
       name: 'restore_title_from_keys',
       desc: '',
       args: [],
     );
   }
 
-  /// `Use the generated keystrokes saved from private keys to restore your wallet `
+  /// `Use the generated keystrokes saved from private keys to Restore your Wallet `
   String get restore_description_from_keys {
     return Intl.message(
-      'Use the generated keystrokes saved from private keys to restore your wallet ',
+      'Use the generated keystrokes saved from private keys to Restore your Wallet ',
       name: 'restore_description_from_keys',
       desc: '',
       args: [],
     );
   }
 
-  /// `Wallet name`
+  /// `Wallet Name`
   String get restore_wallet_name {
     return Intl.message(
-      'Wallet name',
+      'Wallet Name',
       name: 'restore_wallet_name',
       desc: '',
       args: [],
@@ -1265,10 +1255,10 @@ class S {
     );
   }
 
-  /// `Estimated fee:`
+  /// `Estimated Fee:`
   String get send_estimated_fee {
     return Intl.message(
-      'Estimated fee:',
+      'Estimated Fee:',
       name: 'send_estimated_fee',
       desc: '',
       args: [],
@@ -1455,10 +1445,10 @@ class S {
     );
   }
 
-  /// `Display balance as`
+  /// `Display Balance As`
   String get settings_display_balance_as {
     return Intl.message(
-      'Display balance as',
+      'Display Balance As',
       name: 'settings_display_balance_as',
       desc: '',
       args: [],
@@ -1485,10 +1475,10 @@ class S {
     );
   }
 
-  /// `Fee priority`
+  /// `Fee Priority`
   String get settings_fee_priority {
     return Intl.message(
-      'Fee priority',
+      'Fee Priority',
       name: 'settings_fee_priority',
       desc: '',
       args: [],
@@ -1525,10 +1515,10 @@ class S {
     );
   }
 
-  /// `Select language`
+  /// `Select Language`
   String get settings_change_language {
     return Intl.message(
-      'Select language',
+      'Select Language',
       name: 'settings_change_language',
       desc: '',
       args: [],
@@ -1605,10 +1595,10 @@ class S {
     );
   }
 
-  /// `Terms and conditions`
+  /// `Terms & Conditions`
   String get settings_terms_and_conditions {
     return Intl.message(
-      'Terms and conditions',
+      'Terms & Conditions',
       name: 'settings_terms_and_conditions',
       desc: '',
       args: [],
@@ -1965,20 +1955,20 @@ class S {
     );
   }
 
-  /// `Restore from blockheight`
+  /// `Restore from Blockheight`
   String get widgets_restore_from_blockheight {
     return Intl.message(
-      'Restore from blockheight',
+      'Restore from Blockheight',
       name: 'widgets_restore_from_blockheight',
       desc: '',
       args: [],
     );
   }
 
-  /// `Restore from date`
+  /// `Restore from Date`
   String get widgets_restore_from_date {
     return Intl.message(
-      'Restore from date',
+      'Restore from Date',
       name: 'widgets_restore_from_date',
       desc: '',
       args: [],
@@ -2445,10 +2435,10 @@ class S {
     );
   }
 
-  /// `NEVER give your Beldex wallet {item} to ANYONE!`
+  /// `Never Give your Beldex Wallet {item} to Anyone!`
   String never_give_your(Object item) {
     return Intl.message(
-      'NEVER give your Beldex wallet $item to ANYONE!',
+      'Never Give your Beldex Wallet $item to Anyone!',
       name: 'never_give_your',
       desc: '',
       args: [item],
@@ -2665,10 +2655,10 @@ class S {
     );
   }
 
-  /// `Never input your Beldex wallet {item} into any software or website other\n than the official Beldex wallets downloaded directly from the {appStore},\n the beldex website, or the beldex GitHub.`
+  /// `Never input your Beldex wallet {item} into any software or website other than the official Beldex wallets downloaded directly from the {appStore},the beldex website, or the beldex GitHub.`
   String neverInputYourBeldexWalletItemIntoAnySoftwareOr(Object item, Object appStore) {
     return Intl.message(
-      'Never input your Beldex wallet $item into any software or website other\n than the official Beldex wallets downloaded directly from the $appStore,\n the beldex website, or the beldex GitHub.',
+      'Never input your Beldex wallet $item into any software or website other than the official Beldex wallets downloaded directly from the $appStore,the beldex website, or the beldex GitHub.',
       name: 'neverInputYourBeldexWalletItemIntoAnySoftwareOr',
       desc: '',
       args: [item, appStore],
@@ -2685,10 +2675,10 @@ class S {
     );
   }
 
-  /// `Choose seed language`
+  /// `Choose Seed Language`
   String get chooseSeedLanguage {
     return Intl.message(
-      'Choose seed language',
+      'Choose Seed Language',
       name: 'chooseSeedLanguage',
       desc: '',
       args: [],
@@ -2870,6 +2860,36 @@ class S {
     return Intl.message(
       'Transfer your BDX more faster\n with Flash Transaction',
       name: 'transferYourBdxMoreFasternWithFlashTransaction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Your PIN`
+  String get enterYourPin {
+    return Intl.message(
+      'Enter Your PIN',
+      name: 'enterYourPin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet Settings`
+  String get walletSettings {
+    return Intl.message(
+      'Wallet Settings',
+      name: 'walletSettings',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Recovery Seed`
+  String get recoverySeed {
+    return Intl.message(
+      'Recovery Seed',
+      name: 'recoverySeed',
       desc: '',
       args: [],
     );

@@ -83,7 +83,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                 leading: SvgPicture.asset('assets/images/new-images/settingsnut.svg',width: 25,height: 25,
                     color:Theme.of(context).primaryTextTheme.headline6.color
                     ),
-                text: S.current.settings_title,
+                text: S.of(context).walletSettings,
                 onTap: () =>
                     Navigator.of(context).pushNamed(Routes.settings)),
               

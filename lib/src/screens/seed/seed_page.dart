@@ -29,7 +29,7 @@ class SeedPage extends BasePage {
   bool get isModalBackButton => true;
 
   @override
-  String get title => S.current.seed_title;
+  String get title => S.current.recoverySeed;
 
   final VoidCallback onCloseCallback;
 
@@ -267,7 +267,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [ 
-                                      Text('Copy seed',style:TextStyle(fontSize:16,fontWeight:FontWeight.w800,color: isCopied ? settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6) : Colors.white,)),
+                                      Text('Copy Seed',style:TextStyle(fontSize:16,fontWeight:FontWeight.w800,color: isCopied ? settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6) : Colors.white,)),
                                       Padding(
                                         padding: const EdgeInsets.only(left:8.0),
                                         child: Icon(Icons.copy,color:  isCopied ? settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6) : Colors.white,),

@@ -76,7 +76,7 @@
   "changelog" : "Journal des modifications",
 
 
-  "enter_your_pin" : "entrez le code PIN",
+  
   "loading_your_wallet" : "chargement du portefeuille",
 
 
@@ -350,5 +350,8 @@
   "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate": "Assurez-vous de sauvegarder votre\nGraine de récupération, adresse du portefeuille\nEt clés privées",
   "blockRemaining": "{status} Bloc restant",
   "flashTransaction": "Transaction flash",
-  "transferYourBdxMoreFasternWithFlashTransaction": "Transférez votre BDX plus rapidement\n  avec Transaction Flash"
+  "transferYourBdxMoreFasternWithFlashTransaction": "Transférez votre BDX plus rapidement\n  avec Transaction Flash",
+  "enterYourPin": "Entrez votre code PIN",
+  "walletSettings": "Paramètres du portefeuille",
+  "recoverySeed": "Semence de récupération"
 }
