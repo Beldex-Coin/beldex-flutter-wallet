@@ -82,9 +82,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   double position;
   AnimationController animationController;
   bool addressValidation = false;
-  var addressErrorMessage = "";
+  var addressErrorMessage = '';
   bool amountValidation = false;
-  var amountErrorMessage = "";
+  var amountErrorMessage = '';
   final List<ReactionDisposer> reactionDisposers =
       []; // dispose the reactions we used in this file to avoid the memory leaks
   final List<ReactionDisposer> whenDisposers =
@@ -486,7 +486,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                         } else {
                                           setState(() {
                                             amountValidation = false;
-                                            amountErrorMessage = "";
+                                            amountErrorMessage = '';
                                           });
                                         }
                                         return null;
@@ -784,11 +784,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
           print('inside the transaction committed ---->');
           Navigator.of(context).pop();
           await showDialogTransactionSuccessfully(
-              context,
-              S.of(context).sending,
-              sendStore.pendingTransaction.amount,
-              'fee',
-              _addressController.text, onPressed: (_) {
+              context, onPressed: (_) {
             _addressController.text = '';
             _cryptoAmountController.text = '';
             Navigator.of(context)..pop()..pop();

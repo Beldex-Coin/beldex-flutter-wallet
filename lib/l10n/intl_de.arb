@@ -353,7 +353,6 @@
   "enterYourPin": "PIN eingeben",
   "walletSettings": "Wallet-Einstellungen",
   "recoverySeed": "Erholungssamen",
-  "transferYourBdxMoreFasternWithFlashTransaction": "Tanchbir, deine Bits mehr Pastor\n  Mit Flash-Transaktion",
   "youDontHaveEnoughAvailableBalance": "Ihr Guthaben reicht nicht aus",
   "alert": "Alarm"
 }

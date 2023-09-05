@@ -18,13 +18,11 @@ Future showSimpleConfirmDialog(
 }
 
 Future showDialogTransactionSuccessfully(
-    BuildContext context, String title, String body, String fee, String address,
-    {String buttonText,
+    BuildContext context, {
     void Function(BuildContext context) onPressed,
     void Function(BuildContext context) onDismiss}) {
   return showDialog<void>(
-      builder: (_) => SendTransactionSuccessfully(title, body, fee, address,
-          buttonText: buttonText, onDismiss: onDismiss, onPressed: onPressed),
+      builder: (_) => SendTransactionSuccessfully(onDismiss: onDismiss, onPressed: onPressed),
       context: context);
 }
 
@@ -181,8 +179,9 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(8)),
                                 child: GestureDetector(
                                     onTap: () {
-                                      if (onDismiss != null)
+                                      if (onDismiss != null) {
                                         onDismiss(context);
+                                      }
                                     },
                                     child: Center(
                                         child: Text('Cancel',
@@ -200,8 +199,9 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(8)),
                                 child: GestureDetector(
                                     onTap: () {
-                                      if (onPressed != null)
+                                      if (onPressed != null) {
                                         onPressed(context);
+                                      }
                                     },
                                     child: Center(
                                         child: Text(
@@ -369,8 +369,9 @@ class TransactionSendDetails extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(8)),
                                 child: GestureDetector(
                                     onTap: () {
-                                      if (onDismiss != null)
+                                      if (onDismiss != null) {
                                         onDismiss(context);
+                                      }
                                     },
                                     child: Center(
                                         child: Text('Cancel',
@@ -388,8 +389,9 @@ class TransactionSendDetails extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(8)),
                                 child: GestureDetector(
                                     onTap: () {
-                                      if (onPressed != null)
+                                      if (onPressed != null) {
                                         onPressed(context);
+                                      }
                                     },
                                     child: Center(
                                         child: Text(
@@ -415,21 +417,10 @@ class TransactionSendDetails extends StatelessWidget {
 }
 
 class SendTransactionSuccessfully extends StatefulWidget {
-  const SendTransactionSuccessfully(
-    this.title,
-    this.body,
-    this.fee,
-    this.address, {
-    this.buttonText,
+  const SendTransactionSuccessfully({
     this.onPressed,
     this.onDismiss,
   });
-
-  final String title;
-  final String body;
-  final String fee;
-  final String address;
-  final String buttonText;
   final void Function(BuildContext context) onPressed;
   final void Function(BuildContext context) onDismiss;
 
@@ -455,7 +446,6 @@ class _SendTransactionSuccessfullyState
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    print('${widget.body}----------> amount');
     return Container(
       color: Colors.transparent,
       child: BackdropFilter(
@@ -486,8 +476,9 @@ class _SendTransactionSuccessfullyState
                           children: [
                             GestureDetector(
                               onTap: () {
-                                if (widget.onDismiss != null)
+                                if (widget.onDismiss != null) {
                                   widget.onDismiss(context);
+                                }
                               },
                               child: Container(
                                 child: Icon(
@@ -672,8 +663,9 @@ class ConfirmSending extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(8)),
                                 child: GestureDetector(
                                     onTap: () {
-                                      if (onDismiss != null)
+                                      if (onDismiss != null) {
                                         onDismiss(context);
+                                      }
                                     },
                                     child: Center(
                                         child: Text('Cancel',
@@ -691,8 +683,9 @@ class ConfirmSending extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(8)),
                                 child: GestureDetector(
                                     onTap: () {
-                                      if (onPressed != null)
+                                      if (onPressed != null) {
                                         onPressed(context);
+                                      }
                                     },
                                     child: Center(
                                         child: Text(
