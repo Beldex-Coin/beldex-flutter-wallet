@@ -39,7 +39,7 @@ Widget trailing(BuildContext context){
         children: [
           Container(
             margin: EdgeInsets.only(left:10),
-            child: Text('How can we\nhelp you?', style: TextStyle(fontSize:MediaQuery.of(context).size.height*0.15/3,fontFamily: 'Poppinsbold',fontWeight: FontWeight.bold),),
+            child: Text('How can we\nhelp you?', style: TextStyle(fontSize:MediaQuery.of(context).size.height*0.15/3,fontWeight: FontWeight.bold),),
           ), 
           Container(
              width: 90,
@@ -77,7 +77,7 @@ Widget trailing(BuildContext context){
                       borderRadius: BorderRadius.circular(10)
                     ),
                     child: ExpansionTile(
-                      title: Text(itemTitle,style: TextStyle(fontFamily: 'Poppinsbold',fontSize: 13,fontWeight: FontWeight.w800),),
+                      title: Text(itemTitle,style: TextStyle(fontSize: 13,fontWeight: FontWeight.w800),),
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -88,7 +88,7 @@ Widget trailing(BuildContext context){
                               child: Text(
                                 itemChild,
                                 textAlign: TextAlign.justify,
-                                style: TextStyle(fontFamily: 'Poppins',fontSize: 12),
+                                style: TextStyle(fontSize: 12),
                               ),
                             ))
                           ],

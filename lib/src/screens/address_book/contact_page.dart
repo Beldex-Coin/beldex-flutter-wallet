@@ -360,7 +360,7 @@ bool _checkName(String enteredName) {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color:settingsStore.isDarkTheme ? Color(0xff383848) :Color(0xffE8E8E8)),
-                  child:Text('Reset',textAlign:TextAlign.center, style: TextStyle(fontSize:17,fontWeight: FontWeight.w800,color: settingsStore.isDarkTheme ? Color(0xff93939B) :Color(0xff16161D)),)
+                  child:Text('Reset',textAlign:TextAlign.center, style: TextStyle(fontSize:17,fontWeight: FontWeight.bold,color: settingsStore.isDarkTheme ? Color(0xff93939B) :Color(0xff16161D)),)
               ),
            ),
              SizedBox(width: 5,),
@@ -457,7 +457,7 @@ bool _checkName(String enteredName) {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color:Colors.green),
-                  child:Text('Add',textAlign:TextAlign.center, style: TextStyle(fontSize:17,fontWeight: FontWeight.w800,color: Color(0xffffffff)),)
+                  child:Text('Add',textAlign:TextAlign.center, style: TextStyle(fontSize:17,fontWeight: FontWeight.bold,color: Color(0xffffffff)),)
             ),
              )
             ],

@@ -406,7 +406,7 @@ class TransactionDetailsListBodyState
                               child: Text(
                                 S.of(context).no,
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w800,
+                                  fontWeight: FontWeight.bold,
                                   color: Theme.of(context)
                                       .primaryTextTheme
                                       .caption
@@ -429,7 +429,7 @@ class TransactionDetailsListBodyState
                               child: Text(
                                 S.of(context).yes,
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w800,
+                                  fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
                               ),

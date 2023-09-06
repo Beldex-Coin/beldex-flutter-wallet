@@ -19,8 +19,8 @@ class NewNavListHeader extends StatelessWidget {
             children: <Widget>[
               Text(
                 title,
-                style: TextStyle(fontSize:MediaQuery.of(context).size.height*0.08/3, //18.0,//fontFamily: 'Poppins', 
-                color:Color(0xff737385), //Theme.of(context).primaryTextTheme.caption.color,
+                style: TextStyle(fontSize:MediaQuery.of(context).size.height*0.08/3,
+                color:Color(0xff737385),
                 fontWeight: FontWeight.w600),
               )
             ],

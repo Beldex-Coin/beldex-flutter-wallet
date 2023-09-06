@@ -321,8 +321,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             children: [
                               Text(
                                 'Enter BDX to Receive',
-                                style: TextStyle(
-                                    fontFamily: 'Poppinsbold', fontSize: 16),
+                                style: TextStyle(fontSize: 16),
                               ),
                             ],
                           ),

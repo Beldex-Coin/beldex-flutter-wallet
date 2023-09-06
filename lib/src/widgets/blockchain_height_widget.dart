@@ -148,7 +148,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                 ))
           ],
         ),
-
+      SizedBox(height: 20,),
       Center(
         child: InkWell(
           onTap: (){
@@ -157,16 +157,16 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                         });
           },
           child: Container(
-            height:50,width: isRestoreByHeight ? 160: 220,
-            margin: EdgeInsets.only(top:20),
+            height:50,
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               color:Color(0xff2979FB),
               borderRadius: BorderRadius.circular(10)
             ),
             child:Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(isRestoreByHeight ? S.of(context).widgets_restore_from_date : S.of(context).widgets_restore_from_blockheight,style:TextStyle( color:Color(0xffffffff),fontSize:14,fontWeight:FontWeight.w700)),
+                Text(isRestoreByHeight ? S.of(context).widgets_restore_from_date : S.of(context).widgets_restore_from_blockheight,style:TextStyle( color:Color(0xffffffff),fontSize:14,fontWeight:FontWeight.bold)),
                 Icon(Icons.arrow_right_alt_rounded,color: Color(0xffffffff),)
               ],
             )

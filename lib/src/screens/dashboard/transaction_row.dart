@@ -166,7 +166,6 @@ class TransactionRow extends StatelessWidget {
                                         S.of(context).transaction_details_transaction_id,
                                         style: TextStyle(
                                             fontSize: 14,
-                                            fontFamily: 'Poppins',
                                             fontWeight: FontWeight.w900)),
                                   ],
                                 ),
@@ -183,9 +182,7 @@ class TransactionRow extends StatelessWidget {
                                         transaction.id,
                                         style: TextStyle(
                                             color: Color(0xffACACAC),
-                                            fontSize: 14,
-                                            fontFamily: 'Poppins',
-                                            fontWeight: FontWeight.w900),
+                                        ),
                                       ),
                                     )),
                                     InkWell(
@@ -264,7 +261,6 @@ class TransactionRow extends StatelessWidget {
                                 Text('Date',
                                     style: TextStyle(
                                         fontSize: 14,
-                                        fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w900)),
                                 Container(
                                     child: Text(
@@ -291,7 +287,6 @@ class TransactionRow extends StatelessWidget {
                                 Text('Height',
                                     style: TextStyle(
                                         fontSize: 14,
-                                        fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w900)),
                                 Column(
                                   //crossAxisAlignment: CrossAxisAlignment.end,
@@ -322,7 +317,6 @@ class TransactionRow extends StatelessWidget {
                                 Text('Amount',
                                     style: TextStyle(
                                         fontSize: 14,
-                                        fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w900)),
                                 Container(
                                     child: Text(
@@ -356,7 +350,6 @@ class TransactionRow extends StatelessWidget {
                                           child: Text('Recipient Address',
                                               style: TextStyle(
                                                   fontSize: 14,
-                                                  fontFamily: 'Poppins',
                                                   fontWeight: FontWeight.w900)),
                                         ),
                                       ],
@@ -370,9 +363,7 @@ class TransactionRow extends StatelessWidget {
                                             transaction.recipientAddress,
                                             style: TextStyle(
                                                 color: Color(0xffACACAC),
-                                                fontSize: 14,
-                                                fontFamily: 'Poppins',
-                                                fontWeight: FontWeight.w900),
+                                            ),
                                           )),
                                           InkWell(
                                             onTap: () {

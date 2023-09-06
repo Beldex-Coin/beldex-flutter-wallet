@@ -155,7 +155,7 @@ void showHUDLoader(BuildContext context) {
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.all(15.0),
-                    child: Text('Add Node',style:TextStyle(fontWeight:FontWeight.w800,fontSize:19)),
+                    child: Text('Add Node',style:TextStyle(fontWeight:FontWeight.bold,fontSize:19)),
                   ),
                  
                  Padding(
@@ -449,7 +449,7 @@ void showHUDLoader(BuildContext context) {
 
                   Navigator.of(context).pop();
                                  }: null,
-                                child: Text('Add',style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.07/3,fontWeight: FontWeight.w800 ,color:isNodeChecked ? Color(0xff1AB51E): settingsStore.isDarkTheme ? Color(0xffB9B9B9) : Color(0xff9292A7)),)),
+                                child: Text('Add',style: TextStyle(fontSize: MediaQuery.of(context).size.height*0.07/3,fontWeight: FontWeight.bold ,color:isNodeChecked ? Color(0xff1AB51E): settingsStore.isDarkTheme ? Color(0xffB9B9B9) : Color(0xff9292A7)),)),
                              )
                           ]
                         )

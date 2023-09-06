@@ -1,12 +1,9 @@
 import 'dart:ui';
 
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/widgets/new_slide_to_act.dart';
 import 'package:flutter/material.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
-import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
-import 'package:beldex_wallet/src/widgets/slide_to_act.dart';
 import 'package:provider/provider.dart';
 
 Future showBeldexDialog(BuildContext context, Widget child,
@@ -26,22 +23,6 @@ Future showSimpleBeldexDialog(BuildContext context, String title, String body,
       context: context);
 }
 
-
-// Rescan & reconnect dialog
-Future showRescanDialog(BuildContext context, String title, String body,
-    {String buttonText,
-    void Function(BuildContext context) onPressed,
-    void Function(BuildContext context) onDismiss}) {
-  return showDialog<void>(
-      builder: (_) => RescanDialog(title, body,
-          buttonText: buttonText, onDismiss: onDismiss, onPressed: onPressed),
-      context: context);
-}
-
-
-
-
-
 Future showDialogForResetNode(BuildContext context, String title, String body,String fee,String address,
     {String buttonText,
     void Function(BuildContext context) onPressed,
@@ -51,9 +32,6 @@ Future showDialogForResetNode(BuildContext context, String title, String body,St
           buttonText: buttonText, onDismiss: onDismiss, onPressed: onPressed),
       context: context);
 }
-
-
-
 
 class ShowResetNodeDialog extends StatefulWidget {
   const ShowResetNodeDialog(this.title, this.body, this.fee,this.address,
@@ -86,7 +64,6 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
           SizedBox(height:10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-           // mainAxisSize: MainAxisSize.min,
             children: [
              GestureDetector(
               onTap: ()=>widget.onDismiss(context),
@@ -124,43 +101,12 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
              )
             ],
           )
-          // MaterialButton(onPressed: ()=>,
-          //    elevation: 0,
-          //     color: Color(0xff2979FB),
-          //     height: MediaQuery.of(context).size.height*0.20/3,
-          //     minWidth: double.infinity,
-          //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), 
-          //    child: Text('Reconnect wallet',style: TextStyle(fontSize:17,color:Colors.white,fontWeight:FontWeight.w800),),
-          //  ),
-          //  SizedBox(
-          //   height: 10,
-          //  ),
-          //  MaterialButton(onPressed: ()async{
-          //   await Navigator.of(context).pushNamed(Routes.rescan);
-          //    Navigator.pop(context);
-          //   },
-          //    elevation: 0,
-          //     color: Color(0xff0BA70F),
-          //     height: MediaQuery.of(context).size.height*0.20/3,
-          //     minWidth: double.infinity, 
-          //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), 
-          //     child:Text('Rescan wallet',style: TextStyle(fontSize:17,color:Colors.white,fontWeight:FontWeight.w800),),
-          //  ),
-           
-           
         ],
        ),
     );
    
   }
 }
-
-
-
-
-
-
-
 
 Future showConfirmBeldexDialog(BuildContext context, String title, String body,
     {void Function(BuildContext context) onConfirm,
@@ -271,72 +217,6 @@ class SimpleBeldexDialog extends StatelessWidget {
   }
 }
 
-
-//rescan widget
-class RescanDialog extends StatelessWidget {
-  RescanDialog(this.title, this.body,
-      {this.buttonText, this.onPressed, this.onDismiss,});
-
-  final String title;
-  final String body;
-  final String buttonText;
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
-  @override
-  Widget build(BuildContext context) {
-    final settingsStore = Provider.of<SettingsStore>(context);
-    return  GestureDetector(
-     // onTap: () => _onDismiss(context),
-      child: Container(
-        color: Colors.transparent,
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-          child: Container(
-            margin: EdgeInsets.all(15),
-           // decoration: BoxDecoration(color: Color(0xff171720).withOpacity(0.55)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: settingsStore.isDarkTheme ? Color(0xff272733) : Colors.white, //Theme.of(context).backgroundColor,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height*1.4/3,
-                      padding: EdgeInsets.only(top: 15.0,left:20,right: 20),
-                      child: Column(
-                        children: [
-                             
-                        ],
-                      ),
-                    )),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class ConfirmBeldexDialog extends StatelessWidget {
   ConfirmBeldexDialog(this.title, this.body,
       {this.onFutureConfirm, this.onConfirm, this.onDismiss});
@@ -353,7 +233,6 @@ class ConfirmBeldexDialog extends StatelessWidget {
     return BeldexDialog(
         onDismiss: onDismiss,
         body: Container(
-          //margin: EdgeInsets.all(20),
           padding: EdgeInsets.all(30),
           child: Column(
             children: [
@@ -363,7 +242,6 @@ class ConfirmBeldexDialog extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 18,
-                          //fontFamily: 'Poppins',
                           decoration: TextDecoration.none,
                           color: Theme.of(context)
                               .primaryTextTheme
@@ -372,6 +250,7 @@ class ConfirmBeldexDialog extends StatelessWidget {
               Padding(
                   padding: EdgeInsets.only(top: 15, bottom: 30),
                   child: Text(body,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 15,
                           decoration: TextDecoration.none,
@@ -385,8 +264,6 @@ class ConfirmBeldexDialog extends StatelessWidget {
                      GestureDetector(
                       onTap:onDismiss != null ? ()=> onDismiss(context) : null,
                        child: Container(
-                        //height:40,
-                        //width:70,
                         height:MediaQuery.of(context).size.height*0.18/3,
                           width:MediaQuery.of(context).size.width*1/3,
                         decoration: BoxDecoration(
@@ -413,75 +290,8 @@ class ConfirmBeldexDialog extends StatelessWidget {
                       ),
                     )
                 ],)
-              // NewSlideToAct(
-              //   text: S.of(context).ok,
-              //   outerColor: Theme.of(context).primaryTextTheme.button.backgroundColor,
-              //   innerColor: Colors.white,
-              //   onFutureSubmit: onFutureConfirm != null
-              //       ? () async => await onFutureConfirm(context)
-              //       : null,
-              //   onSubmit: onConfirm != null ? () => onConfirm(context) : null,
-              // )
             ],
           ),
         ));
   }
 }
-
-
-
-
-
-// class ConfirmBeldexDialog extends StatelessWidget {
-//   ConfirmBeldexDialog(this.title, this.body,
-//       {this.onFutureConfirm, this.onConfirm, this.onDismiss});
-
-//   final String title;
-//   final String body;
-//   final Future Function(BuildContext context) onFutureConfirm;
-//   final void Function(BuildContext context) onConfirm;
-//   final void Function(BuildContext context) onDismiss;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BeldexDialog(
-//         onDismiss: onDismiss,
-//         body: Container(
-//           padding: EdgeInsets.all(30),
-//           child: Column(
-//             children: [
-//               Padding(
-//                   padding: EdgeInsets.all(15),
-//                   child: Text(title,
-//                       textAlign: TextAlign.center,
-//                       style: TextStyle(
-//                           fontSize: 18,
-//                           decoration: TextDecoration.none,
-//                           color: Theme.of(context)
-//                               .primaryTextTheme
-//                               .caption
-//                               .color))),
-//               Padding(
-//                   padding: EdgeInsets.only(top: 15, bottom: 30),
-//                   child: Text(body,
-//                       style: TextStyle(
-//                           fontSize: 15,
-//                           decoration: TextDecoration.none,
-//                           color: Theme.of(context)
-//                               .primaryTextTheme
-//                               .caption
-//                               .color))),
-//               NewSlideToAct(
-//                 text: S.of(context).ok,
-//                 outerColor: Theme.of(context).primaryTextTheme.button.backgroundColor,
-//                 innerColor: Colors.white,
-//                 onFutureSubmit: onFutureConfirm != null
-//                     ? () async => await onFutureConfirm(context)
-//                     : null,
-//                 onSubmit: onConfirm != null ? () => onConfirm(context) : null,
-//               )
-//             ],
-//           ),
-//         ));
-//   }
-// }

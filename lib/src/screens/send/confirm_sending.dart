@@ -112,8 +112,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                     'body',
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Poppinsbold'),
+                                        fontWeight: FontWeight.bold,),
                                   ),
                                 )),
                                 Container(
@@ -188,7 +187,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight:
-                                                    FontWeight.w800)))),
+                                                    FontWeight.bold)))),
                               ),
                               SizedBox(width: 20),
                               Container(
@@ -208,7 +207,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                       'OK',
                                       style: TextStyle(
                                           fontSize: 15,
-                                          fontWeight: FontWeight.w800,
+                                          fontWeight: FontWeight.bold,
                                           color: Colors.white),
                                     ))),
                               )
@@ -302,8 +301,7 @@ class TransactionSendDetails extends StatelessWidget {
                                     body,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Poppinsbold'),
+                                        fontWeight: FontWeight.bold,),
                                   ),
                                 )),
                                 Container(
@@ -378,7 +376,7 @@ class TransactionSendDetails extends StatelessWidget {
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight:
-                                                    FontWeight.w800)))),
+                                                    FontWeight.bold)))),
                               ),
                               SizedBox(width: 20),
                               Container(
@@ -398,7 +396,7 @@ class TransactionSendDetails extends StatelessWidget {
                                       'OK',
                                       style: TextStyle(
                                           fontSize: 15,
-                                          fontWeight: FontWeight.w800,
+                                          fontWeight: FontWeight.bold,
                                           color: Colors.white),
                                     ))),
                               )
@@ -596,8 +594,7 @@ class ConfirmSending extends StatelessWidget {
                                     body,
                                     style: TextStyle(
                                         fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: 'Poppinsbold'),
+                                        fontWeight: FontWeight.bold,),
                                   ),
                                 )),
                                 Container(
@@ -672,7 +669,7 @@ class ConfirmSending extends StatelessWidget {
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight:
-                                                    FontWeight.w800)))),
+                                                    FontWeight.bold)))),
                               ),
                               SizedBox(width: 20),
                               Container(
@@ -692,7 +689,7 @@ class ConfirmSending extends StatelessWidget {
                                       'OK',
                                       style: TextStyle(
                                           fontSize: 15,
-                                          fontWeight: FontWeight.w800,
+                                          fontWeight: FontWeight.bold,
                                           color: Colors.white),
                                     ))),
                               )

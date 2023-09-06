@@ -75,7 +75,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                   ),
                                   Expanded(child: Container(
                                      padding: const EdgeInsets.all(10.0),
-                                    child: Text('body',style: TextStyle(fontSize:18,fontWeight:FontWeight.bold,fontFamily: 'Poppinsbold'),),
+                                    child: Text('body',style: TextStyle(fontSize:18,fontWeight:FontWeight.bold,),),
                                   )),
                                   Container(
                                     width:70,
@@ -134,7 +134,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                       onTap: (){
                                         // if (onDismiss!= null) onDismiss(context);
                                       },
-                                      child: Center(child:Text('Cancel',style: TextStyle(fontSize:15,fontWeight: FontWeight.w800)))),
+                                      child: Center(child:Text('Cancel',style: TextStyle(fontSize:15,fontWeight: FontWeight.bold)))),
                                   ),
                                   SizedBox(width:20 ),
                                   Container(
@@ -147,7 +147,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                        onTap: (){
                                    // if (onPressed != null) onPressed(context);
                                   },
-                                      child: Center(child:Text('OK',style: TextStyle(fontSize:15,fontWeight: FontWeight.w800,color: Colors.white),))),
+                                      child: Center(child:Text('OK',style: TextStyle(fontSize:15,fontWeight: FontWeight.bold,color: Colors.white),))),
                                   )
                                ],),
                              )

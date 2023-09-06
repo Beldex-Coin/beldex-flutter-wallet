@@ -142,7 +142,6 @@ class DisclaimerBodyState extends State<DisclaimerPageBody> {
                           'Legal Disclaimer',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontFamily: 'Poppins',
                               fontSize: 14.0, fontWeight: FontWeight.bold),
                         ),
                       )
@@ -157,13 +156,6 @@ class DisclaimerBodyState extends State<DisclaimerPageBody> {
                           child: Html(
                             data:_fileText
                           )
-                      //     Text(
-                      //   _fileText,
-                      //   textAlign: TextAlign.justify,
-                      //   style: TextStyle(
-                      //     fontFamily: 'Poppins',
-                      //     fontSize: 12.0),
-                      // )
                       )
                     ],
                   ),

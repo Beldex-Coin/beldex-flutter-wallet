@@ -255,7 +255,7 @@ class WalletListBodyState extends State<WalletListBody> {
                 padding: const EdgeInsets.only(left:12.0),
                 child: Text(S
                     .of(context)
-                    .wallet_list_restore_wallet,style: TextStyle(fontSize: 16,color: Color(0xffffffff),fontWeight:FontWeight.w800),),
+                    .wallet_list_restore_wallet,style: TextStyle(fontSize: 16,color: Color(0xffffffff),fontWeight:FontWeight.bold),),
               ),
             ),
           ),
@@ -275,7 +275,7 @@ class WalletListBodyState extends State<WalletListBody> {
               child:Center(
                 child:Text(S
                       .of(context)
-                      .wallet_list_create_new_wallet,style: TextStyle(fontSize: 16,color: Color(0xffffffff),fontWeight:FontWeight.w800),)
+                      .wallet_list_create_new_wallet,style: TextStyle(fontSize: 16,color: Color(0xffffffff),fontWeight:FontWeight.bold),)
               )
             ),
           ),

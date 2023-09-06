@@ -85,13 +85,11 @@ class SeedPage extends BasePage {
                               text: 'Note : ',
                               style: TextStyle(  
                                 color: Color(0xffFF3131),
-                                //fontFamily: 'Poppins',
                                  fontSize:15,
                                  fontWeight: FontWeight.w400
                               ),
                               children:[
                                 TextSpan(text:'You can\'t view the seed because you\'ve restored using keys',style: TextStyle(
-                                 // fontFamily: 'Poppins',
                                   fontSize:15,
                                   fontWeight: FontWeight.w400,
                                   color:settingsStore.isDarkTheme ? Color(0xffD9D9D9) : Color(0xff909090)))
@@ -147,13 +145,11 @@ class SeedPage extends BasePage {
                               text: 'Note : ',
                               style: TextStyle(  
                                 color: Color(0xffFF3131),
-                                //fontFamily: 'Poppins',
                                  fontSize:15,
                                  fontWeight: FontWeight.w400
                               ),
                               children:[
                                 TextSpan(text:'Never share your seed to anyone! Check your surroundings to ensure no one is overlooking',style: TextStyle(
-                                 // fontFamily: 'Poppins',
                                   fontSize:15,
                                   fontWeight: FontWeight.w400,
                                   color:settingsStore.isDarkTheme ? Color(0xffD9D9D9) : Color(0xff909090)))
@@ -221,7 +217,7 @@ class SeedPage extends BasePage {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [ 
-                                      Text('Copy seed',style:TextStyle(fontSize:16,fontWeight:FontWeight.w800,color:Colors.white)),
+                                      Text('Copy seed',style:TextStyle(fontSize:16,fontWeight:FontWeight.bold,color:Colors.white)),
                                       Padding(
                                         padding: const EdgeInsets.only(left:8.0),
                                         child: Icon(Icons.copy,color: Colors.white,),
@@ -248,7 +244,7 @@ class SeedPage extends BasePage {
                                     color: Color(0xff2979FB)
                                   ),
                                   child:Center(
-                                    child:Text(S.of(context).save,style:TextStyle(fontSize:16,fontWeight:FontWeight.w800,color:Colors.white))
+                                    child:Text(S.of(context).save,style:TextStyle(fontSize:16,fontWeight:FontWeight.bold,color:Colors.white))
                                   )
                                 ),
                               )

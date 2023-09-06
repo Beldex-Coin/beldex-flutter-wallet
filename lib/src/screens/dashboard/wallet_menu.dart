@@ -111,7 +111,7 @@ class _AlertReconnectConfirmDialogState extends State<AlertReconnectConfirmDialo
               height: MediaQuery.of(context).size.height*0.18/3,
               minWidth: MediaQuery.of(context).size.width*0.89/3,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), 
-              child: Text('Cancel',style: TextStyle(fontSize:17,color:settingsStore.isDarkTheme ? Colors.white : Colors.black,fontWeight:FontWeight.w800),),
+              child: Text('Cancel',style: TextStyle(fontSize:17,color:settingsStore.isDarkTheme ? Colors.white : Colors.black,fontWeight:FontWeight.bold),),
               ),
               
                   MaterialButton(onPressed:()=> widget.onPressed(context),
@@ -127,7 +127,7 @@ class _AlertReconnectConfirmDialogState extends State<AlertReconnectConfirmDialo
               height: MediaQuery.of(context).size.height*0.18/3,
               minWidth: MediaQuery.of(context).size.width*0.89/3,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), 
-              child: Text('OK',style: TextStyle(fontSize:17,color:Colors.white,fontWeight:FontWeight.w800),),
+              child: Text('OK',style: TextStyle(fontSize:17,color:Colors.white,fontWeight:FontWeight.bold),),
               )
                 ],
               )

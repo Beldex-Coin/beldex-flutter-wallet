@@ -47,7 +47,7 @@ Widget trailing(BuildContext context){
                       borderRadius: BorderRadius.circular(10)
                     ),
                 child: ExpansionTile(
-                  title: Text(versionTitle,style: TextStyle(fontFamily: 'Poppins',fontSize: 16,fontWeight: FontWeight.w800)),
+                  title: Text(versionTitle,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w800)),
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,

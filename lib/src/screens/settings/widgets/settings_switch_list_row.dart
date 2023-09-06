@@ -114,14 +114,12 @@ class SettingsSwitchListRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //color: Theme.of(context).accentTextTheme.headline5.backgroundColor,
       child: ListTile(
           contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
           title: Text(title,
               style: TextStyle(
                   fontSize:MediaQuery.of(context).size.height*0.06/3, //14.0,
                   fontWeight: FontWeight.w500,
-                  //fontFamily: 'Poppins',
                   color: Theme.of(context).primaryTextTheme.headline6.color)),
           trailing: _getSwitch(context)),
     );

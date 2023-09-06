@@ -13,15 +13,15 @@ h6 {
 </style>
 </head>
 <body>
-<p style="font-weight:bold;">1.Use of the BELDEX Wallet</p>
+<p><b>1.Use of the BELDEX Wallet</b></p>
 <p>The BELDEX Wallet app (hereinafter, referred to as the "App") allows the use of accessing the Beldex Blockchain/network. You are not authorized, and nor should you rely on the App for legal advice, business advice, or advice of any kind. You act at your own risk in reliance on the contents of the App. Should you make a decision to act or not act you should contact a licensed attorney in the relevant jurisdiction in which you want or need help. In no way are the owners of, or contributors to, the App responsible for the actions, decisions, or other behaviour taken or not taken by you in reliance upon the App.</p>
-<p style="font-weight:bold;">2.Translations</p>
+<p><b>2.Translations</b></p>
 <p>
     The App may contain translations of the English version of the content available on the App. These translations are provided only as a convenience. In the event of any conflict between the English language version and the translated version, the English language version shall take precedence. If you notice any inconsistencies, please report them on GitHub.
 </p>
-<p style="font-weight:bold;"> 
+<p><b>
     3.Risks related to the use of the BELDEX Wallet.
-</p>
+</b></p>
 <p> 
     The App, the App’s owner the Beldex Project and Beldex Project owners, partners, employees, contributors, and any affiliates will not be responsible for any losses, damages or claims arising from events falling within the scope of the following five categories:
     <ol>
@@ -42,45 +42,45 @@ h6 {
         </li>
     </ol>
 </p>
-<p style="font-weight:bold;">
+<p><b>
     4.Disclaimer
-</p>
+</b></p>
 <p>
     Cryptocurrencies are highly volatile and investing in them is subject to market risks. The investment in Beldex can lead to either substantial gains or loss of money over short or even long periods. The investors in Beldex should expect prices to have large range fluctuations.
 </p>
-<p style="font-weight:bold;">
+<p><b>
     5.Compliance with tax obligations
-</p>
+</b></p>
 <p>
     The users of the App are solely responsible for determining what, if any, taxes apply to their Beldex transactions. The owners of, or contributors to, the App are NOT responsible for determining the taxes that apply to Beldex transactions.
 </p>
-<p style="font-weight:bold;">
+<p><b>
     6.The App does not store, send, or receive Beldex
-</p>
+</b></p>
 <p>
     The App does not store, send or receive Beldex. This is because Beldex exists only by virtue of the ownership record maintained in the Beldex network. Any transfer of title in Beldex occurs within a decentralized Beldex network, and not on the App.
 </p>
-<p style="font-weight:bold;">
+<p><b>
     7.No warranties
-</p>
+</b></p>
 <p>
     The App is provided on an "as is" basis without any warranties of any kind regarding the App and/or any content, data, materials and/or services provided on the App.
 </p>
-<p style="font-weight:bold;">
+<p><b>
     8.Limitation of liability
-</p>
+</b></p>
 <p>
     Unless otherwise required by law, in no event shall the owners of, or contributors to, the App be liable for any damages of any kind, including, but not limited to, loss of use, loss of profits, or loss of data arising out of or in any way connected with the use of the App.
 </p>
-<p style="font-weight:bold;">
+<p><b>
     9.Arbitration
-</p>
+</b></p>
 <p>
     The user of the App agrees to arbitrate any dispute arising from or in connection with the App or this disclaimer, except for disputes related to copyrights, logos, trademarks, trade names, trade secrets or patents. The laws of Seychelles shall govern the arbitration. The arbitration shall take place in the courts of Seychelles.
 </p>
-<p style="font-weight:bold;">
+<p><b>
     10.Last amendment
-</p>
+</b></p>
 <p>
     This disclaimer was amended for the last time on October 10, 2021.
 </p>

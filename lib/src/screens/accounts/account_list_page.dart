@@ -227,7 +227,7 @@ class AccountListPage extends BasePage {
                               },
                               child: Text(
                                 S.of(context).no,
-                                style: TextStyle(fontSize: 18,fontWeight:FontWeight.w800,color: settingsStore.isDarkTheme ?Color(0xff93939B): Color(0xff222222), ),
+                                style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold,color: settingsStore.isDarkTheme ?Color(0xff93939B): Color(0xff222222), ),
                               ),
                             ),
                           ),
@@ -247,7 +247,7 @@ class AccountListPage extends BasePage {
                               },
                               child: Text(
                                 S.of(context).yes,
-                                style: TextStyle(color: Color(0xffffffff),fontSize: 18,fontWeight:FontWeight.w800),
+                                style: TextStyle(color: Color(0xffffffff),fontSize: 18,fontWeight:FontWeight.bold),
                               ),
                             ),
                           ),

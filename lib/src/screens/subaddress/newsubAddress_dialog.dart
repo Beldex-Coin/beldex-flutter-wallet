@@ -72,7 +72,6 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                   children: [
                     Text('Sub Address',style: TextStyle(
                         fontSize: 18,
-                        // fontFamily: 'Poppinsbold',
                         fontWeight: FontWeight.bold
                     ),),
                     SizedBox(

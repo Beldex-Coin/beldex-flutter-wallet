@@ -807,7 +807,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xff93939B)
                                         : Color(0xff222222),
-                                    fontWeight: FontWeight.w800),
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
@@ -827,7 +827,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                 S.of(context).yes,
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontWeight: FontWeight.w800),
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
@@ -943,8 +943,7 @@ class ShowMenuForRescan extends StatelessWidget {
                                       'body',
                                       style: TextStyle(
                                           fontSize: 18,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Poppinsbold'),
+                                          fontWeight: FontWeight.bold,),
                                     ),
                                   )),
                                   Container(
@@ -1019,7 +1018,7 @@ class ShowMenuForRescan extends StatelessWidget {
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight:
-                                                      FontWeight.w800)))),
+                                                      FontWeight.bold)))),
                                 ),
                                 SizedBox(width: 20),
                                 Container(
@@ -1039,7 +1038,7 @@ class ShowMenuForRescan extends StatelessWidget {
                                         'OK',
                                         style: TextStyle(
                                             fontSize: 15,
-                                            fontWeight: FontWeight.w800,
+                                            fontWeight: FontWeight.bold,
                                             color: Colors.white),
                                       ))),
                                 )
@@ -1125,7 +1124,7 @@ class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
                       child: Text('OK',
                           style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.w800)))),
+                              fontWeight: FontWeight.bold)))),
             ),
           )
         ],

@@ -435,9 +435,7 @@ class SeedWidgetState extends State<SeedWidget> {
                                         (clipboard) =>
                                             replaceText(clipboard.text));
                                     setState(() {
-                                      wordCount = _seedController.text
-                                          .split(' ')
-                                          .length;
+                                      wordCount = _seedController.text.split(' ').where((word) => word.isNotEmpty).toList().length;
                                     });
                                   },
                                   child: Container(

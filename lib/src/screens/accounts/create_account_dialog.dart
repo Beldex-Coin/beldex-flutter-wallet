@@ -95,7 +95,6 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                       'Add Account',
                       style: TextStyle(
                           fontSize: 18,
-                          // fontFamily: 'Poppinsbold',
                           fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
@@ -153,7 +152,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                                   color: settingsStore.isDarkTheme
                                       ? Colors.white
                                       : Colors.black,
-                                  fontWeight: FontWeight.w800),
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
@@ -191,7 +190,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                               style: TextStyle(
                                   fontSize: 17,
                                   color: Colors.white,
-                                  fontWeight: FontWeight.w800),
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         )

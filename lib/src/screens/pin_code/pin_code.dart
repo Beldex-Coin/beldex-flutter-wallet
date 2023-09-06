@@ -356,7 +356,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
           ),
         ),*/
         //Spacer(flex: 4),
-        Text(title,
+        Text("Enter your PIN",
             style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w600,

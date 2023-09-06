@@ -28,7 +28,6 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
           children: [
             Text(S.of(context).changeWallet,style: TextStyle(
                 fontSize: 18,
-                // fontFamily: 'Poppinsbold',
                 fontWeight: FontWeight.bold
             ),),
             SizedBox(
@@ -42,7 +41,7 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
               height: MediaQuery.of(context).size.height*0.20/3,
               minWidth: MediaQuery.of(context).size.width*1.3/2,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              child: Text(S.of(context).wallet_list_load_wallet,style: TextStyle(fontSize:17,color:Colors.white,fontWeight:FontWeight.w800),),
+              child: Text(S.of(context).wallet_list_load_wallet,style: TextStyle(fontSize:17,color:Colors.white,fontWeight:FontWeight.bold),),
             ),
             SizedBox(
               height: 10,
@@ -55,7 +54,7 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
               height: MediaQuery.of(context).size.height*0.20/3,
               minWidth: MediaQuery.of(context).size.width*1.3/2,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              child:Text(S.of(context).removeWallet,style: TextStyle(fontSize:17,color:settingsStore.isDarkTheme ? Colors.white : Colors.black,fontWeight:FontWeight.w800),),
+              child:Text(S.of(context).removeWallet,style: TextStyle(fontSize:17,color:settingsStore.isDarkTheme ? Colors.white : Colors.black,fontWeight:FontWeight.bold),),
             ),
           ],
         ),

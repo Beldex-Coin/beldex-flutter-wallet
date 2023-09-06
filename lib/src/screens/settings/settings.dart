@@ -376,7 +376,6 @@ class SettingsFormState extends State<SettingsForm> {
                       children: [
                         Text(S.current.settings_current_node,
                             style: TextStyle(
-                                //fontFamily: 'Poppins',
                                 fontWeight: FontWeight.w400,
                                 fontSize: MediaQuery.of(context).size.height *
                                     0.06 /
@@ -479,7 +478,6 @@ class SettingsFormState extends State<SettingsForm> {
                                                   'Display balance as',
                                                   style: TextStyle(
                                                       fontSize: 18,
-                                                      // fontFamily: 'Poppinsbold',
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -736,8 +734,7 @@ class SettingsFormState extends State<SettingsForm> {
                                       fontSize:
                                           MediaQuery.of(context).size.height *
                                               0.06 /
-                                              3, //14.0,
-                                      // fontFamily: 'Poppins',
+                                              3,
                                       fontWeight: FontWeight.w400,
                                       color: Theme.of(context)
                                           .primaryTextTheme
@@ -799,7 +796,6 @@ class SettingsFormState extends State<SettingsForm> {
                                                   'Decimals',
                                                   style: TextStyle(
                                                       fontSize: 18,
-                                                      fontFamily: 'Poppinsbold',
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -888,8 +884,7 @@ class SettingsFormState extends State<SettingsForm> {
                                       fontSize:
                                           MediaQuery.of(context).size.height *
                                               0.06 /
-                                              3, //14.0,
-                                      // fontFamily: 'Poppins',
+                                              3,
                                       fontWeight: FontWeight.w400,
                                       color: Theme.of(context)
                                           .primaryTextTheme
@@ -960,8 +955,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                   'Currency',
                                                   style: TextStyle(
                                                       fontSize: 18,
-                                                      fontWeight: FontWeight.bold,
-                                                      fontFamily: 'Poppinsbold'),
+                                                      fontWeight: FontWeight.bold,),
                                                 ),
                                               ),
                                               Padding(
@@ -1079,8 +1073,7 @@ class SettingsFormState extends State<SettingsForm> {
                                       fontSize:
                                           MediaQuery.of(context).size.height *
                                               0.06 /
-                                              3, //14.0,
-                                      // fontFamily: 'Poppins',
+                                              3,
                                       fontWeight: FontWeight.w400,
                                       color: Theme.of(context)
                                           .primaryTextTheme
@@ -1143,8 +1136,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                   'Fee Priority',
                                                   style: TextStyle(
                                                       fontSize: 18,
-                                                      fontWeight: FontWeight.bold,
-                                                      fontFamily: 'Poppinsbold'),
+                                                      fontWeight: FontWeight.bold,),
                                                 ),
                                               ),
                                               // Divider(
@@ -1289,8 +1281,7 @@ class SettingsFormState extends State<SettingsForm> {
                                       fontSize:
                                           MediaQuery.of(context).size.height *
                                               0.06 /
-                                              3, //14.0,
-                                      // fontFamily: 'Poppins',
+                                              3,
                                       fontWeight: FontWeight.w400,
                                       color: Theme.of(context)
                                           .primaryTextTheme
@@ -1595,7 +1586,6 @@ class SettingsFormState extends State<SettingsForm> {
                                   'Decimals',
                                   style: TextStyle(
                                       fontSize: 18,
-                                      fontFamily: 'Poppinsbold',
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
@@ -1906,8 +1896,7 @@ class SettingsFormState extends State<SettingsForm> {
                                   'Fee Priority',
                                   style: TextStyle(
                                       fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Poppinsbold'),
+                                      fontWeight: FontWeight.bold,),
                                 ),
                               ),
                               Divider(
@@ -2252,8 +2241,7 @@ class SettingsFormState extends State<SettingsForm> {
                           style: TextStyle(
                               fontSize: MediaQuery.of(context).size.height *
                                   0.06 /
-                                  3, //14.0,
-                              // fontFamily: 'Poppins',
+                                  3,
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme
@@ -2306,8 +2294,7 @@ class SettingsFormState extends State<SettingsForm> {
                           style: TextStyle(
                               fontSize: MediaQuery.of(context).size.height *
                                   0.06 /
-                                  3, //14.0,
-                              // fontFamily: 'Poppins',
+                                  3,
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme
@@ -2448,8 +2435,7 @@ class SettingsFormState extends State<SettingsForm> {
                           style: TextStyle(
                               fontSize: MediaQuery.of(context).size.height *
                                   0.06 /
-                                  3, //14.0,
-                              // fontFamily: 'Poppins',
+                                  3,
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme
@@ -2496,8 +2482,7 @@ class SettingsFormState extends State<SettingsForm> {
                           style: TextStyle(
                               fontSize: MediaQuery.of(context).size.height *
                                   0.06 /
-                                  3, //14.0,
-                              // fontFamily: 'Poppins',
+                                  3,
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme
@@ -2540,8 +2525,7 @@ class SettingsFormState extends State<SettingsForm> {
                           style: TextStyle(
                               fontSize: MediaQuery.of(context).size.height *
                                   0.06 /
-                                  3, //14.0,
-                              // fontFamily: 'Poppins',
+                                  3,
                               fontWeight: FontWeight.w400,
                               color: Theme.of(context)
                                   .primaryTextTheme

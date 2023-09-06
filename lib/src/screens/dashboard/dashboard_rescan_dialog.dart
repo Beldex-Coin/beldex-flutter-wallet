@@ -44,7 +44,6 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
               S.of(context).rescan,
               style: TextStyle(
                   fontSize: 18,
-                  // fontFamily: 'Poppinsbold',
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(
@@ -63,7 +62,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
                 style: TextStyle(
                     fontSize: 17,
                     color: Colors.white,
-                    fontWeight: FontWeight.w800),
+                    fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(
@@ -95,7 +94,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
                       color:canRescan ? Colors.white : settingsStore.isDarkTheme
                                                     ? Color(0xff6C6C78)
                                                     : Color(0xffB2B2B6),
-                      fontWeight: FontWeight.w800),
+                      fontWeight: FontWeight.bold),
                 ),
               );
             })

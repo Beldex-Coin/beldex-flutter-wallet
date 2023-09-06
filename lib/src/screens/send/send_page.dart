@@ -444,7 +444,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                               TextFormField(
                                   style: TextStyle(
                                       fontSize: 26.0,
-                                      //fontFamily: 'Poppinsbold',
                                       fontWeight: FontWeight.w900,
                                       color: Theme.of(context)
                                           .primaryTextTheme
@@ -477,7 +476,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       return null;
                                     } else {
                                       if (getAmountValidation(value)) {
-                                        if (sendStore.compareAvailableBalance(value, balanceStore.unlockedBalance)) {
+                                        if (!sendStore.compareAvailableBalance(value, balanceStore.unlockedBalance)) {
                                           setState(() {
                                             amountValidation = true;
                                             amountErrorMessage = S.of(context).youDontHaveEnoughAvailableBalance;
@@ -597,7 +596,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                             Text('${S.of(context).send_estimated_fee}   ',
                                 style: TextStyle(
                                   fontSize: 15,
-                                  //fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w600,
                                   color: Colors
                                       .grey, //Theme.of(context).accentTextTheme.overline.backgroundColor,

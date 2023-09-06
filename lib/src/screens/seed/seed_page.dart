@@ -120,20 +120,17 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
               Padding(
                padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*1/3),
                child: Container(
-                child: //Text('You can\'t view the seed because you\'ve restored using keys',textAlign: TextAlign.center,)
-                RichText(
+                child: RichText(
                               textAlign: TextAlign.center,
                               text: TextSpan(
                               text: 'Note : ',
                               style: TextStyle(  
                                 color: Color(0xffFF3131),
-                                //fontFamily: 'Poppins',
                                  fontSize:15,
                                  fontWeight: FontWeight.w400
                               ),
                               children:[
                                 TextSpan(text:'You can\'t view the seed because you\'ve restored using keys',style: TextStyle(
-                                 // fontFamily: 'Poppins',
                                   fontSize:15,
                                   fontWeight: FontWeight.w400,
                                   color:settingsStore.isDarkTheme ? Color(0xffD9D9D9) : Color(0xff909090)))
@@ -148,39 +145,14 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
              : Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                 /* Image.asset(
-                    'assets/images/avatar4.png',
-                    height: 70,
-                    width: 70,
-                    fit: BoxFit.cover,
-                  ),*/ //image,
                   SizedBox(height:MediaQuery.of(context).size.height*0.20/3),
                   Container(
-                    //margin: EdgeInsets.only(left: 10.0, top: 15.0, right: 10.0,bottom: 90.0),
                     child: Observer(builder: (_) {
                       _seed = walletSeedStore.seed;
                       return Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          // Row(
-                          //   children: <Widget>[
-                          //     Expanded(
-                          //         child: Container(
-                          //       padding: EdgeInsets.only(bottom: 10.0),
-                          //       margin: EdgeInsets.only(bottom: 10.0),
-                          //       child: Text(
-                          //         walletSeedStore.name ?? '',
-                          //         textAlign: TextAlign.center,
-                          //         style: TextStyle(
-                          //             fontSize: 18.0,
-                          //             fontWeight: FontWeight.bold,
-                          //             color: Theme.of(context).primaryTextTheme.caption.color,//Theme.of(context).primaryTextTheme.button.color
-                          //         ),
-                          //       ),
-                          //     ))
-                          //   ],
-                          // ),
                           Padding(
                             padding: const EdgeInsets.only(left:10.0,right:10.0),
                             child: RichText(
@@ -189,13 +161,11 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                               text: 'Note : ',
                               style: TextStyle(  
                                 color: Color(0xffFF3131),
-                                //fontFamily: 'Poppins',
                                  fontSize:15,
                                  fontWeight: FontWeight.w400
                               ),
                               children:[
                                 TextSpan(text:'Never share your seed to anyone! Check your surroundings to ensure no one is overlooking',style: TextStyle(
-                                 // fontFamily: 'Poppins',
                                   fontSize:15,
                                   fontWeight: FontWeight.w400,
                                   color:settingsStore.isDarkTheme ? Color(0xffD9D9D9) : Color(0xff909090)))
@@ -221,7 +191,6 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                           child:Text(walletSeedStore.seed,textAlign: TextAlign.center,style:TextStyle(
                             fontSize:15, color:settingsStore.isDarkTheme ? Color(0xffE2E2E2): Color(0xff373737)))
                          ),
-                         //SizedBox(height:15),
                           SizedBox(
                             height: MediaQuery.of(context).size.height*0.10/3,
                           ),
@@ -230,9 +199,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                            child: widget.onCloseCallback != null
                            ? Row(
                             children: [
-                              // Observer(builder: (_){
-                              //   return
-                                 InkWell(
+                              InkWell(
                                 onTap: !isCopied ? (){
                                   setState(() {
                                          isCopied = true;                              
@@ -267,7 +234,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [ 
-                                      Text('Copy Seed',style:TextStyle(fontSize:16,fontWeight:FontWeight.w800,color: isCopied ? settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6) : Colors.white,)),
+                                      Text('Copy Seed',style:TextStyle(fontSize:16,fontWeight:FontWeight.bold,color: isCopied ? settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6) : Colors.white,)),
                                       Padding(
                                         padding: const EdgeInsets.only(left:8.0),
                                         child: Icon(Icons.copy,color:  isCopied ? settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6) : Colors.white,),
@@ -275,12 +242,8 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                   ],),
                                 ),
                               ),
-                             
-                           
-                              
-                              
                               SizedBox(width: 10,),
-                             InkWell(
+                              InkWell(
                                  onTap:() {
                                               Share.text(
                                                   S.of(context).seed_share,
@@ -294,7 +257,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                     color:  Color(0xff2979FB) //(0xffE8E8E8)
                                   ),
                                   child:Center(
-                                    child:Text(S.of(context).save,style:TextStyle(fontSize:16,fontWeight:FontWeight.w800,color: Colors.white))
+                                    child:Text(S.of(context).save,style:TextStyle(fontSize:16,fontWeight:FontWeight.bold,color: Colors.white))
                                   )
                                 ),
                               )
@@ -302,8 +265,6 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                            ):
                            Row(
                             children: [
-                              // Observer(builder: (_){
-                              //   return
                                  InkWell(
                                 onTap: (){
                                   setState(() {
@@ -339,7 +300,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [ 
-                                      Text('Copy seed',style:TextStyle(fontSize:16,fontWeight:FontWeight.w800,color: Colors.white,)),
+                                      Text('Copy seed',style:TextStyle(fontSize:16,fontWeight:FontWeight.bold,color: Colors.white,)),
                                       Padding(
                                         padding: const EdgeInsets.only(left:8.0),
                                         child: Icon(Icons.copy,color: Colors.white,),
@@ -347,10 +308,6 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                   ],),
                                 ),
                               ),
-                             
-                           
-                              
-                              
                               SizedBox(width: 10,),
                               InkWell(
                                  onTap:() {
@@ -366,7 +323,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                     color:  Color(0xff2979FB) //(0xffE8E8E8)
                                   ),
                                   child:Center(
-                                    child:Text(S.of(context).save,style:TextStyle(fontSize:16,fontWeight:FontWeight.w800,color: Colors.white))
+                                    child:Text(S.of(context).save,style:TextStyle(fontSize:16,fontWeight:FontWeight.bold,color: Colors.white))
                                   )
                                 ),
                               )
