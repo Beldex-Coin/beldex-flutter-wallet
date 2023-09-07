@@ -4,6 +4,7 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:beldex_wallet/generated/l10n.dart';
 
 class CreateAccountDialog extends StatefulWidget {
   CreateAccountDialog({Key key, this.account, this.accList}) : super(key: key);
@@ -92,7 +93,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Add Account',
+                      S.of(context).addAccount,
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold),
@@ -119,9 +120,9 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                         ),
                         validator: (value) {
                           if (!validateInput(value) || value.length > 15) {
-                            return 'Enter valid name upto 15 characters';
+                            return S.of(context).enterValidNameUpto15Characters;
                           } else if (checkNameAlreadyExist(value)) {
-                            return 'Account already exist';
+                            return S.of(context).accountAlreadyExist;
                           } else {
                             accountListStore.validateAccountName(value);
                             return accountListStore.errorMessage;
@@ -146,7 +147,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             child: Text(
-                              'Cancel',
+                              S.of(context).cancel,
                               style: TextStyle(
                                   fontSize: 17,
                                   color: settingsStore.isDarkTheme
@@ -171,7 +172,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                                     label: _textController.text);
                               } else if (checkNameAlreadyExist(
                                   _textController.text)) {
-                                return 'Account already exist';
+                                return S.of(context).accountAlreadyExist;
                               } else {
                                 accountListStore.addAccount(
                                     label: _textController.text);
@@ -186,7 +187,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             child: Text(
-                              widget.account != null ? 'Rename' : 'Add',
+                              widget.account != null ? S.of(context).rename : S.of(context).add,
                               style: TextStyle(
                                   fontSize: 17,
                                   color: Colors.white,

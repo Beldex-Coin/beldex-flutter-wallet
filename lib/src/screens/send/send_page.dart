@@ -273,7 +273,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                               SizedBox(height: 10),
                               Row(
                                 children: [
-                                  Text('Available BDX : ',
+                                  Text(S.of(context).availableBdx,
                                       style: TextStyle(
                                         color: Theme.of(context)
                                             .primaryTextTheme
@@ -355,7 +355,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                             setState(() {
                               addressValidation = true;
                               addressErrorMessage =
-                                  'Please enter a bdx address';
+                                  S.of(context).pleaseEnterABdxAddress;
                             });
                             return null;
                           } else {
@@ -363,7 +363,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
                             if (!alphanumericRegex.hasMatch(value)) {
                               setState(() {
-                                addressErrorMessage = 'Enter a valid address';
+                                addressErrorMessage = S.of(context).enterAValidAddress;
                               });
                               return;
                             } else {
@@ -373,7 +373,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 if (sendStore.errorMessage != null) {
                                   setState(() {
                                     addressValidation = true;
-                                    addressErrorMessage = 'Invalid bdx address';
+                                    addressErrorMessage = S.of(context).error_text_address;
                                   });
                                 } else {
                                   setState(() {
@@ -384,7 +384,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 return null;
                               } else {
                                 setState(() {});
-                                addressErrorMessage = 'Enter a valid address';
+                                addressErrorMessage = S.of(context).enterAValidAddress;
                                 return;
                               }
                             }
@@ -413,7 +413,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Text('Enter BDX to send',
+                            Text(S.of(context).enterBdxToSend,
                                 style: TextStyle(
                                     fontSize: 18.0,
                                     fontWeight: FontWeight.w700)),
@@ -463,7 +463,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.w700,
                                           color: Colors.grey.withOpacity(0.6)),
-                                      hintText: 'Enter Amount',
+                                      hintText: S.of(context).enterAmount,
                                       errorStyle:
                                           TextStyle(color: BeldexPalette.red)),
                                   validator: (value) {
@@ -471,7 +471,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       setState(() {
                                         amountValidation = true;
                                         amountErrorMessage =
-                                            'Please enter a amount';
+                                            S.of(context).pleaseEnterAAmount;
                                       });
                                       return null;
                                     } else {
@@ -692,7 +692,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0),
                     child: Text(
-                      'Send',
+                      S.of(context).send,
                       style: TextStyle(
                           fontSize: 17,
                           color: Color(0xffffffff),
@@ -842,7 +842,7 @@ class CommitTransactionLoader extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 15.0),
                   child: Text(
-                    'Committing the Transaction',
+                    S.of(context).committingTheTransaction,
                     style: TextStyle(
                         fontSize: height * 0.07 / 3,
                         fontWeight: FontWeight.w700,

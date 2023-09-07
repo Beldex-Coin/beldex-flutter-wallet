@@ -26,7 +26,7 @@ bool isRestoreByHeight = true;
 final _formKey2 = GlobalKey<FormState>();
 class RestoreWalletFromSeedDetailsPage extends BasePage {
   @override
-  String get title => 'Wallet Restore';
+  String get title => S.current.walletRestore;
 
  @override
  Widget trailing(BuildContext context){
@@ -251,7 +251,7 @@ restoreHeightController.text = '';
                           validator: (value) {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
                             if (!pattern.hasMatch(value)) {
-                              return 'Enter valid height without space';
+                              return S.of(context).enterValidHeightWithoutSpace;
                             } else {
                               return null;
                             }
@@ -314,7 +314,7 @@ restoreHeightController.text = '';
                                     controller: dateController,
                                     validator: (value) {
                                       if (value.isEmpty) {
-                                        return 'Date should not be empty';
+                                        return S.of(context).dateShouldNotBeEmpty;
                                       } else {
                                         return null;
                                       }

@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
-
+import 'package:beldex_wallet/generated/l10n.dart';
 class CommonLoader extends StatelessWidget {
   CommonLoader({Key key, this.address, this.sendStore,this.isFlashTransaction}) : super(key: key);
 
@@ -57,7 +57,7 @@ class CommonLoader extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 15.0),
               child: Text(
-                'Creating the Transaction',
+                S.of(context).creatingTheTransaction,
                 style: TextStyle(
                     fontSize: height * 0.07 / 3,fontWeight: FontWeight.w700,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff222222)),
               ),

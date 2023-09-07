@@ -347,7 +347,7 @@ class TransactionRow extends StatelessWidget {
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               left: 8.0, top: 10),
-                                          child: Text('Recipient Address',
+                                          child: Text(S.of(context).transaction_details_recipient_address,
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w900)),

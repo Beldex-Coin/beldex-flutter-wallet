@@ -1855,10 +1855,10 @@ class S {
     );
   }
 
-  /// `Recipient address`
+  /// `Recipient Address`
   String get transaction_details_recipient_address {
     return Intl.message(
-      'Recipient address',
+      'Recipient Address',
       name: 'transaction_details_recipient_address',
       desc: '',
       args: [],
@@ -2855,10 +2855,10 @@ class S {
     );
   }
 
-  /// `Transfer your BDX more faster\n with Flash Transaction`
+  /// `Transfer your BDX more faster\n with Flash Transaction!`
   String get transferYourBdxMoreFasternWithFlashTransaction {
     return Intl.message(
-      'Transfer your BDX more faster\n with Flash Transaction',
+      'Transfer your BDX more faster\n with Flash Transaction!',
       name: 'transferYourBdxMoreFasternWithFlashTransaction',
       desc: '',
       args: [],
@@ -2910,6 +2910,436 @@ class S {
     return Intl.message(
       'Alert',
       name: 'alert',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Touch the Fingerprint sensor`
+  String get touchTheFingerprintSensor {
+    return Intl.message(
+      'Touch the Fingerprint sensor',
+      name: 'touchTheFingerprintSensor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `USE PATTERN`
+  String get usePattern {
+    return Intl.message(
+      'USE PATTERN',
+      name: 'usePattern',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter BDX to send`
+  String get enterBdxToSend {
+    return Intl.message(
+      'Enter BDX to send',
+      name: 'enterBdxToSend',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Amount`
+  String get enterAmount {
+    return Intl.message(
+      'Enter Amount',
+      name: 'enterAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a amount`
+  String get pleaseEnterAAmount {
+    return Intl.message(
+      'Please enter a amount',
+      name: 'pleaseEnterAAmount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Committing the Transaction`
+  String get committingTheTransaction {
+    return Intl.message(
+      'Committing the Transaction',
+      name: 'committingTheTransaction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available BDX :`
+  String get availableBdx {
+    return Intl.message(
+      'Available BDX :',
+      name: 'availableBdx',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a bdx address`
+  String get pleaseEnterABdxAddress {
+    return Intl.message(
+      'Please enter a bdx address',
+      name: 'pleaseEnterABdxAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid address`
+  String get enterAValidAddress {
+    return Intl.message(
+      'Enter a valid address',
+      name: 'enterAValidAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings`
+  String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside {
+    return Intl.message(
+      'Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings',
+      name: 'biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unlock Beldex Wallet`
+  String get unlockBeldexWallet {
+    return Intl.message(
+      'Unlock Beldex Wallet',
+      name: 'unlockBeldexWallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm your screen lock PIN,Pattern and password`
+  String get confirmYourScreenLockPinpatternAndPassword {
+    return Intl.message(
+      'Confirm your screen lock PIN,Pattern and password',
+      name: 'confirmYourScreenLockPinpatternAndPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you want to change your\n primary account?`
+  String get doYouWantToChangeYournPrimaryAccount {
+    return Intl.message(
+      'Do you want to change your\n primary account?',
+      name: 'doYouWantToChangeYournPrimaryAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rename`
+  String get rename {
+    return Intl.message(
+      'Rename',
+      name: 'rename',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Account`
+  String get addAccount {
+    return Intl.message(
+      'Add Account',
+      name: 'addAccount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No addresses in book`
+  String get noAddressesInBook {
+    return Intl.message(
+      'No addresses in book',
+      name: 'noAddressesInBook',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `BDX`
+  String get bdx {
+    return Intl.message(
+      'BDX',
+      name: 'bdx',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `However we recommend to scan the blockchain from the block height at which you created the wallet to get all transactions and correct balance`
+  String get howeverWeRecommendToScanTheBlockchainFromTheBlock {
+    return Intl.message(
+      'However we recommend to scan the blockchain from the block height at which you created the wallet to get all transactions and correct balance',
+      name: 'howeverWeRecommendToScanTheBlockchainFromTheBlock',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have scanned from the block height`
+  String get youHaveScannedFromTheBlockHeight {
+    return Intl.message(
+      'You have scanned from the block height',
+      name: 'youHaveScannedFromTheBlockHeight',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sync info`
+  String get syncInfo {
+    return Intl.message(
+      'Sync info',
+      name: 'syncInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Do you want to reconnect\n the wallet?`
+  String get doYouWantToReconnectnTheWallet {
+    return Intl.message(
+      'Do you want to reconnect\n the wallet?',
+      name: 'doYouWantToReconnectnTheWallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter valid name upto 15 characters`
+  String get enterValidNameUpto15Characters {
+    return Intl.message(
+      'Enter valid name upto 15 characters',
+      name: 'enterValidNameUpto15Characters',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checking node connection...`
+  String get checkingNodeConnection {
+    return Intl.message(
+      'Checking node connection...',
+      name: 'checkingNodeConnection',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter BDX to Receive`
+  String get enterBdxToReceive {
+    return Intl.message(
+      'Enter BDX to Receive',
+      name: 'enterBdxToReceive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Sub Address`
+  String get addSubAddress {
+    return Intl.message(
+      'Add Sub Address',
+      name: 'addSubAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Share QR`
+  String get shareQr {
+    return Intl.message(
+      'Share QR',
+      name: 'shareQr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get name {
+    return Intl.message(
+      'Name',
+      name: 'name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter valid height without space`
+  String get enterValidHeightWithoutSpace {
+    return Intl.message(
+      'Enter valid height without space',
+      name: 'enterValidHeightWithoutSpace',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Date should not be empty`
+  String get dateShouldNotBeEmpty {
+    return Intl.message(
+      'Date should not be empty',
+      name: 'dateShouldNotBeEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wallet Restore`
+  String get walletRestore {
+    return Intl.message(
+      'Wallet Restore',
+      name: 'walletRestore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can't view the seed because you've restored using keys`
+  String get youCantViewTheSeedBecauseYouveRestoredUsingKeys {
+    return Intl.message(
+      'You can\'t view the seed because you\'ve restored using keys',
+      name: 'youCantViewTheSeedBecauseYouveRestoredUsingKeys',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Never share your seed to anyone! Check your surroundings to ensure no one is overlooking`
+  String get neverShareYourSeedToAnyoneCheckYourSurroundingsTo {
+    return Intl.message(
+      'Never share your seed to anyone! Check your surroundings to ensure no one is overlooking',
+      name: 'neverShareYourSeedToAnyoneCheckYourSurroundingsTo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note :`
+  String get note {
+    return Intl.message(
+      'Note :',
+      name: 'note',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy Seed`
+  String get copySeed {
+    return Intl.message(
+      'Copy Seed',
+      name: 'copySeed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account already exist`
+  String get accountAlreadyExist {
+    return Intl.message(
+      'Account already exist',
+      name: 'accountAlreadyExist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Transaction initiated successfully`
+  String get transactionInitiatedSuccessfully {
+    return Intl.message(
+      'Transaction initiated successfully',
+      name: 'transactionInitiatedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid sub address`
+  String get enterAValidSubAddress {
+    return Intl.message(
+      'Enter a valid sub address',
+      name: 'enterAValidSubAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subaddress already exist`
+  String get subaddressAlreadyExist {
+    return Intl.message(
+      'Subaddress already exist',
+      name: 'subaddressAlreadyExist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Label name`
+  String get labelName {
+    return Intl.message(
+      'Label name',
+      name: 'labelName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sub Address`
+  String get subAddress {
+    return Intl.message(
+      'Sub Address',
+      name: 'subAddress',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loading the Wallet`
+  String get loadingTheWallet {
+    return Intl.message(
+      'Loading the Wallet',
+      name: 'loadingTheWallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You are about to delete\n your wallet!`
+  String get youAreAboutToDeletenYourWallet {
+    return Intl.message(
+      'You are about to delete\n your wallet!',
+      name: 'youAreAboutToDeletenYourWallet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Creating the Transaction`
+  String get creatingTheTransaction {
+    return Intl.message(
+      'Creating the Transaction',
+      name: 'creatingTheTransaction',
       desc: '',
       args: [],
     );

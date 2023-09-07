@@ -63,7 +63,7 @@ class WalletMenu {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          'You are about to delete\n your wallet!',
+                          S.of(context).youAreAboutToDeletenYourWallet,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 19,fontWeight:FontWeight.w800 ,color: Theme.of(context).primaryTextTheme.caption.color,),
                         ),

@@ -130,7 +130,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                  fontWeight: FontWeight.w400
                               ),
                               children:[
-                                TextSpan(text:'You can\'t view the seed because you\'ve restored using keys',style: TextStyle(
+                                TextSpan(text:S.of(context).youCantViewTheSeedBecauseYouveRestoredUsingKeys,style: TextStyle(
                                   fontSize:15,
                                   fontWeight: FontWeight.w400,
                                   color:settingsStore.isDarkTheme ? Color(0xffD9D9D9) : Color(0xff909090)))
@@ -165,7 +165,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                  fontWeight: FontWeight.w400
                               ),
                               children:[
-                                TextSpan(text:'Never share your seed to anyone! Check your surroundings to ensure no one is overlooking',style: TextStyle(
+                                TextSpan(text:S.of(context).neverShareYourSeedToAnyoneCheckYourSurroundingsTo,style: TextStyle(
                                   fontSize:15,
                                   fontWeight: FontWeight.w400,
                                   color:settingsStore.isDarkTheme ? Color(0xffD9D9D9) : Color(0xff909090)))
@@ -234,7 +234,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [ 
-                                      Text('Copy Seed',style:TextStyle(fontSize:16,fontWeight:FontWeight.bold,color: isCopied ? settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6) : Colors.white,)),
+                                      Text(S.of(context).copySeed,style:TextStyle(fontSize:16,fontWeight:FontWeight.bold,color: isCopied ? settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6) : Colors.white,)),
                                       Padding(
                                         padding: const EdgeInsets.only(left:8.0),
                                         child: Icon(Icons.copy,color:  isCopied ? settingsStore.isDarkTheme ? Color(0xff6C6C78) : Color(0xffB2B2B6) : Colors.white,),

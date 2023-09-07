@@ -457,7 +457,7 @@ bool _checkName(String enteredName) {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color:Colors.green),
-                  child:Text('Add',textAlign:TextAlign.center, style: TextStyle(fontSize:17,fontWeight: FontWeight.bold,color: Color(0xffffffff)),)
+                  child:Text(S.of(context).add,textAlign:TextAlign.center, style: TextStyle(fontSize:17,fontWeight: FontWeight.bold,color: Color(0xffffffff)),)
             ),
              )
             ],

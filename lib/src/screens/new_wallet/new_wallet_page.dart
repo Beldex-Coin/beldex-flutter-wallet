@@ -193,7 +193,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                     validator: (value) {
                       final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
                       if (!pattern.hasMatch(value)) {
-                        return 'Enter valid name upto 15 characters';
+                        return S.of(context).enterValidNameUpto15Characters;
                       } else {
                         walletCreationStore.validateWalletName(value);
                         return walletCreationStore.errorMessage;

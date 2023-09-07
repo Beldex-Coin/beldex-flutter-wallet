@@ -420,7 +420,7 @@ class SeedWidgetState extends State<SeedWidget> {
                                               ? Color(0xff333343)
                                               : Color(0xffDADADA)),
                                       child: Center(
-                                          child: Text('Clear',
+                                          child: Text(S.of(context).clear,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 16,
@@ -459,7 +459,7 @@ class SeedWidgetState extends State<SeedWidget> {
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 5.0),
-                                              child: Text('Paste',
+                                              child: Text(S.of(context).paste,
                                                   style: TextStyle(
                                                       fontSize: 16,
                                                       fontWeight:

@@ -15,7 +15,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class NewNodePage extends BasePage {
   @override
-  String get title => 'Nodes';
+  String get title => S.current.nodes;
 
 
 
@@ -105,7 +105,7 @@ void showHUDLoader(BuildContext context) {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(13.0),
-                  child: Text('Checking node connection...',style:TextStyle(fontSize: 16,fontWeight: FontWeight.w700)),
+                  child: Text(S.of(context).checkingNodeConnection,style:TextStyle(fontSize: 16,fontWeight: FontWeight.w700)),
                 )
               ],
             ),

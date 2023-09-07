@@ -68,7 +68,7 @@ class AddressBookPage extends BasePage {
                   ),
                   Container(
                       child: Text(
-                    'No addresses in book',
+                    S.of(context).noAddressesInBook,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18,

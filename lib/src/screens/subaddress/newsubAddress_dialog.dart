@@ -6,7 +6,7 @@ import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:beldex_wallet/generated/l10n.dart';
 class SubAddressAlert extends StatefulWidget {
   final SubaddressListStore subAddressListStore;
 
@@ -70,7 +70,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Sub Address',style: TextStyle(
+                    Text(S.of(context).subAddress,style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold
                     ),),
@@ -81,7 +81,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                         controller: _labelController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
-                          hintText: 'Label name',
+                          hintText: S.of(context).labelName,
                           hintStyle: TextStyle(color: Color(0xff77778B)),
                           contentPadding: EdgeInsets.symmetric(horizontal: 8),
                           border: OutlineInputBorder(
@@ -97,9 +97,9 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                         validator: (value) {
                           final regex = RegExp(r'^[a-zA-Z0-9]+$');
                           if (!(regex.hasMatch(value)) || !validateInput(value)) {
-                            return 'Enter a valid sub address';
+                            return S.of(context).enterAValidSubAddress;
                           } else if (checkSubAddressAlreadyExist(value)) {
-                            return 'Subaddress already exist';
+                            return S.of(context).subaddressAlreadyExist;
                           } else {
                             subaddressCreationStore.validateSubaddressName(value);
                             return subaddressCreationStore.errorMessage;
@@ -122,7 +122,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                             Navigator.of(context).pop();
                           }
                         },
-                        text: 'Create',
+                        text: S.of(context).new_subaddress_create,
                         color: Color(0xff0BA70F),
                         borderColor: Color(0xff0BA70F),
                         isLoading: isLoading)

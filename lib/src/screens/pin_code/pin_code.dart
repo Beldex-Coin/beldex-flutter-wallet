@@ -356,7 +356,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
           ),
         ),*/
         //Spacer(flex: 4),
-        Text("Enter your PIN",
+        Text(S.of(context).enterYourPin,
             style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w600,
@@ -492,7 +492,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                                         MainAxisSize.min,
                                                     children: [
                                                       Text(
-                                                        'Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings',
+                                                        S.of(context).biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside,
                                                         style: TextStyle(
                                                             color: settingsStore
                                                                     .isDarkTheme

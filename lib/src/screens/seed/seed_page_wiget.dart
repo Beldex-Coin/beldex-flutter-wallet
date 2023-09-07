@@ -82,7 +82,7 @@ class SeedPage extends BasePage {
                 RichText(
                               textAlign: TextAlign.center,
                               text: TextSpan(
-                              text: 'Note : ',
+                              text: S.of(context).note,
                               style: TextStyle(  
                                 color: Color(0xffFF3131),
                                  fontSize:15,

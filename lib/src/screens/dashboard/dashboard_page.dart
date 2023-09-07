@@ -516,7 +516,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                         ),
                                       ),
                                       Text(
-                                        'BDX',
+                                        S.of(context).bdx,
                                         style: TextStyle(
                                           color: Theme.of(context)
                                               .primaryTextTheme
@@ -595,7 +595,6 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           }
                                         : null,
                                     child: Container(
-                                    width: 160,
                                     height: 46,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8),
@@ -1093,7 +1092,7 @@ class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
             Icons.info_outline,
             color: Color(0xff0BA70F),
           ),
-          Text('Sync info', style: TextStyle(fontWeight: FontWeight.w800)),
+          Text(S.of(context).syncInfo, style: TextStyle(fontWeight: FontWeight.w800)),
         ],
       )),
       backgroundColor:
@@ -1101,13 +1100,13 @@ class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text('You have scanned from the block height',
+          Text(S.of(context).youHaveScannedFromTheBlockHeight,
               textAlign: TextAlign.center, style: TextStyle(fontSize: 13)),
           Text(bHeight.toString(),
               textAlign: TextAlign.center,
               style: TextStyle(color: Color(0xff0BA70F))),
           Text(
-              'However we recommend to scan the blockchain from the block height at which you created the wallet to get all transactions and correct balance',
+              S.of(context).howeverWeRecommendToScanTheBlockchainFromTheBlock,
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 13)),
           Padding(
@@ -1121,7 +1120,7 @@ class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
                       borderRadius: BorderRadius.circular(10),
                       color: Color(0xff0BA70F)),
                   child: Center(
-                      child: Text('OK',
+                      child: Text(S.of(context).ok,
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold)))),

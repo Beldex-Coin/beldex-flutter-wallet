@@ -77,7 +77,7 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
                 child:Row(
                    mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Cancel',style: TextStyle(color: settingsStore.isDarkTheme? Color(0xff93939B) :Color(0xff16161D))),
+                    Text(S.of(context).cancel,style: TextStyle(color: settingsStore.isDarkTheme? Color(0xff93939B) :Color(0xff16161D))),
                   ],
                 ),
                ),
@@ -94,7 +94,7 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
                 child:Row(
                    mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('OK',style: TextStyle(color: Colors.white),),
+                    Text(S.of(context).ok,style: TextStyle(color: Colors.white),),
                   ],
                 ),
                ),

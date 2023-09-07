@@ -202,7 +202,7 @@ class AccountListPage extends BasePage {
                     Padding(
                       padding: const EdgeInsets.only(top:8.0),
                       child: Text(
-                        'Do you want to change your\n primary account?',
+                        S.of(context).doYouWantToChangeYournPrimaryAccount,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 18,color: Theme.of(context).primaryTextTheme.caption.color),
                       ),

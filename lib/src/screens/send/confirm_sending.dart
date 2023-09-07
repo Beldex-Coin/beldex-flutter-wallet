@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
+import 'package:beldex_wallet/generated/l10n.dart';
 Future showSimpleConfirmDialog(
     BuildContext context, String title, String body, String fee, String address,
     {String buttonText,
@@ -183,7 +183,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                       }
                                     },
                                     child: Center(
-                                        child: Text('Cancel',
+                                        child: Text(S.of(context).cancel,
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight:
@@ -204,7 +204,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                     },
                                     child: Center(
                                         child: Text(
-                                      'OK',
+                                      S.of(context).ok,
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
@@ -287,7 +287,7 @@ class TransactionSendDetails extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Text(
-                                    'Amount',
+                                    S.of(context).amount,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700),
@@ -335,7 +335,7 @@ class TransactionSendDetails extends StatelessWidget {
                               mainAxisAlignment:
                                   MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text('Address'),
+                                Text(S.of(context).widgets_address),
                                 Container(
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
@@ -372,7 +372,7 @@ class TransactionSendDetails extends StatelessWidget {
                                       }
                                     },
                                     child: Center(
-                                        child: Text('Cancel',
+                                        child: Text(S.of(context).cancel,
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight:
@@ -393,7 +393,7 @@ class TransactionSendDetails extends StatelessWidget {
                                     },
                                     child: Center(
                                         child: Text(
-                                      'OK',
+                                      S.of(context).ok,
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
@@ -472,19 +472,21 @@ class _SendTransactionSuccessfullyState
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            GestureDetector(
-                              onTap: () {
-                                if (widget.onDismiss != null) {
-                                  widget.onDismiss(context);
-                                }
-                              },
-                              child: Container(
+                            // GestureDetector(
+                            //   onTap: () {
+                            //     if (widget.onDismiss != null) {
+                            //       widget.onDismiss(context);
+                            //     }
+                            //   },
+                            //   child:
+                              Container(
                                 child: Icon(
                                   Icons.close,
                                   size: 20,
+                                  color:Colors.transparent
                                 ),
                               ),
-                            )
+                           // )
                           ],
                         ),
                         Container(
@@ -497,7 +499,7 @@ class _SendTransactionSuccessfullyState
                                 'assets/images/new-images/process_completed_3.gif') //Icon(Icons.check,color: Colors.white,size:30),
                             ),
                         Text(
-                          'Transaction initiated successfully',
+                          S.of(context).transactionInitiatedSuccessfully,
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w900),
                         )
@@ -580,7 +582,7 @@ class ConfirmSending extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Text(
-                                    'Amount',
+                                    S.of(context).transaction_details_amount,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700),
@@ -628,7 +630,7 @@ class ConfirmSending extends StatelessWidget {
                               mainAxisAlignment:
                                   MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text('Address'),
+                                Text(S.of(context).restore_address),
                                 Container(
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
@@ -665,7 +667,7 @@ class ConfirmSending extends StatelessWidget {
                                       }
                                     },
                                     child: Center(
-                                        child: Text('Cancel',
+                                        child: Text(S.of(context).cancel,
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight:
@@ -686,7 +688,7 @@ class ConfirmSending extends StatelessWidget {
                                     },
                                     child: Center(
                                         child: Text(
-                                      'OK',
+                                      S.of(context).ok,
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,

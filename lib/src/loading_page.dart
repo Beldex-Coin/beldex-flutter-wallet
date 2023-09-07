@@ -3,7 +3,7 @@ import 'package:beldex_wallet/src/stores/wallet_list/wallet_list_store.dart';
 import 'package:beldex_wallet/src/wallet/wallet_description.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:beldex_wallet/generated/l10n.dart';
 class LoadingPage extends StatelessWidget{
   final WalletDescription wallet;
   final WalletListStore walletListStore;
@@ -47,7 +47,7 @@ class LoadingPage extends StatelessWidget{
             Padding(
               padding: const EdgeInsets.only(top: 15.0),
               child: Text(
-                'Loading the Wallet',
+                S.of(context).loadingTheWallet,
                 style: TextStyle(
                     fontSize: height * 0.07 / 3, fontWeight: FontWeight.w700,color: Colors.black),
               ),

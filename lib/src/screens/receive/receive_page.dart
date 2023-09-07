@@ -320,7 +320,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                'Enter BDX to Receive',
+                                S.of(context).enterBdxToReceive,
                                 style: TextStyle(fontSize: 16),
                               ),
                             ],
@@ -337,7 +337,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                   FilteringTextInputFormatter.deny(
                                       RegExp('[-, ]'))
                                 ],
-                                hintText: 'Enter ${S.of(context).amount}',
+                                hintText: S.of(context).enterAmount,
                                 validator: (value) {
                                   walletStore.validateAmount(value);
                                   return walletStore.errorMessage;
@@ -488,7 +488,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                                   color: Color(0xff2979FB)),
                                             ),
                                             Text(
-                                              'Add Sub Address',
+                                              S.of(context).addSubAddress,
                                               //S.of(context).subaddresses,
                                               style: TextStyle(
                                                   decoration:
@@ -528,7 +528,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                   Padding(
                                     padding: const EdgeInsets.only(left: 8.0),
                                     child: Text(
-                                      'Share QR',
+                                      S.of(context).shareQr,
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: Color(0xffffffff),

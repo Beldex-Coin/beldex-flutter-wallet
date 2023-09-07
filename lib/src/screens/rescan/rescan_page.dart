@@ -154,7 +154,7 @@ restoreHeightController.text = '';
                           validator: (value) {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
                             if (!pattern.hasMatch(value)) {
-                              return 'Enter valid height without space';
+                              return S.of(context).enterValidHeightWithoutSpace;
                             } else {
                               return null;
                             }
@@ -217,7 +217,7 @@ restoreHeightController.text = '';
                                     controller: dateController,
                                     validator: (value) {
                                       if (value.isEmpty) {
-                                        return 'Date should not be empty';
+                                        return S.of(context).dateShouldNotBeEmpty;
                                       } else {
                                         return null;
                                       }

@@ -400,7 +400,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                           validator: (value) {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
                             if (!pattern.hasMatch(value)) {
-                              return 'Enter a valid height without space';
+                              return S.of(context).enterValidHeightWithoutSpace;
                             }else {
                               return null;
                             }
@@ -448,7 +448,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                                     controller: dateController,
                                     validator: (value) {
                                       if (value.isEmpty) {
-                                        return 'Date should not be empty';
+                                        return S.of(context).dateShouldNotBeEmpty;
                                       } else {
                                         return null;
                                       }

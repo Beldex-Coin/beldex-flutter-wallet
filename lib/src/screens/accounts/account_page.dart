@@ -24,7 +24,7 @@ class AccountPage extends BasePage {
   }
 
   @override
-  String get title => 'Account';
+  String get title => S.current.account;
 
   @override
   Widget body(BuildContext context) => AccountForm(account);
@@ -98,7 +98,7 @@ class AccountFormState extends State<AccountForm> {
                     }
                     Navigator.of(context).pop(_textController.text);
                   },
-                  text: widget.account != null ? 'Rename' : S.of(context).add,
+                  text: widget.account != null ? S.of(context).rename : S.of(context).add,
                   color:
                       Theme.of(context).primaryTextTheme.button.backgroundColor,
                   borderColor:

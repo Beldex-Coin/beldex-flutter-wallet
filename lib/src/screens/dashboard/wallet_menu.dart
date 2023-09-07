@@ -84,14 +84,14 @@ class _AlertReconnectConfirmDialogState extends State<AlertReconnectConfirmDialo
     final settingsStore = Provider.of<SettingsStore>(context);
     return  AlertDialog(
        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        title: Center(child: Text('Reconnect wallet?',style: TextStyle(fontWeight:FontWeight.w800))),
+        title: Center(child: Text('${S.of(context).reconnectWallet}?',style: TextStyle(fontWeight:FontWeight.w800))),
        backgroundColor:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
        content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
          Padding(
            padding: const EdgeInsets.all(8.0),
-           child: Text('Do you want to reconnect\n the wallet?',textAlign: TextAlign.center,style:TextStyle(fontSize:18)),
+           child: Text(S.of(context).doYouWantToReconnectnTheWallet,textAlign: TextAlign.center,style:TextStyle(fontSize:18)),
          ),
            SizedBox(
             height: 10,

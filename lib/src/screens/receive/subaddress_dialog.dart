@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:beldex_wallet/generated/l10n.dart';
 WalletService walletService;
 Future addSubAddressDialog(BuildContext context, String title, String body,String fee,String address,
     {String buttonText,
@@ -176,7 +177,7 @@ class AddSubAddress extends StatelessWidget {
                 Center(
                   child: BeldexTextField(
                       controller: _labelController,
-                      hintText:'Name', //S.of(context).new_subaddress_label_name,
+                      hintText:S.of(context).name, //S.of(context).new_subaddress_label_name,
                       validator: (value) {
                         subaddressCreationStore.validateSubaddressName(value);
                         return subaddressCreationStore.errorMessage;
