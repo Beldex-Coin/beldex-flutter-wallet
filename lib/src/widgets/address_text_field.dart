@@ -7,10 +7,10 @@ import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/domain/common/contact.dart';
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
-import 'package:beldex_wallet/src/wallet/beldex/subaddress.dart';
+import 'package:beldex_wallet/src/wallet/beldex/subAddress.dart';
 import 'package:beldex_wallet/src/widgets/beldex_text_field.dart';
 
-enum AddressTextFieldOption { qrCode, addressBook, subaddressList , saveAddress }
+enum AddressTextFieldOption { qrCode, addressBook, subAddressList, saveAddress }
 
 class AddressTextField extends StatelessWidget {
   AddressTextField(
@@ -25,7 +25,8 @@ class AddressTextField extends StatelessWidget {
       this.onURIScanned,
       this.focusNode,
       this.validator,
-      this.onChanged,this.autoValidateMode});
+      this.onChanged,
+      this.autoValidateMode});
 
   static const prefixIconWidth = 20.0;
   static const prefixIconHeight = 20.0;
@@ -48,7 +49,7 @@ class AddressTextField extends StatelessWidget {
       controller: controller,
       focusNode: focusNode,
       inputFormatters: [
-         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
       ],
       suffixIcon: Padding(
           padding: EdgeInsets.only(right: 5),
@@ -59,21 +60,25 @@ class AddressTextField extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(width: 5),
-                if( options.contains(AddressTextFieldOption.saveAddress))...[
-                  Container(  
+                if (options.contains(AddressTextFieldOption.saveAddress)) ...[
+                  Container(
                     width: prefixIconWidth,
                     height: prefixIconHeight,
-                    padding: EdgeInsets.only(right:8),
+                    padding: EdgeInsets.only(right: 8),
                     child: InkWell(
-                      onTap: () async => _saveAddress(context),
-                      child:Container( 
-                        decoration: BoxDecoration(
-                                color: Palette.wildDarkBlueWithOpacity,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8))),
-                            child: Icon(Icons.paste,size: 20,color: Theme.of(context).primaryTextTheme.caption.color),
-                      )
-                    ),
+                        onTap: () async => _saveAddress(context),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Palette.wildDarkBlueWithOpacity,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8))),
+                          child: Icon(Icons.paste,
+                              size: 20,
+                              color: Theme.of(context)
+                                  .primaryTextTheme
+                                  .caption
+                                  .color),
+                        )),
                   )
                 ],
                 if (options.contains(AddressTextFieldOption.qrCode)) ...[
@@ -82,26 +87,38 @@ class AddressTextField extends StatelessWidget {
                       height: prefixIconHeight,
                       child: InkWell(
                         onTap: () async => _presentQRScanner(context),
-                        child: SvgPicture.asset('assets/images/qr_code_svg.svg',width: 20,height: 20,color: Theme.of(context).primaryTextTheme.caption.color,),//Icon(Icons.qr_code_outlined),
+                        child: SvgPicture.asset(
+                          'assets/images/qr_code_svg.svg',
+                          width: 20,
+                          height: 20,
+                          color:
+                              Theme.of(context).primaryTextTheme.caption.color,
+                        ),
                       ))
                 ],
-                SizedBox(width:10),
+                SizedBox(width: 10),
                 if (options.contains(AddressTextFieldOption.addressBook)) ...[
                   Container(
                       width: prefixIconWidth,
                       height: prefixIconHeight,
                       child: InkWell(
                         onTap: () async => presetAddressBookPicker(context),
-                        child: SvgPicture.asset('assets/images/contact_book_svg.svg',width: 25,height: 25,color: Theme.of(context).primaryTextTheme.caption.color ,),//Icon(Icons.contacts_rounded),
+                        child: SvgPicture.asset(
+                          'assets/images/contact_book_svg.svg',
+                          width: 25,
+                          height: 25,
+                          color:
+                              Theme.of(context).primaryTextTheme.caption.color,
+                        ),
                       ))
                 ],
                 if (options
-                    .contains(AddressTextFieldOption.subaddressList)) ...[
+                    .contains(AddressTextFieldOption.subAddressList)) ...[
                   Container(
                       width: prefixIconWidth,
                       height: prefixIconHeight,
                       child: InkWell(
-                        onTap: () async => _presetSubaddressListPicker(context),
+                        onTap: () async => _presetSubAddressListPicker(context),
                         child: Container(
                             decoration: BoxDecoration(
                                 color: Palette.wildDarkBlueWithOpacity,
@@ -110,11 +127,10 @@ class AddressTextField extends StatelessWidget {
                             child: Icon(Icons.arrow_downward_rounded)),
                       ))
                 ],
-                
               ],
             ),
           )),
-      hintText: placeholder ?? 'Enter ${S.current.widgets_address}',
+      hintText: placeholder ?? S.of(context).enterAddress,
       validator: validator,
       onChanged: onChanged,
       autoValidateMode: autoValidateMode,
@@ -139,9 +155,6 @@ class AddressTextField extends StatelessWidget {
         onURIScanned(uri);
       }
     } catch (e) {
-     /* ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Invalid BDX address'),
-      ));*/
       print('Error $e');
     }
   }
@@ -155,38 +168,21 @@ class AddressTextField extends StatelessWidget {
     }
   }
 
-  Future<void> _presetSubaddressListPicker(BuildContext context) async {
-    final subaddress = await Navigator.of(context, rootNavigator: true)
+  Future<void> _presetSubAddressListPicker(BuildContext context) async {
+    final subAddress = await Navigator.of(context, rootNavigator: true)
         .pushNamed(Routes.subaddressList);
 
-    if (subaddress is Subaddress && subaddress.address != null) {
-      controller.text = subaddress.address;
+    if (subAddress is Subaddress && subAddress.address != null) {
+      controller.text = subAddress.address;
     }
   }
 
-
- Future<void> _saveAddress(BuildContext context) async {
-  try{
-
-// FlutterClipboard.paste().then((value) {
-//              setState(() {
-//                   message.text = value;
-//               });
-//   });
-final data = await Clipboard.getData('text/plain');
-  
-    controller.text = data.text.toString(); // this will paste "copied text" to textFieldController
-  }catch(e){
-    print(e);
+  Future<void> _saveAddress(BuildContext context) async {
+    try {
+      final data = await Clipboard.getData('text/plain');
+      controller.text = data.text.toString();
+    } catch (e) {
+      print(e);
+    }
   }
-    // final subaddress = await Navigator.of(context, rootNavigator: true)
-    //     .pushNamed(Routes.addressBookAddContact);
-
-    // if (subaddress is Subaddress && subaddress.address != null) {
-    //   controller.text = subaddress.address;
-    //}
-  }
-
-
-  
 }

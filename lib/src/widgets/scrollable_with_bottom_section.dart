@@ -24,8 +24,6 @@ class ScrollableWithBottomSectionState
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return SingleChildScrollView(
-        // physics:
-        //     const AlwaysScrollableScrollPhysics(), //  const NeverScrollableScrollPhysics(), //
         child: ConstrainedBox(
           constraints: BoxConstraints(
               minHeight: constraints.heightConstraints().maxHeight),

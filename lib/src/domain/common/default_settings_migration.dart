@@ -121,11 +121,6 @@ Future<void> changeCurrentNodeToDefault(
   final node = nodes.values.firstWhere((Node node) => node.uri == nodeUri) ??
       nodes.values.first;
   final nodeId = node != null ? node.key as int : 0; // 0 - England
-  /*print('nodeId 1 -> $nodeUri');
-  print('nodeId 2 -> ${node!=null}');
-  print('nodeId 3 -> ${node.key.toString()}');
-  print('nodeId 4 -> ${nodes.values.first.toString()}');*/
-  print('nodeId 5 -> $nodeId');
 
   await sharedPreferences.setInt('current_node_id', nodeId);
 }

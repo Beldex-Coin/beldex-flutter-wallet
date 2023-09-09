@@ -34,7 +34,7 @@ abstract class BasePage extends StatelessWidget {
         height: 30,
         width: 40,
         child: SvgPicture.asset(
-          'assets/images/new-images/back_button_white_theme.svg',
+          'assets/images/new-images/back_arrow.svg',
           color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
           height: 80,
           width: 50,

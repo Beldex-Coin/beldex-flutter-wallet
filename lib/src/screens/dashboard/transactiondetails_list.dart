@@ -71,7 +71,7 @@ class TransactionDetailsListBodyState
                     child: TextButton(
                         onPressed: () => Navigator.pop(context),
                         child: SvgPicture.asset(
-                          'assets/images/new-images/back_button_white_theme.svg',
+                          'assets/images/new-images/back_arrow.svg',
                           color: settingsStore.isDarkTheme
                               ? Colors.white
                               : Colors.black,

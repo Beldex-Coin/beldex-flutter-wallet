@@ -7,8 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:beldex_wallet/palette.dart';
-import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/stores/account_list/account_list_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
@@ -24,16 +22,12 @@ class AccountListPage extends BasePage {
     final accountListStore = Provider.of<AccountListStore>(context);
     final accounts = accountListStore.accounts;
 
-    return InkWell(
-      onTap: () {
-        print('----> $accounts---->');
+    return Container(
+      padding: EdgeInsets.only(right:15),
+      child: IconButton(icon: SvgPicture.asset('assets/images/new-images/add_account.svg',width: 23,height: 23,),onPressed: () {
         showDialog<void>(context: context, builder: (_)=>CreateAccountDialog(accList: accounts,));
         accountListStore.updateAccountList();
-      },
-      child: Container(
-        padding: EdgeInsets.only(right:10),
-        child: Icon(Icons.add,color:Color(0xff0BA70F),size: 35,)
-      ),
+      },)
     );
   }
 
@@ -58,7 +52,6 @@ class AccountListPage extends BasePage {
             padding: EdgeInsets.only(bottom: 10),
           child: Observer(builder: (_) {
             final accounts = accountListStore.accounts;
-            print('accounts-----> ${accounts.length}');
             return RawScrollbar(
                controller: _controller,
               thickness: 8,
@@ -75,7 +68,6 @@ class AccountListPage extends BasePage {
                       final isCurrent = walletStore.account.id == account.id;
 
                       return Container(
-                       // margin: EdgeInsets.only(left:10,right:10,),
                          padding: EdgeInsets.only(left:10,right:10,top:10),
                         decoration: BoxDecoration(  
                           color: settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED),
@@ -109,14 +101,8 @@ class AccountListPage extends BasePage {
                               }else{
                                  onConfirmation(context,walletStore,account,isCurrent);
                               }
-                             
-                           /*   if (isCurrent) return;
-
-                              walletStore.setAccount(account);
-                              Navigator.of(context).pop();*/
                             },
                             child: Container(
-                                                     //Color.fromARGB(255, 40, 42, 51),
                              decoration: BoxDecoration(
                                color:  settingsStore.isDarkTheme ? isCurrent ? Color(0xff383848) : Color(0xff1B1B23) : Color(0xffFFFFFF),
                                   borderRadius: BorderRadius.circular(10)),
@@ -135,35 +121,7 @@ class AccountListPage extends BasePage {
                                     ),
                               ),
                             ),
-                          ) /*Container(
-                            color: isCurrent ? currentColor : notCurrentColor,
-                            child: Column(
-                              children: <Widget>[
-                                ListTile(
-                                  title: Text(
-                                    account.label,
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        color: Theme.of(context)
-                                            .primaryTextTheme
-                                            .headline5
-                                            .color),
-                                  ),
-                                  onTap: () {
-                                    if (isCurrent) return;
-
-                                    walletStore.setAccount(account);
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                Divider(
-                                  color: Theme.of(context).dividerTheme.color,
-                                  height: 1.0,
-                                )
-                              ],
-                            ),
-                          )*/
-                          ,
+                          ),
                         ),
                       );
                     });
@@ -187,75 +145,68 @@ class AccountListPage extends BasePage {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)), //this right here
             child: Container(
-              height: 180,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      S.of(context).are_you_sure,
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    S.of(context).are_you_sure,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top:8.0),
+                    child: Text(
+                      S.of(context).doYouWantToChangeYournPrimaryAccount,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 18,color: Theme.of(context).primaryTextTheme.caption.color),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top:8.0),
-                      child: Text(
-                        S.of(context).doYouWantToChangeYournPrimaryAccount,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 18,color: Theme.of(context).primaryTextTheme.caption.color),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SizedBox(
-                            width: 65,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                backgroundColor: settingsStore.isDarkTheme ? Color(0xff383848): Color(0xffE8E8E8),//Color.fromRGBO(38, 38, 38, 1.0),
-                              ),
-                              onPressed: () {
-                                Navigator.of(context).pop(false);
-                              },
-                              child: Text(
-                                S.of(context).no,
-                                style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold,color: settingsStore.isDarkTheme ?Color(0xff93939B): Color(0xff222222), ),
-                              ),
-                            ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () =>Navigator.of(context).pop(false),
+                        style: ElevatedButton.styleFrom(
+                          primary: settingsStore.isDarkTheme ? Color(0xff383848): Color(0xffE8E8E8),
+                          padding: EdgeInsets.all(12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          SizedBox(
-                            width: 65,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                backgroundColor: Color(0xff0BA70F),//Color.fromRGBO(38, 38, 38, 1.0),
-                              ),
-                              onPressed: () {
-                                if (isCurrent) return;
+                        ),
+                        child: Text(
+                          S.of(context).no,
+                          style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold,color: settingsStore.isDarkTheme ?Color(0xff93939B): Color(0xff222222), ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: (){
+                          if (isCurrent) return;
 
-                                walletStore.setAccount(account);
-                                Navigator.of(context).pop(true);
-                              },
-                              child: Text(
-                                S.of(context).yes,
-                                style: TextStyle(color: Color(0xffffffff),fontSize: 18,fontWeight:FontWeight.bold),
-                              ),
-                            ),
+                          walletStore.setAccount(account);
+                          Navigator.of(context).pop(true);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xff0BA70F),
+                          padding: EdgeInsets.all(12),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                        ],
+                        ),
+                        child: Text(
+                          S.of(context).yes,
+                          style: TextStyle(color: Color(0xffffffff),fontSize: 18,fontWeight:FontWeight.bold),
+                        ),
                       ),
-                    )
-                  ],
-                ),
+                    ],
+                  )
+                ],
               ),
             ),
           );

@@ -29,8 +29,8 @@ class BeldexTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation:0, //2,
-      color: color ?? Theme.of(context).cardColor,//Color.fromARGB(255, 40,42,51),
+      elevation:0,
+      color: color ?? Theme.of(context).cardColor,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10)
       ),
@@ -43,7 +43,6 @@ class BeldexTextField extends StatelessWidget {
             focusNode: focusNode,
             style: TextStyle(
                 fontSize: 16.0,
-                //color: Theme.of(context).accentTextTheme.overline.color
                 ),
             keyboardType: keyboardType,
             inputFormatters: inputFormatters,
@@ -56,15 +55,6 @@ class BeldexTextField extends StatelessWidget {
                 hintStyle:
                     TextStyle(fontSize: 16.0, color: Colors.grey.withOpacity(0.6),fontWeight: FontWeight.bold),
                 hintText: hintText,
-                /*focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: BeldexPalette.teal, width: 2.0)),
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Theme.of(context).focusColor, width: 1.0)),
-                errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: BeldexPalette.red, width: 1.0)),
-                focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: BeldexPalette.red, width: 1.0)),*/
                 errorStyle: TextStyle(color: BeldexPalette.red)),
             validator: validator),
       ),

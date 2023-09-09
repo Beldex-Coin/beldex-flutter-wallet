@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:beldex_wallet/palette.dart';
 
 class NavListHeader extends StatelessWidget {
   NavListHeader({this.title});

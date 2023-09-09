@@ -142,7 +142,7 @@ class AuthPageState extends State<AuthPage> {
                       child: TextButton(
                           onPressed: () => Navigator.pop(context),
                           child: SvgPicture.asset(
-                            'assets/images/new-images/back_button_white_theme.svg',
+                            'assets/images/new-images/back_arrow.svg',
                             color: settingsStore.isDarkTheme
                                 ? Colors.white
                                 : Colors.black,
@@ -159,7 +159,7 @@ class AuthPageState extends State<AuthPage> {
           title: Padding(
             padding: EdgeInsets.only(top: 20, bottom: 5),
             child: Text(
-              'Enter Pin',
+              S.of(context).enterPin,
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 fontSize: 22,

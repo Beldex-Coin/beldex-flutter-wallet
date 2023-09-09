@@ -1,27 +1,17 @@
 import 'package:flutter/material.dart';
 
 class SettingsTextListRow extends StatelessWidget {
-  SettingsTextListRow({@required this.onTaped, this.title, this.widget,this.balanceVisibility,this.decimalVisibility,this.currencyVisibility,this.feePriorityVisibility});
+  SettingsTextListRow({@required this.onTaped, this.title, this.widget});
 
   final VoidCallback onTaped;
   final String title;
   final Widget widget;
-  final bool balanceVisibility;
-  final bool decimalVisibility;
-  final bool currencyVisibility;
-  final bool feePriorityVisibility;
   @override
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(
-        splashColor: balanceVisibility == false &&
-            decimalVisibility == false &&
-            currencyVisibility == false &&
-            feePriorityVisibility == false ?Colors.grey:Colors.transparent,
-        highlightColor:  balanceVisibility == false &&
-            decimalVisibility == false &&
-            currencyVisibility == false &&
-            feePriorityVisibility == false ?Colors.grey:Colors.transparent,
+        splashColor: Colors.grey,
+        highlightColor:  Colors.grey,
       ),
       child: ListTile(
         contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),

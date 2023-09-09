@@ -165,10 +165,10 @@ class S {
     );
   }
 
-  /// `OK`
+  /// `Ok`
   String get ok {
     return Intl.message(
-      'OK',
+      'Ok',
       name: 'ok',
       desc: '',
       args: [],
@@ -465,16 +465,6 @@ class S {
     );
   }
 
-  /// `Address book`
-  String get address_book_menu {
-    return Intl.message(
-      'Address book',
-      name: 'address_book_menu',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Reconnection`
   String get reconnection {
     return Intl.message(
@@ -715,10 +705,10 @@ class S {
     );
   }
 
-  /// `Node port`
+  /// `Node Port`
   String get node_port {
     return Intl.message(
-      'Node port',
+      'Node Port',
       name: 'node_port',
       desc: '',
       args: [],
@@ -2315,10 +2305,10 @@ class S {
     );
   }
 
-  /// `Change language`
+  /// `Change Language`
   String get change_language {
     return Intl.message(
-      'Change language',
+      'Change Language',
       name: 'change_language',
       desc: '',
       args: [],
@@ -2635,10 +2625,10 @@ class S {
     );
   }
 
-  /// `Add address`
+  /// `Add Address`
   String get addAddress {
     return Intl.message(
-      'Add address',
+      'Add Address',
       name: 'addAddress',
       desc: '',
       args: [],
@@ -2725,20 +2715,20 @@ class S {
     );
   }
 
-  /// `Select language`
+  /// `Select Language`
   String get selectLanguage {
     return Intl.message(
-      'Select language',
+      'Select Language',
       name: 'selectLanguage',
       desc: '',
       args: [],
     );
   }
 
-  /// `Choose language`
+  /// `Choose Language`
   String get chooseLanguage {
     return Intl.message(
-      'Choose language',
+      'Choose Language',
       name: 'chooseLanguage',
       desc: '',
       args: [],
@@ -3340,6 +3330,256 @@ class S {
     return Intl.message(
       'Creating the Transaction',
       name: 'creatingTheTransaction',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy and save the seed to continue`
+  String get copyAndSaveTheSeedToContinue {
+    return Intl.message(
+      'Copy and save the seed to continue',
+      name: 'copyAndSaveTheSeedToContinue',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter PIN`
+  String get enterPin {
+    return Intl.message(
+      'Enter PIN',
+      name: 'enterPin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Test`
+  String get test {
+    return Intl.message(
+      'Test',
+      name: 'test',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get success {
+    return Intl.message(
+      'Success',
+      name: 'success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Connection Failed`
+  String get connectionFailed {
+    return Intl.message(
+      'Connection Failed',
+      name: 'connectionFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Checking...`
+  String get checking {
+    return Intl.message(
+      'Checking...',
+      name: 'checking',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Test Result:`
+  String get testResult {
+    return Intl.message(
+      'Test Result:',
+      name: 'testResult',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password (optional)`
+  String get passwordOptional {
+    return Intl.message(
+      'Password (optional)',
+      name: 'passwordOptional',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User Name (optional)`
+  String get userNameOptional {
+    return Intl.message(
+      'User Name (optional)',
+      name: 'userNameOptional',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Node Name (optional)`
+  String get nodeNameOptional {
+    return Intl.message(
+      'Node Name (optional)',
+      name: 'nodeNameOptional',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Node`
+  String get addNode {
+    return Intl.message(
+      'Add Node',
+      name: 'addNode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Legal Disclaimer`
+  String get legalDisclaimer {
+    return Intl.message(
+      'Legal Disclaimer',
+      name: 'legalDisclaimer',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `How can we\nhelp you?`
+  String get howCanWenhelpYou {
+    return Intl.message(
+      'How can we\nhelp you?',
+      name: 'howCanWenhelpYou',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove Contact`
+  String get removeContact {
+    return Intl.message(
+      'Remove Contact',
+      name: 'removeContact',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to remove selected contact?`
+  String get areYouSureYouWantToRemoveSelectedContact {
+    return Intl.message(
+      'Are you sure you want to remove selected contact?',
+      name: 'areYouSureYouWantToRemoveSelectedContact',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The Address already Exist`
+  String get theAddressAlreadyExist {
+    return Intl.message(
+      'The Address already Exist',
+      name: 'theAddressAlreadyExist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This Name already Exist`
+  String get thisNameAlreadyExist {
+    return Intl.message(
+      'This Name already Exist',
+      name: 'thisNameAlreadyExist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter a valid name`
+  String get enterAValidName {
+    return Intl.message(
+      'Enter a valid name',
+      name: 'enterAValidName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name should not be empty`
+  String get nameShouldNotBeEmpty {
+    return Intl.message(
+      'Name should not be empty',
+      name: 'nameShouldNotBeEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Name`
+  String get enterName {
+    return Intl.message(
+      'Enter Name',
+      name: 'enterName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Account Name`
+  String get accountName {
+    return Intl.message(
+      'Account Name',
+      name: 'accountName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Play Store`
+  String get playStore {
+    return Intl.message(
+      'Play Store',
+      name: 'playStore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `AppStore`
+  String get appstore {
+    return Intl.message(
+      'AppStore',
+      name: 'appstore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Allow face id authentication`
+  String get allowFaceIdAuthentication {
+    return Intl.message(
+      'Allow face id authentication',
+      name: 'allowFaceIdAuthentication',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter Address`
+  String get enterAddress {
+    return Intl.message(
+      'Enter Address',
+      name: 'enterAddress',
       desc: '',
       args: [],
     );

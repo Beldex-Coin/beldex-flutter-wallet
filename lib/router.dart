@@ -1,4 +1,3 @@
-import 'package:beldex_wallet/src/screens/dashboard/transactiondetails_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -46,7 +45,6 @@ import 'package:beldex_wallet/src/screens/setup_pin_code/setup_pin_code.dart';
 import 'package:beldex_wallet/src/screens/show_keys/show_keys_page.dart';
 import 'package:beldex_wallet/src/screens/stake/new_stake_page.dart';
 import 'package:beldex_wallet/src/screens/stake/stake_page.dart';
-import 'package:beldex_wallet/src/screens/subaddress/new_subaddress_page.dart';
 import 'package:beldex_wallet/src/screens/subaddress/subaddress_list_page.dart';
 import 'package:beldex_wallet/src/screens/transaction_details/transaction_details_page.dart';
 import 'package:beldex_wallet/src/screens/wallet_list/wallet_list_page.dart';
@@ -63,7 +61,6 @@ import 'package:beldex_wallet/src/stores/price/price_store.dart';
 import 'package:beldex_wallet/src/stores/rescan/rescan_wallet_store.dart';
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/stores/subaddress_creation/subaddress_creation_store.dart';
 import 'package:beldex_wallet/src/stores/subaddress_list/subaddress_list_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
 import 'package:beldex_wallet/src/stores/user/user_store.dart';
@@ -138,9 +135,9 @@ class Router {
                         secureStorage: FlutterSecureStorage(),
                         sharedPreferences: sharedPreferences)),
                 child: SetupPinCodePage(
-                    onPinCodeSetup: (context, pin) =>
-                        callback == null ? null : callback(context, pin),
-                        )));
+                  onPinCodeSetup: (context, pin) =>
+                      callback == null ? null : callback(context, pin),
+                )));
 
       case Routes.restoreOptions:
         return MaterialPageRoute<void>(builder: (_) => RestoreOptionsPage());
@@ -205,22 +202,26 @@ class Router {
       case Routes.send:
         return MaterialPageRoute<void>(
             fullscreenDialog: true,
-            builder: (_) => MultiProvider(providers: [
-                  ProxyProvider<SettingsStore, BalanceStore>(
-                    update: (_, settingsStore, __) => BalanceStore(
-                        walletService: walletService,
-                        settingsStore: settingsStore,
-                        priceStore: priceStore),
-                  ),
-                  Provider(
-                    create: (_) => SyncStore(walletService: walletService),
-                  ),
-                  Provider(
-                      create: (_) => SendStore(
-                          walletService: walletService,
-                          priceStore: priceStore,
-                          transactionDescriptions: transactionDescriptions)),
-                ], child: SendPage(flashMap: settings.arguments as Map<String,dynamic>)));
+            builder: (_) => MultiProvider(
+                    providers: [
+                      ProxyProvider<SettingsStore, BalanceStore>(
+                        update: (_, settingsStore, __) => BalanceStore(
+                            walletService: walletService,
+                            settingsStore: settingsStore,
+                            priceStore: priceStore),
+                      ),
+                      Provider(
+                        create: (_) => SyncStore(walletService: walletService),
+                      ),
+                      Provider(
+                          create: (_) => SendStore(
+                              walletService: walletService,
+                              priceStore: priceStore,
+                              transactionDescriptions:
+                                  transactionDescriptions)),
+                    ],
+                    child: SendPage(
+                        flashMap: settings.arguments as Map<String, dynamic>)));
 
       case Routes.receive:
         return MaterialPageRoute<void>(
@@ -235,30 +236,17 @@ class Router {
             builder: (_) => TransactionDetailsPage(
                 transactionInfo: settings.arguments as TransactionInfo));
 
-      case Routes.newSubaddress:
+      case Routes.transactionlist:
         return MaterialPageRoute<void>(
-            builder: (_) => Provider(
-                create: (_) =>
-                    SubadrressCreationStore(walletService: walletService),
-                child: NewSubaddressForm()));
-      
-      case  Routes.transactionlist:
-        return MaterialPageRoute<void>(
-          builder: (_)=>createTransactionListPage(
-            walletService: walletService,
+            builder: (_) => createTransactionListPage(
+                walletService: walletService,
                 priceStore: priceStore,
                 settingsStore: settingsStore,
                 transactionDescriptions: transactionDescriptions,
-                walletStore: walletStore
-          ));
-
+                walletStore: walletStore));
 
       case Routes.disclaimer:
         return MaterialPageRoute<void>(builder: (_) => DisclaimerPage());
-
-      case Routes.readDisclaimer:
-        return MaterialPageRoute<void>(
-            builder: (_) => DisclaimerPage(isReadOnly: true));
 
       case Routes.seedLanguage:
         return MaterialPageRoute<void>(builder: (_) => SeedLanguage());
@@ -289,14 +277,16 @@ class Router {
             fullscreenDialog: true,
             transitionDuration: Duration(milliseconds: 0),
             pageBuilder: (_, __, ___) => Provider(
-              create: (_) => AuthStore(
-                  sharedPreferences: sharedPreferences,
-                  userService: userService,
-                  walletService: walletService),
-              child: AuthPage(
-                  onAuthenticationFinished:
-                  settings.arguments as OnAuthenticationFinished,closable: false,),
-            ));
+                  create: (_) => AuthStore(
+                      sharedPreferences: sharedPreferences,
+                      userService: userService,
+                      walletService: walletService),
+                  child: AuthPage(
+                    onAuthenticationFinished:
+                        settings.arguments as OnAuthenticationFinished,
+                    closable: false,
+                  ),
+                ));
 
       case Routes.unlock:
         return PageRouteBuilder<void>(
@@ -335,21 +325,18 @@ class Router {
         });
 
       case Routes.accountList:
-        return MaterialPageRoute<void>(
-            builder: (context) {
-              return MultiProvider(providers: [
-                Provider(
-                    create: (_) =>
-                        AccountListStore(walletService: walletService)),
-              ], child: AccountListPage());
-            });
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(providers: [
+            Provider(
+                create: (_) => AccountListStore(walletService: walletService)),
+          ], child: AccountListPage());
+        });
 
       case Routes.accountCreation:
         return MaterialPageRoute<String>(builder: (context) {
           return Provider(
               create: (_) => AccountListStore(walletService: walletService),
-              child:AccountPage(account: settings.arguments as Account)
-              );
+              child: AccountPage(account: settings.arguments as Account));
         });
 
       case Routes.addressBook:
@@ -403,15 +390,15 @@ class Router {
 
       case Routes.dangerzoneKeys:
         return MaterialPageRoute<void>(builder: (context) {
-          return DangerzonePage(
-            pageTitle: 'Show Keys' ,
+          return DangerZonePage(
+            pageTitle: 'Show Keys',
             nextPage: Routes.showKeys,
           );
         });
 
       case Routes.dangerzoneSeed:
         return MaterialPageRoute<void>(builder: (context) {
-          return DangerzonePage(
+          return DangerZonePage(
             pageTitle: 'Show Seed',
             nextPage: Routes.seed,
           );

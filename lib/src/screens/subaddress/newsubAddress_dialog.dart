@@ -8,9 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 class SubAddressAlert extends StatefulWidget {
-  final SubaddressListStore subAddressListStore;
-
   const SubAddressAlert({Key key, this.subAddressListStore}) : super(key: key);
+  final SubaddressListStore subAddressListStore;
 
   @override
   SubAddressAlertState createState() => SubAddressAlertState();
@@ -56,7 +55,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
     return Provider(
         create: (_) => SubadrressCreationStore(walletService: walletService),
         builder: (context, child) {
-          final subaddressCreationStore =
+          final subAddressCreationStore =
               Provider.of<SubadrressCreationStore>(context, listen: false);
           return Dialog(
             insetPadding: EdgeInsets.all(15),
@@ -101,8 +100,8 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                           } else if (checkSubAddressAlreadyExist(value)) {
                             return S.of(context).subaddressAlreadyExist;
                           } else {
-                            subaddressCreationStore.validateSubaddressName(value);
-                            return subaddressCreationStore.errorMessage;
+                            subAddressCreationStore.validateSubaddressName(value);
+                            return subAddressCreationStore.errorMessage;
                           }
                         }),
                     SizedBox(
@@ -114,7 +113,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                             setState(() {
                               isLoading = true;
                             });
-                            await subaddressCreationStore.add(
+                            await subAddressCreationStore.add(
                                 label: _labelController.text);
                             setState(() {
                               isLoading = false;

@@ -20,23 +20,30 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ButtonTheme(
-        minWidth: double.infinity,
-        height: 56.0,
-        child: FlatButton(
-          onPressed: isDisabled
-              ? onDisabledPressed
-              : onPressed,
-          color: isDisabled ? Theme.of(context).primaryTextTheme.button.backgroundColor:color,//Colors.transparent : color,
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: borderColor),
-              borderRadius: BorderRadius.circular(10.0)),
+    return SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: ElevatedButton(
+          onPressed: isDisabled ? onDisabledPressed : onPressed,
+          style: ElevatedButton.styleFrom(
+            primary: isDisabled
+                ? Theme.of(context).primaryTextTheme.button.backgroundColor
+                : color,
+            padding: EdgeInsets.all(15),
+            shape: RoundedRectangleBorder(
+                side: BorderSide(color: borderColor),
+                borderRadius: BorderRadius.circular(10.0)),
+          ),
           child: Text(text,
               style: TextStyle(
                   fontSize: 16.0,
-                  fontWeight:FontWeight.w700,
-                  color: isDisabled ? Theme.of(context).primaryTextTheme.button.color:Theme.of(context).primaryTextTheme.button.color//Palette.darkGrey : Theme.of(context).primaryTextTheme.button.color
-              )),
+                  fontWeight: FontWeight.bold,
+                  color: isDisabled
+                      ? Theme.of(context).primaryTextTheme.button.color
+                      : Theme.of(context)
+                          .primaryTextTheme
+                          .button
+                          .color //Palette.darkGrey : Theme.of(context).primaryTextTheme.button.color
+                  )),
         ));
   }
 }
@@ -44,11 +51,11 @@ class PrimaryButton extends StatelessWidget {
 class PrimaryButtonNode extends StatelessWidget {
   const PrimaryButtonNode(
       {@required this.onPressed,
-        @required this.text,
-        @required this.color,
-        @required this.borderColor,
-        this.isDisabled = false,
-        this.onDisabledPressed});
+      @required this.text,
+      @required this.color,
+      @required this.borderColor,
+      this.isDisabled = false,
+      this.onDisabledPressed});
 
   final VoidCallback onPressed;
   final VoidCallback onDisabledPressed;
@@ -59,22 +66,29 @@ class PrimaryButtonNode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ButtonTheme(
-        minWidth: double.infinity,
-        height: 56.0,
-        child: FlatButton(
-          onPressed: isDisabled
-              ? onDisabledPressed
-              : onPressed,
-          color: isDisabled ? Theme.of(context).primaryTextTheme.button.backgroundColor:color,//Colors.transparent : color,
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: borderColor),
-              borderRadius: BorderRadius.circular(10.0)),
+    return SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: ElevatedButton(
+          onPressed: isDisabled ? onDisabledPressed : onPressed,
+          style: ElevatedButton.styleFrom(
+            primary: isDisabled
+                ? Theme.of(context).primaryTextTheme.button.backgroundColor
+                : color,
+            padding: EdgeInsets.all(15),
+            shape: RoundedRectangleBorder(
+                side: BorderSide(color: borderColor),
+                borderRadius: BorderRadius.circular(10.0)),
+          ),
           child: Text(text,
               style: TextStyle(
                   fontSize: 16.0,
-                  color: isDisabled ? Theme.of(context).primaryTextTheme.caption.color:Theme.of(context).primaryTextTheme.caption.color//Palette.darkGrey : Theme.of(context).primaryTextTheme.button.color
-              )),
+                  color: isDisabled
+                      ? Theme.of(context).primaryTextTheme.caption.color
+                      : Theme.of(context)
+                          .primaryTextTheme
+                          .caption
+                          .color //Palette.darkGrey : Theme.of(context).primaryTextTheme.button.color
+                  )),
         ));
   }
 }
@@ -97,23 +111,26 @@ class LoadingPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ButtonTheme(
-        minWidth: double.infinity,
-        height: 56.0,
-        child: FlatButton(
-          onPressed: (isLoading || isDisabled) ? null : onPressed,
-          color: color,
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: ElevatedButton(
+        onPressed: (isLoading || isDisabled) ? null : onPressed,
+        style: ElevatedButton.styleFrom(
+          primary: color,
+          padding: EdgeInsets.all(15),
           shape: RoundedRectangleBorder(
               side: BorderSide(color: borderColor),
               borderRadius: BorderRadius.circular(10.0)),
-          child: isLoading
-              ? CupertinoActivityIndicator(animating: true)
-              : Text(text,
-                  style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w900,
-                      color: Theme.of(context).primaryTextTheme.button.color)),
-        ));
+        ),
+        child: isLoading
+            ? CupertinoActivityIndicator(animating: true)
+            : Text(text,
+                style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryTextTheme.button.color)),
+      ),
+    );
   }
 }
 
@@ -138,15 +155,17 @@ class PrimaryIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ButtonTheme(
-        minWidth: double.infinity,
-        height: 56.0,
-        child: FlatButton(
+    return SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: ElevatedButton(
           onPressed: onPressed,
-          color: color,
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: borderColor),
-              borderRadius: BorderRadius.circular(10.0)),
+          style: ElevatedButton.styleFrom(
+            primary: color,
+            padding: EdgeInsets.all(15),
+            shape: RoundedRectangleBorder(
+                side: BorderSide(color: borderColor),
+                borderRadius: BorderRadius.circular(10.0)),
+          ),
           child: Stack(
             children: <Widget>[
               Row(
@@ -195,15 +214,17 @@ class PrimaryImageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ButtonTheme(
-        minWidth: double.infinity,
-        height: 58.0,
-        child: FlatButton(
+    return SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: ElevatedButton(
           onPressed: onPressed,
-          color: color,
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: borderColor),
-              borderRadius: BorderRadius.circular(12.0)),
+          style: ElevatedButton.styleFrom(
+            primary: color,
+            padding: EdgeInsets.all(15),
+            shape: RoundedRectangleBorder(
+                side: BorderSide(color: borderColor),
+                borderRadius: BorderRadius.circular(12.0)),
+          ),
           child: Row(
             children: <Widget>[
               Container(

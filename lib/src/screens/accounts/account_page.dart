@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/account_list/account_list_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
 import 'package:beldex_wallet/src/widgets/beldex_text_field.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
-import 'package:beldex_wallet/src/widgets/scollable_with_bottom_section.dart';
+import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/src/util/constants.dart' as constants;
 
@@ -17,9 +16,8 @@ class AccountPage extends BasePage {
 
   final Account account;
 
-
   @override
-  Widget trailing(BuildContext context){
+  Widget trailing(BuildContext context) {
     return Container();
   }
 
@@ -59,9 +57,12 @@ class AccountFormState extends State<AccountForm> {
   Widget build(BuildContext context) {
     final accountListStore = Provider.of<AccountListStore>(context);
 
-    return 
-    ScrollableWithBottomSection(
-      contentPadding: EdgeInsets.only(top:40,left:constants.leftPx,right: constants.rightPx,bottom: 20),
+    return ScrollableWithBottomSection(
+      contentPadding: EdgeInsets.only(
+          top: 40,
+          left: constants.leftPx,
+          right: constants.rightPx,
+          bottom: 20),
       content: Form(
           key: _formKey,
           child: Container(
@@ -82,8 +83,8 @@ class AccountFormState extends State<AccountForm> {
           )),
       bottomSection: Observer(
           builder: (_) => SizedBox(
-            width: 250,
-            child: LoadingPrimaryButton(
+                width: 250,
+                child: LoadingPrimaryButton(
                   onPressed: () async {
                     if (!_formKey.currentState.validate()) {
                       return;
@@ -91,23 +92,24 @@ class AccountFormState extends State<AccountForm> {
 
                     if (widget.account != null) {
                       await accountListStore.renameAccount(
-                          index: widget.account.id, label: _textController.text);
+                          index: widget.account.id,
+                          label: _textController.text);
                     } else {
                       await accountListStore.addAccount(
                           label: _textController.text);
                     }
                     Navigator.of(context).pop(_textController.text);
                   },
-                  text: widget.account != null ? S.of(context).rename : S.of(context).add,
+                  text: widget.account != null
+                      ? S.of(context).rename
+                      : S.of(context).add,
                   color:
                       Theme.of(context).primaryTextTheme.button.backgroundColor,
                   borderColor:
                       Theme.of(context).primaryTextTheme.button.backgroundColor,
                   isLoading: accountListStore.isAccountCreating,
                 ),
-          )),
+              )),
     );
   }
 }
-
-

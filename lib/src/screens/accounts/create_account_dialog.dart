@@ -94,9 +94,8 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                   children: [
                     Text(
                       S.of(context).addAccount,
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: 20,
@@ -105,7 +104,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                         controller: _textController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
-                          hintText: 'Account name',
+                          hintText: S.of(context).accountName,
                           hintStyle: TextStyle(color: Color(0xff77778B)),
                           contentPadding: EdgeInsets.symmetric(horizontal: 8),
                           border: OutlineInputBorder(
@@ -129,7 +128,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                           }
                         }),
                     SizedBox(
-                      height: 10,
+                      height: 15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,7 +156,9 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                             ),
                           ),
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Expanded(
                           child: MaterialButton(
                             onPressed: () {
@@ -187,7 +188,9 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             child: Text(
-                              widget.account != null ? S.of(context).rename : S.of(context).add,
+                              widget.account != null
+                                  ? S.of(context).rename
+                                  : S.of(context).add,
                               style: TextStyle(
                                   fontSize: 17,
                                   color: Colors.white,

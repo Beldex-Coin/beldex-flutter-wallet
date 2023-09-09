@@ -1,14 +1,13 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/get_height_by_date.dart';
 import 'package:beldex_wallet/src/widgets/nospaceformatter.dart';
-import 'package:beldex_wallet/src/widgets/scollable_with_bottom_section.dart';
+import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-import 'package:beldex_wallet/src/widgets/blockchain_height_widget.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/src/stores/rescan/rescan_wallet_store.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
@@ -17,12 +16,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 //blockheight widget's property
 final dateController = TextEditingController();
 final restoreHeightController = TextEditingController();
+
 int get height => _height;
 int _height = 0;
 bool isRestoreByHeight = true;
 final _formKey = GlobalKey<FormState>();
+
 class RescanPage extends BasePage {
   final blockchainKey = GlobalKey<_BlockHeightSwapingWidgetState>();
+
   @override
   String get title => '${S.current.rescan} wallet';
 
@@ -53,13 +55,13 @@ class RescanPage extends BasePage {
               isLoading: rescanWalletStore.state == RescanWalletState.rescaning,
               text: S.of(context).rescan,
               onPressed: () async {
-                if(_formKey.currentState.validate()){
+                if (_formKey.currentState.validate()) {
                   print('block height ---> $height');
                   await rescanWalletStore.rescanCurrentWallet(
-                 restoreHeight:height);
-                 Navigator.of(context).pop();
-                 restoreHeights(height);
-                }else{
+                      restoreHeight: height);
+                  Navigator.of(context).pop();
+                  restoreHeights(height);
+                } else {
                   return null;
                 }
               },
@@ -69,8 +71,8 @@ class RescanPage extends BasePage {
     );
   }
 
- void restoreHeights(int height)async{
-     final prefs = await SharedPreferences.getInstance();
+  void restoreHeights(int height) async {
+    final prefs = await SharedPreferences.getInstance();
     await prefs.setInt('currentHeight', height);
   }
 }
@@ -98,15 +100,13 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
     super.initState();
   }
 
-
-@override
+  @override
   void dispose() {
-  dateController.text = '';
-restoreHeightController.text = '';
+    dateController.text = '';
+    restoreHeightController.text = '';
 //_height = null;
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -121,9 +121,10 @@ restoreHeightController.text = '';
                   children: <Widget>[
                     Flexible(
                         child: Card(
-                      elevation: 0, //5,
-                      color: Theme.of(context)
-                          .cardColor, //Color.fromARGB(255, 40, 42, 51),
+                      elevation: 0,
+                      //5,
+                      color: Theme.of(context).cardColor,
+                      //Color.fromARGB(255, 40, 42, 51),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                       margin: EdgeInsets.only(top: 20.0),
@@ -144,12 +145,6 @@ restoreHeightController.text = '';
                                     : Color(0xff77778B)),
                             hintText:
                                 S.of(context).widgets_restore_from_blockheight,
-                            /*focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: BeldexPalette.teal, width: 2.0)),
-                        enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Theme.of(context).focusColor, width: 1.0))*/
                           ),
                           validator: (value) {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
@@ -182,16 +177,16 @@ restoreHeightController.text = '';
                   children: <Widget>[
                     Flexible(
                         child: Card(
-                      elevation: 0, //5,
-                      color: Theme.of(context)
-                          .cardColor, //Color.fromARGB(255, 40, 42, 51),
+                      elevation: 0,
+                      //5,
+                      color: Theme.of(context).cardColor,
+                      //Color.fromARGB(255, 40, 42, 51),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                       margin: EdgeInsets.only(top: 20.0),
                       child: Container(
                         padding: EdgeInsets.only(
-                            left: 30, top: 5, bottom: 5, right: 10
-                            ),
+                            left: 30, top: 5, bottom: 5, right: 10),
                         child: InkWell(
                           onTap: () => selectDate(context),
                           child: IgnorePointer(
@@ -211,13 +206,16 @@ restoreHeightController.text = '';
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xff77778B)
                                               : Color(0xff77778B)),
-                                      hintText:
-                                          S.of(context).widgets_restore_from_date,
+                                      hintText: S
+                                          .of(context)
+                                          .widgets_restore_from_date,
                                     ),
                                     controller: dateController,
                                     validator: (value) {
                                       if (value.isEmpty) {
-                                        return S.of(context).dateShouldNotBeEmpty;
+                                        return S
+                                            .of(context)
+                                            .dateShouldNotBeEmpty;
                                       } else {
                                         return null;
                                       }
@@ -236,7 +234,9 @@ restoreHeightController.text = '';
                     ))
                   ],
                 ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Center(
             child: InkWell(
               onTap: () {
@@ -294,6 +294,3 @@ restoreHeightController.text = '';
     }
   }
 }
-
-
-

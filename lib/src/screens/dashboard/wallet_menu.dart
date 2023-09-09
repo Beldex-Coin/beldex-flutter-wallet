@@ -10,11 +10,6 @@ import 'package:provider/provider.dart';
 class WalletMenu {
   WalletMenu(this.context);
 
- /* final List<String> items = [
-    S.current.reconnect,
-    S.current.rescan,
-    S.current.reload_fiat
-  ];*/
   final List<String> items = [
     S.current.reconnect,
     S.current.rescan
@@ -26,14 +21,10 @@ class WalletMenu {
     switch (index) {
       case 0:
         _presentReconnectAlert(context);
-        //Navigator.pop(context);
         break;
       case 1:
         Navigator.of(context).pushNamed(Routes.rescan);
         break;
-     /* case 2:
-        context.read<BalanceStore>().updateFiatBalance();
-        break;*/
     }
   }
 

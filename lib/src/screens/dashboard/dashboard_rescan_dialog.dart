@@ -33,7 +33,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
       insetPadding: EdgeInsets.all(15),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       backgroundColor:
-      settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffFFFFFF),
+          settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffFFFFFF),
       child: Container(
         width: MediaQuery.of(context).size.width,
         margin: EdgeInsets.all(20),
@@ -42,9 +42,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
           children: [
             Text(
               S.of(context).rescan,
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 20,
@@ -55,12 +53,12 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
               color: Color(0xff2979FB),
               height: MediaQuery.of(context).size.height * 0.20 / 3,
               minWidth: MediaQuery.of(context).size.width * 1.3 / 2,
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
               child: Text(
                 S.of(context).reconnectWallet,
                 style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 16,
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
@@ -76,24 +74,30 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
                 canRescan = false;
               }
               return MaterialButton(
-                disabledColor: settingsStore.isDarkTheme ? Color(0xff333343) : Color(0xffE8E8E8),
-                onPressed:canRescan ? () async {
-                  await Navigator.of(context).pushNamed(Routes.rescan);
-                  Navigator.pop(context);
-                } : null,
+                disabledColor: settingsStore.isDarkTheme
+                    ? Color(0xff333343)
+                    : Color(0xffE8E8E8),
+                onPressed: canRescan
+                    ? () async {
+                        await Navigator.of(context).pushNamed(Routes.rescan);
+                        Navigator.pop(context);
+                      }
+                    : null,
                 elevation: 0,
-                color:Color(0xff0BA70F),
+                color: Color(0xff0BA70F),
                 height: MediaQuery.of(context).size.height * 0.20 / 3,
-                minWidth:  MediaQuery.of(context).size.width * 1.3 / 2,
+                minWidth: MediaQuery.of(context).size.width * 1.3 / 2,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 child: Text(
                   S.of(context).rescanWallet,
                   style: TextStyle(
-                      fontSize: 17,
-                      color:canRescan ? Colors.white : settingsStore.isDarkTheme
-                                                    ? Color(0xff6C6C78)
-                                                    : Color(0xffB2B2B6),
+                      fontSize: 16,
+                      color: canRescan
+                          ? Colors.white
+                          : settingsStore.isDarkTheme
+                              ? Color(0xff6C6C78)
+                              : Color(0xffB2B2B6),
                       fontWeight: FontWeight.bold),
                 ),
               );
