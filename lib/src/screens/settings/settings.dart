@@ -128,581 +128,94 @@ class SettingsFormState extends State<SettingsForm> {
               title: S.current.settings_nodes,
             ),
             //Current Node
-            GestureDetector(
-              onTap: () {
-                  Navigator.of(context).pushNamed(Routes.nodeList);
-              },
-              child: Container(
-                padding: EdgeInsets.all(10.0),
-                margin: EdgeInsets.only(
-                    left: 15.0, right: 15.0, top: 10, bottom: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Theme(
+              data: ThemeData(
+                splashColor: Colors.grey,
+                highlightColor:  Colors.grey,
+              ),
+              child: ListTile(
+                contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+                trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,color: Color(0xff3F3F4D),),
+                title: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.alphabetic,
-                      children: [
-                        Text(S.current.settings_current_node,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: MediaQuery.of(context).size.height *
-                                    0.06 /
-                                    3)),
-                        settingsStore.node == null
-                            ? Container()
-                            : Observer(builder: (_) {
-                                return Text(settingsStore.node.uri,
-                                    style: TextStyle(
-                                        color: Color(0xff1BB71F),
-                                        fontSize: 13));
-                              })
-                      ],
-                    ),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 20,
-                      color: Color(0xff3F3F4D),
-                    ),
+                    Text(S.current.settings_current_node,
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: MediaQuery.of(context).size.height *
+                                0.06 /
+                                3, color: Theme.of(context).primaryTextTheme.headline6.color),),
+                    settingsStore.node == null
+                        ? Container()
+                        : Observer(builder: (_) {
+                      return Text(settingsStore.node.uri,
+                          style: TextStyle(
+                              color: Color(0xff1BB71F),
+                              fontSize: 13));
+                    })
                   ],
                 ),
+                onTap: () {
+                  Navigator.of(context).pushNamed(Routes.nodeList);
+                },
               ),
             ),
             //Wallets Header
             NewNavListHeader(title: S.current.settings_wallets),
-            Card(
-              elevation: 0,
-              color: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Column(
-                children: [
-                  //Display Balance as
-                  SettingsTextListRow(
-                    onTaped: () async {
-                      await showDialog<void>(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (BuildContext context) {
-                            return WillPopScope(
-                              onWillPop: () {
-                                return Future.value(false);
-                              },
-                              child: Dialog(
-                                backgroundColor: Colors.transparent,
-                                insetPadding: EdgeInsets.all(15),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height:
-                                      MediaQuery.of(context).size.height *
-                                          0.90 /
-                                          3,
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xff272733)
-                                          : Color(0xffFFFFFF),
-                                      borderRadius:
-                                          BorderRadius.circular(20)),
-                                  child: Stack(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              S.of(context).settings_display_balance_as,
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight:
-                                                      FontWeight.bold),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: ListView.builder(
-                                                itemCount:
-                                                    BalanceDisplayMode
-                                                        .all.length,
-                                                shrinkWrap: true,
-                                                controller:
-                                                    _scrollController,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  return InkWell(
-                                                    onTap: () async {
-                                                      final settingsStore =
-                                                          context.read<
-                                                              SettingsStore>();
-                                                      if (BalanceDisplayMode
-                                                              .all[index] !=
-                                                          null) {
-                                                        await settingsStore.setCurrentBalanceDisplayMode(
-                                                            balanceDisplayMode:
-                                                                BalanceDisplayMode
-                                                                        .all[
-                                                                    index]);
-                                                      }
-                                                      Navigator.pop(
-                                                          context);
-                                                    },
-                                                    child: Card(
-                                                      shape: RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10)),
-                                                      elevation: 0.0,
-                                                      color: settingsStore
-                                                                  .balanceDisplayMode ==
-                                                              BalanceDisplayMode
-                                                                      .all[
-                                                                  index]
-                                                          ? Color(
-                                                              0xff2979FB)
-                                                          : Colors
-                                                              .transparent,
-                                                      child: Container(
-                                                          width:
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width,
-                                                          padding: EdgeInsets
-                                                              .only(
-                                                                  top: 15,
-                                                                  bottom:
-                                                                      15),
-                                                          child: Observer(
-                                                            builder: (_) =>
-                                                                Text(
-                                                              BalanceDisplayMode
-                                                                  .all[
-                                                                      index]
-                                                                  .toString(),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      14,
-                                                                  color: settingsStore.balanceDisplayMode !=
-                                                                          BalanceDisplayMode.all[
-                                                                              index]
-                                                                      ? Colors.grey.withOpacity(
-                                                                          0.6)
-                                                                      : Color(
-                                                                          0xffFFFFFF),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                          )),
-                                                    ),
-                                                  );
-                                                }),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                          margin: EdgeInsets.only(
-                                              top: 7, right: 10),
-                                          alignment: Alignment.topRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Container(
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle),
-                                                child: Icon(Icons.close)),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          });
-                    },
-                    title: S.current.settings_display_balance_as,
-                    widget: Observer(
-                        builder: (_) => Text(
-                              settingsStore.balanceDisplayMode.toString(),
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.height *
-                                          0.06 /
-                                          3,
-                                  fontWeight: FontWeight.w400,
-                                  color: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline6
-                                      .color),
-                            )),
-                  ),
-                  //Decimals
-                  SettingsTextListRow(
-                    onTaped: () async {
-                      await showDialog<void>(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (BuildContext context) {
-                            return WillPopScope(
-                              onWillPop: () {
-                                return Future.value(false);
-                              },
-                              child: Dialog(
-                                backgroundColor: Colors.transparent,
-                                insetPadding: EdgeInsets.all(15),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height:
-                                      MediaQuery.of(context).size.height *
-                                          1 /
-                                          3,
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xff272733)
-                                          : Color(0xffFFFFFF),
-                                      borderRadius:
-                                          BorderRadius.circular(10)),
-                                  child: Stack(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Decimals',
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight:
-                                                      FontWeight.bold),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: DraggableScrollbar.rrect(
-                                              padding: EdgeInsets.only(
-                                                  left: 5,
-                                                  right: 5,
-                                                  top: 10,
-                                                  bottom: 10),
-                                              controller: _scrollController,
-                                              heightScrollThumb: 25,
-                                              alwaysVisibleScrollThumb:
-                                                  false,
-                                              backgroundColor:
-                                                  Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .button
-                                                      .backgroundColor,
-                                              child: ListView.builder(
-                                                  itemCount: AmountDetail
-                                                      .all.length,
-                                                  //shrinkWrap: true,
-                                                  controller:
-                                                      _scrollController,
-                                                  itemBuilder:
-                                                      (BuildContext context,
-                                                          int index) {
-                                                    return decimalFilter ==
-                                                                null ||
-                                                            decimalFilter ==
-                                                                ''
-                                                        ? decimalDropDownListItem(
-                                                            settingsStore,
-                                                            index)
-                                                        : '${AmountDetail.all[index]}'
-                                                                .toLowerCase()
-                                                                .contains(
-                                                                    decimalFilter
-                                                                        .toLowerCase())
-                                                            ? decimalDropDownListItem(
-                                                                settingsStore,
-                                                                index)
-                                                            : Container();
-                                                  }),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                          margin: EdgeInsets.only(
-                                              top: 7, right: 10),
-                                          alignment: Alignment.topRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Container(
-                                                decoration: BoxDecoration(
-                                                    shape: BoxShape.circle),
-                                                child: Icon(Icons.close)),
-                                          ))
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            );
-                          });
-                    },
-                    title: S.current.settings_balance_detail,
-                    widget: Observer(
-                        builder: (_) => Text(
-                              settingsStore.balanceDetail.toString(),
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.height *
-                                          0.06 /
-                                          3,
-                                  fontWeight: FontWeight.w400,
-                                  color: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline6
-                                      .color),
-                            )),
-                  ),
-                  //Enable fiat currency conversation
-                  SettingsSwitchListRow(
-                    title: S.current.settings_enable_fiat_currency,
-                  ),
-                  //Currency
-                  SettingsTextListRow(
-                    onTaped: () async {
-                      await showDialog<void>(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (BuildContext context) =>
-                              StatefulBuilder(builder:
-                                  (BuildContext context,
-                                      StateSetter setState) {
-                                _searchCurrencySetState = setState;
-                                return WillPopScope(
-                                  onWillPop: () {
-                                    return Future.value(false);
-                                  },
-                                  child: Dialog(
-                                    backgroundColor: Colors.transparent,
-                                    insetPadding: EdgeInsets.all(15),
-                                    child: Container(
-                                      width:
-                                          MediaQuery.of(context).size.width,
-                                      height: MediaQuery.of(context)
-                                              .size
-                                              .height *
-                                          1 /
-                                          3,
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          color: settingsStore.isDarkTheme
-                                              ? Color(0xff272733)
-                                              : Color(0xffFFFFFF),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Stack(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  'Currency',
-                                                  style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold,
-                                                  ),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.all(8.0),
-                                                child: TextField(
-                                                  controller:
-                                                      searchCurrencyController,
-                                                  decoration:
-                                                      InputDecoration(
-                                                    hintText:
-                                                        'Search Currency',
-                                                    suffixIcon: IconButton(
-                                                        icon: Icon(
-                                                          Icons.close,
-                                                          color: settingsStore
-                                                                  .isDarkTheme
-                                                              ? Color(
-                                                                  0xffffffff)
-                                                              : Color(
-                                                                  0xff171720),
-                                                        ),
-                                                        onPressed: () {
-                                                          searchCurrencyController
-                                                              .clear();
-                                                        }),
-                                                    contentPadding:
-                                                        EdgeInsets.fromLTRB(
-                                                            20.0,
-                                                            15.0,
-                                                            20.0,
-                                                            15.0),
-                                                    border: OutlineInputBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                    10.0)),
-                                                    focusedBorder:
-                                                        OutlineInputBorder(
-                                                      borderRadius:
-                                                          BorderRadius
-                                                              .circular(10),
-                                                      borderSide:
-                                                          BorderSide(
-                                                        color: Color(
-                                                            0xff2979FB),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Expanded(
-                                                child: Container(
-                                                    padding:
-                                                        EdgeInsets.only(
-                                                            right: 10),
-                                                    child: Observer(
-                                                      builder: (_) {
-                                                        return RawScrollbar(
-                                                          controller:
-                                                              _scrollController,
-                                                          thickness: 8,
-                                                          thumbColor: settingsStore
-                                                                  .isDarkTheme
-                                                              ? Color(
-                                                                  0xff3A3A45)
-                                                              : Color(
-                                                                  0xffC2C2C2),
-                                                          radius: Radius
-                                                              .circular(
-                                                                  10.0),
-                                                          isAlwaysShown:
-                                                              true,
-                                                          child: ListView
-                                                              .builder(
-                                                                  itemCount:
-                                                                      FiatCurrency
-                                                                          .all
-                                                                          .length,
-                                                                  //shrinkWrap: true,
-                                                                  controller:
-                                                                      _scrollController,
-                                                                  itemBuilder:
-                                                                      (BuildContext context,
-                                                                          int index) {
-                                                                    return currencyFilter == null ||
-                                                                            currencyFilter == ''
-                                                                        ? currencyDropDownListItem(settingsStore, index)
-                                                                        : '${FiatCurrency.all[index]}'.toLowerCase().contains(currencyFilter.toLowerCase())
-                                                                            ? currencyDropDownListItem(settingsStore, index)
-                                                                            : Container();
-                                                                  }),
-                                                        );
-                                                      },
-                                                    )),
-                                              ),
-                                            ],
-                                          ),
-                                          Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 7, right: 10),
-                                              alignment: Alignment.topRight,
-                                              child: InkWell(
-                                                onTap: () {
-                                                  searchCurrencyController
-                                                      .clear();
-                                                  Navigator.pop(context);
-                                                },
-                                                child: Container(
-                                                    child:
-                                                        Icon(Icons.close)),
-                                              ))
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }));
-                    },
-                    title: S.current.settings_currency,
-                    widget: Observer(
-                        builder: (_) => Text(
-                              settingsStore.fiatCurrency.toString(),
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.height *
-                                          0.06 /
-                                          3,
-                                  fontWeight: FontWeight.w400,
-                                  color: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline6
-                                      .color),
-                            )),
-                  ),
-                  //Fee priority
-                  SettingsTextListRow(
-                    onTaped: () async {
-                      await showDialog<void>(
-                          barrierDismissible: false,
-                          context: context,
-                          builder: (BuildContext context) {
-                            return WillPopScope(
-                              onWillPop: () {
-                                return Future.value(false);
-                              },
-                              child: Dialog(
-                                backgroundColor: Colors.transparent,
-                                insetPadding: EdgeInsets.all(15),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  height:
-                                      MediaQuery.of(context).size.height *
-                                          0.70 /
-                                          3,
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xff272733)
-                                          : Color(0xffFFFFFF),
-                                      borderRadius:
-                                          BorderRadius.circular(10)),
-                                  child: Stack(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Fee Priority',
-                                              style: TextStyle(
+            Column(
+              children: [
+                //Display Balance as
+                SettingsTextListRow(
+                  onTaped: () async {
+                    await showDialog<void>(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return WillPopScope(
+                            onWillPop: () {
+                              return Future.value(false);
+                            },
+                            child: Dialog(
+                              backgroundColor: Colors.transparent,
+                              insetPadding: EdgeInsets.all(15),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.height *
+                                        0.90 /
+                                        3,
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff272733)
+                                        : Color(0xffFFFFFF),
+                                    borderRadius:
+                                        BorderRadius.circular(20)),
+                                child: Stack(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            S.of(context).settings_display_balance_as,
+                                            style: TextStyle(
                                                 fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
+                                                fontWeight:
+                                                    FontWeight.bold),
                                           ),
-                                          ListView.builder(
+                                        ),
+                                        Expanded(
+                                          child: ListView.builder(
                                               itemCount:
-                                                  BeldexTransactionPriority
+                                                  BalanceDisplayMode
                                                       .all.length,
                                               shrinkWrap: true,
-                                              controller: _scrollController,
+                                              controller:
+                                                  _scrollController,
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
@@ -711,300 +224,764 @@ class SettingsFormState extends State<SettingsForm> {
                                                     final settingsStore =
                                                         context.read<
                                                             SettingsStore>();
-                                                    if (BeldexTransactionPriority
+                                                    if (BalanceDisplayMode
                                                             .all[index] !=
                                                         null) {
-                                                      await settingsStore
-                                                          .setCurrentTransactionPriority(
-                                                              priority:
-                                                                  BeldexTransactionPriority
-                                                                          .all[
-                                                                      index]);
-                                                    }
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsets.only(
-                                                            left: 20.0,
-                                                            right: 20.0),
-                                                    child: Card(
-                                                      shape: RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10)),
-                                                      elevation:
-                                                          0.0,
-                                                      color: settingsStore
-                                                                  .transactionPriority ==
-                                                              BeldexTransactionPriority
+                                                      await settingsStore.setCurrentBalanceDisplayMode(
+                                                          balanceDisplayMode:
+                                                              BalanceDisplayMode
                                                                       .all[
-                                                                  index]
-                                                          ? Color(
-                                                              0xff2979FB)
-                                                          : Colors
-                                                              .transparent,
-                                                      child: Container(
-                                                          width:
-                                                              MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width,
-                                                          padding: EdgeInsets
-                                                              .only(
-                                                                  top: 15,
-                                                                  bottom:
-                                                                      15),
-                                                          child: Observer(
-                                                            builder: (_) =>
-                                                                Text(
-                                                              BeldexTransactionPriority
-                                                                  .all[
-                                                                      index]
-                                                                  .toString(),
-                                                              textAlign:
-                                                                  TextAlign
-                                                                      .center,
-                                                              style: TextStyle(
-                                                                  fontSize:
-                                                                      14,
-                                                                  color: settingsStore.transactionPriority !=
-                                                                          BeldexTransactionPriority.all[
-                                                                              index]
-                                                                      ? Colors.grey.withOpacity(
-                                                                          0.6)
-                                                                      : Color(
-                                                                          0xffffffff),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold),
-                                                            ),
-                                                          )),
-                                                    ),
+                                                                  index]);
+                                                    }
+                                                    Navigator.pop(
+                                                        context);
+                                                  },
+                                                  child: Card(
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    10)),
+                                                    elevation: 0.0,
+                                                    color: settingsStore
+                                                                .balanceDisplayMode ==
+                                                            BalanceDisplayMode
+                                                                    .all[
+                                                                index]
+                                                        ? Color(
+                                                            0xff2979FB)
+                                                        : Colors
+                                                            .transparent,
+                                                    child: Container(
+                                                        width:
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width,
+                                                        padding: EdgeInsets
+                                                            .only(
+                                                                top: 15,
+                                                                bottom:
+                                                                    15),
+                                                        child: Observer(
+                                                          builder: (_) =>
+                                                              Text(
+                                                            BalanceDisplayMode
+                                                                .all[
+                                                                    index]
+                                                                .toString(),
+                                                            textAlign:
+                                                                TextAlign
+                                                                    .center,
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    14,
+                                                                color: settingsStore.balanceDisplayMode !=
+                                                                        BalanceDisplayMode.all[
+                                                                            index]
+                                                                    ? Colors.grey.withOpacity(
+                                                                        0.6)
+                                                                    : Color(
+                                                                        0xffFFFFFF),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        )),
                                                   ),
                                                 );
                                               }),
-                                        ],
-                                      ),
-                                      Container(
-                                          margin: EdgeInsets.only(
-                                              top: 7, right: 10),
-                                          alignment: Alignment.topRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: Icon(Icons.close),
-                                          ))
-                                    ],
-                                  ),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                        margin: EdgeInsets.only(
+                                            top: 7, right: 10),
+                                        alignment: Alignment.topRight,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle),
+                                              child: Icon(Icons.close)),
+                                        ))
+                                  ],
                                 ),
                               ),
-                            );
-                          });
-                    },
-                    title: S.current.settings_fee_priority,
-                    widget: Observer(
-                        builder: (_) => Text(
-                              settingsStore.transactionPriority.toString(),
-                              textAlign: TextAlign.right,
-                              style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.height *
-                                          0.06 /
-                                          3,
-                                  fontWeight: FontWeight.w400,
-                                  color: Theme.of(context)
-                                      .primaryTextTheme
-                                      .headline6
-                                      .color),
-                            )),
-                  ),
-                  //Save recipient address
-                  SettingsSwitchListRow(
-                    title: S.current.settings_save_recipient_address,
-                  ),
-                ],
-              ),
+                            ),
+                          );
+                        });
+                  },
+                  title: S.current.settings_display_balance_as,
+                  widget: Observer(
+                      builder: (_) => Text(
+                            settingsStore.balanceDisplayMode.toString(),
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.height *
+                                        0.06 /
+                                        3,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline6
+                                    .color),
+                          )),
+                ),
+                //Decimals
+                SettingsTextListRow(
+                  onTaped: () async {
+                    await showDialog<void>(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return WillPopScope(
+                            onWillPop: () {
+                              return Future.value(false);
+                            },
+                            child: Dialog(
+                              backgroundColor: Colors.transparent,
+                              insetPadding: EdgeInsets.all(15),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.height *
+                                        1 /
+                                        3,
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff272733)
+                                        : Color(0xffFFFFFF),
+                                    borderRadius:
+                                        BorderRadius.circular(10)),
+                                child: Stack(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Decimals',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight:
+                                                    FontWeight.bold),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: DraggableScrollbar.rrect(
+                                            padding: EdgeInsets.only(
+                                                left: 5,
+                                                right: 5,
+                                                top: 10,
+                                                bottom: 10),
+                                            controller: _scrollController,
+                                            heightScrollThumb: 25,
+                                            alwaysVisibleScrollThumb:
+                                                false,
+                                            backgroundColor:
+                                                Theme.of(context)
+                                                    .primaryTextTheme
+                                                    .button
+                                                    .backgroundColor,
+                                            child: ListView.builder(
+                                                itemCount: AmountDetail
+                                                    .all.length,
+                                                //shrinkWrap: true,
+                                                controller:
+                                                    _scrollController,
+                                                itemBuilder:
+                                                    (BuildContext context,
+                                                        int index) {
+                                                  return decimalFilter ==
+                                                              null ||
+                                                          decimalFilter ==
+                                                              ''
+                                                      ? decimalDropDownListItem(
+                                                          settingsStore,
+                                                          index)
+                                                      : '${AmountDetail.all[index]}'
+                                                              .toLowerCase()
+                                                              .contains(
+                                                                  decimalFilter
+                                                                      .toLowerCase())
+                                                          ? decimalDropDownListItem(
+                                                              settingsStore,
+                                                              index)
+                                                          : Container();
+                                                }),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                        margin: EdgeInsets.only(
+                                            top: 7, right: 10),
+                                        alignment: Alignment.topRight,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle),
+                                              child: Icon(Icons.close)),
+                                        ))
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                  title: S.current.settings_balance_detail,
+                  widget: Observer(
+                      builder: (_) => Text(
+                            settingsStore.balanceDetail.toString(),
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.height *
+                                        0.06 /
+                                        3,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline6
+                                    .color),
+                          )),
+                ),
+                //Enable fiat currency conversation
+                SettingsSwitchListRow(
+                  title: S.current.settings_enable_fiat_currency,
+                ),
+                //Currency
+                SettingsTextListRow(
+                  onTaped: () async {
+                    await showDialog<void>(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) =>
+                            StatefulBuilder(builder:
+                                (BuildContext context,
+                                    StateSetter setState) {
+                              _searchCurrencySetState = setState;
+                              return WillPopScope(
+                                onWillPop: () {
+                                  return Future.value(false);
+                                },
+                                child: Dialog(
+                                  backgroundColor: Colors.transparent,
+                                  insetPadding: EdgeInsets.all(15),
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context)
+                                            .size
+                                            .height *
+                                        1 /
+                                        3,
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xff272733)
+                                            : Color(0xffFFFFFF),
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Stack(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Currency',
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight:
+                                                      FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  EdgeInsets.all(8.0),
+                                              child: TextField(
+                                                controller:
+                                                    searchCurrencyController,
+                                                decoration:
+                                                    InputDecoration(
+                                                  hintText:
+                                                      'Search Currency',
+                                                  suffixIcon: IconButton(
+                                                      icon: Icon(
+                                                        Icons.close,
+                                                        color: settingsStore
+                                                                .isDarkTheme
+                                                            ? Color(
+                                                                0xffffffff)
+                                                            : Color(
+                                                                0xff171720),
+                                                      ),
+                                                      onPressed: () {
+                                                        searchCurrencyController
+                                                            .clear();
+                                                      }),
+                                                  contentPadding:
+                                                      EdgeInsets.fromLTRB(
+                                                          20.0,
+                                                          15.0,
+                                                          20.0,
+                                                          15.0),
+                                                  border: OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                                  10.0)),
+                                                  focusedBorder:
+                                                      OutlineInputBorder(
+                                                    borderRadius:
+                                                        BorderRadius
+                                                            .circular(10),
+                                                    borderSide:
+                                                        BorderSide(
+                                                      color: Color(
+                                                          0xff2979FB),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                  padding:
+                                                      EdgeInsets.only(
+                                                          right: 10),
+                                                  child: Observer(
+                                                    builder: (_) {
+                                                      return RawScrollbar(
+                                                        controller:
+                                                            _scrollController,
+                                                        thickness: 8,
+                                                        thumbColor: settingsStore
+                                                                .isDarkTheme
+                                                            ? Color(
+                                                                0xff3A3A45)
+                                                            : Color(
+                                                                0xffC2C2C2),
+                                                        radius: Radius
+                                                            .circular(
+                                                                10.0),
+                                                        isAlwaysShown:
+                                                            true,
+                                                        child: ListView
+                                                            .builder(
+                                                                itemCount:
+                                                                    FiatCurrency
+                                                                        .all
+                                                                        .length,
+                                                                //shrinkWrap: true,
+                                                                controller:
+                                                                    _scrollController,
+                                                                itemBuilder:
+                                                                    (BuildContext context,
+                                                                        int index) {
+                                                                  return currencyFilter == null ||
+                                                                          currencyFilter == ''
+                                                                      ? currencyDropDownListItem(settingsStore, index)
+                                                                      : '${FiatCurrency.all[index]}'.toLowerCase().contains(currencyFilter.toLowerCase())
+                                                                          ? currencyDropDownListItem(settingsStore, index)
+                                                                          : Container();
+                                                                }),
+                                                      );
+                                                    },
+                                                  )),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                            margin: EdgeInsets.only(
+                                                top: 7, right: 10),
+                                            alignment: Alignment.topRight,
+                                            child: InkWell(
+                                              onTap: () {
+                                                searchCurrencyController
+                                                    .clear();
+                                                Navigator.pop(context);
+                                              },
+                                              child: Container(
+                                                  child:
+                                                      Icon(Icons.close)),
+                                            ))
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }));
+                  },
+                  title: S.current.settings_currency,
+                  widget: Observer(
+                      builder: (_) => Text(
+                            settingsStore.fiatCurrency.toString(),
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.height *
+                                        0.06 /
+                                        3,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline6
+                                    .color),
+                          )),
+                ),
+                //Fee priority
+                SettingsTextListRow(
+                  onTaped: () async {
+                    await showDialog<void>(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (BuildContext context) {
+                          return WillPopScope(
+                            onWillPop: () {
+                              return Future.value(false);
+                            },
+                            child: Dialog(
+                              backgroundColor: Colors.transparent,
+                              insetPadding: EdgeInsets.all(15),
+                              child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                height:
+                                    MediaQuery.of(context).size.height *
+                                        0.70 /
+                                        3,
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff272733)
+                                        : Color(0xffFFFFFF),
+                                    borderRadius:
+                                        BorderRadius.circular(10)),
+                                child: Stack(
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Fee Priority',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                        ListView.builder(
+                                            itemCount:
+                                                BeldexTransactionPriority
+                                                    .all.length,
+                                            shrinkWrap: true,
+                                            controller: _scrollController,
+                                            itemBuilder:
+                                                (BuildContext context,
+                                                    int index) {
+                                              return InkWell(
+                                                onTap: () async {
+                                                  final settingsStore =
+                                                      context.read<
+                                                          SettingsStore>();
+                                                  if (BeldexTransactionPriority
+                                                          .all[index] !=
+                                                      null) {
+                                                    await settingsStore
+                                                        .setCurrentTransactionPriority(
+                                                            priority:
+                                                                BeldexTransactionPriority
+                                                                        .all[
+                                                                    index]);
+                                                  }
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      EdgeInsets.only(
+                                                          left: 20.0,
+                                                          right: 20.0),
+                                                  child: Card(
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(
+                                                                    10)),
+                                                    elevation:
+                                                        0.0,
+                                                    color: settingsStore
+                                                                .transactionPriority ==
+                                                            BeldexTransactionPriority
+                                                                    .all[
+                                                                index]
+                                                        ? Color(
+                                                            0xff2979FB)
+                                                        : Colors
+                                                            .transparent,
+                                                    child: Container(
+                                                        width:
+                                                            MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width,
+                                                        padding: EdgeInsets
+                                                            .only(
+                                                                top: 15,
+                                                                bottom:
+                                                                    15),
+                                                        child: Observer(
+                                                          builder: (_) =>
+                                                              Text(
+                                                            BeldexTransactionPriority
+                                                                .all[
+                                                                    index]
+                                                                .toString(),
+                                                            textAlign:
+                                                                TextAlign
+                                                                    .center,
+                                                            style: TextStyle(
+                                                                fontSize:
+                                                                    14,
+                                                                color: settingsStore.transactionPriority !=
+                                                                        BeldexTransactionPriority.all[
+                                                                            index]
+                                                                    ? Colors.grey.withOpacity(
+                                                                        0.6)
+                                                                    : Color(
+                                                                        0xffffffff),
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold),
+                                                          ),
+                                                        )),
+                                                  ),
+                                                ),
+                                              );
+                                            }),
+                                      ],
+                                    ),
+                                    Container(
+                                        margin: EdgeInsets.only(
+                                            top: 7, right: 10),
+                                        alignment: Alignment.topRight,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Icon(Icons.close),
+                                        ))
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                  title: S.current.settings_fee_priority,
+                  widget: Observer(
+                      builder: (_) => Text(
+                            settingsStore.transactionPriority.toString(),
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.height *
+                                        0.06 /
+                                        3,
+                                fontWeight: FontWeight.w400,
+                                color: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline6
+                                    .color),
+                          )),
+                ),
+                //Save recipient address
+                SettingsSwitchListRow(
+                  title: S.current.settings_save_recipient_address,
+                ),
+              ],
             ),
             //Personal Header
             NewNavListHeader(title: S.current.settings_personal),
-            Card(
-              elevation: 0,
-              color: Colors.transparent,
-              child: Column(
-                children: [
-                  //Change PIN
-                  Theme(
-                    data: ThemeData(
-                      splashColor: Colors.grey,
-                      highlightColor: Colors.grey,
-                    ),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
-                      title: Text(S.current.settings_change_pin,
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.height * 0.06 / 3,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline6
-                                  .color)),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 20,
-                        color: Color(0xff3F3F4D),
-                      ),
-                      onTap: () {
-                          Navigator.of(context).pushNamed(Routes.auth,
-                              arguments: (bool isAuthenticatedSuccessfully,
-                                      AuthPageState auth) =>
-                                  isAuthenticatedSuccessfully
-                                      ? Navigator.of(context).popAndPushNamed(
-                                          Routes.setupPin,
-                                          arguments:
-                                              (BuildContext setupPinContext,
-                                                      String _) =>
-                                                  Navigator.of(context).pop())
-                                      : null);
-                      },
-                    ),
+            Column(
+              children: [
+                //Change PIN
+                Theme(
+                  data: ThemeData(
+                    splashColor: Colors.grey,
+                    highlightColor: Colors.grey,
                   ),
-                  //Change Language
-                  Theme(
-                    data: ThemeData(
-                      splashColor: Colors.grey,
-                      highlightColor: Colors.grey,
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    title: Text(S.current.settings_change_pin,
+                        style: TextStyle(
+                            fontSize:
+                                MediaQuery.of(context).size.height * 0.06 / 3,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context)
+                                .primaryTextTheme
+                                .headline6
+                                .color)),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 20,
+                      color: Color(0xff3F3F4D),
                     ),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
-                      title: Text(S.current.change_language,
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.height * 0.06 / 3,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline6
-                                  .color)),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 20,
-                        color: Color(0xff3F3F4D),
-                      ),
-                      onTap: () {
-                          Navigator.pushNamed(context, Routes.changeLanguage);
-                      },
+                    onTap: () {
+                        Navigator.of(context).pushNamed(Routes.auth,
+                            arguments: (bool isAuthenticatedSuccessfully,
+                                    AuthPageState auth) =>
+                                isAuthenticatedSuccessfully
+                                    ? Navigator.of(context).popAndPushNamed(
+                                        Routes.setupPin,
+                                        arguments:
+                                            (BuildContext setupPinContext,
+                                                    String _) =>
+                                                Navigator.of(context).pop())
+                                    : null);
+                    },
+                  ),
+                ),
+                //Change Language
+                Theme(
+                  data: ThemeData(
+                    splashColor: Colors.grey,
+                    highlightColor: Colors.grey,
+                  ),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    title: Text(S.current.change_language,
+                        style: TextStyle(
+                            fontSize:
+                                MediaQuery.of(context).size.height * 0.06 / 3,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context)
+                                .primaryTextTheme
+                                .headline6
+                                .color)),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 20,
+                      color: Color(0xff3F3F4D),
                     ),
+                    onTap: () {
+                        Navigator.pushNamed(context, Routes.changeLanguage);
+                    },
                   ),
-                  //Allow biometric authentication
-                  SettingsSwitchListRow(
-                    title: Platform.isAndroid
-                        ? S.current.settings_allow_biometric_authentication
-                        : _availableBiometrics.contains(BiometricType.face)
-                            ? S.current.allowFaceIdAuthentication
-                            : S.current.settings_allow_biometric_authentication,
-                  ),
-                  //Dark mode
-                  SettingsSwitchListRow(
-                    title: S.current.settings_dark_mode,
-                  ),
-                ],
-              ),
+                ),
+                //Allow biometric authentication
+                SettingsSwitchListRow(
+                  title: Platform.isAndroid
+                      ? S.current.settings_allow_biometric_authentication
+                      : _availableBiometrics.contains(BiometricType.face)
+                          ? S.current.allowFaceIdAuthentication
+                          : S.current.settings_allow_biometric_authentication,
+                ),
+                //Dark mode
+                SettingsSwitchListRow(
+                  title: S.current.settings_dark_mode,
+                ),
+              ],
             ),
             //Support Header
             NewNavListHeader(title: S.current.settings_support),
-            Card(
-              elevation: 0,
-              color: Colors.transparent,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Column(
-                children: [
-                  Theme(
-                    data: ThemeData(
-                      splashColor: Colors.grey,
-                      highlightColor: Colors.grey,
-                    ),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
-                      title: Text(S.current.settings_terms_and_conditions,
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.height * 0.06 / 3,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline6
-                                  .color)),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 20,
-                        color: Color(0xff3F3F4D),
-                      ),
-                      onTap: () {
-                          Navigator.pushNamed(context, Routes.disclaimer);
-                      },
-                    ),
+            Column(
+              children: [
+                Theme(
+                  data: ThemeData(
+                    splashColor: Colors.grey,
+                    highlightColor: Colors.grey,
                   ),
-                  //FAQ
-                  Theme(
-                    data: ThemeData(
-                      splashColor: Colors.grey,
-                      highlightColor: Colors.grey,
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    title: Text(S.current.settings_terms_and_conditions,
+                        style: TextStyle(
+                            fontSize:
+                                MediaQuery.of(context).size.height * 0.06 / 3,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context)
+                                .primaryTextTheme
+                                .headline6
+                                .color)),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 20,
+                      color: Color(0xff3F3F4D),
                     ),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
-                      title: Text(S.current.faq,
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.height * 0.06 / 3,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline6
-                                  .color)),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 20,
-                        color: Color(0xff3F3F4D),
-                      ),
-                      onTap: () {
-                          Navigator.pushNamed(context, Routes.faq);
-                      },
-                    ),
+                    onTap: () {
+                        Navigator.pushNamed(context, Routes.disclaimer);
+                    },
                   ),
-                  //Channel log
-                  Theme(
-                    data: ThemeData(
-                      splashColor: Colors.grey,
-                      highlightColor: Colors.grey,
-                    ),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
-                      title: Text(S.current.changelog,
-                          style: TextStyle(
-                              fontSize:
-                                  MediaQuery.of(context).size.height * 0.06 / 3,
-                              fontWeight: FontWeight.w400,
-                              color: Theme.of(context)
-                                  .primaryTextTheme
-                                  .headline6
-                                  .color)),
-                      trailing: Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 20,
-                        color: Color(0xff3F3F4D),
-                      ),
-                      onTap: () {
-                          Navigator.pushNamed(context, Routes.changelog);
-                      },
-                    ),
+                ),
+                //FAQ
+                Theme(
+                  data: ThemeData(
+                    splashColor: Colors.grey,
+                    highlightColor: Colors.grey,
                   ),
-                ],
-              ),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    title: Text(S.current.faq,
+                        style: TextStyle(
+                            fontSize:
+                                MediaQuery.of(context).size.height * 0.06 / 3,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context)
+                                .primaryTextTheme
+                                .headline6
+                                .color)),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 20,
+                      color: Color(0xff3F3F4D),
+                    ),
+                    onTap: () {
+                        Navigator.pushNamed(context, Routes.faq);
+                    },
+                  ),
+                ),
+                //Channel log
+                Theme(
+                  data: ThemeData(
+                    splashColor: Colors.grey,
+                    highlightColor: Colors.grey,
+                  ),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    title: Text(S.current.changelog,
+                        style: TextStyle(
+                            fontSize:
+                                MediaQuery.of(context).size.height * 0.06 / 3,
+                            fontWeight: FontWeight.w400,
+                            color: Theme.of(context)
+                                .primaryTextTheme
+                                .headline6
+                                .color)),
+                    trailing: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 20,
+                      color: Color(0xff3F3F4D),
+                    ),
+                    onTap: () {
+                        Navigator.pushNamed(context, Routes.changelog);
+                    },
+                  ),
+                ),
+              ],
             ),
             Container(
               width: double.infinity,
