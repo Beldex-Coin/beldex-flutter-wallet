@@ -306,11 +306,22 @@ class Router {
               child: NodeListPage());
         });
 
-      case Routes.newNode:
+      /*case Routes.newNode:
         return MaterialPageRoute<void>(
             builder: (_) => Provider<NodeListStore>(
                 create: (_) => NodeListStore(nodesSource: nodes),
-                child: NewNodePage()));
+                child: NewNodePage()));*/
+
+      case Routes.newNode:
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              Provider(create: (_) =>NodeListStore(nodesSource: nodes)),
+              ChangeNotifierProvider<NewNodePageChangeNotifier>(create: (_) => NewNodePageChangeNotifier())
+            ],
+            child: NewNodePage(),
+          );
+        });
 
       case Routes.login:
         return MaterialPageRoute<void>(builder: (context) {

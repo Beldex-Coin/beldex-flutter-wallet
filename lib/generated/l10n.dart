@@ -3584,6 +3584,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please add a mainnet node`
+  String get pleaseAddAMainnetNode {
+    return Intl.message(
+      'Please add a mainnet node',
+      name: 'pleaseAddAMainnetNode',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

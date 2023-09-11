@@ -228,6 +228,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pending" : MessageLookupByLibrary.simpleMessage(" (en attente)"),
     "pin_is_incorrect" : MessageLookupByLibrary.simpleMessage("Le code PIN est faux"),
     "playStore" : MessageLookupByLibrary.simpleMessage("Play Store"),
+    "pleaseAddAMainnetNode" : MessageLookupByLibrary.simpleMessage("Veuillez ajouter un nœud de réseau principal"),
     "pleaseEnterAAmount" : MessageLookupByLibrary.simpleMessage("Veuillez saisir un montant"),
     "pleaseEnterABdxAddress" : MessageLookupByLibrary.simpleMessage("Veuillez entrer une adresse bdx"),
     "pleaseEnterAValidAmount" : MessageLookupByLibrary.simpleMessage("Veuillez entrer un montant valide"),

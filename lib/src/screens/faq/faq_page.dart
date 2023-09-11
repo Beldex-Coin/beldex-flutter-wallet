@@ -12,7 +12,7 @@ class FaqPage extends BasePage {
 
   @override
   Widget trailing(BuildContext context) {
-    return Icon(Icons.settings, color: Colors.transparent);
+    return Container();
   }
 
   @override

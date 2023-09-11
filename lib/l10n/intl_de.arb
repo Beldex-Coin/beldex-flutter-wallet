@@ -421,5 +421,6 @@
   "playStore": "Play Store",
   "appstore": "AppStore",
   "allowFaceIdAuthentication": "Gesichts-ID-Authentifizierung zulassen",
-  "enterAddress": "Adresse eingeben"
+  "enterAddress": "Adresse eingeben",
+  "pleaseAddAMainnetNode": "Bitte fügen Sie einen Mainnet-Knoten hinzu"
 }

@@ -228,6 +228,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "pending" : MessageLookupByLibrary.simpleMessage(" (pending)"),
     "pin_is_incorrect" : MessageLookupByLibrary.simpleMessage("PIN is incorrect"),
     "playStore" : MessageLookupByLibrary.simpleMessage("Play Store"),
+    "pleaseAddAMainnetNode" : MessageLookupByLibrary.simpleMessage("Please add a mainnet node"),
     "pleaseEnterAAmount" : MessageLookupByLibrary.simpleMessage("Please enter a amount"),
     "pleaseEnterABdxAddress" : MessageLookupByLibrary.simpleMessage("Please enter a bdx address"),
     "pleaseEnterAValidAmount" : MessageLookupByLibrary.simpleMessage("Please enter a valid amount"),

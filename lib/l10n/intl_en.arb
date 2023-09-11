@@ -422,5 +422,6 @@
   "playStore": "Play Store",
   "appstore": "AppStore",
   "allowFaceIdAuthentication": "Allow face id authentication",
-  "enterAddress": "Enter Address"
+  "enterAddress": "Enter Address",
+  "pleaseAddAMainnetNode": "Please add a mainnet node"
 }

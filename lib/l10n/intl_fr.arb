@@ -422,5 +422,6 @@
   "playStore": "Play Store",
   "appstore": "AppStore",
   "allowFaceIdAuthentication": "Autoriser l'authentification par identification faciale",
-  "enterAddress": "Entrer l'adresse"
+  "enterAddress": "Entrer l'adresse",
+  "pleaseAddAMainnetNode": "Veuillez ajouter un nœud de réseau principal"
 }
