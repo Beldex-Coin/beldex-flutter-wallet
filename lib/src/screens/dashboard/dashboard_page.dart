@@ -107,13 +107,14 @@ class DashboardPage extends BasePage {
     final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
         height: MediaQuery.of(context).size.height * 0.35 / 3,
-        width: double.infinity,
+        width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             color: settingsStore.isDarkTheme
                 ? Color(0xff24242F)
                 : Color(0xffEDEDED)),
-        padding: EdgeInsets.all(15),
-        child: Row(
+        child: Container(
+          margin:EdgeInsets.only(left:15,right:15),
+            child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
@@ -137,7 +138,7 @@ class DashboardPage extends BasePage {
                   primary: settingsStore.isDarkTheme
                       ? Color(0xff333343)
                       : Color(0xffD4D4D4),
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.only(top: 20,bottom: 20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -161,7 +162,7 @@ class DashboardPage extends BasePage {
                         fontSize: 16)),
                 style: ElevatedButton.styleFrom(
                   primary: Color(0xff0BA70F),
-                  padding: EdgeInsets.all(20),
+                  padding: EdgeInsets.only(top: 20,bottom: 20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -169,7 +170,7 @@ class DashboardPage extends BasePage {
               ),
             ),
           ],
-        ));
+        )));
   }
 
   @override
