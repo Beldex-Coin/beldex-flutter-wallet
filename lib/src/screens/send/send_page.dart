@@ -485,9 +485,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                             balanceStore.unlockedBalance)) {
                                           setState(() {
                                             amountValidation = true;
-                                            amountErrorMessage = S
-                                                .of(context)
-                                                .youDontHaveEnoughAvailableBalance;
+                                            amountErrorMessage = S.of(context).youDontHaveEnoughUnlockedBalance;
                                           });
                                           return;
                                         } else {

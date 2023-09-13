@@ -353,7 +353,7 @@
   "enterYourPin": "Enter Your PIN",
   "walletSettings": "Wallet Settings",
   "recoverySeed": "Recovery Seed",
-  "youDontHaveEnoughAvailableBalance": "You don't have enough available balance",
+  "youDontHaveEnoughUnlockedBalance": "You don't have enough unlocked balance",
   "alert": "Alert",
   "touchTheFingerprintSensor": "Touch the Fingerprint sensor",
   "usePattern": "USE PATTERN",

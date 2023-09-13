@@ -353,7 +353,7 @@
   "enterYourPin": "Entrez votre code PIN",
   "walletSettings": "Paramètres du portefeuille",
   "recoverySeed": "Semence de récupération",
-  "youDontHaveEnoughAvailableBalance": "Vous n'avez pas suffisamment de solde disponible",
+  "youDontHaveEnoughUnlockedBalance": "Vous n'avez pas suffisamment de solde débloqué",
   "alert": "Alerte",
   "touchTheFingerprintSensor": "Touchez le capteur d'empreintes digitales",
   "usePattern": "UTILISER LE MODÈLE",

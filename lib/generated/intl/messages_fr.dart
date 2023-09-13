@@ -413,7 +413,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "yesterday" : MessageLookupByLibrary.simpleMessage("hier"),
     "youAreAboutToDeletenYourWallet" : MessageLookupByLibrary.simpleMessage("Vous êtes sur le point de supprimer\n ton portefeuille!"),
     "youCantViewTheSeedBecauseYouveRestoredUsingKeys" : MessageLookupByLibrary.simpleMessage("Vous ne pouvez pas afficher la graine, car vous avez effectué une restauration à l\'aide de clés"),
-    "youDontHaveEnoughAvailableBalance" : MessageLookupByLibrary.simpleMessage("Vous n\'avez pas suffisamment de solde disponible"),
+    "youDontHaveEnoughUnlockedBalance" : MessageLookupByLibrary.simpleMessage("Vous n\'avez pas suffisamment de solde débloqué"),
     "youHaveScannedFromTheBlockHeight" : MessageLookupByLibrary.simpleMessage("Vous avez scanné à partir de la hauteur du bloc"),
     "your_contributions" : MessageLookupByLibrary.simpleMessage("Vos contributions"),
     "zeroDecimal" : MessageLookupByLibrary.simpleMessage("0 - Zero (000)")

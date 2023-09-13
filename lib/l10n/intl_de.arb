@@ -352,7 +352,7 @@
   "enterYourPin": "PIN eingeben",
   "walletSettings": "Wallet-Einstellungen",
   "recoverySeed": "Erholungssamen",
-  "youDontHaveEnoughAvailableBalance": "Ihr Guthaben reicht nicht aus",
+  "youDontHaveEnoughUnlockedBalance": "Ihr Guthaben reicht nicht aus",
   "alert": "Alarm",
   "touchTheFingerprintSensor": "Berühren Sie den Fingerabdrucksensor",
   "usePattern": "VERWENDEN SIE MUSTER",
