@@ -116,7 +116,6 @@ class WalletListService {
     }
       final password = await getWalletPassword(walletName: name);
       final wallet = await walletsManager.openWallet(name, password);
-      print('the wallet password and wallet name is $password ---- ${wallet.name}');
       await onWalletChange(wallet);
 
 
