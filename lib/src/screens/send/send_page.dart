@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:beldex_wallet/src/domain/common/contact.dart';
 import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
+import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:beldex_wallet/src/widgets/common_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -597,24 +598,20 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                         padding: const EdgeInsets.only(
                             top: 10.0, bottom: 25, left: 10),
                         child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             Text('${S.of(context).send_estimated_fee}   ',
                                 style: TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w600,
                                   color: Colors
-                                      .grey, //Theme.of(context).accentTextTheme.overline.backgroundColor,
+                                      .grey,
                                 )),
                             Text(
-                                '${calculateEstimatedFee(priority: settingsStore.transactionPriority //BeldexTransactionPriority.flash
-                                    )}',
-                                //'${calculateEstimatedFee(priority: BeldexTransactionPriority.slow)}',
+                                '${isFlashTransaction == true ? calculateEstimatedFee(priority: BeldexTransactionPriority.flash) : calculateEstimatedFee(priority: settingsStore.transactionPriority)}',
                                 style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
-                                  color: Colors
-                                      .grey, //Theme.of(context).primaryTextTheme.overline.backgroundColor,
+                                  color: Colors.grey,
                                 )),
                           ],
                         ),
