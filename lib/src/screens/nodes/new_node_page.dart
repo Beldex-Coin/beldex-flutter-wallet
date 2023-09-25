@@ -1,12 +1,14 @@
 import 'package:beldex_wallet/src/screens/nodes/test_mainnet_node.dart';
 import 'package:beldex_wallet/src/screens/nodes/test_node.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/widgets/nospaceformatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/node_list/node_list_store.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class NewNodePage extends BasePage {
@@ -160,6 +162,11 @@ class NewNodeFormState extends State<NewNodePageForm> {
                         const EdgeInsets.only(top: 8.0, left: 20, right: 20),
                     child: TextFormField(
                         controller: _nodePortController,
+                        keyboardType: TextInputType.numberWithOptions(
+                            decimal: true),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,NoSpaceFormatter(),FilteringTextInputFormatter.deny(RegExp('[-,. ]'))
+                        ],
                         decoration: InputDecoration(
                             fillColor: settingsStore.isDarkTheme
                                 ? Color(0xff333343)
