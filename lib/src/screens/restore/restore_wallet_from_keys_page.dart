@@ -374,9 +374,9 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                           style: TextStyle(fontSize: 14.0),
                           controller: restoreHeightController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [NoSpaceFormatter()],
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly,NoSpaceFormatter(),FilteringTextInputFormatter.deny(RegExp('[-,. ]'))],
                           keyboardType: TextInputType.numberWithOptions(
-                              signed: false, decimal: false),
+                              decimal:true),
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintStyle: TextStyle(

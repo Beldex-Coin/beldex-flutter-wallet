@@ -55,6 +55,7 @@ class RestoreOptionsPage extends BasePage {
                       ],
                     ),
                   ),
+                  SizedBox(width: 5,),
                   Container(
                     padding: EdgeInsets.all(9),
                     decoration: BoxDecoration(

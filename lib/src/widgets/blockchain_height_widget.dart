@@ -1,11 +1,11 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/wallet/beldex/get_height_by_date.dart';
-import 'package:beldex_wallet/palette.dart';
 import 'package:provider/provider.dart';
+import 'nospaceformatter.dart';
 
 class BlockchainHeightWidget extends StatefulWidget {
   BlockchainHeightWidget({GlobalKey key}) : super(key: key);
@@ -40,8 +40,8 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
           children: <Widget>[
             Flexible(
                 child: Card(
-                  elevation:0, //5,
-                  color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                  elevation:0,
+                  color: Theme.of(context).cardColor,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                   ),
@@ -52,18 +52,12 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                   style: TextStyle(fontSize: 14.0),
                   controller: restoreHeightController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  keyboardType: TextInputType.numberWithOptions(
-                      signed: false, decimal: false),
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly,NoSpaceFormatter(),FilteringTextInputFormatter.deny(RegExp('[-,. ]'))],
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
                   decoration: InputDecoration(
                     border: InputBorder.none,
                       hintStyle: TextStyle(color:settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xff77778B)),
-                      hintText: S.of(context).widgets_restore_from_blockheight,
-                      /*focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: BeldexPalette.teal, width: 2.0)),
-                      enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Theme.of(context).focusColor, width: 1.0))*/),
+                      hintText: S.of(context).widgets_restore_from_blockheight,),
                               validator: (value){
                                  final pattern = RegExp(r'^(?!.*\s)\d+$');
                                  if(!pattern.hasMatch(value)){
@@ -77,25 +71,12 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                 ))
           ],
         ):
-        // Padding(
-        //   padding: EdgeInsets.only(top: 25,bottom: 5),
-        //   child: Center(
-        //     child: Text(
-        //       S.of(context).widgets_or,
-        //       textAlign: TextAlign.center,
-        //       style: TextStyle(
-        //           fontSize: 16.0,
-        //           fontWeight: FontWeight.normal,
-        //           color: Theme.of(context).primaryTextTheme.headline6.color),
-        //     ),
-        //   ),
-        // ),
         Row(
           children: <Widget>[
             Flexible(
                 child: Card(
-                  elevation:0, //5,
-                  color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                  elevation:0,
+                  color: Theme.of(context).cardColor,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                   ),
@@ -114,20 +95,10 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             style: TextStyle(fontSize: 14.0),
                             decoration: InputDecoration(
-                              //suffix:Icon(Icons.calendar_today,), //SvgPicture.asset('assets/images/new-images/calendar.svg',color:Colors.black),
                               border: InputBorder.none,
                                 hintStyle:
                                     TextStyle(color:settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xff77778B)),
-                                hintText: S.of(context).widgets_restore_from_date,
-                                /*focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: BeldexPalette.teal,
-                                        width: 2.0)),
-                                enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Theme.of(context).focusColor,
-                                        width: 1.0))*/),
-                            
+                                hintText: S.of(context).widgets_restore_from_date,),
                             controller: dateController,
                             validator: (value) {
                               if(value.isEmpty){
@@ -135,7 +106,6 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                               }else{
                                return null;
                               }
-                              
                             },
                           ),
                         ),
@@ -173,13 +143,6 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
           ),
         ),
       )
-
-
-
-
-
-
-
       ],
     );
   }

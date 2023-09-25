@@ -310,12 +310,6 @@ class Router {
               child: NodeListPage());
         });
 
-      /*case Routes.newNode:
-        return MaterialPageRoute<void>(
-            builder: (_) => Provider<NodeListStore>(
-                create: (_) => NodeListStore(nodesSource: nodes),
-                child: NewNodePage()));*/
-
       case Routes.newNode:
         return MaterialPageRoute<void>(builder: (context) {
           return MultiProvider(

@@ -1,6 +1,7 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/get_height_by_date.dart';
 import 'package:beldex_wallet/src/widgets/nospaceformatter.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -225,9 +226,8 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                           style: TextStyle(fontSize: 14.0),
                           controller: restoreHeightController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [NoSpaceFormatter()],
-                          keyboardType: TextInputType.numberWithOptions(
-                              signed: false, decimal: false),
+                          inputFormatters: [FilteringTextInputFormatter.digitsOnly,NoSpaceFormatter(),FilteringTextInputFormatter.deny(RegExp('[-,. ]'))],
+                          keyboardType: TextInputType.numberWithOptions(decimal : true),
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintStyle: TextStyle(
