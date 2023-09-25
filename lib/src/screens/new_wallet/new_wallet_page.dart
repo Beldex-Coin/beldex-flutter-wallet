@@ -1,3 +1,4 @@
+
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mobx/mobx.dart';
@@ -105,6 +106,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
     final walletCreationStore = Provider.of<WalletCreationStore>(context);
     final seedLanguageStore = Provider.of<SeedLanguageStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
+    var newWalletPageChangeNotifier = Provider.of<NewWalletPageChangeNotifier>(context);
     reaction((_) => walletCreationStore.state, (WalletCreationState state) {
       if (state is WalletCreatedSuccessfully) {
         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -169,15 +171,16 @@ class _WalletNameFormState extends State<WalletNameForm> {
                         child: IconButton(
                           icon: Icon(
                             Icons.add_rounded,
-                            color: canremove
+                            color: newWalletPageChangeNotifier.nameControllerTextIsEmpty == true
                                 ? Colors.transparent
                                 : Theme.of(context)
-                                    .primaryTextTheme
-                                    .caption
-                                    .color,
+                                .primaryTextTheme
+                                .caption
+                                .color,
                           ),
-                          onPressed: () {
-                            nameController.text = '';
+                          onPressed: newWalletPageChangeNotifier.nameControllerTextIsEmpty == true ?  null : () {
+                            nameController.clear();
+                            newWalletPageChangeNotifier.setNameControllerStatus(true);
                           },
                         ),
                       ),
@@ -188,10 +191,15 @@ class _WalletNameFormState extends State<WalletNameForm> {
                               ? Color(0xff747474)
                               : Color(0xff6F6F6F)),
                       hintText: S.of(context).enterWalletName_,
-                      errorStyle: TextStyle(height: 0.5),
+                      errorStyle: TextStyle(height: 1),
                     ),
                     validator: (value) {
                       final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
+                      if(value.isNotEmpty){
+                        newWalletPageChangeNotifier.setNameControllerStatus(false);
+                      }else{
+                        newWalletPageChangeNotifier.setNameControllerStatus(true);
+                      }
                       if (!pattern.hasMatch(value)) {
                         return S.of(context).enterValidNameUpto15Characters;
                       } else {
@@ -340,5 +348,16 @@ class _WalletNameFormState extends State<WalletNameForm> {
         ),
       ]),
     );
+  }
+}
+
+class NewWalletPageChangeNotifier with ChangeNotifier {
+  bool nameControllerTextIsEmpty = false;
+
+  void setNameControllerStatus(bool status) {
+    nameControllerTextIsEmpty = status;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
   }
 }

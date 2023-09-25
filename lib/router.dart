@@ -108,18 +108,22 @@ class Router {
                         Navigator.pushNamed(context, Routes.newWallet))));
 
       case Routes.newWallet:
-        return MaterialPageRoute<void>(
-            builder:
-                (_) =>
-                    ProxyProvider<AuthenticationStore, WalletCreationStore>(
-                        update: (_, authStore, __) => WalletCreationStore(
-                            authStore: authStore,
-                            sharedPreferences: sharedPreferences,
-                            walletListService: walletListService),
-                        child: NewWalletPage(
-                            walletsService: walletListService,
-                            walletService: walletService,
-                            sharedPreferences: sharedPreferences)));
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              ProxyProvider<AuthenticationStore, WalletCreationStore>(
+              update: (_, authStore, __) => WalletCreationStore(
+              authStore: authStore,
+              sharedPreferences: sharedPreferences,
+              walletListService: walletListService),),
+              ChangeNotifierProvider<NewWalletPageChangeNotifier>(create: (_) => NewWalletPageChangeNotifier())
+            ],
+            child: NewWalletPage(
+                walletsService: walletListService,
+                walletService: walletService,
+                sharedPreferences: sharedPreferences),
+          );
+        });
 
       case Routes.setupPin:
         Function(BuildContext, String) callback;
