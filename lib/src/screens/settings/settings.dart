@@ -468,8 +468,7 @@ class SettingsFormState extends State<SettingsForm> {
                         context: context,
                         builder: (BuildContext context) =>
                             StatefulBuilder(builder:
-                                (BuildContext context,
-                                    StateSetter setState) {
+                                (BuildContext context, StateSetter setState) {
                               _searchCurrencySetState = setState;
                               return WillPopScope(
                                 onWillPop: () {
@@ -522,14 +521,14 @@ class SettingsFormState extends State<SettingsForm> {
                                                   suffixIcon: IconButton(
                                                       icon: Icon(
                                                         Icons.close,
-                                                        color: settingsStore
+                                                        color: currencyFilter == null || currencyFilter.isEmpty ? Colors.transparent : settingsStore
                                                                 .isDarkTheme
                                                             ? Color(
                                                                 0xffffffff)
                                                             : Color(
                                                                 0xff171720),
                                                       ),
-                                                      onPressed: () {
+                                                      onPressed: currencyFilter == null || currencyFilter.isEmpty ? null : () {
                                                         searchCurrencyController
                                                             .clear();
                                                       }),
