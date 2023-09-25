@@ -49,7 +49,7 @@ class LoadingPage extends StatelessWidget{
               child: Text(
                 S.of(context).loadingTheWallet,
                 style: TextStyle(
-                    fontSize: height * 0.07 / 3, fontWeight: FontWeight.w700,color: Colors.black),
+                    fontSize: height * 0.07 / 3, fontWeight: FontWeight.w700,color: settingsStore.isDarkTheme? Colors.white:Colors.black),
               ),
             )
             // loadingProvider.setLoadingString != '' ? Text('${loadingProvider.setLoadingString}') : Container()
