@@ -618,8 +618,6 @@ class ConfirmSending extends StatelessWidget {
                         Container(
                             margin: EdgeInsets.only(top: 10),
                             padding: EdgeInsets.all(10),
-                            height:
-                                MediaQuery.of(context).size.height * 0.60 / 3,
                             decoration: BoxDecoration(
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff383848)
@@ -627,8 +625,7 @@ class ConfirmSending extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(S.of(context).restore_address),
                                 Container(
