@@ -1,3 +1,4 @@
+import 'package:beldex_coin/wallet.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/get_height_by_date.dart';
 import 'package:beldex_wallet/src/widgets/nospaceformatter.dart';
@@ -108,6 +109,22 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
     super.dispose();
   }
 
+
+ bool checkCurrentHeight(String value){
+  final currentHeight = getCurrentHeight();
+  
+  print('$currentHeight --> is current height');
+  final intValue = int.tryParse(value);
+  if(intValue != null && intValue <= currentHeight){
+    return true;
+  }else{
+    return false;
+  }
+ }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
@@ -150,7 +167,9 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
                             if (!pattern.hasMatch(value)) {
                               return S.of(context).enterValidHeightWithoutSpace;
-                            } else {
+                            }else if(!checkCurrentHeight(value)){
+                              return 'Please enter a valid Height';
+                            }else {
                               return null;
                             }
                           },
