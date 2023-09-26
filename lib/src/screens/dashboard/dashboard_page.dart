@@ -175,20 +175,6 @@ class DashboardPage extends BasePage {
 
   @override
   Widget body(BuildContext context) => DashboardPageBody(key: _bodyKey);
-
-//   void _presentWalletMenu(BuildContext bodyContext) {
-//     final walletMenu = WalletMenu(bodyContext);
-
-//     showDialog<void>(
-//         builder: (_) => Picker(
-//             items: walletMenu.items,
-//             selectedAtIndex: -1,
-//             title: S.of(bodyContext).wallet_menu,
-//             pickerHeight: 250,
-//             onItemSelected: (String item) =>
-//                 walletMenu.action(walletMenu.items.indexOf(item))),
-//         context: bodyContext);
-//   }
 }
 
 class DashboardPageBody extends StatefulWidget {
@@ -202,76 +188,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
   final _connectionStatusObserverKey = GlobalKey();
   final _balanceObserverKey = GlobalKey();
 
-  //final _balanceTitleObserverKey = GlobalKey();
   final _syncingObserverKey = GlobalKey();
   final _listObserverKey = GlobalKey();
-
-  //final _listKey = GlobalKey();
-  String syncStatus;
-
-  //
-  // List<Item> transactions = [
-  //   Item(
-  //       id: 'send',
-  //       icon: Icons.arrow_upward,
-  //       text: '01.02.2021',
-  //       amount: '-\$ 99.00',
-  //       color: Colors.red),
-  //   Item(
-  //       id: 'receive',
-  //       icon: Icons.arrow_downward,
-  //       text: '25.01.2021',
-  //       amount: '+\$ 105.00',
-  //       color: Colors.green),
-  //   Item(
-  //       id: 'send',
-  //       icon: Icons.arrow_upward,
-  //       text: '01.02.2021',
-  //       amount: '-\$ 105.00',
-  //       color: Colors.red),
-  //   Item(
-  //       id: 'send',
-  //       icon: Icons.arrow_upward,
-  //       text: '01.02.2021',
-  //       amount: '-\$ 105.00',
-  //       color: Colors.red),
-  //   Item(
-  //       id: 'receive',
-  //       icon: Icons.arrow_downward,
-  //       text: '20.01.2021',
-  //       amount: '+\$ 60.00',
-  //       color: Colors.green),
-  //   Item(
-  //       id: 'send',
-  //       icon: Icons.arrow_upward,
-  //       text: '01.02.2021',
-  //       amount: '-\$ 105.00',
-  //       color: Colors.red),
-  //   Item(
-  //       id: 'receive',
-  //       icon: Icons.arrow_downward,
-  //       text: '20.01.2021',
-  //       amount: '+\$ 60.00',
-  //       color: Colors.green),
-  //   Item(
-  //       id: 'send',
-  //       icon: Icons.arrow_upward,
-  //       text: '01.02.2021',
-  //       amount: '-\$ 105.00',
-  //       color: Colors.red),
-  //   Item(
-  //       id: 'receive',
-  //       icon: Icons.arrow_downward,
-  //       text: '20.01.2021',
-  //       amount: '+\$ 60.00',
-  //       color: Colors.green),
-  //   Item(
-  //       id: 'send',
-  //       icon: Icons.arrow_upward,
-  //       text: '01.02.2021',
-  //       amount: '-\$ 105.00',
-  //       color: Colors.red)
-  // ];
 
   IconData iconDataVal = Icons.arrow_upward_outlined;
 
@@ -339,8 +257,6 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         final statusText = status.title();
                         final progress = syncStore.status.progress();
                         final isFailure = status is FailedSyncStatus;
-                        syncStatus = status.title();
-                        //syncStatus = status.title();
                         print('dashboard ----->');
                         print('dashboard page status --> $status');
                         print('dashboard page progress --> $progress');
@@ -392,7 +308,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                               ? BeldexPalette.red
                                               : BeldexPalette.belgreen //teal
                                           )),
-                                  statusText == 'SYNCHRONIZED'
+                                  syncStore.status is SyncedSyncStatus
                                       ? GestureDetector(
                                           onTap: () async {
                                             await showDialog<void>(
@@ -560,19 +476,16 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                               Expanded(
                                 flex: 1,
                                 child: Observer(builder: (_) {
-                                  final status = syncStore.status;
-
-                                  final syncS = status.title();
                                   return ElevatedButton.icon(
                                     icon: SvgPicture.asset(
                                       'assets/images/new-images/send.svg',
-                                      color: syncS == 'SYNCHRONIZED'
+                                      color: syncStore.status is SyncedSyncStatus
                                           ? Colors.white
                                           : settingsStore.isDarkTheme
                                               ? Color(0xff6C6C78)
                                               : Color(0xffB2B2B6),
                                     ),
-                                    onPressed: syncS == 'SYNCHRONIZED'
+                                    onPressed: syncStore.status is SyncedSyncStatus
                                         ? () {
                                             Navigator.of(context,
                                                     rootNavigator: true)
@@ -582,7 +495,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                     label: Text(
                                       S.of(context).send,
                                       style: TextStyle(
-                                          color: syncStatus == 'SYNCHRONIZED'
+                                          color: syncStore.status is SyncedSyncStatus
                                               ? Colors.white
                                               : settingsStore.isDarkTheme
                                                   ? Color(0xff6C6C78)
@@ -591,7 +504,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           fontSize: 16),
                                     ),
                                     style: ElevatedButton.styleFrom(
-                                      primary: syncS == 'SYNCHRONIZED'
+                                      primary: syncStore.status is SyncedSyncStatus
                                           ? Color(0xff0BA70F)
                                           : settingsStore.isDarkTheme
                                               ? Color(0xff333343)
@@ -657,10 +570,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         ),
                         Observer(
                           builder: (_) {
-                            final status = syncStore.status;
-                            final syncSt = status.title();
                             return GestureDetector(
-                              onTap: syncSt == 'SYNCHRONIZED'
+                              onTap: syncStore.status is SyncedSyncStatus
                                   ? () {
                                       _presentQRScanner(context);
                                     }
@@ -680,7 +591,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                     ),
                                     child: SvgPicture.asset(
                                       'assets/images/new-images/flashqr.svg',
-                                      color: syncSt == 'SYNCHRONIZED'
+                                      color: syncStore.status is SyncedSyncStatus
                                           ? Color(0xff222222)
                                           : Color(0xffD9D9D9),
                                     )),
