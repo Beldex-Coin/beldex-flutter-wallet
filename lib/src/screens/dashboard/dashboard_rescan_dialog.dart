@@ -1,4 +1,5 @@
 import 'package:beldex_wallet/routes.dart';
+import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/wallet_menu.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
@@ -67,8 +68,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
               height: 10,
             ),
             Observer(builder: (_) {
-              final status = syncStore.status;
-              if (status.title() == 'SYNCHRONIZED') {
+              if (syncStore.status is SyncedSyncStatus || syncStore.status.blockLeft() == 0) {
                 canRescan = true;
               } else {
                 canRescan = false;
