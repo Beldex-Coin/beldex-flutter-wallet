@@ -51,7 +51,7 @@ class WalletListBodyState extends State<WalletListBody> {
   }
 
   void authStatus(bool value, WalletDescription wallet, BuildContext context) {
-    if (value) {
+    if (value && value != null) {
       isAuthenticatedSuccessfully = false;
       Navigator.pushReplacement(
           context,

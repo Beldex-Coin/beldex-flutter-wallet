@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/util/screen_sizer.dart';
 import 'package:flutter/material.dart';
 
 import '../../../palette.dart';
@@ -9,6 +10,7 @@ class NewNavListHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize.init(context);
     return Column(
       children: <Widget>[
         SizedBox(height: 20.0),
@@ -19,7 +21,7 @@ class NewNavListHeader extends StatelessWidget {
             children: <Widget>[
               Text(
                 title,
-                style: TextStyle(fontSize:MediaQuery.of(context).size.height*0.08/3,
+                style: TextStyle(fontSize:ScreenSize.screenHeight07, //MediaQuery.of(context).size.height*0.08/3,
                 color:Color(0xff737385),
                 fontWeight: FontWeight.w600),
               )

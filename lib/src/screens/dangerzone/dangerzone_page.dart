@@ -83,7 +83,16 @@ class DangerZonePage extends BasePage {
                   ),
                   textScaleFactor: textScaleFactor,
                   textAlign: TextAlign.center,
-                ))
+                )),
+            Container(
+              child:Text('Are you Sure you want to access your $item?',
+                style: TextStyle(
+                  fontSize: 13.0,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryTextTheme.caption.color,
+                ),
+              )
+            )
           ]),
         ),
       ),

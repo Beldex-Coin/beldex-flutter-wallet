@@ -399,6 +399,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                       color: settingsStore.isDarkTheme
                                           ? Color(0xffFFFFFF)
                                           : Color(0xff060606),
+                                          fit: BoxFit.contain,
                                     )));
                           } else if (index == 10) {
                             index = 0;
@@ -409,11 +410,15 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                               child: TextButton(
                                 //FlatButton
                                 onPressed: () => _pop(),
-                                child: Icon(Icons.backspace_outlined,
-                                    color: Theme.of(context)
-                                        .primaryTextTheme
-                                        .caption
-                                        .color),
+                                child: SvgPicture.asset('assets/images/new-images/clear.svg', color:Theme.of(context)
+                                    .primaryTextTheme
+                                    .caption
+                                    .color)
+                                // Icon(Icons.backspace_outlined,
+                                //     color: Theme.of(context)
+                                //         .primaryTextTheme
+                                //         .caption
+                                //         .color),
                               ),
                             );
                           } else {

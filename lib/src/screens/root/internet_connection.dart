@@ -80,22 +80,23 @@ Future<void> _checkConnectivity() async {
     return ValueListenableBuilder<bool>(
               valueListenable: networkStatus.isConnected,
               builder: (context, value, child) {
-                return value ? Container(
-    height:50,width: MediaQuery.of(context).size.width*2.5/3,
-    decoration: BoxDecoration(color: Color(0xff333343),
-    borderRadius: BorderRadius.circular(10)
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(right:8.0),
-          child: Icon(Icons.wifi_off ,color: Color(0xffA0A0A0),),
-        ),
-        Text('You are currently offline',style: TextStyle(color: Color(0xffA0A0A0)),)
-      ],
-    ),
-    ): Container();
+                return Container();
+    //             value ? Container(
+    // height:50,width: MediaQuery.of(context).size.width*2.5/3,
+    // decoration: BoxDecoration(color: Color(0xff333343),
+    // borderRadius: BorderRadius.circular(10)
+    // ),
+    // child: Row(
+    //   mainAxisAlignment: MainAxisAlignment.center,
+    //   children: [
+    //     Padding(
+    //       padding: EdgeInsets.only(right:8.0),
+    //       child: Icon(Icons.wifi_off ,color: Color(0xffA0A0A0),),
+    //     ),
+    //     Text('You are currently offline',style: TextStyle(color: Color(0xffA0A0A0)),)
+    //   ],
+    // ),
+    // ): Container();
                 
                 // Text(
                 //   'Network Status: ${value ? 'Connected' : 'Disconnected'}',

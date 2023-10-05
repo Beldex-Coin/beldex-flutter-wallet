@@ -1,4 +1,5 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/util/screen_sizer.dart';
 import 'package:beldex_wallet/src/widgets/showSnackBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class AddressBookPage extends BasePage {
   Widget body(BuildContext context) {
     final addressBookStore = Provider.of<AddressBookStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
+    ScreenSize.init(context);
     return addressBookStore.contactList.isEmpty
         ? Center(
             child: SingleChildScrollView(
@@ -49,7 +51,7 @@ class AddressBookPage extends BasePage {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    height: MediaQuery.of(context).size.height * 1 / 3,
+                    height:ScreenSize.screenHeight1, //MediaQuery.of(context).size.height * 1 / 3,
                     child: SvgPicture.asset(settingsStore.isDarkTheme
                         ? 'assets/images/new-images/address_empty_dark_theme.svg'
                         : 'assets/images/new-images/address_empty_white_theme.svg'),

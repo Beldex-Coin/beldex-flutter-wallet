@@ -1,5 +1,6 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/wallet_list/wallet_list_store.dart';
+import 'package:beldex_wallet/src/util/screen_sizer.dart';
 import 'package:beldex_wallet/src/wallet/wallet_description.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,8 @@ class LoadingPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    final height = MediaQuery.of(context).size.height;
+    ScreenSize.init(context);
+   // final height = MediaQuery.of(context).size.height;
     Future.delayed(const Duration(seconds: 1), () {
       walletListStore.loadWallet(wallet);
       Navigator.of(context).pop();
@@ -30,8 +32,8 @@ class LoadingPage extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
             Container(
-                height: height * 0.35 / 3,
-                width: height * 0.35 / 3,
+                height: ScreenSize.screenHeight035, //height * 0.35 / 3,
+                width: ScreenSize.screenHeight035, //height * 0.35 / 3,
                 padding: EdgeInsets.all(15),
                 decoration: BoxDecoration(
                     color: settingsStore.isDarkTheme
@@ -49,7 +51,8 @@ class LoadingPage extends StatelessWidget{
               child: Text(
                 S.of(context).loadingTheWallet,
                 style: TextStyle(
-                    fontSize: height * 0.07 / 3, fontWeight: FontWeight.w700,color: settingsStore.isDarkTheme? Colors.white:Colors.black),
+                    fontSize:ScreenSize.screenHeight07, //height * 0.07 / 3, 
+                  fontWeight: FontWeight.w700,color: settingsStore.isDarkTheme? Colors.white:Colors.black),
               ),
             )
             // loadingProvider.setLoadingString != '' ? Text('${loadingProvider.setLoadingString}') : Container()

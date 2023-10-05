@@ -560,9 +560,10 @@ class ConfirmSending extends StatelessWidget {
                           : Colors.white, //Theme.of(context).backgroundColor,
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 1.4 / 3,
-                    padding: EdgeInsets.only(top: 15.0, left: 20, right: 20),
+                   // height: MediaQuery.of(context).size.height * 1.4 / 3,
+                    padding: EdgeInsets.only(top: 15.0, left: 20, right: 20,bottom: 20),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
@@ -624,11 +625,13 @@ class ConfirmSending extends StatelessWidget {
                                     : Color(0xffEDEDED),
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
+                              mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(S.of(context).restore_address),
+                                Text('${S.of(context).restore_address}:',style: TextStyle(fontWeight:FontWeight.bold)),
                                 Container(
+                                  margin: EdgeInsets.only(top:5,bottom:5),
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                         color: settingsStore.isDarkTheme
@@ -637,7 +640,7 @@ class ConfirmSending extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(10)),
                                     child: Text(address)),
-                                Text('Fee: $fee'),
+                                Text('Fee: $fee',style: TextStyle(fontWeight:FontWeight.bold),),
                               ],
                             )),
                         Container(
@@ -646,52 +649,103 @@ class ConfirmSending extends StatelessWidget {
                                   0.10 /
                                   3),
                           child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            // crossAxisAlignment: CrossAxisAlignment.end,
+                            // mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
-                                height: 45,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xff383848)
-                                        : Color(0xffEDEDED),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: GestureDetector(
-                                    onTap: () {
-                                      if (onDismiss != null) {
-                                        onDismiss(context);
-                                      }
-                                    },
-                                    child: Center(
-                                        child: Text(S.of(context).cancel,
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight:
-                                                    FontWeight.bold)))),
+                               Expanded(
+                                 child: ElevatedButton(
+                            onPressed: (){
+                                 if (onDismiss != null) {
+                                          onDismiss(context);
+                                        }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: settingsStore.isDarkTheme
+                                          ? Color(0xff383848)
+                                          : Color(0xffEDEDED),
+                              padding: EdgeInsets.all(12),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
                               ),
-                              SizedBox(width: 20),
-                              Container(
-                                height: 45,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                    color: Color(0xff0BA70F),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: GestureDetector(
-                                    onTap: () {
-                                      if (onPressed != null) {
-                                        onPressed(context);
-                                      }
-                                    },
-                                    child: Center(
-                                        child: Text(
-                                      S.of(context).ok,
-                                      style: TextStyle(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ))),
-                              )
+                            ),
+                            child:Text(S.of(context).cancel,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+                                                  fontWeight:
+                                                      FontWeight.bold))
+                          ),
+                               ),
+                               SizedBox(
+                                width: 10,
+                               ),
+                              Expanded(
+                                child: ElevatedButton(
+                            onPressed: (){
+                                  if (onPressed != null) {
+                                          onPressed(context);
+                                        }
+                            },
+                            style: ElevatedButton.styleFrom(
+                                primary: Color(0xff0BA70F),
+                                padding: EdgeInsets.all(12),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                            ),
+                            child:Text(
+                                        S.of(context).ok,
+                                        style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      )
+                          ),
+                              ),
+                              // Container(
+                              //   height: 45,
+                              //   width: 120,
+                              //   decoration: BoxDecoration(
+                              //       color: settingsStore.isDarkTheme
+                              //           ? Color(0xff383848)
+                              //           : Color(0xffEDEDED),
+                              //       borderRadius: BorderRadius.circular(8)),
+                              //   child: GestureDetector(
+                              //       onTap: () {
+                              //         if (onDismiss != null) {
+                              //           onDismiss(context);
+                              //         }
+                              //       },
+                              //       child: Center(
+                              //           child: Text(S.of(context).cancel,
+                              //               style: TextStyle(
+                              //                   fontSize: 15,
+                              //                   fontWeight:
+                              //                       FontWeight.bold)))),
+                              // ),
+                              // SizedBox(width: 20),
+                              // Container(
+                              //   height: 45,
+                              //   width: 120,
+                              //   decoration: BoxDecoration(
+                              //       color: Color(0xff0BA70F),
+                              //       borderRadius: BorderRadius.circular(8)),
+                              //   child: GestureDetector(
+                              //       onTap: () {
+                              //         if (onPressed != null) {
+                              //           onPressed(context);
+                              //         }
+                              //       },
+                              //       child: Center(
+                              //           child: Text(
+                              //         S.of(context).ok,
+                              //         style: TextStyle(
+                              //             fontSize: 15,
+                              //             fontWeight: FontWeight.bold,
+                              //             color: Colors.white),
+                              //       ))),
+                              // )
                             ],
                           ),
                         )

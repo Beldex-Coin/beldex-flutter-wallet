@@ -287,7 +287,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                   Text(availableBalance,
                                       style: TextStyle(
                                         color: Color(0xff0BA70F),
-                                        fontSize: 18,
+                                        fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                       )),
                                 ],

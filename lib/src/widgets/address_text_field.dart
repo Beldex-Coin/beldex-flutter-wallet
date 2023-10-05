@@ -74,10 +74,12 @@ class AddressTextField extends StatelessWidget {
                                   BorderRadius.all(Radius.circular(8))),
                           child: Icon(Icons.paste,
                               size: 20,
-                              color: Theme.of(context)
-                                  .primaryTextTheme
-                                  .caption
-                                  .color),
+                              color: Color(0xff0BA70F)
+                              // Theme.of(context)
+                              //     .primaryTextTheme
+                              //     .caption
+                              //     .color
+                                  ),
                         )),
                   )
                 ],
@@ -93,6 +95,9 @@ class AddressTextField extends StatelessWidget {
                           height: 20,
                           color:
                               Theme.of(context).primaryTextTheme.caption.color,
+                          placeholderBuilder: (context) {
+                            return Icon(Icons.image);
+                          },
                         ),
                       ))
                 ],
@@ -109,6 +114,9 @@ class AddressTextField extends StatelessWidget {
                           height: 25,
                           color:
                               Theme.of(context).primaryTextTheme.caption.color,
+                          placeholderBuilder: (context) {
+                            return Icon(Icons.image);
+                          },
                         ),
                       ))
                 ],

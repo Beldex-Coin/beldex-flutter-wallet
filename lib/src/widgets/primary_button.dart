@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/util/screen_sizer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:beldex_wallet/palette.dart';
@@ -20,8 +21,9 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize.init(context);
     return SizedBox(
-        width: MediaQuery.of(context).size.width,
+        width: ScreenSize.screenWidth,
         child: ElevatedButton(
           onPressed: isDisabled ? onDisabledPressed : onPressed,
           style: ElevatedButton.styleFrom(
@@ -66,8 +68,9 @@ class PrimaryButtonNode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize.init(context);
     return SizedBox(
-        width: MediaQuery.of(context).size.width,
+        width:ScreenSize.screenWidth,
         child: ElevatedButton(
           onPressed: isDisabled ? onDisabledPressed : onPressed,
           style: ElevatedButton.styleFrom(
@@ -111,8 +114,9 @@ class LoadingPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize.init(context);
     return SizedBox(
-      width: MediaQuery.of(context).size.width,
+      width: ScreenSize.screenWidth,
       child: ElevatedButton(
         onPressed: (isLoading || isDisabled) ? null : onPressed,
         style: ElevatedButton.styleFrom(
@@ -155,8 +159,9 @@ class PrimaryIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize.init(context);
     return SizedBox(
-        width: MediaQuery.of(context).size.width,
+        width: ScreenSize.screenWidth,
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
@@ -214,8 +219,9 @@ class PrimaryImageButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenSize.init(context);
     return SizedBox(
-        width: MediaQuery.of(context).size.width,
+        width:ScreenSize.screenWidth,
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(

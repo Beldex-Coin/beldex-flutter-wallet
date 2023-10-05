@@ -72,21 +72,23 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
     final walletSeedStore = Provider.of<WalletSeedStore>(context);
     String _seed;
     String _isSeed;
-
+    final _height = MediaQuery.of(context).size.height;
+    final _width = MediaQuery.of(context).size.width;
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+     // mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           padding: EdgeInsets.only(left: 30.0, right: 30.0, bottom: 30.0),
           child: Container(child: Observer(
             builder: (_) {
-              _isSeed = walletSeedStore.seed;
-
+           _isSeed = walletSeedStore.seed;
+           // _isSeed = null;
               return Center(
                 child: _isSeed == '' || _isSeed == null
                     ? Padding(
                         padding: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 1 / 3),
+                            top: _height * 1 / 3),
                         child: RichText(
                           textAlign: TextAlign.center,
                           text: TextSpan(
@@ -113,7 +115,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           SizedBox(
-                              height: MediaQuery.of(context).size.height *
+                              height: _height *
                                   0.20 /
                                   3),
                           Observer(builder: (_) {
@@ -141,15 +143,15 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight: FontWeight.w400,
-                                                  color:
-                                                      settingsStore.isDarkTheme
-                                                          ? Color(0xffD9D9D9)
-                                                          : Color(0xff909090)))
+                                                  color: settingsStore
+                                                          .isDarkTheme
+                                                      ? Color(0xffD9D9D9)
+                                                      : Color(0xff909090)))
                                         ]),
                                   ),
                                 ),
                                 SizedBox(
-                                  height: MediaQuery.of(context).size.height *
+                                  height: _height *
                                       0.10 /
                                       3,
                                 ),
@@ -166,9 +168,10 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                   height: 15,
                                 ),
                                 Container(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.50 /
-                                        3,
+                                    // height:
+                                    //     MediaQuery.of(context).size.height *
+                                    //         0.50 /
+                                    //         3,
                                     padding: EdgeInsets.all(15),
                                     decoration: BoxDecoration(
                                         color: settingsStore.isDarkTheme
@@ -176,15 +179,20 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                             : Color(0xffEDEDED),
                                         borderRadius:
                                             BorderRadius.circular(10.0)),
-                                    child: Text(walletSeedStore.seed,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: settingsStore.isDarkTheme
-                                                ? Color(0xffE2E2E2)
-                                                : Color(0xff373737)))),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(walletSeedStore.seed,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffE2E2E2)
+                                                    : Color(0xff373737))),
+                                      ],
+                                    )),
                                 SizedBox(
-                                  height: MediaQuery.of(context).size.height *
+                                  height: _height *
                                       0.10 /
                                       3,
                                 ),
@@ -205,9 +213,10 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                               ' copied value $isCopied');
                                                           Clipboard.setData(
                                                               ClipboardData(
-                                                                  text: _seed));
-                                                          ScaffoldMessenger.of(
-                                                                  context)
+                                                                  text:
+                                                                      _seed));
+                                                          ScaffoldMessenger
+                                                                  .of(context)
                                                               .showSnackBar(
                                                                   SnackBar(
                                                             margin: EdgeInsets.only(
@@ -248,7 +257,8 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .bold,
-                                                                  fontSize: 15),
+                                                                  fontSize:
+                                                                      15),
                                                               textAlign:
                                                                   TextAlign
                                                                       .center,
@@ -263,20 +273,23 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                           ));
                                                         }
                                                       : null,
-                                                  style:
-                                                      ElevatedButton.styleFrom(
+                                                  style: ElevatedButton
+                                                      .styleFrom(
                                                     primary: isCopied
                                                         ? settingsStore
                                                                 .isDarkTheme
-                                                            ? Color(0xff272733)
-                                                            : Color(0xffE8E8E8)
+                                                            ? Color(
+                                                                0xff272733)
+                                                            : Color(
+                                                                0xffE8E8E8)
                                                         : Color(0xff0BA70F),
-                                                    padding: EdgeInsets.all(12),
+                                                    padding:
+                                                        EdgeInsets.all(12),
                                                     shape:
                                                         RoundedRectangleBorder(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                          BorderRadius
+                                                              .circular(10),
                                                     ),
                                                   ),
                                                   child: Row(
@@ -291,7 +304,8 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                           style: TextStyle(
                                                             fontSize: 16,
                                                             fontWeight:
-                                                                FontWeight.bold,
+                                                                FontWeight
+                                                                    .bold,
                                                             color: isCopied
                                                                 ? settingsStore
                                                                         .isDarkTheme
@@ -299,7 +313,8 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                                         0xff6C6C78)
                                                                     : Color(
                                                                         0xffB2B2B6)
-                                                                : Colors.white,
+                                                                : Colors
+                                                                    .white,
                                                           )),
                                                       Padding(
                                                         padding:
@@ -329,20 +344,25 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               child: ElevatedButton(
                                                 onPressed: () {
                                                   Share.text(
-                                                      S.of(context).seed_share,
+                                                      S
+                                                          .of(context)
+                                                          .seed_share,
                                                       _seed,
                                                       'text/plain');
                                                 },
-                                                style: ElevatedButton.styleFrom(
+                                                style:
+                                                    ElevatedButton.styleFrom(
                                                   primary: Color(0xff2979FB),
                                                   padding: EdgeInsets.all(12),
-                                                  shape: RoundedRectangleBorder(
+                                                  shape:
+                                                      RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10),
                                                   ),
                                                 ),
-                                                child: Text(S.of(context).save,
+                                                child: Text(
+                                                    S.of(context).save,
                                                     style: TextStyle(
                                                         fontSize: 16,
                                                         fontWeight:
@@ -367,7 +387,8 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                   Clipboard.setData(
                                                       ClipboardData(
                                                           text: _seed));
-                                                  ScaffoldMessenger.of(context)
+                                                  ScaffoldMessenger.of(
+                                                          context)
                                                       .showSnackBar(SnackBar(
                                                     margin: EdgeInsets.only(
                                                         bottom: MediaQuery.of(
@@ -400,25 +421,27 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                     content: Text(
                                                       S.of(context).copied,
                                                       style: TextStyle(
-                                                          color:
-                                                              Color(0xff0EB212),
+                                                          color: Color(
+                                                              0xff0EB212),
                                                           fontWeight:
                                                               FontWeight.w700,
                                                           fontSize: 15),
                                                       textAlign:
                                                           TextAlign.center,
                                                     ),
-                                                    backgroundColor:
-                                                        Color(0xff0BA70F)
-                                                            .withOpacity(0.10),
+                                                    backgroundColor: Color(
+                                                            0xff0BA70F)
+                                                        .withOpacity(0.10),
                                                     duration: Duration(
                                                         milliseconds: 1500),
                                                   ));
                                                 },
-                                                style: ElevatedButton.styleFrom(
+                                                style:
+                                                    ElevatedButton.styleFrom(
                                                   primary: Color(0xff0BA70F),
                                                   padding: EdgeInsets.all(12),
-                                                  shape: RoundedRectangleBorder(
+                                                  shape:
+                                                      RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10),
@@ -436,8 +459,10 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                           style: TextStyle(
                                                             fontSize: 16,
                                                             fontWeight:
-                                                                FontWeight.bold,
-                                                            color: Colors.white,
+                                                                FontWeight
+                                                                    .bold,
+                                                            color:
+                                                                Colors.white,
                                                           )),
                                                       Padding(
                                                         padding:
@@ -460,20 +485,25 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               child: ElevatedButton(
                                                 onPressed: () {
                                                   Share.text(
-                                                      S.of(context).seed_share,
+                                                      S
+                                                          .of(context)
+                                                          .seed_share,
                                                       _seed,
                                                       'text/plain');
                                                 },
-                                                style: ElevatedButton.styleFrom(
+                                                style:
+                                                    ElevatedButton.styleFrom(
                                                   primary: Color(0xff2979FB),
                                                   padding: EdgeInsets.all(12),
-                                                  shape: RoundedRectangleBorder(
+                                                  shape:
+                                                      RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             10),
                                                   ),
                                                 ),
-                                                child: Text(S.of(context).save,
+                                                child: Text(
+                                                    S.of(context).save,
                                                     style: TextStyle(
                                                         fontSize: 16,
                                                         fontWeight:
@@ -487,24 +517,138 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                               ],
                             );
                           }),
-                          SizedBox(
-                            height:
-                                MediaQuery.of(context).size.height * 0.54 / 3,
-                          ),
-                          widget.onCloseCallback != null && !isCopied
+                          // SizedBox(
+                          //   height:
+                          //       _height * 0.54 / 3,
+                          // ),
+                          // widget.onCloseCallback != null && !isCopied
+                          //     ? Padding(
+                          //         padding: const EdgeInsets.all(8.0),
+                          //         child: Text(
+                          //           S
+                          //               .of(context)
+                          //               .copyAndSaveTheSeedToContinue,
+                          //           style: TextStyle(fontSize: 15),
+                          //         ),
+                          //       )
+                          //     : Container(),
+                          // widget.onCloseCallback != null
+                          //     ? Container(
+                          //         width: _width *
+                          //             2.6 /
+                          //             3,
+                          //         child: ElevatedButton(
+                          //           onPressed: isCopied
+                          //               ? () {
+                          //                   widget.onCloseCallback != null
+                          //                       ? widget.onCloseCallback()
+                          //                       : Navigator.of(context).pop();
+                          //                 }
+                          //               : null,
+                          //           style: ElevatedButton.styleFrom(
+                          //             primary: isCopied
+                          //                 ? Color(0xff0BA70F)
+                          //                 : settingsStore.isDarkTheme
+                          //                     ? Color(0xff272733)
+                          //                     : Color(0xffE8E8E8),
+                          //             padding: EdgeInsets.all(15),
+                          //             shape: RoundedRectangleBorder(
+                          //               borderRadius:
+                          //                   BorderRadius.circular(10),
+                          //             ),
+                          //           ),
+                          //           child: Text(S.of(context).continue_text,
+                          //               style: TextStyle(
+                          //                   color: isCopied
+                          //                       ? Color(0xffffffff)
+                          //                       : settingsStore.isDarkTheme
+                          //                           ? Color(0xff6C6C78)
+                          //                           : Color(0xffB2B2B6),
+                          //                   fontSize: 16,
+                          //                   fontWeight: FontWeight.bold)),
+                          //         ),
+                          //       )
+                          //     : Container(
+                          //         width: _width *
+                          //             2.6 /
+                          //             3,
+                          //         child: ElevatedButton(
+                          //           onPressed: () =>
+                          //               Navigator.of(context).pop(),
+                          //           style: ElevatedButton.styleFrom(
+                          //             primary: Color(0xff0BA70F),
+                          //             padding: EdgeInsets.all(15),
+                          //             shape: RoundedRectangleBorder(
+                          //               borderRadius:
+                          //                   BorderRadius.circular(10),
+                          //             ),
+                          //           ),
+                          //           child: Text(S.of(context).ok,
+                          //               style: TextStyle(
+                          //                   color: Color(0xffffffff),
+                          //                   fontSize: 16,
+                          //                   fontWeight: FontWeight.bold)),
+                          //         ),
+                          //       ),
+                        ],
+                      ),
+              );
+            },
+          )),
+        ),
+        Column( 
+          children:[
+          // _isSeed == '' || _isSeed == null ?
+          //  Container()
+          // : 
+          widget.onCloseCallback != null && !isCopied || _isSeed  != null
                               ? Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    S.of(context).copyAndSaveTheSeedToContinue,
+                                    S
+                                        .of(context)
+                                        .copyAndSaveTheSeedToContinue,
                                     style: TextStyle(fontSize: 15),
                                   ),
                                 )
                               : Container(),
-                          widget.onCloseCallback != null
+      Row(
+        children:[
+          // _isSeed == '' || _isSeed == null ?
+          // Expanded(
+          //   child: Container(
+          //                         margin:EdgeInsets.all(10),
+          //                           // width: _width *
+          //                           //     2.6 /
+          //                           //     3,
+          //                           child: ElevatedButton(
+          //                             onPressed: () =>
+          //                                 Navigator.of(context).pop(),
+          //                             style: ElevatedButton.styleFrom(
+          //                               primary: Color(0xff0BA70F),
+          //                               padding: EdgeInsets.all(15),
+          //                               shape: RoundedRectangleBorder(
+          //                                 borderRadius:
+          //                                     BorderRadius.circular(10),
+          //                               ),
+          //                             ),
+          //                             child: Text(S.of(context).ok,
+          //                                 style: TextStyle(
+          //                                     color: Color(0xffffffff),
+          //                                     fontSize: 16,
+          //                                     fontWeight: FontWeight.bold)),
+          //                           ),
+          //                         ),
+          // )
+          // :
+          Expanded( 
+           // flex:2,
+            child:widget.onCloseCallback != null || _isSeed != null
                               ? Container(
-                                  width: MediaQuery.of(context).size.width *
-                                      2.6 /
-                                      3,
+                                margin:EdgeInsets.all(10),
+                                  // width: _width *
+                                  //     2.6 /
+                                  //     3,
                                   child: ElevatedButton(
                                     onPressed: isCopied
                                         ? () {
@@ -521,7 +665,8 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               : Color(0xffE8E8E8),
                                       padding: EdgeInsets.all(15),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
+                                        borderRadius:
+                                            BorderRadius.circular(10),
                                       ),
                                     ),
                                     child: Text(S.of(context).continue_text,
@@ -536,9 +681,10 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                   ),
                                 )
                               : Container(
-                                  width: MediaQuery.of(context).size.width *
-                                      2.6 /
-                                      3,
+                                margin:EdgeInsets.all(10),
+                                  // width: _width *
+                                  //     2.6 /
+                                  //     3,
                                   child: ElevatedButton(
                                     onPressed: () =>
                                         Navigator.of(context).pop(),
@@ -546,7 +692,8 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                       primary: Color(0xff0BA70F),
                                       padding: EdgeInsets.all(15),
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
+                                        borderRadius:
+                                            BorderRadius.circular(10),
                                       ),
                                     ),
                                     child: Text(S.of(context).ok,
@@ -556,12 +703,71 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                             fontWeight: FontWeight.bold)),
                                   ),
                                 ),
-                        ],
-                      ),
-              );
-            },
-          )),
-        ),
+          )
+        ]
+      )
+      // widget.onCloseCallback != null
+      //                         ? Container(
+      //                             // width: _width *
+      //                             //     2.6 /
+      //                             //     3,
+      //                             child: ElevatedButton(
+      //                               onPressed: isCopied
+      //                                   ? () {
+      //                                       widget.onCloseCallback != null
+      //                                           ? widget.onCloseCallback()
+      //                                           : Navigator.of(context).pop();
+      //                                     }
+      //                                   : null,
+      //                               style: ElevatedButton.styleFrom(
+      //                                 primary: isCopied
+      //                                     ? Color(0xff0BA70F)
+      //                                     : settingsStore.isDarkTheme
+      //                                         ? Color(0xff272733)
+      //                                         : Color(0xffE8E8E8),
+      //                                 padding: EdgeInsets.all(15),
+      //                                 shape: RoundedRectangleBorder(
+      //                                   borderRadius:
+      //                                       BorderRadius.circular(10),
+      //                                 ),
+      //                               ),
+      //                               child: Text(S.of(context).continue_text,
+      //                                   style: TextStyle(
+      //                                       color: isCopied
+      //                                           ? Color(0xffffffff)
+      //                                           : settingsStore.isDarkTheme
+      //                                               ? Color(0xff6C6C78)
+      //                                               : Color(0xffB2B2B6),
+      //                                       fontSize: 16,
+      //                                       fontWeight: FontWeight.bold)),
+      //                             ),
+      //                           )
+      //                         : Container(
+      //                             width: _width *
+      //                                 2.6 /
+      //                                 3,
+      //                             child: ElevatedButton(
+      //                               onPressed: () =>
+      //                                   Navigator.of(context).pop(),
+      //                               style: ElevatedButton.styleFrom(
+      //                                 primary: Color(0xff0BA70F),
+      //                                 padding: EdgeInsets.all(15),
+      //                                 shape: RoundedRectangleBorder(
+      //                                   borderRadius:
+      //                                       BorderRadius.circular(10),
+      //                                 ),
+      //                               ),
+      //                               child: Text(S.of(context).ok,
+      //                                   style: TextStyle(
+      //                                       color: Color(0xffffffff),
+      //                                       fontSize: 16,
+      //                                       fontWeight: FontWeight.bold)),
+      //                             ),
+      //                           ),
+          ]
+        )
+     
+      
       ],
     );
   }

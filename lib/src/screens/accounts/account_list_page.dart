@@ -1,5 +1,6 @@
 import 'package:beldex_wallet/src/screens/accounts/create_account_dialog.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/util/screen_sizer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
 import 'package:provider/provider.dart';
@@ -37,13 +38,14 @@ class AccountListPage extends BasePage {
     final walletStore = Provider.of<WalletStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
       final _controller = ScrollController(keepScrollOffset: true);
+      ScreenSize.init(context);
     return Column(
          crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
 
         Container(
-           height:MediaQuery.of(context).size.height*1/3,
+           height:ScreenSize.screenHeight1, //MediaQuery.of(context).size.height*1/3,
         decoration: BoxDecoration(
          color: settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED),
          borderRadius: BorderRadius.circular(10)
@@ -144,69 +146,78 @@ class AccountListPage extends BasePage {
             backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),//Colors.black,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)), //this right here
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              margin: EdgeInsets.all(20),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    S.of(context).are_you_sure,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top:8.0),
-                    child: Text(
-                      S.of(context).doYouWantToChangeYournPrimaryAccount,
+            child: FractionallySizedBox(
+              widthFactor: 0.95,
+              child: Container(
+                width:ScreenSize.screenWidth, //MediaQuery.of(context).size.width,
+                margin: EdgeInsets.all(20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      S.of(context).are_you_sure,
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 18,color: Theme.of(context).primaryTextTheme.caption.color),
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () =>Navigator.of(context).pop(false),
-                        style: ElevatedButton.styleFrom(
-                          primary: settingsStore.isDarkTheme ? Color(0xff383848): Color(0xffE8E8E8),
-                          padding: EdgeInsets.all(12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                    Padding(
+                      padding: const EdgeInsets.only(top:8.0),
+                      child: Text(
+                        S.of(context).doYouWantToChangeYournPrimaryAccount,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 17,color: Theme.of(context).primaryTextTheme.caption.color),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SizedBox(
+                          width: 90,
+                          child: ElevatedButton(
+                            onPressed: () =>Navigator.of(context).pop(false),
+                            style: ElevatedButton.styleFrom(
+                              primary: settingsStore.isDarkTheme ? Color(0xff383848): Color(0xffE8E8E8),
+                              padding: EdgeInsets.all(10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              S.of(context).no,
+                              style: TextStyle(fontSize: 16,fontWeight:FontWeight.bold,color: settingsStore.isDarkTheme ?Color(0xff93939B): Color(0xff222222), ),
+                            ),
                           ),
                         ),
-                        child: Text(
-                          S.of(context).no,
-                          style: TextStyle(fontSize: 18,fontWeight:FontWeight.bold,color: settingsStore.isDarkTheme ?Color(0xff93939B): Color(0xff222222), ),
-                        ),
-                      ),
-                      ElevatedButton(
-                        onPressed: (){
-                          if (isCurrent) return;
+                        SizedBox(
+                          width: 90,
+                          child: ElevatedButton(
+                            onPressed: (){
+                              if (isCurrent) return;
 
-                          walletStore.setAccount(account);
-                          Navigator.of(context).pop(true);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          primary: Color(0xff0BA70F),
-                          padding: EdgeInsets.all(12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
+                              walletStore.setAccount(account);
+                              Navigator.of(context).pop(true);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Color(0xff0BA70F),
+                              padding: EdgeInsets.all(10),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              S.of(context).yes,
+                              style: TextStyle(color: Color(0xffffffff),fontSize: 16,fontWeight:FontWeight.bold),
+                            ),
                           ),
                         ),
-                        child: Text(
-                          S.of(context).yes,
-                          style: TextStyle(color: Color(0xffffffff),fontSize: 18,fontWeight:FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  )
-                ],
+                      ],
+                    )
+                  ],
+                ),
               ),
             ),
           );

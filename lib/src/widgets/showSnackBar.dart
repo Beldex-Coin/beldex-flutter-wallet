@@ -1,14 +1,10 @@
-
-
-
 import 'package:flutter/material.dart';
-
 void displaySnackBar(BuildContext context, String text){
-
+final _height = MediaQuery.of(context).size.height*0.30/3;
 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                           margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.30/3,
-                                                           left: MediaQuery.of(context).size.height*0.30/3,
-                                                           right: MediaQuery.of(context).size.height*0.30/3
+                                                           margin: EdgeInsets.only(bottom:_height,
+                                                           left: _height,
+                                                           right: _height
                                                            ),
                                                             elevation:0, //5,
                                                             behavior: SnackBarBehavior.floating,
