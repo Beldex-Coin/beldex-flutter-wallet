@@ -52,9 +52,7 @@ abstract class NodeListBase with Store {
     }
 
     final node = Node(uri: uri, login: login, password: password);
-    if(!nodesSource.values.contains(node)) {
-      await nodesSource.add(node);
-    }
+    await nodesSource.add(node);
   }
 
   @action

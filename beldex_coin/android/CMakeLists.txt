@@ -15,5 +15,5 @@ set_target_properties(wallet_api PROPERTIES IMPORTED_LOCATION
 
 include_directories( ${EXTERNAL_LIBS_DIR}/beldex/include )
 
-target_link_libraries( beldex_coin PRIVATE wallet_api log)
+target_link_libraries( beldex_coin PRIVATE wallet_api )
 target_include_directories( beldex_coin PRIVATE wallet_api )

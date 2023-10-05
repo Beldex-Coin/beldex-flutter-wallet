@@ -421,14 +421,23 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                           return;
                                         }
                                         if(newNodePageChangeNotifier.isMainnet) {
-                                          await nodeList.addNode(
-                                              address:
-                                              _nodeAddressController.text,
-                                              port: _nodePortController.text,
-                                              login: _loginController.text,
-                                              password: _passwordController
-                                                  .text);
+                                          var status = false;
+                                          for(var i=0;i<nodeList.nodes.length;i++){
+                                            if(nodeList.nodes[i].uri.contains('${_nodeAddressController.text}:${_nodePortController.text}')){
+                                              status = true;
+                                            }
+                                          }
+                                          if(!status){
+                                            await nodeList.addNode(
+                                                address:
+                                                _nodeAddressController.text,
+                                                port: _nodePortController.text,
+                                                login: _loginController.text,
+                                                password: _passwordController
+                                                    .text);
+                                          }
                                           Navigator.of(context).pop();
+
                                         }else{
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(SnackBar(

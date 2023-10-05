@@ -178,10 +178,10 @@ extern "C"
             blockHeight = transaction->blockHeight();
             subaddrAccount = transaction->subaddrAccount();
             confirmations = transaction->confirmations();
-            datetime = static_cast<int64_t>(transaction->timestamp());            
+            datetime = static_cast<int64_t>(transaction->timestamp());
             direction = transaction->direction();
             isPending = static_cast<int8_t>(transaction->isPending());
-           // isStake = static_cast<int8_t>(transaction->isStake());  
+           // isStake = static_cast<int8_t>(transaction->isStake());
             std::string *hash_str = new std::string(transaction->hash());
             hash = strdup(hash_str->c_str());
             paymentId = strdup(transaction->paymentId().c_str());
@@ -231,7 +231,7 @@ extern "C"
             awaiting{(int)info.awaiting},
             decommissioned{(int)info.decommissioned}
             {}
-        
+
     };
     struct StakeUnlockResult
     {
@@ -261,7 +261,7 @@ extern "C"
     {
         m_wallet = wallet;
         m_listener = nullptr;
-        
+
 
         if (wallet != nullptr)
         {
@@ -493,7 +493,7 @@ extern "C"
     {
         nice(19);
         Beldex::Wallet *wallet = get_current_wallet();
-        
+
         std::string _login = "";
         std::string _password = "";
 
