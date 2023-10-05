@@ -5,7 +5,6 @@
 #include <iostream>
 #include <unistd.h>
 #include <thread>
-#include <mutex>
 // #include "BeldexWalletListener.h"
 #ifdef ANDROID
 #include "../External/android/beldex/include/wallet2_api.h"
@@ -17,36 +16,6 @@ namespace Beldex = Wallet;
 
 // Macro to force symbol visibility, and prevent the symbol being stripped
 #define EXPORT __attribute__((visibility("default"))) __attribute__((used))
-
-#ifdef __ANDROID_API__
-extern "C" int __android_log_write(int prio, const char* tag, const char* text);
-static bool start_logger()
-{
-    // Set stdout/stderr to the typical line-buffered and unbuffered:
-    setvbuf(stdout, 0, _IOLBF, 0);
-    setvbuf(stderr, 0, _IONBF, 0);
-
-    // Create a pipe and redirect both stdout/stderr into it:
-    int pipe_fd[2];
-    pipe(pipe_fd);
-    dup2(pipe_fd[1], 1);
-    dup2(pipe_fd[1], 2);
-
-    // Spawn and detach a logging thread that forever captures stderr (via the pipe) and redirects
-    // it into the android log subsystem:
-    std::thread{[](int fd) {
-        ssize_t sz;
-        char buf[4096];
-        while ((sz = read(fd, buf, sizeof(buf) - 1)) > 0) {
-            if (buf[sz - 1] == '\n') --sz; // strip trailing newline (android_log_write adds one)
-            buf[sz] = 0; // null terminate
-            __android_log_write(4 /*ANDROID_LOG_INFO*/, "beldex-wallet", buf);
-        }
-    }, pipe_fd[0]}.detach();
-    return true;
-}
-static bool started_logger = start_logger();
-#endif
 
 extern "C"
 {
@@ -164,7 +133,6 @@ extern "C"
         uint32_t subaddrAccount;
         int8_t direction;
         int8_t isPending;
-       // int8_t isStake;
 
         char *hash;
         char *paymentId;
@@ -181,7 +149,6 @@ extern "C"
             datetime = static_cast<int64_t>(transaction->timestamp());
             direction = transaction->direction();
             isPending = static_cast<int8_t>(transaction->isPending());
-           // isStake = static_cast<int8_t>(transaction->isStake());
             std::string *hash_str = new std::string(transaction->hash());
             hash = strdup(hash_str->c_str());
             paymentId = strdup(transaction->paymentId().c_str());
@@ -204,35 +171,18 @@ extern "C"
         }
     };
 
-    // struct StakeRow
-    // {
-    //     char *service_node_key;
-    //     uint64_t amount;
-
-    //     StakeRow(char *_service_node_key, uint64_t _amount)
-    //     {
-    //         service_node_key = _service_node_key;
-    //         amount = _amount;
-    //     }
-    // };
-
     struct StakeRow
     {
         char *service_node_key;
         uint64_t amount;
-        uint64_t unlock_height;
-        int awaiting;
-        int decommissioned;
 
-        explicit StakeRow(const Wallet::stakeInfo& info):
-            service_node_key{strdup(info.mn_pubkey.c_str())},
-            amount{info.stake},
-            unlock_height{info.unlock_height.value_or(0)},
-            awaiting{(int)info.awaiting},
-            decommissioned{(int)info.decommissioned}
-            {}
-
+        StakeRow(char *_service_node_key, uint64_t _amount)
+        {
+            service_node_key = _service_node_key;
+            amount = _amount;
+        }
     };
+
     struct StakeUnlockResult
     {
       bool success;
@@ -552,47 +502,28 @@ extern "C"
         store_mutex.unlock();
     }
 
-    // EXPORT
-    // int32_t stake_count() {
-    //     auto* stakes = m_wallet->listCurrentStakes();
-    //     int32_t count = static_cast<int32_t>(stakes->size());
-    //     delete stakes;
-    //     return count;
-    // }
-
-    // EXPORT
-    // int64_t* stake_get_all() {
-    //     auto* _stakes = m_wallet->listCurrentStakes();
-    //     size_t size = _stakes->size();
-    //     int64_t *stakes = (int64_t *)malloc(size * sizeof(int64_t));
-
-    //     for (int i = 0; i < size; i++) {
-    //         auto& [pubkey, amount] = (*_stakes)[i];
-    //         StakeRow *_row = new StakeRow(strdup(pubkey.c_str()), amount);
-    //         stakes[i] = reinterpret_cast<int64_t>(_row);
-    //     }
-
-    //     delete _stakes;
-    //     return stakes;
-    // }
-
     EXPORT
     int32_t stake_count() {
-       std::unique_ptr<std::vector<Wallet::stakeInfo>> stakes{m_wallet->listCurrentStakes()};
+        auto* stakes = m_wallet->listCurrentStakes();
         int32_t count = static_cast<int32_t>(stakes->size());
+        delete stakes;
         return count;
     }
 
     EXPORT
-    intptr_t* stake_get_all() {
-        std::unique_ptr<std::vector<Wallet::stakeInfo>> stakes{m_wallet->listCurrentStakes()};
-        size_t size = stakes->size();
-        intptr_t* stakes_out = reinterpret_cast<intptr_t *>(malloc(size * sizeof(intptr_t)));
+    int64_t* stake_get_all() {
+        auto* _stakes = m_wallet->listCurrentStakes();
+        size_t size = _stakes->size();
+        int64_t *stakes = (int64_t *)malloc(size * sizeof(int64_t));
 
-        for (int i = 0; i < size; i++)
-            stakes_out[i] = reinterpret_cast<intptr_t>(new StakeRow((*stakes)[i]));
+        for (int i = 0; i < size; i++) {
+            auto& [pubkey, amount] = (*_stakes)[i];
+            StakeRow *_row = new StakeRow(strdup(pubkey.c_str()), amount);
+            stakes[i] = reinterpret_cast<int64_t>(_row);
+        }
 
-        return stakes_out;
+        delete _stakes;
+        return stakes;
     }
 
     EXPORT
@@ -886,7 +817,7 @@ extern "C"
     void on_startup(void)
     {
         Beldex::Utils::onStartup();
-        Beldex::WalletManagerFactory::setLogLevel(1);
+        Beldex::WalletManagerFactory::setLogLevel(0);
     }
 
     EXPORT
