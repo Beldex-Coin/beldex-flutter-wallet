@@ -53,7 +53,7 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
   void onPinCodeEntered(PinCodeState state) {
     if (!isEnteredOriginalPin()) {
       _originalPin = state.pin;
-      state.title = S.current.enter_your_pin_again;
+      state.title = S.current.re_enter_your_pin;
       state.clear();
     } else {
       if (listEquals<int>(state.pin, _originalPin)) {

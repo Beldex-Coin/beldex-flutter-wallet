@@ -208,7 +208,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
             width: 150,
           ),
         ),
-        Text(S.of(context).enterYourPin,
+        Text(title,
             style: TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.w600,

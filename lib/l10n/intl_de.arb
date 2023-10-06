@@ -201,7 +201,7 @@
 
 
   "setup_pin" : "PIN einrichten",
-  "enter_your_pin_again" : "Geben Sie Ihre PIN erneut ein",
+  "re_enter_your_pin" : "Geben Sie Ihre PIN erneut ein",
   "setup_successful" : "Ihre PIN wurde erfolgreich eingerichtet!",
 
 

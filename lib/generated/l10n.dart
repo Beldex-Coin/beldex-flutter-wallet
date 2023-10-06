@@ -1665,11 +1665,11 @@ class S {
     );
   }
 
-  /// `Enter your pin again`
-  String get enter_your_pin_again {
+  /// `Re-Enter your PIN`
+  String get re_enter_your_pin {
     return Intl.message(
-      'Enter your pin again',
-      name: 'enter_your_pin_again',
+      'Re-Enter your PIN',
+      name: 're_enter_your_pin',
       desc: '',
       args: [],
     );

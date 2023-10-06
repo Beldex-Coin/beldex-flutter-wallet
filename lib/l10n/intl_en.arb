@@ -201,7 +201,7 @@
 
 
   "setup_pin" : "Setup PIN",
-  "enter_your_pin_again" : "Enter your pin again",
+  "re_enter_your_pin" : "Re-Enter your PIN",
   "setup_successful" : "Your PIN has been set up \nsuccessfully!",
 
 
