@@ -297,7 +297,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                               child: LinearProgressIndicator(
                                 backgroundColor: Palette.separator,
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                    BeldexPalette.belgreen //teal
+                                    isFailure
+                                        ? BeldexPalette.red
+                                        : BeldexPalette.belgreen
                                     ),
                                 value: progress,
                               ),
@@ -313,11 +315,13 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                         fontWeight: FontWeight.bold,
                                         color: isFailure
                                             ? BeldexPalette.red
-                                            : BeldexPalette.belgreen //teal
+                                            : BeldexPalette.belgreen
                                         )),
                                 syncStore.status is SyncedSyncStatus || syncStore.status.blockLeft() == 0
                                     ? GestureDetector(
                                         onTap: () async {
+                                          final prefs = await SharedPreferences.getInstance();
+                                          print("Wallet Name : ${walletStore.name}, RefreshHeight : ${prefs.getInt('currentHeight')}");
                                           await showDialog<void>(
                                               context: context,
                                               builder: (_) {

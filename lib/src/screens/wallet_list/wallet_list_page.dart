@@ -167,36 +167,3 @@ class WalletListBodyState extends State<WalletListBody> {
     );
   }
 }
-
-class LoadingScreen extends StatelessWidget {
-  final WalletDescription wallet;
-  final WalletListStore walletListStore;
-
-  LoadingScreen({Key key, this.wallet, this.walletListStore}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Future.delayed(const Duration(milliseconds: 250), () {
-      walletListStore.loadWallet(wallet);
-      Navigator.of(context).pop();
-    });
-    return AlertDialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Center(
-            child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(13.0),
-            child: Text(S.of(context).loadingTheWallet,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
-          )
-        ],
-      ),
-    );
-  }
-}
