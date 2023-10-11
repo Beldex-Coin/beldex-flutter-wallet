@@ -8,6 +8,9 @@ import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_keys_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 //import 'package:flutter_windowmanager/flutter_windowmanager.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
+import 'package:toast/toast.dart';
+
 class ShowKeysPage extends BasePage {
   @override
   bool get isModalBackButton => true;
@@ -15,16 +18,14 @@ class ShowKeysPage extends BasePage {
   @override
   String get title => S.current.wallet_keys;
 
-
- @override
- Widget trailing(BuildContext context){
-  return Container();
- }
+  @override
+  Widget trailing(BuildContext context) {
+    return Container();
+  }
 
 // void setPageSecure()async{
 //    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
 // }
-
 
   @override
   Widget body(BuildContext context) {
@@ -71,32 +72,41 @@ class ShowKeysPage extends BasePage {
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('$key:', style: TextStyle(fontSize: 18.0,fontWeight: FontWeight.w800)),
+                          Text('$key:',
+                              style: TextStyle(
+                                  fontSize: 18.0, fontWeight: FontWeight.w800)),
                           InkWell(
-                            onTap: (){
+                            onTap: () {
                               Clipboard.setData(ClipboardData(
-                            text: keysMap.values.elementAt(index)));
-                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                                           margin: EdgeInsets.only(bottom: MediaQuery.of(context).size.height*0.30/3,
-                                                           left: MediaQuery.of(context).size.height*0.30/3,
-                                                           right: MediaQuery.of(context).size.height*0.30/3
-                                                           ),
-                                                            elevation:0, //5,
-                                                            behavior: SnackBarBehavior.floating,
-                                                            shape: RoundedRectangleBorder(
-                                                                borderRadius: BorderRadius.circular(15.0) //only(topLeft: Radius.circular(10),topRight: Radius.circular(10))
-                                                            ),
-                                                            content: Text(S
-                                                                .of(context)
-                                                                .copied,style: TextStyle(color: Color(0xff0EB212),fontWeight:FontWeight.w700,fontSize:15) ,textAlign: TextAlign.center,),
-                                                            backgroundColor: Color(0xff0BA70F).withOpacity(0.10), //.fromARGB(255, 46, 113, 43),
-                                                            duration: Duration(
-                                                                milliseconds: 1500),
-                                                          ));
+                                  text: keysMap.values.elementAt(index)));
+                              Toast.show(
+                                S.of(context).copied,
+                                context,
+                                duration: Toast
+                                    .LENGTH_SHORT, // Toast duration (short or long)
+                                gravity: Toast
+                                    .BOTTOM, // Toast gravity (top, center, or bottom)
+                                textColor: Colors.white, // Text color
+                                backgroundColor:
+                                    Color(0xff0BA70F), // Background color
+                              );
+
+                              //      Scaffold.of(context).showSnackBar(SnackBar(
+                              //   content: Text(
+                              //     S.of(context).copied_key_to_clipboard(key),
+                              //     textAlign: TextAlign.center,
+                              //     style: TextStyle(color: Colors.white),
+                              //   ),
+                              //   backgroundColor: Color(0xff0BA70F),
+                              //   duration: Duration(seconds: 1),
+                              // ));
                             },
                             child: Padding(
-                              padding: const EdgeInsets.only(right:8.0),
-                              child: Icon(Icons.copy,size: 20,),
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                Icons.copy,
+                                size: 20,
+                              ),
                             ),
                           )
                         ],
@@ -109,12 +119,14 @@ class ShowKeysPage extends BasePage {
                               flex: 3,
                               child: Text(value,
                                   style: TextStyle(
-                                      fontSize: 13.0, color: Theme.of(context).primaryTextTheme.caption.color,)),
+                                    fontSize: 13.0,
+                                    color: Theme.of(context)
+                                        .primaryTextTheme
+                                        .caption
+                                        .color,
+                                  )),
                             ),
-                            Flexible(
-                              flex:1,
-                              child: Container())
-                            
+                            Flexible(flex: 1, child: Container())
                           ],
                         ),
                       ));

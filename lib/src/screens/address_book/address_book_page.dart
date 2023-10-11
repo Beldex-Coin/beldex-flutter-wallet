@@ -250,7 +250,7 @@ class AddressBookPage extends BasePage {
                                                           text:
                                                               contact.address));
                                                   displaySnackBar(context,
-                                                      S.of(context).copied);
+                                                      'Address ${S.of(context).copied}');
                                                 },
                                               ),
                                             ],

@@ -16,6 +16,7 @@ import 'package:beldex_wallet/src/stores/subaddress_list/subaddress_list_store.d
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toast/toast.dart';
 import 'dart:ui' as ui;
 import 'package:wc_flutter_share/wc_flutter_share.dart';
 
@@ -230,45 +231,17 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                             Clipboard.setData(ClipboardData(
                                                 text: walletStore
                                                     .subaddress.address));
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(SnackBar(
-                                              margin: EdgeInsets.only(
-                                                  bottom: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.35 /
-                                                      3,
-                                                  left: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.30 /
-                                                      3,
-                                                  right: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.30 /
-                                                      3),
-                                              elevation: 0,
-                                              //5,
-                                              behavior:
-                                                  SnackBarBehavior.floating,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15.0),
-                                              ),
-                                              content: Text(
-                                                S.of(context).copied,
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 15),
-                                                textAlign: TextAlign.center,
-                                              ),
-                                              backgroundColor:
-                                                  Color(0xff0BA70F),
-                                              duration:
-                                                  Duration(milliseconds: 1500),
-                                            ));
+ Toast.show(
+                                S.of(context).copied,
+                                context,
+                                duration: Toast
+                                    .LENGTH_SHORT, // Toast duration (short or long)
+                                gravity: Toast
+                                    .BOTTOM, // Toast gravity (top, center, or bottom)
+                                textColor: Colors.white, // Text color
+                                backgroundColor:
+                                    Color(0xff0BA70F), // Background color
+                              );
                                           },
                                           child: Container(
                                               height: 20,

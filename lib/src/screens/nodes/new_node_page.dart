@@ -10,6 +10,7 @@ import 'package:beldex_wallet/src/stores/node_list/node_list_store.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 class NewNodePage extends BasePage {
   @override
@@ -100,7 +101,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
   Widget build(BuildContext context) {
     final nodeList = Provider.of<NodeListStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    var newNodePageChangeNotifier = Provider.of<NewNodePageChangeNotifier>(context);
+    var newNodePageChangeNotifier =
+        Provider.of<NewNodePageChangeNotifier>(context);
     return ScrollableWithBottomSection(
       contentPadding: EdgeInsets.all(0),
       content: Form(
@@ -162,10 +164,12 @@ class NewNodeFormState extends State<NewNodePageForm> {
                         const EdgeInsets.only(top: 8.0, left: 20, right: 20),
                     child: TextFormField(
                         controller: _nodePortController,
-                        keyboardType: TextInputType.numberWithOptions(
-                            decimal: true),
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
                         inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,NoSpaceFormatter(),FilteringTextInputFormatter.deny(RegExp('[-,. ]'))
+                          FilteringTextInputFormatter.digitsOnly,
+                          NoSpaceFormatter(),
+                          FilteringTextInputFormatter.deny(RegExp('[-,. ]'))
                         ],
                         decoration: InputDecoration(
                             fillColor: settingsStore.isDarkTheme
@@ -285,7 +289,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
                         ),
                         validator: (value) => null),
                   ),
-                  newNodePageChangeNotifier.testMode == null || newNodePageChangeNotifier.testMode == ''
+                  newNodePageChangeNotifier.testMode == null ||
+                          newNodePageChangeNotifier.testMode == ''
                       ? Container(
                           height: 10,
                         )
@@ -329,11 +334,13 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                       padding:
                                           const EdgeInsets.only(left: 10.0),
                                       child: Text(
-                                          newNodePageChangeNotifier.isNodeChecked
+                                          newNodePageChangeNotifier
+                                                  .isNodeChecked
                                               ? S.of(context).success
                                               : S.of(context).connectionFailed,
                                           style: TextStyle(
-                                            color: !newNodePageChangeNotifier.isNodeChecked
+                                            color: !newNodePageChangeNotifier
+                                                    .isNodeChecked
                                                 ? Colors.red
                                                 : Color(0xff1AB51E),
                                             fontWeight: FontWeight.w800,
@@ -369,14 +376,24 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                     return;
                                   } else {
                                     _loading(true);
-                                    newNodePageChangeNotifier.setTestMode('testing');
+                                    newNodePageChangeNotifier
+                                        .setTestMode('testing');
                                     newNodePageChangeNotifier.setCanLoad(true);
-                                    final nodeWithPort = '${_nodeAddressController.text}:${_nodePortController.text}'; //'194.5.152.31:19091'
-                                    final isMainnet = await TestMainNetNode(uri:nodeWithPort,login: _loginController.text,password: _passwordController.text).isMainNet();
-                                    final isNodeChecked1 = await NodeForTest().isWorkingNode(nodeWithPort);
-                                    newNodePageChangeNotifier.setIsMainnet(isMainnet);
-                                    newNodePageChangeNotifier.setTestMode('done');
-                                    newNodePageChangeNotifier.setIsNodeChecked(isNodeChecked1);
+                                    final nodeWithPort =
+                                        '${_nodeAddressController.text}:${_nodePortController.text}'; //'194.5.152.31:19091'
+                                    final isMainnet = await TestMainNetNode(
+                                            uri: nodeWithPort,
+                                            login: _loginController.text,
+                                            password: _passwordController.text)
+                                        .isMainNet();
+                                    final isNodeChecked1 = await NodeForTest()
+                                        .isWorkingNode(nodeWithPort);
+                                    newNodePageChangeNotifier
+                                        .setIsMainnet(isMainnet);
+                                    newNodePageChangeNotifier
+                                        .setTestMode('done');
+                                    newNodePageChangeNotifier
+                                        .setIsNodeChecked(isNodeChecked1);
                                     newNodePageChangeNotifier.setCanLoad(false);
                                     _loading(false);
                                   }
@@ -420,72 +437,39 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                         if (!_formKey.currentState.validate()) {
                                           return;
                                         }
-                                        if(newNodePageChangeNotifier.isMainnet) {
+                                        if (newNodePageChangeNotifier
+                                            .isMainnet) {
                                           var status = false;
-                                          for(var i=0;i<nodeList.nodes.length;i++){
-                                            if(nodeList.nodes[i].uri.contains('${_nodeAddressController.text}:${_nodePortController.text}')){
+                                          for (var i = 0;
+                                              i < nodeList.nodes.length;
+                                              i++) {
+                                            if (nodeList.nodes[i].uri.contains(
+                                                '${_nodeAddressController.text}:${_nodePortController.text}')) {
                                               status = true;
                                             }
                                           }
-                                          if(!status){
+                                          if (!status) {
                                             await nodeList.addNode(
                                                 address:
-                                                _nodeAddressController.text,
+                                                    _nodeAddressController.text,
                                                 port: _nodePortController.text,
                                                 login: _loginController.text,
-                                                password: _passwordController
-                                                    .text);
+                                                password:
+                                                    _passwordController.text);
                                           }
                                           Navigator.of(context).pop();
-
-                                        }else{
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                            margin: EdgeInsets.only(
-                                                bottom: MediaQuery.of(
-                                                    context)
-                                                    .size
-                                                    .height *
-                                                    0.30 /
-                                                    3,
-                                                left: MediaQuery.of(
-                                                    context)
-                                                    .size
-                                                    .height *
-                                                    0.30 /
-                                                    3,
-                                                right: MediaQuery.of(
-                                                    context)
-                                                    .size
-                                                    .height *
-                                                    0.30 /
-                                                    3),
-                                            elevation: 0,
-                                            behavior: SnackBarBehavior
-                                                .floating,
-                                            shape:
-                                            RoundedRectangleBorder(
-                                                borderRadius:
-                                                BorderRadius
-                                                    .circular(
-                                                    15.0)),
-                                            content: Text(
-                                              S.of(context).pleaseAddAMainnetNode,
-                                              style: TextStyle(
-                                                  color:
-                                                  Color(0xff0EB212),
-                                                  fontWeight:
-                                                  FontWeight.w700,
-                                                  fontSize: 15),
-                                              textAlign:
-                                              TextAlign.center,
-                                            ),
-                                            backgroundColor:
-                                            Color(0xff0BA70F)
-                                                .withOpacity(0.10),
-                                            duration: Duration(
-                                                milliseconds: 1500),
-                                          ));
+                                        } else {
+                                          Toast.show(
+                                            S.of(context).pleaseAddAMainnetNode,
+                                            context,
+                                            duration: Toast.LENGTH_SHORT,
+                                            gravity: Toast
+                                                .BOTTOM, // Toast gravity (top, center, or bottom)
+                                            textColor:
+                                                Colors.white, // Text color
+                                            backgroundColor: Color(
+                                                0xff0BA70F), // Background color
+                                          );
                                         }
                                       }
                                     : null,
@@ -497,7 +481,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                               0.07 /
                                               3,
                                       fontWeight: FontWeight.bold,
-                                      color: newNodePageChangeNotifier.isNodeChecked
+                                      color: newNodePageChangeNotifier
+                                              .isNodeChecked
                                           ? Color(0xff1AB51E)
                                           : settingsStore.isDarkTheme
                                               ? Color(0xffB9B9B9)
@@ -535,7 +520,7 @@ class NewNodePageChangeNotifier with ChangeNotifier {
     notifyListeners();
   }
 
-  void setIsNodeChecked(bool status){
+  void setIsNodeChecked(bool status) {
     isNodeChecked = status;
     notifyListeners();
   }

@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:toast/toast.dart';
 
 class TransactionRow extends StatelessWidget {
   TransactionRow({
@@ -163,7 +164,9 @@ class TransactionRow extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                        S.of(context).transaction_details_transaction_id,
+                                        S
+                                            .of(context)
+                                            .transaction_details_transaction_id,
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w900)),
@@ -181,7 +184,7 @@ class TransactionRow extends StatelessWidget {
                                       child: Text(
                                         transaction.id,
                                         style: TextStyle(
-                                            color: Color(0xffACACAC),
+                                          color: Color(0xffACACAC),
                                         ),
                                       ),
                                     )),
@@ -189,41 +192,17 @@ class TransactionRow extends StatelessWidget {
                                       onTap: () {
                                         Clipboard.setData(ClipboardData(
                                             text: transaction.id));
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                          margin: EdgeInsets.only(
-                                              bottom: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.30 /
-                                                  3,
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.30 /
-                                                  3,
-                                              right: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.30 /
-                                                  3),
-                                          elevation: 0, //5,
-                                          behavior: SnackBarBehavior.floating,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(15.0)),
-                                          content: Text(
-                                            S.of(context).copied,
-                                            style: TextStyle(
-                                                color: Color(0xffffffff),
-                                                fontWeight: FontWeight.w700,
-                                                fontSize: 15),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          backgroundColor: Color(0xff0BA70F),
-                                          duration:
-                                              Duration(milliseconds: 1500),
-                                        ));
+                                        Toast.show(
+                                          S.of(context).copied,
+                                          context,
+                                          duration: Toast
+                                              .LENGTH_SHORT, // Toast duration (short or long)
+                                          gravity: Toast
+                                              .BOTTOM, // Toast gravity (top, center, or bottom)
+                                          textColor: Colors.white, // Text color
+                                          backgroundColor: Color(
+                                              0xff0BA70F), // Background color
+                                        );
                                       },
                                       child: Container(
                                           //height:20,width:40,
@@ -347,7 +326,10 @@ class TransactionRow extends StatelessWidget {
                                         Padding(
                                           padding: const EdgeInsets.only(
                                               left: 8.0, top: 10),
-                                          child: Text(S.of(context).transaction_details_recipient_address,
+                                          child: Text(
+                                              S
+                                                  .of(context)
+                                                  .transaction_details_recipient_address,
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w900)),
@@ -362,7 +344,7 @@ class TransactionRow extends StatelessWidget {
                                               child: Text(
                                             transaction.recipientAddress,
                                             style: TextStyle(
-                                                color: Color(0xffACACAC),
+                                              color: Color(0xffACACAC),
                                             ),
                                           )),
                                           InkWell(
@@ -370,47 +352,18 @@ class TransactionRow extends StatelessWidget {
                                               Clipboard.setData(ClipboardData(
                                                   text: transaction
                                                       .recipientAddress));
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(SnackBar(
-                                                margin: EdgeInsets.only(
-                                                    bottom:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.30 /
-                                                            3,
-                                                    left: MediaQuery.of(context)
-                                                            .size
-                                                            .height *
-                                                        0.30 /
-                                                        3,
-                                                    right:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height *
-                                                            0.30 /
-                                                            3),
-                                                elevation: 0, //5,
-                                                behavior:
-                                                    SnackBarBehavior.floating,
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            15.0)),
-                                                content: Text(
-                                                  S.of(context).copied,
-                                                  style: TextStyle(
-                                                      color: Color(0xffffffff),
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontSize: 15),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                                backgroundColor:
-                                                    Color(0xff0BA70F),
-                                                duration: Duration(
-                                                    milliseconds: 1500),
-                                              ));
+                                              Toast.show(
+                                                S.of(context).copied,
+                                                context,
+                                                duration: Toast
+                                                    .LENGTH_SHORT, 
+                                                gravity: Toast
+                                                    .BOTTOM,
+                                                textColor:
+                                                    Colors.white, 
+                                                backgroundColor: Color(
+                                                    0xff0BA70F), 
+                                              );
                                             },
                                             child: Container(
                                                 //height:20,width:40,
