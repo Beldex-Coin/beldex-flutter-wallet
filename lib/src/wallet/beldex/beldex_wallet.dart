@@ -236,12 +236,12 @@ class BelDexWallet extends Wallet {
   Future connectToNode(
       {Node node, bool useSSL = false, bool isLightWallet = false}) async {
     try {
-      _syncStatus.value = ConnectingSyncStatus();
+      _syncStatus.value = ConnectingSyncStatus(getCurrentHeight());
 
       // Check if node is online to avoid crash
       final nodeIsOnline = await node.isOnline();
       if (!nodeIsOnline) {
-        _syncStatus.value = FailedSyncStatus();
+        _syncStatus.value = FailedSyncStatus(getCurrentHeight());
         return;
       }
 
@@ -251,31 +251,31 @@ class BelDexWallet extends Wallet {
           password: node.password,
           useSSL: useSSL,
           isLightWallet: isLightWallet);
-      _syncStatus.value = ConnectedSyncStatus();
+      _syncStatus.value = ConnectedSyncStatus(getCurrentHeight());
     } catch (e) {
-      _syncStatus.value = FailedSyncStatus();
+      _syncStatus.value = FailedSyncStatus(getCurrentHeight());
       print(e);
     }
   }
 
   @override
   Future startSync() async {
-    try {
+   /* try {
       _setInitialHeight();
-    } catch (_) {}
+    } catch (_) {}*/
 
-    print('Starting from height: ${getCurrentHeight()}');
+    print('Starting from height: ${getCurrentHeight()}, getRefreshFromBlockHeight() ${getRefreshFromBlockHeight()}');
     final prefs =await SharedPreferences.getInstance();
-    await prefs.setInt('currentHeight', getCurrentHeight() ?? 0);
+    await prefs.setInt('currentHeight', getRefreshFromBlockHeight() ?? 0);
     try {
       print('Starting from height try');
-      _syncStatus.value = StartingSyncStatus();
+      _syncStatus.value = StartingSyncStatus(getCurrentHeight());
       beldex_wallet.startRefresh();
       _setListeners();
       _listener?.start();
     } catch (e) {
       print('Starting from height catch');
-      _syncStatus.value = FailedSyncStatus();
+      _syncStatus.value = FailedSyncStatus(getCurrentHeight());
       print(e);
       rethrow;
     }
@@ -327,10 +327,10 @@ class BelDexWallet extends Wallet {
 
   @override
   Future rescan({int restoreHeight = 0}) async {
-    _syncStatus.value = StartingSyncStatus();
+    _syncStatus.value = StartingSyncStatus(getCurrentHeight());
     setRefreshFromBlockHeight(height: restoreHeight);
     beldex_wallet.rescanBlockchainAsync();
-    _syncStatus.value = StartingSyncStatus();
+    _syncStatus.value = StartingSyncStatus(getCurrentHeight());
   }
 
   void setRecoveringFromSeed() =>
@@ -379,20 +379,20 @@ class BelDexWallet extends Wallet {
   beldex_wallet.SyncListener setListeners() =>
       beldex_wallet.setListeners(_onNewBlock, _onNewTransaction);
 
-  Future _onNewBlock(int height, int blocksLeft, double ptc, bool isRefreshing) async {
+  Future _onNewBlock(int height, int target,int blocksLeft, bool isRefreshing) async {
     try {
-      print('blockLeft --> $blocksLeft, $ptc');
+      print('blocksLeft --> $blocksLeft');
       if (isRefreshing) {
-        _syncStatus.add(SyncingSyncStatus(blocksLeft, ptc));
+        _syncStatus.add(SyncingSyncStatus(height, target,blocksLeft));
           print('isRefreshingNew if $isRefreshing');
       } else {
         print('isRefreshingNew else $isRefreshing');
         await askForUpdateTransactionHistory();
         await askForUpdateBalance();
 
-        if (blocksLeft < 100) {
+        if (blocksLeft < 2) {
           print('isRefreshingNew else if $isRefreshing');
-          _syncStatus.add(SyncedSyncStatus());
+          _syncStatus.add(SyncedSyncStatus(height));
           await beldex_wallet.store();
 
           if (walletInfo.isRecovery) {
@@ -400,9 +400,9 @@ class BelDexWallet extends Wallet {
           }
         }
 
-        if (blocksLeft <= 1) {
+        /*if (blocksLeft <= 1) {
           beldex_wallet.setRefreshFromBlockHeight(height: height);
-        }
+        }*/
       }
     } catch (e) {
       print(e.toString());

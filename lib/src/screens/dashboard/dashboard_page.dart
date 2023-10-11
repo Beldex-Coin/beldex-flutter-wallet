@@ -317,7 +317,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                             ? BeldexPalette.red
                                             : BeldexPalette.belgreen
                                         )),
-                                syncStore.status is SyncedSyncStatus || syncStore.status.blockLeft() == 0
+                                syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                     ? GestureDetector(
                                         onTap: () async {
                                           final prefs = await SharedPreferences.getInstance();
@@ -493,13 +493,13 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                   child: ElevatedButton.icon(
                                     icon: SvgPicture.asset(
                                       'assets/images/new-images/send.svg',
-                                      color: syncStore.status is SyncedSyncStatus || syncStore.status.blockLeft() == 0
+                                      color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                           ? Colors.white
                                           : settingsStore.isDarkTheme
                                               ? Color(0xff6C6C78)
                                               : Color(0xffB2B2B6),
                                     ),
-                                    onPressed: syncStore.status is SyncedSyncStatus || syncStore.status.blockLeft() == 0
+                                    onPressed: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                         ? () {
                                             Navigator.of(context,
                                                     rootNavigator: true)
@@ -509,7 +509,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                     label: Text(
                                       S.of(context).send,
                                       style: TextStyle(
-                                          color: syncStore.status is SyncedSyncStatus || syncStore.status.blockLeft() == 0
+                                          color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                               ? Colors.white
                                               : settingsStore.isDarkTheme
                                                   ? Color(0xff6C6C78)
@@ -518,7 +518,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           fontSize: 16),
                                     ),
                                     style: ElevatedButton.styleFrom(
-                                      primary: syncStore.status is SyncedSyncStatus || syncStore.status.blockLeft() == 0
+                                      primary: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                           ? Color(0xff0BA70F)
                                           : settingsStore.isDarkTheme
                                               ? Color(0xff333343)
@@ -590,7 +590,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         Observer(
                           builder: (_) {
                             return GestureDetector(
-                              onTap: syncStore.status is SyncedSyncStatus || syncStore.status.blockLeft() == 0
+                              onTap: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                   ? () {
                                       _presentQRScanner(context);
                                     }
@@ -610,7 +610,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                     ),
                                     child: SvgPicture.asset(
                                       'assets/images/new-images/flashqr.svg',
-                                      color: syncStore.status is SyncedSyncStatus || syncStore.status.blockLeft() == 0
+                                      color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                           ? Color(0xff222222)
                                           : Color(0xffD9D9D9),
                                     )),

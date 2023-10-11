@@ -1,24 +1,23 @@
 import 'package:beldex_wallet/generated/l10n.dart';
 
 abstract class SyncStatus {
-  const SyncStatus();
+  const SyncStatus(this.currentHeight, this.targetHeight,this.blocksLeft);
 
-  double progress();
+  final int currentHeight;
+  final int targetHeight;
+  final int blocksLeft;
+
+  double progress() => targetHeight > 0 ? currentHeight / targetHeight : 0.0;
 
   String title();
-
-  int blockLeft();
 }
 
 class SyncingSyncStatus extends SyncStatus {
-  SyncingSyncStatus(this.blocksLeft, this.ptc);
-
-  final double ptc;
-  final int blocksLeft;
+  const SyncingSyncStatus(int currentHeight, int targetHeight,int blocksLeft) : super(currentHeight, targetHeight,blocksLeft);
 
   @override
-  double progress() => ptc;
-
+  double progress() => targetHeight > 0 ? currentHeight / targetHeight : 0.0;
+  
   @override
   String title(){
     if(blocksLeft == 1) {
@@ -32,89 +31,64 @@ class SyncingSyncStatus extends SyncStatus {
 
   @override
   String toString() => '$blocksLeft';
-
-  @override
-  int blockLeft() {
-    return blocksLeft;
-  }
 }
 
 class SyncedSyncStatus extends SyncStatus {
+  SyncedSyncStatus(int height) : super(height, height,0);
+
   @override
   double progress() => 1.0;
 
   @override
   String title() => S.current.sync_status_synchronized;
-
-  @override
-  int blockLeft() {
-    return 0;
-  }
 }
 
 class NotConnectedSyncStatus extends SyncStatus {
-  const NotConnectedSyncStatus();
+  const NotConnectedSyncStatus(int currentHeight) : super(currentHeight, 0,-1);
 
   @override
   double progress() => 0.0;
 
   @override
   String title() => S.current.sync_status_not_connected;
-
-  @override
-  int blockLeft() {
-    return -1;
-  }
 }
 
 class StartingSyncStatus extends SyncStatus {
+  const StartingSyncStatus(int currentHeight) : super(currentHeight, 0,-1);
+  
   @override
   double progress() => 0.0;
 
   @override
   String title() => S.current.sync_status_starting_sync;
-
-  @override
-  int blockLeft() {
-    return -1;
-  }
 }
 
 class FailedSyncStatus extends SyncStatus {
+  const FailedSyncStatus(int currentHeight) : super(currentHeight, 0,-1);
+  
   @override
   double progress() => 1.0;
 
   @override
   String title() => S.current.sync_status_failed_connect;
-
-  @override
-  int blockLeft() {
-    return -1;
-  }
 }
 
 class ConnectingSyncStatus extends SyncStatus {
+  const ConnectingSyncStatus(int currentHeight) : super(currentHeight, 0,-1);
+  
   @override
   double progress() => 0.0;
 
   @override
   String title() => S.current.sync_status_connecting;
-
-  @override
-  int blockLeft() {
-    return -1;
-  }
 }
 
 class ConnectedSyncStatus extends SyncStatus {
+  const ConnectedSyncStatus(int currentHeight) : super(currentHeight, 0,-1);
+  
   @override
   double progress() => 0.0;
 
   @override
   String title() => S.current.sync_status_connected;
-
-  @override
-  int blockLeft() {
-    return -1;
-  }
 }

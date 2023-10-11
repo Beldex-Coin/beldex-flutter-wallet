@@ -642,7 +642,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
         return Container(
           margin: EdgeInsets.only(left: 15, right: 15, top: 30),
           child: InkWell(
-            onTap: syncStore.status is SyncedSyncStatus || syncStore.status.blockLeft() == 0
+            onTap: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                 ? () async {
                     final currentFocus = FocusScope.of(context);
 

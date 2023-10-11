@@ -342,7 +342,7 @@ class NewStakeFormState extends State<NewStakeForm>
             text: S.of(context).stake_beldex,
             outerColor: Theme.of(context).primaryTextTheme.subtitle2.color,
             innerColor: BeldexPalette.teal,
-            onFutureSubmit: syncStore.status is SyncedSyncStatus || syncStore.status.blockLeft() == 0
+            onFutureSubmit: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                 ? () async {
                     if (_formKey.currentState.validate()) {
                       var isSuccessful = false;
@@ -396,7 +396,7 @@ class NewStakeFormState extends State<NewStakeForm>
                     },
                     onVerticalDragEnd: (details) {
                       controller.add(MediaQuery.of(context).size.height * 0.12);
-                      syncStore.status is SyncedSyncStatus || syncStore.status.blockLeft() == 0
+                      syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                 ? () async {
                               if (_formKey.currentState.validate()) {
                                 var isSuccessful = false;
@@ -496,7 +496,7 @@ class NewStakeFormState extends State<NewStakeForm>
             text: S.of(context).stake_beldex,
             outerColor: Theme.of(context).primaryTextTheme.subtitle2.color,
             innerColor: BeldexPalette.teal,
-            onFutureSubmit: syncStore.status is SyncedSyncStatus || syncStore.status.blockLeft() == 0
+            onFutureSubmit: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                 ? () async {
                     if (_formKey.currentState.validate()) {
                       var isSuccessful = false;

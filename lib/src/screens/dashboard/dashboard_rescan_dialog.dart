@@ -68,7 +68,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
               height: 10,
             ),
             Observer(builder: (_) {
-              if (syncStore.status is SyncedSyncStatus || syncStore.status.blockLeft() == 0) {
+              if (syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0) {
                 canRescan = true;
               } else {
                 canRescan = false;
