@@ -901,7 +901,7 @@ class ShowMenuForRescan extends StatelessWidget {
                                         }
                                       },
                                       child: Center(
-                                          child: Text('Cancel',
+                                          child: Text(S.of(context).cancel,
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   fontWeight:
