@@ -38,7 +38,7 @@ import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/domain/common/language.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
-
+import 'package:beldex_wallet/src/screens/pin_code/bio_auth_provider.dart';
 void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
@@ -127,7 +127,8 @@ void main() async {
       Provider(create: (_) => transactionDescriptions),
       Provider(create: (_) => seedLanguageStore),
       StreamProvider(create: (_) => networkService, initialData: NetworkStatus.online),
-      Provider(create: (_) => sendStore)
+      Provider(create: (_) => sendStore),
+      ChangeNotifierProvider(create:(_)=> ButtonClickNotifier())
     ], child: BeldexWalletApp()));
   } catch (e) {
     runApp(MaterialApp(

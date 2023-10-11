@@ -1,4 +1,7 @@
+import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
+import 'package:beldex_wallet/src/screens/pin_code/bio_auth_provider.dart';
 import 'package:beldex_wallet/src/screens/pin_code/biometric_dialog.dart';
+import 'package:beldex_wallet/src/stores/auth/auth_store.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:local_auth/local_auth.dart';
@@ -15,12 +18,15 @@ abstract class PinCodeWidget extends StatefulWidget {
       {Key key,
       this.onPinCodeEntered,
       this.hasLengthSwitcher,
-      this.notifyParent})
+      this.notifyParent,
+      this.authStore
+      })
       : super(key: key);
 
   final Function(List<int> pin, PinCodeState state) onPinCodeEntered;
   final bool hasLengthSwitcher;
   final Function() notifyParent;
+  final AuthStore authStore;
 }
 
 class PinCode extends PinCodeWidget {
@@ -29,11 +35,13 @@ class PinCode extends PinCodeWidget {
     bool hasLengthSwitcher,
     Key key,
     Function() notifyParent,
+    AuthStore authStore,
   ) : super(
           key: key,
           onPinCodeEntered: onPinCodeEntered,
           hasLengthSwitcher: hasLengthSwitcher,
           notifyParent: notifyParent,
+          authStore: authStore
         );
 
   @override
@@ -88,15 +96,18 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
     setState(() {});
   }
 
-  LocalAuthentication auth;
+  final auth = LocalAuthentication();
   List<BiometricType> _availableBiometrics = <BiometricType>[];
-
+  String authorized = " not authorized";
+  bool _canCheckBiometric = false;
+  bool canClick = false;
   @override
   void initState() {
-    auth = LocalAuthentication();
+   // auth = LocalAuthentication();
     //-->
-    getSetupArrow();
-    _getAvailableBiometrics();
+   // _getAvailableBiometrics();
+   //_checkBiometric();
+  //  _getAvailableBiometric();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(afterLayout);
   }
@@ -142,22 +153,108 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
     borderRadius: BorderRadius.circular(32),
   );
 
-  void getSetupArrow() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {});
-    isUnlockScreen = prefs.getBool('removeArrow');
-  }
+
+
+// ///////////////-> code added//
+
+
+
+// Future<void> _authenticate(BuildContext contxt) async {
+//     bool authenticated = false;
+
+//     try {
+//       authenticated = await auth.authenticateWithBiometrics(
+//           localizedReason: "Scan your finger to authenticate",
+//           useErrorDialogs: true,
+//           stickyAuth: true);
+//     } on PlatformException catch (e) {
+//       print(e);
+//     }
+
+//     setState(() {
+//       authorized =
+//           authenticated ? "Authorized success" : "Failed to authenticate";
+      
+//       print(authorized);
+//     });
+//      if(authenticated){
+//      Navigator.of(contxt).pop();
+//      }
+//   }
+
+
+
+// Future<void> _checkBiometric() async {
+//     bool canCheckBiometric = false;
+
+//     try {
+//       canCheckBiometric = await auth.canCheckBiometrics;
+//     } on PlatformException catch (e) {
+//       print(e);
+//     }
+
+//     if (!mounted) return;
+
+//     setState(() {
+//       _canCheckBiometric = canCheckBiometric;
+//     });
+//   }
+
+
+// Future _getAvailableBiometric() async {
+//   List<BiometricType> availableBiometrics;
+//     try {
+//       availableBiometrics = await auth.getAvailableBiometrics();
+//     } on PlatformException catch (e) {
+//       availableBiometrics = <BiometricType>[];
+//       print(e);
+//     }
+//     if (!mounted) {
+//       return;
+//     }
+
+//     setState(() {
+//       _availableBiometrics = availableBiometrics;
+//     });
+//   }
+
+
+
+
+
+
+
+
+
+
+// //code ended <- //////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   @override
   void dispose() {
-    resetUnlockScreenValue();
     super.dispose();
   }
 
-  void resetUnlockScreenValue() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('removeArrow', false);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -191,6 +288,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
 
   Widget body(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
+    final buttonClicked = Provider.of<ButtonClickNotifier>(context);
     return SafeArea(
         child: Container(
       padding: EdgeInsets.only(left: 40.0, right: 40.0, bottom: 40.0),
@@ -308,17 +406,46 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                   shape: BoxShape.circle,
                                 ),
                                 child: GestureDetector(
-                                    onTap: () {
+                                    onTap: ()async {
+                                    // final prefs = await SharedPreferences.getInstance();
                                       if (settingsStore
                                           .allowBiometricAuthentication) {
-                                        _getAvailableBiometrics();
-                                        showBiometricDialog(
-                                            context,
-                                            S
-                                                .of(context)
-                                                .biometric_auth_reason);
+                                         buttonClicked.setButtonClicked(true);
+                                         print('button clicked place 1 ${buttonClicked.buttonClicked}');
+                                         Future.delayed(Duration(milliseconds: 20),(){
+                                          buttonClicked.setButtonClicked(false);
+                                          print('button clicked place 2 ${buttonClicked.buttonClicked}');
+                                         });
+                                        //  Provider.of<ButtonClickNotifier>(context,listen: false).setButtonClicked(true);
+                                        //  Provider.of<ButtonClickNotifier>(context,listen: false).setButtonClicked(false);
+
+
+  //                                       await prefs.setBool('isBiometricButtonClick', true);
+  //                                       Future<void>.delayed(Duration(microseconds: 1),()async{
+  //                                         await prefs.setBool('isBiometricButtonClick', false);
+  //   setState(() {});
+  // });
+                                        //   //  _authenticate(context);
+                                        // //_getAvailableBiometrics();
+                                        // await showBiometricDialog(
+                                        //     context,
+                                        //     S
+                                        //         .of(context)
+                                        //         .biometric_auth_reason,
+                                        //         widget.authStore
+                                        //         );
+
+                                    //  AuthPageState auth;
+                                      
+                                  //  getBioBottomSheet();
+
+
+
+
+
+
                                       } else {
-                                        showDialog<void>(
+                                        await showDialog<void>(
                                             context: context,
                                             builder: (BuildContext context) {
                                               return AlertDialog(
