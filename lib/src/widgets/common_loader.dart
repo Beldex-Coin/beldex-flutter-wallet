@@ -39,7 +39,7 @@ class CommonLoader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-            Container(
+            /*Container(
                 height: height * 0.35 / 3,
                 width: height * 0.35 / 3,
                 padding: EdgeInsets.all(15),
@@ -53,17 +53,23 @@ class CommonLoader extends StatelessWidget {
                     Color(0xff0BA70F),
                   ),
                   strokeWidth: 6,
+                )),*/
+                    Text(
+                      'Initiating Transaction..',
+                      style: TextStyle(
+                          fontSize: height * 0.07 / 3,fontWeight: FontWeight.w800,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff222222)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15.0),
+                      child: Text(
+                        'Please don\'t close this window or navigate to another app until the transaction gets initiated',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: height * 0.07 / 3,fontWeight: FontWeight.w700,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff222222)),
+                      ),
+                    )
+                  ],
                 )),
-            Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: Text(
-                S.of(context).creatingTheTransaction,
-                style: TextStyle(
-                    fontSize: height * 0.07 / 3,fontWeight: FontWeight.w700,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff222222)),
-              ),
-            )
-        ],
-      )),
           )),
     );
   }
