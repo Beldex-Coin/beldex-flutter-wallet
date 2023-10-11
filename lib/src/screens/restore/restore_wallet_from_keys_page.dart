@@ -1,3 +1,4 @@
+import 'package:beldex_coin/wallet.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/get_height_by_date.dart';
 import 'package:beldex_wallet/src/widgets/nospaceformatter.dart';
@@ -19,7 +20,7 @@ import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/src/widgets/blockchain_height_widget.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
-
+import 'package:toast/toast.dart';
 ///block height widget's property
 final dateController = TextEditingController();
 final restoreHeightController = TextEditingController();
@@ -64,11 +65,11 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
   final _viewKeyController = TextEditingController();
   final _spendKeyController = TextEditingController();
   bool canShowPopup = false;
-  ReactionDisposer restoreKeysDisposer;
+ // ReactionDisposer restoreKeysDisposer;
 
   @override
   void dispose() {
-    restoreKeysDisposer?.call();
+    //restoreKeysDisposer?.call();
     super.dispose();
   }
 
@@ -77,7 +78,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
     final walletRestorationStore = Provider.of<WalletRestorationStore>(context);
     final seedLanguageStore = Provider.of<SeedLanguageStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    restoreKeysDisposer = reaction((_) => walletRestorationStore.state,
+    reaction((_) => walletRestorationStore.state,
         (WalletRestorationState state) {
       if (state is WalletRestoredSuccessfully) {
         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -299,26 +300,36 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
     await prefs.setInt('currentHeight', height);
     canShowPopup = prefs.getBool('isRestored') ?? false;
     if (canShowPopup) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        margin: EdgeInsets.only(
-            bottom: MediaQuery.of(context).size.height * 0.30 / 3,
-            left: MediaQuery.of(context).size.height * 0.30 / 3,
-            right: MediaQuery.of(context).size.height * 0.30 / 3),
-        elevation: 0,
-        behavior: SnackBarBehavior.floating,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-        content: Text(
-          'You restored via keys',
-          style: TextStyle(
-              color: Color(0xffffffff),
-              fontWeight: FontWeight.w700,
-              fontSize: 15),
-          textAlign: TextAlign.center,
-        ),
-        backgroundColor: Color(0xff0BA70F),
-        duration: Duration(milliseconds: 1900),
-      ));
+       Toast.show(
+      'You restored via keys',
+      context,
+      duration: Toast.LENGTH_SHORT, 
+      gravity: Toast.BOTTOM,       
+      textColor: Colors.white,    
+      backgroundColor: Color(0xff0BA70F),
+    );
+
+  
+   // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      //   margin: EdgeInsets.only(
+      //       bottom: MediaQuery.of(context).size.height * 0.30 / 3,
+      //       left: MediaQuery.of(context).size.height * 0.30 / 3,
+      //       right: MediaQuery.of(context).size.height * 0.30 / 3),
+      //   elevation: 0,
+      //   behavior: SnackBarBehavior.floating,
+      //   shape:
+      //       RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+      //   content: Text(
+      //     'You restored via keys',
+      //     style: TextStyle(
+      //         color: Color(0xffffffff),
+      //         fontWeight: FontWeight.w700,
+      //         fontSize: 15),
+      //     textAlign: TextAlign.center,
+      //   ),
+      //   backgroundColor: Color(0xff0BA70F),
+      //   duration: Duration(milliseconds: 1900),
+      // ));
     }
   }
 }
@@ -349,6 +360,23 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
     restoreHeightController.text = '';
     super.dispose();
   }
+
+
+
+
+ bool checkCurrentHeight(String value){
+  final currentHeight = getCurrentHeight();
+  
+  print('$currentHeight --> is current height');
+  final intValue = int.tryParse(value);
+  if(intValue != null && intValue <= currentHeight){
+    return true;
+  }else{
+    return false;
+  }
+ }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -391,6 +419,8 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
                             if (!pattern.hasMatch(value)) {
                               return S.of(context).enterValidHeightWithoutSpace;
+                            }else if(!checkCurrentHeight(value)){
+                              return 'Please enter a valid Height';
                             } else {
                               return null;
                             }

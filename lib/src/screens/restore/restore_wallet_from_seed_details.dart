@@ -1,3 +1,4 @@
+import 'package:beldex_coin/wallet.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/get_height_by_date.dart';
 import 'package:beldex_wallet/src/widgets/nospaceformatter.dart';
@@ -51,11 +52,11 @@ class _RestoreFromSeedDetailsFormState
   final _blockchainHeightKey = GlobalKey<BlockchainHeightState>();
   final _nameController = TextEditingController();
   String heighterrorMessage;
-  ReactionDisposer restoreSeedDisposer;
+ // ReactionDisposer restoreSeedDisposer;
 
   @override
   void dispose() {
-    restoreSeedDisposer?.call();
+   // restoreSeedDisposer?.call();
     super.dispose();
   }
 
@@ -63,7 +64,7 @@ class _RestoreFromSeedDetailsFormState
   Widget build(BuildContext context) {
     final walletRestorationStore = Provider.of<WalletRestorationStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    restoreSeedDisposer = reaction((_) => walletRestorationStore.state,
+    reaction((_) => walletRestorationStore.state,
         (WalletRestorationState state) {
       if (state is WalletRestoredSuccessfully) {
         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -200,6 +201,26 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
     super.dispose();
   }
 
+
+ bool checkCurrentHeight(String value){
+  final currentHeight = getCurrentHeight();
+  
+  print('$currentHeight --> is current height');
+  final intValue = int.tryParse(value);
+  if(intValue != null && intValue <= currentHeight){
+    return true;
+  }else{
+    return false;
+  }
+ }
+
+
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
@@ -242,6 +263,8 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
                             if (!pattern.hasMatch(value)) {
                               return S.of(context).enterValidHeightWithoutSpace;
+                            }else if(!checkCurrentHeight(value)){
+                              return 'Please enter a valid Height';
                             } else {
                               return null;
                             }
