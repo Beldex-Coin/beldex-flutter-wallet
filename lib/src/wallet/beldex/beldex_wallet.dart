@@ -264,9 +264,9 @@ class BelDexWallet extends Wallet {
       _setInitialHeight();
     } catch (_) {}*/
 
-    print('Starting from height: ${getCurrentHeight()}, getRefreshFromBlockHeight() ${getRefreshFromBlockHeight()}');
+    print('Starting from height: ${getCurrentHeight()}');
     final prefs =await SharedPreferences.getInstance();
-    await prefs.setInt('currentHeight', getRefreshFromBlockHeight() ?? 0);
+    await prefs.setInt('currentHeight', getCurrentHeight() ?? 0);
     try {
       print('Starting from height try');
       _syncStatus.value = StartingSyncStatus(getCurrentHeight());
