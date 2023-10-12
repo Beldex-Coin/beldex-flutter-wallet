@@ -361,7 +361,7 @@
   "enterAmount": "Entrer le montant",
   "pleaseEnterAAmount": "Veuillez saisir un montant",
   "committingTheTransaction": "Validation de la transaction",
-  "availableBdx": "BDX disponibles :",
+  "availableBdx": "BDX disponibles : ",
   "pleaseEnterABdxAddress": "Veuillez entrer une adresse bdx",
   "enterAValidAddress": "Entrez une adresse valide",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "La fonctionnalité biométrique est actuellement désactivée. Veuillez activer la fonctionnalité d'authentification biométrique dans les paramètres de l'application.",
@@ -423,5 +423,6 @@
   "appstore": "AppStore",
   "allowFaceIdAuthentication": "Autoriser l'authentification par identification faciale",
   "enterAddress": "Entrer l'adresse",
-  "pleaseAddAMainnetNode": "Veuillez ajouter un nœud de réseau principal"
+  "pleaseAddAMainnetNode": "Veuillez ajouter un nœud de réseau principal",
+  "flashTransactionPriority" : "Les transactions flash sont des transactions instantanées.\nLa priorité {transactionPriority} est définie comme frais par défaut."
 }

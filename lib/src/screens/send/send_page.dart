@@ -212,7 +212,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
               children: [
                 Container(
                   width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.50 / 3,
                   padding: EdgeInsets.all(15),
                   decoration: BoxDecoration(
                       color: Colors.transparent,
@@ -251,10 +250,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xff9292A7)
                                         : Color(0xff737373)
-                                    // Theme.of(context)
-                                    //     .accentTextTheme
-                                    //     .caption
-                                    //     .decorationColor //Theme.of(context).primaryTextTheme.headline6.color
                                     ),
                               ),
                             ]);
@@ -275,7 +270,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                               SizedBox(height: 10),
                               Row(
                                 children: [
-                                  Text(S.of(context).availableBdx,
+                                  Flexible(
+                                  flex:1,
+                                    child:Text(S.of(context).availableBdx,
                                       style: TextStyle(
                                         color: Theme.of(context)
                                             .primaryTextTheme
@@ -284,12 +281,16 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                         fontSize: 16,
                                         //fontWeight: FontWeight.w600,
                                       )),
-                                  Text(availableBalance,
-                                      style: TextStyle(
-                                        color: Color(0xff0BA70F),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      )),
+                                  ),
+                                  Flexible(
+                                    flex:1,
+                                    child: Text(availableBalance,
+                                        style: TextStyle(
+                                          color: Color(0xff0BA70F),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        )),
+                                  ),
                                 ],
                               ),
                             ]);
@@ -619,8 +620,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       SizedBox(
                         width: double.infinity,
                         child: Text(
-                            S.of(context).send_priority(
-                                settingsStore.transactionPriority.toString()),
+                            '${isFlashTransaction == true ? S.of(context).flashTransactionPriority(
+                                settingsStore.transactionPriority.toString()) : S.of(context).send_priority(
+                                settingsStore.transactionPriority.toString())}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 14,

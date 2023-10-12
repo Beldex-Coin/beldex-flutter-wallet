@@ -37,27 +37,29 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m8(state_error) => "Échec de l\'authentification. ${state_error}";
 
-  static m9(item, appStore) => "Ne saisissez jamais votre portefeuille Beldex ${item} dans un logiciel ou un site Web autre que \\ n les portefeuilles Beldex officiels téléchargés directement depuis l \'${appStore}, \\ n le site Web beldex ou le GitHub beldex.";
+  static m9(transactionPriority) => "Les transactions flash sont des transactions instantanées.\nLa priorité ${transactionPriority} est définie comme frais par défaut.";
 
-  static m10(item) => "Ne donnez JAMAIS votre Wallet Beldex à qui que ce soit! ${item} à qui que ce soit!";
+  static m10(item, appStore) => "Ne saisissez jamais votre portefeuille Beldex ${item} dans un logiciel ou un site Web autre que \\ n les portefeuilles Beldex officiels téléchargés directement depuis l \'${appStore}, \\ n le site Web beldex ou le GitHub beldex.";
 
-  static m11(recipient_name) => "Vous envoyez de l\'argent à\n${recipient_name}";
+  static m11(item) => "Ne donnez JAMAIS votre Wallet Beldex à qui que ce soit! ${item} à qui que ce soit!";
 
-  static m12(name) => "Aucun itinéraire défini pour ${name}";
+  static m12(recipient_name) => "Vous envoyez de l\'argent à\n${recipient_name}";
 
-  static m13(transactionPriority) => "${transactionPriority} la priorité est définie comme frais par défaut.\nAccédez au paramètre pour modifier la priorité de la transaction.";
+  static m13(name) => "Aucun itinéraire défini pour ${name}";
 
-  static m14(title) => "${title} copié dans le presse-papiers";
+  static m14(transactionPriority) => "${transactionPriority} la priorité est définie comme frais par défaut.\nAccédez au paramètre pour modifier la priorité de la transaction.";
 
-  static m15(currentVersion) => "Version ${currentVersion}";
+  static m15(title) => "${title} copié dans le presse-papiers";
 
-  static m16(wallet_name, error) => "Échec du chargement du portefeuille ${wallet_name}. ${error}";
+  static m16(currentVersion) => "Version ${currentVersion}";
 
-  static m17(wallet_name, error) => "Erreur lors de la suppression ${wallet_name} Wallet. ${error}";
+  static m17(wallet_name, error) => "Échec du chargement du portefeuille ${wallet_name}. ${error}";
 
-  static m18(wallet_name) => "chargement du ${wallet_name} wallet";
+  static m18(wallet_name, error) => "Erreur lors de la suppression ${wallet_name} Wallet. ${error}";
 
-  static m19(wallet_name) => "Wallet ${wallet_name}";
+  static m19(wallet_name) => "chargement du ${wallet_name} wallet";
+
+  static m20(wallet_name) => "Wallet ${wallet_name}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -92,7 +94,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "auth_store_incorrect_password" : MessageLookupByLibrary.simpleMessage("mauvais code PIN"),
     "authenticated" : MessageLookupByLibrary.simpleMessage("Authentifié"),
     "authentication" : MessageLookupByLibrary.simpleMessage("Authentification"),
-    "availableBdx" : MessageLookupByLibrary.simpleMessage("BDX disponibles :"),
+    "availableBdx" : MessageLookupByLibrary.simpleMessage("BDX disponibles : "),
     "available_balance" : MessageLookupByLibrary.simpleMessage("Solde disponible"),
     "bdx" : MessageLookupByLibrary.simpleMessage("BDX"),
     "beldex_available_balance" : MessageLookupByLibrary.simpleMessage("Beldex solde disponible"),
@@ -179,6 +181,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "first_wallet_text" : MessageLookupByLibrary.simpleMessage("Super Wallet\npour Beldex"),
     "fiveDecimals" : MessageLookupByLibrary.simpleMessage("5 - Five (0.00000)"),
     "flashTransaction" : MessageLookupByLibrary.simpleMessage("Transaction flash"),
+    "flashTransactionPriority" : m9,
     "fourDecimals" : MessageLookupByLibrary.simpleMessage("4 - Four (0.0000)"),
     "full_balance" : MessageLookupByLibrary.simpleMessage("Solde complet"),
     "hidden_balance" : MessageLookupByLibrary.simpleMessage("solde caché"),
@@ -198,9 +201,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate" : MessageLookupByLibrary.simpleMessage("Assurez-vous de sauvegarder votre\nGraine de récupération, adresse du portefeuille\nEt clés privées"),
     "name" : MessageLookupByLibrary.simpleMessage("Nom"),
     "nameShouldNotBeEmpty" : MessageLookupByLibrary.simpleMessage("Le nom ne doit pas être vide"),
-    "neverInputYourBeldexWalletItemIntoAnySoftwareOr" : m9,
+    "neverInputYourBeldexWalletItemIntoAnySoftwareOr" : m10,
     "neverShareYourSeedToAnyoneCheckYourSurroundingsTo" : MessageLookupByLibrary.simpleMessage("Ne partagez jamais votre graine avec qui que ce soit! Vérifiez votre environnement pour vous assurer que personne ne vous oublie"),
-    "never_give_your" : m10,
+    "never_give_your" : m11,
     "new_subaddress_create" : MessageLookupByLibrary.simpleMessage("Créer"),
     "new_subaddress_label_name" : MessageLookupByLibrary.simpleMessage("Nom"),
     "new_subaddress_title" : MessageLookupByLibrary.simpleMessage("Nouvelle sous-adresse"),
@@ -218,7 +221,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "note" : MessageLookupByLibrary.simpleMessage("Note :"),
     "nothing_staked" : MessageLookupByLibrary.simpleMessage("Aucune contribution pour le moment"),
     "ok" : MessageLookupByLibrary.simpleMessage("Ok"),
-    "openalias_alert_content" : m11,
+    "openalias_alert_content" : m12,
     "openalias_alert_title" : MessageLookupByLibrary.simpleMessage("Beldex-destinataire reconnu"),
     "outgoing" : MessageLookupByLibrary.simpleMessage("sortant"),
     "password" : MessageLookupByLibrary.simpleMessage("Mot de Passe"),
@@ -274,7 +277,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "restore_wallet" : MessageLookupByLibrary.simpleMessage("Restaurer un portefeuille"),
     "restore_wallet_name" : MessageLookupByLibrary.simpleMessage("Nom du portefeuille"),
     "restore_wallet_restore_description" : MessageLookupByLibrary.simpleMessage("Description de la restauration du portefeuille"),
-    "router_no_route" : m12,
+    "router_no_route" : m13,
     "save" : MessageLookupByLibrary.simpleMessage("Sauvegarder"),
     "seedKeys" : MessageLookupByLibrary.simpleMessage("Graines et clés"),
     "seed_language_chinese" : MessageLookupByLibrary.simpleMessage("Chinois"),
@@ -299,7 +302,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "send_creating_transaction" : MessageLookupByLibrary.simpleMessage("Créer une transaction"),
     "send_error_currency" : MessageLookupByLibrary.simpleMessage("La devise ne peut contenir que des nombres"),
     "send_estimated_fee" : MessageLookupByLibrary.simpleMessage("Frais estimés:"),
-    "send_priority" : m13,
+    "send_priority" : m14,
     "send_title" : MessageLookupByLibrary.simpleMessage("Envoyer des"),
     "send_your_wallet" : MessageLookupByLibrary.simpleMessage("Votre portefeuille"),
     "sending" : MessageLookupByLibrary.simpleMessage("Envoyer"),
@@ -362,7 +365,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "touchTheFingerprintSensor" : MessageLookupByLibrary.simpleMessage("Touchez le capteur d\'empreintes digitales"),
     "transactionInitiatedSuccessfully" : MessageLookupByLibrary.simpleMessage("Transaction initiée avec succès"),
     "transaction_details_amount" : MessageLookupByLibrary.simpleMessage("Montant"),
-    "transaction_details_copied" : m14,
+    "transaction_details_copied" : m15,
     "transaction_details_date" : MessageLookupByLibrary.simpleMessage("Date"),
     "transaction_details_height" : MessageLookupByLibrary.simpleMessage("Taille"),
     "transaction_details_recipient_address" : MessageLookupByLibrary.simpleMessage("Adresse du destinataire"),
@@ -381,7 +384,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "use" : MessageLookupByLibrary.simpleMessage("Basculer vers "),
     "usePattern" : MessageLookupByLibrary.simpleMessage("UTILISER LE MODÈLE"),
     "userNameOptional" : MessageLookupByLibrary.simpleMessage("Nom d\'utilisateur (facultatif)"),
-    "version" : m15,
+    "version" : m16,
     "view_key_private" : MessageLookupByLibrary.simpleMessage("Clé d\'observation (secret)"),
     "view_key_public" : MessageLookupByLibrary.simpleMessage("Clé d\'observation (publique)"),
     "wallet" : MessageLookupByLibrary.simpleMessage("Portefeuille"),
@@ -390,11 +393,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "walletSettings" : MessageLookupByLibrary.simpleMessage("Paramètres du portefeuille"),
     "wallet_keys" : MessageLookupByLibrary.simpleMessage("Clés du portefeuille"),
     "wallet_list_create_new_wallet" : MessageLookupByLibrary.simpleMessage("Créer un nouveau portefeuille"),
-    "wallet_list_failed_to_load" : m16,
-    "wallet_list_failed_to_remove" : m17,
+    "wallet_list_failed_to_load" : m17,
+    "wallet_list_failed_to_remove" : m18,
     "wallet_list_load_wallet" : MessageLookupByLibrary.simpleMessage("Charger le portefeuille"),
-    "wallet_list_loading_wallet" : m18,
-    "wallet_list_removing_wallet" : m19,
+    "wallet_list_loading_wallet" : m19,
+    "wallet_list_removing_wallet" : m20,
     "wallet_list_restore_wallet" : MessageLookupByLibrary.simpleMessage("Restaurer le portefeuille"),
     "wallet_list_title" : MessageLookupByLibrary.simpleMessage("Beldex Wallet"),
     "wallet_menu" : MessageLookupByLibrary.simpleMessage("Menu du portefeuille"),

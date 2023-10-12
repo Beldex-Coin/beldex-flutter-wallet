@@ -360,7 +360,7 @@
   "enterAmount": "Menge eingeben",
   "pleaseEnterAAmount": "Bitte geben Sie einen Betrag ein",
   "committingTheTransaction": "Festschreiben der Transaktion",
-  "availableBdx": "Verfügbares BDX:",
+  "availableBdx": "Verfügbares BDX : ",
   "pleaseEnterABdxAddress": "Bitte geben Sie eine BDX-Adresse ein",
   "enterAValidAddress": "Geben Sie eine gültige Adresse ein",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "Die biometrische Funktion ist derzeit deaktiviert. Bitte aktivieren Sie die Funktion „Biometrische Authentifizierung zulassen“ in den App-Einstellungen",
@@ -422,5 +422,6 @@
   "appstore": "AppStore",
   "allowFaceIdAuthentication": "Gesichts-ID-Authentifizierung zulassen",
   "enterAddress": "Adresse eingeben",
-  "pleaseAddAMainnetNode": "Bitte fügen Sie einen Mainnet-Knoten hinzu"
+  "pleaseAddAMainnetNode": "Bitte fügen Sie einen Mainnet-Knoten hinzu",
+  "flashTransactionPriority" : "Flash-Transaktionen sind Soforttransaktionen.\nDie Priorität {transactionPriority} ist als Standardgebühr festgelegt."
 }

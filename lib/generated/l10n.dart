@@ -2965,10 +2965,10 @@ class S {
     );
   }
 
-  /// `Available BDX :`
+  /// `Available BDX : `
   String get availableBdx {
     return Intl.message(
-      'Available BDX :',
+      'Available BDX : ',
       name: 'availableBdx',
       desc: '',
       args: [],
@@ -3592,6 +3592,16 @@ class S {
       name: 'pleaseAddAMainnetNode',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `Flash transaction are instant transactions.\n{transactionPriority} priority is set as a default fee.`
+  String flashTransactionPriority(Object transactionPriority) {
+    return Intl.message(
+      'Flash transaction are instant transactions.\n$transactionPriority priority is set as a default fee.',
+      name: 'flashTransactionPriority',
+      desc: '',
+      args: [transactionPriority],
     );
   }
 }

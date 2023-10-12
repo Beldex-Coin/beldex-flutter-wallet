@@ -361,7 +361,7 @@
   "enterAmount": "Enter Amount",
   "pleaseEnterAAmount": "Please enter a amount",
   "committingTheTransaction": "Committing the Transaction",
-  "availableBdx": "Available BDX :",
+  "availableBdx": "Available BDX : ",
   "pleaseEnterABdxAddress": "Please enter a bdx address",
   "enterAValidAddress": "Enter a valid address",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings",
@@ -423,5 +423,6 @@
   "appstore": "AppStore",
   "allowFaceIdAuthentication": "Allow face id authentication",
   "enterAddress": "Enter Address",
-  "pleaseAddAMainnetNode": "Please add a mainnet node"
+  "pleaseAddAMainnetNode": "Please add a mainnet node",
+  "flashTransactionPriority" : "Flash transaction are instant transactions.\n{transactionPriority} priority is set as a default fee."
 }

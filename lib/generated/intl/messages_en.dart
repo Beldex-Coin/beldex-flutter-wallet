@@ -37,27 +37,29 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m8(state_error) => "Failed authentication. ${state_error}";
 
-  static m9(item, appStore) => "Never input your Beldex wallet ${item} into any software or website other than the official Beldex wallets downloaded directly from the ${appStore},the beldex website, or the beldex GitHub.";
+  static m9(transactionPriority) => "Flash transaction are instant transactions.\n${transactionPriority} priority is set as a default fee.";
 
-  static m10(item) => "Never Give your Beldex Wallet ${item} to Anyone!";
+  static m10(item, appStore) => "Never input your Beldex wallet ${item} into any software or website other than the official Beldex wallets downloaded directly from the ${appStore},the beldex website, or the beldex GitHub.";
 
-  static m11(recipient_name) => "You will be sending funds to\n${recipient_name}";
+  static m11(item) => "Never Give your Beldex Wallet ${item} to Anyone!";
 
-  static m12(name) => "No route defined for ${name}";
+  static m12(recipient_name) => "You will be sending funds to\n${recipient_name}";
 
-  static m13(transactionPriority) => "${transactionPriority} priority is set as the default fee.\nGo to setting to change the transaction priority.";
+  static m13(name) => "No route defined for ${name}";
 
-  static m14(title) => "${title} copied to Clipboard";
+  static m14(transactionPriority) => "${transactionPriority} priority is set as the default fee.\nGo to setting to change the transaction priority.";
 
-  static m15(currentVersion) => "Version ${currentVersion}";
+  static m15(title) => "${title} copied to Clipboard";
 
-  static m16(wallet_name, error) => "Failed to load ${wallet_name} wallet. ${error}";
+  static m16(currentVersion) => "Version ${currentVersion}";
 
-  static m17(wallet_name, error) => "Failed to remove ${wallet_name} wallet. ${error}";
+  static m17(wallet_name, error) => "Failed to load ${wallet_name} wallet. ${error}";
 
-  static m18(wallet_name) => "Loading ${wallet_name} wallet";
+  static m18(wallet_name, error) => "Failed to remove ${wallet_name} wallet. ${error}";
 
-  static m19(wallet_name) => "Removing ${wallet_name} wallet";
+  static m19(wallet_name) => "Loading ${wallet_name} wallet";
+
+  static m20(wallet_name) => "Removing ${wallet_name} wallet";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
@@ -92,7 +94,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "auth_store_incorrect_password" : MessageLookupByLibrary.simpleMessage("Wrong PIN"),
     "authenticated" : MessageLookupByLibrary.simpleMessage("Authenticated"),
     "authentication" : MessageLookupByLibrary.simpleMessage("Authentication"),
-    "availableBdx" : MessageLookupByLibrary.simpleMessage("Available BDX :"),
+    "availableBdx" : MessageLookupByLibrary.simpleMessage("Available BDX : "),
     "available_balance" : MessageLookupByLibrary.simpleMessage("Available Balance"),
     "bdx" : MessageLookupByLibrary.simpleMessage("BDX"),
     "beldex_available_balance" : MessageLookupByLibrary.simpleMessage("Beldex Available Balance"),
@@ -179,6 +181,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "first_wallet_text" : MessageLookupByLibrary.simpleMessage("Awesome wallet\nfor Beldex"),
     "fiveDecimals" : MessageLookupByLibrary.simpleMessage("5 - Five (0.00000)"),
     "flashTransaction" : MessageLookupByLibrary.simpleMessage("Flash Transaction"),
+    "flashTransactionPriority" : m9,
     "fourDecimals" : MessageLookupByLibrary.simpleMessage("4 - Four (0.0000)"),
     "full_balance" : MessageLookupByLibrary.simpleMessage("Full Balance"),
     "hidden_balance" : MessageLookupByLibrary.simpleMessage("Hidden Balance"),
@@ -198,9 +201,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate" : MessageLookupByLibrary.simpleMessage("Make sure to backup of your\nrecovery Seed, wallet address\nand private keys"),
     "name" : MessageLookupByLibrary.simpleMessage("Name"),
     "nameShouldNotBeEmpty" : MessageLookupByLibrary.simpleMessage("Name should not be empty"),
-    "neverInputYourBeldexWalletItemIntoAnySoftwareOr" : m9,
+    "neverInputYourBeldexWalletItemIntoAnySoftwareOr" : m10,
     "neverShareYourSeedToAnyoneCheckYourSurroundingsTo" : MessageLookupByLibrary.simpleMessage("Never share your seed to anyone! Check your surroundings to ensure no one is overlooking"),
-    "never_give_your" : m10,
+    "never_give_your" : m11,
     "new_subaddress_create" : MessageLookupByLibrary.simpleMessage("Create"),
     "new_subaddress_label_name" : MessageLookupByLibrary.simpleMessage("Label name"),
     "new_subaddress_title" : MessageLookupByLibrary.simpleMessage("New subaddress"),
@@ -218,7 +221,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "note" : MessageLookupByLibrary.simpleMessage("Note :"),
     "nothing_staked" : MessageLookupByLibrary.simpleMessage("Nothing staked yet"),
     "ok" : MessageLookupByLibrary.simpleMessage("Ok"),
-    "openalias_alert_content" : m11,
+    "openalias_alert_content" : m12,
     "openalias_alert_title" : MessageLookupByLibrary.simpleMessage("Beldex Recipient Detected"),
     "outgoing" : MessageLookupByLibrary.simpleMessage("Outgoing"),
     "password" : MessageLookupByLibrary.simpleMessage("Password"),
@@ -274,7 +277,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "restore_wallet" : MessageLookupByLibrary.simpleMessage("Use Existing Wallet"),
     "restore_wallet_name" : MessageLookupByLibrary.simpleMessage("Wallet Name"),
     "restore_wallet_restore_description" : MessageLookupByLibrary.simpleMessage("Wallet restore description"),
-    "router_no_route" : m12,
+    "router_no_route" : m13,
     "save" : MessageLookupByLibrary.simpleMessage("Save"),
     "seedKeys" : MessageLookupByLibrary.simpleMessage("Seed & Keys"),
     "seed_language_chinese" : MessageLookupByLibrary.simpleMessage("Chinese"),
@@ -299,7 +302,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "send_creating_transaction" : MessageLookupByLibrary.simpleMessage("Creating transaction"),
     "send_error_currency" : MessageLookupByLibrary.simpleMessage("Currency can only contain numbers"),
     "send_estimated_fee" : MessageLookupByLibrary.simpleMessage("Estimated Fee:"),
-    "send_priority" : m13,
+    "send_priority" : m14,
     "send_title" : MessageLookupByLibrary.simpleMessage("Send"),
     "send_your_wallet" : MessageLookupByLibrary.simpleMessage("Your wallet"),
     "sending" : MessageLookupByLibrary.simpleMessage("Sending"),
@@ -362,7 +365,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "touchTheFingerprintSensor" : MessageLookupByLibrary.simpleMessage("Touch the Fingerprint sensor"),
     "transactionInitiatedSuccessfully" : MessageLookupByLibrary.simpleMessage("Transaction initiated successfully"),
     "transaction_details_amount" : MessageLookupByLibrary.simpleMessage("Amount"),
-    "transaction_details_copied" : m14,
+    "transaction_details_copied" : m15,
     "transaction_details_date" : MessageLookupByLibrary.simpleMessage("Date"),
     "transaction_details_height" : MessageLookupByLibrary.simpleMessage("Height"),
     "transaction_details_recipient_address" : MessageLookupByLibrary.simpleMessage("Recipient Address"),
@@ -381,7 +384,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "use" : MessageLookupByLibrary.simpleMessage("Switch to "),
     "usePattern" : MessageLookupByLibrary.simpleMessage("USE PATTERN"),
     "userNameOptional" : MessageLookupByLibrary.simpleMessage("User Name (optional)"),
-    "version" : m15,
+    "version" : m16,
     "view_key_private" : MessageLookupByLibrary.simpleMessage("View key (private)"),
     "view_key_public" : MessageLookupByLibrary.simpleMessage("View key (public)"),
     "wallet" : MessageLookupByLibrary.simpleMessage("Wallet"),
@@ -390,11 +393,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "walletSettings" : MessageLookupByLibrary.simpleMessage("Wallet Settings"),
     "wallet_keys" : MessageLookupByLibrary.simpleMessage("Wallet keys"),
     "wallet_list_create_new_wallet" : MessageLookupByLibrary.simpleMessage("Create New Wallet"),
-    "wallet_list_failed_to_load" : m16,
-    "wallet_list_failed_to_remove" : m17,
+    "wallet_list_failed_to_load" : m17,
+    "wallet_list_failed_to_remove" : m18,
     "wallet_list_load_wallet" : MessageLookupByLibrary.simpleMessage("Load wallet"),
-    "wallet_list_loading_wallet" : m18,
-    "wallet_list_removing_wallet" : m19,
+    "wallet_list_loading_wallet" : m19,
+    "wallet_list_removing_wallet" : m20,
     "wallet_list_restore_wallet" : MessageLookupByLibrary.simpleMessage("Use Existing Wallet"),
     "wallet_list_title" : MessageLookupByLibrary.simpleMessage("Beldex Wallet"),
     "wallet_menu" : MessageLookupByLibrary.simpleMessage("Menu"),
