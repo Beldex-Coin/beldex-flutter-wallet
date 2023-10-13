@@ -446,6 +446,16 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                             if (nodeList.nodes[i].uri.contains(
                                                 '${_nodeAddressController.text}:${_nodePortController.text}')) {
                                               status = true;
+                                              Toast.show('This node is already exist', context,
+                                               duration: Toast.LENGTH_SHORT,
+                                            gravity: Toast
+                                                .BOTTOM, // Toast gravity (top, center, or bottom)
+                                            textColor:
+                                                Colors.white, // Text color
+                                            backgroundColor: Color(
+                                                0xff0BA70F), 
+                                              );
+                                              return;
                                             }
                                           }
                                           if (!status) {
