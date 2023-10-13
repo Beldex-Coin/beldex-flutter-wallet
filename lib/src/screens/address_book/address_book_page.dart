@@ -225,16 +225,19 @@ class AddressBookPage extends BasePage {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                  left: 8.0,
-                                                ),
-                                                child: Text(
-                                                  contact.name,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w800,
-                                                      fontSize: 16),
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: const EdgeInsets.only(
+                                                    left: 8.0,
+                                                  ),
+                                                  child: Text(
+                                                    contact.name,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w800,
+
+                                                        fontSize: 16),
+                                                  ),
                                                 ),
                                               ),
                                               IconButton(

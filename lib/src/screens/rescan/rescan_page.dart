@@ -106,6 +106,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
     dateController.text = '';
     restoreHeightController.text = '';
 //_height = null;
+  FocusManager.instance.primaryFocus?.unfocus();
     super.dispose();
   }
 
