@@ -3305,10 +3305,10 @@ class S {
     );
   }
 
-  /// `Loading the Wallet`
+  /// `Loading the wallet...`
   String get loadingTheWallet {
     return Intl.message(
-      'Loading the Wallet',
+      'Loading the wallet...',
       name: 'loadingTheWallet',
       desc: '',
       args: [],
@@ -3602,6 +3602,26 @@ class S {
       name: 'flashTransactionPriority',
       desc: '',
       args: [transactionPriority],
+    );
+  }
+
+  /// `Initiating Transaction..`
+  String get initiatingTransactionTitle {
+    return Intl.message(
+      'Initiating Transaction..',
+      name: 'initiatingTransactionTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please don't close this window or navigate to another app until the transaction gets initiated`
+  String get initiatingTransactionDescription {
+    return Intl.message(
+      'Please don\'t close this window or navigate to another app until the transaction gets initiated',
+      name: 'initiatingTransactionDescription',
+      desc: '',
+      args: [],
     );
   }
 }

@@ -842,14 +842,14 @@ class CommitTransactionLoader extends StatelessWidget {
                       strokeWidth: 6,
                     )),*/
                 Text(
-                  'Initiating Transaction..',
+                  S.of(context).initiatingTransactionTitle,
                   style: TextStyle(
                       fontSize: height * 0.07 / 3,fontWeight: FontWeight.w800,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff222222)),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 15.0),
                   child: Text(
-                    'Please don\'t close this window or navigate to another app until the transaction gets initiated',
+                    S.of(context).initiatingTransactionDescription,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: height * 0.07 / 3,fontWeight: FontWeight.w700,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff222222)),

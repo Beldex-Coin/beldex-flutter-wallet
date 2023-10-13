@@ -395,7 +395,7 @@
   "subaddressAlreadyExist": "Subaddress already exist",
   "labelName": "Label name",
   "subAddress": "Sub Address",
-  "loadingTheWallet": "Loading the Wallet",
+  "loadingTheWallet": "Loading the wallet...",
   "youAreAboutToDeletenYourWallet": "You are about to delete\n your wallet!",
   "creatingTheTransaction": "Creating the Transaction",
   "copyAndSaveTheSeedToContinue": "Copy and save the seed to continue",
@@ -424,5 +424,7 @@
   "allowFaceIdAuthentication": "Allow face id authentication",
   "enterAddress": "Enter Address",
   "pleaseAddAMainnetNode": "Please add a mainnet node",
-  "flashTransactionPriority" : "Flash transaction are instant transactions.\n{transactionPriority} priority is set as a default fee."
+  "flashTransactionPriority" : "Flash transaction are instant transactions.\n{transactionPriority} priority is set as a default fee.",
+  "initiatingTransactionTitle" : "Initiating Transaction..",
+  "initiatingTransactionDescription" : "Please don't close this window or navigate to another app until the transaction gets initiated"
 }

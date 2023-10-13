@@ -394,7 +394,7 @@
   "subaddressAlreadyExist": "Unteradresse existiert bereits",
   "labelName": "Markenname",
   "subAddress": "Unteradresse",
-  "loadingTheWallet": "Laden des Wallets",
+  "loadingTheWallet": "Laden der Brieftasche...",
   "youAreAboutToDeletenYourWallet": "Sie sind dabei, zu löschen\n deine Geldbörse!",
   "creatingTheTransaction": "Erstellen der Transaktion",
   "copyAndSaveTheSeedToContinue": "Kopieren und speichern Sie den Seed, um fortzufahren",
@@ -423,5 +423,7 @@
   "allowFaceIdAuthentication": "Gesichts-ID-Authentifizierung zulassen",
   "enterAddress": "Adresse eingeben",
   "pleaseAddAMainnetNode": "Bitte fügen Sie einen Mainnet-Knoten hinzu",
-  "flashTransactionPriority" : "Flash-Transaktionen sind Soforttransaktionen.\nDie Priorität {transactionPriority} ist als Standardgebühr festgelegt."
+  "flashTransactionPriority" : "Flash-Transaktionen sind Soforttransaktionen.\nDie Priorität {transactionPriority} ist als Standardgebühr festgelegt.",
+  "initiatingTransactionTitle" : "Transaktion wird eingeleitet..",
+  "initiatingTransactionDescription" : "Bitte schließen Sie dieses Fenster nicht und navigieren Sie nicht zu einer anderen App, bis die Transaktion eingeleitet wird"
 }

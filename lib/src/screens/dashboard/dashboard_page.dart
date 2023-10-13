@@ -318,23 +318,23 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                               ? BeldexPalette.red
                                               : BeldexPalette.belgreen
                                           )),
-                                  // syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                  //     ? GestureDetector(
-                                  //         onTap: () async {
-                                  //           await showDialog<void>(
-                                  //               context: context,
-                                  //               builder: (_) {
-                                  //                 return SyncInfoAlertDialog();
-                                  //               });
-                                  //         },
-                                  //         child: Padding(
-                                  //           padding: const EdgeInsets.only(
-                                  //               left: 5.0),
-                                  //           child: Icon(Icons.info_outline,
-                                  //               size: 15),
-                                  //         ),
-                                  //       )
-                                  //     : Container()
+                                   /*syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                       ? GestureDetector(
+                                           onTap: () async {
+                                             await showDialog<void>(
+                                                 context: context,
+                                                 builder: (_) {
+                                                   return SyncInfoAlertDialog();
+                                                 });
+                                           },
+                                           child: Padding(
+                                             padding: const EdgeInsets.only(
+                                                 left: 5.0),
+                                             child: Icon(Icons.info_outline,
+                                                 size: 15),
+                                           ),
+                                         )
+                                       : Container()*/
                                 ],
                               ),
                               Text(descriptionText,
@@ -972,35 +972,40 @@ class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    return AlertDialog(
+    return Dialog(
+      insetPadding: EdgeInsets.all(15),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      title: Center(
-          child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.info_outline,
-            color: Color(0xff0BA70F),
-          ),
-          Text(S.of(context).syncInfo,
-              style: TextStyle(fontWeight: FontWeight.w800)),
-        ],
-      )),
       backgroundColor:
-          settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(S.of(context).youHaveScannedFromTheBlockHeight,
-              textAlign: TextAlign.center, style: TextStyle(fontSize: 13)),
-          Text(bHeight.toString(),
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Color(0xff0BA70F))),
-          Text(S.of(context).howeverWeRecommendToScanTheBlockchainFromTheBlock,
-              textAlign: TextAlign.center, style: TextStyle(fontSize: 13)),
-          Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: GestureDetector(
+      settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffFFFFFF),
+      child: Container(
+        margin: const EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.info_outline,
+                  color: Color(0xff0BA70F),
+                ),
+                Flexible(
+                  child: Text(S.of(context).syncInfo,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16)),
+                ),
+              ],
+            ),
+            SizedBox(height: 15,),
+            Text(S.of(context).youHaveScannedFromTheBlockHeight,
+                textAlign: TextAlign.center, style: TextStyle(fontSize: 13)),
+            Text(bHeight.toString(),
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Color(0xff0BA70F))),
+            Text(S.of(context).howeverWeRecommendToScanTheBlockchainFromTheBlock,
+                textAlign: TextAlign.center, style: TextStyle(fontSize: 13)),
+            SizedBox(height: 10,),
+            GestureDetector(
               onTap: () => Navigator.pop(context),
               child: Container(
                   height: 45,
@@ -1013,9 +1018,9 @@ class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold)))),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
