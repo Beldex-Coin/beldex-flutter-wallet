@@ -97,15 +97,26 @@ class Router {
         return MaterialPageRoute<void>(builder: (_) => WelcomePage());
 
       case Routes.newWalletFromWelcome:
-        return MaterialPageRoute<void>(
-            builder: (_) => Provider(
-                create: (_) => UserStore(
-                    accountService: UserService(
-                        secureStorage: FlutterSecureStorage(),
-                        sharedPreferences: sharedPreferences)),
-                child: SetupPinCodePage(
-                    onPinCodeSetup: (context, _) =>
-                        Navigator.pushNamed(context, Routes.newWallet))));
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              Provider(
+              create: (_) => UserStore(
+              accountService: UserService(
+                  secureStorage: FlutterSecureStorage(),
+                  sharedPreferences: sharedPreferences)),),
+              Provider(
+                create: (_) => AuthStore(
+                    sharedPreferences: sharedPreferences,
+                    userService: userService,
+                    walletService: walletService),
+              )
+            ],
+            child: SetupPinCodePage(
+                onPinCodeSetup: (context, _) =>
+                    Navigator.pushNamed(context, Routes.newWallet)),
+          );
+        });
 
       case Routes.newWallet:
         return MaterialPageRoute<void>(builder: (context) {
@@ -132,16 +143,28 @@ class Router {
           callback = settings.arguments as Function(BuildContext, String);
         }
 
-        return MaterialPageRoute<void>(
-            builder: (_) => Provider(
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              Provider(
                 create: (_) => UserStore(
                     accountService: UserService(
                         secureStorage: FlutterSecureStorage(),
                         sharedPreferences: sharedPreferences)),
-                child: SetupPinCodePage(
-                  onPinCodeSetup: (context, pin) =>
-                      callback == null ? null : callback(context, pin),
-                )));
+              ),
+              Provider(
+                create: (_) => AuthStore(
+                    sharedPreferences: sharedPreferences,
+                    userService: userService,
+                    walletService: walletService),
+              )
+            ],
+            child: SetupPinCodePage(
+              onPinCodeSetup: (context, pin) =>
+                  callback == null ? null : callback(context, pin),
+            ),
+          );
+        });
 
       case Routes.restoreOptions:
         return MaterialPageRoute<void>(builder: (_) => RestoreOptionsPage());
@@ -151,15 +174,26 @@ class Router {
             builder: (_) => RestoreWalletOptionsPage());
 
       case Routes.restoreWalletOptionsFromWelcome:
-        return MaterialPageRoute<void>(
-            builder: (_) => Provider(
-                create: (_) => UserStore(
-                    accountService: UserService(
-                        secureStorage: FlutterSecureStorage(),
-                        sharedPreferences: sharedPreferences)),
-                child: SetupPinCodePage(
-                    onPinCodeSetup: (context, _) => Navigator.pushNamed(
-                        context, Routes.restoreWalletOptions))));
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              Provider(
+              create: (_) => UserStore(
+              accountService: UserService(
+                  secureStorage: FlutterSecureStorage(),
+                  sharedPreferences: sharedPreferences)),),
+              Provider(
+                create: (_) => AuthStore(
+                    sharedPreferences: sharedPreferences,
+                    userService: userService,
+                    walletService: walletService),
+              )
+            ],
+            child: SetupPinCodePage(
+                onPinCodeSetup: (context, _) => Navigator.pushNamed(
+                    context, Routes.restoreWalletOptions)),
+          );
+        });
 
       case Routes.seed:
         return MaterialPageRoute<void>(

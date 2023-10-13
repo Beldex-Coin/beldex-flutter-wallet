@@ -195,6 +195,6 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
     _userStore = Provider.of<UserStore>(context);
     _settingsStore = Provider.of<SettingsStore>(context);
 
-    return body(context);
+    return body(context,false);
   }
 }

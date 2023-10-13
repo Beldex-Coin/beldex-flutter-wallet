@@ -1,5 +1,4 @@
-import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
-import 'package:beldex_wallet/src/screens/pin_code/bio_auth_provider.dart';
+import 'package:beldex_wallet/src/domain/common/biometric_auth.dart';
 import 'package:beldex_wallet/src/screens/pin_code/biometric_dialog.dart';
 import 'package:beldex_wallet/src/stores/auth/auth_store.dart';
 import 'package:flutter/services.dart';
@@ -10,39 +9,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math' as math;
 
 abstract class PinCodeWidget extends StatefulWidget {
   PinCodeWidget(
       {Key key,
-      this.onPinCodeEntered,
-      this.hasLengthSwitcher,
-      this.notifyParent,
-      this.authStore
+        this.onPinCodeEntered,
+        this.hasLengthSwitcher,
+        this.notifyParent,
+        this.mainKey
       })
       : super(key: key);
 
   final Function(List<int> pin, PinCodeState state) onPinCodeEntered;
   final bool hasLengthSwitcher;
   final Function() notifyParent;
-  final AuthStore authStore;
+  final GlobalKey<ScaffoldState> mainKey;
 }
 
 class PinCode extends PinCodeWidget {
   PinCode(
-    Function(List<int> pin, PinCodeState state) onPinCodeEntered,
-    bool hasLengthSwitcher,
-    Key key,
-    Function() notifyParent,
-    AuthStore authStore,
-  ) : super(
-          key: key,
-          onPinCodeEntered: onPinCodeEntered,
-          hasLengthSwitcher: hasLengthSwitcher,
-          notifyParent: notifyParent,
-          authStore: authStore
-        );
+      Function(List<int> pin, PinCodeState state) onPinCodeEntered,
+      bool hasLengthSwitcher,
+      Key key,
+      Function() notifyParent, GlobalKey<ScaffoldState> mainKey,
+      ) : super(
+    key: key,
+    onPinCodeEntered: onPinCodeEntered,
+    hasLengthSwitcher: hasLengthSwitcher,
+    notifyParent: notifyParent,
+    mainKey: mainKey
+  );
 
   @override
   PinCodeState createState() => PinCodeState();
@@ -59,7 +56,6 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   List<int> pin = List<int>.filled(defaultPinLength, null);
   String title = S.current.enterYourPin;
   double _aspectRatio = 0;
-
   void setTitle(String title) => setState(() => this.title = title);
 
   void clear() => setState(() => pin = List<int>.filled(pinLength, null));
@@ -85,7 +81,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
 
   void calculateAspectRatio() {
     final renderBox =
-        _gridViewKey.currentContext.findRenderObject() as RenderBox;
+    _gridViewKey.currentContext.findRenderObject() as RenderBox;
     final cellWidth = renderBox.size.width / 3;
     final cellHeight = renderBox.size.height / 4;
 
@@ -96,18 +92,16 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
     setState(() {});
   }
 
-  final auth = LocalAuthentication();
+  LocalAuthentication auth;
   List<BiometricType> _availableBiometrics = <BiometricType>[];
-  String authorized = " not authorized";
-  bool _canCheckBiometric = false;
-  bool canClick = false;
+
   @override
   void initState() {
-   // auth = LocalAuthentication();
+    auth = LocalAuthentication();
     //-->
-   // _getAvailableBiometrics();
-   //_checkBiometric();
-  //  _getAvailableBiometric();
+    // _getAvailableBiometrics();
+    //_checkBiometric();
+    _getAvailableBiometrics();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(afterLayout);
   }
@@ -154,102 +148,6 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   );
 
 
-
-// ///////////////-> code added//
-
-
-
-// Future<void> _authenticate(BuildContext contxt) async {
-//     bool authenticated = false;
-
-//     try {
-//       authenticated = await auth.authenticateWithBiometrics(
-//           localizedReason: "Scan your finger to authenticate",
-//           useErrorDialogs: true,
-//           stickyAuth: true);
-//     } on PlatformException catch (e) {
-//       print(e);
-//     }
-
-//     setState(() {
-//       authorized =
-//           authenticated ? "Authorized success" : "Failed to authenticate";
-      
-//       print(authorized);
-//     });
-//      if(authenticated){
-//      Navigator.of(contxt).pop();
-//      }
-//   }
-
-
-
-// Future<void> _checkBiometric() async {
-//     bool canCheckBiometric = false;
-
-//     try {
-//       canCheckBiometric = await auth.canCheckBiometrics;
-//     } on PlatformException catch (e) {
-//       print(e);
-//     }
-
-//     if (!mounted) return;
-
-//     setState(() {
-//       _canCheckBiometric = canCheckBiometric;
-//     });
-//   }
-
-
-// Future _getAvailableBiometric() async {
-//   List<BiometricType> availableBiometrics;
-//     try {
-//       availableBiometrics = await auth.getAvailableBiometrics();
-//     } on PlatformException catch (e) {
-//       availableBiometrics = <BiometricType>[];
-//       print(e);
-//     }
-//     if (!mounted) {
-//       return;
-//     }
-
-//     setState(() {
-//       _availableBiometrics = availableBiometrics;
-//     });
-//   }
-
-
-
-
-
-
-
-
-
-
-// //code ended <- //////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   @override
   void dispose() {
     super.dispose();
@@ -262,9 +160,9 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
 
     return Scaffold(
         backgroundColor:
-            settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+        settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
         resizeToAvoidBottomInset: false,
-        body: body(context));
+        body: body(context,true));
   }
 
   List<Color> colorList = [
@@ -286,292 +184,285 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   Alignment begin = Alignment.bottomLeft;
   Alignment end = Alignment.topRight;
 
-  Widget body(BuildContext context) {
+  Widget body(BuildContext context,bool status) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    final buttonClicked = Provider.of<ButtonClickNotifier>(context);
+    final authStore = Provider.of<AuthStore>(context);
+
+
     return SafeArea(
         child: Container(
-      padding: EdgeInsets.only(left: 40.0, right: 40.0, bottom: 40.0),
-      child: Column(children: <Widget>[
-        Spacer(
-          flex: 2,
-        ),
-        Container(
-          padding:
+          padding: EdgeInsets.only(left: 40.0, right: 40.0, bottom: 40.0),
+          child: Column(children: <Widget>[
+            Spacer(
+              flex: 2,
+            ),
+            Container(
+              padding:
               EdgeInsets.only(top: 10.0, bottom: 40.0, left: 40.0, right: 40.0),
-          height: MediaQuery.of(context).size.height * 0.60 / 3,
-          width: double.infinity,
-          child: SvgPicture.asset(
-            'assets/images/new-images/Password.svg',
-            width: 150,
-          ),
-        ),
-        Text(title,
-            style: TextStyle(
-                fontSize: 19,
-                fontWeight: FontWeight.w600,
-                color: Theme.of(context).primaryTextTheme.caption.color)),
-        Spacer(flex: 1),
-        Container(
-          width: 190,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: List.generate(pinLength, (index) {
-              const size = 20.0;
-              final isFilled = pin[index] != null;
+              height: MediaQuery.of(context).size.height * 0.60 / 3,
+              width: double.infinity,
+              child: SvgPicture.asset(
+                'assets/images/new-images/Password.svg',
+                width: 150,
+              ),
+            ),
+            Text(title,
+                style: TextStyle(
+                    fontSize: 19,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).primaryTextTheme.caption.color)),
+            Spacer(flex: 1),
+            Container(
+              width: 190,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: List.generate(pinLength, (index) {
+                  const size = 20.0;
+                  final isFilled = pin[index] != null;
 
-              return Column(
-                children: [
-                  Container(
-                      width: size,
-                      height: size,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: isFilled
-                            ? settingsStore.isDarkTheme
+                  return Column(
+                    children: [
+                      Container(
+                          width: size,
+                          height: size,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isFilled
+                                ? settingsStore.isDarkTheme
                                 ? Color(0xffFFFFFF)
                                 : Colors.black
-                            : Colors.transparent,
-                      )),
-                  Container(
-                    margin: EdgeInsets.only(right: 5),
-                    width: 25,
-                    child: Divider(
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xff77778B)
-                          : Color(0xffDADADA),
-                      thickness: 3,
-                    ),
-                  )
-                ],
-              );
-            }),
-          ),
-        ),
-        if (widget.hasLengthSwitcher) ...[
-          Container(
-            width: 220,
-            margin: EdgeInsets.only(top: 8.0, left: 25, right: 25),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: settingsStore.isDarkTheme
-                    ? Color(0xff272733)
-                    : Color(0xffEDEDED)),
-            child: TextButton(
-                //FlatButton
-                onPressed: () {
-                  changePinLength(pinLength == PinCodeState.fourPinLength
-                      ? PinCodeState.sixPinLength
-                      : PinCodeState.fourPinLength);
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      _changePinLengthText(),
-                      style: TextStyle(
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.w800,
-                          color:
+                                : Colors.transparent,
+                          )),
+                      Container(
+                        margin: EdgeInsets.only(right: 5),
+                        width: 25,
+                        child: Divider(
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xff77778B)
+                              : Color(0xffDADADA),
+                          thickness: 3,
+                        ),
+                      )
+                    ],
+                  );
+                }),
+              ),
+            ),
+            if (widget.hasLengthSwitcher) ...[
+              Container(
+                width: 220,
+                margin: EdgeInsets.only(top: 8.0, left: 25, right: 25),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xff272733)
+                        : Color(0xffEDEDED)),
+                child: TextButton(
+                  //FlatButton
+                    onPressed: () {
+                      changePinLength(pinLength == PinCodeState.fourPinLength
+                          ? PinCodeState.sixPinLength
+                          : PinCodeState.fourPinLength);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          _changePinLengthText(),
+                          style: TextStyle(
+                              fontSize: 17.0,
+                              fontWeight: FontWeight.w800,
+                              color:
                               Theme.of(context).primaryTextTheme.caption.color),
-                    ),
-                    Icon(Icons.keyboard_arrow_right,
-                        color: settingsStore.isDarkTheme
-                            ? Colors.white
-                            : Colors.black)
-                  ],
-                )),
-          )
-        ],
-        Flexible(
-            flex: 24,
-            child: Container(
-                key: _gridViewKey,
-                child: _aspectRatio > 0
-                    ? GridView.count(
-                        shrinkWrap: true,
-                        crossAxisCount: 3,
-                        childAspectRatio: _aspectRatio,
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: List.generate(12, (index) {
-                          const marginRight = 15.0;
-                          const marginLeft = 15.0;
+                        ),
+                        Icon(Icons.keyboard_arrow_right,
+                            color: settingsStore.isDarkTheme
+                                ? Colors.white
+                                : Colors.black)
+                      ],
+                    )),
+              )
+            ],
+            Flexible(
+                flex: 24,
+                child: Container(
+                    key: _gridViewKey,
+                    child: _aspectRatio > 0
+                        ? GridView.count(
+                      shrinkWrap: true,
+                      crossAxisCount: 3,
+                      childAspectRatio: _aspectRatio,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: List.generate(12, (index) {
+                        const marginRight = 15.0;
+                        const marginLeft = 15.0;
 
-                          if (index == 9) {
-                            return Container(
-                                padding: EdgeInsets.all(10),
-                                margin: EdgeInsets.only(
-                                    left: marginLeft, right: marginRight),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                ),
-                                child: GestureDetector(
-                                    onTap: ()async {
-                                    // final prefs = await SharedPreferences.getInstance();
-                                      if (settingsStore
-                                          .allowBiometricAuthentication) {
-                                         buttonClicked.setButtonClicked(true);
-                                         print('button clicked place 1 ${buttonClicked.buttonClicked}');
-                                         Future.delayed(Duration(milliseconds: 20),(){
-                                          buttonClicked.setButtonClicked(false);
-                                          print('button clicked place 2 ${buttonClicked.buttonClicked}');
-                                         });
-                                        //  Provider.of<ButtonClickNotifier>(context,listen: false).setButtonClicked(true);
-                                        //  Provider.of<ButtonClickNotifier>(context,listen: false).setButtonClicked(false);
-
-
-  //                                       await prefs.setBool('isBiometricButtonClick', true);
-  //                                       Future<void>.delayed(Duration(microseconds: 1),()async{
-  //                                         await prefs.setBool('isBiometricButtonClick', false);
-  //   setState(() {});
-  // });
-                                        //   //  _authenticate(context);
-                                        // //_getAvailableBiometrics();
-                                        // await showBiometricDialog(
-                                        //     context,
-                                        //     S
-                                        //         .of(context)
-                                        //         .biometric_auth_reason,
-                                        //         widget.authStore
-                                        //         );
-
-                                    //  AuthPageState auth;
-                                      
-                                  //  getBioBottomSheet();
-
-
-
-
-
-
-                                      } else {
-                                        await showDialog<void>(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10)),
-                                                backgroundColor:
-                                                    settingsStore.isDarkTheme
-                                                        ? Color(0xff13131A)
-                                                        : Color(0xffffffff),
-                                                content: Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                      vertical: 20),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      Text(
-                                                        S
-                                                            .of(context)
-                                                            .biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside,
-                                                        style: TextStyle(
-                                                            color: settingsStore
-                                                                    .isDarkTheme
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                            fontSize: 15),
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                      ),
-                                                      SizedBox(height: 20),
-                                                      GestureDetector(
-                                                        onTap: () =>
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop(),
-                                                        child: Container(
-                                                          height: 40,
-                                                          width: 70,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10),
-                                                            color: Color(
-                                                                0xff0BA70F),
-                                                          ),
-                                                          alignment:
-                                                              Alignment.center,
-                                                          child: Text(
-                                                            S.of(context).ok,
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w800,
-                                                                fontSize: 15),
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            });
-                                      }
-                                    },
-                                    child: SvgPicture.asset(
-                                      'assets/images/new-images/fingerprint.svg',
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xffFFFFFF)
-                                          : Color(0xff060606),
-                                          fit: BoxFit.contain,
-                                    )));
-                          } else if (index == 10) {
-                            index = 0;
-                          } else if (index == 11) {
-                            return Container(
+                        if (index == 9) {
+                          return Container(
+                              padding: EdgeInsets.all(10),
                               margin: EdgeInsets.only(
                                   left: marginLeft, right: marginRight),
-                              child: TextButton(
-                                //FlatButton
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                              ),
+                              child: GestureDetector(
+                                  onTap: () {
+                                    // final prefs = await SharedPreferences.getInstance();
+                                    if (settingsStore
+                                        .allowBiometricAuthentication) {
+                                      _getAvailableBiometrics();
+                                      if(status) {
+                                        WidgetsBinding.instance
+                                            .addPostFrameCallback((_) {
+                                          final biometricAuth = BiometricAuth();
+                                          biometricAuth.isAuthenticated().then((
+                                              isAuth) {
+                                            print('Biometric-> pincode 2');
+                                            if (isAuth) {
+                                              print('Biometric-> pincode 3');
+                                              authStore.biometricAuth();
+                                              Navigator.of(
+                                                  widget.mainKey.currentContext)
+                                                  .pop();
+                                            }
+                                            print('Biometric-> pincode 4');
+                                          });
+                                        });
+                                      }
+                                      showBiometricDialog(
+                                          context,
+                                          S
+                                              .of(context)
+                                              .biometric_auth_reason);
+
+                                    } else {
+                                      showDialog<void>(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                  BorderRadius.circular(
+                                                      10)),
+                                              backgroundColor:
+                                              settingsStore.isDarkTheme
+                                                  ? Color(0xff13131A)
+                                                  : Color(0xffffffff),
+                                              content: Container(
+                                                margin: EdgeInsets.symmetric(
+                                                    vertical: 20),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .center,
+                                                  mainAxisSize:
+                                                  MainAxisSize.min,
+                                                  children: [
+                                                    Text(
+                                                      S
+                                                          .of(context)
+                                                          .biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside,
+                                                      style: TextStyle(
+                                                          color: settingsStore
+                                                              .isDarkTheme
+                                                              ? Colors.white
+                                                              : Colors.black,
+                                                          fontSize: 15),
+                                                      textAlign:
+                                                      TextAlign.center,
+                                                    ),
+                                                    SizedBox(height: 20),
+                                                    GestureDetector(
+                                                      onTap: () =>
+                                                          Navigator.of(
+                                                              context)
+                                                              .pop(),
+                                                      child: Container(
+                                                        height: 40,
+                                                        width: 70,
+                                                        decoration:
+                                                        BoxDecoration(
+                                                          borderRadius:
+                                                          BorderRadius
+                                                              .circular(
+                                                              10),
+                                                          color: Color(
+                                                              0xff0BA70F),
+                                                        ),
+                                                        alignment:
+                                                        Alignment.center,
+                                                        child: Text(
+                                                          S.of(context).ok,
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white,
+                                                              fontWeight:
+                                                              FontWeight
+                                                                  .w800,
+                                                              fontSize: 15),
+                                                          textAlign: TextAlign
+                                                              .center,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                    }
+                                  },
+                                  child: SvgPicture.asset(
+                                    'assets/images/new-images/fingerprint.svg',
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffFFFFFF)
+                                        : Color(0xff060606),
+                                    fit: BoxFit.contain,
+                                  )));
+                        } else if (index == 10) {
+                          index = 0;
+                        } else if (index == 11) {
+                          return Container(
+                            margin: EdgeInsets.only(
+                                left: marginLeft, right: marginRight),
+                            child: TextButton(
+                              //FlatButton
                                 onPressed: () => _pop(),
                                 child: SvgPicture.asset('assets/images/new-images/clear.svg', color:Theme.of(context)
                                     .primaryTextTheme
                                     .caption
                                     .color)
-                                // Icon(Icons.backspace_outlined,
-                                //     color: Theme.of(context)
-                                //         .primaryTextTheme
-                                //         .caption
-                                //         .color),
-                              ),
-                            );
-                          } else {
-                            index++;
-                          }
-
-                          return Container(
-                            margin: EdgeInsets.only(
-                                left: marginLeft, right: marginRight),
-                            child: TextButton(
-                              onPressed: () => _push(index),
-                              child: Text('$index',
-                                  style: TextStyle(
-                                      fontSize: 23.0,
-                                      fontWeight: FontWeight.w800,
-                                      color: Theme.of(context)
-                                          .primaryTextTheme
-                                          .caption
-                                          .color)),
+                              // Icon(Icons.backspace_outlined,
+                              //     color: Theme.of(context)
+                              //         .primaryTextTheme
+                              //         .caption
+                              //         .color),
                             ),
                           );
-                        }),
-                      )
-                    : null))
-      ]),
-    ));
+                        } else {
+                          index++;
+                        }
+
+                        return Container(
+                          margin: EdgeInsets.only(
+                              left: marginLeft, right: marginRight),
+                          child: TextButton(
+                            onPressed: () => _push(index),
+                            child: Text('$index',
+                                style: TextStyle(
+                                    fontSize: 23.0,
+                                    fontWeight: FontWeight.w800,
+                                    color: Theme.of(context)
+                                        .primaryTextTheme
+                                        .caption
+                                        .color)),
+                          ),
+                        );
+                      }),
+                    )
+                        : null))
+          ]),
+        ));
   }
 
   void _push(int num) {
