@@ -571,6 +571,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
+                    height: MediaQuery.of(context).size.height * 0.83 / 2,
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     width: double.infinity,
                     decoration: BoxDecoration(
