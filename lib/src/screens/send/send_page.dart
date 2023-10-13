@@ -429,8 +429,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       ),
 
                       Container(
-                          height: MediaQuery.of(context).size.height * 0.60 / 3,
-                          //150,
                           margin: EdgeInsets.only(
                             top: 15,
                             left: 5,

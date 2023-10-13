@@ -28,121 +28,128 @@ class WelcomePage extends BasePage {
     return Stack(
       children: [
         Center(
-          child: Container(
-            height: _screenHeight * 1.9 / 3,
-            width: double.infinity,
-            margin: EdgeInsets.all(_screenHeight * 0.10 / 3),
-            decoration: BoxDecoration(
-                color: settingsStore.isDarkTheme
-                    ? Color(0xff21212D)
-                    : Color(0xffEDEDED),
-                borderRadius: BorderRadius.circular(20.0)),
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: _screenHeight * 0.10 / 3),
-                  child: Image.asset('assets/images/new-images/beldex_logo.png',width: 44,height: 44,),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    S.of(context).wallet_list_title,
-                    style: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textScaleFactor: textScaleFactor,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                Container(
-                    height: _screenHeight * 0.60 / 3,
-                    child: SvgPicture.asset(settingsStore.isDarkTheme
-                        ? 'assets/images/new-images/Empty_screen_image.svg'
-                        : 'assets/images/new-images/Empty_screen_image_white.svg')),
-                Text(
-                  S.of(context).welcomeToBeldexWallet,
-                  style: TextStyle(
-                    fontSize: _screenHeight * 0.05 / 3,
-                    fontWeight: FontWeight.w700,
+          child: Stack(
+            children: [
+              Container(
+                width: double.infinity,
+                margin: EdgeInsets.all(_screenHeight * 0.10 / 3),
+                decoration: BoxDecoration(
                     color: settingsStore.isDarkTheme
-                        ? Color(0xffAFAFBE)
-                        : Color(0xff303030),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    S
-                        .of(context)
-                        .selectAnOptionBelowToCreateOrnRecoverExistingWallet,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: _screenHeight * 0.05 / 3,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xffFFFFFF)
-                          : Color(0xff060606),
+                        ? Color(0xff21212D)
+                        : Color(0xffEDEDED),
+                    borderRadius: BorderRadius.circular(20.0)),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: _screenHeight * 0.10 / 3),
+                      child: Image.asset('assets/images/new-images/beldex_logo.png',width: 44,height: 44,),
                     ),
-                  ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        S.of(context).wallet_list_title,
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textScaleFactor: textScaleFactor,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Container(
+                        height: _screenHeight * 0.60 / 3,
+                        child: SvgPicture.asset(settingsStore.isDarkTheme
+                            ? 'assets/images/new-images/Empty_screen_image.svg'
+                            : 'assets/images/new-images/Empty_screen_image_white.svg')),
+                    Text(
+                      S.of(context).welcomeToBeldexWallet,
+                      style: TextStyle(
+                        fontSize: _screenHeight * 0.05 / 3,
+                        fontWeight: FontWeight.w700,
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xffAFAFBE)
+                            : Color(0xff303030),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        S
+                            .of(context)
+                            .selectAnOptionBelowToCreateOrnRecoverExistingWallet,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: _screenHeight * 0.05 / 3,
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xffFFFFFF)
+                              : Color(0xff060606),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.restoreOptions);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          alignment: Alignment.center,
+                          primary: Color(0xff2979FB),
+                          padding: EdgeInsets.only(
+                              top: 13, bottom: 13, left: 42, right: 42),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      child: Text(
+                        S.of(context).restore_wallet,
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, Routes.newWalletFromWelcome);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          alignment: Alignment.centerLeft,
+                          primary: Color(0xff0BA70F),
+                          padding: EdgeInsets.only(
+                              top: 13, bottom: 13, left: 42, right: 42),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10))),
+                      child: Text(
+                        S.of(context).create_new,
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(
+                      height: _screenHeight * 0.10 / 3,
+                    )
+                  ],
                 ),
-                SizedBox(
-                  height: 15.0,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.restoreOptions);
-                  },
-                  style: ElevatedButton.styleFrom(
-                      alignment: Alignment.center,
-                      primary: Color(0xff2979FB),
-                      padding: EdgeInsets.only(
-                          top: 13, bottom: 13, left: 42, right: 42),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
-                  child: Text(
-                    S.of(context).restore_wallet,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, Routes.newWalletFromWelcome);
-                  },
-                  style: ElevatedButton.styleFrom(
-                      alignment: Alignment.centerLeft,
-                      primary: Color(0xff0BA70F),
-                      padding: EdgeInsets.only(
-                          top: 13, bottom: 13, left: 42, right: 42),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
-                  child: Text(
-                    S.of(context).create_new,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ],
-            ),
+              ),
+              Positioned(
+                  left: 10.0,
+                  top: 100,
+                  child: Container(
+                      height: 65,
+                      width: 65,
+                      child: Image.asset(
+                          'assets/images/new-images/green_coin.png')) //Image.asset('assets/images/new-images/coin.png'),
+              ),
+              Positioned(
+                  right: 2.0,
+                  bottom: 130,
+                  child: Container(
+                      height: 50,
+                      width: 55,
+                      child: Image.asset('assets/images/new-images/blue_coin.png'))),
+            ],
           ),
         ),
-        Positioned(
-            left: 10.0,
-            top: 215.0,
-            child: Container(
-                height: 65,
-                width: 65,
-                child: Image.asset(
-                    'assets/images/new-images/green_coin.png')) //Image.asset('assets/images/new-images/coin.png'),
-            ),
-        Positioned(
-            right: 2.0,
-            bottom: 260.0,
-            child: Container(
-                height: 50,
-                width: 55,
-                child: Image.asset('assets/images/new-images/blue_coin.png'))),
       ],
     );
   }

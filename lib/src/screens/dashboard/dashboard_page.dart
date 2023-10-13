@@ -130,18 +130,18 @@ class DashboardPage extends BasePage {
                   ),
                   onPressed: () =>
                       Navigator.of(context).pushNamed(Routes.addressBook),
-                  label: Text(S.of(context).address_book,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: settingsStore.isDarkTheme
-                              ? Colors.white
-                              : Colors.black)),
+                  label: Flexible(
+                    child: Text(S.of(context).address_book,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: settingsStore.isDarkTheme
+                                ? Colors.white
+                                : Colors.black)),
+                  ),
                   style: ElevatedButton.styleFrom(
                     primary: settingsStore.isDarkTheme
                         ? Color(0xff333343)
                         : Color(0xffD4D4D4),
-                    padding: EdgeInsets.only(top: 20,bottom: 20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -161,14 +161,14 @@ class DashboardPage extends BasePage {
                       'assets/images/new-images/transactions.svg'),
                   onPressed: () =>
                       Navigator.of(context).pushNamed(Routes.transactionlist),
-                  label: Text(S.of(context).transactions,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 16)),
+                  label: Flexible(
+                    child: Text(S.of(context).transactions,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,)),
+                  ),
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xff0BA70F),
-                    padding: EdgeInsets.only(top: 20,bottom: 20),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -505,16 +505,17 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                   .pushNamed(Routes.send);
                                             }
                                           : null,
-                                      label: Text(
-                                        S.of(context).send,
-                                        style: TextStyle(
-                                            color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                                ? Colors.white
-                                                : settingsStore.isDarkTheme
-                                                    ? Color(0xff6C6C78)
-                                                    : Color(0xffB2B2B6),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
+                                      label: Flexible(
+                                        child: Text(
+                                            S.of(context).send,
+                                            style: TextStyle(
+                                                color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                                    ? Colors.white
+                                                    : settingsStore.isDarkTheme
+                                                        ? Color(0xff6C6C78)
+                                                        : Color(0xffB2B2B6),
+                                                fontWeight: FontWeight.bold,),
+                                          ),
                                       ),
                                       style: ElevatedButton.styleFrom(
                                         primary: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
@@ -544,12 +545,13 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                     onPressed: () =>
                                         Navigator.of(context, rootNavigator: true)
                                             .pushNamed(Routes.receive),
-                                    label: Text(
-                                      S.of(context).receive,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16),
+                                    label: Flexible(
+                                      child: Text(
+                                        S.of(context).receive,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,),
+                                      ),
                                     ),
                                     style: ElevatedButton.styleFrom(
                                       primary: Color(0xff2979FB),
@@ -570,7 +572,6 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                   Container(
                     margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     padding: EdgeInsets.only(top: 10, bottom: 10),
-                    height: MediaQuery.of(context).size.height * 0.83 / 2,
                     width: double.infinity,
                     decoration: BoxDecoration(
                         color: settingsStore.isDarkTheme
@@ -616,12 +617,14 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                             );
                           },
                         ),
-                        Text(
-                            S
-                                .of(context)
-                                .transferYourBdxMoreFasternWithFlashTransaction,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 16))
+                        FittedBox(
+                          fit: BoxFit.contain,
+                          child: Text(
+                              S.of(context)
+                                  .transferYourBdxMoreFasternWithFlashTransaction,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 16)),
+                        )
                       ],
                     ),
                   ),
