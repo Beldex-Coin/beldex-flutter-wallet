@@ -364,17 +364,17 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
 
 
 
- bool checkCurrentHeight(String value){
-  final currentHeight = getCurrentHeight();
+//  bool checkCurrentHeight(String value){
+//   final currentHeight = getCurrentHeight();
   
-  print('$currentHeight --> is current height');
-  final intValue = int.tryParse(value);
-  if(intValue != null && intValue <= currentHeight){
-    return true;
-  }else{
-    return false;
-  }
- }
+//   print('$currentHeight --> is current height');
+//   final intValue = int.tryParse(value);
+//   if(intValue != null && intValue <= currentHeight){
+//     return true;
+//   }else{
+//     return false;
+//   }
+//  }
 
 
 
@@ -420,9 +420,11 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
                             if (!pattern.hasMatch(value)) {
                               return S.of(context).enterValidHeightWithoutSpace;
-                            }else if(!checkCurrentHeight(value)){
-                              return 'Please enter a valid Height';
-                            } else {
+                            }
+                            // else if(!checkCurrentHeight(value)){
+                            //   return 'Please enter a valid Height';
+                            // }
+                             else {
                               return null;
                             }
                           },
