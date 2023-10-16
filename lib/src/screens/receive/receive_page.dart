@@ -150,9 +150,9 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
       },
       child: SafeArea(
           child: GestureDetector(
-              onTap: () {
-                FocusScope.of(context).unfocus();
-              },
+              // onTap: () {
+              //   FocusScope.of(context).unfocus();
+              // },
               child: SingleChildScrollView(
                   child: Column(
                 children: <Widget>[
@@ -742,6 +742,7 @@ class NewBeldexTextField extends StatelessWidget {
           keyboardType: keyboardType,
           inputFormatters: inputFormatters,
           autovalidateMode: AutovalidateMode.onUserInteraction,
+          textInputAction: TextInputAction.done,
           decoration: InputDecoration(
               border: InputBorder.none,
               prefixIcon: prefixIcon,

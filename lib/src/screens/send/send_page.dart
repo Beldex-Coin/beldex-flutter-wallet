@@ -202,10 +202,10 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
     return ScrollableWithBottomSection(
       content: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
+       // behavior: HitTestBehavior.opaque,
+        // onTap: () {
+        //   FocusScope.of(context).unfocus();
+        // },
         child: Stack(
           children: [
             Column(
@@ -461,6 +461,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                     FilteringTextInputFormatter.deny(
                                         RegExp('[-, ]'))
                                   ],
+                                  textInputAction: TextInputAction.done,
                                   decoration: InputDecoration(
                                       border: InputBorder.none,
                                       hintStyle: TextStyle(
@@ -470,6 +471,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       hintText: S.of(context).enterAmount,
                                       errorStyle:
                                           TextStyle(color: BeldexPalette.red)),
+                                    onSaved: (value){
+                                      print('value from the textfield ---->$value');
+                                    },
                                   validator: (value) {
                                     if (value.isEmpty) {
                                       setState(() {
