@@ -253,14 +253,22 @@ class ContactFormState extends State<ContactForm> {
                 options: [AddressTextFieldOption.qrCode],
                 autoValidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
+                  if(value.isEmpty || value == ''){
+                    return 'Address should not be empty';
+                  }else
+                  {
+                     if(widget.contact == null){
                   for (var items in addressBookStore.contactList) {
                     if (items.address.contains(value)) {
                       return S.of(context).theAddressAlreadyExist;
                     }
                   }
+                  }
                   addressBookStore.validateAddress(value,
                       cryptoCurrency: _selectedCrypto);
                   return addressBookStore.errorMessage;
+                  }
+                 
                 },
               )
             ],
