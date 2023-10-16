@@ -82,6 +82,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   bool _effectsInstalled = false;
   final _formKey = GlobalKey<FormState>();
   var controller = StreamController<double>.broadcast();
+  final _focusNodeAmount = FocusNode();
   double position;
   AnimationController animationController;
   bool addressValidation = false;
@@ -121,6 +122,10 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
         _addressController.text = (widget.flashMap['address'] as String) ?? '';
         if (widget.flashMap['amount'] != null) {
           _cryptoAmountController.text = (widget.flashMap['amount'] as String);
+          // _cryptoAmountController.addListener(() {
+          //    print('done--->');
+          // });
+          _focusNodeAmount.requestFocus();
         }
       }
     });
@@ -446,6 +451,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           child: Column(
                             children: [
                               TextFormField(
+                                focusNode: _focusNodeAmount,
                                   style: TextStyle(
                                       fontSize: 26.0,
                                       fontWeight: FontWeight.w900,
