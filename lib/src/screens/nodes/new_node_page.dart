@@ -171,6 +171,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                           NoSpaceFormatter(),
                           FilteringTextInputFormatter.deny(RegExp('[-,. ]'))
                         ],
+                        textInputAction: TextInputAction.done,
                         decoration: InputDecoration(
                             fillColor: settingsStore.isDarkTheme
                                 ? Color(0xff333343)

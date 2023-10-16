@@ -244,6 +244,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                       child: Container(
                         padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
                         child: TextFormField(
+                          textInputAction: TextInputAction.done,
                           style: TextStyle(fontSize: 14.0),
                           controller: restoreHeightController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
