@@ -197,15 +197,15 @@ class Router {
 
       case Routes.seed:
         return MaterialPageRoute<void>(
-            builder: (_) => createSeedPage(
+            builder: (_) { return createSeedPage(
                 settingsStore: settingsStore,
                 walletService: walletService,
-                callback: settings.arguments as void Function()));
+                callback: settings.arguments as void Function());});
 
       case Routes.restoreWalletFromSeed:
         return MaterialPageRoute<void>(
-            builder: (_) =>
-                ProxyProvider<AuthenticationStore, WalletRestorationStore>(
+            builder: (_) {
+                return ProxyProvider<AuthenticationStore, WalletRestorationStore>(
                     update: (_, authStore, __) => WalletRestorationStore(
                         authStore: authStore,
                         sharedPreferences: sharedPreferences,
@@ -213,12 +213,12 @@ class Router {
                     child: RestoreWalletFromSeedPage(
                         walletsService: walletListService,
                         walletService: walletService,
-                        sharedPreferences: sharedPreferences)));
+                        sharedPreferences: sharedPreferences));});
 
       case Routes.restoreWalletFromKeys:
         return MaterialPageRoute<void>(
-            builder: (_) =>
-                ProxyProvider<AuthenticationStore, WalletRestorationStore>(
+            builder: (_) {
+                return ProxyProvider<AuthenticationStore, WalletRestorationStore>(
                     update: (_, authStore, __) => WalletRestorationStore(
                         authStore: authStore,
                         sharedPreferences: sharedPreferences,
@@ -226,21 +226,22 @@ class Router {
                     child: RestoreWalletFromKeysPage(
                         walletsService: walletListService,
                         walletService: walletService,
-                        sharedPreferences: sharedPreferences)));
+                        sharedPreferences: sharedPreferences));});
 
       case Routes.dashboard:
         return MaterialPageRoute<void>(
-            builder: (_) => createDashboardPage(
+            builder: (_) { return createDashboardPage(
                 walletService: walletService,
                 priceStore: priceStore,
                 settingsStore: settingsStore,
                 transactionDescriptions: transactionDescriptions,
-                walletStore: walletStore));
+                walletStore: walletStore);});
 
       case Routes.send:
         return MaterialPageRoute<void>(
             fullscreenDialog: true,
-            builder: (_) => MultiProvider(
+            builder: (_) {
+              return MultiProvider(
                     providers: [
                       ProxyProvider<SettingsStore, BalanceStore>(
                         update: (_, settingsStore, __) => BalanceStore(
@@ -259,29 +260,32 @@ class Router {
                                   transactionDescriptions)),
                     ],
                     child: SendPage(
-                        flashMap: settings.arguments as Map<String, dynamic>)));
+                        flashMap: settings.arguments as Map<String, dynamic>));});
 
       case Routes.receive:
         return MaterialPageRoute<void>(
             fullscreenDialog: true,
-            builder: (_) => MultiProvider(providers: [
+            builder: (_) {
+              return MultiProvider(providers: [
                   Provider(
                       create: (_) =>
                           SubaddressListStore(walletService: walletService))
-                ], child: ReceivePage()));
+                ], child: ReceivePage());});
       case Routes.transactionDetails:
         return MaterialPageRoute<void>(
-            builder: (_) => TransactionDetailsPage(
-                transactionInfo: settings.arguments as TransactionInfo));
+            builder: (_) {
+              return TransactionDetailsPage(
+                transactionInfo: settings.arguments as TransactionInfo);});
 
       case Routes.transactionlist:
         return MaterialPageRoute<void>(
-            builder: (_) => createTransactionListPage(
+            builder: (_) {
+              return createTransactionListPage(
                 walletService: walletService,
                 priceStore: priceStore,
                 settingsStore: settingsStore,
                 transactionDescriptions: transactionDescriptions,
-                walletStore: walletStore));
+                walletStore: walletStore);});
 
       case Routes.disclaimer:
         return MaterialPageRoute<void>(builder: (_) => DisclaimerPage());
@@ -291,17 +295,19 @@ class Router {
 
       case Routes.walletList:
         return MaterialPageRoute<void>(
-            builder: (_) => Provider(
+            builder: (_) {
+              return Provider(
                 create: (_) => WalletListStore(
                     walletListService: walletListService,
                     walletService: walletService),
-                child: WalletListPage()));
+                child: WalletListPage());});
 
       case Routes.auth:
         return PageRouteBuilder<void>(
             fullscreenDialog: true,
             transitionDuration: Duration(milliseconds: 0),
-            pageBuilder: (_, __, ___) => Provider(
+            pageBuilder: (_, __, ___) {
+              return Provider(
                   create: (_) => AuthStore(
                       sharedPreferences: sharedPreferences,
                       userService: userService,
@@ -309,12 +315,13 @@ class Router {
                   child: AuthPage(
                       onAuthenticationFinished:
                           settings.arguments as OnAuthenticationFinished),
-                ));
+                );});
       case Routes.auth1:
         return PageRouteBuilder<void>(
             fullscreenDialog: true,
             transitionDuration: Duration(milliseconds: 0),
-            pageBuilder: (_, __, ___) => Provider(
+            pageBuilder: (_, __, ___) {
+              return Provider(
                   create: (_) => AuthStore(
                       sharedPreferences: sharedPreferences,
                       userService: userService,
@@ -324,18 +331,19 @@ class Router {
                         settings.arguments as OnAuthenticationFinished,
                     closable: false,
                   ),
-                ));
+                );});
 
       case Routes.unlock:
         return PageRouteBuilder<void>(
             fullscreenDialog: true,
             transitionDuration: Duration(milliseconds: 0),
-            pageBuilder: (_, __, ___) => createUnlockPage(
+            pageBuilder: (_, __, ___) {
+              return createUnlockPage(
                 sharedPreferences: sharedPreferences,
                 userService: userService,
                 walletService: walletService,
                 onAuthenticationFinished:
-                    settings.arguments as OnAuthenticationFinished));
+                    settings.arguments as OnAuthenticationFinished);});
 
       case Routes.nodeList:
         return MaterialPageRoute<void>(builder: (context) {
@@ -449,34 +457,37 @@ class Router {
 
       case Routes.subaddressList:
         return MaterialPageRoute<Subaddress>(
-            builder: (_) => MultiProvider(providers: [
+            builder: (_) {
+              return MultiProvider(providers: [
                   Provider(
                       create: (_) =>
                           SubaddressListStore(walletService: walletService))
-                ], child: SubaddressListPage()));
+                ], child: SubaddressListPage());});
 
       case Routes.restoreWalletFromSeedDetails:
         return MaterialPageRoute<void>(
-            builder: (_) =>
-                ProxyProvider<AuthenticationStore, WalletRestorationStore>(
+            builder: (_) {
+                return ProxyProvider<AuthenticationStore, WalletRestorationStore>(
                     update: (_, authStore, __) => WalletRestorationStore(
                         authStore: authStore,
                         sharedPreferences: sharedPreferences,
                         walletListService: walletListService,
                         seed: settings.arguments as List<MnemoticItem>),
-                    child: RestoreWalletFromSeedDetailsPage()));
+                    child: RestoreWalletFromSeedDetailsPage());});
 
       case Routes.settings:
         return MaterialPageRoute<void>(
-            builder: (_) => Provider(
+            builder: (_) {
+              return Provider(
                 create: (_) => NodeListStore(nodesSource: nodes),
-                child: SettingsPage()));
+                child: SettingsPage());});
 
       case Routes.rescan:
         return MaterialPageRoute<void>(
-            builder: (_) => Provider(
+            builder: (_) {
+              return Provider(
                 create: (_) => RescanWalletStore(walletService: walletService),
-                child: RescanPage()));
+                child: RescanPage());});
 
       case Routes.faq:
         return MaterialPageRoute<void>(builder: (_) => FaqPage());
@@ -496,7 +507,8 @@ class Router {
       case Routes.newStake:
         return MaterialPageRoute<void>(
             fullscreenDialog: true,
-            builder: (_) => MultiProvider(providers: [
+            builder: (_) {
+              return MultiProvider(providers: [
                   ProxyProvider<SettingsStore, BalanceStore>(
                     update: (_, settingsStore, __) => BalanceStore(
                         walletService: walletService,
@@ -511,14 +523,15 @@ class Router {
                           walletService: walletService,
                           priceStore: priceStore,
                           transactionDescriptions: transactionDescriptions)),
-                ], child: NewStakePage()));
+                ], child: NewStakePage());});
 
       default:
         return MaterialPageRoute<void>(
-            builder: (_) => Scaffold(
+            builder: (_) {
+              return Scaffold(
                   body: Center(
                       child: Text(S.current.router_no_route(settings.name))),
-                ));
+                );});
     }
   }
 }
