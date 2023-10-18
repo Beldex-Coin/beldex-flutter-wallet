@@ -308,28 +308,6 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
       textColor: Colors.white,    
       backgroundColor: Color(0xff0BA70F),
     );
-
-  
-   // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      //   margin: EdgeInsets.only(
-      //       bottom: MediaQuery.of(context).size.height * 0.30 / 3,
-      //       left: MediaQuery.of(context).size.height * 0.30 / 3,
-      //       right: MediaQuery.of(context).size.height * 0.30 / 3),
-      //   elevation: 0,
-      //   behavior: SnackBarBehavior.floating,
-      //   shape:
-      //       RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-      //   content: Text(
-      //     'You restored via keys',
-      //     style: TextStyle(
-      //         color: Color(0xffffffff),
-      //         fontWeight: FontWeight.w700,
-      //         fontSize: 15),
-      //     textAlign: TextAlign.center,
-      //   ),
-      //   backgroundColor: Color(0xff0BA70F),
-      //   duration: Duration(milliseconds: 1900),
-      // ));
     }
   }
 }
@@ -360,23 +338,6 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
     restoreHeightController.text = '';
     super.dispose();
   }
-
-
-
-
- bool checkCurrentHeight(String value){
-  final currentHeight = getCurrentHeight();
-  
-  print('$currentHeight --> is current height');
-  final intValue = int.tryParse(value);
-  if(intValue != null && intValue <= currentHeight){
-    return true;
-  }else{
-    return false;
-  }
- }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -420,9 +381,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
                             if (!pattern.hasMatch(value)) {
                               return S.of(context).enterValidHeightWithoutSpace;
-                            }else if(!checkCurrentHeight(value)){
-                              return 'Please enter a valid Height';
-                            } else {
+                            }else {
                               return null;
                             }
                           },
