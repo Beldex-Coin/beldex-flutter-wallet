@@ -425,5 +425,6 @@
   "pleaseAddAMainnetNode": "Bitte fügen Sie einen Mainnet-Knoten hinzu",
   "flashTransactionPriority" : "Flash-Transaktionen sind Soforttransaktionen.\nDie Priorität {transactionPriority} ist als Standardgebühr festgelegt.",
   "initiatingTransactionTitle" : "Transaktion wird eingeleitet..",
-  "initiatingTransactionDescription" : "Bitte schließen Sie dieses Fenster nicht und navigieren Sie nicht zu einer anderen App, bis die Transaktion eingeleitet wird"
+  "initiatingTransactionDescription" : "Bitte schließen Sie dieses Fenster nicht und navigieren Sie nicht zu einer anderen App, bis die Transaktion eingeleitet wird",
+  "subAddresses": "Unteradressen"
 }

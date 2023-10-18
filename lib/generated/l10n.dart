@@ -3624,6 +3624,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Sub Addresses`
+  String get subAddresses {
+    return Intl.message(
+      'Sub Addresses',
+      name: 'subAddresses',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

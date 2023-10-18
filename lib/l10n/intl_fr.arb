@@ -426,5 +426,6 @@
   "pleaseAddAMainnetNode": "Veuillez ajouter un nœud de réseau principal",
   "flashTransactionPriority" : "Les transactions flash sont des transactions instantanées.\nLa priorité {transactionPriority} est définie comme frais par défaut.",
   "initiatingTransactionTitle" : "Initier une transaction..",
-  "initiatingTransactionDescription" : "Veuillez ne pas fermer cette fenêtre ni accéder à une autre application tant que la transaction n'a pas été initiée."
+  "initiatingTransactionDescription" : "Veuillez ne pas fermer cette fenêtre ni accéder à une autre application tant que la transaction n'a pas été initiée.",
+  "subAddresses": "Sous-adresses"
 }
