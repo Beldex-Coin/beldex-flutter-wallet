@@ -91,8 +91,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
       await WcFlutterShare.share(
           text: address,
           sharePopupTitle: 'share',
-          fileName: 'share.png',
-          mimeType: 'image/png',
+          fileName: 'share.jpeg',
+          mimeType: 'image/jpeg',
           bytesOfFile: imageUint8List);
       setState(() {});
     } catch (e) {
