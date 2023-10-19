@@ -199,9 +199,8 @@ class TransactionRow extends StatelessWidget {
                                               .LENGTH_SHORT, // Toast duration (short or long)
                                           gravity: Toast
                                               .BOTTOM, // Toast gravity (top, center, or bottom)
-                                          textColor: Colors.white, // Text color
-                                          backgroundColor: Color(
-                                              0xff0BA70F), // Background color
+                                          textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,// Background color
                                         );
                                       },
                                       child: Container(

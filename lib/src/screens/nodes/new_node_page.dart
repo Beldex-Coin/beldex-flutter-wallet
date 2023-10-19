@@ -165,7 +165,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                     child: TextFormField(
                         controller: _nodePortController,
                         keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                            TextInputType.numberWithOptions(decimal: true,signed:true),
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                           NoSpaceFormatter(),
@@ -451,10 +451,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                                duration: Toast.LENGTH_SHORT,
                                             gravity: Toast
                                                 .BOTTOM, // Toast gravity (top, center, or bottom)
-                                            textColor:
-                                                Colors.white, // Text color
-                                            backgroundColor: Color(
-                                                0xff0BA70F), 
+                                             textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                                               );
                                               return;
                                             }
