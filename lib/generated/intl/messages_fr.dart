@@ -344,6 +344,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "start_staking" : MessageLookupByLibrary.simpleMessage("Commencer le staking"),
     "status" : MessageLookupByLibrary.simpleMessage("Statut: "),
     "subAddress" : MessageLookupByLibrary.simpleMessage("Sous-adresse"),
+    "subAddresses" : MessageLookupByLibrary.simpleMessage("Sous-adresses"),
     "subaddressAlreadyExist" : MessageLookupByLibrary.simpleMessage("La sous-adresse existe déjà"),
     "subaddress_title" : MessageLookupByLibrary.simpleMessage("Liste des sous-adresses"),
     "subaddresses" : MessageLookupByLibrary.simpleMessage("Sous-adresses"),

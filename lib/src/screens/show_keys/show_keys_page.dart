@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,6 +31,7 @@ class ShowKeysPage extends BasePage {
   @override
   Widget body(BuildContext context) {
     final walletKeysStore = Provider.of<WalletKeysStore>(context);
+    final settingsStore = Provider.of<SettingsStore>(context);
     //setPageSecure();
     return Container(
         padding: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 5, right: 5),
@@ -86,9 +88,8 @@ class ShowKeysPage extends BasePage {
                                     .LENGTH_SHORT, // Toast duration (short or long)
                                 gravity: Toast
                                     .BOTTOM, // Toast gravity (top, center, or bottom)
-                                textColor: Colors.white, // Text color
-                                backgroundColor:
-                                    Color(0xff0BA70F), // Background color
+                                textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                               );
 
                               //      Scaffold.of(context).showSnackBar(SnackBar(

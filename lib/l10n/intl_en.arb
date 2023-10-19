@@ -426,5 +426,6 @@
   "pleaseAddAMainnetNode": "Please add a mainnet node",
   "flashTransactionPriority" : "Flash transaction are instant transactions.\n{transactionPriority} priority is set as a default fee.",
   "initiatingTransactionTitle" : "Initiating Transaction..",
-  "initiatingTransactionDescription" : "Please don't close this window or navigate to another app until the transaction gets initiated"
+  "initiatingTransactionDescription" : "Please don't close this window or navigate to another app until the transaction gets initiated",
+  "subAddresses": "Sub Addresses"
 }

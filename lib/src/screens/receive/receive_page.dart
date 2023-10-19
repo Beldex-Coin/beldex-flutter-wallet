@@ -91,8 +91,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
       await WcFlutterShare.share(
           text: address,
           sharePopupTitle: 'share',
-          fileName: 'share.png',
-          mimeType: 'image/png',
+          fileName: 'share.jpeg',
+          mimeType: 'image/jpeg',
           bytesOfFile: imageUint8List);
       setState(() {});
     } catch (e) {
@@ -238,9 +238,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                     .LENGTH_SHORT, // Toast duration (short or long)
                                 gravity: Toast
                                     .BOTTOM, // Toast gravity (top, center, or bottom)
-                                textColor: Colors.white, // Text color
-                                backgroundColor:
-                                    Color(0xff0BA70F), // Background color
+                                textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white,
+                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                               );
                                           },
                                           child: Container(
@@ -353,86 +352,14 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                                     settingsStore:
                                                         settingsStore,
                                                     walletStore: walletStore,
-                                                    subaddressListStore:
+                                                    subAddressListStore:
                                                         subAddressListStore,
+                                                    globalKey: _globalKey,
                                                   );
                                                 });
                                           },
                                           child: displayContainer(context)),
                                     ),
-
-                                    // Padding(
-                                    //     padding: EdgeInsets.only(
-                                    //         left: MediaQuery.of(context)
-                                    //                 .size
-                                    //                 .height *
-                                    //             0.08 /
-                                    //             3,
-                                    //         right: MediaQuery.of(context)
-                                    //                 .size
-                                    //                 .height *
-                                    //             0.10 /
-                                    //             3,
-                                    //         top: MediaQuery.of(context)
-                                    //                 .size
-                                    //                 .height *
-                                    //             0.03 /
-                                    //             3),
-                                    //     child: Observer(
-                                    //       builder: (_) {
-                                    //         final canClick =
-                                    //             subAddressListStore
-                                    //                         .subaddresses
-                                    //                         .length ==
-                                    //                     1
-                                    //                 ? false
-                                    //                 : true;
-                                    //         return GestureDetector(
-                                    //             onTap: () {
-                                    //               final mHeight =
-                                    //                   MediaQuery.of(context)
-                                    //                       .size
-                                    //                       .height;
-                                    //               // setState(() {
-                                    //               //   canShow = canShow ? false : true;
-                                    //               // });
-                                    //               setState(() {
-                                    //                 isOpen =
-                                    //                     isOpen ? false : true;
-                                    //               });
-
-                                    //               print(
-                                    //                   "the value of the isOpen $isOpen");
-
-                                    //               if (canClick) {
-                                    //                 if (overlayEntry ==
-                                    //                     null) {
-                                    //                   final overlayState =
-                                    //                       Overlay.of(context);
-                                    //                   overlayEntry =
-                                    //                       OverlayEntry(
-                                    //                     builder: (context) {
-                                    //                       return _buildExitnodeListView(
-                                    //                           mHeight);
-                                    //                     },
-                                    //                   );
-
-                                    //                   overlayState?.insert(
-                                    //                       overlayEntry);
-
-                                    //                   setState(() {
-                                    //                     _isOverlayVisible =
-                                    //                         true;
-                                    //                   });
-                                    //                 }
-                                    //               }
-                                    //             },
-                                    //             child: displayContainer(
-                                    //                 context));
-                                    //       },
-                                    //     ),
-
-                                    //     ),
                                     SizedBox(height: 15),
                                     Container(
                                       margin: EdgeInsets.only(
@@ -764,12 +691,14 @@ class NewBeldexTextField extends StatelessWidget {
 }
 
 class SubAddressDropDownList extends StatefulWidget {
+  const SubAddressDropDownList(
+      {Key key, this.settingsStore, this.walletStore, this.subAddressListStore,this.globalKey})
+      : super(key: key);
+
   final SettingsStore settingsStore;
   final WalletStore walletStore;
-  final SubaddressListStore subaddressListStore;
-  const SubAddressDropDownList(
-      {Key key, this.settingsStore, this.walletStore, this.subaddressListStore})
-      : super(key: key);
+  final SubaddressListStore subAddressListStore;
+  final GlobalKey globalKey;
 
   @override
   State<SubAddressDropDownList> createState() => _SubAddressDropDownListState();
@@ -779,9 +708,6 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
 final _controller = ScrollController(keepScrollOffset: true);
   @override
   Widget build(BuildContext context) {
-    //  final subAddressListStore = Provider.of<SubaddressListStore>(context);
-    // final walletStore = Provider.of<WalletStore>(context);
-    // final settingsStore = Provider.of<SettingsStore>(context);
     return AlertDialog(
       insetPadding: EdgeInsets.all(8),
       backgroundColor:widget.settingsStore.isDarkTheme
@@ -793,7 +719,7 @@ final _controller = ScrollController(keepScrollOffset: true);
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Icon(Icons.class__outlined,color: Colors.transparent,),
-          Text('Sub Addresses', style: TextStyle(fontWeight: FontWeight.w800)),
+          Text(S.of(context).subAddresses, style: TextStyle(fontWeight: FontWeight.w800)),
            GestureDetector(
             onTap: ()=>Navigator.pop(context),
             child: Icon(Icons.close))
@@ -817,11 +743,10 @@ final _controller = ScrollController(keepScrollOffset: true);
                   child: ListView.builder(
                     controller: _controller,
                       shrinkWrap: true,
-                     // physics: NeverScrollableScrollPhysics(),
-                      itemCount: widget.subaddressListStore.subaddresses.length,
+                      itemCount: widget.subAddressListStore.subaddresses.length,
                       itemBuilder: (context, i) {
                         return Observer(builder: (_) {
-                          final subaddress = widget.subaddressListStore.subaddresses[i];
+                          final subaddress = widget.subAddressListStore.subaddresses[i];
                           final isCurrent = widget.walletStore.subaddress.address ==
                               subaddress.address;
                           final label = subaddress.label.isNotEmpty
@@ -829,9 +754,9 @@ final _controller = ScrollController(keepScrollOffset: true);
                               : subaddress.address;
                           return InkWell(
                             onTap:isCurrent ? null : () async {
-                              //  widget.walletStore.setSubaddress(subaddress),
                               final prefs = await SharedPreferences.getInstance();
                               widget.walletStore.setSubaddress(subaddress);
+                              widget.globalKey.currentContext.findRenderObject().reassemble();
                               Navigator.pop(context);
                               await prefs.setString(
                                   'currentSubAddress', label.toString());
@@ -844,10 +769,6 @@ final _controller = ScrollController(keepScrollOffset: true);
                                 ? Card(
                                     elevation: 0,
                                     color:Color(0xff2979FB),
-                                    // color: Theme.of(context)
-                                    //     .accentTextTheme
-                                    //     .overline
-                                    //     .backgroundColor, //Color.fromARGB(255, 40,42,51),
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15)),
                                     child: Container(

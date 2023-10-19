@@ -60,7 +60,7 @@ class CommonLoader extends StatelessWidget {
                           fontSize: height * 0.07 / 3,fontWeight: FontWeight.w800,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff222222)),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15.0),
+                      padding: const EdgeInsets.only(top: 15.0,left:8,right:8),
                       child: Text(
                       S.of(context).initiatingTransactionDescription,
                         textAlign: TextAlign.center,

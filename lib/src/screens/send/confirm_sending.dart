@@ -496,7 +496,11 @@ class _SendTransactionSuccessfullyState
                               shape: BoxShape.circle,
                             ),
                             child: Image.asset(
-                                'assets/images/new-images/process_completed_3.gif') //Icon(Icons.check,color: Colors.white,size:30),
+                                'assets/images/new-images/process_completed_3.gif',
+                                errorBuilder: (context,obj,stackTrace){
+                                  return Image.asset('assets/images/new-images/Sent.png');
+                                },
+                                )
                             ),
                         Text(
                           S.of(context).transactionInitiatedSuccessfully,

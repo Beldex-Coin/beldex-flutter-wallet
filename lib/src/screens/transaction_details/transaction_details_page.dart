@@ -74,6 +74,7 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
 
   @override
   Widget build(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
       padding: EdgeInsets.only(left: 20, right: 15, top: 10, bottom: 10),
       child: ListView.separated(
@@ -98,8 +99,8 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
                     context,
                     duration: Toast.LENGTH_SHORT,
                     gravity: Toast.BOTTOM,
-                    textColor: Colors.white,
-                    backgroundColor: Color(0xff0BA70F),
+                     textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                   );
 
                   // Scaffold.of(context).showSnackBar(
