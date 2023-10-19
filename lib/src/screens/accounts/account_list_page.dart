@@ -17,7 +17,7 @@ import 'package:beldex_wallet/src/util/constants.dart' as constants;
 class AccountListPage extends BasePage {
   @override
   String get title => S.current.accounts;
-
+ // var accountListStore = AccountListStore();
   @override
   Widget trailing(BuildContext context) {
     final accountListStore = Provider.of<AccountListStore>(context);
@@ -26,11 +26,12 @@ class AccountListPage extends BasePage {
     return Container(
       padding: EdgeInsets.only(right:15),
       child: IconButton(icon: SvgPicture.asset('assets/images/new-images/add_account.svg',width: 23,height: 23,),onPressed: () {
-        showDialog<void>(context: context, builder: (_)=>CreateAccountDialog(accList: accounts,));
+        showDialog<void>(context: context, builder: (_)=>CreateAccountDialog(accList: accounts,accountListStore: accountListStore,));
         accountListStore.updateAccountList();
       },)
     );
   }
+
 
   @override
   Widget body(BuildContext context) {
@@ -85,7 +86,7 @@ class AccountListPage extends BasePage {
                               icon: Icons.edit,
                               onTap: (){
                                 showDialog<void>(context: context, builder: (_){
-                                  return CreateAccountDialog(account: account,accList: accounts,);
+                                  return CreateAccountDialog(account: account,accList: accounts,accountListStore: accountListStore,);
                                 });
                                 // await Navigator.of(context).pushNamed(
                                 //     Routes.accountCreation,

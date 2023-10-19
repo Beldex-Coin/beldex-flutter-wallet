@@ -7,9 +7,10 @@ import 'package:provider/provider.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 
 class CreateAccountDialog extends StatefulWidget {
-  CreateAccountDialog({Key key, this.account, this.accList}) : super(key: key);
+  CreateAccountDialog({Key key, this.account, this.accList, this.accountListStore}) : super(key: key);
   final Account account;
   final List<Account> accList;
+  final AccountListStore accountListStore;
 
   @override
   State<CreateAccountDialog> createState() => _CreateAccountDialogState();
@@ -25,20 +26,33 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
   void initState() {
     if (widget.account != null) _textController.text = widget.account.label;
     WidgetsBinding.instance.addObserver(this);
-    getAccList();
+    getAccList(context);
+   // newValueAssigned(context);
     super.initState();
   }
 
-  void getAccList() {
+  void getAccList(BuildContext context){
     setState(() {
-      if (widget.accList != null) {
-        for (var i = 0; i < widget.accList.length; i++) {
-          accnameList.add(widget.accList[i].label);
+      if(widget.accountListStore.accounts != null){
+        for(var i=0;i< widget.accountListStore.accounts.length;i++){
+             accnameList.add(widget.accountListStore.accounts[i].label);
         }
       }
+      widget.accountListStore.updateAccountList();
     });
-    print(accnameList);
+   print(accnameList);
   }
+
+  // void getAccList() {
+  //   setState(() {
+  //     if (widget.accList != null) {
+  //       for (var i = 0; i < widget.accList.length; i++) {
+  //         accnameList.add(widget.accList[i].label);
+  //       }
+  //     }
+  //   });
+  //   print(accnameList);
+  // }
 
   bool checkNameAlreadyExist(String accName) {
     return accnameList.contains(accName);
@@ -73,6 +87,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final walletService = Provider.of<WalletService>(context);
+    getAccList(context);
     return Provider(
         create: (_) => AccountListStore(walletService: walletService),
         builder: (context, child) {
