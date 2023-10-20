@@ -223,8 +223,8 @@ class SeedWidgetState extends State<SeedWidget> {
         items.addAll(currentMnemotics);
       }
 
-      currentMnemotics = [];
-      _seedController.text = '';
+      // currentMnemotics = [];
+      // _seedController.text = '';
     });
   }
 
@@ -275,9 +275,9 @@ class SeedWidgetState extends State<SeedWidget> {
                         TextFormField(
                           key: _seedTextFieldKey,
                           maxLines: 5,
-                          onFieldSubmitted: (text) => isCurrentMnemoticValid
-                              ? saveCurrentMnemoticToItems()
-                              : null,
+                          // onFieldSubmitted: (text) => isCurrentMnemoticValid
+                          //     ? saveCurrentMnemoticToItems()
+                          //     : null,
                           style: TextStyle(fontSize: 16.0),
                           controller: _seedController,
                           textAlign: TextAlign.justify,
