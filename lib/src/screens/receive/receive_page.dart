@@ -306,6 +306,11 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                 keyboardType: TextInputType.numberWithOptions(
                                     decimal: true),
                                 inputFormatters: [
+                                  TextInputFormatter.withFunction((oldValue, newValue) {
+                                    final regEx = RegExp(r'^\d*\.?\d*');
+                                    final newString = regEx.stringMatch(newValue.text) ?? '';
+                                    return newString == newValue.text ? newValue : oldValue;
+                                  }),
                                   FilteringTextInputFormatter.deny(
                                       RegExp('[-, ]'))
                                 ],

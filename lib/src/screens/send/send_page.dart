@@ -442,6 +442,11 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                             keyboardType: TextInputType.numberWithOptions(
                                 signed: false, decimal: true),
                             inputFormatters: [
+                              TextInputFormatter.withFunction((oldValue, newValue) {
+                                final regEx = RegExp(r'^\d*\.?\d*');
+                                final newString = regEx.stringMatch(newValue.text) ?? '';
+                                return newString == newValue.text ? newValue : oldValue;
+                              }),
                               FilteringTextInputFormatter.deny(
                                   RegExp('[-, ]'))
                             ],
