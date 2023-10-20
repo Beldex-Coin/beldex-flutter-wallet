@@ -1,5 +1,4 @@
 import 'package:beldex_wallet/src/domain/common/biometric_auth.dart';
-import 'package:beldex_wallet/src/screens/pin_code/biometric_dialog.dart';
 import 'package:beldex_wallet/src/stores/auth/auth_store.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -321,9 +320,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                             if (isAuth) {
                                               print('Biometric-> pincode 3');
                                               authStore.biometricAuth();
-                                              Navigator.of(
-                                                  widget.mainKey.currentContext)
-                                                  .pop();
+                                              // Navigator.of(widget.mainKey.currentContext).pop();
                                             }
                                             print('Biometric-> pincode 4');
                                           });
