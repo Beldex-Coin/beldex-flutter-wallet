@@ -326,12 +326,6 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                           });
                                         });
                                       }
-                                      showBiometricDialog(
-                                          context,
-                                          S
-                                              .of(context)
-                                              .biometric_auth_reason);
-
                                     } else {
                                       showDialog<void>(
                                           context: context,
