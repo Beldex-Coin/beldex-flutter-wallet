@@ -30,7 +30,7 @@ class AddressTextField extends StatelessWidget {
 
   static const prefixIconWidth = 20.0;
   static const prefixIconHeight = 20.0;
-  static const spaceBetweenPrefixIcons = 10.0;
+  static const spaceBetweenPrefixIcons = 15.0;
 
   final TextEditingController controller;
   final bool isActive;
@@ -59,7 +59,7 @@ class AddressTextField extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                SizedBox(width: 5),
+              SizedBox(width: 5),
                 if (options.contains(AddressTextFieldOption.saveAddress)) ...[
                   Container(
                     width: prefixIconWidth,
@@ -83,6 +83,7 @@ class AddressTextField extends StatelessWidget {
                         )),
                   )
                 ],
+                SizedBox(width:5),
                 if (options.contains(AddressTextFieldOption.qrCode)) ...[
                   Container(
                       width: prefixIconWidth,
