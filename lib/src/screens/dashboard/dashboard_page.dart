@@ -246,7 +246,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
     final syncStore = Provider.of<SyncStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
     final networkStatus = Provider.of<NetworkStatus>(context);
-    ScreenSize.init(context);
+    final _height = MediaQuery.of(context).size.height;
+    final _width = MediaQuery.of(context).size.width;
+   // ScreenSize.init(context);
     if (networkStatus == NetworkStatus.offline) {
       walletStore.reconnect();
     }
@@ -350,8 +352,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         );
                       }),
                   Container(
-                     height:ScreenSize.screenHeight071, //MediaQuery.of(context).size.height * 0.71 / 3,
-                    width:ScreenSize.screenWidth, 
+                     height:_height * 0.71 / 3,
+                    width:_width, 
                     margin: EdgeInsets.only(bottom: 15, left: 15, right: 15),
                     decoration: BoxDecoration(
                         color: settingsStore.isDarkTheme

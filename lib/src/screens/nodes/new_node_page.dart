@@ -165,7 +165,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                     child: TextFormField(
                         controller: _nodePortController,
                         keyboardType:
-                            TextInputType.numberWithOptions(decimal: true,signed:true),
+                            TextInputType.numberWithOptions(decimal: true),
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                           NoSpaceFormatter(),
