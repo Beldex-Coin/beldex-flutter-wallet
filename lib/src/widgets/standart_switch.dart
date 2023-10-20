@@ -43,7 +43,7 @@ class StandartSwitchState extends State<StandartSwitch> {
         child: Container(
           width: 22.0,
           height: 22.0,
-          //padding: EdgeInsets.all(5),
+          padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
             //shape:BoxShape.circle,
               color:widget.icon ? widget.value ? Color(0xff0BA70F) : Color(0xff737373) :
@@ -52,7 +52,7 @@ class StandartSwitchState extends State<StandartSwitch> {
                   : Theme.of(context).accentTextTheme.caption.decorationColor,
               borderRadius: BorderRadius.all(Radius.circular(100.0))),
           child:  widget.icon ? widget.value ?
-         Image.asset('assets/images/new-images/moon.png') :  Image.asset('assets/images/new-images/sun.png') : Container()
+         SvgPicture.asset('assets/images/new-images/moon_image.svg') :  SvgPicture.asset('assets/images/new-images/sun_image.svg') : Container()
         ),
       ),
     );
