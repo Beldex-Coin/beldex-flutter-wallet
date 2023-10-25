@@ -1,5 +1,4 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/util/screen_sizer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,7 +22,7 @@ final List<String> _englishWords =
     EnglishMnemonics.words + EnglishOldMnemonics.words;
 
 class SeedWidget extends StatefulWidget {
-  SeedWidget({Key key, this.onMnemoticChange, this.onFinish, this.seedLanguage})
+  SeedWidget({Key key, this.onMnemonicChange, this.onFinish, this.seedLanguage})
       : super(key: key) {
     switch (seedLanguage) {
       case 'English':
@@ -61,7 +60,7 @@ class SeedWidget extends StatefulWidget {
     }
   }
 
-  final Function(List<MnemoticItem>) onMnemoticChange;
+  final Function(List<MnemoticItem>) onMnemonicChange;
   final Function() onFinish;
   final String seedLanguage;
   List<String> words;
@@ -71,41 +70,34 @@ class SeedWidget extends StatefulWidget {
 }
 
 class SeedWidgetState extends State<SeedWidget> {
-  static const maxLength = 25;
 
   List<MnemoticItem> items = <MnemoticItem>[];
   final _seedController = TextEditingController();
   final _seedTextFieldKey = GlobalKey();
-  MnemoticItem selectedItem;
-  bool isValid;
-  String errorMessage;
   int maxWordCount = 25;
   int wordCount = 0;
-  List<MnemoticItem> currentMnemotics;
-  bool isCurrentMnemoticValid;
+  List<MnemoticItem> currentMnemonics;
   String _errorMessage;
   String _errorMessage1 = '';
 
   @override
   void initState() {
     super.initState();
-    isValid = false;
-    isCurrentMnemoticValid = false;
     _seedController
-        .addListener(() => changeCurrentMnemotic(_seedController.text));
+        .addListener(() => changeCurrentMnemonic(_seedController.text));
   }
 
-  void addMnemotic(String text) {
+  void addMnemonic(String text) {
     setState(
-        () => items.add(MnemoticItem(text: text.trim(), dic: widget.words)));
+            () => items.add(MnemoticItem(text: text.trim(), dic: widget.words)));
     _seedController.text = '';
 
-    if (widget.onMnemoticChange != null) {
-      widget.onMnemoticChange(items);
+    if (widget.onMnemonicChange != null) {
+      widget.onMnemonicChange(items);
     }
   }
 
-  void mnemoticFromText(String text) {
+  void mnemonicFromText(String text) {
     final splitted = text.split(' ');
 
     if (splitted.length >= 2) {
@@ -113,137 +105,64 @@ class SeedWidgetState extends State<SeedWidget> {
         if (text == ' ' || text.isEmpty) {
           continue;
         }
-
-        if (selectedItem != null) {
-          editTextOfSelectedMnemotic(text);
-        } else {
-          addMnemotic(text);
-        }
+        addMnemonic(text);
       }
-    }
-  }
-
-  void selectMnemotic(MnemoticItem item) {
-    setState(() {
-      selectedItem = item;
-      currentMnemotics = [item];
-
-      _seedController
-        ..text = item.text
-        ..selection = TextSelection.collapsed(offset: item.text.length);
-    });
-  }
-
-  void onMnemoticTap(MnemoticItem item) {
-    if (selectedItem == item) {
-      setState(() => selectedItem = null);
-      _seedController.text = '';
-      return;
-    }
-
-    selectMnemotic(item);
-  }
-
-  void editTextOfSelectedMnemotic(String text) {
-    setState(() => selectedItem.changeText(text));
-    selectedItem = null;
-    _seedController.text = '';
-
-    if (widget.onMnemoticChange != null) {
-      widget.onMnemoticChange(items);
     }
   }
 
   void clear() {
     setState(() {
       items = [];
-      selectedItem = null;
       _seedController.text = '';
 
-      if (widget.onMnemoticChange != null) {
-        widget.onMnemoticChange(items);
+      if (widget.onMnemonicChange != null) {
+        widget.onMnemonicChange(items);
       }
     });
   }
 
-  void invalidate() {
-    setState(() => isValid = false);
-  }
-
-  void validated() {
-    setState(() => isValid = true);
-  }
-
-  void setErrorMessage(String errorMessage) {
-    setState(() => this.errorMessage = errorMessage);
-  }
-
   void replaceText(String text) {
     setState(() => items = []);
-    mnemoticFromText(text);
+    mnemonicFromText(text);
     _seedController.text = text;
   }
 
-  void changeCurrentMnemotic(String text) {
+  void changeCurrentMnemonic(String text) {
     setState(() {
       final trimmedText = text.trim();
       final splitted = trimmedText.split(' ');
       _errorMessage = null;
 
       if (text == null) {
-        currentMnemotics = [];
-        isCurrentMnemoticValid = false;
+        currentMnemonics = [];
         return;
       }
 
-      currentMnemotics = splitted
+      currentMnemonics = splitted
           .map((text) => MnemoticItem(text: text, dic: widget.words))
           .toList();
 
       var isValid = true;
 
-      for (final word in currentMnemotics) {
+      for (final word in currentMnemonics) {
         isValid = word.isCorrect();
 
         if (!isValid) {
           break;
         }
       }
-
-      isCurrentMnemoticValid = isValid;
     });
-  }
-
-  void saveCurrentMnemoticToItems() {
-    setState(() {
-      if (selectedItem != null) {
-        selectedItem.changeText(currentMnemotics.first.text.trim());
-        selectedItem = null;
-      } else {
-        items.addAll(currentMnemotics);
-      }
-
-      // currentMnemotics = [];
-      // _seedController.text = '';
-    });
-  }
-
-  void showErrorIfExist() {
-    setState(() => _errorMessage =
-        !isCurrentMnemoticValid ? S.current.incorrect_seed : null);
   }
 
   bool isSeedValid() {
-    bool isValid;
+    var isValid = false;
 
     for (final item in items) {
       isValid = item.isCorrect();
-
       if (!isValid) {
         break;
       }
     }
-
     return isValid;
   }
 
@@ -275,12 +194,8 @@ class SeedWidgetState extends State<SeedWidget> {
                         TextFormField(
                           key: _seedTextFieldKey,
                           maxLines: 5,
-                          // onFieldSubmitted: (text) => isCurrentMnemoticValid
-                          //     ? saveCurrentMnemoticToItems()
-                          //     : null,
                           style: TextStyle(fontSize: 16.0),
                           controller: _seedController,
-                          textAlign: TextAlign.justify,
                           inputFormatters: [WordLimitInputFormatter(25)],
                           textInputAction: TextInputAction.done,
                           onChanged: (text) {
@@ -318,7 +233,6 @@ class SeedWidgetState extends State<SeedWidget> {
                                 S.of(context).restore_from_seed_placeholder,
                             errorText: _errorMessage,
                           ),
-                          enableInteractiveSelection: false,
                         ),
                         SizedBox(
                           height: 10,
@@ -369,7 +283,7 @@ class SeedWidgetState extends State<SeedWidget> {
                               ),
                               onPressed: () async {
                                 await Clipboard.getData('text/plain').then(
-                                    (clipboard) => replaceText(clipboard.text));
+                                        (clipboard) => replaceText(clipboard.text));
                                 setState(() {
                                   wordCount = _seedController.text
                                       .split(' ')
@@ -402,9 +316,9 @@ class SeedWidgetState extends State<SeedWidget> {
                 _errorMessage1 == null || _errorMessage1 == ''
                     ? Container()
                     : Text(
-                        '$_errorMessage1',
-                        style: TextStyle(color: Colors.red),
-                      ),
+                  '$_errorMessage1',
+                  style: TextStyle(color: Colors.red),
+                ),
                 Column(
                   children: [
                     SizedBox(
@@ -412,17 +326,26 @@ class SeedWidgetState extends State<SeedWidget> {
                     PrimaryButton(
                         onPressed: () {
                           print('inside the function---> $_seedController');
-
-                          if (wordCount == 25) {
-                            print('inside first if--->');
-                            setState(() {
-                              _errorMessage1 = '';
-                            });
-                            if (widget.onFinish != null) {
-                              print('inside second if--->');
-                              return widget.onFinish();
-                            } else {
-                              print('inside first else--->');
+                          if (wordCount == maxWordCount) {
+                            replaceText(_seedController.text);
+                            if(isSeedValid()) {
+                              print('inside first if--->');
+                              setState(() {
+                                _errorMessage1 = '';
+                              });
+                              if (widget.onFinish != null) {
+                                print('inside second if--->');
+                                return widget.onFinish();
+                              } else {
+                                print('inside first else--->');
+                                return null;
+                              }
+                            }else {
+                              print('inside second else --->');
+                              setState(() {
+                                _errorMessage1 =
+                                    S.of(context).pleaseEnterAValidSeed;
+                              });
                               return null;
                             }
                           } else {

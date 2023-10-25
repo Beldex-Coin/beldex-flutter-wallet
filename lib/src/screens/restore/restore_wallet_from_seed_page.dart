@@ -74,7 +74,7 @@ class _RestoreFromSeedFormState extends State<RestoreFromSeedForm> {
         padding: EdgeInsets.only(left: 20.0, right: 20.0),
         child: SeedWidget(
             key: _seedKey,
-            onMnemoticChange: (seed) => walletRestorationStore.setSeed(seed),
+            onMnemonicChange: (seed) => walletRestorationStore.setSeed(seed),
             onFinish: () => Navigator.of(context).pushNamed(
                 Routes.restoreWalletFromSeedDetails,
                 arguments: _seedKey.currentState.items),
