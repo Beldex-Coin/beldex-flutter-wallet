@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
-
+import 'package:wakelock/wakelock.dart';
 import 'package:beldex_wallet/src/domain/common/contact.dart';
 import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
@@ -31,7 +31,7 @@ import 'package:beldex_wallet/src/widgets/address_text_field.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:provider/provider.dart';
-
+import 'package:screen/screen.dart';
 bool canLoad = false;
 
 class SendPage extends BasePage {
@@ -167,9 +167,18 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     }
   }
 
+ void  getValue()async{
+   var isKeptOn = await Screen.isKeptOn;
+    print('is screen on $isKeptOn');
+  }
+
   void _startCreatingTransaction(
       SendStore sendStore, String address, bool isFlashTransaction) {
     print('address -----> $address');
+   // Screen.keepOn(true);
+  // Wakelock.toggle(enable: true);
+   // getValue();
+   
     Navigator.push(
         context,
         MaterialPageRoute<void>(
@@ -177,6 +186,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                 address: address,
                 sendStore: sendStore,
                 isFlashTransaction: isFlashTransaction)));
+    //Screen.keepOn(false);
+   // getValue();
+  // Wakelock.toggle(enable: false);
   }
 
   @override
@@ -739,6 +751,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     rdisposer3 = reaction((_) => sendStore.state, (SendingState state) {
       if (state is SendingFailed) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
+          Screen.keepOn(false);
           Navigator.of(context).pop();
           await showSimpleBeldexDialog(
               context, S.of(context).alert, state.error,
@@ -750,6 +763,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
           sendStore.pendingTransaction != null) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           print('inside the transaction created successfully---->');
+          Screen.keepOn(false);
+          var isKeepOn = await Screen.isKeptOn;
+          print('is screen Keep on $isKeepOn');
           Navigator.of(context).pop();
           await showSimpleConfirmDialog(
               context,
@@ -774,6 +790,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       if (state is TransactionCommitted) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           print('inside the transaction committed ---->');
+          Screen.keepOn(false);
+           var isKeepOn = await Screen.isKeptOn;
+          print('is screen Keep on $isKeepOn');
           Navigator.of(context).pop();
           await showDialogTransactionSuccessfully(context, onPressed: (_) {
             _addressController.text = '';
@@ -799,8 +818,10 @@ class CommitTransactionLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
+    Screen.keepOn(true);
     Future.delayed(const Duration(seconds: 1), () async {
       await sendStore.commitTransaction();
+      // Screen.keepOn(false);
     });
 
     return WillPopScope(
