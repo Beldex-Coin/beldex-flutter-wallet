@@ -31,6 +31,7 @@ import 'package:beldex_wallet/src/widgets/address_text_field.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:provider/provider.dart';
+import 'package:screen/screen.dart';
 
 bool canLoad = false;
 
@@ -147,6 +148,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     _cryptoAmountController.dispose();
     _fiatAmountController.dispose();
     _focusNodeAddress.dispose();
+    Screen.keepOn(false);
     super.dispose();
   }
 
@@ -166,7 +168,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
   void _startCreatingTransaction(
       SendStore sendStore, String address, bool isFlashTransaction) {
-    print('address -----> $address');
     Navigator.push(
         context,
         MaterialPageRoute<void>(
@@ -731,6 +732,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     rdisposer3 = reaction((_) => sendStore.state, (SendingState state) {
       if (state is SendingFailed) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
+          Screen.keepOn(false);
           Navigator.of(context).pop();
           await showSimpleBeldexDialog(
               context, S.of(context).alert, state.error,
@@ -742,6 +744,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
           sendStore.pendingTransaction != null) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           print('inside the transaction created successfully---->');
+          Screen.keepOn(false);
           Navigator.of(context).pop();
           await showSimpleConfirmDialog(
               context,
@@ -766,6 +769,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       if (state is TransactionCommitted) {
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           print('inside the transaction committed ---->');
+          Screen.keepOn(false);
           Navigator.of(context).pop();
           await showDialogTransactionSuccessfully(context, onPressed: (_) {
             _addressController.text = '';
@@ -791,6 +795,7 @@ class CommitTransactionLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
+    Screen.keepOn(true);
     Future.delayed(const Duration(seconds: 1), () async {
       await sendStore.commitTransaction();
     });

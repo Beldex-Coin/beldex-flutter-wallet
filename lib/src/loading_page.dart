@@ -5,6 +5,8 @@ import 'package:beldex_wallet/src/wallet/wallet_description.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
+import 'package:screen/screen.dart';
+
 class LoadingPage extends StatelessWidget{
   LoadingPage({ Key key, this.wallet,this.walletListStore }) : super(key: key);
 
@@ -16,8 +18,10 @@ class LoadingPage extends StatelessWidget{
     final settingsStore = Provider.of<SettingsStore>(context);
     ScreenSize.init(context);
     final height = MediaQuery.of(context).size.height;
+    Screen.keepOn(true);
     Future.delayed(const Duration(seconds: 1), () async {
       await walletListStore.loadWallet(wallet);
+      Screen.keepOn(false);
       Navigator.of(context).pop();
     });
     return WillPopScope(
