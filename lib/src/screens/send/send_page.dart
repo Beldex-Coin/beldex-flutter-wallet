@@ -79,8 +79,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   final _focusNodeAddress = FocusNode();
   bool _effectsInstalled = false;
   final _formKey = GlobalKey<FormState>();
-  var controller = StreamController<double>.broadcast();
-  double position;
   bool addressValidation = false;
   var addressErrorMessage = '';
   bool amountValidation = false;
@@ -91,7 +89,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       []; //dispose the when functions we used in this file to avoid the memory leaks
   ReactionDisposer rdisposer1, rdisposer2, rdisposer3;
   bool isFlashTransaction = false;
-  final _focusNode = FocusNode();
   @override
   void initState() {
     _focusNodeAddress.addListener(() {
@@ -105,16 +102,13 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
   // fetch flash transaction data from
   void getFlashData() {
-    setState(() {
-      if (widget.flashMap != null) {
-        isFlashTransaction = widget.flashMap['flash'] as bool;
-        _addressController.text = (widget.flashMap['address'] as String) ?? '';
-        if (widget.flashMap['amount'] != null) {
-          _cryptoAmountController.text = (widget.flashMap['amount'] as String);
-        }
-        _focusNode.requestFocus();
+    if (widget.flashMap != null) {
+      isFlashTransaction = widget.flashMap['flash'] as bool;
+      _addressController.text = (widget.flashMap['address'] as String) ?? '';
+      if (widget.flashMap['amount'] != null) {
+        _cryptoAmountController.text = (widget.flashMap['amount'] as String);
       }
-    });
+    }
   }
 
   bool getAmountValidation(String amount) {
@@ -149,7 +143,10 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     rdisposer1?.call();
     rdisposer2?.call();
     rdisposer3?.call();
-
+    _addressController.dispose();
+    _cryptoAmountController.dispose();
+    _fiatAmountController.dispose();
+    _focusNodeAddress.dispose();
     super.dispose();
   }
 
@@ -429,7 +426,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                     child: Column(
                       children: [
                         TextFormField(
-                          focusNode: _focusNode,
                             style: TextStyle(
                                 fontSize: 26.0,
                                 fontWeight: FontWeight.w900,
@@ -438,7 +434,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                     .caption
                                     .color),
                             controller: _cryptoAmountController,
-                            //autovalidateMode: AutovalidateMode.onUserInteraction,
                             keyboardType: TextInputType.numberWithOptions(
                                 signed: false, decimal: true),
                             inputFormatters: [
@@ -460,9 +455,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 hintText: S.of(context).enterAmount,
                                 errorStyle:
                                     TextStyle(color: BeldexPalette.red)),
-                              onSaved: (value){
-                                print('value from the textfield ---->$value');
-                              },
                             validator: (value) {
                               if (value.isEmpty) {
                                 setState(() {
