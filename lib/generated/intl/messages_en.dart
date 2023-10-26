@@ -198,6 +198,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "labelName" : MessageLookupByLibrary.simpleMessage("Label name"),
     "legalDisclaimer" : MessageLookupByLibrary.simpleMessage("Legal Disclaimer"),
     "loadingTheWallet" : MessageLookupByLibrary.simpleMessage("Loading the wallet..."),
+    "loadingTheWalletDescription" : MessageLookupByLibrary.simpleMessage("Please don\'t close this window or navigate to another app until we load the wallet"),
     "loading_your_wallet" : MessageLookupByLibrary.simpleMessage("Loading your wallet"),
     "login" : MessageLookupByLibrary.simpleMessage("Login"),
     "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate" : MessageLookupByLibrary.simpleMessage("Make sure to backup of your\nrecovery Seed, wallet address\nand private keys"),

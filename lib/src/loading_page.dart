@@ -15,7 +15,7 @@ class LoadingPage extends StatelessWidget{
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     ScreenSize.init(context);
-   // final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.of(context).size.height;
     Future.delayed(const Duration(seconds: 1), () async {
       await walletListStore.loadWallet(wallet);
       Navigator.of(context).pop();
@@ -47,15 +47,20 @@ class LoadingPage extends StatelessWidget{
                   ),
                   strokeWidth: 6,
                 )),*/
-            Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: Text(
-                S.of(context).loadingTheWallet,
-                style: TextStyle(
-                    fontSize:ScreenSize.screenHeight07, //height * 0.07 / 3, 
-                  fontWeight: FontWeight.w700,color: settingsStore.isDarkTheme? Colors.white:Colors.black),
-              ),
-            )
+            Text(
+              S.of(context).loadingTheWallet,
+              style: TextStyle(
+                  fontSize: height * 0.07 / 3,fontWeight: FontWeight.w800,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff222222)),
+            ),
+          Padding(
+            padding: const EdgeInsets.only(top: 15.0,left:8,right:8),
+            child: Text(
+              S.of(context).loadingTheWalletDescription,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: height * 0.07 / 3,fontWeight: FontWeight.w700,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff222222)),
+            ),
+          )
             // loadingProvider.setLoadingString != '' ? Text('${loadingProvider.setLoadingString}') : Container()
         ],
       )),

@@ -427,5 +427,6 @@
   "flashTransactionPriority" : "Flash transaction are instant transactions.\n{transactionPriority} priority is set as a default fee.",
   "initiatingTransactionTitle" : "Initiating Transaction..",
   "initiatingTransactionDescription" : "Please don't close this window or navigate to another app until the transaction gets initiated",
-  "subAddresses": "Sub Addresses"
+  "subAddresses": "Sub Addresses",
+  "loadingTheWalletDescription": "Please don't close this window or navigate to another app until we load the wallet"
 }

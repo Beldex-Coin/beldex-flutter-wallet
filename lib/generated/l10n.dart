@@ -3634,6 +3634,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Please don't close this window or navigate to another app until we load the wallet`
+  String get loadingTheWalletDescription {
+    return Intl.message(
+      'Please don\'t close this window or navigate to another app until we load the wallet',
+      name: 'loadingTheWalletDescription',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

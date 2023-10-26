@@ -427,5 +427,6 @@
   "flashTransactionPriority" : "Les transactions flash sont des transactions instantanées.\nLa priorité {transactionPriority} est définie comme frais par défaut.",
   "initiatingTransactionTitle" : "Initier une transaction..",
   "initiatingTransactionDescription" : "Veuillez ne pas fermer cette fenêtre ni accéder à une autre application tant que la transaction n'a pas été initiée.",
-  "subAddresses": "Sous-adresses"
+  "subAddresses": "Sous-adresses",
+  "loadingTheWalletDescription": "Veuillez ne pas fermer cette fenêtre ni accéder à une autre application tant que nous n'avons pas chargé le portefeuille."
 }
