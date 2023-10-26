@@ -16,17 +16,11 @@ class CommonLoader extends StatelessWidget {
   final String address;
   final SendStore sendStore;
   final bool isFlashTransaction;
-
-void  getValue()async{
-   var isKeptOn = await Screen.isKeptOn;
-    print('is screen on $isKeptOn');
-  }
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
   Screen.keepOn(true);
-   getValue();
     Future.delayed(const Duration(seconds: 1), ()async{
       if(isFlashTransaction) {
         await sendStore.createTransaction(address: address,tPriority:BeldexTransactionPriority.flash);

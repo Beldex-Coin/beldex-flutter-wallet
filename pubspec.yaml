@@ -56,7 +56,6 @@ dependencies:
   esys_flutter_share: ^1.0.2
   date_range_picker: ^1.0.7
   dio: ^4.0.0
-  wakelock: #^0.6.2
   screen: ^0.0.5
   #floating_snackbar: any
   beldex_coin:

@@ -12,21 +12,15 @@ class LoadingPage extends StatelessWidget{
   final WalletDescription wallet;
   final WalletListStore walletListStore;
 
-void getValue()async{
-  var isKeptOn = await Screen.isKeptOn;
-  print('is Screen on? $isKeptOn');
-}
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     ScreenSize.init(context);
    // final height = MediaQuery.of(context).size.height;
    Screen.keepOn(true);
-   getValue();
     Future.delayed(const Duration(seconds: 1), () async {
       await walletListStore.loadWallet(wallet);
       Screen.keepOn(false);
-      getValue();
       Navigator.of(context).pop();
     });
     return WillPopScope(
