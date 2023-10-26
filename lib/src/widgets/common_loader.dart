@@ -8,17 +8,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
+import 'package:screen/screen.dart';
+
 class CommonLoader extends StatelessWidget {
   CommonLoader({Key key, this.address, this.sendStore,this.isFlashTransaction}) : super(key: key);
 
   final String address;
   final SendStore sendStore;
   final bool isFlashTransaction;
-
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
+  Screen.keepOn(true);
     Future.delayed(const Duration(seconds: 1), ()async{
       if(isFlashTransaction) {
         await sendStore.createTransaction(address: address,tPriority:BeldexTransactionPriority.flash);
