@@ -328,6 +328,9 @@ class _WalletNameFormState extends State<WalletNameForm> {
                 child: LoadingPrimaryButton(
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
+                      if (_selectedIndex == 0) {
+                        seedLanguageStore.setSelectedSeedLanguage(seedLocales[_selectedIndex]);
+                      }
                       walletCreationStore.create(
                           name: nameController.text,
                           language: seedLanguageStore.selectedSeedLanguage);

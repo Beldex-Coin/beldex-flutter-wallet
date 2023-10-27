@@ -29,7 +29,8 @@ class SeedLanguageRoute extends StatefulWidget {
 class _SeedLanguageState extends State<SeedLanguageRoute> {
   final List<String> seedLocales = [
     S.current.seed_language_english,
-    S.current.seed_language_chinese,
+    //S.current.seed_language_chinese,
+    'Chinese (simplified)',
     S.current.seed_language_dutch,
     S.current.seed_language_german,
     S.current.seed_language_japanese,
@@ -163,8 +164,12 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
       bottomSection: Padding(
         padding: const EdgeInsets.only(left: 10.0, right: 10),
         child: PrimaryButton(
-            onPressed: () => Navigator.of(context)
-                .popAndPushNamed(seedLanguageStore.currentRoute),
+            onPressed: () {
+              if (_selectedIndex == 0) {
+                seedLanguageStore.setSelectedSeedLanguage(seedLocales[_selectedIndex]);
+              }
+              Navigator.of(context).popAndPushNamed(seedLanguageStore.currentRoute);
+            },
             text: S.of(context).seed_language_next,
             color: Theme.of(context).primaryTextTheme.button.backgroundColor,
             borderColor:
