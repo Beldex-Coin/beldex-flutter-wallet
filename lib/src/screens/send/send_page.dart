@@ -97,7 +97,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
         getOpenAliasRecord(context);
       }
     });
-    getFlashData();
     super.initState();
   }
 
@@ -187,6 +186,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     final syncStore = Provider.of<SyncStore>(context);
 
     _setEffects(context);
+    getFlashData();
 
     return ScrollableWithBottomSection(
       content: Column(
