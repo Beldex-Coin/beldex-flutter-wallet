@@ -127,7 +127,7 @@ class ContactFormState extends State<ContactForm> {
                   } else if (!validateInput(value)) {
                     return S.of(context).enterAValidName;
                   }
-                  if (_checkName(value) && widget.contact == null) {
+                  if (_checkName(value)) {
                     return S.of(context).thisNameAlreadyExist;
                   }
                   addressBookStore.validateContactName(value);
@@ -248,7 +248,7 @@ class ContactFormState extends State<ContactForm> {
               ),
               SizedBox(height: 14.0),
               AddressTextField(
-                isActive: !coinVisibility,
+                isActive: widget.contact == null ? true : false,
                 controller: _addressController,
                 options: [AddressTextFieldOption.qrCode],
                 autoValidateMode: AutovalidateMode.onUserInteraction,
