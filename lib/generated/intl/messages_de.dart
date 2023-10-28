@@ -201,7 +201,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "loadingTheWalletDescription" : MessageLookupByLibrary.simpleMessage("Bitte schließen Sie dieses Fenster nicht und navigieren Sie nicht zu einer anderen App, bis wir die Wallet geladen haben"),
     "loading_your_wallet" : MessageLookupByLibrary.simpleMessage("Wallet wird geladen"),
     "login" : MessageLookupByLibrary.simpleMessage("Einloggen"),
-    "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate" : MessageLookupByLibrary.simpleMessage("Stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Daten erstellen\nWiederherstellungs-Seed, Wallet-Adresse\nUnd private Schlüssel"),
+    "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate" : MessageLookupByLibrary.simpleMessage("Stellen Sie sicher, dass Sie Ihre Daten wieder aufnehmen\nWiederherstellungs-Seed, Wallet-Adresse\nund private Schlüssel"),
     "name" : MessageLookupByLibrary.simpleMessage("Name"),
     "nameShouldNotBeEmpty" : MessageLookupByLibrary.simpleMessage("Der Name darf nicht leer sein"),
     "neverInputYourBeldexWalletItemIntoAnySoftwareOr" : m10,

@@ -346,7 +346,7 @@
   "twoDecimals": "2 - Two (0.00)",
   "zeroDecimal": "0 - Zero (000)",
   "doYouWantToExitTheWallet": "Voulez-vous sortir du portefeuille?",
-  "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate": "Assurez-vous de sauvegarder votre\nGraine de récupération, adresse du portefeuille\nEt clés privées",
+  "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate": "Assurez-vous de faire une sauvegarde de votre\ngraine de récupération, adresse du portefeuille\net clés privées",
   "blockRemaining": "{status} Bloc restant",
   "flashTransaction": "Transaction flash",
   "transferYourBdxMoreFasternWithFlashTransaction": "Transférez votre BDX plus rapidement\n  avec Transaction Flash!",

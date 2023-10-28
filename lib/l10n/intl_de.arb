@@ -345,7 +345,7 @@
   "twoDecimals": "2 - Two (0.00)",
   "zeroDecimal": "0 - Zero (000)",
   "doYouWantToExitTheWallet": "Möchten Sie das Wallet verlassen?",
-  "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate": "Stellen Sie sicher, dass Sie eine Sicherungskopie Ihrer Daten erstellen\nWiederherstellungs-Seed, Wallet-Adresse\nUnd private Schlüssel",
+  "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate": "Stellen Sie sicher, dass Sie Ihre Daten wieder aufnehmen\nWiederherstellungs-Seed, Wallet-Adresse\nund private Schlüssel",
   "blockRemaining": "{status} Verbleibende Blockierung",
   "flashTransaction": "Flash-Transaktion",
   "transferYourBdxMoreFasternWithFlashTransaction": "Tanchbir, deine Bits mehr Pastor\n  Mit Flash-Transaktion!",

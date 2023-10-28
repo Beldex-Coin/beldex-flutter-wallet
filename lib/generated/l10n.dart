@@ -2815,10 +2815,10 @@ class S {
     );
   }
 
-  /// `Make sure to backup of your\nrecovery Seed, wallet address\nand private keys`
+  /// `Make sure to take backup of your\nrecovery Seed, wallet address\nand private keys`
   String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate {
     return Intl.message(
-      'Make sure to backup of your\nrecovery Seed, wallet address\nand private keys',
+      'Make sure to take backup of your\nrecovery Seed, wallet address\nand private keys',
       name: 'makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate',
       desc: '',
       args: [],
