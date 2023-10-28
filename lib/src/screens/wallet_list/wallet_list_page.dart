@@ -89,54 +89,57 @@ class WalletListBodyState extends State<WalletListBody> {
                   ? Color(0xff3A3A45)
                   : Color(0xffC2C2C2),
               radius: Radius.circular(10.0),
-              child: Observer(
-                builder: (_) => ListView.builder(
-                    controller: _controller,
-                    scrollDirection: Axis.vertical,
-                    itemCount: _walletListStore.wallets.length,
-                    itemBuilder: (__, index) {
-                      final wallet = _walletListStore.wallets[index];
-                      final isCurrentWallet =
-                          _walletListStore.isCurrentWallet(wallet);
-                      return InkWell(
-                          onTap: () async {
-                            isCurrentWallet
-                                ? null
-                                : await presetMenuForWallet(wallet, context);
-                            await Future.delayed(
-                                const Duration(milliseconds: 400), () {
-                              authStatus(
-                                  isAuthenticatedSuccessfully, wallet, context);
-                            });
-                          },
-                          child: Card(
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Container(
-                                width: double.infinity,
-                                padding: EdgeInsets.all(15.0),
-                                decoration: BoxDecoration(
-                                    color: settingsStore.isDarkTheme
-                                        ? isCurrentWallet
-                                            ? Color(0xff383848)
-                                            : Color(0xff1B1B23)
-                                        : Color(0xffFFFFFF),
+              child: Container(
+                margin: EdgeInsets.only(right:8.0),
+                child: Observer(
+                  builder: (_) => ListView.builder(
+                      controller: _controller,
+                      scrollDirection: Axis.vertical,
+                      itemCount: _walletListStore.wallets.length,
+                      itemBuilder: (__, index) {
+                        final wallet = _walletListStore.wallets[index];
+                        final isCurrentWallet =
+                            _walletListStore.isCurrentWallet(wallet);
+                        return InkWell(
+                            onTap: () async {
+                              isCurrentWallet
+                                  ? null
+                                  : await presetMenuForWallet(wallet, context);
+                              await Future.delayed(
+                                  const Duration(milliseconds: 400), () {
+                                authStatus(
+                                    isAuthenticatedSuccessfully, wallet, context);
+                              });
+                            },
+                            child: Card(
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10)),
-                                child: Text(
-                                  wallet.name,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      color: isCurrentWallet
-                                          ? Color(0xff1AB51E)
-                                          : settingsStore.isDarkTheme
-                                              ? Color(0xff737382)
-                                              : Color(0xff9292A7),
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.w800),
-                                ),
-                              )));
-                    }),
+                                child: Container(
+                                  width: double.infinity,
+                                  padding: EdgeInsets.all(15.0),
+                                  decoration: BoxDecoration(
+                                      color: settingsStore.isDarkTheme
+                                          ? isCurrentWallet
+                                              ? Color(0xff383848)
+                                              : Color(0xff1B1B23)
+                                          : Color(0xffFFFFFF),
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Text(
+                                    wallet.name,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: isCurrentWallet
+                                            ? Color(0xff1AB51E)
+                                            : settingsStore.isDarkTheme
+                                                ? Color(0xff737382)
+                                                : Color(0xff9292A7),
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.w800),
+                                  ),
+                                )));
+                      }),
+                ),
               ),
             ),
           ),
