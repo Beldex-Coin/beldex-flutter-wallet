@@ -496,7 +496,7 @@ class _SendTransactionSuccessfullyState
                               shape: BoxShape.circle,
                             ),
                             child: Image.asset(
-                                'assets/images/new-images/process_completed_3.gif',
+                                'assets/images/new-images/send_1.gif',
                                 errorBuilder: (context,obj,stackTrace){
                                   return Image.asset('assets/images/new-images/Sent.png');
                                 },

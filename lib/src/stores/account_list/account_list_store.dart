@@ -16,6 +16,7 @@ abstract class AccountListStoreBase with Store {
   AccountListStoreBase({@required WalletService walletService}) {
     accounts = [];
     isAccountCreating = false;
+    _accountList = AccountList();
 
     if (walletService.currentWallet != null) {
       _onWalletChanged(walletService.currentWallet);

@@ -312,14 +312,7 @@ class BelDexWallet extends Wallet {
         amount: _credentials.amount,
         priorityRaw: _credentials.priority.serialize(),
         accountIndex: _account.value.id);
-    print('_credentials.address --> ${_credentials.address}');
-    print('_credentials.amount --> ${_credentials.amount}');
-    print('_credentials.priority.serialize() --> ${_credentials.priority.serialize()}');
-    print('_account.value.id --> ${_account.value.id}');
-    print('transactionDescription fee --> ${transactionDescription.fee}');
-    print('transactionDescription amount --> ${transactionDescription.amount}');
-    print('transactionDescription hash --> ${transactionDescription.hash}');
-    print('transactionDescription pointerAddress --> ${transactionDescription.pointerAddress}');
+    print('transaction created');
 
     return PendingTransaction.fromTransactionDescription(
         transactionDescription);

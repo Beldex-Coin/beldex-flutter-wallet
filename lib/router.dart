@@ -377,10 +377,9 @@ class Router {
 
       case Routes.accountList:
         return MaterialPageRoute<void>(builder: (context) {
-          return MultiProvider(providers: [
-            Provider(
-                create: (_) => AccountListStore(walletService: walletService)),
-          ], child: AccountListPage());
+          return Provider(
+                create: (_) => AccountListStore(walletService: walletService),
+            child: AccountListPage(),);
         });
 
       case Routes.accountCreation:

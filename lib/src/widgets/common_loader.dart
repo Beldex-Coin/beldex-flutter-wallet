@@ -21,11 +21,11 @@ class CommonLoader extends StatelessWidget {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
   Screen.keepOn(true);
-    Future.delayed(const Duration(seconds: 1), ()async{
+    Future.delayed(const Duration(seconds: 1), (){
       if(isFlashTransaction) {
-        await sendStore.createTransaction(address: address,tPriority:BeldexTransactionPriority.flash);
+        sendStore.createTransaction(address: address,tPriority:BeldexTransactionPriority.flash);
       }else{
-        await sendStore.createTransaction(address: address);
+        sendStore.createTransaction(address: address);
       }
     });
 

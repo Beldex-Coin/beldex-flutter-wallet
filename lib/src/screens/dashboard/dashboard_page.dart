@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/dashboard_rescan_dialog.dart';
 import 'package:beldex_wallet/src/util/network_service.dart';
+import 'package:beldex_wallet/src/util/screen_sizer.dart';
 import 'package:beldex_wallet/src/widgets/standart_switch.dart';
 import 'package:beldex_wallet/theme_changer.dart';
 import 'package:beldex_wallet/themes.dart';
@@ -16,13 +16,13 @@ import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/domain/common/balance_display_mode.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
+import 'package:beldex_wallet/src/stores/action_list/action_list_store.dart';
 import 'package:beldex_wallet/src/stores/balance/balance_store.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:beldex_wallet/src/util/screen_sizer.dart';
+
 import '../../../palette.dart';
 
 class DashboardPage extends BasePage {
@@ -104,7 +104,7 @@ class DashboardPage extends BasePage {
 
   @override
   Widget bottomNavigationBar(BuildContext context) {
-   final settingsStore = Provider.of<SettingsStore>(context);
+    final settingsStore = Provider.of<SettingsStore>(context);
     ScreenSize.init(context);
     return Container(
         height:ScreenSize.screenHeight035, //MediaQuery.of(context).size.height * 0.35 / 3,
@@ -114,70 +114,70 @@ class DashboardPage extends BasePage {
                 ? Color(0xff24242F)
                 : Color(0xffEDEDED)),
         child: Container(
-          margin:EdgeInsets.only(left:15,right:15),
+            margin:EdgeInsets.only(left:15,right:15),
             child:Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 1,
-              child: SizedBox(
-                height:ScreenSize.screenHeight025, // MediaQuery.of(context).size.height*0.25/3,
-                child: ElevatedButton.icon(
-                  icon: SvgPicture.asset(
-                    'assets/images/new-images/address_book.svg',
-                    color:
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: SizedBox(
+                    height:ScreenSize.screenHeight025, // MediaQuery.of(context).size.height*0.25/3,
+                    child: ElevatedButton.icon(
+                      icon: SvgPicture.asset(
+                        'assets/images/new-images/address_book.svg',
+                        color:
                         settingsStore.isDarkTheme ? Colors.white : Colors.black,
-                  ),
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(Routes.addressBook),
-                  label: Flexible(
-                    child: Text(S.of(context).address_book,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: settingsStore.isDarkTheme
-                                ? Colors.white
-                                : Colors.black)),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: settingsStore.isDarkTheme
-                        ? Color(0xff333343)
-                        : Color(0xffD4D4D4),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      ),
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed(Routes.addressBook),
+                      label: Flexible(
+                        child: Text(S.of(context).address_book,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: settingsStore.isDarkTheme
+                                    ? Colors.white
+                                    : Colors.black)),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: settingsStore.isDarkTheme
+                            ? Color(0xff333343)
+                            : Color(0xffD4D4D4),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              flex: 1,
-              child: SizedBox(
-                height:ScreenSize.screenHeight025, //MediaQuery.of(context).size.height*0.25/3,
-                child: ElevatedButton.icon(
-                  icon: SvgPicture.asset(
-                      'assets/images/new-images/transactions.svg'),
-                  onPressed: () =>
-                      Navigator.of(context).pushNamed(Routes.transactionlist),
-                  label: Flexible(
-                    child: Text(S.of(context).transactions,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,)),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xff0BA70F),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  flex: 1,
+                  child: SizedBox(
+                    height:ScreenSize.screenHeight025, //MediaQuery.of(context).size.height*0.25/3,
+                    child: ElevatedButton.icon(
+                      icon: SvgPicture.asset(
+                          'assets/images/new-images/transactions.svg'),
+                      onPressed: () =>
+                          Navigator.of(context).pushNamed(Routes.transactionlist),
+                      label: Flexible(
+                        child: Text(S.of(context).transactions,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,)),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Color(0xff0BA70F),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ],
-        )));
+              ],
+            )));
   }
 
   @override
@@ -194,20 +194,14 @@ class DashboardPageBody extends StatefulWidget {
 class DashboardPageBodyState extends State<DashboardPageBody> {
   final _connectionStatusObserverKey = GlobalKey();
   final _balanceObserverKey = GlobalKey();
-
   final _syncingObserverKey = GlobalKey();
   final _listObserverKey = GlobalKey();
-
-  IconData iconDataVal = Icons.arrow_upward_outlined;
+  final _listKey = GlobalKey();
 
   Connectivity connectivity;
   StreamSubscription<ConnectivityResult> subscription;
   var reconnect = false;
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   Future<void> _presentQRScanner(BuildContext context) async {
     try {
@@ -243,335 +237,348 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
   Widget build(BuildContext context) {
     final walletStore = Provider.of<WalletStore>(context);
     final balanceStore = Provider.of<BalanceStore>(context);
+    final actionListStore = Provider.of<ActionListStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
     final networkStatus = Provider.of<NetworkStatus>(context);
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
-   // ScreenSize.init(context);
     if (networkStatus == NetworkStatus.offline) {
       walletStore.reconnect();
     }
     return WillPopScope(
       onWillPop: onBackPressed,
-      child: SingleChildScrollView(
-        child: Observer(
-            key: _listObserverKey,
-            builder: (_) {
-              return Column(
-                children: [
-                  Observer(
-                      key: _syncingObserverKey,
-                      builder: (_) {
-                        final status = syncStore.status;
-                        final statusText = status.title();
-                        final progress = syncStore.status.progress();
-                        final isFailure = status is FailedSyncStatus;
-                        print('dashboard ----->');
-                        print('dashboard page status --> $status');
-                        print('dashboard page progress --> $progress');
-
-                        var descriptionText = '';
-                        print(
-                            'dashboard page status is SyncingSyncStatus ${status is SyncingSyncStatus}');
-                        if (status is SyncingSyncStatus) {
-                          descriptionText = '';
-                          print(
-                              'dashboard page syncStore.status.toString() ${syncStore.status.toString()}');
-                          print(
-                              'dashboard page descriptionText $descriptionText');
-                        }
-                        if (status is FailedSyncStatus) {
-                          descriptionText = S
-                              .of(context)
-                              .please_try_to_connect_to_another_node;
-                          reconnect = true;
-                          if (networkStatus == NetworkStatus.online &&
-                              reconnect) {
-                            walletStore.reconnect();
-                            reconnect = false;
-                          }
-                        }
-                        return Container(
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 1.5,
-                                child: LinearProgressIndicator(
-                                  backgroundColor: Palette.separator,
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      isFailure
-                                          ? BeldexPalette.red
-                                          : BeldexPalette.belgreen
-                                      ),
-                                  value: progress,
-                                ),
-                              ),
-                              SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                      '${statusText[0].toUpperCase() + statusText.substring(1).toLowerCase()}',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: isFailure
-                                              ? BeldexPalette.red
-                                              : BeldexPalette.belgreen
-                                          )),
-                                   /*syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                       ? GestureDetector(
-                                           onTap: () async {
-                                             await showDialog<void>(
-                                                 context: context,
-                                                 builder: (_) {
-                                                   return SyncInfoAlertDialog();
-                                                 });
-                                           },
-                                           child: Padding(
-                                             padding: const EdgeInsets.only(
-                                                 left: 5.0),
-                                             child: Icon(Icons.info_outline,
-                                                 size: 15),
-                                           ),
-                                         )
-                                       : Container()*/
-                                ],
-                              ),
-                              Text(descriptionText,
-                                  style: TextStyle(
-                                      fontSize: 11,
-                                      color: Theme.of(context)
-                                          .primaryTextTheme
-                                          .caption
-                                          .color,
-                                      height: 2.0))
-                            ],
-                          ),
-                        );
-                      }),
-                  Container(
-                     height:_height * 0.71 / 3,
-                    width:_width, 
-                    margin: EdgeInsets.only(bottom: 15, left: 15, right: 15),
-                    decoration: BoxDecoration(
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xff272733)
-                            : Color(0xffEDEDED),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: 15, right: 15, top: 15, bottom: 8),
-                          child: Observer(
-                              key: _connectionStatusObserverKey,
+      child: Observer(
+          key: _listObserverKey,
+          builder: (_) {
+            final items = actionListStore.items ?? <String>[];
+            final itemsCount = 2; //items.length + 2;
+            return ListView.builder(
+                key: _listKey,
+                //padding: EdgeInsets.only(bottom: 15),
+                itemCount: itemsCount,
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return Container(
+                      child: Column(
+                        children: [
+                          Observer(
+                              key: _syncingObserverKey,
                               builder: (_) {
-                                final savedDisplayMode =
-                                    settingsStore.balanceDisplayMode;
-                                var balance = '---';
-                                final displayMode = balanceStore.isReversing
-                                    ? (savedDisplayMode ==
-                                            BalanceDisplayMode.availableBalance
-                                        ? BalanceDisplayMode.fullBalance
-                                        : BalanceDisplayMode.availableBalance)
-                                    : savedDisplayMode;
+                                final status = syncStore.status;
+                                final statusText = status.title();
+                                final progress = syncStore.status.progress();
+                                final isFailure = status is FailedSyncStatus;
+                                print('dashboard ----->');
+                                print('dashboard page status --> $status');
+                                print('dashboard page progress --> $progress');
 
-                                if (displayMode ==
-                                    BalanceDisplayMode.availableBalance) {
-                                  balance =
-                                      balanceStore.unlockedBalanceString ??
-                                          '00.000000000';
+                                var descriptionText = '';
+                                print(
+                                    'dashboard page status is SyncingSyncStatus ${status is SyncingSyncStatus}');
+                                if (status is SyncingSyncStatus) {
+                                  descriptionText = '';
                                   print(
-                                      'Dashboard availableBalance --> $balance');
+                                      'dashboard page syncStore.status.toString() ${syncStore.status.toString()}');
+                                  print(
+                                      'dashboard page descriptionText $descriptionText');
                                 }
-                                if (displayMode ==
-                                    BalanceDisplayMode.fullBalance) {
-                                  balance = balanceStore.fullBalanceString ??
-                                      '00.000000000';
-                                  print('Dashboard fullBalance --> $balance');
+                                if (status is FailedSyncStatus) {
+                                  descriptionText = S
+                                      .of(context)
+                                      .please_try_to_connect_to_another_node;
+                                  reconnect = true;
+                                  if (networkStatus == NetworkStatus.online &&
+                                      reconnect) {
+                                    walletStore.reconnect();
+                                    reconnect = false;
+                                  }
                                 }
-                                return GestureDetector(
-                                  onTapUp: (_) =>
-                                      balanceStore.isReversing = false,
-                                  onTapDown: (_) =>
-                                      balanceStore.isReversing = true,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.baseline,
-                                    textBaseline: TextBaseline.alphabetic,
+                                return Container(
+                                  child: Column(
                                     children: [
-                                      Text(
-                                        '$balance ',
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .primaryTextTheme
-                                              .caption
-                                              .color,
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.12 /
-                                              3,
-                                          fontWeight: FontWeight.bold,
+                                      SizedBox(
+                                        height: 1.5,
+                                        child: LinearProgressIndicator(
+                                          backgroundColor: Palette.separator,
+                                          valueColor: AlwaysStoppedAnimation<Color>(
+                                              isFailure
+                                                  ? BeldexPalette.red
+                                                  : BeldexPalette.belgreen
+                                          ),
+                                          value: progress,
                                         ),
                                       ),
-                                      Text(
-                                        S.of(context).bdx,
-                                        style: TextStyle(
-                                          color: Theme.of(context)
-                                              .primaryTextTheme
-                                              .caption
-                                              .color,
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                      SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                              '${statusText[0].toUpperCase() + statusText.substring(1).toLowerCase()}',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: isFailure
+                                                      ? BeldexPalette.red
+                                                      : BeldexPalette.belgreen
+                                              )),
+                                          /*syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                             ? GestureDetector(
+                                                 onTap: () async {
+                                                   await showDialog<void>(
+                                                       context: context,
+                                                       builder: (_) {
+                                                         return SyncInfoAlertDialog();
+                                                       });
+                                                 },
+                                                 child: Padding(
+                                                   padding: const EdgeInsets.only(
+                                                       left: 5.0),
+                                                   child: Icon(Icons.info_outline,
+                                                       size: 15),
+                                                 ),
+                                               )
+                                             : Container()*/
+                                        ],
                                       ),
+                                      Text(descriptionText,
+                                          style: TextStyle(
+                                              fontSize: 11,
+                                              color: Theme.of(context)
+                                                  .primaryTextTheme
+                                                  .caption
+                                                  .color,
+                                              height: 2.0))
                                     ],
                                   ),
                                 );
                               }),
-                        ),
-                        Container(
-                          margin:
-                              EdgeInsets.only(left: 15, right: 15),
-                          child: Observer(
-                              key: _balanceObserverKey,
-                              builder: (_) {
-                                final savedDisplayMode =
-                                    settingsStore.balanceDisplayMode;
-                                final displayMode =
-                                    settingsStore.enableFiatCurrency
-                                        ? (balanceStore.isReversing
+                          // SizedBox(height:10),
+                          Container(
+                            height:_height * 0.71 / 3,
+                            width:_width,
+                            margin: EdgeInsets.only(bottom: 15, left: 15, right: 15),
+                            decoration: BoxDecoration(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff272733)
+                                    : Color(0xffEDEDED),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: 15, right: 15, top: 15, bottom: 8),
+                                  child: Observer(
+                                      key: _connectionStatusObserverKey,
+                                      builder: (_) {
+                                        final savedDisplayMode =
+                                            settingsStore.balanceDisplayMode;
+                                        var balance = '---';
+                                        final displayMode = balanceStore.isReversing
                                             ? (savedDisplayMode ==
-                                                    BalanceDisplayMode
-                                                        .availableBalance
-                                                ? BalanceDisplayMode.fullBalance
-                                                : BalanceDisplayMode
-                                                    .availableBalance)
+                                            BalanceDisplayMode.availableBalance
+                                            ? BalanceDisplayMode.fullBalance
+                                            : BalanceDisplayMode.availableBalance)
+                                            : savedDisplayMode;
+
+                                        if (displayMode ==
+                                            BalanceDisplayMode.availableBalance) {
+                                          balance =
+                                              balanceStore.unlockedBalanceString ??
+                                                  '00.000000000';
+                                          print(
+                                              'Dashboard availableBalance --> $balance');
+                                        }
+                                        if (displayMode ==
+                                            BalanceDisplayMode.fullBalance) {
+                                          balance = balanceStore.fullBalanceString ??
+                                              '00.000000000';
+                                          print('Dashboard fullBalance --> $balance');
+                                        }
+                                        return GestureDetector(
+                                          onTapUp: (_) =>
+                                          balanceStore.isReversing = false,
+                                          onTapDown: (_) =>
+                                          balanceStore.isReversing = true,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.baseline,
+                                            textBaseline: TextBaseline.alphabetic,
+                                            children: [
+                                              Text(
+                                                '$balance ',
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryTextTheme
+                                                      .caption
+                                                      .color,
+                                                  fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                      0.12 /
+                                                      3,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              Text(
+                                                S.of(context).bdx,
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryTextTheme
+                                                      .caption
+                                                      .color,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                ),
+                                Container(
+                                  margin:
+                                  EdgeInsets.only(left: 15, right: 15),
+                                  child: Observer(
+                                      key: _balanceObserverKey,
+                                      builder: (_) {
+                                        final savedDisplayMode =
+                                            settingsStore.balanceDisplayMode;
+                                        final displayMode =
+                                        settingsStore.enableFiatCurrency
+                                            ? (balanceStore.isReversing
+                                            ? (savedDisplayMode ==
+                                            BalanceDisplayMode
+                                                .availableBalance
+                                            ? BalanceDisplayMode.fullBalance
+                                            : BalanceDisplayMode
+                                            .availableBalance)
                                             : savedDisplayMode)
-                                        : BalanceDisplayMode.hiddenBalance;
-                                final symbol =
-                                    settingsStore.fiatCurrency.toString();
-                                var balance = '---';
+                                            : BalanceDisplayMode.hiddenBalance;
+                                        final symbol =
+                                        settingsStore.fiatCurrency.toString();
+                                        var balance = '---';
 
-                                if (displayMode ==
-                                    BalanceDisplayMode.availableBalance) {
-                                  balance =
-                                      '${balanceStore.fiatUnlockedBalance} $symbol';
-                                }
+                                        if (displayMode ==
+                                            BalanceDisplayMode.availableBalance) {
+                                          balance =
+                                          '${balanceStore.fiatUnlockedBalance} $symbol';
+                                        }
 
-                                if (displayMode ==
-                                    BalanceDisplayMode.fullBalance) {
-                                  balance =
-                                      '${balanceStore.fiatFullBalance} $symbol';
-                                }
+                                        if (displayMode ==
+                                            BalanceDisplayMode.fullBalance) {
+                                          balance =
+                                          '${balanceStore.fiatFullBalance} $symbol';
+                                        }
 
-                                return Text(balance,
-                                    style: TextStyle(
-                                        color: Color(0xff0BA70F),
-                                        fontSize:
-                                            MediaQuery.of(context).size.height *
-                                                0.07 /
-                                                3));
-                              }),
-                        ),
-                        Flexible(child:Container()),
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: 15.0, right: 15.0, bottom: 15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Observer(builder: (_) {
-                                  return SizedBox(
-                                    height: MediaQuery.of(context).size.height*0.20/3,
-                                    child: ElevatedButton.icon(
-                                      icon: SvgPicture.asset(
-                                        'assets/images/new-images/send.svg',
-                                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                            ? Colors.white
-                                            : settingsStore.isDarkTheme
-                                                ? Color(0xff6C6C78)
-                                                : Color(0xffB2B2B6),
-                                      ),
-                                      onPressed: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                          ? () {
-                                              Navigator.of(context,
-                                                      rootNavigator: true)
-                                                  .pushNamed(Routes.send);
-                                            }
-                                          : null,
-                                      label: Flexible(
-                                        child: Text(
-                                            S.of(context).send,
+                                        return Text(balance,
                                             style: TextStyle(
+                                                color: Color(0xff0BA70F),
+                                                fontSize:
+                                                MediaQuery.of(context).size.height *
+                                                    0.07 /
+                                                    3));
+                                      }),
+                                ),
+                                Flexible(child:Container()),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: 15.0, right: 15.0, bottom: 15),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Observer(builder: (_) {
+                                          return SizedBox(
+                                            height: MediaQuery.of(context).size.height*0.20/3,
+                                            child: ElevatedButton.icon(
+                                              icon: SvgPicture.asset(
+                                                'assets/images/new-images/send.svg',
                                                 color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                                     ? Colors.white
                                                     : settingsStore.isDarkTheme
+                                                    ? Color(0xff6C6C78)
+                                                    : Color(0xffB2B2B6),
+                                              ),
+                                              onPressed: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                                  ? () {
+                                                Navigator.of(context,
+                                                    rootNavigator: true)
+                                                    .pushNamed(Routes.send);
+                                              }
+                                                  : null,
+                                              label: Flexible(
+                                                child: Text(
+                                                  S.of(context).send,
+                                                  style: TextStyle(
+                                                    color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                                        ? Colors.white
+                                                        : settingsStore.isDarkTheme
                                                         ? Color(0xff6C6C78)
                                                         : Color(0xffB2B2B6),
-                                                fontWeight: FontWeight.bold,),
-                                          ),
+                                                    fontWeight: FontWeight.bold,),
+                                                ),
+                                              ),
+                                              style: ElevatedButton.styleFrom(
+                                                primary: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                                    ? Color(0xff0BA70F)
+                                                    : settingsStore.isDarkTheme
+                                                    ? Color(0xff333343)
+                                                    : Color(0xffE8E8E8),
+                                                padding: EdgeInsets.all(12),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }),
                                       ),
-                                      style: ElevatedButton.styleFrom(
-                                        primary: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                            ? Color(0xff0BA70F)
-                                            : settingsStore.isDarkTheme
-                                                ? Color(0xff333343)
-                                                : Color(0xffE8E8E8),
-                                        padding: EdgeInsets.all(12),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: SizedBox(
+                                          height: MediaQuery.of(context).size.height*0.20/3,
+                                          child: ElevatedButton.icon(
+                                            icon: SvgPicture.asset(
+                                                'assets/images/new-images/receive.svg'),
+                                            onPressed: () =>
+                                                Navigator.of(context, rootNavigator: true)
+                                                    .pushNamed(Routes.receive),
+                                            label: Flexible(
+                                              child: Text(
+                                                S.of(context).receive,
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,),
+                                              ),
+                                            ),
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Color(0xff2979FB),
+                                              padding: EdgeInsets.all(12),
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(10),
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                }),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: SizedBox(
-                                  height: MediaQuery.of(context).size.height*0.20/3,
-                                  child: ElevatedButton.icon(
-                                    icon: SvgPicture.asset(
-                                        'assets/images/new-images/receive.svg'),
-                                    onPressed: () =>
-                                        Navigator.of(context, rootNavigator: true)
-                                            .pushNamed(Routes.receive),
-                                    label: Flexible(
-                                      child: Text(
-                                        S.of(context).receive,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,),
-                                      ),
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Color(0xff2979FB),
-                                      padding: EdgeInsets.all(12),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
+                                    ],
                                   ),
-                                ),
-                              ),
-                            ],
+                                )
+                              ],
+                            ),
                           ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
+                        ],
+                      ),
+                    );
+                  }
+                  return Container(
                     margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
                     height: MediaQuery.of(context).size.height * 0.83 / 2,
                     padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -594,8 +601,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                             return GestureDetector(
                               onTap: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                   ? () {
-                                      _presentQRScanner(context);
-                                    }
+                                _presentQRScanner(context);
+                              }
                                   : null,
                               child: Container(
                                 padding: EdgeInsets.all(15),
@@ -630,11 +637,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         )
                       ],
                     ),
-                  ),
-                ],
-              );
-            }),
-      ),
+                  );
+                });
+          }),
     );
   }
 
@@ -663,7 +668,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                       S.of(context).are_you_sure,
                       textAlign: TextAlign.center,
                       style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
+                      TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
@@ -741,289 +746,4 @@ class Item {
   String text;
   String amount;
   Color color;
-}
-
-Future showMenuForRescan(
-    BuildContext context, String title, String body, String fee, String address,
-    {String buttonText,
-    void Function(BuildContext context) onPressed,
-    void Function(BuildContext context) onDismiss}) {
-  return showDialog<void>(
-      builder: (_) => ShowMenuForRescan(title, body, fee, address,
-          buttonText: buttonText, onDismiss: onDismiss, onPressed: onPressed),
-      context: context);
-}
-
-class ShowMenuForRescan extends StatelessWidget {
-  const ShowMenuForRescan(
-    this.title,
-    this.body,
-    this.fee,
-    this.address, {
-    this.buttonText,
-    this.onPressed,
-    this.onDismiss,
-  }); // : super(key: key);
-
-  final String title;
-  final String body;
-  final String fee;
-  final String address;
-  final String buttonText;
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
-
-  @override
-  Widget build(BuildContext context) {
-    final settingsStore = Provider.of<SettingsStore>(context);
-    return GestureDetector(
-      // onTap: () => _onDismiss(context),
-      child: Container(
-        color: Colors.transparent,
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-          child: Container(
-            margin: EdgeInsets.all(15),
-            // decoration: BoxDecoration(color: Color(0xff171720).withOpacity(0.55)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xff272733)
-                            : Colors.white, //Theme.of(context).backgroundColor,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 1.4 / 3,
-                      padding: EdgeInsets.only(top: 15.0, left: 20, right: 20),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10.0),
-                            child: Text(title,
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.w800)),
-                          ),
-                          Container(
-                              height: 50,
-                              //padding: EdgeInsets.all(10),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: settingsStore.isDarkTheme
-                                      ? Color(0xff383848)
-                                      : Color(0xffEDEDED)),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Text(
-                                      'Amount',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w700),
-                                    ),
-                                  ),
-                                  VerticalDivider(),
-                                  Expanded(
-                                      child: Container(
-                                    padding: const EdgeInsets.all(10.0),
-                                    child: Text(
-                                      'body',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  )),
-                                  Container(
-                                    width: 70,
-                                    padding: EdgeInsets.all(10),
-                                    child: Container(
-                                        height: 40,
-                                        width: 40,
-                                        padding: EdgeInsets.all(6),
-                                        decoration: BoxDecoration(
-                                          color: Color(0xff00B116),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: SvgPicture.asset(
-                                            'assets/images/new-images/beldex.svg')),
-                                  )
-                                ],
-                              )),
-                          Container(
-                              margin: EdgeInsets.only(top: 10),
-                              padding: EdgeInsets.all(10),
-                              height:
-                                  MediaQuery.of(context).size.height * 0.60 / 3,
-                              decoration: BoxDecoration(
-                                  color: settingsStore.isDarkTheme
-                                      ? Color(0xff383848)
-                                      : Color(0xffEDEDED),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Text('Address'),
-                                  Container(
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          color: settingsStore.isDarkTheme
-                                              ? Color(0xff47475E)
-                                              : Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Text(address)),
-                                  Text('Fee: fee'),
-                                ],
-                              )),
-                          Container(
-                            margin: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height *
-                                    0.10 /
-                                    3),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  height: 45,
-                                  width: 120,
-                                  decoration: BoxDecoration(
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xff383848)
-                                          : Color(0xffEDEDED),
-                                      borderRadius: BorderRadius.circular(8)),
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        if (onDismiss != null) {
-                                          onDismiss(context);
-                                        }
-                                      },
-                                      child: Center(
-                                          child: Text(S.of(context).cancel,
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  fontWeight:
-                                                      FontWeight.bold)))),
-                                ),
-                                SizedBox(width: 20),
-                                Container(
-                                  height: 45,
-                                  width: 120,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xff0BA70F),
-                                      borderRadius: BorderRadius.circular(8)),
-                                  child: GestureDetector(
-                                      onTap: () {
-                                        if (onPressed != null) {
-                                          onPressed(context);
-                                        }
-                                      },
-                                      child: Center(
-                                          child: Text(
-                                        'OK',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ))),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    )),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class SyncInfoAlertDialog extends StatefulWidget {
-  const SyncInfoAlertDialog({Key key}) : super(key: key);
-
-  @override
-  State<SyncInfoAlertDialog> createState() => _SyncInfoAlertDialogState();
-}
-
-class _SyncInfoAlertDialogState extends State<SyncInfoAlertDialog> {
-  int bHeight = 0;
-
-  @override
-  void initState() {
-    getHeight();
-    super.initState();
-  }
-
-  void getHeight() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      bHeight = prefs.getInt('currentHeight');
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final settingsStore = Provider.of<SettingsStore>(context);
-    return Dialog(
-      insetPadding: EdgeInsets.all(15),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      backgroundColor:
-      settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffFFFFFF),
-      child: Container(
-        margin: const EdgeInsets.all(15.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.info_outline,
-                  color: Color(0xff0BA70F),
-                ),
-                Flexible(
-                  child: Text(S.of(context).syncInfo,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.w800,fontSize: 16)),
-                ),
-              ],
-            ),
-            SizedBox(height: 15,),
-            Text(S.of(context).youHaveScannedFromTheBlockHeight,
-                textAlign: TextAlign.center, style: TextStyle(fontSize: 13)),
-            Text(bHeight.toString(),
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Color(0xff0BA70F))),
-            Text(S.of(context).howeverWeRecommendToScanTheBlockchainFromTheBlock,
-                textAlign: TextAlign.center, style: TextStyle(fontSize: 13)),
-            SizedBox(height: 10,),
-            GestureDetector(
-              onTap: () => Navigator.pop(context),
-              child: Container(
-                  height: 45,
-                  width: 90,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color(0xff0BA70F)),
-                  child: Center(
-                      child: Text(S.of(context).ok,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold)))),
-            )
-          ],
-        ),
-      ),
-    );
-  }
 }
