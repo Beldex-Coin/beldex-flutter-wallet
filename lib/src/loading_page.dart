@@ -6,22 +6,31 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:screen/screen.dart';
+import 'package:wakelock/wakelock.dart';
 
 class LoadingPage extends StatelessWidget{
   LoadingPage({ Key key, this.wallet,this.walletListStore }) : super(key: key);
 
   final WalletDescription wallet;
   final WalletListStore walletListStore;
+ void getValue()async{
+   var val = await Wakelock.enabled;
+   print('wakelock on ---> $val');
+  }
 
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     ScreenSize.init(context);
     final height = MediaQuery.of(context).size.height;
-    Screen.keepOn(true);
+    //Screen.keepOn(true);
+    Wakelock.enable();
+    getValue();
     Future.delayed(const Duration(seconds: 1), () async {
       await walletListStore.loadWallet(wallet);
-      Screen.keepOn(false);
+      Wakelock.disable();
+      getValue();
+      //Screen.keepOn(false);
       Navigator.of(context).pop();
     });
     return WillPopScope(
