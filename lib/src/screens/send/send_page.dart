@@ -342,6 +342,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                         AddressTextFieldOption.saveAddress,
                         AddressTextFieldOption.qrCode,
                       ],
+                      onTap: (){
+                        isFlashMap = false;
+                      },
                       validator: (value) {
                         if (value.isEmpty) {
                           setState(() {
@@ -465,6 +468,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                   hintText: S.of(context).enterAmount,
                                   errorStyle:
                                   TextStyle(color: BeldexPalette.red)),
+                              onTap: (){
+                                isFlashMap = false;
+                              },
                               validator: (value) {
                                 if (value.isEmpty) {
                                   setState(() {

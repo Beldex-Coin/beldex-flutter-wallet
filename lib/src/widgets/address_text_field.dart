@@ -26,7 +26,7 @@ class AddressTextField extends StatelessWidget {
       this.focusNode,
       this.validator,
       this.onChanged,
-      this.autoValidateMode});
+      this.autoValidateMode, this.onTap});
 
   static const prefixIconWidth = 20.0;
   static const prefixIconHeight = 20.0;
@@ -41,7 +41,7 @@ class AddressTextField extends StatelessWidget {
   final FocusNode focusNode;
   final ValueChanged<String> onChanged;
   final AutovalidateMode autoValidateMode;
-
+  final void Function() onTap;
   @override
   Widget build(BuildContext context) {
     return BeldexTextField(
@@ -143,6 +143,7 @@ class AddressTextField extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       autoValidateMode: autoValidateMode,
+      onTap: onTap,
     );
   }
 
