@@ -28,8 +28,6 @@ import 'package:beldex_wallet/src/wallet/beldex/calculate_estimated_fee.dart';
 import 'package:beldex_wallet/src/widgets/address_text_field.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/src/util/constants.dart' as constants;
-import 'package:screen/screen.dart';
 import 'package:wakelock/wakelock.dart';
 class SendPage extends BasePage {
   SendPage({this.flashMap});
@@ -170,13 +168,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                 sendStore: sendStore,
                 isFlashTransaction: isFlashTransaction)));
   }
-
-
- void getValue()async{
-   var val = await Wakelock.enabled;
-   print('wakelock on ---> $val');
-  }
-
 
 
 
@@ -735,9 +726,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     rdisposer3 = reaction((_) => sendStore.state, (SendingState state) {
       if (state is SendingFailed) {
         //WidgetsBinding.instance.addPostFrameCallback((_) {
-         // Screen.keepOn(false);
          Wakelock.disable();
-         getValue();
           Navigator.of(context).pop();
           showSimpleBeldexDialog(
               context, S.of(context).alert, state.error,
@@ -749,10 +738,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
           sendStore.pendingTransaction != null) {
         // WidgetsBinding.instance.addPostFrameCallback((_) {
         print('transactionDescription fee --> created');
-      
         Wakelock.disable();
-        getValue();
-       // Screen.keepOn(false);
         Navigator.of(context).pop();
         showSimpleConfirmDialog(
             context,
@@ -777,9 +763,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       if (state is TransactionCommitted) {
         //WidgetsBinding.instance.addPostFrameCallback((_) {
         print('transactionDescription fee --> committed');
-          //Screen.keepOn(false);
           Wakelock.disable();
-          getValue();
           Navigator.of(context).pop();
           showDialogTransactionSuccessfully(context, onPressed: (_) {
             _addressController.text = '';
@@ -801,19 +785,12 @@ class CommitTransactionLoader extends StatelessWidget {
 
   final SendStore sendStore;
 
- void getValue()async{
-   var val = await Wakelock.enabled;
-   print('wakelock on ---> $val');
-  }
-
 
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
-    //Screen.keepOn(true);
     Wakelock.enable();
-    getValue();
     Future.delayed(const Duration(seconds: 1), () {
       sendStore.commitTransaction();
     });
