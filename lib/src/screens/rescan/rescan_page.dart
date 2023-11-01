@@ -38,37 +38,42 @@ class RescanPage extends BasePage {
   Widget body(BuildContext context) {
     final rescanWalletStore = Provider.of<RescanWalletStore>(context);
 
-    return ScrollableWithBottomSection(
-      content:
-          // Padding(
-          //   padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
-          //   child:
-          Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.60 / 3),
-            Center(child: BlockHeightSwapingWidget(key: blockchainKey)),
-          ]),
-      //),
-      bottomSection: Observer(
-          builder: (_) => LoadingPrimaryButton(
-              isLoading: rescanWalletStore.state == RescanWalletState.rescaning,
-              text: S.of(context).rescan,
-              onPressed: () async {
-                if (_formKey.currentState.validate()) {
-                  print('block height ---> $height');
-                  await rescanWalletStore.rescanCurrentWallet(
-                      restoreHeight: height);
-                  Navigator.of(context).pop();
-                  restoreHeights(height);
-                } else {
-                  return null;
-                }
-              },
-              color: Theme.of(context).primaryTextTheme.button.backgroundColor,
-              borderColor:
-                  Theme.of(context).primaryTextTheme.button.backgroundColor)),
+    return GestureDetector(
+      onTap:(){
+        FocusScope.of(context).unfocus();
+      },
+      child: ScrollableWithBottomSection(
+        content:
+            // Padding(
+            //   padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+            //   child:
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+              SizedBox(height: MediaQuery.of(context).size.height * 0.60 / 3),
+              Center(child: BlockHeightSwapingWidget(key: blockchainKey)),
+            ]),
+        //),
+        bottomSection: Observer(
+            builder: (_) => LoadingPrimaryButton(
+                isLoading: rescanWalletStore.state == RescanWalletState.rescaning,
+                text: S.of(context).rescan,
+                onPressed: () async {
+                  if (_formKey.currentState.validate()) {
+                    print('block height ---> $height');
+                    await rescanWalletStore.rescanCurrentWallet(
+                        restoreHeight: height);
+                    Navigator.of(context).pop();
+                    restoreHeights(height);
+                  } else {
+                    return null;
+                  }
+                },
+                color: Theme.of(context).primaryTextTheme.button.backgroundColor,
+                borderColor:
+                    Theme.of(context).primaryTextTheme.button.backgroundColor)),
+      ),
     );
   }
 

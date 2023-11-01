@@ -103,195 +103,200 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
       }
     });
 
-    return ScrollableWithBottomSection(
-      contentPadding: EdgeInsets.all(20.0),
-      content: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Column(children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Flexible(
-                      child: Card(
-                    elevation: 0,
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xff272733)
-                        : Color(0xffEDEDED),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    margin: EdgeInsets.only(top: 8.0),
-                    child: Container(
-                      padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                      child: TextFormField(
-                        style: TextStyle(fontSize: 14.0),
-                        controller: _nameController,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xff77778B)
-                                  : Color(0xff77778B)),
-                          hintText: S.of(context).enterWalletName_,
-                          errorStyle: TextStyle(height: 0.10),
+    return GestureDetector(
+      onTap: (){
+        FocusScope.of(context).unfocus();
+      },
+      child: ScrollableWithBottomSection(
+        contentPadding: EdgeInsets.all(20.0),
+        content: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Flexible(
+                        child: Card(
+                      elevation: 0,
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff272733)
+                          : Color(0xffEDEDED),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      margin: EdgeInsets.only(top: 8.0),
+                      child: Container(
+                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 14.0),
+                          controller: _nameController,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff77778B)
+                                    : Color(0xff77778B)),
+                            hintText: S.of(context).enterWalletName_,
+                            errorStyle: TextStyle(height: 0.10),
+                          ),
+                          validator: (value) {
+                            walletRestorationStore.validateWalletName(value);
+                            return walletRestorationStore.errorMessage;
+                          },
                         ),
-                        validator: (value) {
-                          walletRestorationStore.validateWalletName(value);
-                          return walletRestorationStore.errorMessage;
-                        },
                       ),
-                    ),
-                  ))
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Flexible(
-                      child: Card(
-                    elevation: 0,
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xff272733)
-                        : Color(0xffEDEDED),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    margin: EdgeInsets.only(top: 8.0),
-                    child: Container(
-                      padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                      child: TextFormField(
-                        style: TextStyle(fontSize: 14.0),
-                        controller: _addressController,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xff77778B)
-                                  : Color(0xff77778B)),
-                          hintText: S.of(context).restore_address,
-                          errorStyle: TextStyle(height: 0.10),
-                        ),
-                        validator: (value) {
-                          walletRestorationStore.validateAddress(value);
-                          return walletRestorationStore.errorMessage;
-                        },
-                      ),
-                    ),
-                  ))
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Flexible(
-                      child: Card(
-                    elevation: 0,
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xff272733)
-                        : Color(0xffEDEDED),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    margin: EdgeInsets.only(top: 8.0),
-                    child: Container(
-                      padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                      child: TextFormField(
-                        style: TextStyle(fontSize: 14.0),
-                        controller: _viewKeyController,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xff77778B)
-                                  : Color(0xff77778B)),
-                          hintText: S.of(context).restore_view_key_private,
-                          errorStyle: TextStyle(height: 0.10),
-                        ),
-                        validator: (value) {
-                          walletRestorationStore.validateKeys(value);
-                          return walletRestorationStore.errorMessage;
-                        },
-                      ),
-                    ),
-                  ))
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Flexible(
-                      child: Card(
-                    elevation: 0,
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xff272733)
-                        : Color(0xffEDEDED),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    margin: EdgeInsets.only(top: 8.0),
-                    child: Container(
-                      padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                      child: TextFormField(
-                        style: TextStyle(fontSize: 14.0),
-                        controller: _spendKeyController,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xff77778B)
-                                  : Color(0xff77778B)),
-                          hintText: S.of(context).restore_spend_key_private,
-                          errorStyle: TextStyle(height: 0.10),
-                        ),
-                        validator: (value) {
-                          walletRestorationStore.validateKeys(value);
-                          return walletRestorationStore.errorMessage;
-                        },
-                      ),
-                    ),
-                  ))
-                ],
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 20),
-                width: MediaQuery.of(context).size.width * 1.5 / 3,
-                child: Divider(
-                  height: 3,
-                  color: settingsStore.isDarkTheme
-                      ? Color(0xff3A3A4F)
-                      : Color(0xffEDEDED),
+                    ))
+                  ],
                 ),
-              ),
-              BlockHeightSwappingWidget(key: _blockchainHeightKey),
-            ]),
-          ],
+                Row(
+                  children: <Widget>[
+                    Flexible(
+                        child: Card(
+                      elevation: 0,
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff272733)
+                          : Color(0xffEDEDED),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      margin: EdgeInsets.only(top: 8.0),
+                      child: Container(
+                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 14.0),
+                          controller: _addressController,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff77778B)
+                                    : Color(0xff77778B)),
+                            hintText: S.of(context).restore_address,
+                            errorStyle: TextStyle(height: 0.10),
+                          ),
+                          validator: (value) {
+                            walletRestorationStore.validateAddress(value);
+                            return walletRestorationStore.errorMessage;
+                          },
+                        ),
+                      ),
+                    ))
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Flexible(
+                        child: Card(
+                      elevation: 0,
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff272733)
+                          : Color(0xffEDEDED),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      margin: EdgeInsets.only(top: 8.0),
+                      child: Container(
+                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 14.0),
+                          controller: _viewKeyController,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff77778B)
+                                    : Color(0xff77778B)),
+                            hintText: S.of(context).restore_view_key_private,
+                            errorStyle: TextStyle(height: 0.10),
+                          ),
+                          validator: (value) {
+                            walletRestorationStore.validateKeys(value);
+                            return walletRestorationStore.errorMessage;
+                          },
+                        ),
+                      ),
+                    ))
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    Flexible(
+                        child: Card(
+                      elevation: 0,
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff272733)
+                          : Color(0xffEDEDED),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      margin: EdgeInsets.only(top: 8.0),
+                      child: Container(
+                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 14.0),
+                          controller: _spendKeyController,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff77778B)
+                                    : Color(0xff77778B)),
+                            hintText: S.of(context).restore_spend_key_private,
+                            errorStyle: TextStyle(height: 0.10),
+                          ),
+                          validator: (value) {
+                            walletRestorationStore.validateKeys(value);
+                            return walletRestorationStore.errorMessage;
+                          },
+                        ),
+                      ),
+                    ))
+                  ],
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 20),
+                  width: MediaQuery.of(context).size.width * 1.5 / 3,
+                  child: Divider(
+                    height: 3,
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xff3A3A4F)
+                        : Color(0xffEDEDED),
+                  ),
+                ),
+                BlockHeightSwappingWidget(key: _blockchainHeightKey),
+              ]),
+            ],
+          ),
         ),
-      ),
-      bottomSection: Observer(builder: (_) {
-        return LoadingPrimaryButton(
-          onPressed: () async {
-            if (_formKey.currentState.validate()) {
-              if (_formKey1.currentState.validate()) {
-                await walletRestorationStore.restoreFromKeys(
-                    name: _nameController.text,
-                    language: seedLanguageStore.selectedSeedLanguage,
-                    address: _addressController.text,
-                    viewKey: _viewKeyController.text,
-                    spendKey: _spendKeyController.text,
-                    restoreHeight: height);
-                restoreHeights(height,settingsStore);
+        bottomSection: Observer(builder: (_) {
+          return LoadingPrimaryButton(
+            onPressed: () async {
+              if (_formKey.currentState.validate()) {
+                if (_formKey1.currentState.validate()) {
+                  await walletRestorationStore.restoreFromKeys(
+                      name: _nameController.text,
+                      language: seedLanguageStore.selectedSeedLanguage,
+                      address: _addressController.text,
+                      viewKey: _viewKeyController.text,
+                      spendKey: _spendKeyController.text,
+                      restoreHeight: height);
+                  restoreHeights(height,settingsStore);
+                }
               }
-            }
-          },
-          text: S.of(context).restore_recover,
-          color: Theme.of(context).primaryTextTheme.button.backgroundColor,
-          borderColor:
-              Theme.of(context).primaryTextTheme.button.backgroundColor,
-          isLoading: walletRestorationStore.state is WalletIsRestoring,
-        );
-      }),
+            },
+            text: S.of(context).restore_recover,
+            color: Theme.of(context).primaryTextTheme.button.backgroundColor,
+            borderColor:
+                Theme.of(context).primaryTextTheme.button.backgroundColor,
+            isLoading: walletRestorationStore.state is WalletIsRestoring,
+          );
+        }),
+      ),
     );
   }
 
