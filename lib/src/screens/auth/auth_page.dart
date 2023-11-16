@@ -10,7 +10,7 @@ import 'package:beldex_wallet/src/screens/pin_code/pin_code.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/domain/common/biometric_auth.dart';
 import 'package:local_auth/local_auth.dart';
-
+import 'dart:io' show Platform;
 typedef OnAuthenticationFinished = void Function(bool, AuthPageState);
 
 class AuthPage extends StatefulWidget {
@@ -59,27 +59,26 @@ class AuthPageState extends State<AuthPage> {
     final authStore = Provider.of<AuthStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
 
-    if (settingsStore.allowBiometricAuthentication) {
-      print('Biometric 1');
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final biometricAuth = BiometricAuth();
-        biometricAuth.isAuthenticated().then((isAuth) {
-          print('Biometric 2');
-          if (isAuth) {
-            print('Biometric 3');
-            authStore.biometricAuth();
-            _key.currentState.showSnackBar(
-              SnackBar(
-                content: Text(S.of(context).authenticated),
-                backgroundColor: Colors.green,
-              ),
-            );
-          }
-          print('Biometric 4');
+    if(Platform.isAndroid) {
+      if (settingsStore.allowBiometricAuthentication) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final biometricAuth = BiometricAuth();
+          biometricAuth.isAuthenticated().then((isAuth) {
+            if (isAuth) {
+              authStore.biometricAuth();
+              _key.currentState.showSnackBar(
+                SnackBar(
+                  content: Text(S
+                      .of(context)
+                      .authenticated),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            }
+          });
         });
-      });
+      }
     }
-
     reaction((_) => authStore.state, (AuthState state) {
       if (state is AuthenticatedSuccessfully) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
