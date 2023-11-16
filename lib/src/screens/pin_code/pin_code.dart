@@ -1,3 +1,5 @@
+// import 'dart:html';
+import 'dart:io' show Platform;
 import 'package:beldex_wallet/src/domain/common/biometric_auth.dart';
 import 'package:beldex_wallet/src/stores/auth/auth_store.dart';
 import 'package:flutter/services.dart';
@@ -190,9 +192,12 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
 
     return SafeArea(
         child: Container(
-          padding: EdgeInsets.only(left: 40.0, right: 40.0, bottom: 40.0),
+          padding: Platform.isIOS ? EdgeInsets.only(left: 40.0, right: 40.0)
+          : EdgeInsets.only(left: 40.0, right: 40.0, bottom: 40.0),
           child: Column(children: <Widget>[
-            Spacer(
+            Platform.isIOS ?
+            SizedBox.shrink()
+            : Spacer(
               flex: 2,
             ),
             Container(
@@ -298,12 +303,9 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
 
                         if (index == 9) {
                           return Container(
-                              padding: EdgeInsets.all(10),
+                              padding: Platform.isIOS ? EdgeInsets.only(bottom: 18,left:10,right:10) : EdgeInsets.all(10),
                               margin: EdgeInsets.only(
                                   left: marginLeft, right: marginRight),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
                               child: GestureDetector(
                                   onTap: () {
                                     // final prefs = await SharedPreferences.getInstance();
@@ -316,13 +318,10 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                           final biometricAuth = BiometricAuth();
                                           biometricAuth.isAuthenticated().then((
                                               isAuth) {
-                                            print('Biometric-> pincode 2');
                                             if (isAuth) {
-                                              print('Biometric-> pincode 3');
                                               authStore.biometricAuth();
                                               // Navigator.of(widget.mainKey.currentContext).pop();
                                             }
-                                            print('Biometric-> pincode 4');
                                           });
                                         });
                                       }
@@ -405,6 +404,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                   },
                                   child: SvgPicture.asset(
                                     'assets/images/new-images/fingerprint.svg',
+                                    height: 20,width: 20,
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xffFFFFFF)
                                         : Color(0xff060606),
