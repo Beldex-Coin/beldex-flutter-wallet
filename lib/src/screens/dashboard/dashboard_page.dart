@@ -341,14 +341,14 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                              : Container()*/
                                         ],
                                       ),
-                                      Text(descriptionText,
+                                    descriptionText.isNotEmpty ? Text(descriptionText,
                                           style: TextStyle(
                                               fontSize: 11,
                                               color: Theme.of(context)
                                                   .primaryTextTheme
                                                   .caption
                                                   .color,
-                                              height: 2.0))
+                                              height: 2.0)): Container(height: 10)
                                     ],
                                   ),
                                 );
