@@ -1,3 +1,5 @@
+import 'package:beldex_wallet/src/stores/send/send_store.dart';
+import 'package:beldex_wallet/src/util/network_service.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:native_updater/native_updater.dart';
@@ -36,7 +38,7 @@ import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/domain/common/language.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
-
+import 'package:beldex_wallet/src/screens/pin_code/bio_auth_provider.dart';
 void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
@@ -55,7 +57,8 @@ void main() async {
         forKey: 'transactionDescriptionsBoxKey'); // FIXME: Unnamed constant
 
     final contacts = await Hive.openBox<Contact>(Contact.boxName);
-    final nodes = await Hive.openBox<Node>(Node.boxName);
+    final nodes = await Hive.openBox<Node>
+    (Node.boxName);
     final transactionDescriptions = await Hive.openBox<TransactionDescription>(
         TransactionDescription.boxName,
         encryptionKey: transactionDescriptionsBoxKey);
@@ -96,6 +99,8 @@ void main() async {
     final loginStore = LoginStore(
         sharedPreferences: sharedPreferences, walletsService: walletListService);
     final seedLanguageStore = SeedLanguageStore();
+    final sendStore = SendStore();
+    final networkService = NetworkService().controller.stream;
 
     setReactions(
         settingsStore: settingsStore,
@@ -120,7 +125,10 @@ void main() async {
       Provider(create: (_) => contacts),
       Provider(create: (_) => nodes),
       Provider(create: (_) => transactionDescriptions),
-      Provider(create: (_) => seedLanguageStore)
+      Provider(create: (_) => seedLanguageStore),
+      StreamProvider(create: (_) => networkService, initialData: NetworkStatus.online),
+      Provider(create: (_) => sendStore),
+      ChangeNotifierProvider(create:(_)=> ButtonClickNotifier())
     ], child: BeldexWalletApp()));
   } catch (e) {
     runApp(MaterialApp(
@@ -254,14 +262,13 @@ class MaterialAppWithTheme extends StatelessWidget {
     final balanceStore = Provider.of<BalanceStore>(context);
     final theme = Provider.of<ThemeChanger>(context);
     final statusBarColor =
-        settingsStore.isDarkTheme ? Colors.black : Color.fromARGB(
-            255, 201, 201, 201);
+        settingsStore.isDarkTheme ?  Color(0xff171720) : Color(0xffffffff);
     final currentLanguage = Provider.of<Language>(context);
     final contacts = Provider.of<Box<Contact>>(context);
     final nodes = Provider.of<Box<Node>>(context);
     final transactionDescriptions =
         Provider.of<Box<TransactionDescription>>(context);
-
+ 
     SystemChrome.setSystemUIOverlayStyle(
         SystemUiOverlayStyle(statusBarColor: statusBarColor));
 

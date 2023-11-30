@@ -37,24 +37,38 @@ final dates = {
   '2021-11': 721679,
   '2021-12': 741839,
   '2022-01': 790000,
-  '2022-02': 877781,
-  '2022-03': 958421,
-  '2022-04': 1006790,
-  '2022-05': 1093190,
-  '2022-06': 1199750,
-  '2022-07': 1291910,
-  '2022-08': 1361030,
-  '2022-09': 1456070,
-  '2022-10': 1575070,
-  '2022-11': 1674950,
-  '2022-12': 1764950,
-  '2023-02': 1942950,
-  '2023-03': 2022950,
-  '2023-04': 2112950,
-  '2023-05': 2199950,
-  '2023-06': 2289269,
-  '2023-07': 2363143
+
+     '2022-02' : 877781,
+        '2022-0' :958421,
+        '2022-04': 1006790,
+        '2022-05' : 1093190,
+       '2022-06': 1199750,
+        '2022-07' : 1291910,
+        '2022-08' : 1361030,
+        '2022-09': 1456070,
+        '2022-10':1575070,
+
+        '2022-11':1674950,
+        '2022-12': 1764950,
+       '2023-02':1942950,
+        '2023-03' : 2022950,
+        '2023-04':2112950,
+        '2023-05': 2199950,
+        '2023-06':2289269,
+        '2023-07': 2363143
+  
 };
+
+
+// final dates_testnet = {
+//   '2022-11' :1,
+//   '2022-12':212260, 
+//   '2023-01' : 302660,
+//   '2023-02': 391660,
+//   '2023-03' :498660,
+//   '2023-04': ,
+// };
+
 
 int getHeightByDate({DateTime date}) {
   final raw = '${date.year}-${date.month < 10 ? '0${date.month}' : date.month}';
@@ -67,3 +81,85 @@ int getHeightByDate({DateTime date}) {
 
   return height;
 }
+
+
+// int getBlockHeight({DateTime date}){
+//    const PIVOT_BLOCK_HEIGHT = 742421;
+//     const PIVOT_BLOCK_TIMESTAMP = 1639187815;
+//     const PIVOT_BLOCK_TIME = 0;
+
+//     var timeStamp = date.
+// }
+
+
+
+
+
+
+
+// timestampToHeight(date: any) {
+//     const PIVOT_BLOCK_HEIGHT = 742421;
+//     const PIVOT_BLOCK_TIMESTAMP = 1639187815;
+//     const PIVOT_BLOCK_TIME = 0;
+//     return new Promise((resolve, reject) => {
+
+//       let timestamp = new Date(date).getTime();
+//       timestamp = timestamp - (timestamp % 86400000) - 86400000;
+
+//       if (timestamp > 999999999999) {
+//         // We have got a JS ms timestamp, convert
+//         timestamp = Math.floor(timestamp / 1000);
+//       }
+//       if (timestamp > 1639187815) {
+//        PIVOT_BLOCK_TIME = 30;
+//       } else {
+//        PIVOT_BLOCK_TIME = 120;
+//       }
+//       const pivot = [PIVOT_BLOCK_HEIGHT,PIVOT_BLOCK_TIMESTAMP];
+//       let diff = Math.floor((timestamp - pivot[1]) /PIVOT_BLOCK_TIME);
+//       let estimated_height = pivot[0] + diff;
+
+//       if (estimated_height <= 0) {
+//         return resolve(0);
+//       }
+//       this.sendRPC('getblockheaderbyheight', {
+//         height: estimated_height,
+//       }).then(data => {
+//         if (data.hasOwnProperty('error') || !data.hasOwnProperty('result')) {
+//           if (data.error.code == -2) {
+//             // Too big height
+//             this.sendRPC('getlastblockheader').then(data => {
+//               if (data.hasOwnProperty('error') || !data.hasOwnProperty('result')) {
+//                 return reject();
+//               }
+//               let new_pivot = [data.result.block_header.height, data.result.block_header.timestamp];
+//               // If we are within an hour that is good enough
+//               // If for some reason there is a > 1h gap between blocks
+//               // the recursion limit will take care of infinite loop
+//               if (Math.abs(timestamp - new_pivot[1]) < 3600) {
+//                 return resolve(new_pivot[0]);
+//               }
+
+//               // Continue recursion with new pivot
+//               resolve(new_pivot[0]);
+//             });
+//             return;
+//           } else {
+//             return reject();
+//           }
+//         }
+
+//         let new_pivot = [data.result.block_header.height, data.result.block_header.timestamp];
+
+//         // If we are within an hour that is good enough
+//         // If for some reason there is a > 1h gap between blocks
+//         // the recursion limit will take care of infinite loop
+//         if (Math.abs(timestamp - new_pivot[1]) < 3600) {
+//           return resolve(new_pivot[0]);
+//         }
+//         // Continue recursion with new pivot
+//         resolve(new_pivot[0]);
+//       });
+//     });
+//   }
+// }

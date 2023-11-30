@@ -15,9 +15,7 @@ class Routes {
   static const send = '/send';
   static const transactionDetails = '/transaction_info';
   static const receive = '/receive';
-  static const newSubaddress = '/new_subaddress';
   static const disclaimer = '/disclaimer';
-  static const readDisclaimer = '/read_disclaimer';
   static const seedLanguage = '/seed_language';
   static const walletList = '/wallet_list';
   static const auth = '/auth';
@@ -45,4 +43,6 @@ class Routes {
   static const stake = '/stake';
   static const newStake = '/stake/new';
   static const auth1 = '/auth1';
+  static const transactionlist = '/transactionlist';
+  static const flash = '/flash';
 }

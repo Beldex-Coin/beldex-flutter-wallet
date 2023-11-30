@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +8,9 @@ import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_keys_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
+//import 'package:flutter_windowmanager/flutter_windowmanager.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
+import 'package:toast/toast.dart';
 
 class ShowKeysPage extends BasePage {
   @override
@@ -16,9 +20,19 @@ class ShowKeysPage extends BasePage {
   String get title => S.current.wallet_keys;
 
   @override
+  Widget trailing(BuildContext context) {
+    return Container();
+  }
+
+// void setPageSecure()async{
+//    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+// }
+
+  @override
   Widget body(BuildContext context) {
     final walletKeysStore = Provider.of<WalletKeysStore>(context);
-
+    final settingsStore = Provider.of<SettingsStore>(context);
+    //setPageSecure();
     return Container(
         padding: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 5, right: 5),
         child: Observer(
@@ -44,25 +58,78 @@ class ShowKeysPage extends BasePage {
                   return ListTile(
                       contentPadding: EdgeInsets.only(
                           top: 10, bottom: 10, left: 10, right: 10),
-                      onTap: () {
-                        Clipboard.setData(ClipboardData(
-                            text: keysMap.values.elementAt(index)));
-                        Scaffold.of(context).showSnackBar(SnackBar(
-                          content: Text(
-                            S.of(context).copied_key_to_clipboard(key),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          backgroundColor: Colors.green,
-                          duration: Duration(seconds: 1),
-                        ));
-                      },
-                      title: Text('$key:', style: TextStyle(fontSize: 16.0)),
+                      // onTap: () {
+                      //   Clipboard.setData(ClipboardData(
+                      //       text: keysMap.values.elementAt(index)));
+                      //   Scaffold.of(context).showSnackBar(SnackBar(
+                      //     content: Text(
+                      //       S.of(context).copied_key_to_clipboard(key),
+                      //       textAlign: TextAlign.center,
+                      //       style: TextStyle(color: Colors.white),
+                      //     ),
+                      //     backgroundColor: Colors.green,
+                      //     duration: Duration(seconds: 1),
+                      //   ));
+                      // },
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('$key:',
+                              style: TextStyle(
+                                  fontSize: 18.0, fontWeight: FontWeight.w800)),
+                          InkWell(
+                            onTap: () {
+                              Clipboard.setData(ClipboardData(
+                                  text: keysMap.values.elementAt(index)));
+                              Toast.show(
+                                S.of(context).copied,
+                                context,
+                                duration: Toast
+                                    .LENGTH_SHORT, // Toast duration (short or long)
+                                gravity: Toast
+                                    .BOTTOM, // Toast gravity (top, center, or bottom)
+                                textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                              );
+
+                              //      Scaffold.of(context).showSnackBar(SnackBar(
+                              //   content: Text(
+                              //     S.of(context).copied_key_to_clipboard(key),
+                              //     textAlign: TextAlign.center,
+                              //     style: TextStyle(color: Colors.white),
+                              //   ),
+                              //   backgroundColor: Color(0xff0BA70F),
+                              //   duration: Duration(seconds: 1),
+                              // ));
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Icon(
+                                Icons.copy,
+                                size: 20,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                       subtitle: Container(
-                        padding: EdgeInsets.only(top: 5.0),
-                        child: Text(value,
-                            style: TextStyle(
-                                fontSize: 16.0, color: Theme.of(context).primaryTextTheme.caption.color,)),
+                        padding: EdgeInsets.only(top: 10.0),
+                        child: Row(
+                          children: [
+                            Flexible(
+                              flex: 3,
+                              child: Text(value,
+                                  style: TextStyle(
+                                    fontSize: 13.0,
+                                    color: Theme.of(context)
+                                        .primaryTextTheme
+                                        .caption
+                                        .color,
+                                  )),
+                            ),
+                            Flexible(flex: 1, child: Container())
+                          ],
+                        ),
                       ));
                 });
           },

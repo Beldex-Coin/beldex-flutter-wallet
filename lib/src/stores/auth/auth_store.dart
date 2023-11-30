@@ -94,6 +94,13 @@ abstract class AuthStoreBase with Store {
 
   @action
   void biometricAuth() {
+    final _banDuration = banDuration();
+
+    if (_banDuration != null) {
+      state = AuthenticationBanned(
+          error: S.current.auth_store_banned_for + '${_banDuration.inMinutes}' + S.current.auth_store_banned_minutes);
+      return;
+    }
     state = AuthenticatedSuccessfully();
   }
 }

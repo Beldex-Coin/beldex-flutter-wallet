@@ -14,109 +14,56 @@ import 'package:provider/provider.dart';
 import 'package:beldex_wallet/src/util/constants.dart' as constants;
 
 class NodeListPage extends BasePage {
-  NodeListPage();
-
   @override
   String get title => S.current.nodes;
 
   @override
-  Widget leading(context) {
+  Widget trailing(context) {
     final nodeList = Provider.of<NodeListStore>(context);
     final settings = Provider.of<SettingsStore>(context);
-
-    return Padding(
-      padding: const EdgeInsets.only(top:20.0,bottom: 5,left: 10),
-      child: Container(
-       margin: EdgeInsets.only(top: 7,bottom:7,),
-       // padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-            color: Theme.of(context).cardTheme.shadowColor,//Colors.black,
-            borderRadius: BorderRadius.all(Radius.circular(10))
-        ),
-        child: ButtonTheme(
-          minWidth: double.minPositive,
-          child: FlatButton(
-              onPressed: () async {
-                await showConfirmBeldexDialog(
-                    context,
-                    S.of(context).node_reset_settings_title,
-                    S.of(context).nodes_list_reset_to_default_message,
-                    onFutureConfirm: (context) async {
+    final settingsStore = Provider.of<SettingsStore>(context);
+    return Row(
+      children: [
+        IconButton(
+          icon: SvgPicture.asset(
+            'assets/images/new-images/refresh.svg',
+            fit: BoxFit.cover,
+            color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+            width: 20,
+            height: 20,
+          ),
+          onPressed: () async {
+            await showDialogForResetNode(
+                context,
+                S.of(context).node_reset_settings_title,
+                S.of(context).nodes_list_reset_to_default_message,
+                '',
+                '',
+                onPressed: (context) async {
                   Navigator.pop(context);
                   await nodeList.reset();
                   await settings.setCurrentNodeToDefault();
                   return true;
-                });
-              },
-              highlightColor: Colors.transparent,
-              splashColor: Colors.transparent,
-              padding: EdgeInsets.all(0),
-              child: Text(
-                S.of(context).reset,
-                style: TextStyle(
-                    fontSize: 14.0,
-                    color: Theme.of(context).accentTextTheme.caption.decorationColor),
-              )),
+                },
+                onDismiss: (context) => Navigator.pop(context));
+          },
         ),
-      ),
-    );
-  }
-
- /* @override
-  Widget leading(context) {
-    final nodeList = Provider.of<NodeListStore>(context);
-    final settings = Provider.of<SettingsStore>(context);
-
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        ButtonTheme(
-          minWidth: double.minPositive,
-          buttonColor: Colors.black,
-          child: FlatButton(
-              onPressed: () async {
-                await showConfirmBeldexDialog(
-                    context,
-                    S.of(context).node_reset_settings_title,
-                    S.of(context).nodes_list_reset_to_default_message,
-                    onFutureConfirm: (context) async {
-                      Navigator.pop(context);
-                      await nodeList.reset();
-                      await settings.setCurrentNodeToDefault();
-                      return true;
-                    });
-              },
-              child: Text(
-                S.of(context).reset,
-                style: TextStyle(
-                    fontSize: 16.0,
-                    color: Theme.of(context).primaryTextTheme.subtitle2.color),
-              )),
-        ),
-        *//*Container(
-            width: 28.0,
-            height: 28.0,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Theme.of(context).selectedRowColor),
-            child: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                Icon(Icons.add, color: BeldexPalette.teal, size: 22.0),
-                ButtonTheme(
-                  minWidth: 28.0,
-                  height: 28.0,
-                  child: FlatButton(
-                      shape: CircleBorder(),
-                      onPressed: () async =>
-                          await Navigator.of(context).pushNamed(Routes.newNode),
-                      child: Offstage()),
-                )
-              ],
-            )),*//*
+        IconButton(
+            icon: SvgPicture.asset(
+              'assets/images/new-images/plus_round.svg',
+              fit: BoxFit.cover,
+              width: 23,
+              height: 23,
+            ),
+            onPressed: () {
+              Navigator.of(context).pushNamed(Routes.newNode);
+            }),
+        SizedBox(
+          width: 10,
+        )
       ],
     );
-  }*/
+  }
 
   @override
   Widget body(context) => NodeListPageBody();
@@ -132,37 +79,14 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
   Widget build(BuildContext context) {
     final nodeList = Provider.of<NodeListStore>(context);
     final settings = Provider.of<SettingsStore>(context);
-
-    final currentColor = Theme.of(context).selectedRowColor;
-    final notCurrentColor = Theme.of(context).backgroundColor;
-
+    final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
-      padding: EdgeInsets.only(top:10.0,bottom: 20.0),
+      padding: EdgeInsets.only(top: 10.0, bottom: 20.0),
       child: Column(
         children: <Widget>[
-          Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-                width: 28.0,
-                height: 28.0,
-                margin: EdgeInsets.only(right: 25),
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    SvgPicture.asset('assets/images/add.svg',color: Theme.of(context).accentTextTheme.caption.decorationColor,),
-                    ButtonTheme(
-                      minWidth: 28.0,
-                      height: 28.0,
-                      child: FlatButton(
-                          color: Colors.transparent,
-                          onPressed: () async =>
-                          await Navigator.of(context).pushNamed(Routes.newNode),
-                          child: Offstage()),
-                    )
-                  ],
-                )),
+          SizedBox(
+            height: 10,
           ),
-          SizedBox(height: 10,),
           Expanded(child: Observer(builder: (context) {
             return ListView.builder(
                 itemCount: nodeList.nodes.length,
@@ -175,27 +99,37 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                         : node.key == settings.node.key;
 
                     final content = Card(
-                        margin: EdgeInsets.only(left: constants.leftPx,right: constants.rightPx,top: 20),
-                        elevation: 2,
-                        color: Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
+                        margin: EdgeInsets.only(
+                            left: constants.leftPx,
+                            right: constants.rightPx,
+                            top: 20),
+                        elevation: 0,
+                        //2,
+                        color: isCurrent
+                            ? Color(0xff2979FB)
+                            : settingsStore.isDarkTheme
+                                ? Color(0xff272733)
+                                : Color(0xffEDEDED),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                        child:Container(
-                       // color: isCurrent ? currentColor : notCurrentColor,
-                        child: ListTile(
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Container(
+                            child: ListTile(
                           title: Text(
                             node.uri,
                             style: TextStyle(
                                 fontSize: 16.0,
-                                color: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline6
-                                    .color),
+                                color: isCurrent
+                                    ? Color(0xffffffff)
+                                    : Theme.of(context)
+                                        .primaryTextTheme
+                                        .headline6
+                                        .color),
                           ),
                           trailing: FutureBuilder(
                               future: nodeList.isNodeOnline(node),
                               builder: (context, snapshot) {
+                                print(
+                                    '${snapshot.data} snapshot hasData ${node.uri}');
                                 switch (snapshot.connectionState) {
                                   case ConnectionState.done:
                                     return NodeIndicator(
@@ -211,7 +145,7 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                                   onPressed: (context) async {
                                 Navigator.of(context).pop();
                                 await settings.setCurrentNode(node: node);
-                              });
+                              }, status: true);
                             }
                           },
                         )));
@@ -227,7 +161,7 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                                   S.of(context).remove_node,
                                   S.of(context).remove_node_message,
                                   onDismiss: (context) =>
-                                      Navigator.pop(context, false),
+                                      Navigator.pop(context, true),
                                   onConfirm: (context) {
                                     result = true;
                                     Navigator.pop(context, true);
@@ -244,7 +178,7 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                                 color: BeldexPalette.red,
                                 child: Column(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
                                     const Icon(
                                       CupertinoIcons.delete,

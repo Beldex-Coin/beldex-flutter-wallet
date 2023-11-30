@@ -4,7 +4,7 @@ import 'palette.dart';
 class Themes {
 
   static final ThemeData lightTheme = ThemeData(
-    fontFamily: 'Lato',
+    fontFamily: 'OpenSans',
     brightness: Brightness.light,
     backgroundColor: Palette.lightThemeBackground,
     scaffoldBackgroundColor: Palette.lightThemeBlack,
@@ -101,7 +101,7 @@ class Themes {
 
 
   static final ThemeData darkTheme = ThemeData(
-    fontFamily: 'Lato',
+    fontFamily: 'OpenSans',
     brightness: Brightness.dark,
     backgroundColor: PaletteDark.darkThemeBackground,
     scaffoldBackgroundColor: PaletteDark.darkThemeBlack,

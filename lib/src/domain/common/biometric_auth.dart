@@ -7,10 +7,15 @@ class BiometricAuth {
     final _localAuth = LocalAuthentication();
 
     try {
-      return await _localAuth.authenticateWithBiometrics(
-          localizedReason: S.current.biometric_auth_reason,
-          useErrorDialogs: true,
-          stickyAuth: false);
+
+      return await _localAuth.authenticate(
+          localizedReason:  S.current.biometric_auth_reason,
+          useErrorDialogs:true,
+          stickyAuth: false,
+          biometricOnly: true
+      );
+
+
     } on PlatformException catch (e) {
       print(e);
     }

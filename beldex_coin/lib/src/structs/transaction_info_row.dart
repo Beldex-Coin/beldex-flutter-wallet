@@ -24,6 +24,11 @@ class TransactionInfoRow extends Struct {
   @Int8()
   int isPending;
 
+
+  // @Int8()
+  // int isStake;    
+
+
   Pointer<Utf8> hash;
 
   Pointer<Utf8> paymentId;
@@ -34,6 +39,7 @@ class TransactionInfoRow extends Struct {
   int getDatetime() => datetime;
   int getAmount() => amount >= 0 ? amount : amount * -1;
   bool getIsPending() => isPending != 0;
+  //bool getIsStake() => isStake != 0;
   String getHash() => Utf8.fromUtf8(hash);
   String getPaymentId() => Utf8.fromUtf8(paymentId);
 }

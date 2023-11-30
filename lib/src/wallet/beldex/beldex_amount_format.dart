@@ -5,7 +5,7 @@ const belDexAmountDivider = 1000000000;
 
 String belDexAmountToString(int amount,
     {AmountDetail detail = AmountDetail.ultra}) {
-  final beldexAmountFormat = NumberFormat()
+  final beldexAmountFormat = NumberFormat.decimalPattern('en_us')
     ..maximumFractionDigits = detail.fraction
     ..minimumFractionDigits = 1;
   return beldexAmountFormat.format(belDexAmountToDouble(amount));

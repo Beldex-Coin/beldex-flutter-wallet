@@ -94,23 +94,38 @@ class WalletListService {
         name, password, language, restoreHeight, address, viewKey, spendKey);
 
     await onWalletChange(wallet);
+   
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+   
+   await prefs.setBool('isRestored', true);
+
+
   }
 
   Future openWallet(String name) async {
-    if (walletService.currentWallet != null) {
-      await walletService.close();
+    try{
+
+    }catch(e){
+      print('inside openWallet error $e');
     }
+    if (walletService.currentWallet != null) {
+      print('if it is current wallet ${walletService.currentWallet}');
+      //await walletService.currentWallet.close();
+      await walletService.close();
+      print('after close the wallet service of current wallet');
+    }
+      final password = await getWalletPassword(walletName: name);
+      final wallet = await walletsManager.openWallet(name, password);
+      await onWalletChange(wallet);
 
-    final password = await getWalletPassword(walletName: name);
-    final wallet = await walletsManager.openWallet(name, password);
 
-    await onWalletChange(wallet);
+
   }
 
   Future changeWalletManger({WalletType walletType}) async {
     switch (walletType) {
       case WalletType.beldex:
-        walletsManager = BeldexWalletsManager(walletInfoSource: walletInfoSource);
+        walletsManager =  BeldexWalletsManager(walletInfoSource: walletInfoSource);
         break;
       case WalletType.monero:
       case WalletType.none:
@@ -120,9 +135,21 @@ class WalletListService {
   }
 
   Future onWalletChange(Wallet wallet) async {
-    walletService.currentWallet = wallet;
-    final walletName = await wallet.getName();
-    await sharedPreferences.setString('current_wallet_name', walletName);
+    try{
+      //if(walletService.currentWallet == null){
+        print('inside onWalletChange ---->');
+        walletService.currentWallet = wallet;
+        print('the current wallet is ${walletService.currentWallet}');
+        final walletName = await wallet.getName();
+        print('the name of wallet is $walletName');
+        await sharedPreferences.setString('current_wallet_name', walletName);
+        print('-------');
+      //}
+
+    }catch(e){
+      print('inside on walletchange error $e');
+    }
+
   }
 
   Future remove(WalletDescription wallet) async =>

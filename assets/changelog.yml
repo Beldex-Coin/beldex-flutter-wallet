@@ -42,3 +42,14 @@
     - Added support for Android version 13
     - Fix UI issues
     - Minor Bug fixes
+-
+  version: 1.1.0
+  changes:
+    - Revamped App Design
+    - New Flash Transactions
+    - Add custom Node feature added
+    - Fiat currency will be loaded faster now
+    - Biometric unlock feature issue fixed
+    - Fixed issues in transaction history filters
+    - Fixed issues in switch wallet and switch nodes
+    - Fixed seed does not display issue in few languages

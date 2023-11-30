@@ -133,7 +133,7 @@ extern "C"
         uint32_t subaddrAccount;
         int8_t direction;
         int8_t isPending;
-        
+
         char *hash;
         char *paymentId;
 
@@ -146,7 +146,7 @@ extern "C"
             blockHeight = transaction->blockHeight();
             subaddrAccount = transaction->subaddrAccount();
             confirmations = transaction->confirmations();
-            datetime = static_cast<int64_t>(transaction->timestamp());            
+            datetime = static_cast<int64_t>(transaction->timestamp());
             direction = transaction->direction();
             isPending = static_cast<int8_t>(transaction->isPending());
             std::string *hash_str = new std::string(transaction->hash());
@@ -211,7 +211,7 @@ extern "C"
     {
         m_wallet = wallet;
         m_listener = nullptr;
-        
+
 
         if (wallet != nullptr)
         {
@@ -443,7 +443,7 @@ extern "C"
     {
         nice(19);
         Beldex::Wallet *wallet = get_current_wallet();
-        
+
         std::string _login = "";
         std::string _password = "";
 

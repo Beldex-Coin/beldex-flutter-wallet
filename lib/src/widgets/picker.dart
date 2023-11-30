@@ -62,7 +62,6 @@ class Picker<Item extends Object> extends StatelessWidget {
                                   style: TextStyle(
                                       fontSize: 26,
                                       fontWeight: FontWeight.w600,
-                                      fontFamily: 'Lato',
                                       decoration: TextDecoration.none,
                                       color: Theme.of(context)
                                           .primaryTextTheme
@@ -94,7 +93,6 @@ class Picker<Item extends Object> extends StatelessWidget {
                                     decoration: TextDecoration.none,
                                     fontSize: 18,
                                     fontWeight: FontWeight.normal,
-                                    fontFamily: 'Lato',
                                     color: index == selectedAtIndex
                                         ? Color.fromRGBO(138, 80, 255, 1.0)
                                         : Theme.of(context)

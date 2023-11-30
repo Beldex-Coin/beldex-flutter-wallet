@@ -70,7 +70,7 @@ class WalletService extends Wallet {
   WalletDescription description;
 
   @override
-  WalletType getType() => WalletType.monero;
+  WalletType getType() => WalletType.beldex;
 
   @override
   Future<String> getFilename() => _currentWallet.getFilename();

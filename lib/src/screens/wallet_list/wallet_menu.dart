@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:provider/provider.dart';
@@ -11,25 +12,7 @@ class WalletMenu {
 
   final BuildContext context;
 
-  final List<String> listItems = [
-    S.current.wallet_list_load_wallet,
-    S.current.show_seed,
-    S.current.remove,
-    S.current.rescan
-  ];
-
-  List<String> generateItemsForWalletMenu(bool isCurrentWallet) {
-    final items = <String>[];
-
-    if (!isCurrentWallet) items.add(listItems[0]);
-    if (isCurrentWallet) items.add(listItems[1]);
-    if (!isCurrentWallet) items.add(listItems[2]);
-    if (isCurrentWallet) items.add(listItems[3]);
-
-    return items;
-  }
-
-  void action(int index, WalletDescription wallet, bool isCurrentWallet) {
+  void action(int index, WalletDescription wallet) {
     final _walletListStore = context.read<WalletListStore>();
 
     switch (index) {
@@ -37,15 +20,12 @@ class WalletMenu {
         Navigator.of(context).pushNamed(Routes.auth, arguments:
             (bool isAuthenticatedSuccessfully, AuthPageState auth) async {
           if (!isAuthenticatedSuccessfully) {
-            return;
+            return false;
           }
 
           try {
-            auth.changeProcessText(
-                S.of(context).wallet_list_loading_wallet(wallet.name));
-            await _walletListStore.loadWallet(wallet);
             auth.close();
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(true);
           } catch (e) {
             auth.changeProcessText(S
                 .of(context)
@@ -68,91 +48,195 @@ class WalletMenu {
             context: context,
             barrierDismissible: false,
             builder: (BuildContext context1) {
+              final settingsStore = Provider.of<SettingsStore>(context);
               return Dialog(
                 elevation: 0,
-                backgroundColor: Theme.of(context).cardTheme.color,//Colors.black,
+                backgroundColor: settingsStore.isDarkTheme
+                    ? Color(0xff272733)
+                    : Color(0xffffffff), //Colors.black,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0)), //this right here
-                child: Container(
-                  height: 170,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'You are about to delete your wallet!',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 15,color: Theme.of(context).primaryTextTheme.caption.color,),
-                        ),
-                        Text(
-                          'Make sure to take a backup of your Mnemonic seed, wallet address and private keys',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 15,color: Theme.of(context).primaryTextTheme.caption.color),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              SizedBox(
-                                width: 45,
-                                child: TextButton(
-                                  style: TextButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10)),
-                                    backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context1).pop();
-                                  },
-                                  child: Text(
-                                    S.of(context1).no,
-                                    style: TextStyle(color:Theme.of(context).primaryTextTheme.caption.color),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 45,
-                                child: TextButton(
-                                  style: TextButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10)),
-                                    backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.of(context1).pop();
-                                    Navigator.of(context).pushNamed(Routes.auth, arguments:
-                                        (bool isAuthenticatedSuccessfully, AuthPageState auth) async {
-                                      print('status -->$isAuthenticatedSuccessfully');
-                                      if (!isAuthenticatedSuccessfully) {
-                                        return;
-                                      }
-                                      try {
-                                        auth.changeProcessText(
-                                            S.of(context).wallet_list_removing_wallet(wallet.name));
-                                        await _walletListStore.remove(wallet);
-                                        auth.close();
-                                      } catch (e) {
-                                        auth.changeProcessText(S
-                                            .of(context)
-                                            .wallet_list_failed_to_remove(wallet.name, e.toString()));
-                                      }
-                                    });
-                                  },
-                                  child: Text(
-                                    S.of(context1).yes,
-                                    style: TextStyle(color: Theme.of(context).primaryTextTheme.caption.color),
-                                  ),
-                                ),
-                              ),
-                            ],
+                    borderRadius:
+                        BorderRadius.circular(10.0)), //this right here
+                child: FractionallySizedBox(
+                  widthFactor: 0.95,
+                  // heightFactor:0.50 ,
+                  child: Container(
+                    // height: MediaQuery.of(context).size.height*0.85/3,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            S.of(context).youAreAboutToDeletenYourWallet,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800,
+                              color: Theme.of(context)
+                                  .primaryTextTheme
+                                  .caption
+                                  .color,
+                            ),
                           ),
-                        )
-                      ],
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              S
+                                  .of(context)
+                                  .makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate,
+                              // 'Make sure to take a backup of your Mnemonic seed, wallet address and private keys',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Theme.of(context)
+                                      .primaryTextTheme
+                                      .caption
+                                      .color),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                SizedBox(
+                                  width: 90,
+                                  child: ElevatedButton(
+                                    onPressed: () =>
+                                        Navigator.of(context1).pop(),
+                                    style: ElevatedButton.styleFrom(
+                                      primary: settingsStore.isDarkTheme
+                                          ? Color(0xff383848)
+                                          : Color(0xffE8E8E8),
+                                      padding: EdgeInsets.all(10),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      S.of(context).no,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xff93939B)
+                                            : Color(0xff222222),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                // GestureDetector(
+                                //   onTap: () {
+                                //         Navigator.of(context1).pop();
+                                //       },
+                                //   child: Container(
+                                //       width: 80,
+                                //       padding: EdgeInsets.all(15),
+                                //         decoration: BoxDecoration(
+                                //            borderRadius: BorderRadius.circular(10),
+                                //              color: settingsStore.isDarkTheme ? Color(0xff383848) : Color(0xffE8E8E8),
+                                //            ),
+
+                                //           child:  Text(
+                                //         S.of(context1).no,
+                                //         textAlign: TextAlign.center,
+                                //         style: TextStyle(color:settingsStore.isDarkTheme ? Color(0xff93939B) : Color(0xff16161D) ,fontWeight:FontWeight.w900),
+                                //       ),
+                                //         ),
+
+                                // ),
+                                SizedBox(
+                                  width: 90,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context1).pop();
+                                      Navigator.of(context)
+                                          .pushNamed(Routes.auth, arguments:
+                                              (bool isAuthenticatedSuccessfully,
+                                                  AuthPageState auth) async {
+                                        print(
+                                            'status -->$isAuthenticatedSuccessfully');
+                                        if (!isAuthenticatedSuccessfully) {
+                                          return;
+                                        }
+                                        try {
+                                          auth.changeProcessText(S
+                                              .of(context)
+                                              .wallet_list_removing_wallet(
+                                                  wallet.name));
+                                          await _walletListStore.remove(wallet);
+                                          auth.close();
+                                          Navigator.of(context).pop(false);
+                                        } catch (e) {
+                                          auth.changeProcessText(S
+                                              .of(context)
+                                              .wallet_list_failed_to_remove(
+                                                  wallet.name, e.toString()));
+                                        }
+                                      });
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Color(0xff0BA70F),
+                                      padding: EdgeInsets.all(10),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      S.of(context).yes,
+                                      style: TextStyle(
+                                          color: Color(0xffffffff),
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ),
+                                // GestureDetector(
+                                //  onTap: () {
+                                //         Navigator.of(context1).pop();
+                                //         Navigator.of(context).pushNamed(Routes.auth, arguments:
+                                //             (bool isAuthenticatedSuccessfully, AuthPageState auth) async {
+                                //           print('status -->$isAuthenticatedSuccessfully');
+                                //           if (!isAuthenticatedSuccessfully) {
+                                //             return;
+                                //           }
+                                //           try {
+                                //             auth.changeProcessText(
+                                //                 S.of(context).wallet_list_removing_wallet(wallet.name));
+                                //             await _walletListStore.remove(wallet);
+                                //             auth.close();
+                                //             Navigator.of(context).pop(false);
+                                //           } catch (e) {
+                                //             auth.changeProcessText(S
+                                //                 .of(context)
+                                //                 .wallet_list_failed_to_remove(wallet.name, e.toString()));
+                                //           }
+                                //         });
+                                //       },
+                                //   child: Container(
+                                //      width: 80,
+                                //      padding: EdgeInsets.all(15),
+                                //      decoration: BoxDecoration(
+                                //        borderRadius: BorderRadius.circular(10),
+                                //         color: Color(0xff0BA70F),
+                                //      ),
+                                //     child: Text(
+                                //         S.of(context1).yes,
+                                //         textAlign: TextAlign.center,
+                                //         style: TextStyle(color:Color(0xffffffff),fontWeight:FontWeight.bold),
+                                //       ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

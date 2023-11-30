@@ -122,7 +122,7 @@ class SyncListener {
     _initialSyncHeight = 0;
   }
 
-  void Function(int, int, double, bool) onNewBlock;
+  void Function(int, int, int, bool) onNewBlock;
   void Function() onNewTransaction;
 
   Timer _updateSyncInfoTimer;
@@ -144,17 +144,8 @@ class SyncListener {
     _initialSyncHeight = 0;
     _updateSyncInfoTimer ??=
         Timer.periodic(Duration(milliseconds: 1200), (_) async {
-      // var syncHeight = getSyncingHeight();
-      //
-      // if (syncHeight <= 0) {
-      //   syncHeight = getCurrentHeight();
-      // }
 
       final syncHeight = getCurrentHeight();
-
-      if (_initialSyncHeight <= 0) {
-        _initialSyncHeight = syncHeight;
-      }
 
       final bchHeight = await getNodeHeightOrUpdate(syncHeight);
 
@@ -163,12 +154,9 @@ class SyncListener {
       }
 
       _lastKnownBlockHeight = syncHeight;
-      final track = bchHeight - _initialSyncHeight;
-      final diff = track - (bchHeight - syncHeight);
-      final ptc = diff <= 0 ? 0.0 : diff / track;
       final left = bchHeight - syncHeight;
 
-      if (syncHeight < 0 || left < 0) {
+      if (syncHeight < 0 || bchHeight < syncHeight) {
         return;
       }
 
@@ -181,20 +169,20 @@ class SyncListener {
       }
 
       // 1. Actual new height; 2. Blocks left to finish; 3. Progress in percents; 4. true
-      print('synHeight, left, ptc, refreshing --> $syncHeight, $left, $ptc, $refreshing');
+      print('syncHeight, blockChainHeight, blockLeft, refreshing --> $syncHeight, $bchHeight, $left, $refreshing');
      /* if(left==0){
         onNewBlock?.call(syncHeight, left, ptc, false);
       }else{
         onNewBlock?.call(syncHeight, left, ptc, refreshing);
       }*/
-      onNewBlock?.call(syncHeight, left, ptc, refreshing);
+      onNewBlock?.call(syncHeight, bchHeight, left, refreshing);
     });
   }
 
   void stop() => _updateSyncInfoTimer?.cancel();
 }
 
-SyncListener setListeners(void Function(int, int, double, bool) onNewBlock,
+SyncListener setListeners(void Function(int, int, int, bool) onNewBlock,
     void Function() onNewTransaction) {
   final listener = SyncListener(onNewBlock, onNewTransaction);
   beldex_wallet.setListenerNative();

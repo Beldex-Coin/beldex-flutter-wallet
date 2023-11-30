@@ -16,6 +16,7 @@ abstract class AccountListStoreBase with Store {
   AccountListStoreBase({@required WalletService walletService}) {
     accounts = [];
     isAccountCreating = false;
+    _accountList = AccountList();
 
     if (walletService.currentWallet != null) {
       _onWalletChanged(walletService.currentWallet);
@@ -94,6 +95,6 @@ abstract class AccountListStoreBase with Store {
     const pattern = '^[a-zA-Z0-9_]{1,15}\$';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
-    errorMessage = isValid ? null : S.current.error_text_account_name;
+    errorMessage = isValid ? null : 'Enter valid name upto 15 characters'; //S.current.error_text_account_name;
   }
 }

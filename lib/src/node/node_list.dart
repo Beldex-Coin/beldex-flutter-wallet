@@ -7,6 +7,7 @@ import 'package:yaml/yaml.dart';
 Future<List<Node>> loadDefaultNodes() async {
   final nodeListFileName = isTestnet ? 'testnet_node_list.yml' : 'node_list.yml';
       print('nodeListFileName ---> $nodeListFileName');
+
   final nodesRaw = await rootBundle.loadString('assets/$nodeListFileName');
   final nodes = loadYaml(nodesRaw) as YamlList;
 
