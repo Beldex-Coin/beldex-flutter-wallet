@@ -69,8 +69,6 @@ Future<void> replaceNodesMigration({@required Box<Node> nodes}) async {
     Node(uri: 'publicnode1.rpcnode.stream:29095'),
     'explorer.beldex.io:19091':
     Node(uri: 'explorer.beldex.io:19091'),
-    'publicnode5.rpcnode.stream:29095':
-    Node(uri: 'publicnode5.rpcnode.stream:29095'),
     'mainnet.beldex.io:29095':
     Node(uri: 'mainnet.beldex.io:29095'),
     'publicnode2.rpcnode.stream:29095':
@@ -102,7 +100,6 @@ Future<void> changeCurrentNodeToDefault(
   const nodesList = <String>[
     'publicnode1.rpcnode.stream:29095',
     'explorer.beldex.io:19091',
-    'publicnode5.rpcnode.stream:29095',
     'mainnet.beldex.io:29095',
     'publicnode2.rpcnode.stream:29095',
     'publicnode3.rpcnode.stream:29095',
@@ -121,11 +118,6 @@ Future<void> changeCurrentNodeToDefault(
   final node = nodes.values.firstWhere((Node node) => node.uri == nodeUri) ??
       nodes.values.first;
   final nodeId = node != null ? node.key as int : 0; // 0 - England
-  /*print('nodeId 1 -> $nodeUri');
-  print('nodeId 2 -> ${node!=null}');
-  print('nodeId 3 -> ${node.key.toString()}');
-  print('nodeId 4 -> ${nodes.values.first.toString()}');*/
-  print('nodeId 5 -> $nodeId');
 
   await sharedPreferences.setInt('current_node_id', nodeId);
 }
@@ -136,7 +128,6 @@ Future<void> replaceDefaultNode(
   const nodesForReplace = <String>[
     'publicnode1.rpcnode.stream:29095',
     'explorer.beldex.io:19091',
-    'publicnode5.rpcnode.stream:29095',
     'mainnet.beldex.io:29095',
     'publicnode2.rpcnode.stream:29095',
     'publicnode3.rpcnode.stream:29095',

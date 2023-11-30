@@ -1,16 +1,25 @@
+import 'package:beldex_wallet/src/screens/nodes/test_mainnet_node.dart';
+import 'package:beldex_wallet/src/screens/nodes/test_node.dart';
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/widgets/nospaceformatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/node_list/node_list_store.dart';
-import 'package:beldex_wallet/src/widgets/beldex_text_field.dart';
-import 'package:beldex_wallet/src/widgets/primary_button.dart';
-import 'package:beldex_wallet/src/widgets/scollable_with_bottom_section.dart';
+import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 class NewNodePage extends BasePage {
   @override
-  String get title => S.current.node_new;
+  String get title => S.current.nodes;
+
+  @override
+  Widget trailing(BuildContext context) {
+    return Container();
+  }
 
   @override
   Widget body(BuildContext context) => NewNodePageForm();
@@ -27,6 +36,56 @@ class NewNodeFormState extends State<NewNodePageForm> {
   final _nodePortController = TextEditingController();
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _nodenameController = TextEditingController();
+
+  bool isNodeChecked = false;
+  dynamic testMode;
+
+  bool canLoad = false;
+  bool isMainnet = false;
+
+  void _loading(bool _canLoad) {
+    if (_canLoad) {
+      // Show the HUD progress loader
+      showHUDLoader(context);
+    } else {
+      Navigator.pop(context);
+    }
+  }
+
+  void showHUDLoader(BuildContext context) {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return WillPopScope(
+          // Prevent closing the dialog when the user presses the back button
+          onWillPop: () async => false,
+          child: AlertDialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Center(
+                  child: CircularProgressIndicator(
+                    valueColor:
+                        AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: Text(S.of(context).checkingNodeConnection,
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   @override
   void dispose() {
@@ -34,104 +93,449 @@ class NewNodeFormState extends State<NewNodePageForm> {
     _nodePortController.dispose();
     _loginController.dispose();
     _passwordController.dispose();
+    isNodeChecked = false;
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final nodeList = Provider.of<NodeListStore>(context);
-
-    return ScrollableWithBottomSection(
-      contentPadding: EdgeInsets.all(0),
-      content: Form(
-          key: _formKey,
-          child: Container(
-              padding:
-                  EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 30),
-              child: Column(
-                children: <Widget>[
-                  BeldexTextField(
-                    hintText: S.of(context).node_address,
-                    controller: _nodeAddressController,
-                    validator: (value) {
-                      nodeList.validateNodeAddress(value);
-                      return nodeList.errorMessage;
-                    },
-                  ),
-                  Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: BeldexTextField(
-                        hintText: S.of(context).node_port,
-                        controller: _nodePortController,
-                        keyboardType: TextInputType.numberWithOptions(
-                            signed: false, decimal: false),
-                        validator: (value) {
-                          nodeList.validateNodePort(value);
-                          return nodeList.errorMessage;
-                        },
-                      )),
-                  Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: BeldexTextField(
-                        hintText: S.of(context).login,
-                        controller: _loginController,
-                        validator: (value) => null,
-                      )),
-                  Padding(
-                      padding: EdgeInsets.only(top: 20),
-                      child: BeldexTextField(
-                        hintText: S.of(context).password,
-                        controller: _passwordController,
-                        validator: (value) => null,
-                      )),
-                ],
-              ))),
-      bottomSection: Container(
-        child: Row(
-          children: <Widget>[
-            Flexible(
-                child: Container(
-              padding: EdgeInsets.only(right: 8.0),
-              child: PrimaryButtonNode(
-                  onPressed: () {
-                    _nodeAddressController.text = '';
-                    _nodePortController.text = '';
-                    _loginController.text = '';
-                    _passwordController.text = '';
-                  },
-                  text: S.of(context).reset,
-                  color:
-                      Theme.of(context).accentTextTheme.caption.backgroundColor,
-                  borderColor:
-                      Theme.of(context).accentTextTheme.caption.decorationColor),
-            )),
-            Flexible(
-                child: Container(
-              padding: EdgeInsets.only(left: 8.0),
-              child: PrimaryButton(
-                onPressed: () async {
-                  if (!_formKey.currentState.validate()) {
-                    return;
-                  }
-
-                  await nodeList.addNode(
-                      address: _nodeAddressController.text,
-                      port: _nodePortController.text,
-                      login: _loginController.text,
-                      password: _passwordController.text);
-
-                  Navigator.of(context).pop();
-                },
-                text: S.of(context).save,
-                color:
-                    Theme.of(context).primaryTextTheme.button.backgroundColor,
-                borderColor:
-                    Theme.of(context).primaryTextTheme.button.backgroundColor,
-              ),
-            )),
-          ],
-        ),
+    final settingsStore = Provider.of<SettingsStore>(context);
+    var newNodePageChangeNotifier =
+        Provider.of<NewNodePageChangeNotifier>(context);
+    return GestureDetector(
+     onTap: (){
+       FocusScope.of(context).unfocus();
+     },
+      child: ScrollableWithBottomSection(
+        contentPadding: EdgeInsets.all(0),
+        content: Form(
+            key: _formKey,
+            child: Container(
+                margin: EdgeInsets.only(top: 50, left: 15, right: 15),
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: settingsStore.isDarkTheme
+                            ? Colors.transparent
+                            : Color(0xffDADADA)),
+                    borderRadius: BorderRadius.circular(10),
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xff24242F)
+                        : Color(0xffEDEDED)),
+                padding: EdgeInsets.only(
+                  top: 10,
+                ),
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Text(S.of(context).addNode,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 19)),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      child: TextFormField(
+                          controller: _nodeAddressController,
+                          decoration: InputDecoration(
+                              fillColor: settingsStore.isDarkTheme
+                                  ? Color(0xff333343)
+                                  : Color(0xffFFFFFF),
+                              filled: true,
+                              hintText: S.of(context).node_address,
+                              hintStyle: TextStyle(color: Color(0xff77778B)),
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 10),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.transparent),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.transparent),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.transparent),
+                                borderRadius: BorderRadius.circular(8),
+                              )),
+                          validator: (value) {
+                            nodeList.validateNodeAddress(value);
+                            return nodeList.errorMessage;
+                          }),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 8.0, left: 20, right: 20),
+                      child: TextFormField(
+                          controller: _nodePortController,
+                          keyboardType:
+                              TextInputType.numberWithOptions(decimal: true),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            NoSpaceFormatter(),
+                            FilteringTextInputFormatter.deny(RegExp('[-,. ]'))
+                          ],
+                          textInputAction: TextInputAction.done,
+                          decoration: InputDecoration(
+                              fillColor: settingsStore.isDarkTheme
+                                  ? Color(0xff333343)
+                                  : Color(0xffFFFFFF),
+                              filled: true,
+                              hintText: S.of(context).node_port,
+                              hintStyle: TextStyle(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff77778B)
+                                      : Color(0xff77778B)),
+                              contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 10),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.transparent),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.transparent),
+                                borderRadius: BorderRadius.circular(8),
+                              )),
+                          validator: (value) {
+                            nodeList.validateNodePort(value);
+                            return nodeList.errorMessage;
+                          }),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 8.0, left: 20, right: 20),
+                      child: TextFormField(
+                          controller: _nodenameController,
+                          decoration: InputDecoration(
+                            hintText: S.of(context).nodeNameOptional,
+                            hintStyle: TextStyle(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff77778B)
+                                    : Color(0xff77778B)),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff3F3F4D)
+                                      : Color(0xffDADADA)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff3F3F4D)
+                                      : Color(0xffDADADA)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          validator: (value) => null),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 8.0, left: 20, right: 20),
+                      child: TextFormField(
+                          controller: _loginController,
+                          decoration: InputDecoration(
+                            hintText: S.of(context).userNameOptional,
+                            hintStyle: TextStyle(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff77778B)
+                                    : Color(0xff77778B)),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff3F3F4D)
+                                      : Color(0xffDADADA)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff3F3F4D)
+                                      : Color(0xffDADADA)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          validator: (value) => null),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.only(top: 8.0, left: 20, right: 20),
+                      child: TextFormField(
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                            hintText: S.of(context).passwordOptional,
+                            hintStyle: TextStyle(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff77778B)
+                                    : Color(0xff77778B)),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff3F3F4D)
+                                      : Color(0xffDADADA)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff3F3F4D)
+                                      : Color(0xffDADADA)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          validator: (value) => null),
+                    ),
+                    newNodePageChangeNotifier.testMode == null ||
+                            newNodePageChangeNotifier.testMode == ''
+                        ? Container(
+                            height: 10,
+                          )
+                        : Container(
+                            padding: EdgeInsets.only(left: 20, right: 20),
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, top: 10, bottom: 10),
+                            height: MediaQuery.of(context).size.height * 0.20 / 3,
+                            decoration: BoxDecoration(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff333343)
+                                    : Colors.white,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Row(
+                              children: [
+                                Text(
+                                  S.of(context).testResult,
+                                  style: TextStyle(
+                                    fontSize: MediaQuery.of(context).size.height *
+                                        0.06 /
+                                        3,
+                                  ),
+                                ),
+                                newNodePageChangeNotifier.canLoad
+                                    ? Center(
+                                        child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10.0),
+                                        child: Text(S.of(context).checking,
+                                            style: TextStyle(
+                                              color: Color(0xff2979FB),
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.06 /
+                                                  3,
+                                            )),
+                                      ))
+                                    : Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10.0),
+                                        child: Text(
+                                            newNodePageChangeNotifier
+                                                    .isNodeChecked
+                                                ? S.of(context).success
+                                                : S.of(context).connectionFailed,
+                                            style: TextStyle(
+                                              color: !newNodePageChangeNotifier
+                                                      .isNodeChecked
+                                                  ? Colors.red
+                                                  : Color(0xff1AB51E),
+                                              fontWeight: FontWeight.w800,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.06 /
+                                                  3,
+                                            )),
+                                      )
+                              ],
+                            )),
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.26 / 3,
+                      padding: EdgeInsets.only(left: 15.0, right: 15),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xff333343)
+                            : Colors.white,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10)),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: GestureDetector(
+                                  onTap: () async {
+                                    if (!_formKey.currentState.validate()) {
+                                      return;
+                                    } else {
+                                      _loading(true);
+                                      newNodePageChangeNotifier
+                                          .setTestMode('testing');
+                                      newNodePageChangeNotifier.setCanLoad(true);
+                                      final nodeWithPort =
+                                          '${_nodeAddressController.text}:${_nodePortController.text}'; //'194.5.152.31:19091'
+                                      final isMainnet = await TestMainNetNode(
+                                              uri: nodeWithPort,
+                                              login: _loginController.text,
+                                              password: _passwordController.text)
+                                          .isMainNet();
+                                      final isNodeChecked1 = await NodeForTest()
+                                          .isWorkingNode(nodeWithPort);
+                                      newNodePageChangeNotifier
+                                          .setIsMainnet(isMainnet);
+                                      newNodePageChangeNotifier
+                                          .setTestMode('done');
+                                      newNodePageChangeNotifier
+                                          .setIsNodeChecked(isNodeChecked1);
+                                      newNodePageChangeNotifier.setCanLoad(false);
+                                      _loading(false);
+                                    }
+                                  },
+                                  child: Text(S.of(context).test,
+                                      style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.07 /
+                                                3,
+                                        fontWeight: FontWeight.bold,
+                                      )))
+                              //})
+                              ),
+                          Row(children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.pop(context);
+                                    _nodeAddressController.text = '';
+                                    _nodePortController.text = '';
+                                    _loginController.text = '';
+                                    _passwordController.text = '';
+                                  },
+                                  child: Text(S.of(context).cancel,
+                                      style: TextStyle(
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xffB9B9B9)
+                                              : Color(0xff9292A7),
+                                          fontSize:
+                                              MediaQuery.of(context).size.height *
+                                                  0.07 /
+                                                  3))),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: GestureDetector(
+                                  onTap: newNodePageChangeNotifier.isNodeChecked
+                                      ? () async {
+                                          if (!_formKey.currentState.validate()) {
+                                            return;
+                                          }
+                                          if (newNodePageChangeNotifier
+                                              .isMainnet) {
+                                            var status = false;
+                                            for (var i = 0;
+                                                i < nodeList.nodes.length;
+                                                i++) {
+                                              if (nodeList.nodes[i].uri.contains(
+                                                  '${_nodeAddressController.text}:${_nodePortController.text}')) {
+                                                status = true;
+                                                Toast.show('This node is already exist', context,
+                                                 duration: Toast.LENGTH_SHORT,
+                                              gravity: Toast
+                                                  .BOTTOM, // Toast gravity (top, center, or bottom)
+                                               textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                  backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                                                );
+                                                return;
+                                              }
+                                            }
+                                            if (!status) {
+                                              await nodeList.addNode(
+                                                  address:
+                                                      _nodeAddressController.text,
+                                                  port: _nodePortController.text,
+                                                  login: _loginController.text,
+                                                  password:
+                                                      _passwordController.text);
+                                            }
+                                            Navigator.of(context).pop();
+                                          } else {
+                                            Toast.show(
+                                              S.of(context).pleaseAddAMainnetNode,
+                                              context,
+                                              duration: Toast.LENGTH_SHORT,
+                                              gravity: Toast
+                                                  .BOTTOM, // Toast gravity (top, center, or bottom)
+                                              textColor:
+                                                  Colors.white, // Text color
+                                              backgroundColor: Color(
+                                                  0xff0BA70F), // Background color
+                                            );
+                                          }
+                                        }
+                                      : null,
+                                  child: Text(
+                                    S.of(context).add,
+                                    style: TextStyle(
+                                        fontSize:
+                                            MediaQuery.of(context).size.height *
+                                                0.07 /
+                                                3,
+                                        fontWeight: FontWeight.bold,
+                                        color: newNodePageChangeNotifier
+                                                .isNodeChecked
+                                            ? Color(0xff1AB51E)
+                                            : settingsStore.isDarkTheme
+                                                ? Color(0xffB9B9B9)
+                                                : Color(0xff9292A7)),
+                                  )),
+                            )
+                          ])
+                        ],
+                      ),
+                    )
+                  ],
+                ))),
       ),
     );
+  }
+}
+
+class NewNodePageChangeNotifier with ChangeNotifier {
+  bool canLoad = false;
+  String testMode = '';
+  bool isMainnet = false;
+  bool isNodeChecked = false;
+
+  void setCanLoad(bool status) {
+    canLoad = status;
+    notifyListeners();
+  }
+
+  void setTestMode(String status) {
+    testMode = status;
+    notifyListeners();
+  }
+
+  void setIsMainnet(bool status) {
+    isMainnet = status;
+    notifyListeners();
+  }
+
+  void setIsNodeChecked(bool status) {
+    isNodeChecked = status;
+    notifyListeners();
   }
 }

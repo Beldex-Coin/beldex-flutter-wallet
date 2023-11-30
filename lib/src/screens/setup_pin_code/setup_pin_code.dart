@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/src/stores/user/user_store.dart';
 import 'package:beldex_wallet/src/screens/pin_code/pin_code.dart';
@@ -18,14 +17,8 @@ class SetupPinCodePage extends BasePage {
   String get title => S.current.setup_pin;
 
   @override
-  Widget leading(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.only(top: 12.0, left: 10),
-        decoration: BoxDecoration(
-          //borderRadius: BorderRadius.circular(10),
-          //color: Colors.black,
-        ),
-        child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
+  Widget trailing(BuildContext context) {
+    return Container();
   }
 
   @override
@@ -47,7 +40,7 @@ class SetupPinCodeForm extends PinCodeWidget {
 class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
     extends PinCodeState<WidgetType> {
   _SetupPinCodeFormState() {
-    title = S.current.enter_your_pin;
+    title = S.current.enterYourPin;
   }
 
   bool isEnteredOriginalPin() => _originalPin.isNotEmpty;
@@ -60,7 +53,7 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
   void onPinCodeEntered(PinCodeState state) {
     if (!isEnteredOriginalPin()) {
       _originalPin = state.pin;
-      state.title = S.current.enter_your_pin_again;
+      state.title = S.current.re_enter_your_pin;
       state.clear();
     } else {
       if (listEquals<int>(state.pin, _originalPin)) {
@@ -73,9 +66,12 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
             builder: (BuildContext context) {
               return Dialog(
                 elevation: 0,
-                backgroundColor: Theme.of(context).cardTheme.color,
+                backgroundColor: _settingsStore.isDarkTheme
+                    ? Color(0xff272733)
+                    : Color(0xffFFFFFF),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0)), //this right here
+                    borderRadius: BorderRadius.circular(20.0)),
+                //this right here
                 child: Container(
                   height: 170,
                   child: Padding(
@@ -84,31 +80,36 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(S.of(context).setup_successful,
+                        Text(
+                          S.of(context).setup_successful,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 15
-                          ),
+                              fontSize: 15, fontWeight: FontWeight.w700),
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Center(
                           child: SizedBox(
-                            width: 45,
+                            width: 55,
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)
-                                ),
-                                backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
-                              ),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  backgroundColor: Color(
+                                      0xff0BA70F) //Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                  ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                                 widget.onPinCodeSetup(context, pin);
                                 reset();
                               },
-                              child:Text(
+                              child: Text(
                                 S.of(context).ok,
-                                style: TextStyle(color: Theme.of(context).primaryTextTheme.caption.color),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                    color: Color(0xffffffff)),
                               ),
                             ),
                           ),
@@ -119,28 +120,6 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                 ),
               );
             });
-        /*showDialog<void>(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                backgroundColor: Colors.black,
-                content: Text(S.of(context).setup_successful),
-                actions: <Widget>[
-                  Align(
-                    alignment: Alignment.center,
-                    child: FlatButton(
-                      child: Text(S.of(context).ok),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        widget.onPinCodeSetup(context, pin);
-                        reset();
-                      },
-                    ),
-                  ),
-                ],
-              );
-            });*/
       } else {
         showDialog<void>(
             context: context,
@@ -148,9 +127,12 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
             builder: (BuildContext context) {
               return Dialog(
                 elevation: 0,
-                backgroundColor: Theme.of(context).cardTheme.color,//Colors.black,
+                backgroundColor: _settingsStore.isDarkTheme
+                    ? Color(0xff272733)
+                    : Color(0xffFFFFFF),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20.0)), //this right here
+                    borderRadius: BorderRadius.circular(20.0)),
+                //this right here
                 child: Container(
                   height: 170,
                   child: Padding(
@@ -159,29 +141,33 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(S.of(context).pin_is_incorrect,
+                        Text(
+                          S.of(context).pin_is_incorrect,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 15
-                          ),
+                              fontSize: 15, fontWeight: FontWeight.w700),
                         ),
-                        SizedBox(height: 20,),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Center(
                           child: SizedBox(
-                            width: 45,
+                            width: 55,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10)
-                                ),
-                                backgroundColor: Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
+                                    borderRadius: BorderRadius.circular(10)),
+                                backgroundColor: Color(
+                                    0xff0BA70F), //Color.fromRGBO(38, 38, 38, 1.0),
                               ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child:Text(
+                              child: Text(
                                 S.of(context).ok,
-                                style: TextStyle(color: Theme.of(context).primaryTextTheme.caption.color,//Colors.white
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700, fontSize: 15,
+                                  color: Color(0xffffffff), //Colors.white
                                 ),
                               ),
                             ),
@@ -193,22 +179,6 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                 ),
               );
             });
-        /*showDialog<void>(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                content: Text(S.of(context).pin_is_incorrect),
-                actions: <Widget>[
-                  FlatButton(
-                    child: Text(S.of(context).ok),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-              );
-            });*/
-
         reset();
       }
     }
@@ -216,7 +186,7 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
 
   void reset() {
     clear();
-    setTitle(S.current.enter_your_pin);
+    setTitle(S.current.enterYourPin);
     _originalPin = [];
   }
 
@@ -225,6 +195,6 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
     _userStore = Provider.of<UserStore>(context);
     _settingsStore = Provider.of<SettingsStore>(context);
 
-    return body(context);
+    return body(context,false);
   }
 }

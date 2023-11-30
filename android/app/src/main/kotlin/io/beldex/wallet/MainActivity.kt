@@ -1,4 +1,4 @@
-package com.mymonero.new_beldex_wallet
+package io.beldex.wallet
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterFragmentActivity
@@ -10,3 +10,6 @@ class MainActivity: FlutterFragmentActivity() {
         GeneratedPluginRegistrant.registerWith(flutterEngine);
     }
 }
+
+
+

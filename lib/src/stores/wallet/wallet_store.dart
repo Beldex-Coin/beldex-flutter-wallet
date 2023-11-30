@@ -136,28 +136,25 @@ abstract class WalletStoreBase with Store {
 
   @action
   void validateAmount(String amount) {
-    const maxValue = 18446744.073709551616;
-    final value = amount.replaceAll(',', '.');
-
-    if (value.isEmpty) {
+    if (amount.isEmpty) {
       isValid = true;
     } else {
-      const pattern = '^([0-9]+([.][0-9]{0,9})?|[.][0-9]{1,9})\$';
-      final regExp = RegExp(pattern);
+      final maxValue = 150000000.00000;
+      final pattern = RegExp(r'^(([0-9]{1,9})(\.[0-9]{1,5})?$)|\.[0-9]{1,5}?$');
 
-      if (regExp.hasMatch(value)) {
+      if (pattern.hasMatch(amount)) {
         try {
-          final dValue = double.parse(value);
-          isValid = dValue <= maxValue;
+          final dValue = double.parse(amount);
+          isValid = (dValue <= maxValue && dValue > 0);
         } catch (e) {
           isValid = false;
         }
-      } else {
+      }else{
         isValid = false;
       }
     }
 
-    errorMessage = isValid ? null : S.current.error_text_amount;
+    errorMessage = isValid ? null : S.current.pleaseEnterAValidAmount;
   }
 
   Future<bool> isConnected() async => await _walletService.isConnected();

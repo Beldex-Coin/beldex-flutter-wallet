@@ -6,11 +6,11 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:provider/provider.dart';
 
 class DateSectionRow extends StatelessWidget {
-  DateSectionRow({this.date});
+  DateSectionRow({this.date, this.index});
 
   static final nowDate = DateTime.now();
   final DateTime date;
-
+  final int index;
   @override
   Widget build(BuildContext context) {
     final diffDays = date.difference(nowDate).inDays;
@@ -34,11 +34,14 @@ class DateSectionRow extends StatelessWidget {
       title = dateSectionDateFormat.format(date);
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
-      child: Center(
-          child: Text(title,
-              style: TextStyle(fontSize: 16, color: Theme.of(context).primaryTextTheme.caption.color))),
-    );
+    return Container(
+       padding: const EdgeInsets.only(top: 15, bottom: 0,left:10),
+      margin: EdgeInsets.only(left:18,right:18),
+       decoration: BoxDecoration(
+                        borderRadius: index == 0 ? BorderRadius.only(topLeft: Radius.circular(8.0,),topRight: Radius.circular(8.0,)) : BorderRadius.circular(0),
+                        color: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED)
+                      ),
+        child: Text(title,
+            style: TextStyle(fontSize: 18,fontWeight:FontWeight.w700, color: Theme.of(context).primaryTextTheme.caption.color)));
   }
 }

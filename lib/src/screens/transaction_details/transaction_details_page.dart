@@ -8,6 +8,7 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/screens/transaction_details/standart_list_item.dart';
 import 'package:beldex_wallet/src/screens/transaction_details/standart_list_row.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
+import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TransactionDetailsPage extends BasePage {
@@ -44,8 +45,7 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
   @override
   void initState() {
     final _dateFormat = widget.settingsStore.getCurrentDateFormat(
-          formatUSA: 'yyyy.MM.dd, HH:mm',
-          formatDefault: 'dd.MM.yyyy, HH:mm');
+        formatUSA: 'yyyy.MM.dd, HH:mm', formatDefault: 'dd.MM.yyyy, HH:mm');
     final items = [
       StandartListItem(
           title: S.current.transaction_details_transaction_id,
@@ -74,6 +74,7 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
 
   @override
   Widget build(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
       padding: EdgeInsets.only(left: 20, right: 15, top: 10, bottom: 10),
       child: ListView.separated(
@@ -88,19 +89,28 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
 
             return GestureDetector(
               onTap: () {
-                if(index==0) {
-                  final url='https://explorer.beldex.io/tx/${item.value}';
+                if (index == 0) {
+                  final url = 'https://explorer.beldex.io/tx/${item.value}';
                   _launchUrl(url);
-                }else{
+                } else {
                   Clipboard.setData(ClipboardData(text: item.value));
-                  Scaffold.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                          S.of(context).transaction_details_copied(item.title)),
-                      backgroundColor: Colors.green,
-                      duration: Duration(milliseconds: 1500),
-                    ),
+                  Toast.show(
+                    S.of(context).transaction_details_copied(item.title),
+                    context,
+                    duration: Toast.LENGTH_SHORT,
+                    gravity: Toast.BOTTOM,
+                     textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                   );
+
+                  // Scaffold.of(context).showSnackBar(
+                  //   SnackBar(
+                  //     content: Text(
+                  //         S.of(context).transaction_details_copied(item.title)),
+                  //     backgroundColor: Colors.green,
+                  //     duration: Duration(milliseconds: 1500),
+                  //   ),
+                  // );
                 }
               },
               child:
@@ -109,6 +119,7 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
           }),
     );
   }
+
   void _launchUrl(String url) async {
     if (await canLaunch(url)) await launch(url);
   }

@@ -5,9 +5,6 @@
   uri: explorer.beldex.io:19091
   is_default: false
 -
-  uri: publicnode5.rpcnode.stream:29095
-  is_default: false
--
   uri: mainnet.beldex.io:29095
   is_default: false
 -

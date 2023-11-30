@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
@@ -57,6 +58,7 @@ abstract class SendStoreBase with Store {
   NumberFormat _cryptoNumberFormat;
   NumberFormat _fiatNumberFormat;
   String _lastRecipientAddress;
+  String get lastRecipientAddress => _lastRecipientAddress;
 
   @action
   Future createStake({String address, String amount}) async {
@@ -78,7 +80,7 @@ abstract class SendStoreBase with Store {
   }
 
   @action
-  Future createTransaction({String address, String amount}) async {
+  Future createTransaction({String address, String amount, BeldexTransactionPriority tPriority}) async {
     state = CreatingTransaction();
 
     try {
@@ -89,7 +91,7 @@ abstract class SendStoreBase with Store {
       final credentials = BeldexTransactionCreationCredentials(
           address: address,
           amount: _amount,
-          priority: settingsStore.transactionPriority);
+          priority: tPriority ?? settingsStore.transactionPriority);
 
       print('createTransaction address--> $address');
       print('createTransaction amount--> $_amount');
@@ -110,13 +112,19 @@ abstract class SendStoreBase with Store {
 
   @action
   Future commitTransaction() async {
+     if (_pendingTransaction == null) {
+      // Handle this here, but don't worry about translation because this is a logic error in the
+      // caller that shouldn't happen.
+      state = SendingFailed(error: 'No pending transaction');
+      return;
+    }
     try {
       final transactionId = _pendingTransaction.hash;
       state = TransactionCommitting();
       await _pendingTransaction.commit();
       state = TransactionCommitted();
 
-      if (settingsStore.shouldSaveRecipientAddress) {
+      if (settingsStore.shouldSaveRecipientAddress && _lastRecipientAddress != null) {
         await transactionDescriptions.add(TransactionDescription(
             id: transactionId, recipientAddress: _lastRecipientAddress));
       }
@@ -256,31 +264,61 @@ abstract class SendStoreBase with Store {
     errorMessage = isValid ? null : S.current.error_text_address;
   }
 
-  void validateBELDEX(String amount, int availableBalance) {
-    const maxValue = 18446744.073709551616;
-    const pattern = '^([0-9]+([.][0-9]{0,12})?|[.][0-9]{1,12})\$|ALL';
-    final value = amount.replaceAll(',', '.');
-    final regExp = RegExp(pattern);
-
-    if (regExp.hasMatch(value)) {
-      if (value == 'ALL') {
-        isValid = true;
-      } else {
-        try {
-          final dValue = double.parse(value);
-          final maxAvailable = availableBalance;
-          isValid =
-              (dValue <= maxAvailable && dValue <= maxValue && dValue > 0);
-        } catch (e) {
-          isValid = false;
-        }
-      }
-    } else {
+  bool compareAvailableBalance(String amount, int availableBalance) {
+    var isValid = false;
+    try {
+      final dValue = double.parse(amount);
+      final maxAvailable = availableBalance;
+      isValid = (dValue <= maxAvailable);
+    } catch (e) {
       isValid = false;
     }
-
-    errorMessage = isValid ? null : S.current.error_text_beldex;
+    return isValid;
   }
+
+  void validateBELDEX(String amount, int availableBalance) {
+    final maxValue = 150000000.00000;
+    final pattern = RegExp(r'^(([0-9]{1,9})(\.[0-9]{1,5})?$)|\.[0-9]{1,5}?$');
+    var isValid = false;
+
+    if (pattern.hasMatch(amount)) {
+      try {
+        final dValue = double.parse(amount);
+        final maxAvailable = availableBalance;
+        isValid = (dValue <= maxAvailable && dValue <= maxValue && dValue > 0);
+      } catch (e) {
+        isValid = false;
+      }
+    }
+    errorMessage = isValid ? null : S.current.error_text_beldex;
+
+  }
+
+  // void validateBELDEX(String amount, int availableBalance) {
+  //   const maxValue = 18446744.073709551616;
+  //   const pattern = '^([0-9]+([.][0-9]{0,12})?|[.][0-9]{1,12})\$|ALL';
+  //   final value = amount.replaceAll(',', '.');
+  //   final regExp = RegExp(pattern);
+
+  //   if (regExp.hasMatch(value)) {
+  //     if (value == 'ALL') {
+  //       isValid = true;
+  //     } else {
+  //       try {
+  //         final dValue = double.parse(value);
+  //         final maxAvailable = availableBalance;
+  //         isValid =
+  //             (dValue <= maxAvailable && dValue <= maxValue && dValue > 0);
+  //       } catch (e) {
+  //         isValid = false;
+  //       }
+  //     }
+  //   } else {
+  //     isValid = false;
+  //   }
+
+  //   errorMessage = isValid ? null : S.current.error_text_beldex;
+  // }
 
   void validateFiat(String amount, {double maxValue}) {
     const minValue = 0.01;

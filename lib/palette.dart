@@ -122,7 +122,7 @@ class BeldexPalette {
   // Primary
   static const Color navy = Color.fromRGBO(31, 28, 71, 1.0); // #1F1C47
   static const Color teal = Color.fromRGBO(4, 139, 241, 1.0); // #048BF1
-
+  static const Color belgreen = Color(0xff159B24);
   // Secondary
   static const Color whiteBlue = Color.fromRGBO(219, 247, 245, 1.0); // #DBF7F5
   static const Color lime = Color.fromRGBO(195, 245, 58, 1.0); // #C3F53A

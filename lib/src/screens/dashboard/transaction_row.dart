@@ -1,16 +1,26 @@
+import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/wallet/transaction/transaction_info.dart';
 import 'package:flutter/material.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_direction.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:toast/toast.dart';
 
 class TransactionRow extends StatelessWidget {
-  TransactionRow(
-      {this.direction,
-      this.formattedDate,
-      this.formattedAmount,
-      this.formattedFiatAmount,
-      this.isPending,
-      @required this.onTap});
+  TransactionRow({
+    this.direction,
+    this.formattedDate,
+    this.formattedAmount,
+    this.formattedFiatAmount,
+    this.isPending,
+    @required this.onTap,
+    this.transaction,
+    //this.isStake
+  });
 
   final VoidCallback onTap;
   final TransactionDirection direction;
@@ -18,76 +28,375 @@ class TransactionRow extends StatelessWidget {
   final String formattedAmount;
   final String formattedFiatAmount;
   final bool isPending;
+  final bool flag = false;
+
+  final TransactionInfo transaction;
+  // final bool isStake;
+
+  void _launchUrl(String url) async {
+    if (await canLaunch(url)) await launch(url);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
     return InkWell(
-        onTap: onTap,
+        // onTap: onTap,
         child: Container(
-          padding: EdgeInsets.only(top: 14, bottom: 14, left: 20, right: 20),
-          decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-                      color: Theme.of(context).accentTextTheme.headline5.decorationColor,//PaletteDark.darkGrey
-                      width: 0.5,
-                      style: BorderStyle.solid))),
-          child: Row(children: <Widget>[
-            Container(
-              height: 27,
-              width: 27,
-              child: Icon(
-                direction == TransactionDirection.incoming
-                    ? Icons.arrow_downward_rounded
-                    : Icons.arrow_upward_rounded,
-                color: direction == TransactionDirection.incoming
-                    ? Colors.green
-                    : Colors.red,
-              ),
-              decoration: BoxDecoration(
-                color: direction == TransactionDirection.incoming
-                    ? Colors.transparent
-                    : Colors.transparent,
-                shape: BoxShape.circle,
-              ),
-            ),
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Column(
+      margin: EdgeInsets.only(left: 18, right: 18),
+      decoration: BoxDecoration(
+        //color: Color(0xff24242F),
+        color:
+            settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED),
+      ),
+      child: Column(
+        children: [
+          Theme(
+            data: Theme.of(context).copyWith(
+                accentColor:
+                    settingsStore.isDarkTheme ? Colors.white : Colors.black,
+                dividerColor: Colors.transparent,
+                textSelectionTheme:
+                    TextSelectionThemeData(selectionColor: Colors.green)),
+            child: ExpansionTile(
+                // initiallyExpanded: true,
+                title: Container(
+                  child: Column(
+                    children: [
+                      Row(children: <Widget>[
+                        Container(
+                            height: 27,
+                            width: 27,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: direction == TransactionDirection.incoming
+                                ? SvgPicture.asset(
+                                    'assets/images/new-images/incoming.svg',
+                                    color: direction ==
+                                            TransactionDirection.incoming
+                                        ? Colors.green
+                                        : Colors.red,
+                                    //fit:BoxFit.cover
+                                  )
+                                : Padding(
+                                    padding: EdgeInsets.all(5),
+                                    child: SvgPicture.asset(
+                                      'assets/images/new-images/outgoing_red.svg',
+                                    ),
+                                  )),
+                        Expanded(
+                            child: Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(formattedAmount,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w900,
+                                            fontSize: 14,
+                                            color: settingsStore.isDarkTheme
+                                                ? Color(0xffACACAC)
+                                                : Color(0xff626262))),
+                                    Text(
+                                        (direction ==
+                                                    TransactionDirection
+                                                        .incoming
+                                                ? S.of(context).received
+                                                : S.of(context).sent) +
+                                            (isPending
+                                                ? S.of(context).pending
+                                                : // isStake ? S.of(context).stake :
+                                                ''),
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: settingsStore.isDarkTheme
+                                                ? Color(0xffACACAC)
+                                                : Color(0xff626262))),
+                                  ]),
+                              SizedBox(height: 6),
+                              Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    Text(formattedDate,
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            color: settingsStore.isDarkTheme
+                                                ? Color(0xffACACAC)
+                                                : Color(0xff626262))),
+                                    // Text(formattedFiatAmount,
+                                    //     style: const TextStyle(
+                                    //         fontSize: 14, color: Palette.blueGrey))
+                                  ]),
+                            ],
+                          ),
+                        )),
+                        //Icon(Icons.keyboard_arrow_down)
+                      ]),
+                    ],
+                  ),
+                ),
                 children: <Widget>[
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                            (direction == TransactionDirection.incoming
-                                    ? S.of(context).received
-                                    : S.of(context).sent) +
-                                (isPending ? S.of(context).pending : ''),
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Theme.of(context)
-                                    .primaryTextTheme
-                                    .subtitle1
-                                    .color)),
-                        Text(formattedAmount,
-                            style: const TextStyle(
-                                fontSize: 16, color: Palette.purpleBlue))
-                      ]),
-                  SizedBox(height: 6),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(formattedDate,
-                            style: const TextStyle(
-                                fontSize: 13, color: Palette.blueGrey)),
-                        Text(formattedFiatAmount,
-                            style: const TextStyle(
-                                fontSize: 14, color: Palette.blueGrey))
-                      ]),
-                ],
-              ),
-            ))
-          ]),
-        ));
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          // color: Colors.yellow,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff454555)
+                                    : Color(0xffDADADA)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0, top: 10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                        S
+                                            .of(context)
+                                            .transaction_details_transaction_id,
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w900)),
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                        child: GestureDetector(
+                                      onTap: () {
+                                        final url =
+                                            'https://explorer.beldex.io/tx/${transaction.id}'; //testnet.beldex.dev/tx/  //explorer.beldex.io
+                                        _launchUrl(url);
+                                      },
+                                      child: Text(
+                                        transaction.id,
+                                        style: TextStyle(
+                                          color: Color(0xffACACAC),
+                                        ),
+                                      ),
+                                    )),
+                                    InkWell(
+                                      onTap: () {
+                                        Clipboard.setData(ClipboardData(
+                                            text: transaction.id));
+                                        Toast.show(
+                                          S.of(context).copied,
+                                          context,
+                                          duration: Toast
+                                              .LENGTH_SHORT, // Toast duration (short or long)
+                                          gravity: Toast
+                                              .BOTTOM, // Toast gravity (top, center, or bottom)
+                                          textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,// Background color
+                                        );
+                                      },
+                                      child: Container(
+                                          //height:20,width:40,
+                                          padding: EdgeInsets.only(
+                                              left: 20.0,
+                                              right: 10,
+                                              top: 10,
+                                              bottom: 10),
+                                          child: Icon(
+                                            Icons.copy,
+                                            size: 20,
+                                            color: Color(0xff0BA70F),
+                                          )),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff454555)
+                                    : Color(0xffDADADA)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Date',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w900)),
+                                Container(
+                                    child: Text(
+                                        '$formattedDate' //'${transaction.date}'
+                                        )),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff454555)
+                                    : Color(0xffDADADA)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Height',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w900)),
+                                Column(
+                                  //crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                        padding: EdgeInsets.only(bottom: 5.0),
+                                        child: Text('${transaction.height}')),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff454555)
+                                    : Color(0xffDADADA)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text('Amount',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w900)),
+                                Container(
+                                    child: Text(
+                                  '$formattedAmount',
+                                  style: TextStyle(color: Color(0xff0BA70F)),
+                                ))
+                              ],
+                            ),
+                          ),
+                        ),
+                        settingsStore.shouldSaveRecipientAddress &&
+                                transaction.recipientAddress != null
+                            ? Container(
+                                margin: EdgeInsets.only(top: 10),
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xff454555)
+                                          : Color(0xffDADADA)),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              left: 8.0, top: 10),
+                                          child: Text(
+                                              S
+                                                  .of(context)
+                                                  .transaction_details_recipient_address,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w900)),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 8.0),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                              child: Text(
+                                            transaction.recipientAddress,
+                                            style: TextStyle(
+                                              color: Color(0xffACACAC),
+                                            ),
+                                          )),
+                                          InkWell(
+                                            onTap: () {
+                                              Clipboard.setData(ClipboardData(
+                                                  text: transaction
+                                                      .recipientAddress));
+                                              Toast.show(
+                                                S.of(context).copied,
+                                                context,
+                                                duration: Toast
+                                                    .LENGTH_SHORT, 
+                                                gravity: Toast
+                                                    .BOTTOM,
+                                                textColor:
+                                                    Colors.white, 
+                                                backgroundColor: Color(
+                                                    0xff0BA70F), 
+                                              );
+                                            },
+                                            child: Container(
+                                                //height:20,width:40,
+                                                padding: EdgeInsets.only(
+                                                    left: 20.0,
+                                                    right: 10,
+                                                    top: 10,
+                                                    bottom: 10),
+                                                child: Icon(
+                                                  Icons.copy,
+                                                  size: 20,
+                                                  color: Color(0xff0BA70F),
+                                                )),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : SizedBox.shrink(),
+                      ],
+                    ),
+                  ),
+                ]),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            child: Divider(
+              height: 2,
+            ),
+          )
+        ],
+      ),
+    ));
   }
 }

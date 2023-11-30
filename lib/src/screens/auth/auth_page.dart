@@ -9,7 +9,8 @@ import 'package:beldex_wallet/src/stores/auth/auth_store.dart';
 import 'package:beldex_wallet/src/screens/pin_code/pin_code.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/domain/common/biometric_auth.dart';
-
+import 'package:local_auth/local_auth.dart';
+import 'dart:io' show Platform;
 typedef OnAuthenticationFinished = void Function(bool, AuthPageState);
 
 class AuthPage extends StatefulWidget {
@@ -25,6 +26,7 @@ class AuthPage extends StatefulWidget {
 class AuthPageState extends State<AuthPage> {
   final _key = GlobalKey<ScaffoldState>();
   final _pinCodeKey = GlobalKey<PinCodeState>();
+  List<BiometricType> _availableBiometrics = <BiometricType>[];
 
   void changeProcessText(String text) {
     _key.currentState.showSnackBar(
@@ -38,33 +40,45 @@ class AuthPageState extends State<AuthPage> {
     setState(() {});
   }
 
-  // @override
-  // void dispose() {
-  //   super.dispose();
-  // }
+  bool isBiometric = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
     final authStore = Provider.of<AuthStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
 
-    if (settingsStore.allowBiometricAuthentication) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final biometricAuth = BiometricAuth();
-        biometricAuth.isAuthenticated().then((isAuth) {
-          if (isAuth) {
-            authStore.biometricAuth();
-            _key.currentState.showSnackBar(
-              SnackBar(
-                content: Text(S.of(context).authenticated),
-                backgroundColor: Colors.green,
-              ),
-            );
-          }
+    if(Platform.isAndroid) {
+      if (settingsStore.allowBiometricAuthentication) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final biometricAuth = BiometricAuth();
+          biometricAuth.isAuthenticated().then((isAuth) {
+            if (isAuth) {
+              authStore.biometricAuth();
+              _key.currentState.showSnackBar(
+                SnackBar(
+                  content: Text(S
+                      .of(context)
+                      .authenticated),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            }
+          });
         });
-      });
+      }
     }
-
     reaction((_) => authStore.state, (AuthState state) {
       if (state is AuthenticatedSuccessfully) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -112,7 +126,6 @@ class AuthPageState extends State<AuthPage> {
       if (state is AuthenticationBanned) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _pinCodeKey.currentState.clear();
-          // ScaffoldMessenger.of(context).hideCurrentSnackBar();
           _key.currentState.hideCurrentSnackBar();
           _key.currentState.showSnackBar(
             SnackBar(
@@ -130,62 +143,58 @@ class AuthPageState extends State<AuthPage> {
 
     return Scaffold(
         key: _key,
-        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(50),
-          child: CupertinoNavigationBar(
-            trailing: widget.closable
-                ? SizedBox(
-                    width: 50,
-                  )
-                : SizedBox(
-                    width: 0,
-                  ),
-            middle: Container(
-              margin: EdgeInsets.only(top: 5),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Container(padding:EdgeInsets.all(6),decoration: BoxDecoration(
-                  //   borderRadius: BorderRadius.circular(10),
-                  //   color: Colors.black,
-                  // ),child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg',width: 25,height: 25,)),
-                  // SizedBox(width: 5,),
-                  Text(
-                    'Enter pin',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 22,
-                      color: Theme.of(context).primaryTextTheme.caption.color,
+        appBar: AppBar(
+          toolbarHeight: 70,
+          elevation: 0,
+          centerTitle: true,
+          leading: widget.closable
+              ? Container(
+                  width: 60,
+                  padding: EdgeInsets.only(left: 15, top: 20, bottom: 5),
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox(
+                    height: 30,
+                    width: 40,
+                    child: ButtonTheme(
+                      buttonColor: Colors.transparent,
+                      minWidth: double.minPositive,
+                      child: TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: SvgPicture.asset(
+                            'assets/images/new-images/back_arrow.svg',
+                            color: settingsStore.isDarkTheme
+                                ? Colors.white
+                                : Colors.black,
+                            height: 80,
+                            width: 50,
+                            fit: BoxFit.fill,
+                          )),
                     ),
                   ),
-                ],
+                )
+              : SizedBox(
+                  width: 0,
+                ),
+          title: Padding(
+            padding: EdgeInsets.only(top: 20, bottom: 5),
+            child: Text(
+              S.of(context).enterPin,
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 22,
+                color: Theme.of(context).primaryTextTheme.caption.color,
               ),
             ),
-            leading: widget.closable
-                ? GestureDetector(
-                    onTap: () => Navigator.pop(context),
-                    child: Container(
-                        child: Icon(
-                      Icons.arrow_back,
-                      color: Theme.of(context).primaryTextTheme.caption.color,
-                    )),
-                  )
-                : SizedBox(
-                    width: 0,
-                  ),
-            backgroundColor: settingsStore.isDarkTheme
-                ? Color(0xff171720)
-                : Color(0xffffffff),
-            border: null,
           ),
+          backgroundColor:
+          settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
         ),
         resizeToAvoidBottomInset: false,
         body: PinCode(
-          (pin, _) =>
-              authStore.auth(password: pin.fold('', (ac, val) => ac + '$val')),
-          false,
-          _pinCodeKey, refresh,
-          // canShowBackArrow: false, // canShowBackArrow
-        ));
+                (pin, _) => authStore.auth(
+                password: pin.fold('', (ac, val) => ac + '$val')),
+            false,
+            _pinCodeKey,
+            refresh,_key));
   }
 }

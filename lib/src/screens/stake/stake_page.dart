@@ -155,10 +155,6 @@ class StakePageBodyState extends State<StakePageBody> {
                                     Text(S.of(context).unable_unlock_stake),
                                 backgroundColor: Colors.red,
                               ));
-                              /*Scaffold.of(context).showSnackBar(SnackBar(
-                                  content: Text(S.of(context).unable_unlock_stake),
-                                  backgroundColor: Colors.red,
-                                ));*/
                               return false;
                             }
                             var isSuccessful = false;
@@ -197,10 +193,6 @@ class StakePageBodyState extends State<StakePageBody> {
                                   Text(S.of(context).unlock_stake_requested),
                               backgroundColor: Colors.green,
                             ));
-                            /*Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text(S.of(context).unlock_stake_requested),
-                                backgroundColor: Colors.green,
-                              ));*/
                           },
                           direction: DismissDirection.endToStart,
                           background: Container(

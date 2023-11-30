@@ -53,6 +53,7 @@ class Node extends HiveObject {
           await http.post(url, headers: headers, body: body);
       resultBody = json.decode(response.body) as Map<String, dynamic>;
     }
+
    print('node data from json --> for the node $uri --> $resultBody');
     return resultBody;
   }
