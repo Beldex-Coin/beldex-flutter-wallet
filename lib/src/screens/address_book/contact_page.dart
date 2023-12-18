@@ -248,7 +248,7 @@ class ContactFormState extends State<ContactForm> {
               ),
               SizedBox(height: 14.0),
               AddressTextField(
-                isActive: widget.contact == null ? true : false,
+               // isActive: widget.contact == null ? true : false,
                 controller: _addressController,
                 options: [AddressTextFieldOption.qrCode],
                 autoValidateMode: AutovalidateMode.onUserInteraction,
@@ -268,7 +268,6 @@ class ContactFormState extends State<ContactForm> {
                       cryptoCurrency: _selectedCrypto);
                   return addressBookStore.errorMessage;
                   }
-                 
                 },
               )
             ],
