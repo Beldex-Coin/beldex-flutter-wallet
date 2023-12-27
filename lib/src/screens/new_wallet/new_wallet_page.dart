@@ -365,14 +365,3 @@ class _WalletNameFormState extends State<WalletNameForm> {
     );
   }
 }
-
-// class NewWalletPageChangeNotifier with ChangeNotifier {
-//   bool nameControllerTextIsEmpty = false;
-//
-//   void setNameControllerStatus(bool status) {
-//     nameControllerTextIsEmpty = status;
-//     WidgetsBinding.instance.addPostFrameCallback((_) {
-//       notifyListeners();
-//     });
-//   }
-// }

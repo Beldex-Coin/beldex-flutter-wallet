@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/swap/screen/swap_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -126,8 +127,7 @@ class Router {
               update: (_, authStore, __) => WalletCreationStore(
               authStore: authStore,
               sharedPreferences: sharedPreferences,
-              walletListService: walletListService),),
-              ChangeNotifierProvider<NewWalletPageChangeNotifier>(create: (_) => NewWalletPageChangeNotifier())
+              walletListService: walletListService),)
             ],
             child: NewWalletPage(
                 walletsService: walletListService,
@@ -523,6 +523,10 @@ class Router {
                           priceStore: priceStore,
                           transactionDescriptions: transactionDescriptions)),
                 ], child: NewStakePage());});
+
+      case Routes.swap:
+        return MaterialPageRoute<void>(
+            builder: (_) { return SwapPage();});
 
       default:
         return MaterialPageRoute<void>(
