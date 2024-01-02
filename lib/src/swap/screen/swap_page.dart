@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -69,7 +70,6 @@ class _SwapHomeState extends State<SwapHome> {
   var showPrefixIcon = false;
   var showMemo = false;
   var acceptTermsAndConditions = false;
-  final _listObserverKey = GlobalKey();
   final _listKey = GlobalKey();
 
   TextEditingController searchYouGetCoinsController = TextEditingController();
@@ -119,6 +119,7 @@ class _SwapHomeState extends State<SwapHome> {
     final _screenHeight = MediaQuery.of(context).size.height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
+    final swapPageChangeNotifier = Provider.of<SwapPageChangeNotifier>(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -160,19 +161,30 @@ class _SwapHomeState extends State<SwapHome> {
                       children: [
                         //Exchange Screen
                         Visibility(
-                          visible: true,
-                          child: exchangeScreen(_scrollController,settingsStore),
+                          visible: currentStep == 1,
+                          child: Column(
+                            children: [
+                              Visibility(
+                                visible:!swapPageChangeNotifier.transactionHistoryScreenVisible,
+                                child: exchangeScreen(_scrollController,settingsStore,swapPageChangeNotifier)),
+                              //Transaction History Screen
+                              Visibility(
+                                visible: swapPageChangeNotifier.transactionHistoryScreenVisible,
+                                child: transactionHistoryScreen(_screenWidth,_screenHeight,settingsStore,swapPageChangeNotifier),
+                              ),
+                            ],
+                          ),
                         ),
                         //Under maintenance Screen
                         Visibility(visible:false,child: underMaintenanceScreen(_screenWidth,settingsStore)),
                         //Wallet Address Screen
                         Visibility(
-                          visible: false,
+                          visible: currentStep == 2,
                           child: walletAddressScreen(settingsStore),
                         ),
                         //Payment->Checkout Screen
                         Visibility(
-                          visible: false,
+                          visible: currentStep == 3,
                           child: paymentCheckoutScreen(settingsStore),
                         ),
                         //Payment->Send funds to the address below Screen
@@ -192,13 +204,8 @@ class _SwapHomeState extends State<SwapHome> {
                         ),
                         //Exchange->Exchanging Screen
                         Visibility(
-                          visible: false,
+                          visible: currentStep == 4,
                           child: exchangingScreen(settingsStore),
-                        ),
-                        //Transaction History Screen
-                        Visibility(
-                          visible: false,
-                          child: transactionHistoryScreen(_screenWidth,_screenHeight,settingsStore),
                         ),
                       ],
                     ),
@@ -623,7 +630,7 @@ class _SwapHomeState extends State<SwapHome> {
     );
   }
 
-  Widget exchangeScreen(ScrollController _scrollController, SettingsStore settingsStore){
+  Widget exchangeScreen(ScrollController _scrollController, SettingsStore settingsStore, SwapPageChangeNotifier swapPageChangeNotifier){
     return Stack(
       children: [
         Column(
@@ -643,13 +650,18 @@ class _SwapHomeState extends State<SwapHome> {
                           ? Color(0xffFFFFFF)
                           : Color(0xff060606)),
                 ),
-                SvgPicture.asset(
-                  'assets/images/swap/history.svg',
-                  color: settingsStore.isDarkTheme
-                      ? Color(0xffffffff)
-                      : Color(0xff16161D),
-                  width: 25,
-                  height: 25,
+                InkWell(
+                  onTap: (){
+                    swapPageChangeNotifier.setTransactionHistoryScreenVisibleStatus(true);
+                  },
+                  child: SvgPicture.asset(
+                    'assets/images/swap/history.svg',
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xffffffff)
+                        : Color(0xff16161D),
+                    width: 25,
+                    height: 25,
+                  ),
                 )
               ],
             ),
@@ -1171,7 +1183,9 @@ class _SwapHomeState extends State<SwapHome> {
             Align(
               alignment: Alignment.center,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  next();
+                },
                 style: ElevatedButton.styleFrom(
                   primary: true
                       ? Color(0xff0BA70F)
@@ -2128,7 +2142,11 @@ class _SwapHomeState extends State<SwapHome> {
         Align(
           alignment: Alignment.center,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              if(acceptTermsAndConditions){
+                next();
+              }
+            },
             style: ElevatedButton.styleFrom(
               primary: acceptTermsAndConditions
                   ? Color(0xff0BA70F)
@@ -2574,7 +2592,9 @@ class _SwapHomeState extends State<SwapHome> {
         Align(
           alignment: Alignment.center,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              next();
+            },
             style: ElevatedButton.styleFrom(
               primary: Color(0xff0BA70F),
               padding: EdgeInsets.only(
@@ -4793,7 +4813,7 @@ class _SwapHomeState extends State<SwapHome> {
     );
   }
 
-  Widget transactionHistoryScreen(double _screenWidth,double _screenHeight,SettingsStore settingsStore){
+  Widget transactionHistoryScreen(double _screenWidth,double _screenHeight,SettingsStore settingsStore, SwapPageChangeNotifier swapPageChangeNotifier){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -4805,13 +4825,18 @@ class _SwapHomeState extends State<SwapHome> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                SvgPicture.asset(
-                  'assets/images/swap/swap_back.svg',
-                  color: settingsStore.isDarkTheme
-                      ? Color(0xffffffff)
-                      : Color(0xff16161D),
-                  width: 20,
-                  height: 20,
+                InkWell(
+                  onTap: (){
+                    swapPageChangeNotifier.setTransactionHistoryScreenVisibleStatus(false);
+                  },
+                  child: SvgPicture.asset(
+                    'assets/images/swap/swap_back.svg',
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xffffffff)
+                        : Color(0xff16161D),
+                    width: 20,
+                    height: 20,
+                  ),
                 ),
                 SizedBox(
                   width: 10,
@@ -4838,23 +4863,19 @@ class _SwapHomeState extends State<SwapHome> {
           ],
         ),
         SizedBox(height: 10),
-        Observer(
-            key: _listObserverKey,
-            builder: (_) {
-              return Container(
-                width: _screenWidth,
-                height:_screenHeight,
-                child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    key: _listKey,
-                    padding: EdgeInsets.only(bottom: 15),
-                    itemCount: 4,
-                    itemBuilder: (context, index) {
-                      return transactionRow(settingsStore);
-                    }),
-              );
-            }),
+        Container(
+          width: _screenWidth,
+          height:_screenHeight,
+          child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              key: _listKey,
+              padding: EdgeInsets.only(bottom: 15),
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                return transactionRow(settingsStore);
+              }),
+        ),
       ],
     );
   }

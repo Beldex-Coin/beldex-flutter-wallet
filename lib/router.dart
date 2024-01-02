@@ -1,4 +1,6 @@
 import 'package:beldex_wallet/src/swap/screen/swap_page.dart';
+import 'package:beldex_wallet/src/swap/signature_page.dart';
+import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -525,8 +527,19 @@ class Router {
                 ], child: NewStakePage());});
 
       case Routes.swap:
-        return MaterialPageRoute<void>(
-            builder: (_) { return SwapPage();});
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<SwapPageChangeNotifier>(create: (_) => SwapPageChangeNotifier()),
+              ChangeNotifierProvider<SwapPageChangeNotifier>(create: (_) => SwapPageChangeNotifier())
+            ],
+            child: SwapPage(),
+          );
+        });
+      case Routes.signature:
+        return MaterialPageRoute<void>(builder: (context) {
+          return SignaturePage();
+        });
 
       default:
         return MaterialPageRoute<void>(
