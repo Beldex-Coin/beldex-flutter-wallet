@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../palette.dart';
 
 class NewNavListHeader extends StatelessWidget {
-  NewNavListHeader({this.title});
+  NewNavListHeader({required this.title});
 
   final String title;
 
@@ -21,7 +21,7 @@ class NewNavListHeader extends StatelessWidget {
             children: <Widget>[
               Text(
                 title,
-                style: TextStyle(fontSize:ScreenSize.screenHeight07, //MediaQuery.of(context).size.height*0.08/3,
+                style: TextStyle(backgroundColor: Colors.transparent,fontSize:ScreenSize.screenHeight07, //MediaQuery.of(context).size.height*0.08/3,
                 color:Color(0xff737385),
                 fontWeight: FontWeight.w600),
               )

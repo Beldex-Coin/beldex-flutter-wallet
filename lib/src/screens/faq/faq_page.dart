@@ -1,14 +1,14 @@
 import 'dart:convert';
+import '../../../l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 
 class FaqPage extends BasePage {
   @override
-  String get title => S.current.faq;
+  String getTitle(AppLocalizations t) => t.faq;
 
   @override
   Widget trailing(BuildContext context) {
@@ -26,8 +26,9 @@ class FaqPage extends BasePage {
             Container(
               margin: EdgeInsets.only(left: 15),
               child: Text(
-                S.of(context).howCanWenhelpYou,
+                tr(context).howCanWenhelpYou,
                 style: TextStyle(
+                    backgroundColor: Colors.transparent,
                     fontSize: MediaQuery.of(context).size.height * 0.15 / 3,
                     fontWeight: FontWeight.bold),
               ),
@@ -43,6 +44,9 @@ class FaqPage extends BasePage {
         SizedBox(height: 10.0),
         FutureBuilder(
           builder: (context, snapshot) {
+            if(!snapshot.hasData){
+              return SizedBox.shrink();
+            }
             final faqItems = jsonDecode(snapshot.data.toString()) as List;
 
             return Expanded(
@@ -54,9 +58,11 @@ class FaqPage extends BasePage {
 
                     return Theme(
                       data: Theme.of(context).copyWith(
-                          accentColor: settingsStore.isDarkTheme
-                              ? Colors.white
-                              : Colors.black,
+                          colorScheme: ColorScheme.fromSwatch().copyWith(
+                            secondary: settingsStore.isDarkTheme
+                                ? Colors.white
+                                : Colors.black, // Your accent color
+                          ),
                           dividerColor: Colors.transparent,
                           textSelectionTheme: TextSelectionThemeData(
                               selectionColor: Colors.green)),
@@ -73,6 +79,7 @@ class FaqPage extends BasePage {
                           title: Text(
                             itemTitle,
                             style: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 fontSize: 13, fontWeight: FontWeight.w800),
                           ),
                           children: <Widget>[
@@ -86,7 +93,7 @@ class FaqPage extends BasePage {
                                   child: Text(
                                     itemChild,
                                     textAlign: TextAlign.justify,
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(backgroundColor: Colors.transparent,fontSize: 12),
                                   ),
                                 ))
                               ],
@@ -110,9 +117,8 @@ class FaqPage extends BasePage {
   }
 
   String getFaqPath(BuildContext context) {
-    final settingsStore = context.read<SettingsStore>();
 
-    switch (settingsStore.languageCode) {
+    switch (tr(context).localeName) {
       case 'en':
         return 'assets/faq/faq_en.json';
       case 'de':

@@ -1,14 +1,19 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:provider/provider.dart';
 
-class WalletMenu {
-  WalletMenu(this.context);
+import '../../../l10n.dart';
 
-  final List<String> items = [S.current.reconnect, S.current.rescan];
+class WalletMenu {
+  WalletMenu(this.context)
+      : items = [
+    tr(context).reconnect,
+    tr(context).rescan
+  ];
+
+  final List<String> items ;
 
   final BuildContext context;
 
@@ -26,22 +31,22 @@ class WalletMenu {
   Future<void> _presentReconnectAlert(BuildContext context) async {
     final walletStore = context.read<WalletStore>();
     await showReconnectConfirmDialog(
-        context, S.of(context).reconnection, S.of(context).reconnect_alert_text,
+        context, tr(context).reconnection, tr(context).reconnect_alert_text,
         onPressed: (context) {
       walletStore.reconnect();
       Navigator.of(context)..pop()..pop();
-    });
+        },
+      onDismiss:(context)=> null,
+    );
   }
 }
 
 Future showReconnectConfirmDialog(
     BuildContext context, String title, String body,
-    {String buttonText,
-    void Function(BuildContext context) onPressed,
-    void Function(BuildContext context) onDismiss}) {
+    {required void Function(BuildContext context) onPressed,
+    required void Function(BuildContext context) onDismiss}) {
   return showDialog<void>(
-      builder: (_) => AlertReconnectConfirmDialog(title, body,
-          buttonText: buttonText, onDismiss: onDismiss, onPressed: onPressed),
+      builder: (_) => AlertReconnectConfirmDialog(title, body, onDismiss: onDismiss, onPressed: onPressed),
       context: context);
 }
 
@@ -49,14 +54,12 @@ class AlertReconnectConfirmDialog extends StatefulWidget {
   const AlertReconnectConfirmDialog(
     this.title,
     this.body, {
-    this.buttonText,
-    this.onPressed,
-    this.onDismiss,
+    required this.onPressed,
+    required this.onDismiss,
   });
 
   final String title;
   final String body;
-  final String buttonText;
   final void Function(BuildContext context) onPressed;
   final void Function(BuildContext context) onDismiss;
 
@@ -82,12 +85,12 @@ class _AlertReconnectConfirmDialogState
             mainAxisSize: MainAxisSize.min,
             children: [
               Center(
-                  child: Text('${S.of(context).reconnectWallet}?',
+                  child: Text('${tr(context).reconnectWallet}?',
                       style: TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold))),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(S.of(context).doYouWantToReconnectnTheWallet,
+                child: Text(tr(context).doYouWantToReconnectnTheWallet,
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 16)),
               ),
@@ -108,7 +111,7 @@ class _AlertReconnectConfirmDialogState
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     child: Text(
-                      S.of(context).cancel,
+                      tr(context).cancel,
                       style: TextStyle(
                           fontSize: 17,
                           color: settingsStore.isDarkTheme
@@ -126,7 +129,7 @@ class _AlertReconnectConfirmDialogState
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     child: Text(
-                      S.of(context).ok,
+                      tr(context).ok,
                       style: TextStyle(
                           fontSize: 17,
                           color: Colors.white,

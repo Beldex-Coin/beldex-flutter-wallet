@@ -6,15 +6,16 @@ import 'package:beldex_wallet/src/stores/user/user_store.dart';
 import 'package:beldex_wallet/src/screens/pin_code/pin_code.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+
+import '../../../l10n.dart';
 
 class SetupPinCodePage extends BasePage {
   SetupPinCodePage({this.onPinCodeSetup});
 
-  final Function(BuildContext, String) onPinCodeSetup;
+  final Function(BuildContext, String)? onPinCodeSetup;
 
   @override
-  String get title => S.current.setup_pin;
+  String getTitle(AppLocalizations t) => t.setup_pin;
 
   @override
   Widget trailing(BuildContext context) {
@@ -23,12 +24,12 @@ class SetupPinCodePage extends BasePage {
 
   @override
   Widget body(BuildContext context) =>
-      SetupPinCodeForm(onPinCodeSetup: onPinCodeSetup, hasLengthSwitcher: true);
+      SetupPinCodeForm(onPinCodeSetup: onPinCodeSetup!, hasLengthSwitcher: true);
 }
 
 class SetupPinCodeForm extends PinCodeWidget {
   SetupPinCodeForm(
-      {@required this.onPinCodeSetup, @required bool hasLengthSwitcher})
+      {required this.onPinCodeSetup, required bool hasLengthSwitcher})
       : super(hasLengthSwitcher: hasLengthSwitcher);
 
   final Function(BuildContext, String) onPinCodeSetup;
@@ -39,34 +40,34 @@ class SetupPinCodeForm extends PinCodeWidget {
 
 class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
     extends PinCodeState<WidgetType> {
-  _SetupPinCodeFormState() {
-    title = S.current.enterYourPin;
-  }
+  /*_SetupPinCodeFormState() {
+    title = tr(context).enterYourPin;
+  }*/
 
   bool isEnteredOriginalPin() => _originalPin.isNotEmpty;
-  Function(BuildContext) onPinCodeSetup;
+  //Function(BuildContext)? onPinCodeSetup;
   List<int> _originalPin = [];
-  UserStore _userStore;
-  SettingsStore _settingsStore;
+  UserStore? _userStore;
+  SettingsStore? _settingsStore;
 
   @override
   void onPinCodeEntered(PinCodeState state) {
     if (!isEnteredOriginalPin()) {
-      _originalPin = state.pin;
-      state.title = S.current.re_enter_your_pin;
+      _originalPin = [...state.pin];
+      state.setTitle(tr(context).re_enter_your_pin);
       state.clear();
     } else {
       if (listEquals<int>(state.pin, _originalPin)) {
-        final String pin = state.pin.fold('', (ac, val) => ac + '$val');
-        _userStore.set(password: pin);
-        _settingsStore.setDefaultPinLength(pinLength: state.pinLength);
+        final pin = state.pin.join();
+        _userStore?.set(password: pin);
+        _settingsStore?.setDefaultPinLength(pinLength: state.pinLength);
         showDialog<void>(
             context: context,
             barrierDismissible: false,
             builder: (BuildContext context) {
               return Dialog(
                 elevation: 0,
-                backgroundColor: _settingsStore.isDarkTheme
+                backgroundColor: _settingsStore?.isDarkTheme ?? false
                     ? Color(0xff272733)
                     : Color(0xffFFFFFF),
                 shape: RoundedRectangleBorder(
@@ -81,9 +82,10 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          S.of(context).setup_successful,
+                          tr(context).setup_successful,
                           textAlign: TextAlign.center,
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 15, fontWeight: FontWeight.w700),
                         ),
                         SizedBox(
@@ -102,11 +104,12 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                               onPressed: () {
                                 Navigator.of(context).pop();
                                 widget.onPinCodeSetup(context, pin);
-                                reset();
+                                reset(tr(context));
                               },
                               child: Text(
-                                S.of(context).ok,
+                                tr(context).ok,
                                 style: TextStyle(
+                                    backgroundColor: Colors.transparent,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
                                     color: Color(0xffffffff)),
@@ -127,7 +130,7 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
             builder: (BuildContext context) {
               return Dialog(
                 elevation: 0,
-                backgroundColor: _settingsStore.isDarkTheme
+                backgroundColor: _settingsStore?.isDarkTheme ?? false
                     ? Color(0xff272733)
                     : Color(0xffFFFFFF),
                 shape: RoundedRectangleBorder(
@@ -142,9 +145,10 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          S.of(context).pin_is_incorrect,
+                          tr(context).pin_is_incorrect,
                           textAlign: TextAlign.center,
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 15, fontWeight: FontWeight.w700),
                         ),
                         SizedBox(
@@ -164,8 +168,9 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                                 Navigator.of(context).pop();
                               },
                               child: Text(
-                                S.of(context).ok,
+                                tr(context).ok,
                                 style: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontWeight: FontWeight.w700, fontSize: 15,
                                   color: Color(0xffffffff), //Colors.white
                                 ),
@@ -179,14 +184,14 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                 ),
               );
             });
-        reset();
+        reset(tr(context));
       }
     }
   }
 
-  void reset() {
+  void reset(AppLocalizations t) {
     clear();
-    setTitle(S.current.enterYourPin);
+    setTitle(t.enterYourPin);
     _originalPin = [];
   }
 

@@ -1,16 +1,17 @@
 import 'dart:ffi';
 
+import 'package:beldex_coin/src/structs/status_and_error.dart';
 import 'package:ffi/ffi.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
 import 'package:beldex_coin/src/structs/ut8_box.dart';
 
-typedef CreateWallet = int Function(
-    Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int, Pointer<Utf8>);
+typedef CreateWallet = status_and_error Function(
+    Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int);
 
-typedef RestoreWalletFromSeed = int Function(
-    Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int, int, Pointer<Utf8>);
+typedef RestoreWalletFromSeed = status_and_error Function(
+    Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int, int);
 
-typedef RestoreWalletFromKeys = int Function(
+typedef RestoreWalletFromKeys = status_and_error Function(
     Pointer<Utf8>,
     Pointer<Utf8>,
     Pointer<Utf8>,
@@ -18,8 +19,7 @@ typedef RestoreWalletFromKeys = int Function(
     Pointer<Utf8>,
     Pointer<Utf8>,
     int,
-    int,
-    Pointer<Utf8>);
+    int);
 
 typedef IsWalletExist = int Function(Pointer<Utf8>);
 
@@ -43,12 +43,12 @@ typedef IsRefreshing = int Function();
 
 typedef IsConnected = int Function();
 
-typedef SetupNode = int Function(
-    Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int, int, Pointer<Utf8>);
+typedef SetupNode = status_and_error Function(
+    Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int, int);
 
 typedef StartRefresh = void Function();
 
-typedef ConnectToNode = int Function();
+typedef ConnectToNode = status_and_error Function();
 
 typedef SetRefreshFromBlockHeight = void Function(int);
 
@@ -91,7 +91,7 @@ typedef TransactionsCount = int Function();
 
 typedef TransactionsGetAll = Pointer<Int64> Function();
 
-typedef TransactionCreate = int Function(
+typedef TransactionCreate = status_and_error Function(
     Pointer<Utf8> address,
     Pointer<Utf8> amount,
     int priorityRaw,
@@ -99,7 +99,7 @@ typedef TransactionCreate = int Function(
     Pointer<Utf8Box> error,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
-typedef TransactionCommit = int Function(
+typedef TransactionCommit = status_and_error Function(
     Pointer<PendingTransactionRaw>, Pointer<Utf8Box>);
 
 typedef TransactionEstimateFee = int Function(int priorityRaw, int recipients);
@@ -108,7 +108,7 @@ typedef StakeCount = int Function();
 
 typedef StakeGetAll = Pointer<Int64> Function();
 
-typedef StakeCreate = int Function(
+typedef StakeCreate = status_and_error Function(
     Pointer<Utf8> masterNodeKey,
     Pointer<Utf8> amount,
     Pointer<Utf8Box> error,
@@ -116,7 +116,7 @@ typedef StakeCreate = int Function(
 
 typedef CanRequestUnstake = int Function(Pointer<Utf8> masterNodeKey);
 
-typedef SubmitStakeUnlock = int Function(Pointer<Utf8> masterNodeKey,
+typedef SubmitStakeUnlock = status_and_error Function(Pointer<Utf8> masterNodeKey,
     Pointer<Utf8Box> error, Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef SecretViewKey = Pointer<Utf8> Function();

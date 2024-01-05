@@ -1,6 +1,6 @@
+import 'package:beldex_wallet/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -10,7 +10,7 @@ import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart'
 
 class SeedLanguage extends BasePage {
   @override
-  String get title => S.current.selectLanguage;
+  String getTitle (AppLocalizations t)=> t.selectLanguage;
 
   @override
   Widget trailing(BuildContext context) {
@@ -27,22 +27,24 @@ class SeedLanguageRoute extends StatefulWidget {
 }
 
 class _SeedLanguageState extends State<SeedLanguageRoute> {
-  final List<String> seedLocales = [
-    S.current.seed_language_english,
-    //S.current.seed_language_chinese,
-    'Chinese (simplified)',
-    S.current.seed_language_dutch,
-    S.current.seed_language_german,
-    S.current.seed_language_japanese,
-    S.current.seed_language_portuguese,
-    S.current.seed_language_russian,
-    S.current.seed_language_spanish,
-    S.current.seed_language_french,
-    S.current.seed_language_italian
-  ];
+  List<String> getSeedLocales(AppLocalizations t){
+    return [
+      t.seed_language_english,
+      'Chinese (simplified)',
+      t.seed_language_dutch,
+      t.seed_language_german,
+      t.seed_language_japanese,
+      t.seed_language_portuguese,
+      t.seed_language_russian,
+      t.seed_language_spanish,
+      t.seed_language_french,
+      t.seed_language_italian
+    ];
+  }
   int _selectedIndex = 0;
 
   void _onSelected(int index) {
+    final seedLocales = getSeedLocales(tr(context));
     final seedLanguageStore = context.read<SeedLanguageStore>();
     setState(() {
       _selectedIndex = index;
@@ -74,7 +76,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
             child: Column(
               children: [
                 Text(
-                  S.of(context).chooseSeedLanguage,
+                  tr(context).chooseSeedLanguage,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
                 ),
@@ -95,7 +97,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
                             ? Color(0xff3A3A45)
                             : Color(0xffC2C2C2),
                         radius: Radius.circular(10.0),
-                        isAlwaysShown: true,
+                        thumbVisibility: true,
                         child: Container(
                           margin: EdgeInsets.only(right: 8),
                           color: settingsStore.isDarkTheme
@@ -106,6 +108,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
                               scrollDirection: Axis.vertical,
                               itemCount: seedLanguages.length,
                               itemBuilder: (BuildContext context, int index) {
+                                final seedLocales = getSeedLocales(tr(context));
                                 return InkWell(
                                   splashColor: Colors.transparent,
                                   onTap: () {
@@ -166,14 +169,15 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
         child: PrimaryButton(
             onPressed: () {
               if (_selectedIndex == 0) {
+                final seedLocales = getSeedLocales(tr(context));
                 seedLanguageStore.setSelectedSeedLanguage(seedLocales[_selectedIndex]);
               }
               Navigator.of(context).popAndPushNamed(seedLanguageStore.currentRoute);
             },
-            text: S.of(context).seed_language_next,
-            color: Theme.of(context).primaryTextTheme.button.backgroundColor,
+            text: tr(context).seed_language_next,
+            color: Theme.of(context).primaryTextTheme.button?.backgroundColor,
             borderColor:
-                Theme.of(context).primaryTextTheme.button.backgroundColor),
+                Theme.of(context).primaryTextTheme.button?.backgroundColor),
       ),
     );
   }

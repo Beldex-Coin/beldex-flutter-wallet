@@ -1,4 +1,5 @@
 import 'package:beldex_coin/wallet.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/get_height_by_date.dart';
 import 'package:beldex_wallet/src/widgets/nospaceformatter.dart';
@@ -11,7 +12,6 @@ import 'package:provider/provider.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/src/stores/rescan/rescan_wallet_store.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //blockheight widget's property
@@ -27,7 +27,7 @@ class RescanPage extends BasePage {
   final blockchainKey = GlobalKey<_BlockHeightSwapingWidgetState>();
 
   @override
-  String get title => '${S.current.rescan} wallet';
+  String getTitle(AppLocalizations t) => '${t.rescan} wallet';
 
   @override
   Widget trailing(BuildContext context) {
@@ -58,9 +58,9 @@ class RescanPage extends BasePage {
         bottomSection: Observer(
             builder: (_) => LoadingPrimaryButton(
                 isLoading: rescanWalletStore.state == RescanWalletState.rescaning,
-                text: S.of(context).rescan,
+                text: tr(context).rescan,
                 onPressed: () async {
-                  if (_formKey.currentState.validate()) {
+                  if (_formKey.currentState?.validate() ?? false) {
                     print('block height ---> $height');
                     await rescanWalletStore.rescanCurrentWallet(
                         restoreHeight: height);
@@ -70,9 +70,8 @@ class RescanPage extends BasePage {
                     return null;
                   }
                 },
-                color: Theme.of(context).primaryTextTheme.button.backgroundColor,
-                borderColor:
-                    Theme.of(context).primaryTextTheme.button.backgroundColor)),
+                color:  Color.fromARGB(255,46, 160, 33),
+                borderColor: Color.fromARGB(255,46, 160, 33))),
       ),
     );
   }
@@ -84,7 +83,7 @@ class RescanPage extends BasePage {
 }
 
 class BlockHeightSwapingWidget extends StatefulWidget {
-  const BlockHeightSwapingWidget({Key key}) : super(key: key);
+  const BlockHeightSwapingWidget({Key? key}) : super(key: key);
 
   @override
   State<BlockHeightSwapingWidget> createState() =>
@@ -101,7 +100,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
   void initState() {
     restoreHeightController.addListener(() => _height =
         restoreHeightController.text != null
-            ? int.parse(restoreHeightController.text, onError: (source) => 0)
+            ? int.parse(restoreHeightController.text)
             : 0);
     super.initState();
   }
@@ -168,13 +167,13 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
                             hintText:
-                                S.of(context).widgets_restore_from_blockheight,
+                                tr(context).widgets_restore_from_blockheight,
                           ),
                           validator: (value) {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
-                            if (!pattern.hasMatch(value)) {
-                              return S.of(context).enterValidHeightWithoutSpace;
-                            }else if(!checkCurrentHeight(value)){
+                            if (!pattern.hasMatch(value!)) {
+                              return tr(context).enterValidHeightWithoutSpace;
+                            }else if(!checkCurrentHeight(value!)){
                               return 'Please enter a valid Height';
                             }else {
                               return null;
@@ -232,15 +231,13 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xff77778B)
                                               : Color(0xff77778B)),
-                                      hintText: S
-                                          .of(context)
+                                      hintText: tr(context)
                                           .widgets_restore_from_date,
                                     ),
                                     controller: dateController,
                                     validator: (value) {
-                                      if (value.isEmpty) {
-                                        return S
-                                            .of(context)
+                                      if (value?.isEmpty != null) {
+                                        return tr(context)
                                             .dateShouldNotBeEmpty;
                                       } else {
                                         return null;
@@ -281,8 +278,8 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                     children: [
                       Text(
                           isRestoreByHeight
-                              ? S.of(context).widgets_restore_from_date
-                              : S.of(context).widgets_restore_from_blockheight,
+                              ? tr(context).widgets_restore_from_date
+                              : tr(context).widgets_restore_from_blockheight,
                           style: TextStyle(
                               color: Color(0xffffffff),
                               fontSize: 14,

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
 import 'package:beldex_coin/stake.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
@@ -16,6 +15,8 @@ import 'package:beldex_wallet/src/widgets/nav/nav_list_header.dart';
 import 'package:beldex_wallet/src/widgets/nav/nav_list_trailing.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../../l10n.dart';
 
 extension StakeParsing on StakeRow {
   double get ownedPercentage {
@@ -44,7 +45,7 @@ class StakePage extends BasePage {
 }
 
 class StakePageBody extends StatefulWidget {
-  StakePageBody({Key key}) : super(key: key);
+  StakePageBody({Key? key}) : super(key: key);
 
   @override
   StakePageBodyState createState() => StakePageBodyState();
@@ -58,6 +59,7 @@ class StakePageBodyState extends State<StakePageBody> {
 
   @override
   Widget build(BuildContext context) {
+    final t = tr(context);
     return SingleChildScrollView(
         child: FutureBuilder<List<StakeRow>>(
       future: getAllStakes(),
@@ -73,10 +75,10 @@ class StakePageBodyState extends State<StakePageBody> {
                   )),
             );
           }
-          final allStakes = snapshot.data;
+          final allStakes = snapshot.data!;
           final stakeColor = allStakes.isEmpty
-              ? Theme.of(context).primaryTextTheme.button.backgroundColor
-              : Theme.of(context).accentTextTheme.caption.decorationColor;
+              ? Theme.of(context).primaryTextTheme.button?.backgroundColor
+              : Theme.of(context).textTheme.caption?.decorationColor;
           var totalAmountStaked = 0;
           for (final stake in allStakes) {
             totalAmountStaked += stake.amount;
@@ -99,7 +101,7 @@ class StakePageBodyState extends State<StakePageBody> {
                         child: CircularProgressIndicator(
                           strokeWidth: 15,
                           value: stakePercentage,
-                          valueColor: AlwaysStoppedAnimation<Color>(stakeColor),
+                          valueColor: AlwaysStoppedAnimation<Color>(stakeColor!),
                         ),
                       ),
                     ),
@@ -107,7 +109,7 @@ class StakePageBodyState extends State<StakePageBody> {
                         child: Text(allStakes.isNotEmpty
                             ? belDexAmountToString(totalAmountStaked,
                                 detail: AmountDetail.none)
-                            : S.current.nothing_staked)),
+                            : t.nothing_staked)),
                   ],
                 ),
               ),
@@ -127,13 +129,13 @@ class StakePageBodyState extends State<StakePageBody> {
                               .pushNamed(Routes.newStake),
                     ),
                     Text(allStakes.isEmpty
-                        ? S.current.start_staking
-                        : S.current.stake_more)
+                        ? t.start_staking
+                        : t.stake_more)
                   ],
                 ),
               ),
               if (allStakes.isNotEmpty)
-                NavListHeader(title: S.current.your_contributions),
+                NavListHeader(title: t.your_contributions),
               if (allStakes.isNotEmpty)
                 ListView.builder(
                     shrinkWrap: true,
@@ -152,7 +154,7 @@ class StakePageBodyState extends State<StakePageBody> {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
                                 content:
-                                    Text(S.of(context).unable_unlock_stake),
+                                    Text(t.unable_unlock_stake),
                                 backgroundColor: Colors.red,
                               ));
                               return false;
@@ -172,8 +174,8 @@ class StakePageBodyState extends State<StakePageBody> {
                             if (isAuthenticated) {
                               await showConfirmBeldexDialog(
                                   context,
-                                  S.of(context).title_confirm_unlock_stake,
-                                  S.of(context).body_confirm_unlock_stake(
+                                  t.title_confirm_unlock_stake,
+                                  t.body_confirm_unlock_stake(
                                       stake.masterNodeKey),
                                   onDismiss: (buildContext) {
                                 isSuccessful = false;
@@ -190,7 +192,7 @@ class StakePageBodyState extends State<StakePageBody> {
                             await submitStakeUnlock(stake.masterNodeKey);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content:
-                                  Text(S.of(context).unlock_stake_requested),
+                                  Text(t.unlock_stake_requested),
                               backgroundColor: Colors.green,
                             ));
                           },
@@ -239,14 +241,8 @@ class StakePageBodyState extends State<StakePageBody> {
                 height: 400,
                 child: Center(
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context)
-                        .primaryTextTheme
-                        .button
-                        .backgroundColor),
-                    backgroundColor: Theme.of(context)
-                        .accentTextTheme
-                        .caption
-                        .decorationColor,
+                    valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryTextTheme.button!.backgroundColor!),
+                    backgroundColor: Theme.of(context).textTheme.caption!.decorationColor,
                   ),
                 )),
           );

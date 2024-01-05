@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 
 abstract class WalletRestorationState {}
 
@@ -9,7 +8,7 @@ class WalletIsRestoring extends WalletRestorationState {}
 class WalletRestoredSuccessfully extends WalletRestorationState {}
 
 class WalletRestorationFailure extends WalletRestorationState {
-  WalletRestorationFailure({@required this.error});
+  WalletRestorationFailure({required this.error});
 
   String error;
 }

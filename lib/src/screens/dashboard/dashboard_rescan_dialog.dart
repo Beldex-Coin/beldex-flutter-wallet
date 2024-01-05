@@ -7,10 +7,11 @@ import 'package:beldex_wallet/src/util/network_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+
+import '../../../l10n.dart';
 
 class DashBoardAlertDialog extends StatefulWidget {
-  const DashBoardAlertDialog({Key key}) : super(key: key);
+  const DashBoardAlertDialog({Key? key}) : super(key: key);
 
   @override
   State<DashBoardAlertDialog> createState() => _DashBoardAlertDialogState();
@@ -42,7 +43,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              S.of(context).rescan,
+              tr(context).rescan,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(
@@ -57,7 +58,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Text(
-                S.of(context).reconnectWallet,
+                tr(context).reconnectWallet,
                 style: TextStyle(
                     fontSize: 16,
                     color: Colors.white,
@@ -90,7 +91,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
                 child: Text(
-                  S.of(context).rescanWallet,
+                  tr(context).rescanWallet,
                   style: TextStyle(
                       fontSize: 16,
                       color: canRescan

@@ -30,7 +30,7 @@ Future<Map<String, dynamic>> sendSignatureRequest(String method,
   return resultBody;
 }*/
 class Signature {
-  Signature({@required this.jsonrpc, @required this.id,@required this.method,@required this.params});
+  Signature({required this.jsonrpc, required this.id,required this.method,required this.params});
   String jsonrpc;
   String id;
   String method;
@@ -43,7 +43,7 @@ class Signature {
   };
 }
 
-Future<Map<String,dynamic>> getSignature() async {
+Future<Map<String,dynamic>?> getSignature() async {
   print('url --> 1');
   final signatureResponseBody = await callSignatureApiService('getCurrenciesFull');
   print('url --> 4');
@@ -56,12 +56,12 @@ Future<Map<String,dynamic>> getSignature() async {
 }
 
 Future<Map<String, dynamic>> callSignatureApiService(String method,
-    {Map<String,dynamic> params}) async {
+    {Map<String,dynamic>? params}) async {
   Map<String, dynamic> resultBody;
 
   final requestBody = params != null
       ? Signature(jsonrpc: '2.0',id: 'test',method: method,params: params)
-      : Signature(jsonrpc: '2.0',id: 'test',method: method,params: {});
+      : Signature(jsonrpc: '2.0',id: 'test',method: method,params: {"id":0});
 
   final url = Uri.parse('https://api.beldex.io/api/v1/swap');
   print('url --> $url');
@@ -75,12 +75,12 @@ Future<Map<String, dynamic>> callSignatureApiService(String method,
 }
 
 Future<Map<String, dynamic>> callGetCurrenciesFullApiService(String method,String signature,
-    {Map params}) async {
+    {Map? params}) async {
   Map<String, dynamic> resultBody;
 
   final requestBody = params != null
       ? {'jsonrpc': '2.0', 'id': 'test', 'method': method, 'params': params}
-      : {'jsonrpc': '2.0', 'id': 'test', 'method': method, 'params': Object};
+      : {'jsonrpc': '2.0', 'id': 'test', 'method': method, 'params': {"id":0}};
   final url = Uri.parse('https://api.changelly.com/v2');
   print('url --> $url');
   final headers = {'Content-type': 'application/json','X-Api-Key': '+kLt3F2TMo8W2LbQSjs6IDaBG4O/VLZsRH+qnNX5FyU=',

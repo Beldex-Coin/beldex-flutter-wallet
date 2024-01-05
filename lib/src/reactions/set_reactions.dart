@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:beldex_wallet/src/node/node.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
@@ -12,19 +11,19 @@ import 'package:beldex_wallet/src/stores/price/price_store.dart';
 import 'package:beldex_wallet/src/stores/authentication/authentication_store.dart';
 import 'package:beldex_wallet/src/stores/login/login_store.dart';
 
-Timer _reconnectionTimer;
-ReactionDisposer _connectToNodeDisposer;
-ReactionDisposer _onSyncStatusChangeDisposer;
-ReactionDisposer _onCurrentWalletChangeDisposer;
+Timer? _reconnectionTimer;
+ReactionDisposer? _connectToNodeDisposer;
+ReactionDisposer? _onSyncStatusChangeDisposer;
+ReactionDisposer? _onCurrentWalletChangeDisposer;
 
 void setReactions(
-    {@required SettingsStore settingsStore,
-    @required PriceStore priceStore,
-    @required SyncStore syncStore,
-    @required WalletStore walletStore,
-    @required WalletService walletService,
-    @required AuthenticationStore authenticationStore,
-    @required LoginStore loginStore}) {
+    {required SettingsStore settingsStore,
+    required PriceStore priceStore,
+    required SyncStore syncStore,
+    required WalletStore walletStore,
+    required WalletService walletService,
+    required AuthenticationStore authenticationStore,
+    required LoginStore loginStore}) {
   connectToNode(settingsStore: settingsStore, walletStore: walletStore);
   onSyncStatusChange(
       syncStore: syncStore,
@@ -42,17 +41,17 @@ void setReactions(
   });
 }
 
-void connectToNode({SettingsStore settingsStore, WalletStore walletStore}) {
+void connectToNode({required SettingsStore settingsStore, required WalletStore walletStore}) {
   _connectToNodeDisposer?.call();
 
   _connectToNodeDisposer = reaction((_) => settingsStore.node,
-      (Node node) async => await walletStore.connectToNode(node: node));
+      (Node? node) async => await walletStore.connectToNode(node: node));
 }
 
 void onCurrentWalletChange(
-    {WalletStore walletStore,
-    SettingsStore settingsStore,
-    PriceStore priceStore}) {
+    {required WalletStore walletStore,
+    required SettingsStore settingsStore,
+    required PriceStore priceStore}) {
   _onCurrentWalletChangeDisposer?.call();
 
 //_onCurrentWalletChangeDisposer = 
@@ -63,9 +62,9 @@ reaction((_) => walletStore.name, (String _) {
 }
 
 void onSyncStatusChange(
-    {SyncStore syncStore,
-    WalletStore walletStore,
-    SettingsStore settingsStore}) {
+    {required SyncStore syncStore,
+    required WalletStore walletStore,
+    required SettingsStore settingsStore}) {
   _onSyncStatusChangeDisposer?.call();
 
 // _onSyncStatusChangeDisposer =
@@ -81,13 +80,12 @@ void onSyncStatusChange(
   });
 }
 
-void startReconnectionObserver({SyncStore syncStore, WalletStore walletStore}) {
+void startReconnectionObserver({required SyncStore syncStore, required WalletStore walletStore}) {
   _reconnectionTimer?.cancel();
   _reconnectionTimer = Timer.periodic(Duration(seconds: 1060), (_) async {
     try {
       final isConnected = await walletStore.isConnected();
-
-      if (!isConnected) {
+      if (isConnected !=null && !isConnected) {
         await walletStore.reconnect();
       }
     } catch (e) {

@@ -5,35 +5,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+
+import '../../../l10n.dart';
 Future showSimpleConfirmDialog(
-    BuildContext context, String title, String body, String fee, String address,
-    {String buttonText,
-    void Function(BuildContext context) onPressed,
-    void Function(BuildContext context) onDismiss}) {
+    BuildContext context, String? title, String? body, String? fee, String address,
+    {String? buttonText,
+    required void Function(BuildContext context) onPressed,
+    void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
       builder: (_) => ConfirmSending(title, body, fee, address,
-          buttonText: buttonText, onDismiss: onDismiss, onPressed: onPressed),
+          buttonText: buttonText!, onDismiss: onDismiss!, onPressed: onPressed),
       context: context);
 }
 
 Future showDialogTransactionSuccessfully(
     BuildContext context, {
-    void Function(BuildContext context) onPressed,
-    void Function(BuildContext context) onDismiss}) {
+    required void Function(BuildContext context) onPressed,
+    void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
-      builder: (_) => SendTransactionSuccessfully(onDismiss: onDismiss, onPressed: onPressed),
+      builder: (_) => SendTransactionSuccessfully(onDismiss: onDismiss!, onPressed: onPressed),
       context: context);
 }
 
 Future showDetailsAfterSendSuccessfully(
     BuildContext context, String title, String body, String fee, String address,
-    {String buttonText,
-    void Function(BuildContext context) onPressed,
-    void Function(BuildContext context) onDismiss}) {
+    {String? buttonText,
+    required void Function(BuildContext context) onPressed,
+    void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
       builder: (_) => SendDetailsAfterTransaction(title, body, fee, address,
-          buttonText: buttonText, onDismiss: onDismiss, onPressed: onPressed),
+          buttonText: buttonText!, onDismiss: onDismiss!, onPressed: onPressed),
       context: context);
 }
 
@@ -52,9 +53,9 @@ class SendDetailsAfterTransaction extends StatelessWidget {
   final String body;
   final String fee;
   final String address;
-  final String buttonText;
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
+  final String? buttonText;
+  final void Function(BuildContext context)? onPressed;
+  final void Function(BuildContext context)? onDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -179,11 +180,11 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                 child: GestureDetector(
                                     onTap: () {
                                       if (onDismiss != null) {
-                                        onDismiss(context);
+                                        onDismiss!(context);
                                       }
                                     },
                                     child: Center(
-                                        child: Text(S.of(context).cancel,
+                                        child: Text(tr(context).cancel,
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight:
@@ -199,12 +200,12 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                 child: GestureDetector(
                                     onTap: () {
                                       if (onPressed != null) {
-                                        onPressed(context);
+                                        onPressed!(context);
                                       }
                                     },
                                     child: Center(
                                         child: Text(
-                                      S.of(context).ok,
+                                      tr(context).ok,
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
@@ -240,9 +241,9 @@ class TransactionSendDetails extends StatelessWidget {
   final String body;
   final String fee;
   final String address;
-  final String buttonText;
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
+  final String? buttonText;
+  final void Function(BuildContext context)? onPressed;
+  final void Function(BuildContext context)? onDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -287,7 +288,7 @@ class TransactionSendDetails extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Text(
-                                    S.of(context).amount,
+                                    tr(context).amount,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700),
@@ -335,7 +336,7 @@ class TransactionSendDetails extends StatelessWidget {
                               mainAxisAlignment:
                                   MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(S.of(context).widgets_address),
+                                Text(tr(context).widgets_address),
                                 Container(
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
@@ -368,11 +369,11 @@ class TransactionSendDetails extends StatelessWidget {
                                 child: GestureDetector(
                                     onTap: () {
                                       if (onDismiss != null) {
-                                        onDismiss(context);
+                                        onDismiss!(context);
                                       }
                                     },
                                     child: Center(
-                                        child: Text(S.of(context).cancel,
+                                        child: Text(tr(context).cancel,
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight:
@@ -388,12 +389,12 @@ class TransactionSendDetails extends StatelessWidget {
                                 child: GestureDetector(
                                     onTap: () {
                                       if (onPressed != null) {
-                                        onPressed(context);
+                                        onPressed!(context);
                                       }
                                     },
                                     child: Center(
                                         child: Text(
-                                      S.of(context).ok,
+                                      tr(context).ok,
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
@@ -419,8 +420,8 @@ class SendTransactionSuccessfully extends StatefulWidget {
     this.onPressed,
     this.onDismiss,
   });
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
+  final void Function(BuildContext context)? onPressed;
+  final void Function(BuildContext context)? onDismiss;
 
   @override
   _SendTransactionSuccessfullyState createState() =>
@@ -503,7 +504,7 @@ class _SendTransactionSuccessfullyState
                                 )
                             ),
                         Text(
-                          S.of(context).transactionInitiatedSuccessfully,
+                          tr(context).transactionInitiatedSuccessfully,
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w900),
                         )
@@ -536,13 +537,13 @@ class ConfirmSending extends StatelessWidget {
     this.onDismiss,
   });
 
-  final String title;
-  final String body;
-  final String fee;
+  final String? title;
+  final String? body;
+  final String? fee;
   final String address;
-  final String buttonText;
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
+  final String? buttonText;
+  final void Function(BuildContext context)? onPressed;
+  final void Function(BuildContext context)? onDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -571,7 +572,7 @@ class ConfirmSending extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
-                          child: Text(title,
+                          child: Text(title ?? "",
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w800)),
                         ),
@@ -587,7 +588,7 @@ class ConfirmSending extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Text(
-                                    S.of(context).transaction_details_amount,
+                                    tr(context).transaction_details_amount,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700),
@@ -598,7 +599,7 @@ class ConfirmSending extends StatelessWidget {
                                     child: Container(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Text(
-                                    body,
+                                    body ?? "",
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.bold,),
@@ -633,7 +634,7 @@ class ConfirmSending extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text('${S.of(context).restore_address}:',style: TextStyle(fontWeight:FontWeight.bold)),
+                                Text('${tr(context).restore_address}:',style: TextStyle(fontWeight:FontWeight.bold)),
                                 Container(
                                   margin: EdgeInsets.only(top:5,bottom:5),
                                     padding: EdgeInsets.all(10),
@@ -661,7 +662,7 @@ class ConfirmSending extends StatelessWidget {
                                  child: ElevatedButton(
                             onPressed: (){
                                  if (onDismiss != null) {
-                                          onDismiss(context);
+                                          onDismiss!(context);
                                         }
                             },
                             style: ElevatedButton.styleFrom(
@@ -673,7 +674,7 @@ class ConfirmSending extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            child:Text(S.of(context).cancel,
+                            child:Text(tr(context).cancel,
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
@@ -688,7 +689,7 @@ class ConfirmSending extends StatelessWidget {
                                 child: ElevatedButton(
                             onPressed: (){
                                   if (onPressed != null) {
-                                          onPressed(context);
+                                          onPressed!(context);
                                         }
                             },
                             style: ElevatedButton.styleFrom(
@@ -699,7 +700,7 @@ class ConfirmSending extends StatelessWidget {
                                 ),
                             ),
                             child:Text(
-                                        S.of(context).ok,
+                                        tr(context).ok,
                                         style: TextStyle(
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold,
@@ -722,7 +723,7 @@ class ConfirmSending extends StatelessWidget {
                               //         }
                               //       },
                               //       child: Center(
-                              //           child: Text(S.of(context).cancel,
+                              //           child: Text(tr(context).cancel,
                               //               style: TextStyle(
                               //                   fontSize: 15,
                               //                   fontWeight:
@@ -743,7 +744,7 @@ class ConfirmSending extends StatelessWidget {
                               //       },
                               //       child: Center(
                               //           child: Text(
-                              //         S.of(context).ok,
+                              //         tr(context).ok,
                               //         style: TextStyle(
                               //             fontSize: 15,
                               //             fontWeight: FontWeight.bold,

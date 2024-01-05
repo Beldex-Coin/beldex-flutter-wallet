@@ -33,14 +33,14 @@ Future<PendingTransactionDescription> createStake(
         {'master_node_key': masterNodeKey, 'amount': amount});
 
 bool canRequestUnstake(String masterNodeKey) {
-  final masterNodeKeyPointer = Utf8.toUtf8(masterNodeKey);
+  final masterNodeKeyPointer = masterNodeKey.toNativeUtf8();
   return stake_native.canRequestUnstakeNative(masterNodeKeyPointer) != 0;
 }
 
-PendingTransactionDescription _submitStakeUnlockSync(Map args) {
+void _submitStakeUnlockSync(Map args) {
   final masterNodeKey = args['master_node_key'] as String;
-  return stake_native.submitStakeUnlockSync(masterNodeKey);
+  stake_native.submitStakeUnlockSync(masterNodeKey);
 }
 
-Future<PendingTransactionDescription> submitStakeUnlock(String masterNodeKey) =>
+Future<void> submitStakeUnlock(String masterNodeKey) =>
     compute(_submitStakeUnlockSync, {'master_node_key': masterNodeKey});

@@ -43,9 +43,9 @@ class TransactionInfo {
   final bool isPending;
  // final bool isStake;
   final int amount;
-  String recipientAddress;
+  String? recipientAddress;
 
-  String _fiatAmount;
+  String? _fiatAmount;
 
   String amountFormatted() => '${belDexAmountToString(amount)} BDX';
 

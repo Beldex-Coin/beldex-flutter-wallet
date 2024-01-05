@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/account_list/account_list_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
@@ -14,7 +14,7 @@ import 'package:beldex_wallet/src/util/constants.dart' as constants;
 class AccountPage extends BasePage {
   AccountPage({this.account});
 
-  final Account account;
+  final Account? account;
 
   @override
   Widget trailing(BuildContext context) {
@@ -22,7 +22,7 @@ class AccountPage extends BasePage {
   }
 
   @override
-  String get title => S.current.account;
+  String getTitle(AppLocalizations t) => t.account;
 
   @override
   Widget body(BuildContext context) => AccountForm(account);
@@ -31,7 +31,7 @@ class AccountPage extends BasePage {
 class AccountForm extends StatefulWidget {
   AccountForm(this.account);
 
-  final Account account;
+  final Account? account;
 
   @override
   AccountFormState createState() => AccountFormState();
@@ -43,7 +43,9 @@ class AccountFormState extends State<AccountForm> {
 
   @override
   void initState() {
-    if (widget.account != null) _textController.text = widget.account.label;
+    if (widget.account != null){
+      _textController.text = widget.account?.label ?? "";
+    }
     super.initState();
   }
 
@@ -70,10 +72,10 @@ class AccountFormState extends State<AccountForm> {
               children: <Widget>[
                 Center(
                   child: BeldexTextField(
-                    hintText: S.of(context).account,
+                    hintText: tr(context).account,
                     controller: _textController,
                     validator: (value) {
-                      accountListStore.validateAccountName(value);
+                      accountListStore.validateAccountName(value!);
                       return accountListStore.errorMessage;
                     },
                   ),
@@ -86,13 +88,13 @@ class AccountFormState extends State<AccountForm> {
                 width: 250,
                 child: LoadingPrimaryButton(
                   onPressed: () async {
-                    if (!_formKey.currentState.validate()) {
+                    if (!(_formKey.currentState?.validate() ?? false)) {
                       return;
                     }
 
                     if (widget.account != null) {
                       await accountListStore.renameAccount(
-                          index: widget.account.id,
+                          index: widget.account!.id,
                           label: _textController.text);
                     } else {
                       await accountListStore.addAccount(
@@ -101,12 +103,10 @@ class AccountFormState extends State<AccountForm> {
                     Navigator.of(context).pop(_textController.text);
                   },
                   text: widget.account != null
-                      ? S.of(context).rename
-                      : S.of(context).add,
-                  color:
-                      Theme.of(context).primaryTextTheme.button.backgroundColor,
-                  borderColor:
-                      Theme.of(context).primaryTextTheme.button.backgroundColor,
+                      ? tr(context).rename
+                      : tr(context).add,
+                  color: Color.fromARGB(255,46, 160, 33),//Theme.of(context).primaryTextTheme.button?.backgroundColor!,
+                  borderColor: Color.fromARGB(255,46, 160, 33),//Theme.of(context).primaryTextTheme.button!?.backgroundColor!,
                   isLoading: accountListStore.isAccountCreating,
                 ),
               )),

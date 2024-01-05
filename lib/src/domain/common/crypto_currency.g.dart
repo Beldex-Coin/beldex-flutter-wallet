@@ -16,12 +16,12 @@ class CryptoCurrencyAdapter extends TypeAdapter<CryptoCurrency> {
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return CryptoCurrency();
+    return CryptoCurrency(title: 'BDX', raw: 0);
   }
 
   @override
   void write(BinaryWriter writer, CryptoCurrency obj) {
-    writer..writeByte(0);
+    writer.writeByte(0);
   }
 
   @override

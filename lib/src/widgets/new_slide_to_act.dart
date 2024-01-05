@@ -7,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 
 class NewSlideToAct extends StatefulWidget {
   const NewSlideToAct({
-    Key key,
+    Key? key,
     this.sliderButtonIconSize = 24,
     this.sliderButtonIconPadding = 16,
     this.sliderButtonYOffset = 0,
@@ -37,37 +37,37 @@ class NewSlideToAct extends StatefulWidget {
   final double sliderButtonYOffset;
 
   /// The child that is rendered instead of the default Text widget
-  final Widget child;
+  final Widget? child;
 
   /// The height of the component
   final double height;
 
   /// The color of the inner circular button, of the tick icon of the text.
   /// If not set, this attribute defaults to primaryIconTheme.
-  final Color innerColor;
+  final Color? innerColor;
 
   /// The color of the external area and of the arrow icon.
   /// If not set, this attribute defaults to accentColor from your theme.
-  final Color outerColor;
+  final Color? outerColor;
 
   /// The text showed in the default Text widget
-  final String text;
+  final String? text;
 
   /// The borderRadius of the sliding icon and of the background
   final double borderRadius;
 
   /// Callback called on submit
-  final Future Function() onFutureSubmit;
-  final VoidCallback onSubmit;
+  final Future Function()? onFutureSubmit;
+  final VoidCallback? onSubmit;
 
   /// Elevation of the component
-  final double elevation;
+  final double? elevation;
 
   /// The widget to render instead of the default icon
-  final Widget sliderButtonIcon;
+  final Widget? sliderButtonIcon;
 
   /// The widget to render instead of the default submitted icon
-  final Widget submittedIcon;
+  final Widget? submittedIcon;
 
   /// The duration of the animations
   final Duration animationDuration;
@@ -92,14 +92,14 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
   double get _progress => _dx == 0 ? 0 : _dx / _maxDx;
   double _endDx = 0;
   double _dz = 1;
-  double _initialContainerWidth, _containerWidth;
+  double? _initialContainerWidth, _containerWidth;
   double _checkAnimationDx = 0;
   bool submitted = false;
-  AnimationController _checkAnimationController,
+  AnimationController? _checkAnimationController,
       _shrinkAnimationController,
       _resizeAnimationController,
       _cancelAnimationController;
-  AnimationController animationController;
+  AnimationController? animationController;
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +144,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
                         alignment: Alignment.centerRight,
                         child: Container(
                           color: widget.outerColor ??
-                              Theme.of(context).accentColor,
+                              Theme.of(context).floatingActionButtonTheme.foregroundColor,
                         ),
                       ),
                     ),
@@ -159,7 +159,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
                 Positioned(
                   bottom: 30.0,
                   child: AnimatedBuilder(
-                      animation: animationController,
+                      animation: animationController!,
                       builder: (context, child) {
                         return Container(
                           decoration: ShapeDecoration(
@@ -167,7 +167,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
                           ),
                           child: Padding(
                             padding: EdgeInsets.all(
-                                8.0 * animationController.value),
+                                8.0 * animationController!.value),
                             child: child,
                           ),
                         );},
@@ -186,9 +186,9 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
                                 await _cancelAnimation();
                               } else {
                                 if (widget.onFutureSubmit != null) {
-                                  await widget.onFutureSubmit();
+                                  await widget.onFutureSubmit!();
                                 } else if (widget.onSubmit != null) {
-                                  widget.onSubmit();
+                                  widget.onSubmit!();
                                 }
                                 await _cancelAnimation();
                               }
@@ -236,7 +236,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
 // this height forces the container to be a circle
                                       child: SvgPicture.asset(
                                         'assets/images/up_arrow_svg.svg',
-                                        color: Theme.of(context).primaryTextTheme.caption.color,
+                                        color: Theme.of(context).primaryTextTheme.caption!.color,
                                         width: 25,
                                         height: 25,
                                       ),
@@ -256,12 +256,13 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
                 ),
                 Positioned(
                   bottom: 0,
-                  child: Text(widget.text,
+                  child: Text(widget.text!,
                       style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         fontSize: 17,
                         fontWeight: FontWeight.w600,
                         color: Colors
-                            .grey, //Theme.of(context).accentTextTheme.overline.backgroundColor,
+                            .grey, //Theme.of(context).textTheme.overline.backgroundColor,
                       )),
                 ),
               ],
@@ -280,25 +281,25 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
 
   /// Call this method to revert the animations
   Future reset() async {
-    await _checkAnimationController.reverse().orCancel;
+    await _checkAnimationController?.reverse().orCancel;
 
     submitted = false;
 
-    await _shrinkAnimationController.reverse().orCancel;
+    await _shrinkAnimationController?.reverse().orCancel;
 
-    await _resizeAnimationController.reverse().orCancel;
+    await _resizeAnimationController?.reverse().orCancel;
 
     await _cancelAnimation();
   }
 
   Future _checkAnimation() async {
-    _checkAnimationController.reset();
+    _checkAnimationController?.reset();
 
     final animation = Tween<double>(
       begin: 0,
       end: 1,
     ).animate(CurvedAnimation(
-      parent: _checkAnimationController,
+      parent: _checkAnimationController!,
       curve: Curves.slowMiddle,
     ));
 
@@ -309,25 +310,25 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
         });
       }
     });
-    await _checkAnimationController.forward().orCancel;
+    await _checkAnimationController?.forward().orCancel;
   }
 
   Future _shrinkAnimation() async {
-    _shrinkAnimationController.reset();
+    _shrinkAnimationController?.reset();
 
-    final diff = _initialContainerWidth - widget.height;
+    final diff = _initialContainerWidth! - widget.height;
     final animation = Tween<double>(
       begin: 0,
       end: 1,
     ).animate(CurvedAnimation(
-      parent: _shrinkAnimationController,
+      parent: _shrinkAnimationController!,
       curve: Curves.easeOutCirc,
     ));
 
     animation.addListener(() {
       if (mounted) {
         setState(() {
-          _containerWidth = _initialContainerWidth - (diff * animation.value);
+          _containerWidth = _initialContainerWidth! - (diff * animation.value);
         });
       }
     });
@@ -335,17 +336,17 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
     setState(() {
       submitted = true;
     });
-    await _shrinkAnimationController.forward().orCancel;
+    await _shrinkAnimationController?.forward().orCancel;
   }
 
   Future _resizeAnimation() async {
-    _resizeAnimationController.reset();
+    _resizeAnimationController?.reset();
 
     final animation = Tween<double>(
       begin: 0,
       end: 1,
     ).animate(CurvedAnimation(
-      parent: _resizeAnimationController,
+      parent: _resizeAnimationController!,
       curve: Curves.easeInBack,
     ));
 
@@ -356,16 +357,16 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
         });
       }
     });
-    await _resizeAnimationController.forward().orCancel;
+    await _resizeAnimationController?.forward().orCancel;
   }
 
   Future _cancelAnimation() async {
-    _cancelAnimationController.reset();
+    _cancelAnimationController!.reset();
     final animation = Tween<double>(
       begin: 0,
       end: 1,
     ).animate(CurvedAnimation(
-      parent: _cancelAnimationController,
+      parent: _cancelAnimationController!,
       curve: Curves.fastOutSlowIn,
     ));
 
@@ -376,7 +377,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
         });
       }
     });
-    await _cancelAnimationController.forward().orCancel;
+    await _cancelAnimationController?.forward().orCancel;
   }
 
   @override
@@ -403,16 +404,16 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final containerBox =
-      _containerKey.currentContext.findRenderObject() as RenderBox;
+      _containerKey.currentContext?.findRenderObject() as RenderBox;
       _containerWidth = containerBox.size.width;
       _initialContainerWidth = _containerWidth;
 
       final sliderBox =
-      _sliderKey.currentContext.findRenderObject() as RenderBox;
+      _sliderKey.currentContext?.findRenderObject() as RenderBox;
       final sliderWidth = sliderBox.size.width;
 
       _maxDx =
-          _containerWidth - (sliderWidth / 2) - 40 - widget.sliderButtonYOffset;
+          _containerWidth! - (sliderWidth / 2) - 40 - widget.sliderButtonYOffset;
     });
 
     animationController = AnimationController(
@@ -425,11 +426,11 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
 
   @override
   void dispose() {
-    _cancelAnimationController.dispose();
-    _checkAnimationController.dispose();
-    _shrinkAnimationController.dispose();
-    _resizeAnimationController.dispose();
-    animationController.dispose();
+    _cancelAnimationController?.dispose();
+    _checkAnimationController?.dispose();
+    _shrinkAnimationController?.dispose();
+    _resizeAnimationController?.dispose();
+    animationController!.dispose();
     super.dispose();
   }
 }

@@ -6,10 +6,10 @@ part of 'node_list_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$NodeListStore on NodeListBase, Store {
-  final _$nodesAtom = Atom(name: 'NodeListBase.nodes');
+  late final _$nodesAtom = Atom(name: 'NodeListBase.nodes', context: context);
 
   @override
   ObservableList<Node> get nodes {
@@ -24,7 +24,8 @@ mixin _$NodeListStore on NodeListBase, Store {
     });
   }
 
-  final _$isValidAtom = Atom(name: 'NodeListBase.isValid');
+  late final _$isValidAtom =
+      Atom(name: 'NodeListBase.isValid', context: context);
 
   @override
   bool get isValid {
@@ -39,45 +40,53 @@ mixin _$NodeListStore on NodeListBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: 'NodeListBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: 'NodeListBase.errorMessage', context: context);
 
   @override
-  String get errorMessage {
+  String? get errorMessage {
     _$errorMessageAtom.reportRead();
     return super.errorMessage;
   }
 
   @override
-  set errorMessage(String value) {
+  set errorMessage(String? value) {
     _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
       super.errorMessage = value;
     });
   }
 
-  final _$addNodeAsyncAction = AsyncAction('NodeListBase.addNode');
+  late final _$addNodeAsyncAction =
+      AsyncAction('NodeListBase.addNode', context: context);
 
   @override
   Future<dynamic> addNode(
-      {String address, String port, String login, String password}) {
+      {required String address,
+      String? port,
+      required String login,
+      required String password}) {
     return _$addNodeAsyncAction.run(() => super.addNode(
         address: address, port: port, login: login, password: password));
   }
 
-  final _$removeAsyncAction = AsyncAction('NodeListBase.remove');
+  late final _$removeAsyncAction =
+      AsyncAction('NodeListBase.remove', context: context);
 
   @override
-  Future<dynamic> remove({Node node}) {
+  Future<dynamic> remove({required Node node}) {
     return _$removeAsyncAction.run(() => super.remove(node: node));
   }
 
-  final _$resetAsyncAction = AsyncAction('NodeListBase.reset');
+  late final _$resetAsyncAction =
+      AsyncAction('NodeListBase.reset', context: context);
 
   @override
   Future<dynamic> reset() {
     return _$resetAsyncAction.run(() => super.reset());
   }
 
-  final _$NodeListBaseActionController = ActionController(name: 'NodeListBase');
+  late final _$NodeListBaseActionController =
+      ActionController(name: 'NodeListBase', context: context);
 
   @override
   void update() {

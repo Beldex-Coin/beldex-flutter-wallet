@@ -1,7 +1,7 @@
 import 'package:beldex_wallet/src/domain/common/enumerable_item.dart';
 
 class FiatCurrency extends EnumerableItem<String> with Serializable<String> {
-  const FiatCurrency({String symbol}) : super(title: symbol, raw: symbol);
+  const FiatCurrency({required String symbol}) : super(title: symbol, raw: symbol);
 
   @override
   bool operator ==(Object other) => other is FiatCurrency && other.raw == raw;

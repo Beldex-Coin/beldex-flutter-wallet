@@ -4,42 +4,44 @@ import 'package:ffi/ffi.dart';
 
 class TransactionInfoRow extends Struct {
   @Uint64()
-  int amount;
+  external int amount;
 
   @Uint64()
-  int fee;
+  external int fee;
 
   @Uint64()
-  int blockHeight;
+  external int blockHeight;
 
   @Uint64()
-  int confirmations;
+  external int confirmations;
 
   @Uint32()
-  int subaddrAccount;
+  external int subaddrAccount;
 
   @Int8()
-  int direction;
+  external int direction;
 
   @Int8()
-  int isPending;
+  external int isPending;
 
+  @Int8()
+  external int isStake;
 
-  // @Int8()
-  // int isStake;    
+  @Uint64()
+  external int transferAmount;
 
+  external Pointer<Utf8> hash;
 
-  Pointer<Utf8> hash;
-
-  Pointer<Utf8> paymentId;
+  external Pointer<Utf8> paymentId;
 
   @Int64()
-  int datetime;
+  external int datetime;
 
   int getDatetime() => datetime;
-  int getAmount() => amount >= 0 ? amount : amount * -1;
+  int getAmount() => amount >= 0 ? amount : amount;
+  int? getTransferAmount() => transferAmount > 0 ? transferAmount : transferAmount < 0 ? -amount : null;
+  int getFee() => fee >= 0 ? fee : -fee;
   bool getIsPending() => isPending != 0;
-  //bool getIsStake() => isStake != 0;
-  String getHash() => Utf8.fromUtf8(hash);
-  String getPaymentId() => Utf8.fromUtf8(paymentId);
+  String getHash() => hash.toDartString();
+  String getPaymentId() => paymentId.toDartString();
 }

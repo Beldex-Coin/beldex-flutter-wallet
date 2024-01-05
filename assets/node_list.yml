@@ -1,18 +1,12 @@
 -
   uri: publicnode1.rpcnode.stream:29095
-  is_default: true
 -
   uri: explorer.beldex.io:19091
-  is_default: false
 -
   uri: mainnet.beldex.io:29095
-  is_default: false
 -
   uri: publicnode2.rpcnode.stream:29095
-  is_default: false
 -
   uri: publicnode3.rpcnode.stream:29095
-  is_default: false
 -
   uri: publicnode4.rpcnode.stream:29095
-  is_default: false

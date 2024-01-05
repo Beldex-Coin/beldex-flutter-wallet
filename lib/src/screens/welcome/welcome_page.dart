@@ -1,7 +1,7 @@
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +48,7 @@ class WelcomePage extends BasePage {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        S.of(context).wallet_list_title,
+                        tr(context).wallet_list_title,
                         style: TextStyle(
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class WelcomePage extends BasePage {
                             ? 'assets/images/new-images/Empty_screen_image.svg'
                             : 'assets/images/new-images/Empty_screen_image_white.svg')),
                     Text(
-                      S.of(context).welcomeToBeldexWallet,
+                      tr(context).welcomeToBeldexWallet,
                       style: TextStyle(
                         fontSize: _screenHeight * 0.05 / 3,
                         fontWeight: FontWeight.w700,
@@ -75,8 +75,7 @@ class WelcomePage extends BasePage {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        S
-                            .of(context)
+                        tr(context)
                             .selectAnOptionBelowToCreateOrnRecoverExistingWallet,
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -102,8 +101,8 @@ class WelcomePage extends BasePage {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       child: Text(
-                        S.of(context).restore_wallet,
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        tr(context).restore_wallet,
+                        style: TextStyle(backgroundColor: Colors.transparent,fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(
@@ -121,8 +120,8 @@ class WelcomePage extends BasePage {
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       child: Text(
-                        S.of(context).create_new,
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        tr(context).create_new,
+                        style: TextStyle(backgroundColor: Colors.transparent,fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(

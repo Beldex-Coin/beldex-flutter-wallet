@@ -6,11 +6,11 @@ import 'package:provider/provider.dart';
 class NewNavListTrailing extends StatelessWidget {
   NewNavListTrailing({this.text, this.leading, this.onTap, this.trailing,this.size});
 
-  final String text;
-  final Widget leading;
-  final Widget trailing;
-  final GestureTapCallback onTap;
-  final double size;
+  final String? text;
+  final Widget? leading;
+  final Widget? trailing;
+  final GestureTapCallback? onTap;
+  final double? size;
   @override
   Widget build(BuildContext context) {
      final settingsStore = Provider.of<SettingsStore>(context);
@@ -30,10 +30,11 @@ class NewNavListTrailing extends StatelessWidget {
           child: ListTile(
             contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
             leading: leading,
-            title: Text(text,
+            title: Text(text!,
                 style: TextStyle(
+                    backgroundColor: Colors.transparent,
                     fontSize: size==15?15.0:16.0,
-                    color: Theme.of(context).primaryTextTheme.headline6.color)),
+                    color: Theme.of(context).primaryTextTheme.headline6?.color)),
             trailing: trailing,
             onTap: onTap,
           ),

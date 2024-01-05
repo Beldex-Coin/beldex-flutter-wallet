@@ -1,17 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
+import '../../../l10n.dart';
 import '../../widgets/nav/new_nav_list_arrow.dart';
 
 class ProfilePage extends BasePage {
   final _bodyKey = GlobalKey();
 
   @override
-  String get title => S.current.settings_title;
+  String getTitle(AppLocalizations t) => t.settings_title;
 
   @override
   Widget trailing(BuildContext context) {
@@ -23,7 +23,7 @@ class ProfilePage extends BasePage {
 }
 
 class ProfilePageBody extends StatefulWidget {
-  ProfilePageBody({Key key}) : super(key: key);
+  ProfilePageBody({Key? key}) : super(key: key);
 
   @override
   ProfilePageBodyState createState() => ProfilePageBodyState();
@@ -32,6 +32,7 @@ class ProfilePageBody extends StatefulWidget {
 class ProfilePageBodyState extends State<ProfilePageBody> {
   @override
   Widget build(BuildContext context) {
+    final t= tr(context);
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
@@ -46,7 +47,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
               margin: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.4 / 4),
               child: Text(
-                S.of(context).wallet,
+                tr(context).wallet,
                 style: TextStyle(fontSize: 20.0, color: Color(0xff737385)),
               ),
             ),
@@ -54,8 +55,8 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                 leading: SvgPicture.asset('assets/images/new-images/wallet.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6.color),
-                text: S.current.wallets,
+                    color: Theme.of(context).primaryTextTheme.headline6?.color),
+                text: t.wallets,
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pushNamed(Routes.walletList);
@@ -65,8 +66,8 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                     'assets/images/new-images/wallet_settings.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6.color),
-                text: S.of(context).walletSettings,
+                    color: Theme.of(context).primaryTextTheme.headline6?.color),
+                text: tr(context).walletSettings,
                 onTap: () => Navigator.of(context).pushNamed(Routes.settings)),
 
             Container(
@@ -74,7 +75,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                   left: MediaQuery.of(context).size.width * 0.4 / 4,
                   top: MediaQuery.of(context).size.width * 0.3 / 3),
               child: Text(
-                S.of(context).account,
+                tr(context).account,
                 style: TextStyle(fontSize: 20.0, color: Color(0xff737385)),
               ),
             ),
@@ -94,8 +95,8 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                     'assets/images/new-images/address_book.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6.color),
-                text: S.current.address_book,
+                    color: Theme.of(context).primaryTextTheme.headline6?.color),
+                text: t.address_book,
                 onTap: () =>
                     Navigator.of(context).pushNamed(Routes.addressBook)),
             NewNavListArrow(
@@ -103,8 +104,8 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                     'assets/images/new-images/settings_account.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6.color),
-                text: S.current.accounts,
+                    color: Theme.of(context).primaryTextTheme.headline6?.color),
+                text: t.accounts,
                 onTap: () =>
                     Navigator.of(context).pushNamed(Routes.accountList)),
             //Important -->
@@ -113,7 +114,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                   left: MediaQuery.of(context).size.width * 0.4 / 4,
                   top: MediaQuery.of(context).size.width * 0.3 / 3),
               child: Text(
-                S.of(context).seedKeys,
+                tr(context).seedKeys,
                 style: TextStyle(fontSize: 20.0, color: Color(0xff737385)),
               ),
             ),
@@ -123,8 +124,8 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                     'assets/images/new-images/settings_show_keys.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6.color),
-                text: S.current.show_keys,
+                    color: Theme.of(context).primaryTextTheme.headline6?.color),
+                text: t.show_keys,
                 onTap: () => Navigator.of(context).pushNamed(Routes.auth,
                     arguments: (bool isAuthenticatedSuccessfully,
                             AuthPageState auth) =>
@@ -137,8 +138,8 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                     'assets/images/new-images/settings_show_seed.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6.color),
-                text: S.current.show_seed,
+                    color: Theme.of(context).primaryTextTheme.headline6?.color),
+                text: t.show_seed,
                 onTap: () => Navigator.of(context).pushNamed(Routes.auth,
                     arguments: (bool isAuthenticatedSuccessfully,
                             AuthPageState auth) =>

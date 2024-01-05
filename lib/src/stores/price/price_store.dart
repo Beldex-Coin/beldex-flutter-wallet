@@ -9,9 +9,9 @@ class PriceStore = PriceStoreBase with _$PriceStore;
 abstract class PriceStoreBase with Store {
   PriceStoreBase() : prices = ObservableMap();
 
-  static String generateSymbolForPair(
-          {FiatCurrency fiat, CryptoCurrency crypto}) =>
-      crypto.toString().toUpperCase() + fiat.toString().toUpperCase();
+  static String generateSymbolForFiat(
+          {required FiatCurrency fiat}) =>
+      'BDX' + fiat.toString().toUpperCase();
 
   @observable
   ObservableMap<String, double> prices;
@@ -25,8 +25,8 @@ abstract class PriceStoreBase with Store {
 
   @action
   void changePriceForPair(
-      {FiatCurrency fiat, CryptoCurrency crypto, double price}) {
-    final symbol = generateSymbolForPair(fiat: fiat, crypto: crypto);
+      {required FiatCurrency fiat, required double price}) {
+    final symbol = generateSymbolForFiat(fiat: fiat);
     prices[symbol] = price;
   }
 }

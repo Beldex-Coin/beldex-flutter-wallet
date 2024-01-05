@@ -12,14 +12,14 @@ class NumberStepper extends StatelessWidget {
   final Color inactiveColor;
   final double lineWidth;
   NumberStepper({
-    Key key,
-    @required this.width,
-    @required this.curStep,
-    @required this.stepCompleteColor,
-    @required this.totalSteps,
-    @required this.inactiveColor,
-    @required this.currentStepColor,
-    @required this.lineWidth,
+    Key? key,
+    required this.width,
+    required this.curStep,
+    required this.stepCompleteColor,
+    required this.totalSteps,
+    required this.inactiveColor,
+    required this.currentStepColor,
+    required this.lineWidth,
   })  : assert(curStep > 0 == true && curStep <= totalSteps + 1),
         super(key: key);
 
@@ -63,7 +63,7 @@ class NumberStepper extends StatelessWidget {
     return color;
   }
 
-  Color getLineColor(int i) {
+  Color? getLineColor(int i) {
     var color =
     curStep > i + 1 ? Colors.blue.withOpacity(0.4) : Colors.grey[200];
     return color;
@@ -99,7 +99,7 @@ class NumberStepper extends StatelessWidget {
             ),
             (i + 1) == curStep ? Padding(
               padding: const EdgeInsets.only(right:5.0),
-              child: Text('${titles[i]}',style: TextStyle(color:settingsStore.isDarkTheme ? Colors.white : Colors.black,fontSize:16 ,fontWeight: FontWeight.w800),),
+              child: Text('${titles[i]}',style: TextStyle(backgroundColor: Colors.transparent,color:settingsStore.isDarkTheme ? Colors.white : Colors.black,fontSize:16 ,fontWeight: FontWeight.w800),),
             ) : SizedBox.shrink()
           ],
         ),
@@ -150,6 +150,7 @@ class NumberStepper extends StatelessWidget {
     //   child: Text(
     //     '$curStep',
     //     style: TextStyle(
+    //       backgroundColor: Colors.transparent,
     //       color: Colors.blue,
     //       fontWeight: FontWeight.bold,
     //       fontFamily: 'Roboto',
@@ -170,6 +171,7 @@ class NumberStepper extends StatelessWidget {
       //   child: Text('s',
       //     //'$curStep',
       //     style: TextStyle(
+      //       backgroundColor: Colors.transparent,
       //       color: Colors.blue,
       //       fontWeight: FontWeight.bold,
       //       fontFamily: 'Roboto',
@@ -182,6 +184,7 @@ class NumberStepper extends StatelessWidget {
           child: Text(
             '${index + 1}',
             style: TextStyle(
+              backgroundColor: Colors.transparent,
               color: Color(0xffA9A9CD),
               fontWeight: FontWeight.bold,
               fontFamily: 'Roboto',

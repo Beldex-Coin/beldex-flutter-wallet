@@ -1,10 +1,11 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+
+import '../../../l10n.dart';
 
 class WalletAlertDialog<Item extends int> extends StatefulWidget {
-  WalletAlertDialog({Key key, this.onItemSelected}) : super(key: key);
+  WalletAlertDialog({Key? key, required this.onItemSelected}) : super(key: key);
   final Function(Item) onItemSelected;
 
   @override
@@ -27,7 +28,7 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              S.of(context).changeWallet,
+              tr(context).changeWallet,
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(
@@ -44,7 +45,7 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Text(
-                S.of(context).wallet_list_load_wallet,
+                tr(context).wallet_list_load_wallet,
                 style: TextStyle(
                     fontSize: 16,
                     color: Colors.white,
@@ -67,7 +68,7 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Text(
-                S.of(context).removeWallet,
+                tr(context).removeWallet,
                 style: TextStyle(
                     fontSize: 16,
                     color:

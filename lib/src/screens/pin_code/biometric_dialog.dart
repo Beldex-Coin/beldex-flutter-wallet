@@ -1,10 +1,10 @@
 import 'dart:ui';
 
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 
 Future showBiometricDialog(
     BuildContext context,
@@ -16,7 +16,7 @@ Future showBiometricDialog(
 }
 
 class BiometricDialog extends StatelessWidget {
-  BiometricDialog({Key key, this.title, this.context
+  BiometricDialog({Key? key, required this.title, required this.context
   }) : super(key: key);
 
   final String title;
@@ -24,7 +24,7 @@ class BiometricDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BeldexBioDialog(
-      title: title,
+      title: title,onDismiss: (context){},
     );
   }
 }
@@ -32,15 +32,15 @@ class BiometricDialog extends StatelessWidget {
 class BeldexBioDialog extends StatefulWidget {
   BeldexBioDialog({
     this.body,
-    this.onDismiss,
+    required this.onDismiss,
     this.title,
     this.context
   });
 
   final void Function(BuildContext context) onDismiss;
-  final String body;
-  final String title;
-  final BuildContext context;
+  final String? body;
+  final String? title;
+  final BuildContext? context;
   @override
   BeldexBioDialogState createState() => BeldexBioDialogState();
 }
@@ -99,7 +99,7 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
                                   padding: const EdgeInsets.only(
                                       left: 5, bottom: 8.0),
                                   child: Text(
-                                    S.of(context).unlockBeldexWallet,
+                                    tr(context).unlockBeldexWallet,
                                     style: TextStyle(
                                         fontSize: MediaQuery.of(context)
                                             .size
@@ -118,8 +118,7 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
 
                               // color: Colors.yellow,
                                 child: Text(
-                                  S
-                                      .of(context)
+                                  tr(context)
                                       .confirmYourScreenLockPinpatternAndPassword,
                                   style: TextStyle(
                                       fontSize:
@@ -150,7 +149,7 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
                             Container(
                                 padding: EdgeInsets.only(top: 10),
                                 child: Text(
-                                  S.of(context).touchTheFingerprintSensor,
+                                  tr(context).touchTheFingerprintSensor,
                                   style: TextStyle(
                                       fontSize: 13,
                                       color: Color(0xff909090)),
@@ -171,7 +170,7 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
                                             0.09 /
                                             3),
                                     child: Text(
-                                      S.of(context).usePattern,
+                                      tr(context).usePattern,
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.w600,

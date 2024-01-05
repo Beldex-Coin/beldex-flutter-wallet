@@ -1,38 +1,38 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'contact.dart';
+part of 'test_mainnet_node.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ContactAdapter extends TypeAdapter<Contact> {
+class TestMainNetNodeAdapter extends TypeAdapter<TestMainNetNode> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
-  Contact read(BinaryReader reader) {
+  TestMainNetNode read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Contact(
-      name: fields[0] as String,
-      address: fields[1] as String,
-      raw: fields[2] as int,
+    return TestMainNetNode(
+      uri: fields[0] as String,
+      login: fields[1] as String?,
+      password: fields[2] as String?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Contact obj) {
+  void write(BinaryWriter writer, TestMainNetNode obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.name)
+      ..write(obj.uri)
       ..writeByte(1)
-      ..write(obj.address)
+      ..write(obj.login)
       ..writeByte(2)
-      ..write(obj.raw);
+      ..write(obj.password);
   }
 
   @override
@@ -41,7 +41,7 @@ class ContactAdapter extends TypeAdapter<Contact> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ContactAdapter &&
+      other is TestMainNetNodeAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

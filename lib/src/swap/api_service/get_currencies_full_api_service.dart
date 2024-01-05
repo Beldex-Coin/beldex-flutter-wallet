@@ -3,7 +3,7 @@ import 'dart:convert';
 
 class GetCurrenciesFullApiService {
 
-  Future<Map<String,dynamic>> getSignature() async {
+  Future<Map<String,dynamic>?> getSignature() async {
     print('url --> 1');
     final signatureResponseBody = await callSignatureApiService('getCurrenciesFull');
     print('url --> 4');
@@ -16,7 +16,7 @@ class GetCurrenciesFullApiService {
   }
 
   Future<Map<String, dynamic>> callSignatureApiService(String method,
-      {Map params}) async {
+      {Map? params}) async {
     print('url --> 2');
     Map<String, dynamic> resultBody;
 
@@ -35,7 +35,7 @@ class GetCurrenciesFullApiService {
   }
 
   Future<Map<String, dynamic>> callGetCurrenciesFullApiService(String method,String signature,
-      {Map params}) async {
+      {Map? params}) async {
     print('url --> 2');
     Map<String, dynamic> resultBody;
 

@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 import 'package:beldex_wallet/src/domain/common/fiat_currency.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,7 +7,7 @@ import 'package:http/http.dart' as http;
 const fiatApiAuthority = 'api.coingecko.com';
 
 const apiString = 'api/v3/simple/price?ids=beldex&vs_currencies=';
-Future<double> fetchPriceFor({CryptoCurrency crypto, FiatCurrency fiat}) async {
+Future<double> fetchPriceFor({required FiatCurrency fiat}) async {
   var price = 0.0;
 
   try {

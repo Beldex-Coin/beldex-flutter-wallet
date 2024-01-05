@@ -1,8 +1,7 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/domain/common/contact.dart';
 import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -15,10 +14,10 @@ import 'package:provider/provider.dart';
 class ContactPage extends BasePage {
   ContactPage({this.contact});
 
-  final Contact contact;
+  final Contact? contact;
 
   @override
-  String get title => S.current.addAddress;
+  String getTitle(AppLocalizations t) => t.addAddress;
 
   @override
   Widget trailing(BuildContext context) {
@@ -32,7 +31,7 @@ class ContactPage extends BasePage {
 class ContactForm extends StatefulWidget {
   ContactForm(this.contact, this.contxt);
 
-  final Contact contact;
+  final Contact? contact;
   final BuildContext contxt;
 
   @override
@@ -55,10 +54,10 @@ class ContactFormState extends State<ContactForm> {
     if (widget.contact == null) {
       _currencyTypeController.text = _selectedCrypto.toString();
     } else {
-      _selectedCrypto = widget.contact.type;
-      _contactNameController.text = widget.contact.name;
+      //_selectedCrypto = widget.contact.type;
+      _contactNameController.text = widget.contact!.name;
       _currencyTypeController.text = _selectedCrypto.toString();
-      _addressController.text = widget.contact.address;
+      _addressController.text = widget.contact!.address;
     }
     getAllAddressNames(widget.contxt);
   }
@@ -118,19 +117,19 @@ class ContactFormState extends State<ContactForm> {
               SizedBox(height: 14.0),
               BeldexTextField(
                 enabled: !coinVisibility,
-                hintText: S.of(context).enterName,
+                hintText: tr(context).enterName,
                 controller: _contactNameController,
                 autoValidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
                   if (value == null || value == '') {
-                    return S.of(context).nameShouldNotBeEmpty;
+                    return tr(context).nameShouldNotBeEmpty;
                   } else if (!validateInput(value)) {
-                    return S.of(context).enterAValidName;
+                    return tr(context).enterAValidName;
                   }
                   if (_checkName(value)) {
-                    return S.of(context).thisNameAlreadyExist;
+                    return tr(context).thisNameAlreadyExist;
                   }
-                  addressBookStore.validateContactName(value);
+                  addressBookStore.validateContactName(value,tr(context));
                   return addressBookStore.errorMessage;
                 },
               ),
@@ -149,7 +148,7 @@ class ContactFormState extends State<ContactForm> {
                         ),
                       ),
                     ),
-                    Visibility(
+                    /*Visibility(
                       visible: coinVisibility,
                       child: Container(
                         width: MediaQuery.of(context).size.width,
@@ -242,7 +241,7 @@ class ContactFormState extends State<ContactForm> {
                               }),
                         ),
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
               ),
@@ -253,19 +252,19 @@ class ContactFormState extends State<ContactForm> {
                 options: [AddressTextFieldOption.qrCode],
                 autoValidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
-                  if(value.isEmpty || value == ''){
+                  if(value!.isEmpty || value == ''){
                     return 'Address should not be empty';
                   }else
                   {
                      if(widget.contact == null){
                   for (var items in addressBookStore.contactList) {
-                    if (items.address.contains(value)) {
-                      return S.of(context).theAddressAlreadyExist;
+                    if (items.address.contains(value!)) {
+                      return tr(context).theAddressAlreadyExist;
                     }
                   }
                   }
-                  addressBookStore.validateAddress(value,
-                      cryptoCurrency: _selectedCrypto);
+                  addressBookStore.validateAddress(value!,
+                      cryptoCurrency: _selectedCrypto,t:tr(context));
                   return addressBookStore.errorMessage;
                   }
                 },
@@ -304,7 +303,7 @@ class ContactFormState extends State<ContactForm> {
                     ),
                   ),
                   child: Text(
-                    S.of(context).reset,
+                    tr(context).reset,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 17,
@@ -324,7 +323,7 @@ class ContactFormState extends State<ContactForm> {
                   onPressed: coinVisibility
                       ? null
                       : () async {
-                          if (!_formKey.currentState.validate()) {
+                          if (!(_formKey.currentState?.validate() ?? false)) {
                             return;
                           }
                           try {
@@ -332,17 +331,17 @@ class ContactFormState extends State<ContactForm> {
                               final newContact = Contact(
                                   name: _contactNameController.text,
                                   address: _addressController.text,
-                                  type: _selectedCrypto);
+                                  //type: _selectedCrypto
+                              );
 
                               await addressBookStore.add(contact: newContact);
                             } else {
-                              widget.contact.name = _contactNameController.text;
-                              widget.contact.address = _addressController.text;
-                              widget.contact.updateCryptoCurrency(
-                                  currency: _selectedCrypto);
+                              widget.contact?.name = _contactNameController.text;
+                              widget.contact?.address = _addressController.text;
+                              //widget.contact.updateCryptoCurrency(currency: _selectedCrypto);
 
                               await addressBookStore.update(
-                                  contact: widget.contact);
+                                  contact: widget.contact!);
                             }
                             Navigator.pop(context);
                           } catch (e) {
@@ -404,13 +403,9 @@ class ContactFormState extends State<ContactForm> {
                                                             .pop(true);
                                                       },
                                                       child: Text(
-                                                        S.of(context).ok,
+                                                        tr(context).ok,
                                                         style: TextStyle(
-                                                          color: Theme.of(
-                                                                  context)
-                                                              .primaryTextTheme
-                                                              .caption
-                                                              .color,
+                                                          color: Theme.of(context).primaryTextTheme.caption?.color,
                                                         ),
                                                       ),
                                                     ),
@@ -434,7 +429,7 @@ class ContactFormState extends State<ContactForm> {
                     ),
                   ),
                   child: Text(
-                    S.of(context).add,
+                    tr(context).add,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 17,

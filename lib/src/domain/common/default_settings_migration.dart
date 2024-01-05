@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:beldex_wallet/src/node/node.dart';
@@ -10,9 +9,9 @@ import 'package:beldex_wallet/src/node/node_list.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 
 Future defaultSettingsMigration(
-    {@required int version,
-      @required SharedPreferences sharedPreferences,
-      @required Box<Node> nodes}) async {
+    {required int version,
+      required SharedPreferences sharedPreferences,
+      required Box<Node> nodes}) async {
   final currentVersion =
       sharedPreferences.getInt('current_default_settings_migration_version') ??
           0;
@@ -63,9 +62,9 @@ Future defaultSettingsMigration(
       'current_default_settings_migration_version', version);
 }
 
-Future<void> replaceNodesMigration({@required Box<Node> nodes}) async {
+Future<void> replaceNodesMigration({required Box<Node> nodes}) async {
   final replaceNodes = <String, Node>{
-    'publicnode1.rpcnode.stream:29095':
+    /*'publicnode1.rpcnode.stream:29095':
     Node(uri: 'publicnode1.rpcnode.stream:29095'),
     'explorer.beldex.io:19091':
     Node(uri: 'explorer.beldex.io:19091'),
@@ -76,7 +75,7 @@ Future<void> replaceNodesMigration({@required Box<Node> nodes}) async {
     'publicnode3.rpcnode.stream:29095':
     Node(uri: 'publicnode3.rpcnode.stream:29095'),
     'publicnode4.rpcnode.stream:29095':
-    Node(uri: 'publicnode4.rpcnode.stream:29095')
+    Node(uri: 'publicnode4.rpcnode.stream:29095')*/
   };
 
   nodes.values.forEach((Node node) async {
@@ -92,10 +91,10 @@ Future<void> replaceNodesMigration({@required Box<Node> nodes}) async {
 }
 
 Future<void> changeCurrentNodeToDefault(
-    {@required SharedPreferences sharedPreferences,
-      @required Box<Node> nodes}) async {
+    {required SharedPreferences sharedPreferences,
+      required Box<Node> nodes}) async {
   final timeZone = DateTime.now().timeZoneOffset.inHours;
-  var nodeUri = '';
+  late String nodeUri;
 
   const nodesList = <String>[
     'publicnode1.rpcnode.stream:29095',
@@ -111,38 +110,34 @@ Future<void> changeCurrentNodeToDefault(
     final element = nodesList[_random.nextInt(nodesList.length)];
     print('nodeId 0 -> ${element.toString()}');
     nodeUri = element.toString();
-  } else if (timeZone <= -4) { // America
+  } else{ // America
     nodeUri = 'publicnode1.rpcnode.stream:29095';
   }
 
-  final node = nodes.values.firstWhere((Node node) => node.uri == nodeUri) ??
-      nodes.values.first;
-  final nodeId = node != null ? node.key as int : 0; // 0 - England
+  final node = nodes.values.firstWhere((Node node) => node.uri == nodeUri, orElse:()=> nodes.values.first);
+  //final nodeId = node != null ? node.key as int : 0; // 0 - England
 
-  await sharedPreferences.setInt('current_node_id', nodeId);
+  await sharedPreferences.setInt('current_node_id', node.key as int);
 }
 
 Future<void> replaceDefaultNode(
-    {@required SharedPreferences sharedPreferences,
-      @required Box<Node> nodes}) async {
+    {required SharedPreferences sharedPreferences,
+      required Box<Node> nodes}) async {
   const nodesForReplace = <String>[
-    'publicnode1.rpcnode.stream:29095',
+    /*'publicnode1.rpcnode.stream:29095',
     'explorer.beldex.io:19091',
     'mainnet.beldex.io:29095',
     'publicnode2.rpcnode.stream:29095',
     'publicnode3.rpcnode.stream:29095',
-    'publicnode4.rpcnode.stream:29095'
+    'publicnode4.rpcnode.stream:29095'*/
   ];
   final currentNodeId = sharedPreferences.getInt('current_node_id');
-  final currentNode =
-  nodes.values.firstWhere((Node node) => node.key == currentNodeId);
-  final needToReplace =
-  currentNode == null ? true : nodesForReplace.contains(currentNode.uri);
-
-  if (!needToReplace) {
-    return;
+  Node? currentNode;
+  try {
+    currentNode = nodes.values.firstWhere((Node node) => node.key == currentNodeId);
+  }catch(_){}
+  if (currentNode == null || nodesForReplace.contains(currentNode.uri)) {
+    await changeCurrentNodeToDefault(
+        sharedPreferences: sharedPreferences, nodes: nodes);
   }
-
-  await changeCurrentNodeToDefault(
-      sharedPreferences: sharedPreferences, nodes: nodes);
 }

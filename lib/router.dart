@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 // MARK: Import domains
 
@@ -80,21 +79,23 @@ import 'package:beldex_wallet/src/wallet/transaction/transaction_info.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'l10n.dart';
+
 class Router {
   static Route<dynamic> generateRoute(
-      {SharedPreferences sharedPreferences,
-      WalletListService walletListService,
-      WalletService walletService,
-      UserService userService,
-      RouteSettings settings,
-      PriceStore priceStore,
-      WalletStore walletStore,
-      SyncStore syncStore,
-      BalanceStore balanceStore,
-      SettingsStore settingsStore,
-      Box<Contact> contacts,
-      Box<Node> nodes,
-      Box<TransactionDescription> transactionDescriptions}) {
+      {required SharedPreferences sharedPreferences,
+      required WalletListService walletListService,
+      required WalletService walletService,
+      required UserService userService,
+      required RouteSettings settings,
+      required PriceStore priceStore,
+      required WalletStore walletStore,
+      required SyncStore syncStore,
+      required BalanceStore balanceStore,
+      required SettingsStore settingsStore,
+      required Box<Contact> contacts,
+      required Box<Node> nodes,
+      required Box<TransactionDescription> transactionDescriptions}) {
     switch (settings.name) {
       case Routes.welcome:
         return MaterialPageRoute<void>(builder: (_) => WelcomePage());
@@ -139,7 +140,7 @@ class Router {
         });
 
       case Routes.setupPin:
-        Function(BuildContext, String) callback;
+        Function(BuildContext, String)? callback;
 
         if (settings.arguments is Function(BuildContext, String)) {
           callback = settings.arguments as Function(BuildContext, String);
@@ -163,7 +164,7 @@ class Router {
             ],
             child: SetupPinCodePage(
               onPinCodeSetup: (context, pin) =>
-                  callback == null ? null : callback(context, pin),
+                  callback == null ? null : callback(context, pin)!,
             ),
           );
         });
@@ -258,6 +259,7 @@ class Router {
                           create: (_) => SendStore(
                               walletService: walletService,
                               priceStore: priceStore,
+                              settingsStore: settingsStore,
                               transactionDescriptions:
                                   transactionDescriptions)),
                     ],
@@ -523,6 +525,7 @@ class Router {
                       create: (_) => SendStore(
                           walletService: walletService,
                           priceStore: priceStore,
+                          settingsStore: settingsStore,
                           transactionDescriptions: transactionDescriptions)),
                 ], child: NewStakePage());});
 
@@ -543,10 +546,10 @@ class Router {
 
       default:
         return MaterialPageRoute<void>(
-            builder: (_) {
+            builder: (context) {
               return Scaffold(
                   body: Center(
-                      child: Text(S.current.router_no_route(settings.name))),
+                      child: Text(tr(context).router_no_route(settings.name ?? 'null'))),
                 );});
     }
   }

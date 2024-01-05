@@ -34,11 +34,11 @@ final transactionEstimateFeeNative = beldexApi
     .asFunction<TransactionEstimateFee>();
 
 PendingTransactionDescription createTransactionSync(
-    {String address, String amount, int priorityRaw, int accountIndex = 0}) {
-  final addressPointer = Utf8.toUtf8(address);
-  final amountPointer = amount != null ? Utf8.toUtf8(amount) : nullptr;
-  final errorMessagePointer = allocate<Utf8Box>();
-  final pendingTransactionRawPointer = allocate<PendingTransactionRaw>();
+    {required String address, required String amount, required int priorityRaw, int accountIndex = 0}) {
+  final addressPointer = address.toNativeUtf8();
+  final amountPointer = amount != null ? amount.toNativeUtf8() : nullptr;
+  final errorMessagePointer = calloc<Utf8Box>();
+  final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
   final created = transactionCreateNative(
           addressPointer,
           amountPointer,
@@ -48,15 +48,15 @@ PendingTransactionDescription createTransactionSync(
           pendingTransactionRawPointer) !=
       0;
 
-  free(addressPointer);
+  calloc.free(addressPointer);
 
   if (amountPointer != nullptr) {
-    free(amountPointer);
+    calloc.free(amountPointer);
   }
 
   if (!created) {
     final message = errorMessagePointer.ref.getValue();
-    free(errorMessagePointer);
+    calloc.free(errorMessagePointer);
     throw CreationTransactionException(message: message);
   }
 
@@ -67,14 +67,14 @@ PendingTransactionDescription createTransactionSync(
       pointerAddress: pendingTransactionRawPointer.address);
 }
 
-void commitTransaction({Pointer<PendingTransactionRaw> transactionPointer}) {
-  final errorMessagePointer = allocate<Utf8Box>();
+void commitTransaction({required Pointer<PendingTransactionRaw> transactionPointer}) {
+  final errorMessagePointer = calloc<Utf8Box>();
   final isCommited =
       transactionCommitNative(transactionPointer, errorMessagePointer) != 0;
 
   if (!isCommited) {
     final message = errorMessagePointer.ref.getValue();
-    free(errorMessagePointer);
+    calloc.free(errorMessagePointer);
     throw CreationTransactionException(message: message);
   }
 }

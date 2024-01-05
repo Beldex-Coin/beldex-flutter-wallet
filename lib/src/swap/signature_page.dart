@@ -34,9 +34,9 @@ class _SignatureHomeState extends State<SignatureHome> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: FutureBuilder<Map<String,dynamic>>(
+      child: FutureBuilder<Map<String,dynamic>?>(
         future: getSignature(),
-        builder: (context, AsyncSnapshot<Map<String,dynamic>> snapshot){
+        builder: (context, AsyncSnapshot<Map<String,dynamic>?> snapshot){
           print('${snapshot.data} snapshot hasData');
           final data = snapshot.data;
           switch (snapshot.connectionState) {

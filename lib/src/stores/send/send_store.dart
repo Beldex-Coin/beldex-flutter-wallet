@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 import 'package:beldex_wallet/src/domain/common/openalias_record.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
@@ -15,62 +14,62 @@ import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_transaction_c
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_description.dart';
 import 'package:beldex_wallet/src/wallet/transaction/pending_transaction.dart';
 
+import '../../../l10n.dart';
+
 part 'send_store.g.dart';
 
 class SendStore = SendStoreBase with _$SendStore;
 
 abstract class SendStoreBase with Store {
   SendStoreBase(
-      {@required this.walletService,
-      this.settingsStore,
+      {required this.walletService,
+      required this.settingsStore,
       this.transactionDescriptions,
-      this.priceStore}) {
-    state = SendingStateInitial();
+      required this.priceStore}):
     _pendingTransaction = null;
-    _cryptoNumberFormat = NumberFormat()..maximumFractionDigits = 12;
-    _fiatNumberFormat = NumberFormat()..maximumFractionDigits = 2;
-  }
+    final NumberFormat _cryptoNumberFormat = NumberFormat()..maximumFractionDigits = 12;
+    final NumberFormat _fiatNumberFormat = NumberFormat()..maximumFractionDigits = 2;
 
   WalletService walletService;
   SettingsStore settingsStore;
   PriceStore priceStore;
-  Box<TransactionDescription> transactionDescriptions;
-  String recordName;
-  String recordAddress;
+  Box<TransactionDescription>? transactionDescriptions;
+  String? recordName;
+  String? recordAddress;
 
   @observable
-  SendingState state;
+  SendingState state = SendingStateInitial();
 
   @observable
-  String fiatAmount;
+  String fiatAmount='';
 
   @observable
-  String cryptoAmount;
+  String cryptoAmount='';
 
   @observable
-  bool isValid;
+  bool isValid=false;
 
   @observable
-  String errorMessage;
+  String? errorMessage;
 
-  PendingTransaction get pendingTransaction => _pendingTransaction;
-  PendingTransaction _pendingTransaction;
-  NumberFormat _cryptoNumberFormat;
-  NumberFormat _fiatNumberFormat;
-  String _lastRecipientAddress;
-  String get lastRecipientAddress => _lastRecipientAddress;
+  PendingTransaction? get pendingTransaction => _pendingTransaction!;
+  PendingTransaction? _pendingTransaction;
+  //NumberFormat _cryptoNumberFormat;
+  //NumberFormat _fiatNumberFormat;
+  String? _lastRecipientAddress;
+  String get lastRecipientAddress => _lastRecipientAddress!;
 
   @action
-  Future createStake({String address, String amount}) async {
+  Future createStake({required String address, String? amount,required AppLocalizations l10n}) async {
     state = CreatingTransaction();
 
     try {
       final _amount = amount ??
-          (cryptoAmount == S.current.all
+          (cryptoAmount == l10n.all
               ? null
               : cryptoAmount.replaceAll(',', '.'));
       final credentials = BeldexStakeTransactionCreationCredentials(
-          address: address, amount: _amount);
+          address: address, amount: _amount!);
 
       _pendingTransaction = await walletService.createStake(credentials);
       state = TransactionCreatedSuccessfully();
@@ -80,17 +79,17 @@ abstract class SendStoreBase with Store {
   }
 
   @action
-  Future createTransaction({String address, String amount, BeldexTransactionPriority tPriority}) async {
+  Future createTransaction({required String address, String? amount, BeldexTransactionPriority? tPriority,required AppLocalizations t}) async {
     state = CreatingTransaction();
 
     try {
       final _amount = amount ??
-          (cryptoAmount == S.current.all
+          (cryptoAmount == t.all
               ? null
               : cryptoAmount.replaceAll(',', '.'));
       final credentials = BeldexTransactionCreationCredentials(
           address: address,
-          amount: _amount,
+          amount: _amount!,
           priority: tPriority ?? settingsStore.transactionPriority);
 
       print('createTransaction address--> $address');
@@ -99,7 +98,7 @@ abstract class SendStoreBase with Store {
       print('createTransaction --> ${credentials.address}, ${credentials.amount}, ${credentials.priority}');
 
       _pendingTransaction = await walletService.createTransaction(credentials);
-      print('createTransaction _pendingTransaction --> ${_pendingTransaction.amount}, ${_pendingTransaction.fee}');
+      print('createTransaction _pendingTransaction --> ${_pendingTransaction?.amount}, ${_pendingTransaction?.fee}');
       state = TransactionCreatedSuccessfully();
       print('createTransaction state try --> $state');
       _lastRecipientAddress = address;
@@ -119,14 +118,14 @@ abstract class SendStoreBase with Store {
       return;
     }
     try {
-      final transactionId = _pendingTransaction.hash;
+      final transactionId = _pendingTransaction?.hash;
       state = TransactionCommitting();
-      await _pendingTransaction.commit();
+      await _pendingTransaction?.commit();
       state = TransactionCommitted();
 
       if (settingsStore.shouldSaveRecipientAddress && _lastRecipientAddress != null) {
-        await transactionDescriptions.add(TransactionDescription(
-            id: transactionId, recipientAddress: _lastRecipientAddress));
+        await transactionDescriptions?.add(TransactionDescription(
+            id: transactionId!, recipientAddress: _lastRecipientAddress!));
       }
     } catch (e) {
       state = SendingFailed(error: e.toString());
@@ -136,8 +135,8 @@ abstract class SendStoreBase with Store {
   }
 
   @action
-  void setSendAll() {
-    cryptoAmount = S.current.all;
+  void setSendAll(AppLocalizations t) {
+    cryptoAmount = t.all;
     fiatAmount = '';
   }
 
@@ -165,8 +164,8 @@ abstract class SendStoreBase with Store {
 
   @action
   Future _calculateFiatAmount() async {
-    final symbol = PriceStoreBase.generateSymbolForPair(
-        fiat: settingsStore.fiatCurrency, crypto: CryptoCurrency.bdx);
+    final symbol = PriceStoreBase.generateSymbolForFiat(
+        fiat: settingsStore.fiatCurrency);
     final price = priceStore.prices[symbol] ?? 0;
 
     try {
@@ -179,8 +178,8 @@ abstract class SendStoreBase with Store {
 
   @action
   Future _calculateCryptoAmount() async {
-    final symbol = PriceStoreBase.generateSymbolForPair(
-        fiat: settingsStore.fiatCurrency, crypto: CryptoCurrency.bdx);
+    final symbol = PriceStoreBase.generateSymbolForFiat(
+        fiat: settingsStore.fiatCurrency);
     final price = priceStore.prices[symbol] ?? 0;
 
     try {
@@ -201,7 +200,7 @@ abstract class SendStoreBase with Store {
     return recordAddress != name;
   }
 
-  void validateAddress(String value, {CryptoCurrency cryptoCurrency}) {
+  void validateAddress(String value, {CryptoCurrency? cryptoCurrency,required AppLocalizations t}) {
     // XMR (95, 106), ADA (59, 92, 105), BCH (42), BNB (42), BTC (34, 42), DASH (34), EOS (42),
     // ETH (42), LTC (34), NANO (64, 65), TRX (34), USDT (42), XLM (56), XRP (34)
     const pattern =
@@ -261,7 +260,7 @@ abstract class SendStoreBase with Store {
     }
 
     isValid = true;
-    errorMessage = isValid ? null : S.current.error_text_address;
+    errorMessage = (isValid ? null : t.error_text_address)!;
   }
 
   bool compareAvailableBalance(String amount, int availableBalance) {
@@ -276,7 +275,7 @@ abstract class SendStoreBase with Store {
     return isValid;
   }
 
-  void validateBELDEX(String amount, int availableBalance) {
+  void validateBELDEX(String amount, int availableBalance,AppLocalizations t) {
     final maxValue = 150000000.00000;
     final pattern = RegExp(r'^(([0-9]{1,9})(\.[0-9]{1,5})?$)|\.[0-9]{1,5}?$');
     var isValid = false;
@@ -290,7 +289,7 @@ abstract class SendStoreBase with Store {
         isValid = false;
       }
     }
-    errorMessage = isValid ? null : S.current.error_text_beldex;
+    errorMessage = (isValid ? null : t.error_text_beldex);
 
   }
 
@@ -320,7 +319,7 @@ abstract class SendStoreBase with Store {
   //   errorMessage = isValid ? null : S.current.error_text_beldex;
   // }
 
-  void validateFiat(String amount, {double maxValue}) {
+  void validateFiat(String amount, {double? maxValue}) {
     const minValue = 0.01;
     final value = amount.replaceAll(',', '.');
 
@@ -333,7 +332,7 @@ abstract class SendStoreBase with Store {
       if (regExp.hasMatch(value)) {
         try {
           final dValue = double.parse(value);
-          isValid = (dValue >= minValue && dValue <= maxValue);
+          isValid = (dValue >= minValue && dValue <= maxValue!);
         } catch (e) {
           isValid = false;
         }
@@ -342,9 +341,9 @@ abstract class SendStoreBase with Store {
       }
     }
 
-    errorMessage = isValid
+    errorMessage = (isValid
         ? null
         : 'Value of amount can\'t exceed available balance.\n'
-            'The number of fraction digits must be less or equal to 2';
+            'The number of fraction digits must be less or equal to 2')!;
   }
 }

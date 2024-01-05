@@ -1,10 +1,10 @@
 import 'dart:ui';
+import '../../../l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class DisclaimerPage extends BasePage {
@@ -12,7 +12,7 @@ class DisclaimerPage extends BasePage {
   bool get isModalBackButton => false;
 
   @override
-  String get title => S.current.settings_terms_and_conditions;
+  String getTitle(AppLocalizations t) => t.settings_terms_and_conditions;
 
   @override
   Widget trailing(BuildContext context) {
@@ -56,7 +56,7 @@ class DisclaimerBodyState extends State<DisclaimerPageBody> {
             children: <Widget>[
               Expanded(
                 child: Text(
-                  S.of(context).legalDisclaimer,
+                  tr(context).legalDisclaimer,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 14.0, fontWeight: FontWeight.bold),

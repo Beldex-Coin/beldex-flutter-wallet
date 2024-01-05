@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 
 class SettingsLinkListRow extends StatelessWidget {
   SettingsLinkListRow(
-      {@required this.onTaped, this.title, this.link, this.image,this.balanceVisibility,this.decimalVisibility,this.currencyVisibility,this.feePriorityVisibility});
+      {this.onTaped,required this.title, this.link, this.image,this.balanceVisibility,this.decimalVisibility,this.currencyVisibility,this.feePriorityVisibility});
 
-  final VoidCallback onTaped;
+  final VoidCallback? onTaped;
   final String title;
-  final String link;
-  final Image image;
-  final bool balanceVisibility;
-  final bool decimalVisibility;
-  final bool currencyVisibility;
-  final bool feePriorityVisibility;
+  final String? link;
+  final Image? image;
+  final bool? balanceVisibility;
+  final bool? decimalVisibility;
+  final bool? currencyVisibility;
+  final bool? feePriorityVisibility;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -38,7 +38,7 @@ class SettingsLinkListRow extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w800,
-                      color: Theme.of(context).primaryTextTheme.headline6.color),
+                      color: Theme.of(context).primaryTextTheme.headline6?.color),
                 ),
               )
             ],

@@ -13,7 +13,7 @@ import 'package:beldex_wallet/src/wallet/wallet_description.dart';
 import 'package:beldex_wallet/src/wallet/beldex/beldex_wallet.dart';
 import 'package:beldex_wallet/devtools.dart';
 
-Future<String> pathForWallet({String name}) async {
+Future<String> pathForWallet({required String name}) async {
   final directory = await getApplicationDocumentsDirectory();
   final pathDir = directory.path + '/$name';
   final dir = Directory(pathDir);
@@ -29,7 +29,7 @@ Future<String> pathForWallet({String name}) async {
 }
 
 class BeldexWalletsManager extends WalletsManager {
-  BeldexWalletsManager({@required this.walletInfoSource});
+  BeldexWalletsManager({required this.walletInfoSource});
 
   static const type = WalletType.beldex;
   static const nettype = isTestnet ? 1 : 0; // Mainnet: 0 Testnet: 1
@@ -182,11 +182,8 @@ class BeldexWalletsManager extends WalletsManager {
       await walletFileDir.delete();
       print('Wallet Directory deleted');
     }
-    final id =
-        walletTypeToString(wallet.type).toLowerCase() + '_' + wallet.name;
-    final info = walletInfoSource.values
-        .firstWhere((info) => info.id == id, orElse: () => null);
 
-    await info?.delete();
+    final id = (walletTypeToString(wallet.type)?.toLowerCase() ?? 'unknown' ) + '_' + wallet.name;
+    await walletInfoSource.values.firstWhere((info) => info.id == id).delete();
   }
 }

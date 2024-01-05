@@ -1,10 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 
 class BiometricPage extends StatefulWidget {
-  const BiometricPage({ Key key }) : super(key: key);
+  const BiometricPage({ Key? key }) : super(key: key);
 
   @override
   State<BiometricPage> createState() => _BiometricPageState();

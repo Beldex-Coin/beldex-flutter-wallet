@@ -1,4 +1,3 @@
-import 'package:beldex_wallet/src/swap/screen/swap_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:hive/hive.dart';
@@ -21,16 +20,16 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Root extends StatefulWidget {
-  Root({Key key}) : super(key: key);
+  Root({Key? key}) : super(key: key);
 
   @override
   RootState createState() => RootState();
 }
 
 class RootState extends State<Root> with WidgetsBindingObserver {
-  bool _isInactive;
-  bool _postFrameCallback;
-  AuthenticationStore _authenticationStore;
+  bool _isInactive = false;
+  bool _postFrameCallback = false;
+  AuthenticationStore? _authenticationStore;
 
   @override
   void initState() {
@@ -46,10 +45,10 @@ class RootState extends State<Root> with WidgetsBindingObserver {
       case AppLifecycleState.paused:
         if (isQrScannerShown) return;
 
-        if (!_isInactive &&
-                _authenticationStore.state ==
+        if (!_isInactive! &&
+                _authenticationStore?.state ==
                     AuthenticationState.authenticated ||
-            _authenticationStore.state == AuthenticationState.active) {
+            _authenticationStore?.state == AuthenticationState.active) {
           setState(() => _isInactive = true);
         }
 
@@ -73,7 +72,7 @@ class RootState extends State<Root> with WidgetsBindingObserver {
     final walletStore = Provider.of<WalletStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
 
-    if (_isInactive && !_postFrameCallback) {
+    if (_isInactive! && !_postFrameCallback!) {
       _postFrameCallback = true;
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -91,7 +90,7 @@ class RootState extends State<Root> with WidgetsBindingObserver {
     }
 
     return Observer(builder: (_) {
-      final state = _authenticationStore.state;
+      final state = _authenticationStore?.state;
       if (state == AuthenticationState.denied)  return WelcomePage();
 
       if (state == AuthenticationState.readyToLogin) {
@@ -118,7 +117,7 @@ class RootState extends State<Root> with WidgetsBindingObserver {
             settingsStore: settingsStore,
             walletService: walletService,
             callback: () =>
-                _authenticationStore.state = AuthenticationState.authenticated);
+                _authenticationStore?.state = AuthenticationState.authenticated);
       }
 
       return Container(color: Colors.white);

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
@@ -12,7 +13,6 @@ import 'package:provider/provider.dart';
 
 import '../../../palette.dart';
 import 'number_stepper.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 
 class SwapPage extends BasePage {
   @override
@@ -43,7 +43,7 @@ class SwapHome extends StatefulWidget {
 class _SwapHomeState extends State<SwapHome> {
   int currentStep = 1;
   int stepLength = 4;
-  bool complete;
+  bool complete = false;
 
   void next() {
     if (currentStep <= stepLength) {
@@ -74,10 +74,10 @@ class _SwapHomeState extends State<SwapHome> {
 
   TextEditingController searchYouGetCoinsController = TextEditingController();
   TextEditingController searchYouSendCoinsController = TextEditingController();
-  StateSetter _searchYouGetCoinsSetState;
-  StateSetter _searchYouSendCoinsSetState;
-  String youGetCoinsFilter;
-  String youSendCoinsFilter;
+  StateSetter? _searchYouGetCoinsSetState;
+  StateSetter? _searchYouSendCoinsSetState;
+  String? youGetCoinsFilter;
+  String? youSendCoinsFilter;
   final List<Coins> youGetCoinsList = [
     Coins('BTC','Bitcoin'),
     Coins('ETH','Ethereum'),
@@ -101,12 +101,12 @@ class _SwapHomeState extends State<SwapHome> {
   @override
   void initState() {
     searchYouGetCoinsController.addListener(() {
-      _searchYouGetCoinsSetState(() {
+      _searchYouGetCoinsSetState!(() {
         youGetCoinsFilter = searchYouGetCoinsController.text;
       });
     });
     searchYouSendCoinsController.addListener(() {
-      _searchYouSendCoinsSetState(() {
+      _searchYouSendCoinsSetState!(() {
         youSendCoinsFilter = searchYouSendCoinsController.text;
       });
     });
@@ -225,8 +225,9 @@ class _SwapHomeState extends State<SwapHome> {
       children: [
         Theme(
           data: Theme.of(context).copyWith(
-              accentColor:
-                  settingsStore.isDarkTheme ? Colors.white : Colors.black,
+              colorScheme: ColorScheme.fromSwatch().copyWith(
+                secondary: settingsStore.isDarkTheme ? Colors.white : Colors.black, // Your accent color
+              ),
               dividerColor: Colors.transparent,
               textSelectionTheme:
                   TextSelectionThemeData(selectionColor: Colors.green)),
@@ -255,6 +256,7 @@ class _SwapHomeState extends State<SwapHome> {
                               flex: 1,
                               child: Text('Exchange Amount',
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                       color: settingsStore.isDarkTheme
@@ -265,6 +267,7 @@ class _SwapHomeState extends State<SwapHome> {
                               flex: 1,
                               child: Text('774 BDX',
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 14,
                                       fontWeight: FontWeight.w900,
                                       color: settingsStore.isDarkTheme
@@ -280,6 +283,7 @@ class _SwapHomeState extends State<SwapHome> {
                                 children: <Widget>[
                                   Text('900 BDX',
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           fontWeight: FontWeight.w900,
                                           fontSize: 14,
                                           color: settingsStore.isDarkTheme
@@ -287,6 +291,7 @@ class _SwapHomeState extends State<SwapHome> {
                                               : Color(0xff222222))),
                                   Text('28 Apr 2023',
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           fontSize: 12,
                                           fontWeight: FontWeight.w400,
                                           color: settingsStore.isDarkTheme
@@ -304,6 +309,7 @@ class _SwapHomeState extends State<SwapHome> {
                                       text: TextSpan(
                                           text: 'Received ',
                                           style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               fontSize: 12,
                                               fontWeight: FontWeight.w400,
                                               color: settingsStore.isDarkTheme
@@ -313,6 +319,7 @@ class _SwapHomeState extends State<SwapHome> {
                                             TextSpan(
                                                 text: '- 0.00063271 BTC',
                                                 style: TextStyle(
+                                                    backgroundColor: Colors.transparent,
                                                     fontSize: 12,
                                                     fontWeight: FontWeight.w500,
                                                     color: true
@@ -325,6 +332,7 @@ class _SwapHomeState extends State<SwapHome> {
                                     flex: 1,
                                     child: Text(true ? 'Completed' : 'Waiting',
                                         style: TextStyle(
+                                            backgroundColor: Colors.transparent,
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
                                             color: true
@@ -353,6 +361,7 @@ class _SwapHomeState extends State<SwapHome> {
                               flex: 1,
                               child: Text('Exchange Rate',
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                       color: settingsStore.isDarkTheme
@@ -363,6 +372,7 @@ class _SwapHomeState extends State<SwapHome> {
                               flex: 1,
                               child: Text('1 BDX = 0.00000116BTC',
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,
                                       color: settingsStore.isDarkTheme
@@ -380,6 +390,7 @@ class _SwapHomeState extends State<SwapHome> {
                               flex: 1,
                               child: Text('Receiver',
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                       color: settingsStore.isDarkTheme
@@ -390,6 +401,7 @@ class _SwapHomeState extends State<SwapHome> {
                               flex: 1,
                               child: Text('142...hzy',
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,
                                       color: settingsStore.isDarkTheme
@@ -407,6 +419,7 @@ class _SwapHomeState extends State<SwapHome> {
                               flex: 1,
                               child: Text('Amount Received',
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                       color: settingsStore.isDarkTheme
@@ -417,6 +430,7 @@ class _SwapHomeState extends State<SwapHome> {
                               flex: 1,
                               child: Text(true ? '0.00063271 BTC' : '---',
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,
                                       color: true
@@ -436,6 +450,7 @@ class _SwapHomeState extends State<SwapHome> {
                               flex: 1,
                               child: Text('Date',
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                       color: settingsStore.isDarkTheme
@@ -446,6 +461,7 @@ class _SwapHomeState extends State<SwapHome> {
                               flex: 1,
                               child: Text('28 Apr 2023 20:14:15',
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,
                                       color: settingsStore.isDarkTheme
@@ -463,6 +479,7 @@ class _SwapHomeState extends State<SwapHome> {
                               flex: 1,
                               child: Text('Status',
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w400,
                                       color: settingsStore.isDarkTheme
@@ -473,6 +490,7 @@ class _SwapHomeState extends State<SwapHome> {
                               flex: 1,
                               child: Text(true ? 'Completed' : 'Waiting',
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w500,
                                       color: true
@@ -521,6 +539,7 @@ class _SwapHomeState extends State<SwapHome> {
                 text: TextSpan(
                     text: youGetCoinsList[index].id,
                       style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           fontSize: 12,
                           color: settingsStore.isDarkTheme?Color(0xffffffff):Color(0xff222222),
                           fontWeight: FontWeight.bold),
@@ -528,6 +547,7 @@ class _SwapHomeState extends State<SwapHome> {
                       TextSpan(
                           text: ' - ${youGetCoinsList[index].name}',
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 12,
                               color: Color(0xff77778B),
                               fontWeight: FontWeight.w400))
@@ -563,6 +583,7 @@ class _SwapHomeState extends State<SwapHome> {
                 text: TextSpan(
                     text: youSendCoinsList[index].id,
                     style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         fontSize: 12,
                         color: settingsStore.isDarkTheme?Color(0xffffffff):Color(0xff222222),
                         fontWeight: FontWeight.bold),
@@ -570,6 +591,7 @@ class _SwapHomeState extends State<SwapHome> {
                       TextSpan(
                           text: ' - ${youSendCoinsList[index].name}',
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 12,
                               color: Color(0xff77778B),
                               fontWeight: FontWeight.w400))
@@ -601,6 +623,7 @@ class _SwapHomeState extends State<SwapHome> {
               text: TextSpan(
                   text: 'BDX',
                   style: TextStyle(
+                      backgroundColor: Colors.transparent,
                       color: Color(0xff20D030),
                       fontSize: 16,
                       fontWeight: FontWeight.w700),
@@ -609,6 +632,7 @@ class _SwapHomeState extends State<SwapHome> {
                         text:
                         ' Swap is temporarily\nunder maintenance.',
                         style: TextStyle(
+                            backgroundColor: Colors.transparent,
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
                             color:
@@ -619,6 +643,7 @@ class _SwapHomeState extends State<SwapHome> {
             ),
             Text('Please try again after some times.',
                 style: TextStyle(
+                    backgroundColor: Colors.transparent,
                     color: settingsStore.isDarkTheme
                         ? Color(0xff82828D)
                         : Color(0xff737373),
@@ -644,6 +669,7 @@ class _SwapHomeState extends State<SwapHome> {
                 Text(
                   'Exchange',
                   style: TextStyle(
+                      backgroundColor: Colors.transparent,
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                       color: settingsStore.isDarkTheme
@@ -673,6 +699,7 @@ class _SwapHomeState extends State<SwapHome> {
                 'You send',
                 textAlign: TextAlign.start,
                 style: TextStyle(
+                    backgroundColor: Colors.transparent,
                     fontSize: 12,
                     fontWeight: FontWeight.normal,
                     color: settingsStore.isDarkTheme
@@ -700,11 +727,12 @@ class _SwapHomeState extends State<SwapHome> {
                     flex:1,
                     child: TextFormField(
                       style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           fontSize: 14.0,
                           fontWeight: FontWeight.normal,
                           color: Theme.of(context)
                               .primaryTextTheme
-                              .caption
+                              .caption!
                               .color),
                       controller: _sendAmountController,
                       keyboardType: TextInputType.numberWithOptions(
@@ -730,7 +758,7 @@ class _SwapHomeState extends State<SwapHome> {
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
                             color: Colors.grey.withOpacity(0.6)),
-                        hintText: S.of(context).enterAmount,
+                        hintText: tr(context).enterAmount,
                         errorStyle:
                         TextStyle(color: BeldexPalette.red),
                       ),
@@ -766,6 +794,7 @@ class _SwapHomeState extends State<SwapHome> {
                                 text: TextSpan(
                                     text: selectedYouSendCoins.id,
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         color: settingsStore
                                             .isDarkTheme
                                             ? Color(
@@ -779,6 +808,7 @@ class _SwapHomeState extends State<SwapHome> {
                                       TextSpan(
                                           text: ' - ${selectedYouSendCoins.name}',
                                           style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               fontSize: 13,
                                               fontWeight:
                                               FontWeight
@@ -819,6 +849,7 @@ class _SwapHomeState extends State<SwapHome> {
                       text: TextSpan(
                           text: 'Minimum amount is ',
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               color: settingsStore.isDarkTheme
                                   ? Color(0xffFFFFFF)
                                   : Color(0xff222222),
@@ -828,6 +859,7 @@ class _SwapHomeState extends State<SwapHome> {
                             TextSpan(
                                 text: '762 BTC',
                                 style: TextStyle(
+                                    backgroundColor: Colors.transparent,
                                     decoration: TextDecoration
                                         .underline,
                                     fontSize: 14,
@@ -873,6 +905,7 @@ class _SwapHomeState extends State<SwapHome> {
                 'You get',
                 textAlign: TextAlign.start,
                 style: TextStyle(
+                    backgroundColor: Colors.transparent,
                     fontSize: 12,
                     fontWeight: FontWeight.normal,
                     color: settingsStore.isDarkTheme
@@ -900,11 +933,12 @@ class _SwapHomeState extends State<SwapHome> {
                     flex:1,
                     child: TextFormField(
                       style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           fontSize: 14.0,
                           fontWeight: FontWeight.normal,
                           color: Theme.of(context)
                               .primaryTextTheme
-                              .caption
+                              .caption!
                               .color),
                       controller: _getAmountController,
                       keyboardType: TextInputType.numberWithOptions(
@@ -965,6 +999,7 @@ class _SwapHomeState extends State<SwapHome> {
                                 text: TextSpan(
                                     text: selectedYouGetCoins.id,
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         color: settingsStore
                                             .isDarkTheme
                                             ? Color(
@@ -978,6 +1013,7 @@ class _SwapHomeState extends State<SwapHome> {
                                       TextSpan(
                                           text: ' - ${selectedYouGetCoins.name}',
                                           style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               fontSize: 13,
                                               fontWeight:
                                               FontWeight
@@ -1042,6 +1078,7 @@ class _SwapHomeState extends State<SwapHome> {
                         Text(
                           'Floating Exchange Rate',
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: settingsStore.isDarkTheme
@@ -1058,6 +1095,7 @@ class _SwapHomeState extends State<SwapHome> {
                         '~25148.398',
                         textAlign: TextAlign.end,
                         style: TextStyle(
+                            backgroundColor: Colors.transparent,
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                             color: settingsStore.isDarkTheme
@@ -1245,14 +1283,14 @@ class _SwapHomeState extends State<SwapHome> {
                         suffixIcon: IconButton(
                             icon: Icon(
                               Icons.close,
-                              color: youGetCoinsFilter == null || youGetCoinsFilter.isEmpty ? Colors.transparent : settingsStore
+                              color: youGetCoinsFilter == null || youGetCoinsFilter!.isEmpty ? Colors.transparent : settingsStore
                                   .isDarkTheme
                                   ? Color(
                                   0xffffffff)
                                   : Color(
                                   0xff171720),
                             ),
-                            onPressed: youGetCoinsFilter == null || youGetCoinsFilter.isEmpty ? null : () {
+                            onPressed: youGetCoinsFilter == null || youGetCoinsFilter!.isEmpty ? null : () {
                               searchYouGetCoinsController
                                   .clear();
                             }),
@@ -1286,7 +1324,7 @@ class _SwapHomeState extends State<SwapHome> {
                               radius: Radius
                                   .circular(
                                   10.0),
-                              isAlwaysShown:
+                              thumbVisibility:
                               true,
                               child: ListView
                                   .builder(
@@ -1299,7 +1337,7 @@ class _SwapHomeState extends State<SwapHome> {
                                     return youGetCoinsFilter == null ||
                                         youGetCoinsFilter == ''
                                         ? youGetCoinsDropDownListItem(settingsStore, index)
-                                        : '${youGetCoinsList[index].name}'.toLowerCase().contains(youGetCoinsFilter.toLowerCase())
+                                        : '${youGetCoinsList[index].name}'.toLowerCase().contains(youGetCoinsFilter!.toLowerCase())
                                         ? youGetCoinsDropDownListItem(settingsStore, index)
                                         : Container();
                                   }),
@@ -1343,14 +1381,14 @@ class _SwapHomeState extends State<SwapHome> {
                         suffixIcon: IconButton(
                             icon: Icon(
                               Icons.close,
-                              color: youSendCoinsFilter == null || youSendCoinsFilter.isEmpty ? Colors.transparent : settingsStore
+                              color: youSendCoinsFilter == null || youSendCoinsFilter!.isEmpty ? Colors.transparent : settingsStore
                                   .isDarkTheme
                                   ? Color(
                                   0xffffffff)
                                   : Color(
                                   0xff171720),
                             ),
-                            onPressed: youSendCoinsFilter == null || youSendCoinsFilter.isEmpty ? null : () {
+                            onPressed: youSendCoinsFilter == null || youSendCoinsFilter!.isEmpty ? null : () {
                               searchYouSendCoinsController
                                   .clear();
                             }),
@@ -1384,7 +1422,7 @@ class _SwapHomeState extends State<SwapHome> {
                               radius: Radius
                                   .circular(
                                   10.0),
-                              isAlwaysShown:
+                              thumbVisibility:
                               true,
                               child: ListView
                                   .builder(
@@ -1397,7 +1435,7 @@ class _SwapHomeState extends State<SwapHome> {
                                     return youSendCoinsFilter == null ||
                                         youSendCoinsFilter == ''
                                         ? youSendCoinsDropDownListItem(settingsStore, index)
-                                        : '${youSendCoinsList[index].name}'.toLowerCase().contains(youSendCoinsFilter.toLowerCase())
+                                        : '${youSendCoinsList[index].name}'.toLowerCase().contains(youSendCoinsFilter!.toLowerCase())
                                         ? youSendCoinsDropDownListItem(settingsStore, index)
                                         : Container();
                                   }),
@@ -1464,7 +1502,7 @@ class _SwapHomeState extends State<SwapHome> {
                 fontWeight: FontWeight.normal,
                 color: Theme.of(context)
                     .primaryTextTheme
-                    .caption
+                    .caption!
                     .color),
             controller: _senderAmountController,
             keyboardType: TextInputType.numberWithOptions(
@@ -1579,7 +1617,7 @@ class _SwapHomeState extends State<SwapHome> {
                 fontWeight: FontWeight.normal,
                 color: Theme.of(context)
                     .primaryTextTheme
-                    .caption
+                    .caption!
                     .color),
             controller: _senderAmountController,
             keyboardType: TextInputType.numberWithOptions(
@@ -1747,7 +1785,7 @@ class _SwapHomeState extends State<SwapHome> {
                   fontWeight: FontWeight.normal,
                   color: Theme.of(context)
                       .primaryTextTheme
-                      .caption
+                      .caption!
                       .color),
               controller: _senderAmountController,
               keyboardType:

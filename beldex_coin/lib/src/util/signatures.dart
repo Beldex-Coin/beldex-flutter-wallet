@@ -1,16 +1,17 @@
 import 'dart:ffi';
 
+import 'package:beldex_coin/src/structs/status_and_error.dart';
 import 'package:ffi/ffi.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
 import 'package:beldex_coin/src/structs/ut8_box.dart';
 
-typedef create_wallet = Int8 Function(
-    Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int32, Pointer<Utf8>);
+typedef create_wallet = status_and_error Function(
+    Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int32);
 
-typedef restore_wallet_from_seed = Int8 Function(
-    Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int32, Int64, Pointer<Utf8>);
+typedef restore_wallet_from_seed = status_and_error Function(
+    Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int32, Int64);
 
-typedef restore_wallet_from_keys = Int8 Function(
+typedef restore_wallet_from_keys = status_and_error Function(
     Pointer<Utf8>,
     Pointer<Utf8>,
     Pointer<Utf8>,
@@ -18,8 +19,7 @@ typedef restore_wallet_from_keys = Int8 Function(
     Pointer<Utf8>,
     Pointer<Utf8>,
     Int32,
-    Int64,
-    Pointer<Utf8>);
+    Int64);
 
 typedef is_wallet_exist = Int8 Function(Pointer<Utf8>);
 
@@ -43,12 +43,12 @@ typedef is_refreshing = Int8 Function();
 
 typedef is_connected = Int8 Function();
 
-typedef setup_node = Int8 Function(
-    Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int8, Int8, Pointer<Utf8>);
+typedef setup_node = status_and_error Function(
+    Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int8, Int8);
 
 typedef start_refresh = Void Function();
 
-typedef connect_to_node = Int8 Function();
+typedef connect_to_node = status_and_error Function();
 
 typedef set_refresh_from_block_height = Void Function(Int64);
 
@@ -93,7 +93,7 @@ typedef transactions_count = Int64 Function();
 
 typedef transactions_get_all = Pointer<Int64> Function();
 
-typedef transaction_create = Int8 Function(
+typedef transaction_create = status_and_error Function(
     Pointer<Utf8> address,
     Pointer<Utf8> amount,
     Int8 priorityRaw,
@@ -101,7 +101,7 @@ typedef transaction_create = Int8 Function(
     Pointer<Utf8Box> error,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
-typedef transaction_commit = Int8 Function(
+typedef transaction_commit = status_and_error Function(
     Pointer<PendingTransactionRaw>, Pointer<Utf8Box>);
 
 typedef transaction_estimate_fee = Int64 Function(Int32, Int32);
@@ -110,7 +110,7 @@ typedef stake_count = Int32 Function();
 
 typedef stake_get_all = Pointer<Int64> Function();
 
-typedef stake_create = Int8 Function(
+typedef stake_create = status_and_error Function(
     Pointer<Utf8> masterNodeKey,
     Pointer<Utf8> amount,
     Pointer<Utf8Box> error,
@@ -118,7 +118,7 @@ typedef stake_create = Int8 Function(
 
 typedef can_request_unstake = Int8 Function(Pointer<Utf8> masterNodeKey);
 
-typedef submit_stake_unlock = Int8 Function(Pointer<Utf8> masterNodeKey,
+typedef submit_stake_unlock = status_and_error Function(Pointer<Utf8> masterNodeKey,
     Pointer<Utf8Box> error, Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef secret_view_key = Pointer<Utf8> Function();

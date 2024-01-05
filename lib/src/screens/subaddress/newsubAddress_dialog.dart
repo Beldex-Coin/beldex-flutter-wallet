@@ -6,9 +6,10 @@ import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+
+import '../../../l10n.dart';
 class SubAddressAlert extends StatefulWidget {
-  const SubAddressAlert({Key key, this.subAddressListStore}) : super(key: key);
+  const SubAddressAlert({Key? key, required this.subAddressListStore}) : super(key: key);
   final SubaddressListStore subAddressListStore;
 
   @override
@@ -69,7 +70,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(S.of(context).subAddress,style: TextStyle(
+                    Text(tr(context).subAddress,style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold
                     ),),
@@ -80,7 +81,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                         controller: _labelController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
-                          hintText: S.of(context).labelName,
+                          hintText: tr(context).labelName,
                           hintStyle: TextStyle(color: Color(0xff77778B)),
                           contentPadding: EdgeInsets.symmetric(horizontal: 8),
                           border: OutlineInputBorder(
@@ -95,10 +96,10 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                         ),
                         validator: (value) {
                           final regex = RegExp(r'^[a-zA-Z0-9]+$');
-                          if (!(regex.hasMatch(value)) || !validateInput(value)) {
-                            return S.of(context).enterAValidSubAddress;
+                          if (!(regex.hasMatch(value!)) || !validateInput(value)) {
+                            return tr(context).enterAValidSubAddress;
                           } else if (checkSubAddressAlreadyExist(value)) {
-                            return S.of(context).subaddressAlreadyExist;
+                            return tr(context).subaddressAlreadyExist;
                           } else {
                             subAddressCreationStore.validateSubaddressName(value);
                             return subAddressCreationStore.errorMessage;
@@ -109,7 +110,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                     ),
                     LoadingPrimaryButton(
                         onPressed: () async {
-                          if (_formKey.currentState.validate()) {
+                          if (_formKey.currentState?.validate() ?? false) {
                             setState(() {
                               isLoading = true;
                             });
@@ -121,7 +122,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                             Navigator.of(context).pop();
                           }
                         },
-                        text: S.of(context).new_subaddress_create,
+                        text: tr(context).new_subaddress_create,
                         color: Color(0xff0BA70F),
                         borderColor: Color(0xff0BA70F),
                         isLoading: isLoading)

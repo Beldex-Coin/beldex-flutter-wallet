@@ -1,11 +1,9 @@
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:beldex_wallet/routes.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_list_service.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -13,11 +11,13 @@ import 'package:beldex_wallet/src/stores/wallet_restoration/wallet_restoration_s
 import 'package:beldex_wallet/src/widgets/seed_widget.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
 
+import '../../../l10n.dart';
+
 class RestoreWalletFromSeedPage extends BasePage {
   RestoreWalletFromSeedPage(
-      {@required this.walletsService,
-      @required this.walletService,
-      @required this.sharedPreferences});
+      {required this.walletsService,
+      required this.walletService,
+      required this.sharedPreferences});
 
   final WalletListService walletsService;
   final WalletService walletService;
@@ -28,7 +28,7 @@ class RestoreWalletFromSeedPage extends BasePage {
   bool get resizeToAvoidBottomInset => false;
 
   @override
-  String get title => S.current.restore_title_from_seed;
+  String getTitle(AppLocalizations t) => t.restore_title_from_seed;
 
   // @override
   // Widget leading(BuildContext context) {
@@ -51,7 +51,7 @@ class RestoreWalletFromSeedPage extends BasePage {
 }
 
 class RestoreFromSeedForm extends StatefulWidget {
-  RestoreFromSeedForm({Key key}) : super(key: key);
+  RestoreFromSeedForm({Key? key}) : super(key: key);
 
   @override
   _RestoreFromSeedFormState createState() => _RestoreFromSeedFormState();
@@ -60,7 +60,7 @@ class RestoreFromSeedForm extends StatefulWidget {
 class _RestoreFromSeedFormState extends State<RestoreFromSeedForm> {
   final _seedKey = GlobalKey<SeedWidgetState>();
 
-  void clear() => _seedKey.currentState.clear();
+  void clear() => _seedKey.currentState?.clear();
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +77,7 @@ class _RestoreFromSeedFormState extends State<RestoreFromSeedForm> {
             onMnemonicChange: (seed) => walletRestorationStore.setSeed(seed),
             onFinish: () => Navigator.of(context).pushNamed(
                 Routes.restoreWalletFromSeedDetails,
-                arguments: _seedKey.currentState.items),
+                arguments: _seedKey.currentState?.items),
             seedLanguage: seedLanguageStore.selectedSeedLanguage),
       ),
     );

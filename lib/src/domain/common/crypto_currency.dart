@@ -5,7 +5,7 @@ part 'crypto_currency.g.dart';
 
 @HiveType(typeId: 0)
 class CryptoCurrency extends EnumerableItem<int> with Serializable<int> {
-  const CryptoCurrency({final String title, final int raw})
+  const CryptoCurrency({required final String title, required final int raw})
       : super(title: title, raw: raw);
 
   static const all = [
@@ -43,7 +43,7 @@ class CryptoCurrency extends EnumerableItem<int> with Serializable<int> {
   static const xmr = CryptoCurrency(title: 'XMR', raw: 14);
 
 
-  static CryptoCurrency deserialize({int raw}) {
+  static CryptoCurrency deserialize({int? raw}) {
     switch (raw) {
       case 0:
         return CryptoCurrency.bdx;
@@ -76,7 +76,7 @@ class CryptoCurrency extends EnumerableItem<int> with Serializable<int> {
       case 14:
         return CryptoCurrency.xmr;
       default:
-        return null;
+        return CryptoCurrency.bdx;
     }
   }
 
@@ -113,7 +113,7 @@ class CryptoCurrency extends EnumerableItem<int> with Serializable<int> {
       case 'xrp':
         return CryptoCurrency.xrp;
       default:
-        return null;
+        return CryptoCurrency.bdx;
     }
   }
 

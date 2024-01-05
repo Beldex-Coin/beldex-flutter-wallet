@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:beldex_wallet/src/screens/subaddress/newsubAddress_dialog.dart';
@@ -8,17 +9,19 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/screens/receive/qr_image.dart';
 import 'package:beldex_wallet/src/stores/subaddress_list/subaddress_list_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import 'dart:ui' as ui;
-import 'package:wc_flutter_share/wc_flutter_share.dart';
+
+import '../../../l10n.dart';
 
 String currentSubAddress = '';
 
@@ -27,7 +30,7 @@ class ReceivePage extends BasePage {
   bool get isModalBackButton => false;
 
   @override
-  String get title => S.current.receive;
+  String getTitle(AppLocalizations t) => t.receive;
 
   @override
   Color get textColor => Colors.white;
@@ -52,7 +55,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
   final _formKey = GlobalKey<FormState>();
   bool isExpand = false;
   bool isOpen = false;
-  OverlayEntry overlayEntry;
+  OverlayEntry? overlayEntry;
   GlobalKey globalKey = GlobalKey();
   bool _isOverlayVisible = false;
 
@@ -69,15 +72,15 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
 
   final _globalKey = GlobalKey();
 
-  Future<Uint8List> _capturePng() async {
+  Future<Uint8List?> _capturePng() async {
     try {
       final boundary =
-          _globalKey.currentContext.findRenderObject() as RenderRepaintBoundary;
+          _globalKey.currentContext?.findRenderObject() as RenderRepaintBoundary;
       final image = await boundary.toImage(
         pixelRatio: 3.0,
       );
       final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
-      final pngBytes = byteData.buffer.asUint8List();
+      final pngBytes = byteData?.buffer.asUint8List();
       setState(() {});
       return pngBytes;
     } catch (e) {
@@ -88,12 +91,23 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
   void _incrementCounter(String address, String text) async {
     try {
       final imageUint8List = await _capturePng();
-      await WcFlutterShare.share(
+      final tempDir = await getTemporaryDirectory();
+      final filePath = '${tempDir.path}/share.jpeg';
+
+      await File(filePath).writeAsBytes(imageUint8List!);
+
+      await Share.shareFiles(
+          [filePath],
+          text: address,
+          subject: 'Share',
+          mimeTypes: ['image/jpeg']
+      );
+     /* await WcFlutterShare.share(
           text: address,
           sharePopupTitle: 'share',
           fileName: 'share.jpeg',
           mimeType: 'image/jpeg',
-          bytesOfFile: imageUint8List);
+          bytesOfFile: imageUint8List);*/
       setState(() {});
     } catch (e) {
       print(e.toString());
@@ -106,7 +120,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
     final subAddressListStore = Provider.of<SubaddressListStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
     amountController.addListener(() {
-      if (_formKey.currentState.validate()) {
+      if (_formKey.currentState?.validate() ?? false) {
         walletStore.onChangedAmountValue(amountController.text);
       } else {
         walletStore.onChangedAmountValue('');
@@ -179,8 +193,9 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                 Padding(
                                   padding: const EdgeInsets.only(right: 8.0),
                                   child: Text(
-                                    S.of(context).walletAddress,
+                                    tr(context).walletAddress,
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontWeight: FontWeight.w800,
                                         fontSize: 17,
                                         color: Color(0xff1BB51E)),
@@ -191,13 +206,12 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                     Clipboard.setData(ClipboardData(
                                         text: walletStore.subaddress.address));
                                     Toast.show(
-                                      S.of(context).copied,
-                                      context,
+                                      tr(context).copied,
                                       duration: Toast
-                                          .LENGTH_SHORT, // Toast duration (short or long)
+                                          .lengthShort, // Toast duration (short or long)
                                       gravity: Toast
-                                          .BOTTOM, // Toast gravity (top, center, or bottom)
-                                      textColor: settingsStore.isDarkTheme
+                                          .bottom, // Toast gravity (top, center, or bottom)
+                                      webTexColor: settingsStore.isDarkTheme
                                           ? Colors.black
                                           : Colors.white,
                                       backgroundColor: settingsStore.isDarkTheme
@@ -229,6 +243,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                                         .subaddress.address,
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
+                                                      backgroundColor: Colors.transparent,
                                                       fontSize: 11.0,
                                                       height: 1.5,
                                                       fontWeight:
@@ -250,8 +265,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        S.of(context).enterBdxToReceive,
-                        style: TextStyle(fontSize: 16),
+                        tr(context).enterBdxToReceive,
+                        style: TextStyle(backgroundColor: Colors.transparent,fontSize: 16),
                       ),
                     ],
                   ),
@@ -274,18 +289,16 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                           }),
                           FilteringTextInputFormatter.deny(RegExp('[-, ]'))
                         ],
-                        hintText: S.of(context).enterAmount,
+                        hintText: tr(context).enterAmount,
                         validator: (value) {
 
-                          walletStore.validateAmount(value);
-                          return walletStore.errorMessage;
+                          walletStore.validateAmount(value ?? '',tr(context));
+                          return walletStore.errorMessage!;
                         },
                         controller: amountController,
                         onChanged: (val) {
                           print('amount value called automatically');
-                          _globalKey.currentContext
-                              .findRenderObject()
-                              .reassemble();
+                          _globalKey.currentContext!.findRenderObject()!.reassemble();
                           if(amountController.text.isEmpty){
                             walletStore.onChangedAmountValue('');
                           }
@@ -352,9 +365,10 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                           color: Color(0xff2979FB)),
                                     ),
                                     Text(
-                                      S.of(context).addSubAddress,
-                                      //S.of(context).subaddresses,
+                                      tr(context).addSubAddress,
+                                      //tr(context).subaddresses,
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           decoration: TextDecoration.underline,
                                           fontSize: 16.0,
                                           fontWeight: FontWeight.w700,
@@ -388,8 +402,9 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                           Padding(
                             padding: const EdgeInsets.only(left: 8.0),
                             child: Text(
-                              S.of(context).shareQr,
+                              tr(context).shareQr,
                               style: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontSize: 16,
                                   color: Color(0xffffffff),
                                   fontWeight: FontWeight.bold),
@@ -439,6 +454,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 16.0,
                               fontWeight: FontWeight.w700,
                               color: settingsStore.isDarkTheme
@@ -473,7 +489,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
           prefs.setString('currentSubAddress', label.toString());
         }
       }
-      currentSubAddress = prefs.getString('currentSubAddress');
+      currentSubAddress = prefs.getString('currentSubAddress')!;
     });
   }
 
@@ -490,7 +506,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
               behavior: HitTestBehavior.translucent,
               onTap: () {
                 if (overlayEntry != null) {
-                  overlayEntry.remove();
+                  overlayEntry?.remove();
                   overlayEntry = null;
                 }
               },
@@ -530,7 +546,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                 return InkWell(
                                   onTap: () async {
                                     if (overlayEntry != null) {
-                                      overlayEntry.remove();
+                                      overlayEntry?.remove();
                                       overlayEntry = null;
                                     }
                                     final prefs =
@@ -540,7 +556,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                         'currentSubAddress', label.toString());
                                     setState(() {
                                       currentSubAddress =
-                                          prefs.getString('currentSubAddress');
+                                          prefs.getString('currentSubAddress')!;
                                     });
                                   },
                                   child: Column(
@@ -555,6 +571,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                           label,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.w700,
                                               color: Color(
@@ -597,15 +614,15 @@ class NewBeldexTextField extends StatelessWidget {
       this.onChanged});
 
   final bool enabled;
-  final String hintText;
-  final TextInputType keyboardType;
-  final TextEditingController controller;
-  final String Function(String) validator;
-  final List<TextInputFormatter> inputFormatters;
-  final Widget prefixIcon;
-  final Widget suffixIcon;
-  final FocusNode focusNode;
-  final ValueChanged<String> onChanged;
+  final String? hintText;
+  final TextInputType? keyboardType;
+  final TextEditingController? controller;
+  final String? Function(String?)? validator;
+  final List<TextInputFormatter>? inputFormatters;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final FocusNode? focusNode;
+  final ValueChanged<String>? onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -624,6 +641,7 @@ class NewBeldexTextField extends StatelessWidget {
           controller: controller,
           focusNode: focusNode,
           style: TextStyle(
+            backgroundColor: Colors.transparent,
             fontSize: 16.0,
           ),
           keyboardType: keyboardType,
@@ -642,7 +660,7 @@ class NewBeldexTextField extends StatelessWidget {
                   fontWeight: FontWeight.w600),
               hintText: hintText,
               errorStyle: TextStyle(color: BeldexPalette.red)),
-          validator: validator,
+          validator: validator!,
           onChanged: onChanged,
         ),
       ),
@@ -652,14 +670,14 @@ class NewBeldexTextField extends StatelessWidget {
 
 class SubAddressDropDownList extends StatefulWidget {
   const SubAddressDropDownList(
-      {Key key,
+      {Key? key,
       this.settingsStore,
-      this.walletStore,
-      this.subAddressListStore,
-      this.globalKey})
+      required this.walletStore,
+      required this.subAddressListStore,
+      required this.globalKey})
       : super(key: key);
 
-  final SettingsStore settingsStore;
+  final SettingsStore? settingsStore;
   final WalletStore walletStore;
   final SubaddressListStore subAddressListStore;
   final GlobalKey globalKey;
@@ -674,7 +692,7 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
   Widget build(BuildContext context) {
     return AlertDialog(
       insetPadding: EdgeInsets.all(8),
-      backgroundColor: widget.settingsStore.isDarkTheme
+      backgroundColor: widget.settingsStore?.isDarkTheme ?? false
           ? Color(0xff272733)
           : Color(0xffFFFFFF),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -683,11 +701,11 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Icon(
-            Icons.class__outlined,
+            Icons.class_outlined,
             color: Colors.transparent,
           ),
-          Text(S.of(context).subAddresses,
-              style: TextStyle(fontWeight: FontWeight.w800)),
+          Text(tr(context).subAddresses,
+              style: TextStyle(backgroundColor: Colors.transparent,fontWeight: FontWeight.w800)),
           GestureDetector(
               onTap: () => Navigator.pop(context), child: Icon(Icons.close))
         ],
@@ -696,7 +714,7 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
           width: double.maxFinite,
           height: MediaQuery.of(context).size.height * 0.80 / 3,
           decoration: BoxDecoration(
-              color: widget.settingsStore.isDarkTheme
+              color: widget.settingsStore?.isDarkTheme ?? false
                   ? Color(0xff272733)
                   : Color(0xffFFFFFF),
               borderRadius: BorderRadius.circular(10)),
@@ -704,7 +722,7 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
             children: [
               Expanded(
                 child: RawScrollbar(
-                  isAlwaysShown: true,
+                  thumbVisibility: true,
                   controller: _controller,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 5.0),
@@ -720,7 +738,7 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
                             final isCurrent =
                                 widget.walletStore.subaddress.address ==
                                     subaddress.address;
-                            final label = subaddress.label.isNotEmpty
+                            final label = subaddress.label.isNotEmpty != null
                                 ? subaddress.label
                                 : subaddress.address;
                             return InkWell(
@@ -732,14 +750,14 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
                                       widget.walletStore
                                           .setSubaddress(subaddress);
                                       widget.globalKey.currentContext
-                                          .findRenderObject()
-                                          .reassemble();
+                                          !.findRenderObject()
+                                          !.reassemble();
                                       Navigator.pop(context);
                                       await prefs.setString('currentSubAddress',
                                           label.toString());
                                       setState(() {
                                         currentSubAddress = prefs
-                                            .getString('currentSubAddress');
+                                            .getString('currentSubAddress')!;
                                       });
                                     },
                               child: isCurrent
@@ -756,6 +774,7 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
                                           child: Text(
                                             label,
                                             style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.w800,
                                               color: Colors
@@ -772,11 +791,9 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
                                         child: Text(
                                           label,
                                           style: TextStyle(
+                                            backgroundColor: Colors.transparent,
                                             fontSize: 16.0,
-                                            color: Theme.of(context)
-                                                .primaryTextTheme
-                                                .caption
-                                                .color, //Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+                                            color: Theme.of(context).primaryTextTheme.caption?.color, //Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
                                           ),
                                         ),
                                       ),

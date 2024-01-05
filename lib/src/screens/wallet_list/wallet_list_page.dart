@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/wallet_list/wallet_option_dialog.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
@@ -8,7 +9,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/routes.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/wallet/wallet_description.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/wallet_list/wallet_list_store.dart';
@@ -17,7 +17,7 @@ import '../../loading_page.dart';
 
 class WalletListPage extends BasePage {
   @override
-  String get title => S.current.wallets;
+  String getTitle(AppLocalizations t) => t.wallets;
 
   @override
   Widget trailing(BuildContext context) {
@@ -34,7 +34,7 @@ class WalletListBody extends StatefulWidget {
 }
 
 class WalletListBodyState extends State<WalletListBody> {
-  WalletListStore _walletListStore;
+  WalletListStore? _walletListStore;
   var isAuthenticatedSuccessfully = false;
 
   Future<void> presetMenuForWallet(
@@ -46,7 +46,7 @@ class WalletListBodyState extends State<WalletListBody> {
             builder: (_) => WalletAlertDialog(
                 onItemSelected: (int item) => walletMenu.action(item, wallet)))
         .then((value) {
-      isAuthenticatedSuccessfully = value;
+      isAuthenticatedSuccessfully = value!;
     });
   }
 
@@ -57,7 +57,7 @@ class WalletListBodyState extends State<WalletListBody> {
           context,
           MaterialPageRoute<void>(
               builder: (context) => LoadingPage(
-                  wallet: wallet, walletListStore: _walletListStore)));
+                  wallet: wallet, walletListStore: _walletListStore!)));
     }
   }
 
@@ -83,7 +83,7 @@ class WalletListBodyState extends State<WalletListBody> {
                     : Color(0xffEDEDED)),
             child: RawScrollbar(
               controller: _controller,
-              isAlwaysShown: true,
+              thumbVisibility: true,
               thickness: 8,
               thumbColor: settingsStore.isDarkTheme
                   ? Color(0xff3A3A45)
@@ -95,11 +95,11 @@ class WalletListBodyState extends State<WalletListBody> {
                   builder: (_) => ListView.builder(
                       controller: _controller,
                       scrollDirection: Axis.vertical,
-                      itemCount: _walletListStore.wallets.length,
+                      itemCount: _walletListStore!.wallets.length,
                       itemBuilder: (__, index) {
-                        final wallet = _walletListStore.wallets[index];
+                        final wallet = _walletListStore!.wallets[index];
                         final isCurrentWallet =
-                            _walletListStore.isCurrentWallet(wallet);
+                            _walletListStore!.isCurrentWallet(wallet);
                         return InkWell(
                             onTap: () async {
                               isCurrentWallet
@@ -150,7 +150,7 @@ class WalletListBodyState extends State<WalletListBody> {
               child: PrimaryButton(
                   onPressed: () => Navigator.of(context)
                       .pushNamed(Routes.restoreWalletOptions),
-                  text: S.of(context).wallet_list_restore_wallet,
+                  text: tr(context).wallet_list_restore_wallet,
                   color: Color(0xff2979FB),
                   borderColor: Color(0xff2979FB)),
             ),
@@ -160,7 +160,7 @@ class WalletListBodyState extends State<WalletListBody> {
               child: PrimaryButton(
                   onPressed: () =>
                       Navigator.of(context).pushNamed(Routes.newWallet),
-                  text: S.of(context).wallet_list_create_new_wallet,
+                  text: tr(context).wallet_list_create_new_wallet,
                   color: Color(0xff0BA70F),
                   borderColor: Color(0xff0BA70F)),
             ),

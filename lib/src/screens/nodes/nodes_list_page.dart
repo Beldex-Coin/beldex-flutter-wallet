@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -13,9 +12,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/src/util/constants.dart' as constants;
 
+import '../../../l10n.dart';
+
 class NodeListPage extends BasePage {
   @override
-  String get title => S.current.nodes;
+  String getTitle(AppLocalizations t) => t.nodes;
 
   @override
   Widget trailing(context) {
@@ -35,15 +36,15 @@ class NodeListPage extends BasePage {
           onPressed: () async {
             await showDialogForResetNode(
                 context,
-                S.of(context).node_reset_settings_title,
-                S.of(context).nodes_list_reset_to_default_message,
+                tr(context).node_reset_settings_title,
+                tr(context).nodes_list_reset_to_default_message,
                 '',
                 '',
                 onPressed: (context) async {
                   Navigator.pop(context);
                   await nodeList.reset();
                   await settings.setCurrentNodeToDefault();
-                  return true;
+                  //return true;
                 },
                 onDismiss: (context) => Navigator.pop(context));
           },
@@ -89,14 +90,14 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
           ),
           Expanded(child: Observer(builder: (context) {
             return ListView.builder(
-                itemCount: nodeList.nodes.length,
+                itemCount: nodeList.nodes?.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final node = nodeList.nodes[index];
+                  final node = nodeList.nodes![index];
 
                   return Observer(builder: (_) {
                     final isCurrent = settings.node == null
                         ? false
-                        : node.key == settings.node.key;
+                        : node.key == settings.node?.key;
 
                     final content = Card(
                         margin: EdgeInsets.only(
@@ -117,12 +118,13 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                           title: Text(
                             node.uri,
                             style: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 fontSize: 16.0,
                                 color: isCurrent
                                     ? Color(0xffffffff)
                                     : Theme.of(context)
                                         .primaryTextTheme
-                                        .headline6
+                                        .headline6!
                                         .color),
                           ),
                           trailing: FutureBuilder(
@@ -141,10 +143,10 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                           onTap: () async {
                             if (!isCurrent) {
                               await showSimpleBeldexDialog(context, '',
-                                  S.of(context).change_current_node(node.uri),
+                                  tr(context).change_current_node(node.uri),
                                   onPressed: (context) async {
                                 Navigator.of(context).pop();
-                                await settings.setCurrentNode(node: node);
+                                await settings.setCurrentNode(node);
                               }, status: true);
                             }
                           },
@@ -158,14 +160,14 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                               var result = false;
                               await showConfirmBeldexDialog(
                                   context,
-                                  S.of(context).remove_node,
-                                  S.of(context).remove_node_message,
+                                  tr(context).remove_node,
+                                  tr(context).remove_node_message,
                                   onDismiss: (context) =>
                                       Navigator.pop(context, true),
                                   onConfirm: (context) {
                                     result = true;
                                     Navigator.pop(context, true);
-                                    return true;
+                                    //return true;
                                   });
                               return result;
                             },
@@ -185,8 +187,8 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                                       color: Colors.white,
                                     ),
                                     Text(
-                                      S.of(context).delete,
-                                      style: TextStyle(color: Colors.white),
+                                      tr(context).delete,
+                                      style: TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
                                     )
                                   ],
                                 )),

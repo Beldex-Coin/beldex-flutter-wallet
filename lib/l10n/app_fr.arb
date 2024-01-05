@@ -28,7 +28,7 @@
 
 
   "wallet_menu" : "Menu du portefeuille",
-  "Blocks_remaining" : "{status} blocs restants",
+  "blocksRemaining" : "{status} blocs restants",
   "please_try_to_connect_to_another_node" : "veuillez essayer de vous connecter à un autre node",
   "beldex_hidden" : "Beldex caché",
   "beldex_available_balance" : "Beldex solde disponible",

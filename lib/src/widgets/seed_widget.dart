@@ -1,8 +1,8 @@
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/wallet/mnemotic_item.dart';
 import 'package:beldex_wallet/src/wallet/beldex/mnemonics/chinese_simplified.dart';
 import 'package:beldex_wallet/src/wallet/beldex/mnemonics/dutch.dart';
@@ -22,7 +22,7 @@ final List<String> _englishWords =
     EnglishMnemonics.words + EnglishOldMnemonics.words;
 
 class SeedWidget extends StatefulWidget {
-  SeedWidget({Key key, this.onMnemonicChange, this.onFinish, this.seedLanguage})
+  SeedWidget({required Key key, required this.onMnemonicChange, required this.onFinish, required this.seedLanguage})
       : super(key: key) {
     switch (seedLanguage) {
       case 'English':
@@ -63,7 +63,7 @@ class SeedWidget extends StatefulWidget {
   final Function(List<MnemoticItem>) onMnemonicChange;
   final Function() onFinish;
   final String seedLanguage;
-  List<String> words;
+  late final List<String> words;
 
   @override
   SeedWidgetState createState() => SeedWidgetState();
@@ -76,8 +76,8 @@ class SeedWidgetState extends State<SeedWidget> {
   final _seedTextFieldKey = GlobalKey();
   int maxWordCount = 25;
   int wordCount = 0;
-  List<MnemoticItem> currentMnemonics;
-  String _errorMessage;
+  List<MnemoticItem> currentMnemonics = [];
+  String? _errorMessage;
   String _errorMessage1 = '';
 
   @override
@@ -155,18 +155,21 @@ class SeedWidgetState extends State<SeedWidget> {
   }
 
   bool isSeedValid() {
-    var isValid = false;
+    //var isValid = false;
 
     for (final item in items) {
-      isValid = item.isCorrect();
-      if (!isValid) {
+      //isValid = item.isCorrect();
+     /* if (!isValid) {
         break;
+      }*/
+      if(!item.isCorrect()){
+        return false;
       }
     }
-    return isValid;
+    return true;
   }
 
-  List<String> words;
+  late final List<String> words;
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +197,7 @@ class SeedWidgetState extends State<SeedWidget> {
                         TextFormField(
                           key: _seedTextFieldKey,
                           maxLines: 5,
-                          style: TextStyle(fontSize: 16.0),
+                          style: TextStyle(backgroundColor: Colors.transparent,fontSize: 16.0),
                           controller: _seedController,
                           inputFormatters: [WordLimitInputFormatter(25)],
                           textInputAction: TextInputAction.done,
@@ -230,7 +233,7 @@ class SeedWidgetState extends State<SeedWidget> {
                             hintStyle:
                                 TextStyle(color: Colors.grey.withOpacity(0.6)),
                             hintText:
-                                S.of(context).restore_from_seed_placeholder,
+                                tr(context).restore_from_seed_placeholder,
                             errorText: _errorMessage,
                           ),
                         ),
@@ -264,8 +267,9 @@ class SeedWidgetState extends State<SeedWidget> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              child: Text(S.of(context).clear,
+                              child: Text(tr(context).clear,
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                       color: settingsStore.isDarkTheme
@@ -283,7 +287,7 @@ class SeedWidgetState extends State<SeedWidget> {
                               ),
                               onPressed: () async {
                                 await Clipboard.getData('text/plain').then(
-                                        (clipboard) => replaceText(clipboard.text));
+                                        (clipboard) => replaceText(clipboard?.text ?? ""));
                                 setState(() {
                                   wordCount = _seedController.text
                                       .split(' ')
@@ -292,8 +296,9 @@ class SeedWidgetState extends State<SeedWidget> {
                                       .length;
                                 });
                               },
-                              label: Text(S.of(context).paste,
+                              label: Text(tr(context).paste,
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.white)),
@@ -317,7 +322,7 @@ class SeedWidgetState extends State<SeedWidget> {
                     ? Container()
                     : Text(
                   '$_errorMessage1',
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(backgroundColor: Colors.transparent,color: Colors.red),
                 ),
                 Column(
                   children: [
@@ -344,7 +349,7 @@ class SeedWidgetState extends State<SeedWidget> {
                               print('inside second else --->');
                               setState(() {
                                 _errorMessage1 =
-                                    S.of(context).pleaseEnterAValidSeed;
+                                    tr(context).pleaseEnterAValidSeed;
                               });
                               return null;
                             }
@@ -352,20 +357,20 @@ class SeedWidgetState extends State<SeedWidget> {
                             print('inside second else --->');
                             setState(() {
                               _errorMessage1 =
-                                  S.of(context).pleaseEnterAValidSeed;
+                                  tr(context).pleaseEnterAValidSeed;
                             });
                             return null;
                           }
                         },
-                        text: S.of(context).seed_language_next,
+                        text: tr(context).seed_language_next,
                         color: Theme.of(context)
                             .primaryTextTheme
-                            .button
-                            .backgroundColor,
+                            .button!
+                            .backgroundColor!,
                         borderColor: Theme.of(context)
                             .primaryTextTheme
-                            .button
-                            .backgroundColor)
+                            .button!
+                            .backgroundColor!)
                   ],
                 )
               ]),
