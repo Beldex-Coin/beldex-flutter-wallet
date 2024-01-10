@@ -340,6 +340,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                               settingsStore.isDarkTheme
                                                   ? Color(0xff13131A)
                                                   : Color(0xffffffff),
+                                              surfaceTintColor: Colors.transparent,
                                               content: Container(
                                                 margin: EdgeInsets.symmetric(
                                                     vertical: 20),

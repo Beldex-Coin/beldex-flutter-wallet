@@ -47,7 +47,7 @@ class AddressTextField extends StatelessWidget {
     return BeldexTextField(
       enabled: isActive,
       controller: controller!,
-      focusNode: focusNode!,
+      focusNode: focusNode ?? FocusNode(),
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
       ],
@@ -142,7 +142,7 @@ class AddressTextField extends StatelessWidget {
       hintText: placeholder ?? tr(context).enterAddress,
       validator: validator,
       onChanged: onChanged!,
-      autoValidateMode: autoValidateMode!,
+      autoValidateMode: autoValidateMode ?? AutovalidateMode.disabled,
       onTap: onTap!,
     );
   }

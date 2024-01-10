@@ -98,11 +98,10 @@ typedef transaction_create = status_and_error Function(
     Pointer<Utf8> amount,
     Int8 priorityRaw,
     Int32 subaddrAccount,
-    Pointer<Utf8Box> error,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef transaction_commit = status_and_error Function(
-    Pointer<PendingTransactionRaw>, Pointer<Utf8Box>);
+    Pointer<PendingTransactionRaw>);
 
 typedef transaction_estimate_fee = Int64 Function(Int32, Int32);
 
@@ -113,13 +112,12 @@ typedef stake_get_all = Pointer<Int64> Function();
 typedef stake_create = status_and_error Function(
     Pointer<Utf8> masterNodeKey,
     Pointer<Utf8> amount,
-    Pointer<Utf8Box> error,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef can_request_unstake = Int8 Function(Pointer<Utf8> masterNodeKey);
 
 typedef submit_stake_unlock = status_and_error Function(Pointer<Utf8> masterNodeKey,
-    Pointer<Utf8Box> error, Pointer<PendingTransactionRaw> pendingTransaction);
+    Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef secret_view_key = Pointer<Utf8> Function();
 

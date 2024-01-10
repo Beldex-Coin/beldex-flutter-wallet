@@ -147,7 +147,7 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                                   onPressed: (context) async {
                                 Navigator.of(context).pop();
                                 await settings.setCurrentNode(node);
-                              }, status: true);
+                              }, status: true,onDismiss:(context){ Navigator.of(context).pop();});
                             }
                           },
                         )));

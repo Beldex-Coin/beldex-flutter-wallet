@@ -58,14 +58,7 @@ class FaqPage extends BasePage {
 
                     return Theme(
                       data: Theme.of(context).copyWith(
-                          colorScheme: ColorScheme.fromSwatch().copyWith(
-                            secondary: settingsStore.isDarkTheme
-                                ? Colors.white
-                                : Colors.black, // Your accent color
-                          ),
-                          dividerColor: Colors.transparent,
-                          textSelectionTheme: TextSelectionThemeData(
-                              selectionColor: Colors.green)),
+                          dividerColor: Colors.transparent,),
                       child: Container(
                         margin:
                             EdgeInsets.only(left: 15, right: 15.0, bottom: 8.0),
@@ -76,10 +69,16 @@ class FaqPage extends BasePage {
                                     : Color(0xffDADADA)),
                             borderRadius: BorderRadius.circular(10)),
                         child: ExpansionTile(
+                          iconColor: settingsStore.isDarkTheme
+                              ? Colors.white
+                              : Colors.black,
                           title: Text(
                             itemTitle,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
+                                color:settingsStore.isDarkTheme
+                                    ? Colors.white
+                                    : Colors.black,
                                 fontSize: 13, fontWeight: FontWeight.w800),
                           ),
                           children: <Widget>[

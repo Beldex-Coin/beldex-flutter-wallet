@@ -31,6 +31,7 @@ class ShowKeysPage extends BasePage {
     final walletKeysStore = Provider.of<WalletKeysStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
     //setPageSecure();
+    ToastContext().init(context);
     return Container(
         padding: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 5, right: 5),
         child: Observer(
@@ -84,8 +85,8 @@ class ShowKeysPage extends BasePage {
                                 duration: Toast
                                     .lengthShort, // Toast duration (short or long)
                                 gravity: Toast
-                                    .bottom, // Toast gravity (top, center, or bottom)
-                                webTexColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                    .bottom,
+                                textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                               );
 

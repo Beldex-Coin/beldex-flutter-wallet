@@ -72,6 +72,7 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                     : Color(0xffFFFFFF),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)),
+                surfaceTintColor: Colors.transparent,
                 //this right here
                 child: Container(
                   height: 170,
@@ -135,6 +136,7 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                     : Color(0xffFFFFFF),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)),
+                surfaceTintColor: Colors.transparent,
                 //this right here
                 child: Container(
                   height: 170,

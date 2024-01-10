@@ -41,7 +41,7 @@ class BeldexTextField extends StatelessWidget {
             onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
             enabled: enabled,
             controller: controller,
-            focusNode: focusNode,
+            focusNode: focusNode ?? FocusNode(),
             style: TextStyle(
               backgroundColor: Colors.transparent,
                 fontSize: 16.0,
@@ -55,9 +55,9 @@ class BeldexTextField extends StatelessWidget {
                 prefixIcon: prefixIcon,
                 suffixIcon: suffixIcon,
                 hintStyle:
-                    TextStyle(fontSize: 16.0, color: Colors.grey.withOpacity(0.6),fontWeight: FontWeight.bold),
+                    TextStyle(backgroundColor:Colors.transparent,fontSize: 16.0, color: Colors.grey.withOpacity(0.6),fontWeight: FontWeight.bold),
                 hintText: hintText,
-                errorStyle: TextStyle(color: BeldexPalette.red)),
+                errorStyle: TextStyle(backgroundColor:Colors.transparent,color: BeldexPalette.red)),
             validator: validator,
             onTap: onTap,
         ),

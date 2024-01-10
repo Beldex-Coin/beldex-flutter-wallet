@@ -518,7 +518,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                             ? () {
                                           Navigator.of(context,
                                               rootNavigator: true)
-                                              .pushNamed(Routes.send);
+                                              .pushNamed(Routes.send,arguments: {'flash': false, 'address': "", 'amount': ""});
                                         }
                                             : null,
                                         label: Flexible(
@@ -700,6 +700,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                 : Color(0xffffffff),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
+            surfaceTintColor: Colors.transparent,
             child: Container(
               height: 170,
               child: Padding(

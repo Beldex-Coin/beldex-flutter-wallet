@@ -132,6 +132,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
+                  surfaceTintColor: Colors.transparent,
                   content: Text(state.error),
                   actions: <Widget>[
                     TextButton(
@@ -186,12 +187,13 @@ class _WalletNameFormState extends State<WalletNameForm> {
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle: TextStyle(
+                            backgroundColor: Colors.transparent,
                               fontSize: 16.0,
                               color: settingsStore.isDarkTheme
                                   ? Color(0xff747474)
                                   : Color(0xff6F6F6F)),
                           hintText: tr(context).enterWalletName_,
-                          errorStyle: TextStyle(height: 1),
+                          errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 1),
                         ),
                         validator: (value) {
                           final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');

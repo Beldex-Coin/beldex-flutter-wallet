@@ -126,7 +126,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
         walletStore.onChangedAmountValue('');
       }
     });
-
+    ToastContext().init(context);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -211,9 +211,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                           .lengthShort, // Toast duration (short or long)
                                       gravity: Toast
                                           .bottom, // Toast gravity (top, center, or bottom)
-                                      webTexColor: settingsStore.isDarkTheme
-                                          ? Colors.black
-                                          : Colors.white,
+                                      textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),
                                       backgroundColor: settingsStore.isDarkTheme
                                           ? Colors.grey.shade50
                                           : Colors.grey.shade900,
@@ -293,7 +291,11 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                         validator: (value) {
 
                           walletStore.validateAmount(value ?? '',tr(context));
-                          return walletStore.errorMessage!;
+                          if (walletStore.errorMessage?.isNotEmpty ?? false) {
+                           return walletStore.errorMessage!;
+                          } else {
+                            return null;
+                          }
                         },
                         controller: amountController,
                         onChanged: (val) {
@@ -484,7 +486,9 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
       for (var i = 0; i < subAddressListStore.subaddresses.length; i++) {
         subaddress = subAddressListStore.subaddresses[i];
         isCurrent = walletStore.subaddress.address == subaddress.address;
-        label = subaddress.label ?? subaddress.address;
+        label = subaddress.label.isNotEmpty
+            ? subaddress.label
+            : subaddress.address;
         if (isCurrent) {
           prefs.setString('currentSubAddress', label.toString());
         }
@@ -695,6 +699,7 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
       backgroundColor: widget.settingsStore?.isDarkTheme ?? false
           ? Color(0xff272733)
           : Color(0xffFFFFFF),
+      surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       title: Center(
           child: Row(
@@ -705,7 +710,9 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
             color: Colors.transparent,
           ),
           Text(tr(context).subAddresses,
-              style: TextStyle(backgroundColor: Colors.transparent,fontWeight: FontWeight.w800)),
+              style: TextStyle(backgroundColor: Colors.transparent,color:widget.settingsStore?.isDarkTheme ?? false
+                  ? Color(0xffFFFFFF)
+                  : Color(0xff222222),fontWeight: FontWeight.w800)),
           GestureDetector(
               onTap: () => Navigator.pop(context), child: Icon(Icons.close))
         ],
@@ -738,7 +745,7 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
                             final isCurrent =
                                 widget.walletStore.subaddress.address ==
                                     subaddress.address;
-                            final label = subaddress.label.isNotEmpty != null
+                            final label = subaddress.label.isNotEmpty
                                 ? subaddress.label
                                 : subaddress.address;
                             return InkWell(

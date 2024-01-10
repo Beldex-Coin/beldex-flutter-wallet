@@ -76,8 +76,8 @@ class _AlertReconnectConfirmDialogState
     return Dialog(
         insetPadding: EdgeInsets.all(15),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        backgroundColor:
-            settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffFFFFFF),
+        backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffFFFFFF),
+        surfaceTintColor: Colors.transparent,
         child: Container(
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.all(20),
@@ -92,7 +92,7 @@ class _AlertReconnectConfirmDialogState
                 padding: const EdgeInsets.all(8.0),
                 child: Text(tr(context).doYouWantToReconnectnTheWallet,
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16)),
+                    style: TextStyle(backgroundColor:Colors.transparent,fontSize: 16)),
               ),
               SizedBox(
                 height: 10,
@@ -113,6 +113,7 @@ class _AlertReconnectConfirmDialogState
                     child: Text(
                       tr(context).cancel,
                       style: TextStyle(
+                          backgroundColor:Colors.transparent,
                           fontSize: 17,
                           color: settingsStore.isDarkTheme
                               ? Colors.white
@@ -131,6 +132,7 @@ class _AlertReconnectConfirmDialogState
                     child: Text(
                       tr(context).ok,
                       style: TextStyle(
+                        backgroundColor: Colors.transparent,
                           fontSize: 17,
                           color: Colors.white,
                           fontWeight: FontWeight.bold),

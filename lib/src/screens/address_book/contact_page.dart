@@ -12,9 +12,9 @@ import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:provider/provider.dart';
 
 class ContactPage extends BasePage {
-  ContactPage({this.contact});
+  ContactPage({required this.contact});
 
-  final Contact? contact;
+  final Contact contact;
 
   @override
   String getTitle(AppLocalizations t) => t.addAddress;
@@ -31,7 +31,7 @@ class ContactPage extends BasePage {
 class ContactForm extends StatefulWidget {
   ContactForm(this.contact, this.contxt);
 
-  final Contact? contact;
+  final Contact contact;
   final BuildContext contxt;
 
   @override
@@ -51,13 +51,13 @@ class ContactFormState extends State<ContactForm> {
   @override
   void initState() {
     super.initState();
-    if (widget.contact == null) {
+    if (widget.contact.name.isEmpty && widget.contact.address.isEmpty) {
       _currencyTypeController.text = _selectedCrypto.toString();
     } else {
       //_selectedCrypto = widget.contact.type;
-      _contactNameController.text = widget.contact!.name;
+      _contactNameController.text = widget.contact.name;
       _currencyTypeController.text = _selectedCrypto.toString();
-      _addressController.text = widget.contact!.address;
+      _addressController.text = widget.contact.address;
     }
     getAllAddressNames(widget.contxt);
   }
@@ -130,7 +130,11 @@ class ContactFormState extends State<ContactForm> {
                     return tr(context).thisNameAlreadyExist;
                   }
                   addressBookStore.validateContactName(value,tr(context));
-                  return addressBookStore.errorMessage;
+                  if(addressBookStore.errorMessage?.isNotEmpty ?? false) {
+                    return addressBookStore.errorMessage;
+                  }else{
+                    return null;
+                  }
                 },
               ),
               SizedBox(height: 14.0),
@@ -247,27 +251,31 @@ class ContactFormState extends State<ContactForm> {
               ),
               SizedBox(height: 14.0),
               AddressTextField(
-               // isActive: widget.contact == null ? true : false,
                 controller: _addressController,
                 options: [AddressTextFieldOption.qrCode],
                 autoValidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
-                  if(value!.isEmpty || value == ''){
+                  if(value?.isEmpty  ?? false || value == ''){
                     return 'Address should not be empty';
                   }else
                   {
-                     if(widget.contact == null){
+                     if(widget.contact.name.isEmpty && widget.contact.address.isEmpty){
                   for (var items in addressBookStore.contactList) {
                     if (items.address.contains(value!)) {
                       return tr(context).theAddressAlreadyExist;
                     }
                   }
                   }
-                  addressBookStore.validateAddress(value!,
-                      cryptoCurrency: _selectedCrypto,t:tr(context));
-                  return addressBookStore.errorMessage;
+                  addressBookStore.validateAddress(value!, cryptoCurrency: _selectedCrypto,t:tr(context));
+                     if(addressBookStore.errorMessage?.isNotEmpty ?? false) {
+                       return addressBookStore.errorMessage;
+                     }else{
+                       return null;
+                     }
                   }
                 },
+                onChanged: (context){},
+                onTap: (){},
               )
             ],
           ),
@@ -327,7 +335,7 @@ class ContactFormState extends State<ContactForm> {
                             return;
                           }
                           try {
-                            if (widget.contact == null) {
+                            if (widget.contact.name.isEmpty && widget.contact.address.isEmpty) {
                               final newContact = Contact(
                                   name: _contactNameController.text,
                                   address: _addressController.text,
@@ -356,6 +364,7 @@ class ContactFormState extends State<ContactForm> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(20.0)),
+                                    surfaceTintColor: Colors.transparent,
                                     child: Container(
                                       height: 170,
                                       child: Padding(

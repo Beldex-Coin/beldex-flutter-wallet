@@ -32,10 +32,9 @@ PendingTransactionDescription createStakeSync(
     String masterNodeKey, String? amount) {
   final masterNodeKeyPointer = masterNodeKey.toNativeUtf8();
   final amountPointer = amount != null ? amount.toNativeUtf8() : nullptr;
-  final errorMessagePointer = calloc<Utf8Box>();
   final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
   final created = stakeCreateNative(masterNodeKeyPointer, amountPointer,
-          errorMessagePointer, pendingTransactionRawPointer);
+         pendingTransactionRawPointer);
 
   calloc.free(masterNodeKeyPointer);
 
@@ -58,17 +57,16 @@ PendingTransactionDescription createStakeSync(
 
 void submitStakeUnlockSync(String masterNodeKey) {
   final masterNodeKeyPointer = masterNodeKey.toNativeUtf8();
-  final errorMessagePointer = calloc<Utf8Box>();
   final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
-  final created = submitStakeUnlockNative(masterNodeKeyPointer,
-          errorMessagePointer, pendingTransactionRawPointer);
+  final result = submitStakeUnlockNative(masterNodeKeyPointer,
+          pendingTransactionRawPointer);
 
   calloc.free(masterNodeKeyPointer);
 
-  if (!created.good) //{
+  if (!result.good) //{
     //final message = errorMessagePointer.ref.getValue();
     //free(errorMessagePointer);
-    throw CreationTransactionException(message: created.errorString());
+    throw CreationTransactionException(message: result.errorString());
   //}
     calloc.free(pendingTransactionRawPointer);
 

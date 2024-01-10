@@ -12,23 +12,24 @@ import 'package:share_plus/share_plus.dart';
 import 'package:toast/toast.dart';
 
 class SeedPage extends BasePage {
-  SeedPage({required this.onCloseCallback});
+  SeedPage({required this.onCloseCallback,required this.showSeed});
 
   @override
   bool get isModalBackButton => true;
 
   @override
-  String getTitle(AppLocalizations t) => onCloseCallback != null ? t.widgets_seed : t.recoverySeed;
+  String getTitle(AppLocalizations t) => !showSeed ? t.widgets_seed : t.recoverySeed;
 
   final VoidCallback onCloseCallback;
+  final bool showSeed;
 
   @override
   void onClose(BuildContext context) =>
-      onCloseCallback != null ? onCloseCallback() : Navigator.of(context).pop();
+      !showSeed ? onCloseCallback() : Navigator.of(context).pop();
 
   @override
   Widget? leading(BuildContext context) {
-    return onCloseCallback != null ? Offstage() : super.leading(context);
+    return !showSeed ? Offstage() : super.leading(context);
   }
 
   @override
@@ -40,14 +41,16 @@ class SeedPage extends BasePage {
   Widget body(BuildContext context) {
     return SeedDisplayWidget(
       onCloseCallback: onCloseCallback,
+      showSeed: showSeed,
     );
   }
 }
 
 class SeedDisplayWidget extends StatefulWidget {
-  SeedDisplayWidget({Key? key, this.onCloseCallback}) : super(key: key);
+  SeedDisplayWidget({Key? key, this.onCloseCallback,required this.showSeed}) : super(key: key);
 
   VoidCallback? onCloseCallback;
+  bool showSeed;
 
   @override
   State<SeedDisplayWidget> createState() => _SeedDisplayWidgetState();
@@ -74,6 +77,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
     String _seed;
     String? _isSeed;
     final _height = MediaQuery.of(context).size.height;
+    ToastContext().init(context);
     return ScrollableWithBottomSection(
       contentPadding: EdgeInsets.all(0),
       content: Container(
@@ -193,7 +197,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(15.0),
-                                child: widget.onCloseCallback != null
+                                child: !widget.showSeed
                                     ? Row(
                                         children: [
                                           Expanded(
@@ -219,7 +223,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                           gravity:
                                                               Toast.bottom,
                                                           // Toast gravity (top, center, or bottom)
-                                                          webTexColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                                          textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900, // Background color
                                                         );
                                                       }
@@ -341,7 +345,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                   // Toast duration (short or long)
                                                   gravity: Toast.bottom,
                                                   // Toast gravity (top, center, or bottom)
-                                                  webTexColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                                  textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                                                 );
                                               },
@@ -429,7 +433,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
         )),
       ),
       bottomSection:  Column(children: [
-        widget.onCloseCallback != null && !isCopied || _isSeed != null
+        !widget.showSeed && !isCopied || _isSeed != null
             ? Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
@@ -440,13 +444,13 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
             : Container(),
         Row(children: [
           Expanded(
-            child: widget.onCloseCallback != null || _isSeed != null
+            child: !widget.showSeed || _isSeed != null
                 ? Container(
               margin: EdgeInsets.all(10),
               child: ElevatedButton(
                 onPressed: isCopied
                     ? () {
-                  widget.onCloseCallback != null
+                  !widget.showSeed
                       ? widget.onCloseCallback!()
                       : Navigator.of(context).pop();
                 }

@@ -15,15 +15,13 @@ Future showBeldexDialog(BuildContext context, Widget child,
 
 Future showSimpleBeldexDialog(BuildContext context, String title, String body,
     {bool status = false,
-    String? buttonText,
     required void Function(BuildContext context) onPressed,
-    void Function(BuildContext context)? onDismiss}) {
+    required void Function(BuildContext context) onDismiss}) {
   return showDialog<void>(
       builder: (_) => SimpleBeldexDialog(
             title,
             body,
-            buttonText: buttonText!,
-            onDismiss: onDismiss!,
+            onDismiss: onDismiss,
             onPressed: onPressed,
             status: status,
           ),
@@ -75,6 +73,7 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
               style: TextStyle(backgroundColor: Colors.transparent,fontWeight: FontWeight.w800))),
       backgroundColor:
           settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
+      surfaceTintColor: Colors.transparent,
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -199,11 +198,10 @@ class BeldexDialog extends StatelessWidget {
 
 class SimpleBeldexDialog extends StatelessWidget {
   SimpleBeldexDialog(this.title, this.body,
-      {this.buttonText, this.onPressed, this.onDismiss, required this.status});
+      {this.onPressed, this.onDismiss, required this.status});
 
   final String title;
   final String body;
-  final String? buttonText;
   final bool status;
   final void Function(BuildContext context)? onPressed;
   final void Function(BuildContext context)? onDismiss;
@@ -246,7 +244,7 @@ class SimpleBeldexDialog extends StatelessWidget {
               Container(
                 width: MediaQuery.of(context).size.width / 3,
                 child: PrimaryButton(
-                    text: buttonText ?? tr(context).ok,
+                    text: tr(context).ok,
                     color: Theme.of(context).primaryTextTheme.button?.backgroundColor,
                     borderColor: Theme.of(context).primaryTextTheme.button?.backgroundColor,
                     onPressed: () {

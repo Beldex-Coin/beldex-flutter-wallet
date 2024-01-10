@@ -203,7 +203,8 @@ class Router {
             builder: (_) { return createSeedPage(
                 settingsStore: settingsStore,
                 walletService: walletService,
-                callback: settings.arguments as void Function());});
+                callback: () { },
+                showSeed: true);});
 
       case Routes.restoreWalletFromSeed:
         return MaterialPageRoute<void>(
@@ -402,7 +403,7 @@ class Router {
                       AccountListStore(walletService: walletService)),
               Provider(create: (_) => AddressBookStore(contacts: contacts))
             ],
-            child: AddressBookPage(),
+            child: AddressBookPage(isEditable: true),
           );
         });
 

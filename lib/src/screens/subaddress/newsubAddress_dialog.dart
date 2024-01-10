@@ -62,6 +62,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
             insetPadding: EdgeInsets.all(15),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             backgroundColor:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF),
+            surfaceTintColor: Colors.transparent,
             child: Form(
               key: _formKey,
               child: Container(
@@ -82,7 +83,12 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                           hintText: tr(context).labelName,
-                          hintStyle: TextStyle(color: Color(0xff77778B)),
+                          hintStyle: TextStyle(backgroundColor:Colors.transparent,color: Color(0xff77778B)),
+                          errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           contentPadding: EdgeInsets.symmetric(horizontal: 8),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),

@@ -24,11 +24,11 @@ class TransactionInfoRow extends Struct {
   @Int8()
   external int isPending;
 
-  @Int8()
+/*  @Int8()
   external int isStake;
 
   @Uint64()
-  external int transferAmount;
+  external int transferAmount;*/
 
   external Pointer<Utf8> hash;
 
@@ -38,8 +38,8 @@ class TransactionInfoRow extends Struct {
   external int datetime;
 
   int getDatetime() => datetime;
-  int getAmount() => amount >= 0 ? amount : amount;
-  int? getTransferAmount() => transferAmount > 0 ? transferAmount : transferAmount < 0 ? -amount : null;
+  int getAmount() => amount >= 0 ? amount : -amount;
+  //int? getTransferAmount() => transferAmount > 0 ? transferAmount : transferAmount < 0 ? -amount : null;
   int getFee() => fee >= 0 ? fee : -fee;
   bool getIsPending() => isPending != 0;
   String getHash() => hash.toDartString();

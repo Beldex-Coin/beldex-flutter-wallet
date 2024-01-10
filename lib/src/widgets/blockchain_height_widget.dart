@@ -23,7 +23,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
   @override
   void initState() {
     restoreHeightController.addListener(() => _height =
-        restoreHeightController.text != null
+        restoreHeightController.text.isNotEmpty
             ? int.parse(restoreHeightController.text)
             : 0);
     super.initState();
@@ -101,7 +101,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                                 hintText: tr(context).widgets_restore_from_date,),
                             controller: dateController,
                             validator: (value) {
-                              if(value?.isEmpty != null){
+                              if(value?.isEmpty ?? false){
                                 return tr(context).dateShouldNotBeEmpty;
                               }else{
                                return null;
@@ -150,6 +150,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
   Future selectDate(BuildContext context) async {
     final now = DateTime.now();
     final date = await showDatePicker(
+        initialEntryMode:DatePickerEntryMode.calendarOnly,
         context: context,
         initialDate: now.subtract(Duration(days: 1)),
         firstDate: DateTime(2014, DateTime.april),

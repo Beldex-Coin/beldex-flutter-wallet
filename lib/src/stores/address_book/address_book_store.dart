@@ -41,7 +41,7 @@ abstract class AddressBookStoreBase with Store {
     const pattern = '''^[^`,'"]{1,32}\$''';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
-    errorMessage = (isValid ? null : t.error_text_contact_name)!;
+    errorMessage = (isValid ? '' : t.error_text_contact_name);
   }
 
   void validateAddress(String value, {CryptoCurrency? cryptoCurrency,required AppLocalizations t}) {
@@ -100,6 +100,6 @@ abstract class AddressBookStoreBase with Store {
       }
     }
 
-    errorMessage = (isValid ? null : t.error_text_address)!;
+    errorMessage = (isValid ? '' : t.error_text_address)!;
   }
 }

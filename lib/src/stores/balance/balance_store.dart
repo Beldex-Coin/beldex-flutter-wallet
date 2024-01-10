@@ -52,16 +52,16 @@ abstract class BalanceStoreBase with Store {
   String get fiatFullBalance {
     final symbol = PriceStoreBase.generateSymbolForFiat(
         fiat: _settingsStore.fiatCurrency);
-    final price = _priceStore.prices[symbol];
-    return calculateFiatAmount(price: price!, cryptoAmount: fullBalance);
+    final price = _priceStore.prices[symbol] ?? double.nan;
+    return calculateFiatAmount(price: price, cryptoAmount: fullBalance);
   }
 
   @computed
   String get fiatUnlockedBalance {
     final symbol = PriceStoreBase.generateSymbolForFiat(
         fiat: _settingsStore.fiatCurrency);
-    final price = _priceStore.prices[symbol];
-    return calculateFiatAmount(price: price!, cryptoAmount: unlockedBalance);
+    final price = _priceStore.prices[symbol] ?? double.nan;
+    return calculateFiatAmount(price: price, cryptoAmount: unlockedBalance);
   }
 
   @observable
@@ -96,7 +96,7 @@ abstract class BalanceStoreBase with Store {
     }
   }
 
-  Future _onWalletChanged(Wallet wallet) async {
+  Future _onWalletChanged(Wallet? wallet) async {
     if (_onBalanceChangeSubscription != null) {
       await _onBalanceChangeSubscription?.cancel();
     }

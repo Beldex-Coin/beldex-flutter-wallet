@@ -56,6 +56,7 @@ class WalletMenu {
                 shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.circular(10.0)), //this right here
+                surfaceTintColor: Colors.transparent,
                 child: FractionallySizedBox(
                   widthFactor: 0.95,
                   // heightFactor:0.50 ,

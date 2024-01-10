@@ -22,7 +22,7 @@ extern "C"
 {
     typedef struct
     {
-bool good;
+        bool good;
         char error[1023];
     } status_and_error;
     void set_error(status_and_error& sae, std::string_view error) {

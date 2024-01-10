@@ -210,10 +210,12 @@ abstract class SendStoreBase with Store {
     if (isValid && cryptoCurrency != null) {
       switch (cryptoCurrency) {
         case CryptoCurrency.bdx:
+          isValid = (value.length == 95)||(value.length == 97)||(value.length == 96)||(value.length == 106);
+          break;
         case CryptoCurrency.xmr:
           isValid = (value.length == 95) ||
               (value.length == 97) || // Testnet addresses have 2 extra bits indicating the network id
-              (value.length == 106);
+              (value.length == 106)||(value.length == 96);
           break;
         case CryptoCurrency.ada:
           isValid = (value.length == 59) ||
@@ -260,7 +262,7 @@ abstract class SendStoreBase with Store {
     }
 
     isValid = true;
-    errorMessage = (isValid ? null : t.error_text_address)!;
+    errorMessage = (isValid ? '' : t.error_text_address)!;
   }
 
   bool compareAvailableBalance(String amount, int availableBalance) {

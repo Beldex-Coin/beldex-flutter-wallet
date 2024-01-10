@@ -99,7 +99,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
   @override
   void initState() {
     restoreHeightController.addListener(() => _height =
-        restoreHeightController.text != null
+        restoreHeightController.text.isNotEmpty
             ? int.parse(restoreHeightController.text)
             : 0);
     super.initState();
@@ -154,7 +154,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                         padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
                         child: TextFormField(
                           textInputAction: TextInputAction.done,
-                          style: TextStyle(fontSize: 14.0),
+                          style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
                           controller: restoreHeightController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           inputFormatters: [FilteringTextInputFormatter.digitsOnly,NoSpaceFormatter(),FilteringTextInputFormatter.deny(RegExp('[-,. ]'))],
@@ -163,11 +163,13 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintStyle: TextStyle(
+                                backgroundColor:Colors.transparent,
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
                             hintText:
                                 tr(context).widgets_restore_from_blockheight,
+                            errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red)
                           ),
                           validator: (value) {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
@@ -223,20 +225,22 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                                   child: TextFormField(
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
-                                    style: TextStyle(fontSize: 14.0),
+                                    style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
                                     decoration: InputDecoration(
                                       //suffix:Icon(Icons.calendar_today,), //SvgPicture.asset('assets/images/new-images/calendar.svg',color:Colors.black),
                                       border: InputBorder.none,
                                       hintStyle: TextStyle(
+                                          backgroundColor:Colors.transparent,
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xff77778B)
                                               : Color(0xff77778B)),
                                       hintText: tr(context)
                                           .widgets_restore_from_date,
+                                      errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red)
                                     ),
                                     controller: dateController,
                                     validator: (value) {
-                                      if (value?.isEmpty != null) {
+                                      if (value?.isEmpty ?? false) {
                                         return tr(context)
                                             .dateShouldNotBeEmpty;
                                       } else {
@@ -300,6 +304,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
   Future selectDate(BuildContext context) async {
     final now = DateTime.now();
     final date = await showDatePicker(
+        initialEntryMode:DatePickerEntryMode.calendarOnly,
         context: context,
         initialDate: now.subtract(Duration(days: 1)),
         firstDate: DateTime(2014, DateTime.april),

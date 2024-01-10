@@ -389,6 +389,7 @@ class BelDexWallet extends Wallet {
       } else {
         print('isRefreshingNew else $isRefreshing');
         await askForUpdateTransactionHistory();
+        print('isRefreshingNew else - $isRefreshing');
         await askForUpdateBalance();
 
         if (blocksLeft < 2) {

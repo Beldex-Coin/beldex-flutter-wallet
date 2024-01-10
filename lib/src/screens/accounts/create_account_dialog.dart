@@ -99,6 +99,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
             backgroundColor: settingsStore.isDarkTheme
                 ? Color(0xff272733)
                 : Color(0xffFFFFFF),
+            surfaceTintColor: Colors.transparent,
             child: Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.all(20),
@@ -110,7 +111,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                     Text(
                       tr(context).addAccount,
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(backgroundColor: Colors.transparent,fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: 20,
@@ -120,8 +121,13 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                           hintText: tr(context).accountName,
-                          hintStyle: TextStyle(color: Color(0xff77778B)),
+                          hintStyle: TextStyle(backgroundColor:Colors.transparent,color: Color(0xff77778B)),
                           contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                          errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -132,6 +138,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                             ),
                           ),
                         ),
+                        style: TextStyle(backgroundColor: Colors.transparent,),
                         validator: (value) {
                           if (!validateInput(value!) || value.length > 15) {
                             return tr(context).enterValidNameUpto15Characters;
@@ -139,7 +146,11 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                             return tr(context).accountAlreadyExist;
                           } else {
                             accountListStore.validateAccountName(value);
-                            return accountListStore.errorMessage;
+                            if(accountListStore.errorMessage?.isNotEmpty ?? false) {
+                              return accountListStore.errorMessage;
+                            }else{
+                              return null;
+                            }
                           }
                         }),
                     SizedBox(
@@ -163,6 +174,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                             child: Text(
                               tr(context).cancel,
                               style: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontSize: 17,
                                   color: settingsStore.isDarkTheme
                                       ? Colors.white
@@ -207,6 +219,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                                   ? tr(context).rename
                                   : tr(context).add,
                               style: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontSize: 17,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),

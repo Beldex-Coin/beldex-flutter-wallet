@@ -543,6 +543,7 @@ class NewStakeFormState extends State<NewStakeForm>
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
+                  surfaceTintColor: Colors.transparent,
                   title: Text(tr(context).error),
                   content: Text(state.error),
                   actions: <Widget>[
@@ -562,6 +563,7 @@ class NewStakeFormState extends State<NewStakeForm>
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
+                  surfaceTintColor: Colors.transparent,
                   title: Text(tr(context).confirm_sending),
                   content: Text(tr(context).commit_transaction_amount_fee(
                       sendStore.pendingTransaction?.amount ?? "",
@@ -590,6 +592,7 @@ class NewStakeFormState extends State<NewStakeForm>
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
+                  surfaceTintColor: Colors.transparent,
                   title: Text(tr(context).sending),
                   content: Text(tr(context).transaction_sent),
                   actions: <Widget>[

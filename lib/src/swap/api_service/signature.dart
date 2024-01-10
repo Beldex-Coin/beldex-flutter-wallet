@@ -61,13 +61,14 @@ Future<Map<String, dynamic>> callSignatureApiService(String method,
 
   final requestBody = params != null
       ? Signature(jsonrpc: '2.0',id: 'test',method: method,params: params)
-      : Signature(jsonrpc: '2.0',id: 'test',method: method,params: {"id":0});
+      : Signature(jsonrpc: '2.0',id: 'test',method: method,params: {});
 
   final url = Uri.parse('https://api.beldex.io/api/v1/swap');
   print('url --> $url');
+  final headers = {'Content-type': 'application/json'};
   final body = json.encode(requestBody);
   print('json body --> $body');
-  final response = await http.post(url, body: body);
+  final response = await http.post(url, headers: headers, body: body);
   resultBody = json.decode(response.body) as Map<String, dynamic>;
 
   print('signature data from json --> $resultBody');
@@ -80,7 +81,7 @@ Future<Map<String, dynamic>> callGetCurrenciesFullApiService(String method,Strin
 
   final requestBody = params != null
       ? {'jsonrpc': '2.0', 'id': 'test', 'method': method, 'params': params}
-      : {'jsonrpc': '2.0', 'id': 'test', 'method': method, 'params': {"id":0}};
+      : {'jsonrpc': '2.0', 'id': 'test', 'method': method, 'params': {}};
   final url = Uri.parse('https://api.changelly.com/v2');
   print('url --> $url');
   final headers = {'Content-type': 'application/json','X-Api-Key': '+kLt3F2TMo8W2LbQSjs6IDaBG4O/VLZsRH+qnNX5FyU=',

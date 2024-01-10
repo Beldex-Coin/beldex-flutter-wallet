@@ -97,7 +97,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
   // fetch flash transaction data from
   void getFlashData() {
-    if (widget.flashMap != null && isFlashMap) {
+    final checkFlash = widget.flashMap['flash'] as bool;
+    if (checkFlash && isFlashMap) {
       isFlashTransaction = widget.flashMap['flash'] as bool;
       _addressController.text = (widget.flashMap['address'] as String) ?? '';
       if (widget.flashMap['amount'] != null && widget.flashMap['amount'] != '') {
@@ -154,7 +155,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 
       await showSimpleBeldexDialog(context, tr(context).openalias_alert_title,
           tr(context).openalias_alert_content(sendStore.recordName!),
-          onPressed: (_) => Navigator.of(context).pop());
+          onPressed: (_) => Navigator.of(context).pop(),onDismiss: (_) => Navigator.of(context).pop());
     }
   }
 
@@ -351,7 +352,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                         isFlashMap = false;
                       },
                       validator: (value) {
-                        if (value?.isEmpty != null) {
+                        if (value?.isEmpty ?? false) {
                           setState(() {
                             addressValidation = true;
                             addressErrorMessage =
@@ -372,7 +373,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 sendStore.validateAddress(value,
                                     cryptoCurrency: CryptoCurrency.bdx,
                                     t: tr(context));
-                                if (sendStore.errorMessage != null) {
+                                if (sendStore.errorMessage?.isNotEmpty ?? false) {
                                   setState(() {
                                     addressValidation = true;
                                     addressErrorMessage = tr(context).error_text_address;
@@ -394,6 +395,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           }
                         }
                       },
+                      onChanged: (value){},
                     ),
                     Visibility(
                       visible: addressValidation,
@@ -481,7 +483,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 isFlashMap = false;
                               },
                               validator: (value) {
-                                if (value?.isEmpty != null) {
+                                if (value?.isEmpty ?? false) {
                                   setState(() {
                                     amountValidation = true;
                                     amountErrorMessage =
@@ -747,7 +749,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
           Navigator.of(context).pop();
           showSimpleBeldexDialog(
               context, tr(context).alert, state.error,
-              onPressed: (_) => Navigator.of(context).pop());
+              onPressed: (_) => Navigator.of(context).pop(),onDismiss: (_) => Navigator.of(context).pop());
         //});
       }
 

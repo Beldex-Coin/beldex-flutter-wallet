@@ -76,7 +76,11 @@ class AccountFormState extends State<AccountForm> {
                     controller: _textController,
                     validator: (value) {
                       accountListStore.validateAccountName(value!);
-                      return accountListStore.errorMessage;
+                      if(accountListStore.errorMessage?.isNotEmpty ?? false) {
+                        return accountListStore.errorMessage;
+                      }else{
+                        return null;
+                      }
                     },
                   ),
                 ),

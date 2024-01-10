@@ -133,7 +133,7 @@ abstract class WalletRestorationStoreBase with Store {
       switch (cryptoCurrency) {
         case CryptoCurrency.xmr:
         case CryptoCurrency.bdx:
-          isValid = (value.length == 95)||(value.length == 106)||(value.length == 97);
+          isValid = (value.length == 95)||(value.length == 106)||(value.length == 97)||(value.length == 96);
           break;
         case CryptoCurrency.bch:
         case CryptoCurrency.bnb:

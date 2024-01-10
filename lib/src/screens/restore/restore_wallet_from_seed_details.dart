@@ -77,6 +77,7 @@ class _RestoreFromSeedDetailsFormState
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
+                  surfaceTintColor: Colors.transparent,
                   content: Text(state.error),
                   actions: <Widget>[
                     TextButton(
@@ -191,7 +192,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
   @override
   void initState() {
     restoreHeightController.addListener(() => _height =
-        restoreHeightController.text != null
+        restoreHeightController.text.isNotEmpty
             ? int.parse(restoreHeightController.text)
             : 0);
     super.initState();
@@ -293,7 +294,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                                     ),
                                     controller: dateController,
                                     validator: (value) {
-                                      if (value?.isEmpty != null) {
+                                      if (value?.isEmpty ?? false) {
                                         return tr(context)
                                             .dateShouldNotBeEmpty;
                                       } else {
@@ -359,6 +360,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
   Future selectDate(BuildContext context) async {
     final now = DateTime.now();
     final date = await showDatePicker(
+        initialEntryMode:DatePickerEntryMode.calendarOnly,
         context: context,
         initialDate: now.subtract(Duration(days: 1)),
         firstDate: DateTime(2014, DateTime.april),

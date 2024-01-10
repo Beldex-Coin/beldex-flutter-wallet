@@ -34,47 +34,35 @@ final transactionEstimateFeeNative = beldexApi
     .asFunction<TransactionEstimateFee>();
 
 PendingTransactionDescription createTransactionSync(
-    {required String address, required String amount, required int priorityRaw, int accountIndex = 0}) {
+    {required String address, required String? amount, required int priorityRaw, int accountIndex = 0}) {
   final addressPointer = address.toNativeUtf8();
   final amountPointer = amount != null ? amount.toNativeUtf8() : nullptr;
-  final errorMessagePointer = calloc<Utf8Box>();
   final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
-  final created = transactionCreateNative(
+  final result = transactionCreateNative(
           addressPointer,
           amountPointer,
           priorityRaw,
           accountIndex,
-          errorMessagePointer,
-          pendingTransactionRawPointer) !=
-      0;
+          pendingTransactionRawPointer);
 
   calloc.free(addressPointer);
-
-  if (amountPointer != nullptr) {
+  if (amountPointer != nullptr)
     calloc.free(amountPointer);
-  }
 
-  if (!created) {
-    final message = errorMessagePointer.ref.getValue();
-    calloc.free(errorMessagePointer);
-    throw CreationTransactionException(message: message);
-  }
+  if (result.good)
+    return PendingTransactionDescription(
+        amount: pendingTransactionRawPointer.ref.amount,
+        fee: pendingTransactionRawPointer.ref.fee,
+        hash: pendingTransactionRawPointer.ref.getHash(),
+        pointerAddress: pendingTransactionRawPointer.address);
 
-  return PendingTransactionDescription(
-      amount: pendingTransactionRawPointer.ref.amount,
-      fee: pendingTransactionRawPointer.ref.fee,
-      hash: pendingTransactionRawPointer.ref.getHash(),
-      pointerAddress: pendingTransactionRawPointer.address);
+  calloc.free(pendingTransactionRawPointer);
+  throw CreationTransactionException(message: result.errorString());
 }
 
 void commitTransaction({required Pointer<PendingTransactionRaw> transactionPointer}) {
-  final errorMessagePointer = calloc<Utf8Box>();
-  final isCommited =
-      transactionCommitNative(transactionPointer, errorMessagePointer) != 0;
+  final result = transactionCommitNative(transactionPointer);
 
-  if (!isCommited) {
-    final message = errorMessagePointer.ref.getValue();
-    calloc.free(errorMessagePointer);
-    throw CreationTransactionException(message: message);
-  }
+  if (!result.good)
+    throw CreationTransactionException(message: result.errorString());
 }

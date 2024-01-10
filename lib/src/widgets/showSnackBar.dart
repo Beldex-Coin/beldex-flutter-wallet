@@ -19,7 +19,7 @@ Toast.show(
       text,
       duration: Toast.lengthShort, // Toast duration (short or long)
       gravity: Toast.bottom,       // Toast gravity (top, center, or bottom)
-      webTexColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+      textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900, // Background color
     );
 

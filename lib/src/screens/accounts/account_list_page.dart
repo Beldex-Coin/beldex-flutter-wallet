@@ -63,7 +63,7 @@ class AccountListPage extends BasePage {
               thumbVisibility: true,
               child: ListView.builder(
                    controller: _controller,
-                  itemCount: accounts == null ? 0 : accounts.length,
+                  itemCount: accounts.isEmpty ? 0 : accounts.length,
                   itemBuilder: (BuildContext context, int index) {
                     final account = accounts[index];
 
@@ -105,6 +105,7 @@ class AccountListPage extends BasePage {
                               }
                             },
                             child: Container(
+                              width: MediaQuery.of(context).size.width,
                              decoration: BoxDecoration(
                                color:  settingsStore.isDarkTheme ? isCurrent ? Color(0xff383848) : Color(0xff1B1B23) : Color(0xffFFFFFF),
                                   borderRadius: BorderRadius.circular(10)),
@@ -114,6 +115,7 @@ class AccountListPage extends BasePage {
                                       account.label,
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           color: isCurrent
                                               ? Color(0xff1AB51E)
                                               : settingsStore.isDarkTheme ? Color(0xff737382) : Color(0xff9292A7),
@@ -144,6 +146,7 @@ class AccountListPage extends BasePage {
           return Dialog(
             elevation: 0,
             backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),//Colors.black,
+            surfaceTintColor: Colors.transparent,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)), //this right here
             child: FractionallySizedBox(

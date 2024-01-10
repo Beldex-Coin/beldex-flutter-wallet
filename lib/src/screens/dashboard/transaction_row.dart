@@ -39,6 +39,7 @@ class TransactionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
+    ToastContext().init(context);
     return InkWell(
         // onTap: onTap,
         child: Container(
@@ -197,7 +198,7 @@ class TransactionRow extends StatelessWidget {
                                               .lengthShort, // Toast duration (short or long)
                                           gravity: Toast
                                               .bottom, // Toast gravity (top, center, or bottom)
-                                          webTexColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                          textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,// Background color
                                         );
                                       },
@@ -354,8 +355,7 @@ class TransactionRow extends StatelessWidget {
                                                     .lengthShort,
                                                 gravity: Toast
                                                     .bottom,
-                                                webTexColor:
-                                                    Colors.white, 
+                                                textStyle: TextStyle(color: Colors.white),
                                                 backgroundColor: Color(
                                                     0xff0BA70F), 
                                               );

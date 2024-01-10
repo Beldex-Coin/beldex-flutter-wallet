@@ -14,6 +14,8 @@ import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
+import '../../domain/common/contact.dart';
+
 class AddressBookPage extends BasePage {
   AddressBookPage({this.isEditable = true});
 
@@ -24,14 +26,14 @@ class AddressBookPage extends BasePage {
 
   @override
   Widget? trailing(BuildContext context) {
-    if (isEditable) return null;
+    if (!isEditable) return null;
     final addressBookStore = Provider.of<AddressBookStore>(context);
     return Container(
       margin: EdgeInsets.only(right: 15),
       child: IconButton(
         icon: SvgPicture.asset('assets/images/new-images/menu_add_address.svg'),
         onPressed: () async {
-          await Navigator.of(context).pushNamed(Routes.addressBookAddContact);
+          await Navigator.of(context).pushNamed(Routes.addressBookAddContact,arguments: Contact(name: "",address: ""));
           await addressBookStore.updateContactList();
         },
       ),
@@ -42,6 +44,7 @@ class AddressBookPage extends BasePage {
   Widget body(BuildContext context) {
     final addressBookStore = Provider.of<AddressBookStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
+    ToastContext().init(context);
     ScreenSize.init(context);
     return Observer(builder: (_) {
       var addressBook = addressBookStore.contactList;
@@ -248,11 +251,7 @@ class AddressBookPage extends BasePage {
                                                 'Address ${tr(context).copied}',
                                                 duration: Toast.lengthShort,
                                                 gravity: Toast.bottom,
-                                                webTexColor: settingsStore
-                                                        .isDarkTheme
-                                                    ? Colors.black
-                                                    : Colors
-                                                        .white,
+                                                textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),
                                                 backgroundColor:
                                                     settingsStore.isDarkTheme
                                                         ? Colors.grey.shade50

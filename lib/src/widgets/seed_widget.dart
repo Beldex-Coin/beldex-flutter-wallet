@@ -91,10 +91,9 @@ class SeedWidgetState extends State<SeedWidget> {
     setState(
             () => items.add(MnemoticItem(text: text.trim(), dic: widget.words)));
     _seedController.text = '';
-
-    if (widget.onMnemonicChange != null) {
+    //if (widget.onMnemonicChange != null) {
       widget.onMnemonicChange(items);
-    }
+    //}
   }
 
   void mnemonicFromText(String text) {
@@ -115,9 +114,9 @@ class SeedWidgetState extends State<SeedWidget> {
       items = [];
       _seedController.text = '';
 
-      if (widget.onMnemonicChange != null) {
+      //if (widget.onMnemonicChange) {
         widget.onMnemonicChange(items);
-      }
+      //}
     });
   }
 
@@ -133,7 +132,7 @@ class SeedWidgetState extends State<SeedWidget> {
       final splitted = trimmedText.split(' ');
       _errorMessage = null;
 
-      if (text == null) {
+      if (text.isEmpty) {
         currentMnemonics = [];
         return;
       }
@@ -169,7 +168,7 @@ class SeedWidgetState extends State<SeedWidget> {
     return true;
   }
 
-  late final List<String> words;
+  List<String> words =[];
 
   @override
   Widget build(BuildContext context) {
@@ -202,11 +201,14 @@ class SeedWidgetState extends State<SeedWidget> {
                           inputFormatters: [WordLimitInputFormatter(25)],
                           textInputAction: TextInputAction.done,
                           onChanged: (text) {
+                            print("onChanged 0-> $text");
                             if (text.isNotEmpty) {
+                              print("onChanged 1-> $text");
                               words = text
                                   .split(' ')
                                   .where((word) => word.isNotEmpty)
                                   .toList();
+                              print("onChanged 3-> $words");
                               if (words.length > maxWordCount) {
                                 // Remove additional words
                                 _seedController.text =

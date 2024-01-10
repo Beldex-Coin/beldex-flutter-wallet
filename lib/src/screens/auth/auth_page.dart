@@ -92,20 +92,7 @@ class AuthPageState extends State<AuthPage> {
             );
           }
         });
-      }
-
-      if (state is AuthenticationInProgress) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(tr(context).authentication),
-              backgroundColor: Colors.green,
-            ),
-          );
-        });
-      }
-
-      if (state is AuthenticationFailure) {
+      }else if (state is AuthenticationFailure) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _pinCodeKey.currentState?.clear();
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -120,9 +107,7 @@ class AuthPageState extends State<AuthPage> {
             widget.onAuthenticationFinished!(false, this);
           }
         });
-      }
-
-      if (state is AuthenticationBanned) {
+      } else if (state is AuthenticationBanned) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _pinCodeKey.currentState?.clear();
           ScaffoldMessenger.of(context).hideCurrentSnackBar();

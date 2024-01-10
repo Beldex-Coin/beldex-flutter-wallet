@@ -116,8 +116,10 @@ class RootState extends State<Root> with WidgetsBindingObserver {
         return createSeedPage(
             settingsStore: settingsStore,
             walletService: walletService,
-            callback: () =>
-                _authenticationStore?.state = AuthenticationState.authenticated);
+            callback: () {
+              _authenticationStore?.state = AuthenticationState.authenticated;
+            },
+            showSeed: false);
       }
 
       return Container(color: Colors.white);

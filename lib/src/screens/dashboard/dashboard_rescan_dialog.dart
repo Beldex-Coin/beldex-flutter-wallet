@@ -36,6 +36,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       backgroundColor:
           settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffFFFFFF),
+      surfaceTintColor: Colors.transparent,
       child: Container(
         width: MediaQuery.of(context).size.width,
         margin: EdgeInsets.all(20),
@@ -44,7 +45,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
           children: [
             Text(
               tr(context).rescan,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(backgroundColor:Colors.transparent,fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 20,
@@ -60,6 +61,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
               child: Text(
                 tr(context).reconnectWallet,
                 style: TextStyle(
+                    backgroundColor:Colors.transparent,
                     fontSize: 16,
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
@@ -93,6 +95,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
                 child: Text(
                   tr(context).rescanWallet,
                   style: TextStyle(
+                      backgroundColor:Colors.transparent,
                       fontSize: 16,
                       color: canRescan
                           ? Colors.white

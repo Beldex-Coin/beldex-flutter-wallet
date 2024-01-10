@@ -89,6 +89,6 @@ abstract class AccountListStoreBase with Store {
     const pattern = '^[a-zA-Z0-9_]{1,15}\$';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
-    errorMessage = (isValid ? null : 'Enter valid name upto 15 characters')!; //S.current.error_text_account_name;
+    errorMessage = (isValid ? '' : 'Enter valid name upto 15 characters'); //S.current.error_text_account_name;
   }
 }

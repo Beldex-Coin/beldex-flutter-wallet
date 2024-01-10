@@ -181,6 +181,7 @@ class SettingsFormState extends State<SettingsForm> {
                             },
                             child: Dialog(
                               backgroundColor: Colors.transparent,
+                              surfaceTintColor: Colors.transparent,
                               insetPadding: EdgeInsets.all(15),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
@@ -345,6 +346,7 @@ class SettingsFormState extends State<SettingsForm> {
                             },
                             child: Dialog(
                               backgroundColor: Colors.transparent,
+                              surfaceTintColor: Colors.transparent,
                               insetPadding: EdgeInsets.all(15),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
@@ -444,7 +446,7 @@ class SettingsFormState extends State<SettingsForm> {
                   title: t.settings_balance_detail,
                   widget: Observer(
                       builder: (_) => Text(
-                            settingsStore.balanceDetail.toString(),
+                            settingsStore.balanceDetail.getTitle(tr(context)),
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
@@ -476,6 +478,7 @@ class SettingsFormState extends State<SettingsForm> {
                                 },
                                 child: Dialog(
                                   backgroundColor: Colors.transparent,
+                                  surfaceTintColor: Colors.transparent,
                                   insetPadding: EdgeInsets.all(15),
                                   child: Container(
                                     width:
@@ -519,6 +522,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                     InputDecoration(
                                                   hintText:
                                                       'Search Currency',
+                                                  hintStyle: TextStyle(backgroundColor: Colors.transparent),
                                                   suffixIcon: IconButton(
                                                       icon: Icon(
                                                         Icons.close,
@@ -654,12 +658,13 @@ class SettingsFormState extends State<SettingsForm> {
                             },
                             child: Dialog(
                               backgroundColor: Colors.transparent,
+                              surfaceTintColor: Colors.transparent,
                               insetPadding: EdgeInsets.all(15),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
                                 height:
                                     MediaQuery.of(context).size.height *
-                                        0.70 /
+                                        0.75 /
                                         3,
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
@@ -1047,7 +1052,7 @@ class SettingsFormState extends State<SettingsForm> {
               padding: EdgeInsets.only(top: 10, bottom: 10),
               child: Observer(
                 builder: (_) => Text(
-                  AmountDetail.all[index].toString(),
+                  AmountDetail.all[index].getTitle(tr(context)),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 14,

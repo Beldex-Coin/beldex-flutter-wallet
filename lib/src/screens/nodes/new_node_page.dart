@@ -63,6 +63,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
           // Prevent closing the dialog when the user presses the back button
           onWillPop: () async => false,
           child: AlertDialog(
+            surfaceTintColor: Colors.transparent,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             content: Column(
@@ -104,6 +105,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
     final settingsStore = Provider.of<SettingsStore>(context);
     var newNodePageChangeNotifier =
         Provider.of<NewNodePageChangeNotifier>(context);
+    ToastContext().init(context);
     return GestureDetector(
      onTap: (){
        FocusScope.of(context).unfocus();
@@ -145,7 +147,12 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                   : Color(0xffFFFFFF),
                               filled: true,
                               hintText: tr(context).node_address,
-                              hintStyle: TextStyle(color: Color(0xff77778B)),
+                              hintStyle: TextStyle(backgroundColor: Colors.transparent,color: Color(0xff77778B)),
+                              errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                               contentPadding: EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 10),
                               border: OutlineInputBorder(
@@ -185,11 +192,17 @@ class NewNodeFormState extends State<NewNodePageForm> {
                               filled: true,
                               hintText: tr(context).node_port,
                               hintStyle: TextStyle(
+                                backgroundColor: Colors.transparent,
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff77778B)
                                       : Color(0xff77778B)),
                               contentPadding: EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 10),
+                              errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
@@ -214,6 +227,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                           decoration: InputDecoration(
                             hintText: tr(context).nodeNameOptional,
                             hintStyle: TextStyle(
+                              backgroundColor: Colors.transparent,
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
@@ -244,6 +258,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                           decoration: InputDecoration(
                             hintText: tr(context).userNameOptional,
                             hintStyle: TextStyle(
+                              backgroundColor: Colors.transparent,
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
@@ -274,6 +289,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                           decoration: InputDecoration(
                             hintText: tr(context).passwordOptional,
                             hintStyle: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
@@ -462,7 +478,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                                  duration: Toast.lengthShort,
                                               gravity: Toast
                                                   .bottom, // Toast gravity (top, center, or bottom)
-                                               webTexColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                                  textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
                                   backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                                                 );
                                                 return;
@@ -484,8 +500,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                               duration: Toast.lengthShort,
                                               gravity: Toast
                                                   .bottom, // Toast gravity (top, center, or bottom)
-                                              webTexColor:
-                                                  Colors.white, // Text color
+                                              textStyle: TextStyle(color: Colors.white), // Text color
                                               backgroundColor: Color(
                                                   0xff0BA70F), // Background color
                                             );
