@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/swap/model/get_currencies_full_model.dart';
 import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -12,6 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../palette.dart';
+import '../get_currencies_full_provider.dart';
 import 'number_stepper.dart';
 
 class SwapPage extends BasePage {
@@ -19,7 +20,7 @@ class SwapPage extends BasePage {
   bool get isModalBackButton => false;
 
   @override
-  String get title => 'Swap';
+  String getTitle(AppLocalizations t) => 'Swap';
 
   @override
   Color get textColor => Colors.white;
@@ -79,25 +80,26 @@ class _SwapHomeState extends State<SwapHome> {
   String? youGetCoinsFilter;
   String? youSendCoinsFilter;
   final List<Coins> youGetCoinsList = [
-    Coins('BTC','Bitcoin'),
-    Coins('ETH','Ethereum'),
-    Coins('BDX','Beldex'),
-    Coins('XRP','XRP'),
-    Coins('XMR','Monero'),
-    Coins('SOL','Solana'),
+    Coins('BTC', 'Bitcoin'),
+    Coins('ETH', 'Ethereum'),
+    Coins('BDX', 'Beldex'),
+    Coins('XRP', 'XRP'),
+    Coins('XMR', 'Monero'),
+    Coins('SOL', 'Solana'),
   ];
-  Coins selectedYouGetCoins = Coins('BTC','Bitcoin');
+  Coins selectedYouGetCoins = Coins('BTC', 'Bitcoin');
   final List<Coins> youSendCoinsList = [
-    Coins('BDX','Beldex'),
-    Coins('BTC','Bitcoin'),
-    Coins('ETH','Ethereum'),
-    Coins('XRP','XRP'),
-    Coins('XMR','Monero'),
-    Coins('SOL','Solana'),
+    Coins('BDX', 'Beldex'),
+    Coins('BTC', 'Bitcoin'),
+    Coins('ETH', 'Ethereum'),
+    Coins('XRP', 'XRP'),
+    Coins('XMR', 'Monero'),
+    Coins('SOL', 'Solana'),
   ];
-  Coins selectedYouSendCoins = Coins('BDX','Beldex');
+  Coins selectedYouSendCoins = Coins('BDX', 'Beldex');
   bool youSendCoinsDropDownVisible = false;
   bool youGetCoinsDropDownVisible = false;
+
   @override
   void initState() {
     searchYouGetCoinsController.addListener(() {
@@ -110,17 +112,42 @@ class _SwapHomeState extends State<SwapHome> {
         youSendCoinsFilter = searchYouSendCoinsController.text;
       });
     });
+    Provider.of<GetCurrenciesFullProvider>(context, listen: false).getCurrenciesFullData(context);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final getCurrenciesFullProvider = Provider.of<GetCurrenciesFullProvider>(context);
     final _screenWidth = MediaQuery.of(context).size.width;
     final _screenHeight = MediaQuery.of(context).size.height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     final swapPageChangeNotifier = Provider.of<SwapPageChangeNotifier>(context);
-    return Column(
+    return getCurrenciesFullProvider.loading
+        ? Center(
+            child: Container(
+              child: const CircularProgressIndicator(),
+            ),
+          )
+        : body(_screenWidth,_screenHeight,settingsStore,_scrollController,swapPageChangeNotifier,getCurrenciesFullProvider.data,getCurrenciesFullProvider);
+  }
+
+  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, SwapPageChangeNotifier swapPageChangeNotifier, GetCurrenciesFullModel? getCurrenciesFullData, GetCurrenciesFullProvider getCurrenciesFullProvider){
+    final List<Result> enableFrom = [];
+    final List<Result> enableTo = [];
+    for (int i = 0; i < getCurrenciesFullData!.result!.length; i++) {
+      if (getCurrenciesFullData.result![i].enabledFrom == true) {
+        enableFrom.add(getCurrenciesFullData.result![i]);
+      }
+      if (getCurrenciesFullData.result![i].enabledTo == true) {
+        enableTo.add(getCurrenciesFullData.result![i]);
+      }
+      if (getCurrenciesFullData.result![i].name == "BDX" && getCurrenciesFullData.result![i].enabled == false) {
+        getCurrenciesFullProvider.setBdxIsEnabled(true);
+      }
+    }
+    return getCurrenciesFullProvider.getBdxIsEnabled() ? Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
@@ -136,86 +163,112 @@ class _SwapHomeState extends State<SwapHome> {
           ),
         ),
         Expanded(
-          child: LayoutBuilder(
-              builder: (BuildContext context, BoxConstraints constraints) {
+          child: LayoutBuilder(builder:
+              (BuildContext context, BoxConstraints constraints) {
             return SingleChildScrollView(
                 child: ConstrainedBox(
-              constraints: BoxConstraints(minHeight: constraints.maxHeight),
-              child: IntrinsicHeight(
-                child: Card(
-                  margin:
-                      EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 15),
-                  elevation: 0,
-                  color: settingsStore.isDarkTheme
-                      ? Color(0xff24242f)
-                      : Color(0xfff3f3f3),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Container(
-                    padding: const EdgeInsets.all(15.0),
-                    width: _screenWidth,
-                    height: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //Exchange Screen
-                        Visibility(
-                          visible: currentStep == 1,
-                          child: Column(
-                            children: [
-                              Visibility(
-                                visible:!swapPageChangeNotifier.transactionHistoryScreenVisible,
-                                child: exchangeScreen(_scrollController,settingsStore,swapPageChangeNotifier)),
-                              //Transaction History Screen
-                              Visibility(
-                                visible: swapPageChangeNotifier.transactionHistoryScreenVisible,
-                                child: transactionHistoryScreen(_screenWidth,_screenHeight,settingsStore,swapPageChangeNotifier),
+                  constraints:
+                  BoxConstraints(minHeight: constraints.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Card(
+                      margin: EdgeInsets.only(
+                          top: 15, left: 10, right: 10, bottom: 15),
+                      elevation: 0,
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff24242f)
+                          : Color(0xfff3f3f3),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.all(15.0),
+                        width: _screenWidth,
+                        height: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //Exchange Screen
+                            Visibility(
+                              visible: currentStep == 1,
+                              child: Column(
+                                children: [
+                                  Visibility(
+                                      visible: !swapPageChangeNotifier
+                                          .transactionHistoryScreenVisible,
+                                      child: exchangeScreen(
+                                          _scrollController,
+                                          settingsStore,
+                                          swapPageChangeNotifier,
+                                          enableFrom,enableTo)),
+                                  //Transaction History Screen
+                                  Visibility(
+                                    visible: swapPageChangeNotifier
+                                        .transactionHistoryScreenVisible,
+                                    child: transactionHistoryScreen(
+                                        _screenWidth,
+                                        _screenHeight,
+                                        settingsStore,
+                                        swapPageChangeNotifier),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                            //Wallet Address Screen
+                            Visibility(
+                              visible: currentStep == 2,
+                              child: walletAddressScreen(settingsStore),
+                            ),
+                            //Payment->Checkout Screen
+                            Visibility(
+                              visible: currentStep == 3,
+                              child: paymentCheckoutScreen(settingsStore),
+                            ),
+                            //Payment->Send funds to the address below Screen
+                            Visibility(
+                              visible: false,
+                              child: paymentSendFundsToTheAddressBelowScreen(
+                                  settingsStore),
+                            ),
+                            //Exchange->Completed Screen
+                            Visibility(
+                              visible: false,
+                              child: exchangeCompletedScreen(settingsStore),
+                            ),
+                            //Exchange->Not Paid Screen
+                            Visibility(
+                              visible: false,
+                              child: exchangeNotPaidScreen(settingsStore),
+                            ),
+                            //Exchange->Exchanging Screen
+                            Visibility(
+                              visible: currentStep == 4,
+                              child: exchangingScreen(settingsStore),
+                            ),
+                          ],
                         ),
-                        //Under maintenance Screen
-                        Visibility(visible:false,child: underMaintenanceScreen(_screenWidth,settingsStore)),
-                        //Wallet Address Screen
-                        Visibility(
-                          visible: currentStep == 2,
-                          child: walletAddressScreen(settingsStore),
-                        ),
-                        //Payment->Checkout Screen
-                        Visibility(
-                          visible: currentStep == 3,
-                          child: paymentCheckoutScreen(settingsStore),
-                        ),
-                        //Payment->Send funds to the address below Screen
-                        Visibility(
-                          visible: false,
-                          child: paymentSendFundsToTheAddressBelowScreen(settingsStore),
-                        ),
-                        //Exchange->Completed Screen
-                        Visibility(
-                          visible: false,
-                          child: exchangeCompletedScreen(settingsStore),
-                        ),
-                        //Exchange->Not Paid Screen
-                        Visibility(
-                          visible: false,
-                          child: exchangeNotPaidScreen(settingsStore),
-                        ),
-                        //Exchange->Exchanging Screen
-                        Visibility(
-                          visible: currentStep == 4,
-                          child: exchangingScreen(settingsStore),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ));
+                ));
           }),
         ),
       ],
+    ):Card(
+      margin: EdgeInsets.only(
+          top: 15, left: 10, right: 10, bottom: 15),
+      elevation: 0,
+      color: settingsStore.isDarkTheme
+          ? Color(0xff24242f)
+          : Color(0xfff3f3f3),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(15.0),
+        width: _screenWidth,
+        height: double.infinity,
+        child: underMaintenanceScreen(_screenWidth, settingsStore),
+      ),
     );
   }
 
@@ -226,13 +279,15 @@ class _SwapHomeState extends State<SwapHome> {
         Theme(
           data: Theme.of(context).copyWith(
               colorScheme: ColorScheme.fromSwatch().copyWith(
-                secondary: settingsStore.isDarkTheme ? Colors.white : Colors.black, // Your accent color
+                secondary: settingsStore.isDarkTheme
+                    ? Colors.white
+                    : Colors.black, // Your accent color
               ),
               dividerColor: Colors.transparent,
               textSelectionTheme:
                   TextSelectionThemeData(selectionColor: Colors.green)),
           child: Container(
-            margin: EdgeInsets.only(top:10,bottom:10),
+            margin: EdgeInsets.only(top: 10, bottom: 10),
             width: MediaQuery.of(context).size.width,
             child: ExpansionTile(
                 title: Row(
@@ -248,102 +303,117 @@ class _SwapHomeState extends State<SwapHome> {
                       Expanded(
                           child: Padding(
                         padding: const EdgeInsets.only(left: 10),
-                        child: false?Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              flex: 1,
-                              child: Text('Exchange Amount',
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xffAFAFBE)
-                                          : Color(0xff737373))),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: Text('774 BDX',
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w900,
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xffFFFFFF)
-                                          : Color(0xff222222))),
-                            ),
-                          ],
-                        ):Column(
-                          children: <Widget>[
-                            Row(
+                        child: false
+                            ? Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text('900 BDX',
-                                      style: TextStyle(
-                                          backgroundColor: Colors.transparent,
-                                          fontWeight: FontWeight.w900,
-                                          fontSize: 14,
-                                          color: settingsStore.isDarkTheme
-                                              ? Color(0xffFFFFFF)
-                                              : Color(0xff222222))),
-                                  Text('28 Apr 2023',
-                                      style: TextStyle(
-                                          backgroundColor: Colors.transparent,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          color: settingsStore.isDarkTheme
-                                              ? Color(0xffD1D1D3)
-                                              : Color(0xff737373))),
-                                ]),
-                            Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
+                                children: [
                                   Flexible(
                                     flex: 1,
-                                    child: RichText(
-                                      textAlign: TextAlign.start,
-                                      text: TextSpan(
-                                          text: 'Received ',
-                                          style: TextStyle(
-                                              backgroundColor: Colors.transparent,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400,
-                                              color: settingsStore.isDarkTheme
-                                                  ? Color(0xffAFAFBE)
-                                                  : Color(0xff737373)),
-                                          children: [
-                                            TextSpan(
-                                                text: '- 0.00063271 BTC',
-                                                style: TextStyle(
-                                                    backgroundColor: Colors.transparent,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: true
-                                                        ? Color(0xff00AD07)
-                                                        : Color(0xff77778B)))
-                                          ]),
-                                    ),
-                                  ),
-                                  Flexible(
-                                    flex: 1,
-                                    child: Text(true ? 'Completed' : 'Waiting',
+                                    child: Text('Exchange Amount',
                                         style: TextStyle(
                                             backgroundColor: Colors.transparent,
                                             fontSize: 12,
                                             fontWeight: FontWeight.w400,
-                                            color: true
-                                                ? Color(0xff20D030)
-                                                : settingsStore.isDarkTheme
-                                                    ? Color(0xffAFAFBE)
+                                            color: settingsStore.isDarkTheme
+                                                ? Color(0xffAFAFBE)
+                                                : Color(0xff737373))),
+                                  ),
+                                  Flexible(
+                                    flex: 1,
+                                    child: Text('774 BDX',
+                                        style: TextStyle(
+                                            backgroundColor: Colors.transparent,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w900,
+                                            color: settingsStore.isDarkTheme
+                                                ? Color(0xffFFFFFF)
+                                                : Color(0xff222222))),
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                children: <Widget>[
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Text('900 BDX',
+                                            style: TextStyle(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                fontWeight: FontWeight.w900,
+                                                fontSize: 14,
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffFFFFFF)
+                                                    : Color(0xff222222))),
+                                        Text('28 Apr 2023',
+                                            style: TextStyle(
+                                                backgroundColor:
+                                                    Colors.transparent,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w400,
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffD1D1D3)
                                                     : Color(0xff737373))),
-                                  )
-                                ]),
-                          ],
-                        ),
+                                      ]),
+                                  Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Flexible(
+                                          flex: 1,
+                                          child: RichText(
+                                            textAlign: TextAlign.start,
+                                            text: TextSpan(
+                                                text: 'Received ',
+                                                style: TextStyle(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w400,
+                                                    color: settingsStore
+                                                            .isDarkTheme
+                                                        ? Color(0xffAFAFBE)
+                                                        : Color(0xff737373)),
+                                                children: [
+                                                  TextSpan(
+                                                      text: '- 0.00063271 BTC',
+                                                      style: TextStyle(
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          color: true
+                                                              ? Color(
+                                                                  0xff00AD07)
+                                                              : Color(
+                                                                  0xff77778B)))
+                                                ]),
+                                          ),
+                                        ),
+                                        Flexible(
+                                          flex: 1,
+                                          child: Text(
+                                              true ? 'Completed' : 'Waiting',
+                                              style: TextStyle(
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w400,
+                                                  color: true
+                                                      ? Color(0xff20D030)
+                                                      : settingsStore
+                                                              .isDarkTheme
+                                                          ? Color(0xffAFAFBE)
+                                                          : Color(0xff737373))),
+                                        )
+                                      ]),
+                                ],
+                              ),
                       )),
                     ]),
                 children: <Widget>[
@@ -514,17 +584,18 @@ class _SwapHomeState extends State<SwapHome> {
     );
   }
 
-  InkWell youGetCoinsDropDownListItem(SettingsStore settingsStore, int index) {
+  InkWell youGetCoinsDropDownListItem(
+      SettingsStore settingsStore, Result enableTo) {
     return InkWell(
       onTap: () async {
         searchYouGetCoinsController.text = '';
-        if (youGetCoinsList[index].name != null) {
-          setState((){
-            selectedYouGetCoins = Coins(youGetCoinsList[index].id,youGetCoinsList[index].name);
+        if (enableTo.fullName != null) {
+          setState(() {
+            selectedYouGetCoins = Coins(enableTo.name, enableTo.fullName);
             youGetCoinsDropDownVisible = !youGetCoinsDropDownVisible;
           });
-        }else{
-          setState((){
+        } else {
+          setState(() {
             youGetCoinsDropDownVisible = !youGetCoinsDropDownVisible;
           });
         }
@@ -535,61 +606,19 @@ class _SwapHomeState extends State<SwapHome> {
             width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.only(top: 5, bottom: 5),
             child: Observer(
-              builder: (_) =>  RichText(
+              builder: (_) => RichText(
                 text: TextSpan(
-                    text: youGetCoinsList[index].id,
-                      style: TextStyle(
-                          backgroundColor: Colors.transparent,
-                          fontSize: 12,
-                          color: settingsStore.isDarkTheme?Color(0xffffffff):Color(0xff222222),
-                          fontWeight: FontWeight.bold),
-                    children: [
-                      TextSpan(
-                          text: ' - ${youGetCoinsList[index].name}',
-                          style: TextStyle(
-                              backgroundColor: Colors.transparent,
-                              fontSize: 12,
-                              color: Color(0xff77778B),
-                              fontWeight: FontWeight.w400))
-                    ]),
-              ),
-            )),
-      ),
-    );
-  }
-
-  InkWell youSendCoinsDropDownListItem(SettingsStore settingsStore, int index) {
-    return InkWell(
-      onTap: () async {
-        searchYouSendCoinsController.text = '';
-        if (youSendCoinsList[index].name != null) {
-          setState((){
-            selectedYouSendCoins = Coins(youSendCoinsList[index].id,youSendCoinsList[index].name);
-            youSendCoinsDropDownVisible = !youSendCoinsDropDownVisible;
-          });
-        }else{
-          setState((){
-            youSendCoinsDropDownVisible = !youSendCoinsDropDownVisible;
-          });
-        }
-      },
-      child: Padding(
-        padding: EdgeInsets.only(left: 20.0, right: 20.0),
-        child: Container(
-            width: MediaQuery.of(context).size.width,
-            padding: EdgeInsets.only(top: 5, bottom: 5),
-            child: Observer(
-              builder: (_) =>  RichText(
-                text: TextSpan(
-                    text: youSendCoinsList[index].id,
+                    text: enableTo.name,
                     style: TextStyle(
                         backgroundColor: Colors.transparent,
                         fontSize: 12,
-                        color: settingsStore.isDarkTheme?Color(0xffffffff):Color(0xff222222),
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xffffffff)
+                            : Color(0xff222222),
                         fontWeight: FontWeight.bold),
                     children: [
                       TextSpan(
-                          text: ' - ${youSendCoinsList[index].name}',
+                          text: ' - ${enableTo.fullName}',
                           style: TextStyle(
                               backgroundColor: Colors.transparent,
                               fontSize: 12,
@@ -602,7 +631,55 @@ class _SwapHomeState extends State<SwapHome> {
     );
   }
 
-  Widget underMaintenanceScreen(double _screenWidth, SettingsStore settingsStore){
+  InkWell youSendCoinsDropDownListItem(
+      SettingsStore settingsStore, Result enableFrom) {
+    return InkWell(
+      onTap: () async {
+        searchYouSendCoinsController.text = '';
+        if (enableFrom.name != null) {
+          setState(() {
+            selectedYouSendCoins = Coins(enableFrom.name, enableFrom.fullName);
+            youSendCoinsDropDownVisible = !youSendCoinsDropDownVisible;
+          });
+        } else {
+          setState(() {
+            youSendCoinsDropDownVisible = !youSendCoinsDropDownVisible;
+          });
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.only(left: 20.0, right: 20.0),
+        child: Container(
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.only(top: 5, bottom: 5),
+            child: Observer(
+              builder: (_) => RichText(
+                text: TextSpan(
+                    text: enableFrom.name,
+                    style: TextStyle(
+                        backgroundColor: Colors.transparent,
+                        fontSize: 12,
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xffffffff)
+                            : Color(0xff222222),
+                        fontWeight: FontWeight.bold),
+                    children: [
+                      TextSpan(
+                          text: ' - ${enableFrom.fullName}',
+                          style: TextStyle(
+                              backgroundColor: Colors.transparent,
+                              fontSize: 12,
+                              color: Color(0xff77778B),
+                              fontWeight: FontWeight.w400))
+                    ]),
+              ),
+            )),
+      ),
+    );
+  }
+
+  Widget underMaintenanceScreen(
+      double _screenWidth, SettingsStore settingsStore) {
     return Expanded(
       child: Container(
         width: _screenWidth,
@@ -629,14 +706,12 @@ class _SwapHomeState extends State<SwapHome> {
                       fontWeight: FontWeight.w700),
                   children: [
                     TextSpan(
-                        text:
-                        ' Swap is temporarily\nunder maintenance.',
+                        text: ' Swap is temporarily\nunder maintenance.',
                         style: TextStyle(
                             backgroundColor: Colors.transparent,
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
-                            color:
-                            settingsStore.isDarkTheme
+                            color: settingsStore.isDarkTheme
                                 ? Color(0xffFFFFFF)
                                 : Color(0xff222222)))
                   ]),
@@ -655,7 +730,11 @@ class _SwapHomeState extends State<SwapHome> {
     );
   }
 
-  Widget exchangeScreen(ScrollController _scrollController, SettingsStore settingsStore, SwapPageChangeNotifier swapPageChangeNotifier){
+  Widget exchangeScreen(
+      ScrollController _scrollController,
+      SettingsStore settingsStore,
+      SwapPageChangeNotifier swapPageChangeNotifier, List<Result> enableFrom,List<Result> enableTo) {
+
     return Stack(
       children: [
         Column(
@@ -663,8 +742,7 @@ class _SwapHomeState extends State<SwapHome> {
           children: [
             //Exchange Title
             Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Exchange',
@@ -677,8 +755,9 @@ class _SwapHomeState extends State<SwapHome> {
                           : Color(0xff060606)),
                 ),
                 InkWell(
-                  onTap: (){
-                    swapPageChangeNotifier.setTransactionHistoryScreenVisibleStatus(true);
+                  onTap: () {
+                    swapPageChangeNotifier
+                        .setTransactionHistoryScreenVisibleStatus(true);
                   },
                   child: SvgPicture.asset(
                     'assets/images/swap/history.svg',
@@ -693,8 +772,7 @@ class _SwapHomeState extends State<SwapHome> {
             ),
             //You send title
             Container(
-              margin: EdgeInsets.only(
-                  top: 20, left: 10, bottom: 10),
+              margin: EdgeInsets.only(top: 20, left: 10, bottom: 10),
               child: Text(
                 'You send',
                 textAlign: TextAlign.start,
@@ -710,8 +788,7 @@ class _SwapHomeState extends State<SwapHome> {
             //You send TextFormField
             Container(
               margin: EdgeInsets.only(bottom: 10),
-              padding: EdgeInsets.only(
-                  left: 10, right: 5, top: 5, bottom: 5),
+              padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: settingsStore.isDarkTheme
@@ -724,7 +801,7 @@ class _SwapHomeState extends State<SwapHome> {
               child: Row(
                 children: [
                   Flexible(
-                    flex:1,
+                    flex: 1,
                     child: TextFormField(
                       style: TextStyle(
                           backgroundColor: Colors.transparent,
@@ -738,18 +815,15 @@ class _SwapHomeState extends State<SwapHome> {
                       keyboardType: TextInputType.numberWithOptions(
                           signed: false, decimal: true),
                       inputFormatters: [
-                        TextInputFormatter.withFunction(
-                                (oldValue, newValue) {
-                              final regEx = RegExp(r'^\d*\.?\d*');
-                              final newString =
-                                  regEx.stringMatch(newValue.text) ??
-                                      '';
-                              return newString == newValue.text
-                                  ? newValue
-                                  : oldValue;
-                            }),
-                        FilteringTextInputFormatter.deny(
-                            RegExp('[-, ]'))
+                        TextInputFormatter.withFunction((oldValue, newValue) {
+                          final regEx = RegExp(r'^\d*\.?\d*');
+                          final newString =
+                              regEx.stringMatch(newValue.text) ?? '';
+                          return newString == newValue.text
+                              ? newValue
+                              : oldValue;
+                        }),
+                        FilteringTextInputFormatter.deny(RegExp('[-, ]'))
                       ],
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
@@ -759,34 +833,29 @@ class _SwapHomeState extends State<SwapHome> {
                             fontWeight: FontWeight.normal,
                             color: Colors.grey.withOpacity(0.6)),
                         hintText: tr(context).enterAmount,
-                        errorStyle:
-                        TextStyle(color: BeldexPalette.red),
+                        errorStyle: TextStyle(color: BeldexPalette.red),
                       ),
                     ),
                   ),
                   InkWell(
                       onTap: () {
-                        setState((){
-                          youSendCoinsDropDownVisible = !youSendCoinsDropDownVisible;
+                        setState(() {
+                          youSendCoinsDropDownVisible =
+                              !youSendCoinsDropDownVisible;
                         });
                       },
                       child: Container(
                         width: 125.0,
-                        height:40,
-                        margin: EdgeInsets.only(
-                            left: 3),
-                        padding: EdgeInsets.only(
-                            left: 5, right: 5),
+                        height: 40,
+                        margin: EdgeInsets.only(left: 3),
+                        padding: EdgeInsets.only(left: 5, right: 5),
                         decoration: BoxDecoration(
                             color: settingsStore.isDarkTheme
                                 ? Color(0xff333343)
                                 : Color(0xffEBEBEB),
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(8))),
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
                         child: Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment
-                              .spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
                               child: RichText(
@@ -795,33 +864,27 @@ class _SwapHomeState extends State<SwapHome> {
                                     text: selectedYouSendCoins.id,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
-                                        color: settingsStore
-                                            .isDarkTheme
-                                            ? Color(
-                                            0xffFFFFFF)
-                                            : Color(
-                                            0xff222222),
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222),
                                         fontSize: 14,
-                                        fontWeight:
-                                        FontWeight.w500),
+                                        fontWeight: FontWeight.w500),
                                     children: [
                                       TextSpan(
-                                          text: ' - ${selectedYouSendCoins.name}',
+                                          text:
+                                              ' - ${selectedYouSendCoins.name}',
                                           style: TextStyle(
-                                              backgroundColor: Colors.transparent,
+                                              backgroundColor:
+                                                  Colors.transparent,
                                               fontSize: 13,
-                                              fontWeight:
-                                              FontWeight
-                                                  .normal,
-                                              color: Color(
-                                                  0xff77778B)))
+                                              fontWeight: FontWeight.normal,
+                                              color: Color(0xff77778B)))
                                     ]),
                               ),
                             ),
                             Icon(Icons.keyboard_arrow_down,
                                 size: 20,
-                                color: settingsStore
-                                    .isDarkTheme
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffFFFFFF)
                                     : Color(0xff060606))
                           ],
@@ -832,18 +895,15 @@ class _SwapHomeState extends State<SwapHome> {
             ),
             //Swap coin button
             Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Visibility(
                   visible: true,
                   child: Container(
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                        color:
-                        Color(0xff00AD07).withAlpha(25),
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(8))),
+                        color: Color(0xff00AD07).withAlpha(25),
+                        borderRadius: BorderRadius.all(Radius.circular(8))),
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
@@ -860,13 +920,10 @@ class _SwapHomeState extends State<SwapHome> {
                                 text: '762 BTC',
                                 style: TextStyle(
                                     backgroundColor: Colors.transparent,
-                                    decoration: TextDecoration
-                                        .underline,
+                                    decoration: TextDecoration.underline,
                                     fontSize: 14,
-                                    fontWeight:
-                                    FontWeight.w500,
-                                    color: settingsStore
-                                        .isDarkTheme
+                                    fontWeight: FontWeight.w500,
+                                    color: settingsStore.isDarkTheme
                                         ? Color(0xffFFFFFF)
                                         : Color(0xff222222)))
                           ]),
@@ -881,8 +938,7 @@ class _SwapHomeState extends State<SwapHome> {
                           color: settingsStore.isDarkTheme
                               ? Color(0xff333343)
                               : Color(0xffFFFFFF),
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(8))),
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
                       child: Transform.rotate(
                         angle: 90 * pi / 180,
                         child: SvgPicture.asset(
@@ -899,8 +955,7 @@ class _SwapHomeState extends State<SwapHome> {
             ),
             //You get title
             Container(
-              margin: EdgeInsets.only(
-                  top: 10, left: 10, bottom: 10),
+              margin: EdgeInsets.only(top: 10, left: 10, bottom: 10),
               child: Text(
                 'You get',
                 textAlign: TextAlign.start,
@@ -916,8 +971,7 @@ class _SwapHomeState extends State<SwapHome> {
             //You get TextFormField
             Container(
               margin: EdgeInsets.only(bottom: 10),
-              padding: EdgeInsets.only(
-                  left: 10, right: 5, top: 5, bottom: 5),
+              padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: settingsStore.isDarkTheme
@@ -930,7 +984,7 @@ class _SwapHomeState extends State<SwapHome> {
               child: Row(
                 children: [
                   Flexible(
-                    flex:1,
+                    flex: 1,
                     child: TextFormField(
                       style: TextStyle(
                           backgroundColor: Colors.transparent,
@@ -944,18 +998,15 @@ class _SwapHomeState extends State<SwapHome> {
                       keyboardType: TextInputType.numberWithOptions(
                           signed: false, decimal: true),
                       inputFormatters: [
-                        TextInputFormatter.withFunction(
-                                (oldValue, newValue) {
-                              final regEx = RegExp(r'^\d*\.?\d*');
-                              final newString =
-                                  regEx.stringMatch(newValue.text) ??
-                                      '';
-                              return newString == newValue.text
-                                  ? newValue
-                                  : oldValue;
-                            }),
-                        FilteringTextInputFormatter.deny(
-                            RegExp('[-, ]'))
+                        TextInputFormatter.withFunction((oldValue, newValue) {
+                          final regEx = RegExp(r'^\d*\.?\d*');
+                          final newString =
+                              regEx.stringMatch(newValue.text) ?? '';
+                          return newString == newValue.text
+                              ? newValue
+                              : oldValue;
+                        }),
+                        FilteringTextInputFormatter.deny(RegExp('[-, ]'))
                       ],
                       textInputAction: TextInputAction.done,
                       decoration: InputDecoration(
@@ -965,33 +1016,29 @@ class _SwapHomeState extends State<SwapHome> {
                             fontWeight: FontWeight.normal,
                             color: Colors.grey.withOpacity(0.6)),
                         hintText: '...',
-                        errorStyle:
-                        TextStyle(color: BeldexPalette.red),),
+                        errorStyle: TextStyle(color: BeldexPalette.red),
+                      ),
                     ),
                   ),
                   InkWell(
                       onTap: () {
-                        setState((){
-                          youGetCoinsDropDownVisible = !youGetCoinsDropDownVisible;
+                        setState(() {
+                          youGetCoinsDropDownVisible =
+                              !youGetCoinsDropDownVisible;
                         });
                       },
                       child: Container(
                         width: 125.0,
-                        height:40,
-                        margin: EdgeInsets.only(
-                            left: 3),
-                        padding: EdgeInsets.only(
-                            left: 5, right: 5),
+                        height: 40,
+                        margin: EdgeInsets.only(left: 3),
+                        padding: EdgeInsets.only(left: 5, right: 5),
                         decoration: BoxDecoration(
                             color: settingsStore.isDarkTheme
                                 ? Color(0xff333343)
                                 : Color(0xffEBEBEB),
-                            borderRadius: BorderRadius.all(
-                                Radius.circular(8))),
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
                         child: Row(
-                          mainAxisAlignment:
-                          MainAxisAlignment
-                              .spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
                               child: RichText(
@@ -1000,33 +1047,27 @@ class _SwapHomeState extends State<SwapHome> {
                                     text: selectedYouGetCoins.id,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
-                                        color: settingsStore
-                                            .isDarkTheme
-                                            ? Color(
-                                            0xffFFFFFF)
-                                            : Color(
-                                            0xff222222),
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222),
                                         fontSize: 14,
-                                        fontWeight:
-                                        FontWeight.w500),
+                                        fontWeight: FontWeight.w500),
                                     children: [
                                       TextSpan(
-                                          text: ' - ${selectedYouGetCoins.name}',
+                                          text:
+                                              ' - ${selectedYouGetCoins.name}',
                                           style: TextStyle(
-                                              backgroundColor: Colors.transparent,
+                                              backgroundColor:
+                                                  Colors.transparent,
                                               fontSize: 13,
-                                              fontWeight:
-                                              FontWeight
-                                                  .normal,
-                                              color: Color(
-                                                  0xff77778B)))
+                                              fontWeight: FontWeight.normal,
+                                              color: Color(0xff77778B)))
                                     ]),
                               ),
                             ),
                             Icon(Icons.keyboard_arrow_down,
                                 size: 20,
-                                color: settingsStore
-                                    .isDarkTheme
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffFFFFFF)
                                     : Color(0xff060606))
                           ],
@@ -1049,8 +1090,7 @@ class _SwapHomeState extends State<SwapHome> {
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
@@ -1119,8 +1159,7 @@ class _SwapHomeState extends State<SwapHome> {
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
@@ -1188,12 +1227,10 @@ class _SwapHomeState extends State<SwapHome> {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding:
-                      const EdgeInsets.only(top: 3.0),
+                      padding: const EdgeInsets.only(top: 3.0),
                       child: Icon(Icons.info_outline,
                           size: 15,
                           color: settingsStore.isDarkTheme
@@ -1228,13 +1265,10 @@ class _SwapHomeState extends State<SwapHome> {
                   primary: true
                       ? Color(0xff0BA70F)
                       : settingsStore.isDarkTheme
-                      ? Color(0xff32324A)
-                      : Color(0xffFFFFFF),
-                  padding: EdgeInsets.only(
-                      top: 10,
-                      bottom: 10,
-                      left: 50,
-                      right: 50),
+                          ? Color(0xff32324A)
+                          : Color(0xffFFFFFF),
+                  padding:
+                      EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -1244,8 +1278,8 @@ class _SwapHomeState extends State<SwapHome> {
                         color: true
                             ? Color(0xffffffff)
                             : settingsStore.isDarkTheme
-                            ? Color(0xff77778B)
-                            : Color(0xffB1B1D1),
+                                ? Color(0xff77778B)
+                                : Color(0xffB1B1D1),
                         fontSize: 16,
                         fontWeight: FontWeight.bold)),
               ),
@@ -1255,55 +1289,64 @@ class _SwapHomeState extends State<SwapHome> {
         //You get dropdown box
         Visibility(
           visible: youGetCoinsDropDownVisible,
-          child: StatefulBuilder(builder:(BuildContext context,StateSetter setState){
+          child: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
             _searchYouGetCoinsSetState = setState;
             return Container(
               height: 200,
-              margin:EdgeInsets.only(top:275,left:MediaQuery.of(context).size.width/4),
+              margin: EdgeInsets.only(
+                  top: 275, left: MediaQuery.of(context).size.width / 4),
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: settingsStore.isDarkTheme
                       ? Color(0xff272733)
                       : Color(0xffFFFFFF),
-                  borderRadius:
-                  BorderRadius.circular(10)),
+                  borderRadius: BorderRadius.circular(10)),
               child: Column(
                 children: [
                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: TextField(
-                      style:TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: 14),
                       controller: searchYouGetCoinsController,
                       decoration: InputDecoration(
-                        fillColor:settingsStore.isDarkTheme?Color(0xff333343):Color(0xffF8F8F8),
+                        fillColor: settingsStore.isDarkTheme
+                            ? Color(0xff333343)
+                            : Color(0xffF8F8F8),
                         hintText: 'Search Coins',
-                        hintStyle:TextStyle(
-                          color:Color(0xff77778B),
+                        hintStyle: TextStyle(
+                          color: Color(0xff77778B),
                         ),
                         suffixIcon: IconButton(
                             icon: Icon(
                               Icons.close,
-                              color: youGetCoinsFilter == null || youGetCoinsFilter!.isEmpty ? Colors.transparent : settingsStore
-                                  .isDarkTheme
-                                  ? Color(
-                                  0xffffffff)
-                                  : Color(
-                                  0xff171720),
+                              color: youGetCoinsFilter == null ||
+                                      youGetCoinsFilter!.isEmpty
+                                  ? Colors.transparent
+                                  : settingsStore.isDarkTheme
+                                      ? Color(0xffffffff)
+                                      : Color(0xff171720),
                             ),
-                            onPressed: youGetCoinsFilter == null || youGetCoinsFilter!.isEmpty ? null : () {
-                              searchYouGetCoinsController
-                                  .clear();
-                            }),
-                        contentPadding: EdgeInsets.only(left:10,top:5,bottom:5,right:10),
+                            onPressed: youGetCoinsFilter == null ||
+                                    youGetCoinsFilter!.isEmpty
+                                ? null
+                                : () {
+                                    searchYouGetCoinsController.clear();
+                                  }),
+                        contentPadding: EdgeInsets.only(
+                            left: 10, top: 5, bottom: 5, right: 10),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: settingsStore.isDarkTheme?Color(0xff484856):Color(0xffDADADA))
-                        ),
-                        focusedBorder:
-                        OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff484856)
+                                    : Color(0xffDADADA))),
+                        focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: settingsStore.isDarkTheme?Color(0xff484856):Color(0xffDADADA))
-                        ),
+                            borderSide: BorderSide(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff484856)
+                                    : Color(0xffDADADA))),
                       ),
                     ),
                   ),
@@ -1315,31 +1358,27 @@ class _SwapHomeState extends State<SwapHome> {
                             return RawScrollbar(
                               controller: _scrollController,
                               thickness: 8,
-                              thumbColor: settingsStore
-                                  .isDarkTheme
-                                  ? Color(
-                                  0xff3A3A45)
-                                  : Color(
-                                  0xffC2C2C2),
-                              radius: Radius
-                                  .circular(
-                                  10.0),
-                              thumbVisibility:
-                              true,
-                              child: ListView
-                                  .builder(
-                                  itemCount: youGetCoinsList.length,
-                                  controller:
-                                  _scrollController,
+                              thumbColor: settingsStore.isDarkTheme
+                                  ? Color(0xff3A3A45)
+                                  : Color(0xffC2C2C2),
+                              radius: Radius.circular(10.0),
+                              thumbVisibility: true,
+                              child: ListView.builder(
+                                  itemCount: enableTo.length,
+                                  controller: _scrollController,
                                   itemBuilder:
-                                      (BuildContext context,
-                                      int index) {
+                                      (BuildContext context, int index) {
                                     return youGetCoinsFilter == null ||
-                                        youGetCoinsFilter == ''
-                                        ? youGetCoinsDropDownListItem(settingsStore, index)
-                                        : '${youGetCoinsList[index].name}'.toLowerCase().contains(youGetCoinsFilter!.toLowerCase())
-                                        ? youGetCoinsDropDownListItem(settingsStore, index)
-                                        : Container();
+                                            youGetCoinsFilter == ''
+                                        ? youGetCoinsDropDownListItem(
+                                            settingsStore, enableTo[index])
+                                        : '${enableTo[index].fullName}'
+                                                .toLowerCase()
+                                                .contains(youGetCoinsFilter!
+                                                    .toLowerCase())
+                                            ? youGetCoinsDropDownListItem(
+                                                settingsStore, enableTo[index])
+                                            : Container();
                                   }),
                             );
                           },
@@ -1353,55 +1392,64 @@ class _SwapHomeState extends State<SwapHome> {
         //You send dropdown box
         Visibility(
           visible: youSendCoinsDropDownVisible,
-          child: StatefulBuilder(builder:(BuildContext context,StateSetter setState){
+          child: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
             _searchYouSendCoinsSetState = setState;
             return Container(
               height: 200,
-              margin:EdgeInsets.only(top:130,left:MediaQuery.of(context).size.width/4),
+              margin: EdgeInsets.only(
+                  top: 130, left: MediaQuery.of(context).size.width / 4),
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: settingsStore.isDarkTheme
                       ? Color(0xff272733)
                       : Color(0xffFFFFFF),
-                  borderRadius:
-                  BorderRadius.circular(10)),
+                  borderRadius: BorderRadius.circular(10)),
               child: Column(
                 children: [
                   Padding(
                     padding: EdgeInsets.all(8.0),
                     child: TextField(
-                      style:TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: 14),
                       controller: searchYouSendCoinsController,
                       decoration: InputDecoration(
-                        fillColor:settingsStore.isDarkTheme?Color(0xff333343):Color(0xffF8F8F8),
+                        fillColor: settingsStore.isDarkTheme
+                            ? Color(0xff333343)
+                            : Color(0xffF8F8F8),
                         hintText: 'Search Coins',
-                        hintStyle:TextStyle(
-                          color:Color(0xff77778B),
+                        hintStyle: TextStyle(
+                          color: Color(0xff77778B),
                         ),
                         suffixIcon: IconButton(
                             icon: Icon(
                               Icons.close,
-                              color: youSendCoinsFilter == null || youSendCoinsFilter!.isEmpty ? Colors.transparent : settingsStore
-                                  .isDarkTheme
-                                  ? Color(
-                                  0xffffffff)
-                                  : Color(
-                                  0xff171720),
+                              color: youSendCoinsFilter == null ||
+                                      youSendCoinsFilter!.isEmpty
+                                  ? Colors.transparent
+                                  : settingsStore.isDarkTheme
+                                      ? Color(0xffffffff)
+                                      : Color(0xff171720),
                             ),
-                            onPressed: youSendCoinsFilter == null || youSendCoinsFilter!.isEmpty ? null : () {
-                              searchYouSendCoinsController
-                                  .clear();
-                            }),
-                        contentPadding: EdgeInsets.only(left:10,top:5,bottom:5,right:10),
+                            onPressed: youSendCoinsFilter == null ||
+                                    youSendCoinsFilter!.isEmpty
+                                ? null
+                                : () {
+                                    searchYouSendCoinsController.clear();
+                                  }),
+                        contentPadding: EdgeInsets.only(
+                            left: 10, top: 5, bottom: 5, right: 10),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(color: settingsStore.isDarkTheme?Color(0xff484856):Color(0xffDADADA))
-                        ),
-                        focusedBorder:
-                        OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff484856)
+                                    : Color(0xffDADADA))),
+                        focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: settingsStore.isDarkTheme?Color(0xff484856):Color(0xffDADADA))
-                        ),
+                            borderSide: BorderSide(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff484856)
+                                    : Color(0xffDADADA))),
                       ),
                     ),
                   ),
@@ -1413,31 +1461,29 @@ class _SwapHomeState extends State<SwapHome> {
                             return RawScrollbar(
                               controller: _scrollController,
                               thickness: 8,
-                              thumbColor: settingsStore
-                                  .isDarkTheme
-                                  ? Color(
-                                  0xff3A3A45)
-                                  : Color(
-                                  0xffC2C2C2),
-                              radius: Radius
-                                  .circular(
-                                  10.0),
-                              thumbVisibility:
-                              true,
-                              child: ListView
-                                  .builder(
-                                  itemCount: youSendCoinsList.length,
-                                  controller:
-                                  _scrollController,
+                              thumbColor: settingsStore.isDarkTheme
+                                  ? Color(0xff3A3A45)
+                                  : Color(0xffC2C2C2),
+                              radius: Radius.circular(10.0),
+                              thumbVisibility: true,
+                              child: ListView.builder(
+                                  itemCount: enableFrom.length,
+                                  //youSendCoinsList.length,
+                                  controller: _scrollController,
                                   itemBuilder:
-                                      (BuildContext context,
-                                      int index) {
+                                      (BuildContext context, int index) {
                                     return youSendCoinsFilter == null ||
-                                        youSendCoinsFilter == ''
-                                        ? youSendCoinsDropDownListItem(settingsStore, index)
-                                        : '${youSendCoinsList[index].name}'.toLowerCase().contains(youSendCoinsFilter!.toLowerCase())
-                                        ? youSendCoinsDropDownListItem(settingsStore, index)
-                                        : Container();
+                                            youSendCoinsFilter == ''
+                                        ? youSendCoinsDropDownListItem(
+                                            settingsStore, enableFrom[index])
+                                        : '${enableFrom[index].fullName}'
+                                                .toLowerCase()
+                                                .contains(youSendCoinsFilter!
+                                                    .toLowerCase())
+                                            ? youSendCoinsDropDownListItem(
+                                                settingsStore,
+                                                enableFrom[index])
+                                            : Container();
                                   }),
                             );
                           },
@@ -1452,7 +1498,7 @@ class _SwapHomeState extends State<SwapHome> {
     );
   }
 
-  Widget walletAddressScreen(SettingsStore settingsStore){
+  Widget walletAddressScreen(SettingsStore settingsStore) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1468,8 +1514,7 @@ class _SwapHomeState extends State<SwapHome> {
         ),
         //Recipient Address Title / Destination wallet Address Title
         Container(
-          margin: EdgeInsets.only(
-              top: 20, left: 10, bottom: 10),
+          margin: EdgeInsets.only(top: 20, left: 10, bottom: 10),
           child: Text(
             'Recipient Address',
             //'Destination wallet Address',
@@ -1485,8 +1530,7 @@ class _SwapHomeState extends State<SwapHome> {
         //Recipient Address TextFormField / Destination wallet Address TextFormField
         Container(
           margin: EdgeInsets.only(bottom: 10),
-          padding: EdgeInsets.only(
-              left: 10, right: 5, top: 5, bottom: 5),
+          padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: settingsStore.isDarkTheme
@@ -1500,26 +1544,17 @@ class _SwapHomeState extends State<SwapHome> {
             style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.normal,
-                color: Theme.of(context)
-                    .primaryTextTheme
-                    .caption!
-                    .color),
+                color: Theme.of(context).primaryTextTheme.caption!.color),
             controller: _senderAmountController,
-            keyboardType: TextInputType.numberWithOptions(
-                signed: false, decimal: true),
+            keyboardType:
+                TextInputType.numberWithOptions(signed: false, decimal: true),
             inputFormatters: [
-              TextInputFormatter.withFunction(
-                      (oldValue, newValue) {
-                    final regEx = RegExp(r'^\d*\.?\d*');
-                    final newString =
-                        regEx.stringMatch(newValue.text) ??
-                            '';
-                    return newString == newValue.text
-                        ? newValue
-                        : oldValue;
-                  }),
-              FilteringTextInputFormatter.deny(
-                  RegExp('[-, ]'))
+              TextInputFormatter.withFunction((oldValue, newValue) {
+                final regEx = RegExp(r'^\d*\.?\d*');
+                final newString = regEx.stringMatch(newValue.text) ?? '';
+                return newString == newValue.text ? newValue : oldValue;
+              }),
+              FilteringTextInputFormatter.deny(RegExp('[-, ]'))
             ],
             textInputAction: TextInputAction.done,
             decoration: InputDecoration(
@@ -1528,49 +1563,39 @@ class _SwapHomeState extends State<SwapHome> {
                     fontSize: 14.0,
                     fontWeight: FontWeight.normal,
                     color: Colors.grey.withOpacity(0.6)),
-                hintText:
-                'Enter your BTC recipient address',
-                errorStyle:
-                TextStyle(color: BeldexPalette.red),
+                hintText: 'Enter your BTC recipient address',
+                errorStyle: TextStyle(color: BeldexPalette.red),
                 prefixIcon: showPrefixIcon
                     ? Container(
-                    margin: EdgeInsets.only(
-                        right: 3, top: 3, bottom: 3),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color:
-                        settingsStore.isDarkTheme
-                            ? Color(0xff333343)
-                            : Color(0xffEBEBEB),
-                        borderRadius:
-                        BorderRadius.all(
-                            Radius.circular(8))),
-                    child: Text(
-                      'BEP2',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                          fontSize: 12,
-                          fontWeight:
-                          FontWeight.normal,
-                          color: settingsStore
-                              .isDarkTheme
-                              ? Color(0xffFFFFFF)
-                              : Color(0xff060606)),
-                    ))
+                        margin: EdgeInsets.only(right: 3, top: 3, bottom: 3),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xff333343)
+                                : Color(0xffEBEBEB),
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        child: Text(
+                          'BEP2',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.normal,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffFFFFFF)
+                                  : Color(0xff060606)),
+                        ))
                     : null,
                 suffixIcon: InkWell(
                     onTap: () {},
                     child: Container(
                       width: 20.0,
-                      margin: EdgeInsets.only(
-                          left: 3, top: 3, bottom: 3),
+                      margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           color: settingsStore.isDarkTheme
                               ? Color(0xff333343)
                               : Color(0xffEBEBEB),
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(8))),
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
                       child: SvgPicture.asset(
                         'assets/images/swap/scan_qr.svg',
                         color: settingsStore.isDarkTheme
@@ -1584,8 +1609,7 @@ class _SwapHomeState extends State<SwapHome> {
         ),
         //Refund wallet Address Title
         Container(
-          margin: EdgeInsets.only(
-              top: 10, left: 10, bottom: 10),
+          margin: EdgeInsets.only(top: 10, left: 10, bottom: 10),
           child: Text(
             'Refund wallet Address',
             textAlign: TextAlign.start,
@@ -1600,8 +1624,7 @@ class _SwapHomeState extends State<SwapHome> {
         //Refund wallet Address TextFormField
         Container(
           margin: EdgeInsets.only(bottom: 10),
-          padding: EdgeInsets.only(
-              left: 10, right: 5, top: 5, bottom: 5),
+          padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: settingsStore.isDarkTheme
@@ -1615,26 +1638,17 @@ class _SwapHomeState extends State<SwapHome> {
             style: TextStyle(
                 fontSize: 14.0,
                 fontWeight: FontWeight.normal,
-                color: Theme.of(context)
-                    .primaryTextTheme
-                    .caption!
-                    .color),
+                color: Theme.of(context).primaryTextTheme.caption!.color),
             controller: _senderAmountController,
-            keyboardType: TextInputType.numberWithOptions(
-                signed: false, decimal: true),
+            keyboardType:
+                TextInputType.numberWithOptions(signed: false, decimal: true),
             inputFormatters: [
-              TextInputFormatter.withFunction(
-                      (oldValue, newValue) {
-                    final regEx = RegExp(r'^\d*\.?\d*');
-                    final newString =
-                        regEx.stringMatch(newValue.text) ??
-                            '';
-                    return newString == newValue.text
-                        ? newValue
-                        : oldValue;
-                  }),
-              FilteringTextInputFormatter.deny(
-                  RegExp('[-, ]'))
+              TextInputFormatter.withFunction((oldValue, newValue) {
+                final regEx = RegExp(r'^\d*\.?\d*');
+                final newString = regEx.stringMatch(newValue.text) ?? '';
+                return newString == newValue.text ? newValue : oldValue;
+              }),
+              FilteringTextInputFormatter.deny(RegExp('[-, ]'))
             ],
             textInputAction: TextInputAction.done,
             decoration: InputDecoration(
@@ -1644,21 +1658,18 @@ class _SwapHomeState extends State<SwapHome> {
                     fontWeight: FontWeight.normal,
                     color: Colors.grey.withOpacity(0.6)),
                 hintText: 'Enter your BDX refund address',
-                errorStyle:
-                TextStyle(color: BeldexPalette.red),
+                errorStyle: TextStyle(color: BeldexPalette.red),
                 suffixIcon: InkWell(
                     onTap: () {},
                     child: Container(
                       width: 20.0,
-                      margin: EdgeInsets.only(
-                          left: 3, top: 3, bottom: 3),
+                      margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           color: settingsStore.isDarkTheme
                               ? Color(0xff333343)
                               : Color(0xffEBEBEB),
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(8))),
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
                       child: SvgPicture.asset(
                         'assets/images/swap/scan_qr.svg',
                         color: settingsStore.isDarkTheme
@@ -1686,14 +1697,11 @@ class _SwapHomeState extends State<SwapHome> {
             child: Column(
               children: [
                 Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.start,
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding:
-                      const EdgeInsets.only(top: 3.0),
+                      padding: const EdgeInsets.only(top: 3.0),
                       child: Icon(Icons.info_outline,
                           size: 15,
                           color: settingsStore.isDarkTheme
@@ -1709,8 +1717,7 @@ class _SwapHomeState extends State<SwapHome> {
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
-                            color:
-                            settingsStore.isDarkTheme
+                            color: settingsStore.isDarkTheme
                                 ? Color(0xffAFAFBE)
                                 : Color(0xff77778B)),
                       ),
@@ -1721,10 +1728,8 @@ class _SwapHomeState extends State<SwapHome> {
                   height: 10,
                 ),
                 Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.start,
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     InkWell(
                       onTap: () {
@@ -1735,14 +1740,13 @@ class _SwapHomeState extends State<SwapHome> {
                       child: Icon(
                           showMemo
                               ? Icons.check_box_outlined
-                              : Icons
-                              .check_box_outline_blank,
+                              : Icons.check_box_outline_blank,
                           size: 15,
                           color: showMemo
                               ? Color(0xff20D030)
                               : settingsStore.isDarkTheme
-                              ? Color(0xffFFFFFF)
-                              : Color(0xff222222)),
+                                  ? Color(0xffFFFFFF)
+                                  : Color(0xff222222)),
                     ),
                     SizedBox(
                       width: 5,
@@ -1753,8 +1757,7 @@ class _SwapHomeState extends State<SwapHome> {
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
-                            color:
-                            settingsStore.isDarkTheme
+                            color: settingsStore.isDarkTheme
                                 ? Color(0xffFFFFFF)
                                 : Color(0xff222222)),
                       ),
@@ -1768,8 +1771,7 @@ class _SwapHomeState extends State<SwapHome> {
           visible: showMemo,
           child: Container(
             margin: EdgeInsets.only(bottom: 10),
-            padding: EdgeInsets.only(
-                left: 10, right: 5, top: 5, bottom: 5),
+            padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: settingsStore.isDarkTheme
@@ -1783,27 +1785,17 @@ class _SwapHomeState extends State<SwapHome> {
               style: TextStyle(
                   fontSize: 14.0,
                   fontWeight: FontWeight.normal,
-                  color: Theme.of(context)
-                      .primaryTextTheme
-                      .caption!
-                      .color),
+                  color: Theme.of(context).primaryTextTheme.caption!.color),
               controller: _senderAmountController,
               keyboardType:
-              TextInputType.numberWithOptions(
-                  signed: false, decimal: true),
+                  TextInputType.numberWithOptions(signed: false, decimal: true),
               inputFormatters: [
-                TextInputFormatter.withFunction(
-                        (oldValue, newValue) {
-                      final regEx = RegExp(r'^\d*\.?\d*');
-                      final newString =
-                          regEx.stringMatch(newValue.text) ??
-                              '';
-                      return newString == newValue.text
-                          ? newValue
-                          : oldValue;
-                    }),
-                FilteringTextInputFormatter.deny(
-                    RegExp('[-, ]'))
+                TextInputFormatter.withFunction((oldValue, newValue) {
+                  final regEx = RegExp(r'^\d*\.?\d*');
+                  final newString = regEx.stringMatch(newValue.text) ?? '';
+                  return newString == newValue.text ? newValue : oldValue;
+                }),
+                FilteringTextInputFormatter.deny(RegExp('[-, ]'))
               ],
               textInputAction: TextInputAction.done,
               decoration: InputDecoration(
@@ -1813,16 +1805,14 @@ class _SwapHomeState extends State<SwapHome> {
                     fontWeight: FontWeight.normal,
                     color: Colors.grey.withOpacity(0.6)),
                 hintText: 'Enter Destination Tag',
-                errorStyle:
-                TextStyle(color: BeldexPalette.red),
+                errorStyle: TextStyle(color: BeldexPalette.red),
               ),
             ),
           ),
         ),
         //Transaction Preview
         Container(
-          margin: EdgeInsets.only(
-              left: 10.0, bottom: 10.0, top: 5.0),
+          margin: EdgeInsets.only(left: 10.0, bottom: 10.0, top: 5.0),
           child: Text(
             'Transaction Preview',
             style: TextStyle(
@@ -1864,8 +1854,7 @@ class _SwapHomeState extends State<SwapHome> {
             //Floating Exchange Rate
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0),
+                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                 child: Text(
                   'You send',
                   style: TextStyle(
@@ -1877,8 +1866,8 @@ class _SwapHomeState extends State<SwapHome> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0, right: 10.0),
+                padding:
+                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: Text(
                   '10 ETH',
                   style: TextStyle(
@@ -1892,8 +1881,7 @@ class _SwapHomeState extends State<SwapHome> {
             ]),
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0),
+                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                 child: Text(
                   'Exchange rate',
                   style: TextStyle(
@@ -1905,8 +1893,8 @@ class _SwapHomeState extends State<SwapHome> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0, right: 10.0),
+                padding:
+                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: Text(
                   '1 ETH ~ 2,518.97904761 XRP',
                   style: TextStyle(
@@ -1920,8 +1908,7 @@ class _SwapHomeState extends State<SwapHome> {
             ]),
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0),
+                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                 child: Text(
                   'Service fee 0.25%',
                   style: TextStyle(
@@ -1933,8 +1920,8 @@ class _SwapHomeState extends State<SwapHome> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0, right: 10.0),
+                padding:
+                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: Text(
                   '62.99676191 XRP',
                   style: TextStyle(
@@ -1948,8 +1935,7 @@ class _SwapHomeState extends State<SwapHome> {
             ]),
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0),
+                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                 child: Text(
                   'Network fee',
                   style: TextStyle(
@@ -1978,8 +1964,7 @@ class _SwapHomeState extends State<SwapHome> {
             if (false)
               TableRow(children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10.0, left: 10.0),
+                  padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                   child: Text(
                     'Fixed rate',
                     style: TextStyle(
@@ -1991,26 +1976,22 @@ class _SwapHomeState extends State<SwapHome> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10.0, left: 10.0, right: 10.0),
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                   child: Column(
                     children: [
                       Text('1 ETH ~ 2,518.97904761 XRP',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
-                              color: settingsStore
-                                  .isDarkTheme
+                              color: settingsStore.isDarkTheme
                                   ? Color(0xffEBEBEB)
                                   : Color(0xff222222))),
-                      Text(
-                          'The fixed rate is updated every 30 Seconds',
+                      Text('The fixed rate is updated every 30 Seconds',
                           style: TextStyle(
                               fontSize: 13,
-                              fontWeight:
-                              FontWeight.normal,
-                              color: settingsStore
-                                  .isDarkTheme
+                              fontWeight: FontWeight.normal,
+                              color: settingsStore.isDarkTheme
                                   ? Color(0xffAfAFBE)
                                   : Color(0xff737373)))
                     ],
@@ -2020,8 +2001,7 @@ class _SwapHomeState extends State<SwapHome> {
             if (false)
               TableRow(children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10.0, left: 10.0),
+                  padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                   child: Text(
                     'Network fee',
                     style: TextStyle(
@@ -2065,8 +2045,8 @@ class _SwapHomeState extends State<SwapHome> {
           children: [
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0, bottom: 10.0),
+                padding:
+                    const EdgeInsets.only(top: 10.0, left: 10.0, bottom: 10.0),
                 child: Text(
                   'You Get',
                   style: TextStyle(
@@ -2094,11 +2074,8 @@ class _SwapHomeState extends State<SwapHome> {
         ),
 
         Container(
-          margin: EdgeInsets.only(
-              top: 10.0,
-              left: 5.0,
-              right: 5.0,
-              bottom: 10.0),
+          margin:
+              EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0, bottom: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -2106,8 +2083,7 @@ class _SwapHomeState extends State<SwapHome> {
               InkWell(
                 onTap: () {
                   setState(() {
-                    acceptTermsAndConditions =
-                    !acceptTermsAndConditions;
+                    acceptTermsAndConditions = !acceptTermsAndConditions;
                   });
                 },
                 child: Icon(
@@ -2118,8 +2094,8 @@ class _SwapHomeState extends State<SwapHome> {
                     color: acceptTermsAndConditions
                         ? Color(0xff20D030)
                         : settingsStore.isDarkTheme
-                        ? Color(0xffFFFFFF)
-                        : Color(0xff222222)),
+                            ? Color(0xffFFFFFF)
+                            : Color(0xff222222)),
               ),
               SizedBox(
                 width: 5,
@@ -2127,51 +2103,44 @@ class _SwapHomeState extends State<SwapHome> {
               Expanded(
                 child: RichText(
                     text: TextSpan(
-                        text:
-                        'I agree with Terms of Use, ',
+                        text: 'I agree with Terms of Use, ',
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
-                            color:
-                            settingsStore.isDarkTheme
+                            color: settingsStore.isDarkTheme
                                 ? Color(0xffFFFFFF)
                                 : Color(0xff222222)),
                         children: [
-                          TextSpan(
-                            text: 'Privacy Policy',
-                            style: TextStyle(
-                                decoration:
-                                TextDecoration.underline,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color:
-                                settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                          ),
-                          TextSpan(
-                            text: ' and ',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color:
-                                settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                          ),
-                          TextSpan(
-                            text: 'AML/KYC',
-                            style: TextStyle(
-                                decoration:
-                                TextDecoration.underline,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color:
-                                settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                          )
-                        ])),
+                      TextSpan(
+                        text: 'Privacy Policy',
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff222222)),
+                      ),
+                      TextSpan(
+                        text: ' and ',
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff222222)),
+                      ),
+                      TextSpan(
+                        text: 'AML/KYC',
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff222222)),
+                      )
+                    ])),
               ),
             ],
           ),
@@ -2181,7 +2150,7 @@ class _SwapHomeState extends State<SwapHome> {
           alignment: Alignment.center,
           child: ElevatedButton(
             onPressed: () {
-              if(acceptTermsAndConditions){
+              if (acceptTermsAndConditions) {
                 next();
               }
             },
@@ -2189,13 +2158,10 @@ class _SwapHomeState extends State<SwapHome> {
               primary: acceptTermsAndConditions
                   ? Color(0xff0BA70F)
                   : settingsStore.isDarkTheme
-                  ? Color(0xff32324A)
-                  : Color(0xffFFFFFF),
-              padding: EdgeInsets.only(
-                  top: 10,
-                  bottom: 10,
-                  left: 50,
-                  right: 50),
+                      ? Color(0xff32324A)
+                      : Color(0xffFFFFFF),
+              padding:
+                  EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -2205,8 +2171,8 @@ class _SwapHomeState extends State<SwapHome> {
                     color: acceptTermsAndConditions
                         ? Color(0xffffffff)
                         : settingsStore.isDarkTheme
-                        ? Color(0xff77778B)
-                        : Color(0xffB1B1D1),
+                            ? Color(0xff77778B)
+                            : Color(0xffB1B1D1),
                     fontSize: 16,
                     fontWeight: FontWeight.bold)),
           ),
@@ -2215,7 +2181,7 @@ class _SwapHomeState extends State<SwapHome> {
     );
   }
 
-  Widget paymentCheckoutScreen(SettingsStore settingsStore){
+  Widget paymentCheckoutScreen(SettingsStore settingsStore) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -2261,22 +2227,19 @@ class _SwapHomeState extends State<SwapHome> {
               ),
             ),
             child: Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
                   flex: 1,
                   child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'You send',
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
-                            color:
-                            settingsStore.isDarkTheme
+                            color: settingsStore.isDarkTheme
                                 ? Color(0xffFFFFFF)
                                 : Color(0xff222222)),
                       ),
@@ -2293,8 +2256,7 @@ class _SwapHomeState extends State<SwapHome> {
                 Flexible(
                   flex: 1,
                   child: Container(
-                    margin: EdgeInsets.only(
-                        left: 3, top: 3, bottom: 3),
+                    margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         border: Border.all(
@@ -2302,33 +2264,26 @@ class _SwapHomeState extends State<SwapHome> {
                               ? Color(0xff4F4F70)
                               : Color(0xffDADADA),
                         ),
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(8))),
+                        borderRadius: BorderRadius.all(Radius.circular(8))),
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
                           text: 'Blockchain:',
                           style: TextStyle(
-                              color: settingsStore
-                                  .isDarkTheme
+                              color: settingsStore.isDarkTheme
                                   ? Color(0xffAFAFBE)
                                   : Color(0xff737373),
                               fontSize: 14,
-                              fontWeight:
-                              FontWeight.w500),
+                              fontWeight: FontWeight.w500),
                           children: [
                             TextSpan(
                                 text: 'Beldex',
                                 style: TextStyle(
                                     fontSize: 14,
-                                    fontWeight:
-                                    FontWeight.normal,
-                                    color: settingsStore
-                                        .isDarkTheme
-                                        ? Color(
-                                        0xffFFFFFF)
-                                        : Color(
-                                        0xff222222)))
+                                    fontWeight: FontWeight.normal,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffFFFFFF)
+                                        : Color(0xff222222)))
                           ]),
                     ),
                   ),
@@ -2351,22 +2306,19 @@ class _SwapHomeState extends State<SwapHome> {
               ),
             ),
             child: Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
                   flex: 1,
                   child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'You get',
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
-                            color:
-                            settingsStore.isDarkTheme
+                            color: settingsStore.isDarkTheme
                                 ? Color(0xffFFFFFF)
                                 : Color(0xff222222)),
                       ),
@@ -2383,8 +2335,7 @@ class _SwapHomeState extends State<SwapHome> {
                 Flexible(
                   flex: 1,
                   child: Container(
-                    margin: EdgeInsets.only(
-                        left: 3, top: 3, bottom: 3),
+                    margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         border: Border.all(
@@ -2392,33 +2343,26 @@ class _SwapHomeState extends State<SwapHome> {
                               ? Color(0xff4F4F70)
                               : Color(0xffDADADA),
                         ),
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(8))),
+                        borderRadius: BorderRadius.all(Radius.circular(8))),
                     child: RichText(
                       textAlign: TextAlign.center,
                       text: TextSpan(
                           text: 'Blockchain:',
                           style: TextStyle(
-                              color: settingsStore
-                                  .isDarkTheme
+                              color: settingsStore.isDarkTheme
                                   ? Color(0xffAFAFBE)
                                   : Color(0xff737373),
                               fontSize: 14,
-                              fontWeight:
-                              FontWeight.w500),
+                              fontWeight: FontWeight.w500),
                           children: [
                             TextSpan(
                                 text: 'Bitcoin',
                                 style: TextStyle(
                                     fontSize: 14,
-                                    fontWeight:
-                                    FontWeight.normal,
-                                    color: settingsStore
-                                        .isDarkTheme
-                                        ? Color(
-                                        0xffFFFFFF)
-                                        : Color(
-                                        0xff222222)))
+                                    fontWeight: FontWeight.normal,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffFFFFFF)
+                                        : Color(0xff222222)))
                           ]),
                     ),
                   ),
@@ -2586,8 +2530,7 @@ class _SwapHomeState extends State<SwapHome> {
                     ? Color(0xff4F4F70)
                     : Color(0xffDADADA),
               ),
-              borderRadius:
-              BorderRadius.all(Radius.circular(8))),
+              borderRadius: BorderRadius.all(Radius.circular(8))),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -2617,8 +2560,7 @@ class _SwapHomeState extends State<SwapHome> {
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: settingsStore
-                                  .isDarkTheme
+                              color: settingsStore.isDarkTheme
                                   ? Color(0xffFFFFFF)
                                   : Color(0xff222222)))
                     ]),
@@ -2635,11 +2577,8 @@ class _SwapHomeState extends State<SwapHome> {
             },
             style: ElevatedButton.styleFrom(
               primary: Color(0xff0BA70F),
-              padding: EdgeInsets.only(
-                  top: 10,
-                  bottom: 10,
-                  left: 25,
-                  right: 25),
+              padding:
+                  EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -2655,7 +2594,7 @@ class _SwapHomeState extends State<SwapHome> {
     );
   }
 
-  Widget paymentSendFundsToTheAddressBelowScreen(SettingsStore settingsStore){
+  Widget paymentSendFundsToTheAddressBelowScreen(SettingsStore settingsStore) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -2679,29 +2618,26 @@ class _SwapHomeState extends State<SwapHome> {
                   : Color(0xffFFFFFF),
               border: Border(
                   left: BorderSide(
-                    width: 1.0,
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xff303041)
-                        : Color(0xffDADADA),
-                  )),
+                width: 1.0,
+                color: settingsStore.isDarkTheme
+                    ? Color(0xff303041)
+                    : Color(0xffDADADA),
+              )),
             ),
             child: Row(
-              mainAxisAlignment:
-              MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
                   flex: 1,
                   child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Amount',
                         style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
-                            color:
-                            settingsStore.isDarkTheme
+                            color: settingsStore.isDarkTheme
                                 ? Color(0xffAFAFBE)
                                 : Color(0xff222222)),
                       ),
@@ -2719,40 +2655,34 @@ class _SwapHomeState extends State<SwapHome> {
                   flex: 1,
                   child: Container(
                     padding: EdgeInsets.only(
-                        top: 5.0,
-                        bottom: 5.0,
-                        left: 10.0,
-                        right: 10.0),
+                        top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: Color(0xff20D030),
                         ),
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(8))),
+                        borderRadius: BorderRadius.all(Radius.circular(8))),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         settingsStore.isDarkTheme
                             ? SvgPicture.asset(
-                          'assets/images/swap/swap_wallet_dark.svg',
-                          width: 25,
-                          height: 25,
-                        )
+                                'assets/images/swap/swap_wallet_dark.svg',
+                                width: 25,
+                                height: 25,
+                              )
                             : SvgPicture.asset(
-                          'assets/images/swap/swap_wallet_light.svg',
-                          width: 25,
-                          height: 25,
-                        ),
+                                'assets/images/swap/swap_wallet_light.svg',
+                                width: 25,
+                                height: 25,
+                              ),
                         SizedBox(
                           width: 5,
                         ),
                         Text('Wallet',
                             style: TextStyle(
                                 fontSize: 16,
-                                fontWeight:
-                                FontWeight.normal,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.normal,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffFFFFFF)
                                     : Color(0xff222222)))
                       ],
@@ -2770,8 +2700,7 @@ class _SwapHomeState extends State<SwapHome> {
                   ? Colors.transparent
                   : Color(0xffFFFFFF),
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(5),
-                  topRight: Radius.circular(5)),
+                  topLeft: Radius.circular(5), topRight: Radius.circular(5)),
               border: Border.all(
                 color: settingsStore.isDarkTheme
                     ? Color(0xff484856)
@@ -2779,8 +2708,7 @@ class _SwapHomeState extends State<SwapHome> {
               ),
             ),
             child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Transaction ID',
@@ -2833,8 +2761,7 @@ class _SwapHomeState extends State<SwapHome> {
               ),
             ),
             child: Column(
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Time left to send 0.1 BTC',
@@ -2891,8 +2818,7 @@ class _SwapHomeState extends State<SwapHome> {
               height: 5,
             ),
             Row(
-              crossAxisAlignment:
-              CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Flexible(
                   flex: 2,
@@ -2907,25 +2833,20 @@ class _SwapHomeState extends State<SwapHome> {
                   ),
                 ),
                 Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment:
-                  CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     InkWell(
                         onTap: () {},
                         child: Container(
                           width: 30.0,
-                          margin: EdgeInsets.only(
-                              left: 5, right: 5),
+                          margin: EdgeInsets.only(left: 5, right: 5),
                           padding: EdgeInsets.all(6),
                           decoration: BoxDecoration(
                               color: Color(0xff00AD07),
                               borderRadius:
-                              BorderRadius.all(
-                                  Radius.circular(
-                                      5))),
+                                  BorderRadius.all(Radius.circular(5))),
                           child: Icon(
                             Icons.copy,
                             color: Color(0xffFFFFFF),
@@ -2938,18 +2859,14 @@ class _SwapHomeState extends State<SwapHome> {
                           width: 30.0,
                           padding: EdgeInsets.all(6),
                           decoration: BoxDecoration(
-                              color: settingsStore
-                                  .isDarkTheme
+                              color: settingsStore.isDarkTheme
                                   ? Color(0xff32324A)
                                   : Color(0xffFFFFFF),
                               borderRadius:
-                              BorderRadius.all(
-                                  Radius.circular(
-                                      5))),
+                                  BorderRadius.all(Radius.circular(5))),
                           child: SvgPicture.asset(
                             'assets/images/swap/scan_qr.svg',
-                            color:
-                            settingsStore.isDarkTheme
+                            color: settingsStore.isDarkTheme
                                 ? Color(0xffFFFFFF)
                                 : Color(0xff222222),
                             width: 20,
@@ -2977,15 +2894,13 @@ class _SwapHomeState extends State<SwapHome> {
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
               color: Color(0xff00AD07).withAlpha(25),
-              borderRadius:
-              BorderRadius.all(Radius.circular(8))),
+              borderRadius: BorderRadius.all(Radius.circular(8))),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment:
-                MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
@@ -3023,8 +2938,7 @@ class _SwapHomeState extends State<SwapHome> {
         ),
         //Transaction Preview
         Container(
-          margin:
-          EdgeInsets.only(left: 10.0, bottom: 10.0),
+          margin: EdgeInsets.only(left: 10.0, bottom: 10.0),
           child: Text(
             'Transaction Preview',
             style: TextStyle(
@@ -3066,8 +2980,7 @@ class _SwapHomeState extends State<SwapHome> {
             //Floating Exchange Rate
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0),
+                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                 child: Text(
                   'You send',
                   style: TextStyle(
@@ -3079,8 +2992,8 @@ class _SwapHomeState extends State<SwapHome> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0, right: 10.0),
+                padding:
+                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: Text(
                   '10 ETH',
                   style: TextStyle(
@@ -3094,8 +3007,7 @@ class _SwapHomeState extends State<SwapHome> {
             ]),
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0),
+                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                 child: Text(
                   'Exchange rate',
                   style: TextStyle(
@@ -3107,8 +3019,8 @@ class _SwapHomeState extends State<SwapHome> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0, right: 10.0),
+                padding:
+                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: Text(
                   '1 ETH ~ 2,518.97904761 XRP',
                   style: TextStyle(
@@ -3122,8 +3034,7 @@ class _SwapHomeState extends State<SwapHome> {
             ]),
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0),
+                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                 child: Text(
                   'Service fee 0.25%',
                   style: TextStyle(
@@ -3135,8 +3046,8 @@ class _SwapHomeState extends State<SwapHome> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0, right: 10.0),
+                padding:
+                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: Text(
                   '62.99676191 XRP',
                   style: TextStyle(
@@ -3150,8 +3061,7 @@ class _SwapHomeState extends State<SwapHome> {
             ]),
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0),
+                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                 child: Text(
                   'Network fee',
                   style: TextStyle(
@@ -3180,8 +3090,7 @@ class _SwapHomeState extends State<SwapHome> {
             if (false)
               TableRow(children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10.0, left: 10.0),
+                  padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                   child: Text(
                     'Fixed rate',
                     style: TextStyle(
@@ -3193,26 +3102,22 @@ class _SwapHomeState extends State<SwapHome> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10.0, left: 10.0, right: 10.0),
+                  padding:
+                      const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                   child: Column(
                     children: [
                       Text('1 ETH ~ 2,518.97904761 XRP',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
-                              color: settingsStore
-                                  .isDarkTheme
+                              color: settingsStore.isDarkTheme
                                   ? Color(0xffEBEBEB)
                                   : Color(0xff222222))),
-                      Text(
-                          'The fixed rate is updated every 30 Seconds',
+                      Text('The fixed rate is updated every 30 Seconds',
                           style: TextStyle(
                               fontSize: 13,
-                              fontWeight:
-                              FontWeight.normal,
-                              color: settingsStore
-                                  .isDarkTheme
+                              fontWeight: FontWeight.normal,
+                              color: settingsStore.isDarkTheme
                                   ? Color(0xffAfAFBE)
                                   : Color(0xff737373)))
                     ],
@@ -3222,8 +3127,7 @@ class _SwapHomeState extends State<SwapHome> {
             if (false)
               TableRow(children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10.0, left: 10.0),
+                  padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                   child: Text(
                     'Network fee',
                     style: TextStyle(
@@ -3267,8 +3171,8 @@ class _SwapHomeState extends State<SwapHome> {
           children: [
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 10.0, left: 10.0, bottom: 10.0),
+                padding:
+                    const EdgeInsets.only(top: 10.0, left: 10.0, bottom: 10.0),
                 child: Text(
                   'You Get',
                   style: TextStyle(
@@ -3301,7 +3205,7 @@ class _SwapHomeState extends State<SwapHome> {
     );
   }
 
-  Widget exchangeCompletedScreen(SettingsStore settingsStore){
+  Widget exchangeCompletedScreen(SettingsStore settingsStore) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -3334,15 +3238,13 @@ class _SwapHomeState extends State<SwapHome> {
         //Completed Details
         Container(
           width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(
-              left: 6, right: 6, top: 20, bottom: 20),
+          margin: EdgeInsets.only(left: 6, right: 6, top: 20, bottom: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //Completed Title
               Row(
-                mainAxisAlignment:
-                MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SvgPicture.asset(
                     'assets/images/swap/swap_completed.svg',
@@ -3364,17 +3266,14 @@ class _SwapHomeState extends State<SwapHome> {
               ),
               //Transaction ID Details
               Container(
-                  width:
-                  MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(
-                      top: 10.0, bottom: 10.0),
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: settingsStore.isDarkTheme
                         ? Colors.transparent
                         : Color(0xffFFFFFF),
-                    borderRadius:
-                    BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                       color: settingsStore.isDarkTheme
                           ? Color(0xff484856)
@@ -3382,8 +3281,7 @@ class _SwapHomeState extends State<SwapHome> {
                     ),
                   ),
                   child: Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
                         flex: 1,
@@ -3392,8 +3290,7 @@ class _SwapHomeState extends State<SwapHome> {
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
-                              color: settingsStore
-                                  .isDarkTheme
+                              color: settingsStore.isDarkTheme
                                   ? Color(0xffAFAFBE)
                                   : Color(0xff737373)),
                         ),
@@ -3402,24 +3299,18 @@ class _SwapHomeState extends State<SwapHome> {
                         flex: 1,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment:
-                          MainAxisAlignment.start,
-                          crossAxisAlignment:
-                          CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
                               child: Text(
                                 'bcbf9e4b0703d65',
                                 style: TextStyle(
                                     fontSize: 14,
-                                    fontWeight:
-                                    FontWeight.w400,
-                                    color: settingsStore
-                                        .isDarkTheme
-                                        ? Color(
-                                        0xffEBEBEB)
-                                        : Color(
-                                        0xff222222)),
+                                    fontWeight: FontWeight.w400,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffEBEBEB)
+                                        : Color(0xff222222)),
                               ),
                             ),
                             SizedBox(
@@ -3445,17 +3336,14 @@ class _SwapHomeState extends State<SwapHome> {
                         top: 10.0,
                       ),
                       child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Amount from',
                             style: TextStyle(
                                 fontSize: 13,
-                                fontWeight:
-                                FontWeight.w400,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w400,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffAFAFBE)
                                     : Color(0xff737373)),
                           ),
@@ -3466,10 +3354,8 @@ class _SwapHomeState extends State<SwapHome> {
                             '0.1 BTC',
                             style: TextStyle(
                                 fontSize: 14,
-                                fontWeight:
-                                FontWeight.w500,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffFFFFFF)
                                     : Color(0xff222222)),
                           ),
@@ -3477,20 +3363,16 @@ class _SwapHomeState extends State<SwapHome> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10.0, left: 10.0),
+                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                       child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Amount to',
                             style: TextStyle(
                                 fontSize: 13,
-                                fontWeight:
-                                FontWeight.w400,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w400,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffAFAFBE)
                                     : Color(0xff737373)),
                           ),
@@ -3501,10 +3383,8 @@ class _SwapHomeState extends State<SwapHome> {
                             '1.6112626 ETH',
                             style: TextStyle(
                                 fontSize: 14,
-                                fontWeight:
-                                FontWeight.w500,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffFFFFFF)
                                     : Color(0xff222222)),
                           ),
@@ -3519,17 +3399,14 @@ class _SwapHomeState extends State<SwapHome> {
                         top: 10.0,
                       ),
                       child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Received Time',
                             style: TextStyle(
                                 fontSize: 13,
-                                fontWeight:
-                                FontWeight.w400,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w400,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffAFAFBE)
                                     : Color(0xff737373)),
                           ),
@@ -3540,10 +3417,8 @@ class _SwapHomeState extends State<SwapHome> {
                             '22 Jul 2023, 18:45:47',
                             style: TextStyle(
                                 fontSize: 14,
-                                fontWeight:
-                                FontWeight.w500,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffFFFFFF)
                                     : Color(0xff222222)),
                           ),
@@ -3551,20 +3426,16 @@ class _SwapHomeState extends State<SwapHome> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10.0, left: 10.0),
+                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                       child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Amount Sent',
                             style: TextStyle(
                                 fontSize: 13,
-                                fontWeight:
-                                FontWeight.w400,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w400,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffAFAFBE)
                                     : Color(0xff737373)),
                           ),
@@ -3575,10 +3446,8 @@ class _SwapHomeState extends State<SwapHome> {
                             '22 Jul 2023, 18:45:47',
                             style: TextStyle(
                                 fontSize: 14,
-                                fontWeight:
-                                FontWeight.w500,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffFFFFFF)
                                     : Color(0xff222222)),
                           ),
@@ -3593,17 +3462,14 @@ class _SwapHomeState extends State<SwapHome> {
                         top: 10.0,
                       ),
                       child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Exchange Rate',
                             style: TextStyle(
                                 fontSize: 13,
-                                fontWeight:
-                                FontWeight.w400,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w400,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffAFAFBE)
                                     : Color(0xff737373)),
                           ),
@@ -3614,10 +3480,8 @@ class _SwapHomeState extends State<SwapHome> {
                             '1 BDX ~ 0.00016151 BNB',
                             style: TextStyle(
                                 fontSize: 14,
-                                fontWeight:
-                                FontWeight.w500,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffFFFFFF)
                                     : Color(0xff222222)),
                           ),
@@ -3625,20 +3489,16 @@ class _SwapHomeState extends State<SwapHome> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10.0, left: 10.0),
+                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                       child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Network fee',
                             style: TextStyle(
                                 fontSize: 13,
-                                fontWeight:
-                                FontWeight.w400,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w400,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffAFAFBE)
                                     : Color(0xff737373)),
                           ),
@@ -3649,10 +3509,8 @@ class _SwapHomeState extends State<SwapHome> {
                             '0.00068934 BNB',
                             style: TextStyle(
                                 fontSize: 14,
-                                fontWeight:
-                                FontWeight.w500,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffFFFFFF)
                                     : Color(0xff222222)),
                           ),
@@ -3667,8 +3525,7 @@ class _SwapHomeState extends State<SwapHome> {
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.only(top: 10),
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Recipient Address',
@@ -3699,8 +3556,7 @@ class _SwapHomeState extends State<SwapHome> {
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.only(top: 10),
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Memo',
@@ -3747,11 +3603,9 @@ class _SwapHomeState extends State<SwapHome> {
                       bottom: 10,
                     ),
                     shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8),
                         side: BorderSide(
-                            color:
-                            settingsStore.isDarkTheme
+                            color: settingsStore.isDarkTheme
                                 ? Color(0xff41415B)
                                 : Color(0xffF3F3F3))),
                   ),
@@ -3777,13 +3631,11 @@ class _SwapHomeState extends State<SwapHome> {
                         child: Text('Input Hash',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: settingsStore
-                                    .isDarkTheme
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffffffff)
                                     : Color(0xff222222),
                                 fontSize: 14,
-                                fontWeight:
-                                FontWeight.w400)),
+                                fontWeight: FontWeight.w400)),
                       ),
                     ],
                   ),
@@ -3802,11 +3654,9 @@ class _SwapHomeState extends State<SwapHome> {
                       bottom: 10,
                     ),
                     shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8),
                         side: BorderSide(
-                            color:
-                            settingsStore.isDarkTheme
+                            color: settingsStore.isDarkTheme
                                 ? Color(0xff41415B)
                                 : Color(0xffF3F3F3))),
                   ),
@@ -3832,13 +3682,11 @@ class _SwapHomeState extends State<SwapHome> {
                         child: Text('Output Hash',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                color: settingsStore
-                                    .isDarkTheme
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffffffff)
                                     : Color(0xff222222),
                                 fontSize: 14,
-                                fontWeight:
-                                FontWeight.w400)),
+                                fontWeight: FontWeight.w400)),
                       ),
                     ],
                   ),
@@ -3860,8 +3708,7 @@ class _SwapHomeState extends State<SwapHome> {
                       bottom: 10,
                     ),
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   child: Text('Open History',
@@ -3880,19 +3727,15 @@ class _SwapHomeState extends State<SwapHome> {
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xff0BA70F),
-                    padding: EdgeInsets.only(
-                        top: 10, bottom: 10),
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                      BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment:
-                    MainAxisAlignment.center,
-                    crossAxisAlignment:
-                    CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Flexible(
                         flex: 1,
@@ -3911,8 +3754,7 @@ class _SwapHomeState extends State<SwapHome> {
                             style: TextStyle(
                                 color: Color(0xffffffff),
                                 fontSize: 14,
-                                fontWeight:
-                                FontWeight.w400)),
+                                fontWeight: FontWeight.w400)),
                       ),
                     ],
                   ),
@@ -3925,7 +3767,7 @@ class _SwapHomeState extends State<SwapHome> {
     );
   }
 
-  Widget exchangeNotPaidScreen(SettingsStore settingsStore){
+  Widget exchangeNotPaidScreen(SettingsStore settingsStore) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -3958,15 +3800,13 @@ class _SwapHomeState extends State<SwapHome> {
         //Completed Details
         Container(
           width: MediaQuery.of(context).size.width,
-          margin:
-          EdgeInsets.only(left: 5, right: 5, top: 20),
+          margin: EdgeInsets.only(left: 5, right: 5, top: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //Completed Title
               Row(
-                mainAxisAlignment:
-                MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SvgPicture.asset(
                     'assets/images/swap/swap_waiting.svg',
@@ -3992,17 +3832,14 @@ class _SwapHomeState extends State<SwapHome> {
               ),
               //Transaction ID Details
               Container(
-                  width:
-                  MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(
-                      top: 10.0, bottom: 10.0),
+                  width: MediaQuery.of(context).size.width,
+                  margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: settingsStore.isDarkTheme
                         ? Colors.transparent
                         : Color(0xffFFFFFF),
-                    borderRadius:
-                    BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(8),
                     border: Border.all(
                       color: settingsStore.isDarkTheme
                           ? Color(0xff484856)
@@ -4010,8 +3847,7 @@ class _SwapHomeState extends State<SwapHome> {
                     ),
                   ),
                   child: Row(
-                    mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
                         flex: 1,
@@ -4020,8 +3856,7 @@ class _SwapHomeState extends State<SwapHome> {
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
-                              color: settingsStore
-                                  .isDarkTheme
+                              color: settingsStore.isDarkTheme
                                   ? Color(0xffAFAFBE)
                                   : Color(0xff737373)),
                         ),
@@ -4030,24 +3865,18 @@ class _SwapHomeState extends State<SwapHome> {
                         flex: 1,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment:
-                          MainAxisAlignment.start,
-                          crossAxisAlignment:
-                          CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
                               child: Text(
                                 'bcbf9e4b0703d65',
                                 style: TextStyle(
                                     fontSize: 14,
-                                    fontWeight:
-                                    FontWeight.w400,
-                                    color: settingsStore
-                                        .isDarkTheme
-                                        ? Color(
-                                        0xffEBEBEB)
-                                        : Color(
-                                        0xff222222)),
+                                    fontWeight: FontWeight.w400,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffEBEBEB)
+                                        : Color(0xff222222)),
                               ),
                             ),
                             SizedBox(
@@ -4073,17 +3902,14 @@ class _SwapHomeState extends State<SwapHome> {
                         top: 10.0,
                       ),
                       child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Amount from',
                             style: TextStyle(
                                 fontSize: 13,
-                                fontWeight:
-                                FontWeight.w400,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w400,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffAFAFBE)
                                     : Color(0xff737373)),
                           ),
@@ -4094,10 +3920,8 @@ class _SwapHomeState extends State<SwapHome> {
                             '0.1 BTC',
                             style: TextStyle(
                                 fontSize: 14,
-                                fontWeight:
-                                FontWeight.w500,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffFFFFFF)
                                     : Color(0xff222222)),
                           ),
@@ -4105,20 +3929,16 @@ class _SwapHomeState extends State<SwapHome> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(
-                          top: 10.0, left: 10.0),
+                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                       child: Column(
-                        crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             'Amount to',
                             style: TextStyle(
                                 fontSize: 13,
-                                fontWeight:
-                                FontWeight.w400,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w400,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffAFAFBE)
                                     : Color(0xff737373)),
                           ),
@@ -4129,10 +3949,8 @@ class _SwapHomeState extends State<SwapHome> {
                             '1.6112626 ETH',
                             style: TextStyle(
                                 fontSize: 14,
-                                fontWeight:
-                                FontWeight.w500,
-                                color: settingsStore
-                                    .isDarkTheme
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
                                     ? Color(0xffFFFFFF)
                                     : Color(0xff222222)),
                           ),
@@ -4147,8 +3965,7 @@ class _SwapHomeState extends State<SwapHome> {
                 width: MediaQuery.of(context).size.width,
                 margin: EdgeInsets.only(top: 10),
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Recipient Address',
@@ -4190,12 +4007,10 @@ class _SwapHomeState extends State<SwapHome> {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment:
-              CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding:
-                  const EdgeInsets.only(top: 3.0),
+                  padding: const EdgeInsets.only(top: 3.0),
                   child: Icon(Icons.info_outline,
                       size: 15,
                       color: settingsStore.isDarkTheme
@@ -4226,11 +4041,8 @@ class _SwapHomeState extends State<SwapHome> {
             onPressed: () {},
             style: ElevatedButton.styleFrom(
               primary: Color(0xff0BA70F),
-              padding: EdgeInsets.only(
-                  top: 10,
-                  bottom: 10,
-                  left: 50,
-                  right: 50),
+              padding:
+                  EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -4260,7 +4072,7 @@ class _SwapHomeState extends State<SwapHome> {
     );
   }
 
-  Widget exchangingScreen(SettingsStore settingsStore){
+  Widget exchangingScreen(SettingsStore settingsStore) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -4282,8 +4094,7 @@ class _SwapHomeState extends State<SwapHome> {
             backgroundColor: settingsStore.isDarkTheme
                 ? Color(0xff32324A)
                 : Color(0xffFFFFFF),
-            valueColor: AlwaysStoppedAnimation<Color>(
-                BeldexPalette.belgreen),
+            valueColor: AlwaysStoppedAnimation<Color>(BeldexPalette.belgreen),
             value: 0.5,
           ),
         ),
@@ -4292,233 +4103,177 @@ class _SwapHomeState extends State<SwapHome> {
             child: Column(
               children: [
                 //Confirming in progress Details
-                Row(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 5.0),
-                        child: SvgPicture.asset(
-                          'assets/images/swap/swap_loading.svg',
-                          width: 15,
-                          height: 15,
+                Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: SvgPicture.asset(
+                      'assets/images/swap/swap_loading.svg',
+                      width: 15,
+                      height: 15,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Flexible(
+                    flex: 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Confirming in progress',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffEBEBEB)
+                                  : Color(0xff222222)),
                         ),
-                      ),
-                      SizedBox(width: 10),
-                      Flexible(
-                        flex: 1,
-                        child: Column(
-                          mainAxisAlignment:
-                          MainAxisAlignment.start,
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Confirming in progress',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight:
-                                  FontWeight.w500,
-                                  color: settingsStore
-                                      .isDarkTheme
-                                      ? Color(0xffEBEBEB)
-                                      : Color(
-                                      0xff222222)),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              'Once BDX is confirmed in the blockchain, we’ll start exchanging it to BNB',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight:
-                                  FontWeight.w400,
-                                  color: settingsStore
-                                      .isDarkTheme
-                                      ? Color(0xffAFAFBE)
-                                      : Color(
-                                      0xff737373)),
-                            ),
-                            SizedBox(height: 5),
-                            Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment
-                                    .start,
-                                mainAxisSize:
-                                MainAxisSize.min,
-                                crossAxisAlignment:
-                                CrossAxisAlignment
-                                    .center,
-                                children: [
-                                  Flexible(
-                                    flex: 2,
-                                    child: Text(
-                                      'See input hash in explorer',
-                                      style: TextStyle(
-                                          decoration:
-                                          TextDecoration
-                                              .underline,
-                                          fontSize: 12,
-                                          fontWeight:
-                                          FontWeight
-                                              .w500,
-                                          color: settingsStore
-                                              .isDarkTheme
-                                              ? Color(
-                                              0xffEBEBEB)
-                                              : Color(
-                                              0xff222222)),
-                                    ),
-                                  ),
-                                  SizedBox(width: 5),
-                                  Flexible(
-                                    flex: 1,
-                                    child: Icon(
-                                        Icons
-                                            .info_outline,
-                                        size: 12,
-                                        color: settingsStore
-                                            .isDarkTheme
-                                            ? Color(
-                                            0xffD1D1DB)
-                                            : Color(
-                                            0xff77778B)),
-                                  ),
-                                ]),
-                          ],
+                        SizedBox(height: 5),
+                        Text(
+                          'Once BDX is confirmed in the blockchain, we’ll start exchanging it to BNB',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffAFAFBE)
+                                  : Color(0xff737373)),
                         ),
-                      )
-                    ]),
+                        SizedBox(height: 5),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Flexible(
+                                flex: 2,
+                                child: Text(
+                                  'See input hash in explorer',
+                                  style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xffEBEBEB)
+                                          : Color(0xff222222)),
+                                ),
+                              ),
+                              SizedBox(width: 5),
+                              Flexible(
+                                flex: 1,
+                                child: Icon(Icons.info_outline,
+                                    size: 12,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffD1D1DB)
+                                        : Color(0xff77778B)),
+                              ),
+                            ]),
+                      ],
+                    ),
+                  )
+                ]),
                 Container(
-                  margin: EdgeInsets.only(
-                      top: 10.0, bottom: 10.0),
+                  margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   height: 1,
                   color: settingsStore.isDarkTheme
                       ? Color(0xff8787A8)
                       : Color(0xffDADADA),
                 ),
                 //Exchanging BDX to BNB
-                Row(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 5.0),
-                        child: Transform.rotate(
-                          angle: 90 * pi / 180,
-                          child: SvgPicture.asset(
-                            'assets/images/swap/swap.svg',
-                            color:
-                            settingsStore.isDarkTheme
-                                ? Color(0xffAFAFBE)
-                                : Color(0xff737373),
-                            width: 15,
-                            height: 15,
-                          ),
-                        ),
+                Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: Transform.rotate(
+                      angle: 90 * pi / 180,
+                      child: SvgPicture.asset(
+                        'assets/images/swap/swap.svg',
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xffAFAFBE)
+                            : Color(0xff737373),
+                        width: 15,
+                        height: 15,
                       ),
-                      SizedBox(width: 10),
-                      Flexible(
-                        flex: 1,
-                        child: Column(
-                          mainAxisAlignment:
-                          MainAxisAlignment.start,
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Exchanging BDX to BNB',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight:
-                                  FontWeight.w500,
-                                  color: settingsStore
-                                      .isDarkTheme
-                                      ? Color(0xffEBEBEB)
-                                      : Color(
-                                      0xff222222)),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              'The process will take a few minutes. please wait.',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight:
-                                  FontWeight.w400,
-                                  color: settingsStore
-                                      .isDarkTheme
-                                      ? Color(0xffAFAFBE)
-                                      : Color(
-                                      0xff737373)),
-                            ),
-                          ],
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Flexible(
+                    flex: 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Exchanging BDX to BNB',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffEBEBEB)
+                                  : Color(0xff222222)),
                         ),
-                      )
-                    ]),
+                        SizedBox(height: 5),
+                        Text(
+                          'The process will take a few minutes. please wait.',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffAFAFBE)
+                                  : Color(0xff737373)),
+                        ),
+                      ],
+                    ),
+                  )
+                ]),
                 Container(
-                  margin: EdgeInsets.only(
-                      top: 10.0, bottom: 10.0),
+                  margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   height: 1,
                   color: settingsStore.isDarkTheme
                       ? Color(0xff8787A8)
                       : Color(0xffDADADA),
                 ),
                 //Sending funds to your wallet
-                Row(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 5.0),
-                        child: SvgPicture.asset(
-                          'assets/images/swap/swap_wallet.svg',
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffAFAFBE)
-                              : Color(0xff737373),
-                          width: 15,
-                          height: 15,
+                Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 5.0),
+                    child: SvgPicture.asset(
+                      'assets/images/swap/swap_wallet.svg',
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xffAFAFBE)
+                          : Color(0xff737373),
+                      width: 15,
+                      height: 15,
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Flexible(
+                    flex: 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Sending funds to your wallet',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffEBEBEB)
+                                  : Color(0xff222222)),
                         ),
-                      ),
-                      SizedBox(width: 10),
-                      Flexible(
-                        flex: 1,
-                        child: Column(
-                          mainAxisAlignment:
-                          MainAxisAlignment.start,
-                          crossAxisAlignment:
-                          CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Sending funds to your wallet',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight:
-                                  FontWeight.w500,
-                                  color: settingsStore
-                                      .isDarkTheme
-                                      ? Color(0xffEBEBEB)
-                                      : Color(
-                                      0xff222222)),
-                            ),
-                            SizedBox(height: 5),
-                            Text(
-                              'The process will take a few minutes. please wait.',
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight:
-                                  FontWeight.w400,
-                                  color: settingsStore
-                                      .isDarkTheme
-                                      ? Color(0xffAFAFBE)
-                                      : Color(
-                                      0xff737373)),
-                            ),
-                          ],
+                        SizedBox(height: 5),
+                        Text(
+                          'The process will take a few minutes. please wait.',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffAFAFBE)
+                                  : Color(0xff737373)),
                         ),
-                      )
-                    ]),
+                      ],
+                    ),
+                  )
+                ]),
               ],
             )),
         //History Option Details
@@ -4530,8 +4285,7 @@ class _SwapHomeState extends State<SwapHome> {
               color: settingsStore.isDarkTheme
                   ? Color(0xff32324A)
                   : Color(0xffFFFFFF),
-              borderRadius:
-              BorderRadius.all(Radius.circular(8))),
+              borderRadius: BorderRadius.all(Radius.circular(8))),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -4549,7 +4303,7 @@ class _SwapHomeState extends State<SwapHome> {
               RichText(
                 text: TextSpan(
                     text:
-                    'You can initiate a new transaction.You can always check the status of this transaction in transaction ',
+                        'You can initiate a new transaction.You can always check the status of this transaction in transaction ',
                     style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
@@ -4560,12 +4314,10 @@ class _SwapHomeState extends State<SwapHome> {
                       TextSpan(
                           text: 'history',
                           style: TextStyle(
-                              decoration: TextDecoration
-                                  .underline,
+                              decoration: TextDecoration.underline,
                               fontSize: 13,
                               fontWeight: FontWeight.w400,
-                              color: settingsStore
-                                  .isDarkTheme
+                              color: settingsStore.isDarkTheme
                                   ? Color(0xffFFFFFF)
                                   : Color(0xff222222))),
                     ]),
@@ -4575,8 +4327,7 @@ class _SwapHomeState extends State<SwapHome> {
         ),
         //Transaction Preview
         Container(
-          margin: EdgeInsets.only(
-              left: 10.0, bottom: 10.0, top: 5.0),
+          margin: EdgeInsets.only(left: 10.0, bottom: 10.0, top: 5.0),
           child: Text(
             'Transaction Preview',
             style: TextStyle(
@@ -4617,11 +4368,9 @@ class _SwapHomeState extends State<SwapHome> {
           children: [
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 15, left: 15, right: 15),
+                padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Transaction ID',
@@ -4647,11 +4396,9 @@ class _SwapHomeState extends State<SwapHome> {
             ]),
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 15, left: 15, right: 15),
+                padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'You sent',
@@ -4677,11 +4424,9 @@ class _SwapHomeState extends State<SwapHome> {
             ]),
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 15, left: 15, right: 15),
+                padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Exchange Rate',
@@ -4707,11 +4452,9 @@ class _SwapHomeState extends State<SwapHome> {
             ]),
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 15, left: 15, right: 15),
+                padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Changelly address (BDX)',
@@ -4737,11 +4480,9 @@ class _SwapHomeState extends State<SwapHome> {
             ]),
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(
-                    top: 15, left: 15, right: 15),
+                padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Recipient address (BNB)',
@@ -4769,8 +4510,7 @@ class _SwapHomeState extends State<SwapHome> {
               Padding(
                 padding: const EdgeInsets.all(15),
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Memo',
@@ -4816,8 +4556,7 @@ class _SwapHomeState extends State<SwapHome> {
               Padding(
                 padding: const EdgeInsets.all(15),
                 child: Row(
-                  mainAxisAlignment:
-                  MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
                       'You Get',
@@ -4851,21 +4590,25 @@ class _SwapHomeState extends State<SwapHome> {
     );
   }
 
-  Widget transactionHistoryScreen(double _screenWidth,double _screenHeight,SettingsStore settingsStore, SwapPageChangeNotifier swapPageChangeNotifier){
+  Widget transactionHistoryScreen(
+      double _screenWidth,
+      double _screenHeight,
+      SettingsStore settingsStore,
+      SwapPageChangeNotifier swapPageChangeNotifier) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         //Transaction History Back Title
         Row(
-          mainAxisAlignment:
-          MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 InkWell(
-                  onTap: (){
-                    swapPageChangeNotifier.setTransactionHistoryScreenVisibleStatus(false);
+                  onTap: () {
+                    swapPageChangeNotifier
+                        .setTransactionHistoryScreenVisibleStatus(false);
                   },
                   child: SvgPicture.asset(
                     'assets/images/swap/swap_back.svg',
@@ -4903,7 +4646,7 @@ class _SwapHomeState extends State<SwapHome> {
         SizedBox(height: 10),
         Container(
           width: _screenWidth,
-          height:_screenHeight,
+          height: _screenHeight,
           child: ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -4917,13 +4660,13 @@ class _SwapHomeState extends State<SwapHome> {
       ],
     );
   }
-
 }
+
 class Coins {
   Coins(this.id, this.name);
 
-  String id;
-  String name;
+  String? id;
+  String? name;
 }
 /*
  Container(

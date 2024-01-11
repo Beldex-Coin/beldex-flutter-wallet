@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/swap/get_currencies_full_provider.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_page.dart';
 import 'package:beldex_wallet/src/swap/signature_page.dart';
 import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
@@ -535,7 +536,8 @@ class Router {
           return MultiProvider(
             providers: [
               ChangeNotifierProvider<SwapPageChangeNotifier>(create: (_) => SwapPageChangeNotifier()),
-              ChangeNotifierProvider<SwapPageChangeNotifier>(create: (_) => SwapPageChangeNotifier())
+              ChangeNotifierProvider<SwapPageChangeNotifier>(create: (_) => SwapPageChangeNotifier()),
+              ChangeNotifierProvider<GetCurrenciesFullProvider>(create: (_) => GetCurrenciesFullProvider())
             ],
             child: SwapPage(),
           );

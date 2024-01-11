@@ -593,7 +593,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           'assets/images/swap/swap.svg',color: Color(0xff0BA70F),),
                                       onPressed: () =>
                                           Navigator.of(context, rootNavigator: true)
-                                              .pushNamed(Routes.signature),
+                                              .pushNamed(Routes.swap),
                                       label: Flexible(
                                         child: Text(
                                           'Swap',
