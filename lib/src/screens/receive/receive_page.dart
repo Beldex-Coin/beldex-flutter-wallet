@@ -100,8 +100,6 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final walletStore = Provider.of<WalletStore>(context);
@@ -116,307 +114,296 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
     });
 
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: SafeArea(
           child: SingleChildScrollView(
               child: Column(
-            children: <Widget>[
-              Container(
-                color: settingsStore.isDarkTheme
-                    ? Color(0xff171720)
-                    : Color(0xffffffff),
-                child: Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(left: 35.0, right: 35.0),
-                      child: Column(
-                        children: <Widget>[
-                          Observer(builder: (_) {
-                            return Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 10),
-                                  height:
-                                      MediaQuery.of(context).size.height *
-                                          0.60 /
-                                          3,
-                                  width:
-                                      MediaQuery.of(context).size.height *
-                                          0.60 /
-                                          3,
+        children: <Widget>[
+          Container(
+            color: settingsStore.isDarkTheme
+                ? Color(0xff171720)
+                : Color(0xffffffff),
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(left: 35.0, right: 35.0),
+                  child: Column(
+                    children: <Widget>[
+                      Observer(builder: (_) {
+                        if (amountController.text.isEmpty) {
+                          walletStore.onChangedAmountValue('');
+                        }
+                        return Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(bottom: 10),
+                              height:
+                                  MediaQuery.of(context).size.height * 0.60 / 3,
+                              width:
+                                  MediaQuery.of(context).size.height * 0.60 / 3,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff1F1F28)
+                                    : Color(0xffEDEDED),
+                              ),
+                              padding: EdgeInsets.all(18),
+                              child: RepaintBoundary(
+                                key: _globalKey,
+                                child: Container(
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xff1F1F28)
-                                        : Color(0xffEDEDED),
-                                  ),
-                                  padding: EdgeInsets.all(18),
-                                  child: RepaintBoundary(
-                                    key: _globalKey,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      padding: EdgeInsets.all(10),
-                                      child: QrImage(
-                                        data:
-                                            walletStore.subaddress.address +
-                                                walletStore.amountValue,
-                                        backgroundColor: Colors.white,
-                                      ),
-                                    ),
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  padding: EdgeInsets.all(10),
+                                  child: QrImage(
+                                    data: walletStore.subaddress.address +
+                                        walletStore.amountValue,
+                                    backgroundColor: Colors.white,
                                   ),
                                 ),
-                              ],
-                            );
-                          }),
-                          Observer(builder: (_) {
-                            return Column(
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                      Observer(builder: (_) {
+                        return Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 8.0),
-                                      child: Text(
-                                        S.of(context).walletAddress,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w800,
-                                            fontSize: 17,
-                                            color: Color(0xff1BB51E)),
-                                      ),
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        Clipboard.setData(ClipboardData(
-                                            text: walletStore
-                                                .subaddress.address));
- Toast.show(
-                            S.of(context).copied,
-                            context,
-                            duration: Toast
-                                .LENGTH_SHORT, // Toast duration (short or long)
-                            gravity: Toast
-                                .BOTTOM, // Toast gravity (top, center, or bottom)
-                            textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white,
-                            backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
-                          );
-                                      },
-                                      child: Container(
-                                          height: 20,
-                                          width: 20,
-                                          child: SvgPicture.asset(
-                                            'assets/images/new-images/copy.svg',
-                                            color: settingsStore.isDarkTheme
-                                                ? Color(0xffFFFFFF)
-                                                : Color(0xff16161D),
-                                          )),
-                                    )
-                                  ],
-                                ),
-                                Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                        child: Container(
-                                            padding:
-                                                EdgeInsets.only(top: 20.0),
-                                            child: Center(
-                                                child: GestureDetector(
-                                                    child: Text(
-                                                        walletStore
-                                                            .subaddress
-                                                            .address,
-                                                        textAlign: TextAlign
-                                                            .center,
-                                                        style: TextStyle(
-                                                          fontSize: 11.0,
-                                                          height: 1.5,
-                                                          fontWeight:
-                                                              FontWeight
-                                                                  .w600,
-                                                          color: Color(
-                                                              0xff82828D), //Theme.of(context).primaryTextTheme.headline6.color
-                                                        ))))))
-                                  ],
-                                ),
-                              ],
-                            );
-                          }),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin:
-                          EdgeInsets.only(top: 20, left: 20, bottom: 15),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            S.of(context).enterBdxToReceive,
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: Form(
-                          key: _formKey,
-                          child: NewBeldexTextField(
-                            keyboardType: TextInputType.numberWithOptions(
-                                decimal: true),
-                            inputFormatters: [
-                              TextInputFormatter.withFunction((oldValue, newValue) {
-                                final regEx = RegExp(r'^\d*\.?\d*');
-                                final newString = regEx.stringMatch(newValue.text) ?? '';
-                                return newString == newValue.text ? newValue : oldValue;
-                              }),
-                              FilteringTextInputFormatter.deny(
-                                  RegExp('[-, ]'))
-                            ],
-                            hintText: S.of(context).enterAmount,
-                            validator: (value) {
-                              walletStore.validateAmount(value);
-                              return walletStore.errorMessage;
-                            },
-                            controller: amountController,
-                            onChanged: (val) {
-                              _globalKey.currentContext
-                                  .findRenderObject()
-                                  .reassemble();
-                            },
-                          )),
-                    ),
-                    Container(
-                      child: Stack(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                top: 10,
-                                left: 15.0,
-                                right: 15.0,
-                                bottom: 10),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: settingsStore.isDarkTheme
-                                      ? Color(0xff464657)
-                                      : Color(0xffDADADA),
-                                ),
-                                borderRadius: BorderRadius.circular(10.0)),
-                            child: Column(
-                              children: [
-                                //SubAddressDropDownList(settingsStore: settingsStore,),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: GestureDetector(
-                                      onTap: () async {
-                                        await showDialog<void>(
-                                            context: context,
-                                            builder: (_) {
-                                              return SubAddressDropDownList(
-                                                settingsStore:
-                                                    settingsStore,
-                                                walletStore: walletStore,
-                                                subAddressListStore:
-                                                    subAddressListStore,
-                                                globalKey: _globalKey,
-                                              );
-                                            });
-                                      },
-                                      child: displayContainer(context)),
-                                ),
-                                SizedBox(height: 15),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 10, right: 10, bottom: 20),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      showDialog<void>(
-                                          context: context,
-                                          builder: (context) {
-                                            return SubAddressAlert(
-                                                subAddressListStore:
-                                                    subAddressListStore);
-                                          });
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          margin:
-                                              EdgeInsets.only(right: 10),
-                                          width: 25.0,
-                                          height: 25.0,
-                                          child: SvgPicture.asset(
-                                              'assets/images/new-images/plus_fill.svg',
-                                              color: Color(0xff2979FB)),
-                                        ),
-                                        Text(
-                                          S.of(context).addSubAddress,
-                                          //S.of(context).subaddresses,
-                                          style: TextStyle(
-                                              decoration:
-                                                  TextDecoration.underline,
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w700,
-                                              color: Color(0xff2979FB)),
-                                        ),
-                                      ],
-                                    ),
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: Text(
+                                    S.of(context).walletAddress,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 17,
+                                        color: Color(0xff1BB51E)),
                                   ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Clipboard.setData(ClipboardData(
+                                        text: walletStore.subaddress.address));
+                                    Toast.show(
+                                      S.of(context).copied,
+                                      context,
+                                      duration: Toast.LENGTH_SHORT,
+                                      // Toast duration (short or long)
+                                      gravity: Toast.BOTTOM,
+                                      // Toast gravity (top, center, or bottom)
+                                      textColor: settingsStore.isDarkTheme
+                                          ? Colors.black
+                                          : Colors.white,
+                                      backgroundColor: settingsStore.isDarkTheme
+                                          ? Colors.grey.shade50
+                                          : Colors.grey.shade900,
+                                    );
+                                  },
+                                  child: Container(
+                                      height: 20,
+                                      width: 20,
+                                      child: SvgPicture.asset(
+                                        'assets/images/new-images/copy.svg',
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff16161D),
+                                      )),
                                 )
                               ],
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Expanded(
+                                    child: Container(
+                                        padding: EdgeInsets.only(top: 20.0),
+                                        child: Center(
+                                            child: GestureDetector(
+                                                child: Text(
+                                                    walletStore
+                                                        .subaddress.address,
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 11.0,
+                                                      height: 1.5,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color: Color(
+                                                          0xff82828D), //Theme.of(context).primaryTextTheme.headline6.color
+                                                    ))))))
+                              ],
+                            ),
+                          ],
+                        );
+                      }),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 20, left: 20, bottom: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        S.of(context).enterBdxToReceive,
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                  child: Form(
+                      key: _formKey,
+                      child: NewBeldexTextField(
+                        keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                        inputFormatters: [
+                          TextInputFormatter.withFunction((oldValue, newValue) {
+                            final regEx = RegExp(r'^\d*\.?\d*');
+                            final newString =
+                                regEx.stringMatch(newValue.text) ?? '';
+                            return newString == newValue.text
+                                ? newValue
+                                : oldValue;
+                          }),
+                          FilteringTextInputFormatter.deny(RegExp('[-, ]'))
+                        ],
+                        hintText: S.of(context).enterAmount,
+                        validator: (value) {
+                          walletStore.validateAmount(value);
+                          return walletStore.errorMessage;
+                        },
+                        controller: amountController,
+                        onChanged: (val) {
+                          print('amount value called automatically');
+                          _globalKey.currentContext
+                              .findRenderObject()
+                              .reassemble();
+                          if (amountController.text.isEmpty) {
+                            walletStore.onChangedAmountValue('');
+                          }
+                        },
+                      )),
+                ),
+                Container(
+                  child: Stack(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: 10, left: 15.0, right: 15.0, bottom: 10),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff464657)
+                                  : Color(0xffDADADA),
+                            ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        child: Column(
+                          children: [
+                            //SubAddressDropDownList(settingsStore: settingsStore,),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: GestureDetector(
+                                  onTap: () async {
+                                    await showDialog<void>(
+                                        context: context,
+                                        builder: (_) {
+                                          return SubAddressDropDownList(
+                                            settingsStore: settingsStore,
+                                            walletStore: walletStore,
+                                            subAddressListStore:
+                                                subAddressListStore,
+                                            globalKey: _globalKey,
+                                          );
+                                        });
+                                  },
+                                  child: displayContainer(context)),
+                            ),
+                            SizedBox(height: 15),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  left: 10, right: 10, bottom: 20),
+                              child: GestureDetector(
+                                onTap: () {
+                                  showDialog<void>(
+                                      context: context,
+                                      builder: (context) {
+                                        return SubAddressAlert(
+                                            subAddressListStore:
+                                                subAddressListStore);
+                                      });
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.only(right: 10),
+                                      width: 25.0,
+                                      height: 25.0,
+                                      child: SvgPicture.asset(
+                                          'assets/images/new-images/plus_fill.svg',
+                                          color: Color(0xff2979FB)),
+                                    ),
+                                    Text(
+                                      S.of(context).addSubAddress,
+                                      //S.of(context).subaddresses,
+                                      style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xff2979FB)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.20 / 3),
+                Container(
+                  margin: EdgeInsets.all(15),
+                  child: InkWell(
+                    onTap: () => _incrementCounter(
+                        walletStore.subaddress.address, amountController.text),
+                    child: Container(
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          color: Color(0xff0BA70F),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.share, color: Colors.white),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              S.of(context).shareQr,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  color: Color(0xffffffff),
+                                  fontWeight: FontWeight.bold),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
-                        height:
-                            MediaQuery.of(context).size.height * 0.20 / 3),
-                    Container(
-                      margin: EdgeInsets.all(15),
-                      child: InkWell(
-                        onTap: () => _incrementCounter(
-                            walletStore.subaddress.address,
-                            amountController.text),
-                        child: Container(
-                          padding: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                              color: Color(0xff0BA70F),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.share, color: Colors.white),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Text(
-                                  S.of(context).shareQr,
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: Color(0xffffffff),
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            ],
-          ))),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ))),
     );
   }
 
@@ -473,14 +460,14 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
     final walletStore = Provider.of<WalletStore>(context);
 
     final prefs = await SharedPreferences.getInstance();
-    dynamic subaddress;
     bool isCurrent;
-    dynamic label;
     setState(() {
       for (var i = 0; i < subAddressListStore.subaddresses.length; i++) {
-        subaddress = subAddressListStore.subaddresses[i];
+        final subaddress = subAddressListStore.subaddresses[i];
         isCurrent = walletStore.subaddress.address == subaddress.address;
-        label = subaddress.label ?? subaddress.address;
+        final label = subaddress.label.isNotEmpty
+            ? subaddress.label
+            : subaddress.address;
         if (isCurrent) {
           prefs.setString('currentSubAddress', label.toString());
         }
@@ -664,7 +651,11 @@ class NewBeldexTextField extends StatelessWidget {
 
 class SubAddressDropDownList extends StatefulWidget {
   const SubAddressDropDownList(
-      {Key key, this.settingsStore, this.walletStore, this.subAddressListStore,this.globalKey})
+      {Key key,
+      this.settingsStore,
+      this.walletStore,
+      this.subAddressListStore,
+      this.globalKey})
       : super(key: key);
 
   final SettingsStore settingsStore;
@@ -677,24 +668,28 @@ class SubAddressDropDownList extends StatefulWidget {
 }
 
 class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
-final _controller = ScrollController(keepScrollOffset: true);
+  final _controller = ScrollController(keepScrollOffset: true);
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       insetPadding: EdgeInsets.all(8),
-      backgroundColor:widget.settingsStore.isDarkTheme
-                  ? Color(0xff272733)
-                  : Color(0xffFFFFFF) ,
+      backgroundColor: widget.settingsStore.isDarkTheme
+          ? Color(0xff272733)
+          : Color(0xffFFFFFF),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       title: Center(
           child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Icon(Icons.class__outlined,color: Colors.transparent,),
-          Text(S.of(context).subAddresses, style: TextStyle(fontWeight: FontWeight.w800)),
-           GestureDetector(
-            onTap: ()=>Navigator.pop(context),
-            child: Icon(Icons.close))
+          Icon(
+            Icons.class__outlined,
+            color: Colors.transparent,
+          ),
+          Text(S.of(context).subAddresses,
+              style: TextStyle(fontWeight: FontWeight.w800)),
+          GestureDetector(
+              onTap: () => Navigator.pop(context), child: Icon(Icons.close))
         ],
       )),
       content: Container(
@@ -704,46 +699,73 @@ final _controller = ScrollController(keepScrollOffset: true);
               color: widget.settingsStore.isDarkTheme
                   ? Color(0xff272733)
                   : Color(0xffFFFFFF),
-             borderRadius: BorderRadius.circular(10)     
-              ),
+              borderRadius: BorderRadius.circular(10)),
           child: Column(
             children: [
               Expanded(
                 child: RawScrollbar(
                   isAlwaysShown: true,
                   controller: _controller,
-                  child: ListView.builder(
-                    controller: _controller,
-                      shrinkWrap: true,
-                      itemCount: widget.subAddressListStore.subaddresses.length,
-                      itemBuilder: (context, i) {
-                        return Observer(builder: (_) {
-                          final subaddress = widget.subAddressListStore.subaddresses[i];
-                          final isCurrent = widget.walletStore.subaddress.address ==
-                              subaddress.address;
-                          final label = subaddress.label.isNotEmpty
-                              ? subaddress.label
-                              : subaddress.address;
-                          return InkWell(
-                            onTap:isCurrent ? null : () async {
-                              final prefs = await SharedPreferences.getInstance();
-                              widget.walletStore.setSubaddress(subaddress);
-                              widget.globalKey.currentContext.findRenderObject().reassemble();
-                              Navigator.pop(context);
-                              await prefs.setString(
-                                  'currentSubAddress', label.toString());
-                              setState(() {
-                                currentSubAddress =
-                                    prefs.getString('currentSubAddress');
-                              });
-                            },
-                            child: isCurrent
-                                ? Card(
-                                    elevation: 0,
-                                    color:Color(0xff2979FB),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15)),
-                                    child: Container(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 5.0),
+                    child: ListView.builder(
+                        controller: _controller,
+                        shrinkWrap: true,
+                        itemCount:
+                            widget.subAddressListStore.subaddresses.length,
+                        itemBuilder: (context, i) {
+                          return Observer(builder: (_) {
+                            final subaddress =
+                                widget.subAddressListStore.subaddresses[i];
+                            final isCurrent =
+                                widget.walletStore.subaddress.address ==
+                                    subaddress.address;
+                            final label = subaddress.label.isNotEmpty
+                                ? subaddress.label
+                                : subaddress.address;
+                            return InkWell(
+                              onTap: isCurrent
+                                  ? null
+                                  : () async {
+                                      final prefs =
+                                          await SharedPreferences.getInstance();
+                                      widget.walletStore
+                                          .setSubaddress(subaddress);
+                                      widget.globalKey.currentContext
+                                          .findRenderObject()
+                                          .reassemble();
+                                      Navigator.pop(context);
+                                      await prefs.setString('currentSubAddress',
+                                          label.toString());
+                                      setState(() {
+                                        currentSubAddress = prefs
+                                            .getString('currentSubAddress');
+                                      });
+                                    },
+                              child: isCurrent
+                                  ? Card(
+                                      elevation: 0,
+                                      color: Color(0xff2979FB),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15)),
+                                      child: Container(
+                                        margin: EdgeInsets.only(left: 10),
+                                        padding: EdgeInsets.all(15),
+                                        child: Center(
+                                          child: Text(
+                                            label,
+                                            style: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w800,
+                                              color: Colors
+                                                  .white, //Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : Container(
                                       margin: EdgeInsets.only(left: 10),
                                       padding: EdgeInsets.all(15),
                                       child: Center(
@@ -751,32 +773,18 @@ final _controller = ScrollController(keepScrollOffset: true);
                                           label,
                                           style: TextStyle(
                                             fontSize: 16.0,
-                                            fontWeight: FontWeight.w800,
-                                            color: Colors.white, //Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+                                            color: Theme.of(context)
+                                                .primaryTextTheme
+                                                .caption
+                                                .color, //Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
                                           ),
                                         ),
                                       ),
                                     ),
-                                  )
-                                : Container(
-                                    margin: EdgeInsets.only(left: 10),
-                                    padding: EdgeInsets.all(15),
-                                    child: Center(
-                                      child: Text(
-                                        label,
-                                        style: TextStyle(
-                                          fontSize: 16.0,
-                                          color: Theme.of(context)
-                                              .primaryTextTheme
-                                              .caption
-                                              .color, //Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                          );
-                        });
-                      }),
+                            );
+                          });
+                        }),
+                  ),
                 ),
               ),
             ],

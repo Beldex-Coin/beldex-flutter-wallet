@@ -127,7 +127,6 @@ class Router {
               authStore: authStore,
               sharedPreferences: sharedPreferences,
               walletListService: walletListService),),
-              ChangeNotifierProvider<NewWalletPageChangeNotifier>(create: (_) => NewWalletPageChangeNotifier())
             ],
             child: NewWalletPage(
                 walletsService: walletListService,
