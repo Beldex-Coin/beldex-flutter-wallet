@@ -266,9 +266,8 @@ class Router {
             fullscreenDialog: true,
             builder: (_) {
               return MultiProvider(providers: [
-                  Provider(
-                      create: (_) =>
-                          SubaddressListStore(walletService: walletService))
+                  Provider(create: (_) => SubaddressListStore(walletService: walletService)),
+                  ChangeNotifierProvider<ReceivePageChangeNotifier>(create: (_) => ReceivePageChangeNotifier())
                 ], child: ReceivePage());});
       case Routes.transactionDetails:
         return MaterialPageRoute<void>(

@@ -217,6 +217,13 @@ class BelDexWallet extends Wallet {
     return _cachedSubaddressList;
   }
 
+  @override
+  SubaddressList getSubAddressList() {
+    _cachedSubaddressList ??= SubaddressList();
+
+    return _cachedSubaddressList;
+  }
+
   AccountList getAccountList() {
     _cachedAccountList ??= AccountList();
 

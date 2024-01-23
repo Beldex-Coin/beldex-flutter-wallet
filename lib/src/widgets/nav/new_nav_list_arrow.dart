@@ -5,16 +5,18 @@ import 'package:provider/provider.dart';
 import 'new_nav_list_trailing.dart';
 
 class NewNavListArrow extends StatelessWidget {
-  NewNavListArrow({this.text, this.leading, this.onTap,this.size});
+  NewNavListArrow({this.text, this.leading, this.onTap,this.size,this.isDisable});
 
   final String text;
   final Widget leading;
   final GestureTapCallback onTap;
   final double size;
+  final bool isDisable;
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     return NewNavListTrailing(
+        isDisable:isDisable,
         leading: Container(
            height:43.0,width:43.0,
             padding: EdgeInsets.all(11.0),
@@ -25,7 +27,7 @@ class NewNavListArrow extends StatelessWidget {
            child: leading),
         text: text,
         trailing: Icon(Icons.arrow_forward_ios_rounded,
-            color: settingsStore.isDarkTheme ? Color(0xff3F3F4D): Color(0xff3F3F4D),
+            color: isDisable?Colors.grey:settingsStore.isDarkTheme ? Color(0xff3F3F4D): Color(0xff3F3F4D),
             size: 20),
         onTap: onTap,
     size: size,);

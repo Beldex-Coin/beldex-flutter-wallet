@@ -1,6 +1,7 @@
 import 'package:beldex_wallet/src/node/node.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/wallet/balance.dart';
+import 'package:beldex_wallet/src/wallet/beldex/subaddress_list.dart';
 import 'package:beldex_wallet/src/wallet/transaction/pending_transaction.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_history.dart';
@@ -86,6 +87,9 @@ class WalletService extends Wallet {
 
   @override
   Future<Map<String, String>> getKeys() => _currentWallet.getKeys();
+
+  @override
+  SubaddressList getSubAddressList() => _currentWallet.getSubAddressList();
 
   @override
   Future<int> getFullBalance() => _currentWallet.getFullBalance();
