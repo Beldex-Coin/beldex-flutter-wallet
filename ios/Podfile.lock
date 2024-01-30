@@ -2,14 +2,6 @@ PODS:
   - barcode_scan (0.0.1):
     - Flutter
     - MTBBarcodeScanner
-  - beldex_coin (0.0.1):
-    - beldex_coin/Beldex (= 0.0.1)
-    - Flutter
-  - beldex_coin/Beldex (0.0.1):
-    - Flutter
-  - connectivity_plus (0.0.1):
-    - Flutter
-    - Reachability
   - devicelocale (0.0.1):
     - Flutter
   - esys_flutter_share (0.0.1):
@@ -20,51 +12,37 @@ PODS:
   - local_auth (0.0.1):
     - Flutter
   - MTBBarcodeScanner (5.0.11)
+  - beldex_coin (0.0.1):
+    - Flutter
+    - beldex_coin/Oxen (= 0.0.1)
+  - beldex_coin/Oxen (0.0.1):
+    - Flutter
   - package_info (0.0.1):
     - Flutter
   - path_provider (0.0.1):
-    - Flutter
-  - Reachability (3.2)
-  - screen (0.0.1):
     - Flutter
   - shared_preferences (0.0.1):
     - Flutter
   - url_launcher (0.0.1):
     - Flutter
-  - wakelock (0.0.1):
-    - Flutter
-  - wc_flutter_share (0.0.1):
-    - Flutter
-
 DEPENDENCIES:
   - barcode_scan (from `.symlinks/plugins/barcode_scan/ios`)
-  - beldex_coin (from `.symlinks/plugins/beldex_coin/ios`)
-  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - devicelocale (from `.symlinks/plugins/devicelocale/ios`)
   - esys_flutter_share (from `.symlinks/plugins/esys_flutter_share/ios`)
   - Flutter (from `Flutter`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - local_auth (from `.symlinks/plugins/local_auth/ios`)
+  - beldex_coin (from `.symlinks/plugins/beldex_coin/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
-  - screen (from `.symlinks/plugins/screen/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
-  - wakelock (from `.symlinks/plugins/wakelock/ios`)
-  - wc_flutter_share (from `.symlinks/plugins/wc_flutter_share/ios`)
-
 SPEC REPOS:
   trunk:
     - MTBBarcodeScanner
-    - Reachability
-
 EXTERNAL SOURCES:
   barcode_scan:
     :path: ".symlinks/plugins/barcode_scan/ios"
-  beldex_coin:
-    :path: ".symlinks/plugins/beldex_coin/ios"
-  connectivity_plus:
-    :path: ".symlinks/plugins/connectivity_plus/ios"
   devicelocale:
     :path: ".symlinks/plugins/devicelocale/ios"
   esys_flutter_share:
@@ -75,40 +53,28 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   local_auth:
     :path: ".symlinks/plugins/local_auth/ios"
+  beldex_coin:
+    :path: ".symlinks/plugins/beldex_coin/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
   path_provider:
     :path: ".symlinks/plugins/path_provider/ios"
-  screen:
-    :path: ".symlinks/plugins/screen/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
-  wakelock:
-    :path: ".symlinks/plugins/wakelock/ios"
-  wc_flutter_share:
-    :path: ".symlinks/plugins/wc_flutter_share/ios"
-
 SPEC CHECKSUMS:
   barcode_scan: 33f586d02270046fc6559135038b34b5754eaa4f
-  beldex_coin: 70fb960b4739ba493aae97e8773e6bd4f1f4f43a
-  connectivity_plus: f5e5e0b894ec1187bfab9816d6c2f034da8d46da
   devicelocale: b22617f40038496deffba44747101255cee005b0
   esys_flutter_share: 403498dab005b36ce1f8d7aff377e81f0621b0b4
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   local_auth: 25938960984c3a7f6e3253e3f8d962fdd16852bd
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
+  beldex_coin: a5a9e565bab069b0d5670ecb7bfd5d605b1c055a
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
-  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
-  screen: abd91ca7bf3426e1cc3646d27e9b2358d6bf07b0
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
-  wakelock: bfc7955c418d0db797614075aabbc58a39ab5107
-  wc_flutter_share: 4f17b4e14f1c34b1427495583af99a21c07fccf7
-
 PODFILE CHECKSUM: f10c0438b63bc24e6bbc207956dc27d16c4408f2
-
-COCOAPODS: 1.11.3
+COCOAPODS: 1.10.0
