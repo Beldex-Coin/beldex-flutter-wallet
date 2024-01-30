@@ -76,7 +76,9 @@ Future<void> replaceNodesMigration({@required Box<Node> nodes}) async {
     'publicnode3.rpcnode.stream:29095':
     Node(uri: 'publicnode3.rpcnode.stream:29095'),
     'publicnode4.rpcnode.stream:29095':
-    Node(uri: 'publicnode4.rpcnode.stream:29095')
+    Node(uri: 'publicnode4.rpcnode.stream:29095'),
+    'publicnode5.rpcnode.stream:29095':
+    Node(uri: 'publicnode5.rpcnode.stream:29095')
   };
 
   nodes.values.forEach((Node node) async {
@@ -103,7 +105,8 @@ Future<void> changeCurrentNodeToDefault(
     'mainnet.beldex.io:29095',
     'publicnode2.rpcnode.stream:29095',
     'publicnode3.rpcnode.stream:29095',
-    'publicnode4.rpcnode.stream:29095'
+    'publicnode4.rpcnode.stream:29095',
+    'publicnode5.rpcnode.stream:29095'
   ];
 
   if (timeZone >= 1) { // Eurasia
@@ -131,7 +134,8 @@ Future<void> replaceDefaultNode(
     'mainnet.beldex.io:29095',
     'publicnode2.rpcnode.stream:29095',
     'publicnode3.rpcnode.stream:29095',
-    'publicnode4.rpcnode.stream:29095'
+    'publicnode4.rpcnode.stream:29095',
+    'publicnode5.rpcnode.stream:29095'
   ];
   final currentNodeId = sharedPreferences.getInt('current_node_id');
   final currentNode =

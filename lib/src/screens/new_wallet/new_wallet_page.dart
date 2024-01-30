@@ -1,4 +1,3 @@
-
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/rendering.dart';
 import 'package:mobx/mobx.dart';
@@ -17,7 +16,6 @@ import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
 import 'package:beldex_wallet/src/util/generate_name.dart';
-import 'dart:math' as math;
 
 class NewWalletPage extends BasePage {
   NewWalletPage(
@@ -53,6 +51,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
 
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
+  final ValueNotifier<bool> _isTextFieldNotEmpty = ValueNotifier(false);
 
   Future setName() async {
     var flag = true;
@@ -66,6 +65,12 @@ class _WalletNameFormState extends State<WalletNameForm> {
         break;
       }
     }
+  }
+
+  @override
+  void initState() {
+    nameController.addListener(_onTextChanged);
+    super.initState();
   }
 
   final List<String> seedLocales = [
@@ -97,6 +102,10 @@ class _WalletNameFormState extends State<WalletNameForm> {
     });
   }
 
+  void _onTextChanged() {
+    _isTextFieldNotEmpty.value = nameController.text.isNotEmpty;
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -107,7 +116,6 @@ class _WalletNameFormState extends State<WalletNameForm> {
     final walletCreationStore = Provider.of<WalletCreationStore>(context);
     final seedLanguageStore = Provider.of<SeedLanguageStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    var newWalletPageChangeNotifier = Provider.of<NewWalletPageChangeNotifier>(context);
     reaction((_) => walletCreationStore.state, (WalletCreationState state) {
       if (state is WalletCreatedSuccessfully) {
         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -156,58 +164,59 @@ class _WalletNameFormState extends State<WalletNameForm> {
                     borderRadius: BorderRadius.circular(12)),
                 child: Container(
                   margin: EdgeInsets.only(left: 30),
-                  child: TextFormField(
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: settingsStore.isDarkTheme
-                          ? Colors.white
-                          : Colors
-                              .black, //Theme.of(context).accentTextTheme.subtitle2.color
-                    ),
-                    controller: nameController,
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    decoration: InputDecoration(
-                      suffixIcon: Transform.rotate(
-                        angle: 135 * math.pi / 180,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.add_rounded,
-                            color: newWalletPageChangeNotifier.nameControllerTextIsEmpty == true
-                                ? Colors.transparent
-                                : Theme.of(context)
-                                .primaryTextTheme
-                                .caption
-                                .color,
-                          ),
-                          onPressed: newWalletPageChangeNotifier.nameControllerTextIsEmpty == true ?  null : () {
-                            nameController.clear();
-                            newWalletPageChangeNotifier.setNameControllerStatus(true);
-                          },
-                        ),
-                      ),
-                      border: InputBorder.none,
-                      hintStyle: TextStyle(
+                  child: Stack(
+                    alignment: Alignment.centerRight,
+                    children: [
+                      TextFormField(
+                        style: TextStyle(
                           fontSize: 16.0,
                           color: settingsStore.isDarkTheme
-                              ? Color(0xff747474)
-                              : Color(0xff6F6F6F)),
-                      hintText: S.of(context).enterWalletName_,
-                      errorStyle: TextStyle(height: 1),
-                    ),
-                    validator: (value) {
-                      final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
-                      if(value.isNotEmpty){
-                        newWalletPageChangeNotifier.setNameControllerStatus(false);
-                      }else{
-                        newWalletPageChangeNotifier.setNameControllerStatus(true);
-                      }
-                      if (!pattern.hasMatch(value)) {
-                        return S.of(context).enterValidNameUpto15Characters;
-                      } else {
-                        walletCreationStore.validateWalletName(value);
-                        return walletCreationStore.errorMessage;
-                      }
-                    },
+                              ? Colors.white
+                              : Colors
+                                  .black, //Theme.of(context).accentTextTheme.subtitle2.color
+                        ),
+                        controller: nameController,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintStyle: TextStyle(
+                              fontSize: 16.0,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff747474)
+                                  : Color(0xff6F6F6F)),
+                          hintText: S.of(context).enterWalletName_,
+                          errorStyle: TextStyle(height: 1),
+                        ),
+                        validator: (value) {
+                          final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
+                          if (!pattern.hasMatch(value)) {
+                            return S.of(context).enterValidNameUpto15Characters;
+                          } else {
+                            walletCreationStore.validateWalletName(value);
+                            return walletCreationStore.errorMessage;
+                          }
+                        },
+                      ),
+                      ValueListenableBuilder<bool>(
+                        valueListenable: _isTextFieldNotEmpty,
+                        builder: (context, isNotEmpty, child) {
+                          return isNotEmpty
+                              ? IconButton(
+                                  icon: Icon(
+                                    Icons.clear,
+                                    color: Theme.of(context)
+                                        .primaryTextTheme
+                                        .caption
+                                        .color,
+                                  ),
+                                  onPressed: () {
+                                    nameController.clear();
+                                  },
+                                )
+                              : Container();
+                        },
+                      ),
+                    ],
                   ),
                 ),
               )),
@@ -329,7 +338,8 @@ class _WalletNameFormState extends State<WalletNameForm> {
                   onPressed: () {
                     if (_formKey.currentState.validate()) {
                       if (_selectedIndex == 0) {
-                        seedLanguageStore.setSelectedSeedLanguage(seedLocales[_selectedIndex]);
+                        seedLanguageStore.setSelectedSeedLanguage(
+                            seedLocales[_selectedIndex]);
                       }
                       walletCreationStore.create(
                           name: nameController.text,
@@ -352,16 +362,5 @@ class _WalletNameFormState extends State<WalletNameForm> {
         ),
       ]),
     );
-  }
-}
-
-class NewWalletPageChangeNotifier with ChangeNotifier {
-  bool nameControllerTextIsEmpty = false;
-
-  void setNameControllerStatus(bool status) {
-    nameControllerTextIsEmpty = status;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      notifyListeners();
-    });
   }
 }
