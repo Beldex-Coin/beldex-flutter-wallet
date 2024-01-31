@@ -53,3 +53,8 @@
     - Fixed issues in transaction history filters
     - Fixed issues in switch wallet and switch nodes
     - Fixed seed does not display issue in few languages
+-
+  version: 1.2.0
+  changes:
+    - Update for Hardfork 18
+    - Minor bug fixes

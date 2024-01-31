@@ -16,3 +16,6 @@
 -
   uri: publicnode4.rpcnode.stream:29095
   is_default: false
+-
+  uri: publicnode5.rpcnode.stream:29095
+  is_default: false

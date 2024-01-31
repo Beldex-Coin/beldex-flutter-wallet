@@ -39,7 +39,7 @@ abstract class LoginStoreBase with Store {
 
     try {
       state = LoadingCurrentWallet();
-      final walletName = sharedPreferences.getString('current_wallet_name');
+      final walletName = sharedPreferences.getString('current_wallet_name') ?? '';
       await walletsService.openWallet(walletName);
       state = LoadedCurrentWalletSuccessfully();
     } catch (e) {
