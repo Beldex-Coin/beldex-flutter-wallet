@@ -1,31 +1,31 @@
 import 'package:beldex_wallet/src/swap/apis.dart';
-import 'package:beldex_wallet/src/swap/model/get_currencies_full_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class GetCurrenciesFullApiService {
-  Future<GetCurrenciesFullModel?> getSignature() async {
+import '../model/get_pairs_params_model.dart';
+
+class GetPairsParamsApiService {
+  Future<GetPairsParamsModel?> getSignature(List<Map<String, String>> params) async {
     print('url --> 1');
-    final signatureResponseBody =
-        await callSignatureApiService(Apis.getCurrenciesFull);
+    final signatureResponseBody = await callSignatureApiService(Apis.getPairsParams,params: params);
     print('url --> 4');
     if (signatureResponseBody['signature'] as String != null) {
-      final getCurrenciesFullResponseBody =
-          await callGetCurrenciesFullApiService(Apis.getCurrenciesFull,
-              signatureResponseBody['signature'] as String);
-      return getCurrenciesFullResponseBody;
+      final getPairsParamsResponseBody =
+      await callGetPairsParamsApiService(Apis.getPairsParams,
+          signatureResponseBody['signature'] as String,params: params);
+      return getPairsParamsResponseBody;
     } else {
       return null;
     }
   }
 
   Future<Map<String, dynamic>> callSignatureApiService(String method,
-      {Map<String, dynamic>? params}) async {
+      {List<Map<String, dynamic>>? params}) async {
     Map<String, dynamic> resultBody;
 
-    final requestBody = params != null
+    final requestBody = params!.isNotEmpty
         ? Signature(jsonrpc: '2.0', id: 'test', method: method, params: params)
-        : Signature(jsonrpc: '2.0', id: 'test', method: method, params: {});
+        : Signature(jsonrpc: '2.0', id: 'test', method: method, params: []);
 
     final url = Uri.parse(Apis.signatureUrl);
     print('url --> $url');
@@ -39,14 +39,14 @@ class GetCurrenciesFullApiService {
     return resultBody;
   }
 
-  Future<GetCurrenciesFullModel> callGetCurrenciesFullApiService(
+  Future<GetPairsParamsModel> callGetPairsParamsApiService(
       String method, String signature,
-      {Map? params}) async {
-    late GetCurrenciesFullModel data;
+      {List<Map<String, dynamic>>? params}) async {
+    late GetPairsParamsModel data;
     try {
-      final requestBody = params != null
+      final requestBody = params!.isNotEmpty
           ? {'jsonrpc': '2.0', 'id': 'test', 'method': method, 'params': params}
-          : {'jsonrpc': '2.0', 'id': 'test', 'method': method, 'params': {}};
+          : {'jsonrpc': '2.0', 'id': 'test', 'method': method, 'params': []};
       final url = Uri.parse(Apis.mainUrl);
       print('url --> $url');
       final headers = {
@@ -58,14 +58,14 @@ class GetCurrenciesFullApiService {
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
         final resultBody = json.decode(response.body);
-        data = GetCurrenciesFullModel.fromJson(resultBody);
+        data = GetPairsParamsModel.fromJson(resultBody);
 
-        print('get currencies data from json --> $resultBody');
+        print('get pairs params data from json --> $resultBody');
       } else {
         print('Error Occurred');
       }
     } catch (e) {
-      print('get currencies full api error occurred' + e.toString());
+      print('get pairs params api error occurred' + e.toString());
     }
     return data;
   }
@@ -74,19 +74,19 @@ class GetCurrenciesFullApiService {
 class Signature {
   Signature(
       {required this.jsonrpc,
-      required this.id,
-      required this.method,
-      required this.params});
+        required this.id,
+        required this.method,
+        required this.params});
 
   String jsonrpc;
   String id;
   String method;
-  Map<String, dynamic> params;
+  List<Map<String, dynamic>> params;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'jsonrpc': jsonrpc,
-        'id': id,
-        'method': method,
-        'params': params
-      };
+    'jsonrpc': jsonrpc,
+    'id': id,
+    'method': method,
+    'params': params
+  };
 }

@@ -1,19 +1,20 @@
 import 'package:beldex_wallet/src/swap/apis.dart';
-import 'package:beldex_wallet/src/swap/model/get_currencies_full_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class GetCurrenciesFullApiService {
-  Future<GetCurrenciesFullModel?> getSignature() async {
+import '../model/get_exchange_amount_model.dart';
+
+class GetExchangeAmountApiService {
+  Future<GetExchangeAmountModel?> getSignature(Map<String, String> params) async {
     print('url --> 1');
     final signatureResponseBody =
-        await callSignatureApiService(Apis.getCurrenciesFull);
+    await callSignatureApiService(Apis.getExchangeAmount,params: params);
     print('url --> 4');
     if (signatureResponseBody['signature'] as String != null) {
-      final getCurrenciesFullResponseBody =
-          await callGetCurrenciesFullApiService(Apis.getCurrenciesFull,
-              signatureResponseBody['signature'] as String);
-      return getCurrenciesFullResponseBody;
+      final getExchangeAmountResponseBody =
+      await callGetExchangeAmountApiService(Apis.getExchangeAmount,
+          signatureResponseBody['signature'] as String,params: params);
+      return getExchangeAmountResponseBody;
     } else {
       return null;
     }
@@ -39,10 +40,10 @@ class GetCurrenciesFullApiService {
     return resultBody;
   }
 
-  Future<GetCurrenciesFullModel> callGetCurrenciesFullApiService(
+  Future<GetExchangeAmountModel> callGetExchangeAmountApiService(
       String method, String signature,
       {Map? params}) async {
-    late GetCurrenciesFullModel data;
+    late GetExchangeAmountModel data;
     try {
       final requestBody = params != null
           ? {'jsonrpc': '2.0', 'id': 'test', 'method': method, 'params': params}
@@ -58,14 +59,14 @@ class GetCurrenciesFullApiService {
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
         final resultBody = json.decode(response.body);
-        data = GetCurrenciesFullModel.fromJson(resultBody);
+        data = GetExchangeAmountModel.fromJson(resultBody);
 
-        print('get currencies data from json --> $resultBody');
+        print('get exchange amount data from json --> $resultBody');
       } else {
         print('Error Occurred');
       }
     } catch (e) {
-      print('get currencies full api error occurred' + e.toString());
+      print('get exchange amount api error occurred' + e.toString());
     }
     return data;
   }
@@ -74,9 +75,9 @@ class GetCurrenciesFullApiService {
 class Signature {
   Signature(
       {required this.jsonrpc,
-      required this.id,
-      required this.method,
-      required this.params});
+        required this.id,
+        required this.method,
+        required this.params});
 
   String jsonrpc;
   String id;
@@ -84,9 +85,9 @@ class Signature {
   Map<String, dynamic> params;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'jsonrpc': jsonrpc,
-        'id': id,
-        'method': method,
-        'params': params
-      };
+    'jsonrpc': jsonrpc,
+    'id': id,
+    'method': method,
+    'params': params
+  };
 }

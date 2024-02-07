@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class SwapPageChangeNotifier with ChangeNotifier {
+class SwapExchangePageChangeNotifier with ChangeNotifier {
   bool transactionHistoryScreenVisible = false;
 
   void setTransactionHistoryScreenVisibleStatus(bool status) {
