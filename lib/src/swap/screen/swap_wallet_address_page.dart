@@ -1,18 +1,15 @@
-import 'dart:math';
-
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/swap/model/get_currencies_full_model.dart';
-import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
+import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
+import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../palette.dart';
-import '../provider/get_currencies_full_provider.dart';
+import '../provider/get_exchange_amount_provider.dart';
 import 'number_stepper.dart';
 
 class SwapWalletAddressPage extends BasePage {
@@ -65,46 +62,71 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     }
   }
 
-  final _senderAmountController = TextEditingController();
-  var showPrefixIcon = false;
+  final _recipientAddressController = TextEditingController();
+  final _destinationTagController = TextEditingController();
+  final _refundWalletAddressController = TextEditingController();
+  var showPrefixIcon = true;
   var showMemo = false;
   var acceptTermsAndConditions = false;
+  late GetExchangeAmountProvider getExchangeAmountProvider;
+  late ValidateAddressProvider validateAddressProvider;
 
   @override
   void initState() {
-    Provider.of<GetCurrenciesFullProvider>(context, listen: false).getCurrenciesFullData(context);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      Provider.of<GetExchangeAmountProvider>(context, listen: false)
+          .getExchangeAmountData(
+              context, {'from': 'btc', "to": 'bdx', "amountFrom": '0.001665'});
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final getCurrenciesFullProvider = Provider.of<GetCurrenciesFullProvider>(context);
     final _screenWidth = MediaQuery.of(context).size.width;
     final _screenHeight = MediaQuery.of(context).size.height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
-    final swapExchangePageChangeNotifier = Provider.of<SwapExchangePageChangeNotifier>(context);
-    return getCurrenciesFullProvider.loading
-        ? Center(
-      child: Container(
-        child: const CircularProgressIndicator(),
-      ),
-    )
-        : body(_screenWidth,_screenHeight,settingsStore,_scrollController,swapExchangePageChangeNotifier,getCurrenciesFullProvider.data,getCurrenciesFullProvider);
+    return Consumer<GetExchangeAmountProvider>(
+        builder: (context, getExchangeAmountProvider, child) {
+      this.getExchangeAmountProvider = getExchangeAmountProvider;
+      if (getExchangeAmountProvider.loading) {
+        return Center(
+          child: Container(
+            child: const CircularProgressIndicator(),
+          ),
+        );
+      } else {
+        return body(_screenWidth, _screenHeight, settingsStore,
+            _scrollController, getExchangeAmountProvider);
+      }
+    });
   }
 
-  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, GetCurrenciesFullModel? getCurrenciesFullData, GetCurrenciesFullProvider getCurrenciesFullProvider){
-    final List<Result> enableFrom = [];
-    final List<Result> enableTo = [];
-    for (int i = 0; i < getCurrenciesFullData!.result!.length; i++) {
-      if (getCurrenciesFullData.result![i].enabledFrom == true) {
-        enableFrom.add(getCurrenciesFullData.result![i]);
-      }
-      if (getCurrenciesFullData.result![i].enabledTo == true) {
-        enableTo.add(getCurrenciesFullData.result![i]);
-      }
-      if (getCurrenciesFullData.result![i].name == "BDX" && getCurrenciesFullData.result![i].enabled == true) {
-        getCurrenciesFullProvider.setBdxIsEnabled(true);
+  Widget body(
+    double _screenWidth,
+    double _screenHeight,
+    SettingsStore settingsStore,
+    ScrollController _scrollController,
+    GetExchangeAmountProvider getExchangeAmountProvider,
+  ) {
+    var sendAmount = '0.001665';
+    var exchangeRate = '...';
+    var serviceFee = '...';
+    var networkFee = '...';
+    var getAmount = '...';
+    //GetExchangeAmount
+    if (getExchangeAmountProvider.loading == false) {
+      if (getExchangeAmountProvider.data!.result!.isNotEmpty) {
+        sendAmount =
+            getExchangeAmountProvider.data!.result![0].amountFrom.toString();
+        exchangeRate =
+            getExchangeAmountProvider.data!.result![0].rate.toString();
+        serviceFee = getExchangeAmountProvider.data!.result![0].fee.toString();
+        networkFee =
+            getExchangeAmountProvider.data!.result![0].networkFee.toString();
+        getAmount =
+            getExchangeAmountProvider.data!.result![0].amountTo.toString();
       }
     }
     return Column(
@@ -123,39 +145,45 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
           ),
         ),
         Expanded(
-          child: LayoutBuilder(builder:
-              (BuildContext context, BoxConstraints constraints) {
+          child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints constraints) {
             return SingleChildScrollView(
                 child: ConstrainedBox(
-                  constraints:
-                  BoxConstraints(minHeight: constraints.maxHeight),
-                  child: IntrinsicHeight(
-                    child: Card(
-                      margin: EdgeInsets.only(
-                          top: 15, left: 10, right: 10, bottom: 15),
-                      elevation: 0,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xff24242f)
-                          : Color(0xfff3f3f3),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(15.0),
-                        width: _screenWidth,
-                        height: double.infinity,
-                        child: walletAddressScreen(settingsStore),
-                      ),
-                    ),
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Card(
+                  margin:
+                      EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 15),
+                  elevation: 0,
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xff24242f)
+                      : Color(0xfff3f3f3),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                ));
+                  child: Container(
+                    padding: const EdgeInsets.all(15.0),
+                    width: _screenWidth,
+                    height: double.infinity,
+                    child: walletAddressScreen(settingsStore, sendAmount,
+                        exchangeRate, serviceFee, networkFee, getAmount),
+                  ),
+                ),
+              ),
+            ));
           }),
         ),
       ],
     );
   }
 
-  Widget walletAddressScreen(SettingsStore settingsStore) {
+  Widget walletAddressScreen(
+      SettingsStore settingsStore,
+      String sendAmount,
+      String exchangeRate,
+      String serviceFee,
+      String networkFee,
+      String getAmount) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -185,157 +213,221 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
           ),
         ),
         //Recipient Address TextFormField / Destination wallet Address TextFormField
-        Container(
-          margin: EdgeInsets.only(bottom: 10),
-          padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: settingsStore.isDarkTheme
-                ? Color(0xff24242f)
-                : Color(0xfff3f3f3),
-            border: Border.all(
-              color: Color(0xff333343),
-            ),
-          ),
-          child: TextFormField(
-            style: TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.normal,
-                color: Theme.of(context).primaryTextTheme.caption!.color),
-            controller: _senderAmountController,
-            keyboardType:
-            TextInputType.numberWithOptions(signed: false, decimal: true),
-            inputFormatters: [
-              TextInputFormatter.withFunction((oldValue, newValue) {
-                final regEx = RegExp(r'^\d*\.?\d*');
-                final newString = regEx.stringMatch(newValue.text) ?? '';
-                return newString == newValue.text ? newValue : oldValue;
-              }),
-              FilteringTextInputFormatter.deny(RegExp('[-, ]'))
-            ],
-            textInputAction: TextInputAction.done,
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintStyle: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.grey.withOpacity(0.6)),
-                hintText: 'Enter your BTC recipient address',
-                errorStyle: TextStyle(color: BeldexPalette.red),
-                prefixIcon: showPrefixIcon
-                    ? Container(
-                    margin: EdgeInsets.only(right: 3, top: 3, bottom: 3),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xff333343)
-                            : Color(0xffEBEBEB),
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
+        Consumer<ValidateAddressProvider>(
+          builder: (context, validateAddressProvider, child) {
+            this.validateAddressProvider = validateAddressProvider;
+            if (validateAddressProvider.loading == false) {
+              if (validateAddressProvider.data != null) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                  validateAddressProvider.setSuccessState(
+                      validateAddressProvider.data!.result!.result ?? true);
+                  validateAddressProvider.setErrorMessage(
+                      validateAddressProvider.data!.result!.message ?? '');
+                });
+              }
+            }
+            return Column(
+              children: [
+                Container(
+                  padding:
+                      EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xff24242f)
+                        : Color(0xfff3f3f3),
+                    border: Border.all(
+                      color: !validateAddressProvider.getSuccessState()
+                          ? Colors.red
+                          : Color(0xff333343),
+                    ),
+                  ),
+                  child: TextFormField(
+                    controller: _recipientAddressController,
+                    style: TextStyle(
+                        backgroundColor: Colors.transparent,
+                        fontSize: 14.0,
+                        fontWeight: FontWeight.normal,
+                        color:
+                            Theme.of(context).primaryTextTheme.caption!.color),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                    ],
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        prefixIcon: Container(
+                            margin:
+                                EdgeInsets.only(right: 3, top: 3, bottom: 3),
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff333343)
+                                    : Color(0xffEBEBEB),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8))),
+                            child: Text(
+                              'BDX',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.normal,
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xffFFFFFF)
+                                      : Color(0xff060606)),
+                            )),
+                        suffixIcon: validateAddressProvider.loading &&
+                                _recipientAddressController.text.isNotEmpty
+                            ? Container(
+                                width: 10.0,
+                                margin: EdgeInsets.all(6),
+                                padding: EdgeInsets.all(0),
+                                child: CircularProgressIndicator(
+                                  color: Colors.green,
+                                ),
+                              )
+                            : InkWell(
+                                onTap: () async => _presentQRScanner(
+                                    context, validateAddressProvider),
+                                child: Container(
+                                  width: 20.0,
+                                  margin: EdgeInsets.only(
+                                      left: 3, top: 3, bottom: 3),
+                                  padding: EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xff333343)
+                                          : Color(0xffEBEBEB),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8))),
+                                  child: SvgPicture.asset(
+                                    'assets/images/swap/scan_qr.svg',
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffA9A9CD)
+                                        : Color(0xff222222),
+                                    width: 20,
+                                    height: 20,
+                                  ),
+                                )),
+                        hintStyle: TextStyle(
+                            backgroundColor: Colors.transparent,
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey.withOpacity(0.6)),
+                        hintText: 'Enter your BDX recipient address',
+                        errorStyle: TextStyle(
+                            backgroundColor: Colors.transparent,
+                            color: BeldexPalette.red)),
+                    onChanged: (value) {
+                      if (value.isNotEmpty) {
+                        WidgetsBinding.instance
+                            .addPostFrameCallback((timeStamp) {
+                          validateAddressProvider.setRecipientAddress(value);
+                          validateAddressProvider.validateAddressData(context, {
+                            "currency": "bdx",
+                            "address": value,
+                            "extraId": ""
+                          });
+                        });
+                      } else {
+                        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                          validateAddressProvider.setSuccessState(true);
+                          validateAddressProvider.setErrorMessage('');
+                        });
+                      }
+                    },
+                  ),
+                ),
+                Align(
+                    alignment: Alignment.centerLeft,
                     child: Text(
-                      'BEP2',
-                      textAlign: TextAlign.start,
+                      validateAddressProvider.getErrorMessage(),
                       style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.normal,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffFFFFFF)
-                              : Color(0xff060606)),
-                    ))
-                    : null,
-                suffixIcon: InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: 20.0,
-                      margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xff333343)
-                              : Color(0xffEBEBEB),
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                      child: SvgPicture.asset(
-                        'assets/images/swap/scan_qr.svg',
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xffA9A9CD)
-                            : Color(0xff222222),
-                        width: 20,
-                        height: 20,
-                      ),
-                    ))),
-          ),
+                          backgroundColor: Colors.transparent,
+                          color: Colors.red),
+                    )),
+                SizedBox(height: 10)
+              ],
+            );
+          },
         ),
         //Refund wallet Address Title
-        Container(
-          margin: EdgeInsets.only(top: 10, left: 10, bottom: 10),
-          child: Text(
-            'Refund wallet Address',
-            textAlign: TextAlign.start,
-            style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.normal,
-                color: settingsStore.isDarkTheme
-                    ? Color(0xffFFFFFF)
-                    : Color(0xff060606)),
+        Visibility(
+          visible: false,
+          child: Container(
+            margin: EdgeInsets.only(top: 10, left: 10, bottom: 10),
+            child: Text(
+              'Refund wallet Address',
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal,
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xffFFFFFF)
+                      : Color(0xff060606)),
+            ),
           ),
         ),
         //Refund wallet Address TextFormField
-        Container(
-          margin: EdgeInsets.only(bottom: 10),
-          padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: settingsStore.isDarkTheme
-                ? Color(0xff24242f)
-                : Color(0xfff3f3f3),
-            border: Border.all(
-              color: Color(0xff333343),
+        Visibility(
+          visible: false,
+          child: Container(
+            margin: EdgeInsets.only(bottom: 10),
+            padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: settingsStore.isDarkTheme
+                  ? Color(0xff24242f)
+                  : Color(0xfff3f3f3),
+              border: Border.all(
+                color: Color(0xff333343),
+              ),
             ),
-          ),
-          child: TextFormField(
-            style: TextStyle(
-                fontSize: 14.0,
-                fontWeight: FontWeight.normal,
-                color: Theme.of(context).primaryTextTheme.caption!.color),
-            controller: _senderAmountController,
-            keyboardType:
-            TextInputType.numberWithOptions(signed: false, decimal: true),
-            inputFormatters: [
-              TextInputFormatter.withFunction((oldValue, newValue) {
-                final regEx = RegExp(r'^\d*\.?\d*');
-                final newString = regEx.stringMatch(newValue.text) ?? '';
-                return newString == newValue.text ? newValue : oldValue;
-              }),
-              FilteringTextInputFormatter.deny(RegExp('[-, ]'))
-            ],
-            textInputAction: TextInputAction.done,
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                hintStyle: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.grey.withOpacity(0.6)),
-                hintText: 'Enter your BDX refund address',
-                errorStyle: TextStyle(color: BeldexPalette.red),
-                suffixIcon: InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: 20.0,
-                      margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
+            child: TextFormField(
+              style: TextStyle(
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.normal,
+                  color: Theme.of(context).primaryTextTheme.caption!.color),
+              controller: _refundWalletAddressController,
+              keyboardType:
+                  TextInputType.numberWithOptions(signed: false, decimal: true),
+              inputFormatters: [
+                TextInputFormatter.withFunction((oldValue, newValue) {
+                  final regEx = RegExp(r'^\d*\.?\d*');
+                  final newString = regEx.stringMatch(newValue.text) ?? '';
+                  return newString == newValue.text ? newValue : oldValue;
+                }),
+                FilteringTextInputFormatter.deny(RegExp('[-, ]'))
+              ],
+              textInputAction: TextInputAction.done,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.normal,
+                      color: Colors.grey.withOpacity(0.6)),
+                  hintText: 'Enter your BDX refund address',
+                  errorStyle: TextStyle(color: BeldexPalette.red),
+                  suffixIcon: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        width: 20.0,
+                        margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xff333343)
+                                : Color(0xffEBEBEB),
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        child: SvgPicture.asset(
+                          'assets/images/swap/scan_qr.svg',
                           color: settingsStore.isDarkTheme
-                              ? Color(0xff333343)
-                              : Color(0xffEBEBEB),
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                      child: SvgPicture.asset(
-                        'assets/images/swap/scan_qr.svg',
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xffA9A9CD)
-                            : Color(0xff222222),
-                        width: 20,
-                        height: 20,
-                      ),
-                    ))),
+                              ? Color(0xffA9A9CD)
+                              : Color(0xff222222),
+                          width: 20,
+                          height: 20,
+                        ),
+                      ))),
+            ),
           ),
         ),
         //Destination Tag Info
@@ -402,8 +494,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                           color: showMemo
                               ? Color(0xff20D030)
                               : settingsStore.isDarkTheme
-                              ? Color(0xffFFFFFF)
-                              : Color(0xff222222)),
+                                  ? Color(0xffFFFFFF)
+                                  : Color(0xff222222)),
                     ),
                     SizedBox(
                       width: 5,
@@ -443,9 +535,9 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                   fontSize: 14.0,
                   fontWeight: FontWeight.normal,
                   color: Theme.of(context).primaryTextTheme.caption!.color),
-              controller: _senderAmountController,
+              controller: _destinationTagController,
               keyboardType:
-              TextInputType.numberWithOptions(signed: false, decimal: true),
+                  TextInputType.numberWithOptions(signed: false, decimal: true),
               inputFormatters: [
                 TextInputFormatter.withFunction((oldValue, newValue) {
                   final regEx = RegExp(r'^\d*\.?\d*');
@@ -524,9 +616,9 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               ),
               Padding(
                 padding:
-                const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: Text(
-                  '10 ETH',
+                  '$sendAmount BTC',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -551,9 +643,9 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               ),
               Padding(
                 padding:
-                const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: Text(
-                  '1 ETH ~ 2,518.97904761 XRP',
+                  '1 BTC ~ $exchangeRate BDX',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -578,9 +670,9 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               ),
               Padding(
                 padding:
-                const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: Text(
-                  '62.99676191 XRP',
+                  '$serviceFee BDX',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -606,7 +698,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
-                  '0.154938 XRP',
+                  '$networkFee BDX',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -634,7 +726,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                 ),
                 Padding(
                   padding:
-                  const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                      const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                   child: Column(
                     children: [
                       Text('1 ETH ~ 2,518.97904761 XRP',
@@ -703,7 +795,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             TableRow(children: [
               Padding(
                 padding:
-                const EdgeInsets.only(top: 10.0, left: 10.0, bottom: 10.0),
+                    const EdgeInsets.only(top: 10.0, left: 10.0, bottom: 10.0),
                 child: Text(
                   'You Get',
                   style: TextStyle(
@@ -717,7 +809,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
-                  '~ 25135.553062 XRP',
+                  '~ $getAmount BDX',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -732,7 +824,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
 
         Container(
           margin:
-          EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0, bottom: 10.0),
+              EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0, bottom: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -751,8 +843,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     color: acceptTermsAndConditions
                         ? Color(0xff20D030)
                         : settingsStore.isDarkTheme
-                        ? Color(0xffFFFFFF)
-                        : Color(0xff222222)),
+                            ? Color(0xffFFFFFF)
+                            : Color(0xff222222)),
               ),
               SizedBox(
                 width: 5,
@@ -768,36 +860,36 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                                 ? Color(0xffFFFFFF)
                                 : Color(0xff222222)),
                         children: [
-                          TextSpan(
-                            text: 'Privacy Policy',
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                          ),
-                          TextSpan(
-                            text: ' and ',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                          ),
-                          TextSpan(
-                            text: 'AML/KYC',
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                          )
-                        ])),
+                      TextSpan(
+                        text: 'Privacy Policy',
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff222222)),
+                      ),
+                      TextSpan(
+                        text: ' and ',
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff222222)),
+                      ),
+                      TextSpan(
+                        text: 'AML/KYC',
+                        style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff222222)),
+                      )
+                    ])),
               ),
             ],
           ),
@@ -806,19 +898,17 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         Align(
           alignment: Alignment.center,
           child: ElevatedButton(
-            onPressed: () {
-              if (acceptTermsAndConditions) {
-                next();
-              }
-            },
+            onPressed: () => acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState ?{
+              //Payment Screen
+            }:null,
             style: ElevatedButton.styleFrom(
-              primary: acceptTermsAndConditions
+              primary: acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState
                   ? Color(0xff0BA70F)
                   : settingsStore.isDarkTheme
-                  ? Color(0xff32324A)
-                  : Color(0xffFFFFFF),
+                      ? Color(0xff32324A)
+                      : Color(0xffFFFFFF),
               padding:
-              EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
+                  EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -828,14 +918,47 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     color: acceptTermsAndConditions
                         ? Color(0xffffffff)
                         : settingsStore.isDarkTheme
-                        ? Color(0xff77778B)
-                        : Color(0xffB1B1D1),
+                            ? Color(0xff77778B)
+                            : Color(0xffB1B1D1),
                     fontSize: 16,
                     fontWeight: FontWeight.bold)),
           ),
         )
       ],
     );
+  }
+
+  Future<void> _presentQRScanner(BuildContext context,
+      ValidateAddressProvider validateAddressProvider) async {
+    try {
+      final code = await presentQRScanner();
+      final uri = Uri.parse(code!);
+      var address = '';
+
+      address = uri.path;
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        validateAddressProvider.setRecipientAddress(address);
+        _recipientAddressController.text =
+            validateAddressProvider.getRecipientAddress();
+        validateAddressProvider.validateAddressData(context, {
+          "currency": "bdx",
+          "address": _recipientAddressController.text.toString(),
+          "extraId": ""
+        });
+      });
+    } catch (e) {
+      print('Error $e');
+    }
+  }
+
+  @override
+  void dispose() {
+    _recipientAddressController.dispose();
+    _destinationTagController.dispose();
+    _refundWalletAddressController.dispose();
+    getExchangeAmountProvider.dispose();
+    validateAddressProvider.dispose();
+    super.dispose();
   }
 }
 

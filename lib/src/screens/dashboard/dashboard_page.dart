@@ -590,10 +590,10 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                     height: MediaQuery.of(context).size.height*0.17/3,
                                     child: ElevatedButton.icon(
                                       icon: SvgPicture.asset(
-                                          'assets/images/swap/swap.svg',color: Color(0xff0BA70F),),
+                                          'assets/images/swap/swap.svg',colorFilter:ColorFilter.mode(Color(0xff0BA70F), BlendMode.srcIn),),
                                       onPressed: () =>
                                           Navigator.of(context, rootNavigator: true)
-                                              .pushNamed(Routes.swap),
+                                              .pushNamed(Routes.swapWalletAddress),
                                       label: Flexible(
                                         child: Text(
                                           'Swap',
