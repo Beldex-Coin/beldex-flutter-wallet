@@ -1,8 +1,11 @@
+import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_currencies_full_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_exchange_amount_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_pairs_params_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_exchange_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_payment_details_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_payment_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_wallet_address_page.dart';
 import 'package:beldex_wallet/src/swap/signature_page.dart';
 import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
@@ -556,6 +559,19 @@ class Router {
             ],
             child: SwapWalletAddressPage(),
           );
+        });
+      case Routes.swapPayment:
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<GetExchangeAmountProvider>(create: (_) => GetExchangeAmountProvider())
+            ],
+            child: SwapPaymentPage(),
+          );
+        });
+      case Routes.swapPaymentDetails:
+        return MaterialPageRoute<void>(builder: (context) {
+          return SwapPaymentDetailsPage(transactionDetails : settings.arguments as CreateTransactionModel);
         });
       case Routes.signature:
         return MaterialPageRoute<void>(builder: (context) {

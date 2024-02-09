@@ -593,7 +593,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           'assets/images/swap/swap.svg',colorFilter:ColorFilter.mode(Color(0xff0BA70F), BlendMode.srcIn),),
                                       onPressed: () =>
                                           Navigator.of(context, rootNavigator: true)
-                                              .pushNamed(Routes.swapWalletAddress),
+                                              .pushNamed(Routes.swapPayment),
                                       label: Flexible(
                                         child: Text(
                                           'Swap',

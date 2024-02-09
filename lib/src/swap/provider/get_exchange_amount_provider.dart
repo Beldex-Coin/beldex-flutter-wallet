@@ -8,6 +8,7 @@ class GetExchangeAmountProvider with ChangeNotifier {
   bool loading = true;
   bool _disposed = false;
   GetExchangeAmountApiService services = GetExchangeAmountApiService();
+  bool transactionStatus = false;
 
   void getExchangeAmountData(context, Map<String, String> params) async {
     loading = true;
@@ -15,6 +16,20 @@ class GetExchangeAmountProvider with ChangeNotifier {
     loading = false;
 
     notifyListeners();
+  }
+
+  void updateLoadingStatus(value){
+    this.loading = value;
+    notifyListeners();
+  }
+
+  void setTransactionStatus(status){
+    this.transactionStatus = status;
+    notifyListeners();
+  }
+
+  bool getTransactionStatus(){
+    return this.transactionStatus;
   }
 
   @override

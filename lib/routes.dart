@@ -47,5 +47,7 @@ class Routes {
   static const flash = '/flash';
   static const swapExchange = '/swapExchange';
   static const swapWalletAddress = '/swapWalletAddress';
+  static const swapPayment = '/swapPayment';
+  static const swapPaymentDetails = '/swapPaymentDetails';
   static const signature = '/signature';
 }
