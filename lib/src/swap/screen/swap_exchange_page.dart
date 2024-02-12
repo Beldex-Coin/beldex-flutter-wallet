@@ -122,8 +122,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       if(getCurrenciesFullProvider.loading){
         return Center(
         child: Container(
-          child: const CircularProgressIndicator(),
-        ),);
+          child: const CircularProgressIndicator(valueColor:
+            AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
+        )));
       }else {
         return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
           return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){

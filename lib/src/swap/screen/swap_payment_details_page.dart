@@ -4,13 +4,15 @@ import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
-import 'package:beldex_wallet/src/swap/provider/get_status_api_client.dart';
+import 'package:beldex_wallet/src/swap/api_client/get_status_api_client.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import '../../screens/receive/qr_image.dart';
+import '../model/get_status_model.dart';
+import '../provider/get_transactions_provider.dart';
 import 'number_stepper.dart';
 
 class SwapPaymentDetailsPage extends BasePage {
@@ -71,47 +73,60 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     }
   }
 
-  late CreateTransactionModel transactionDetails;
+  late CreateTransactionModel createdTransactionDetails;
   late Timer timer;
   late GetStatusApiClient getStatusApiClient;
-  var i=0;
+  late StreamController<GetStatusModel> _getStatusStreamController;
+
   @override
   void initState() {
-    transactionDetails = widget.transactionDetails;
+    createdTransactionDetails = widget.transactionDetails;
     getStatusApiClient = GetStatusApiClient();
-    print('initState -> ');
-    callGetStatusApi(transactionDetails.result,getStatusApiClient);
+    // Create a stream controller and get status to the stream.
+    _getStatusStreamController = StreamController<GetStatusModel>();
+    Future.delayed(Duration(seconds: 2), () {
+      callGetStatusApi(createdTransactionDetails.result, getStatusApiClient);
+      timer = Timer.periodic(Duration(seconds: 30), (timer) {
+        callGetStatusApi(createdTransactionDetails.result, getStatusApiClient);
+      }); // Start adding getStatus api result to the stream.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Provider.of<GetTransactionsProvider>(context, listen: false)
+            .getTransactionsData(
+            context, {"id": "${createdTransactionDetails.result?.id}"});
+      });
+    });
     super.initState();
   }
 
   void callGetStatusApi(Result? result, GetStatusApiClient getStatusApiClient){
-    timer = Timer.periodic(Duration(seconds: 30), (timer) {
-      getStatusApiClient.getStatusData(context, {"id":"${result?.id}"}).then((value){
-        if(value!.result!.isNotEmpty){
-          switch(value.result){
-            case "waiting" :{
-              //Swap Payment Details Screen
-              break;
-            }
-            case "confirming" : {
-              //Exchanging Screen
-              break;
-            }
-            case "failed" : {
-              break;
-            }
-            case "refunded" : {
-              break;
-            }
-            case "overdue" : {
-              break;
-            }
-            case "expired" : {
-              break;
-            }
+    getStatusApiClient.getStatusData(context, {"id":"${result?.id}"}).then((value){
+      if(value!.result!.isNotEmpty){
+        _getStatusStreamController.sink.add(value);
+        switch(value.result){
+          case "waiting" :{
+            //Swap Payment Details Screen
+            /*Navigator.of(context).pop();
+              Navigator.of(context).pushNamed(Routes.swapExchanging,arguments: createdTransactionDetails);*/
+            break;
+          }
+          case "confirming" : {
+            //Exchanging Screen
+            break;
+          }
+          case "failed" : {
+            break;
+          }
+          case "refunded" : {
+            break;
+          }
+          case "overdue" : {
+            break;
+          }
+          case "expired" : {
+            break;
           }
         }
-      });
+      }
     });
   }
 
@@ -122,10 +137,35 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     ToastContext().init(context);
-    return body(_screenWidth, _screenHeight, settingsStore, _scrollController,transactionDetails.result);
+    return StreamBuilder<GetStatusModel>(
+      stream: _getStatusStreamController.stream,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+              child:
+              CircularProgressIndicator(valueColor:
+              AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)))); // Display a loading indicator when waiting for data.
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          ); // Display an error message if an error occurs.
+        } else if (!snapshot.hasData) {
+          return Center(
+            child: Text('No data available'),
+          ); // Display a message when no data is available.
+        } else {
+          return body(
+              _screenWidth,
+              _screenHeight,
+              settingsStore,
+              _scrollController,
+              createdTransactionDetails.result);
+        }
+      },
+    );
   }
 
-  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, Result? transactionDetails,){
+  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, Result? createdTransactionDetails){
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -164,7 +204,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                         padding: const EdgeInsets.all(15.0),
                         width: _screenWidth,
                         height: double.infinity,
-                        child: paymentSendFundsToTheAddressBelowScreen(settingsStore,transactionDetails),
+                        child: paymentSendFundsToTheAddressBelowScreen(settingsStore,createdTransactionDetails),
                       ),
                     ),
                   ),
@@ -175,7 +215,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     );
   }
 
-  Widget paymentSendFundsToTheAddressBelowScreen(SettingsStore settingsStore, Result? transactionDetails,) {
+  Widget paymentSendFundsToTheAddressBelowScreen(SettingsStore settingsStore, Result? createdTransactionDetails,) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -223,7 +263,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                                 : Color(0xff222222)),
                       ),
                       Text(
-                        '${transactionDetails?.amountExpectedFrom} ${transactionDetails?.currencyFrom?.toUpperCase()}',
+                        '${createdTransactionDetails?.amountExpectedFrom} ${createdTransactionDetails?.currencyFrom?.toUpperCase()}',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -304,7 +344,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '${transactionDetails?.id}',
+                      '${createdTransactionDetails?.id}',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -345,7 +385,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Time left to send ${transactionDetails?.amountExpectedFrom} ${transactionDetails?.currencyFrom}',
+                  'Time left to send ${createdTransactionDetails?.amountExpectedFrom} ${createdTransactionDetails?.currencyFrom?.toUpperCase()}',
                   style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
@@ -367,7 +407,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                       width: 5,
                     ),
                     Text(
-                      '${transactionDetails?.createdAt}',
+                      '${createdTransactionDetails?.createdAt}',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -404,7 +444,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                 Flexible(
                   flex: 2,
                   child: Text(
-                    '${transactionDetails?.payinAddress}',
+                    '${createdTransactionDetails?.payinAddress}',
                     style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
@@ -421,7 +461,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                     InkWell(
                         onTap: () {
                           Clipboard.setData(ClipboardData(
-                              text: transactionDetails!.payinAddress.toString()));
+                              text: createdTransactionDetails!.payinAddress.toString()));
                           Toast.show(
                             tr(context).copied,
                             duration: Toast
@@ -448,7 +488,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                         )),
                     InkWell(
                         onTap: () {
-                            showQRCodeDialog(context, settingsStore,transactionDetails?.payinAddress);
+                            showQRCodeDialog(context, settingsStore,createdTransactionDetails?.payinAddress);
                         },
                         child: Container(
                           width: 30.0,
@@ -511,7 +551,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                       width: 5,
                     ),
                     Flexible(
-                      child: Text('Time Remaining : ${transactionDetails?.createdAt}',
+                      child: Text('Time Remaining : ${createdTransactionDetails?.createdAt}',
                           style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
@@ -549,255 +589,281 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                     : Color(0xff060606)),
           ),
         ),
-        Table(
-          border: TableBorder(
-            top: BorderSide(
-                width: 1,
-                color: settingsStore.isDarkTheme
-                    ? Color(0xff484856)
-                    : Color(0xffDADADA),
-                style: BorderStyle.solid),
-            left: BorderSide(
-                width: 1,
-                color: settingsStore.isDarkTheme
-                    ? Color(0xff484856)
-                    : Color(0xffDADADA),
-                style: BorderStyle.solid),
-            right: BorderSide(
-                width: 1,
-                color: settingsStore.isDarkTheme
-                    ? Color(0xff484856)
-                    : Color(0xffDADADA),
-                style: BorderStyle.solid),
-            verticalInside: BorderSide(
-                width: 1,
-                color: settingsStore.isDarkTheme
-                    ? Color(0xff484856)
-                    : Color(0xffDADADA),
-                style: BorderStyle.solid),
-          ),
-          children: [
-            //Floating Exchange Rate
-            TableRow(children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-                child: Text(
-                  'You send',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xffAFAFBE)
-                          : Color(0xff737373)),
-                ),
-              ),
-              Padding(
-                padding:
-                const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-                child: Text(
-                  '${transactionDetails?.amountExpectedFrom} ${transactionDetails?.currencyFrom?.toUpperCase()}',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xffEBEBEB)
-                          : Color(0xff222222)),
-                ),
-              )
-            ]),
-            TableRow(children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-                child: Text(
-                  'Exchange rate',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xffAFAFBE)
-                          : Color(0xff737373)),
-                ),
-              ),
-              Padding(
-                padding:
-                const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-                child: Text(
-                  '1 ETH ~ 2,518.97904761 XRP',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xffEBEBEB)
-                          : Color(0xff222222)),
-                ),
-              )
-            ]),
-            TableRow(children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-                child: Text(
-                  'Service fee 0.25%',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xffAFAFBE)
-                          : Color(0xff737373)),
-                ),
-              ),
-              Padding(
-                padding:
-                const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-                child: Text(
-                  '62.99676191 XRP',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xffEBEBEB)
-                          : Color(0xff222222)),
-                ),
-              )
-            ]),
-            TableRow(children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-                child: Text(
-                  'Network fee',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xffAFAFBE)
-                          : Color(0xff737373)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  '0.154938 XRP',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xffEBEBEB)
-                          : Color(0xff222222)),
-                ),
-              )
-            ]),
-
-            //Fixed Exchange Rate
-            if (false)
-              TableRow(children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-                  child: Text(
-                    'Fixed rate',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xffAFAFBE)
-                            : Color(0xff737373)),
-                  ),
-                ),
-                Padding(
-                  padding:
-                  const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
-                  child: Column(
+        Consumer<GetTransactionsProvider>(
+            builder: (context, getTransactionsProvider, child) {
+              if (getTransactionsProvider.loading) {
+                return Center(
+                    child: CircularProgressIndicator(
+                    valueColor:
+                    AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
+                    ));
+              } else {
+                if (getTransactionsProvider.loading == false &&
+                    getTransactionsProvider.data!.result!.isNotEmpty) {
+                  final transactionDetails =
+                  getTransactionsProvider.data?.result![0];
+                  final expectedAmount = double.parse(
+                      transactionDetails!.amountExpectedTo.toString()) -
+                      double.parse(transactionDetails!.networkFee.toString());
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('1 ETH ~ 2,518.97904761 XRP',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
+                      Table(
+                        border: TableBorder(
+                          top: BorderSide(
+                              width: 1,
                               color: settingsStore.isDarkTheme
-                                  ? Color(0xffEBEBEB)
-                                  : Color(0xff222222))),
-                      Text('The fixed rate is updated every 30 Seconds',
-                          style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.normal,
+                                  ? Color(0xff484856)
+                                  : Color(0xffDADADA),
+                              style: BorderStyle.solid),
+                          left: BorderSide(
+                              width: 1,
                               color: settingsStore.isDarkTheme
-                                  ? Color(0xffAfAFBE)
-                                  : Color(0xff737373)))
+                                  ? Color(0xff484856)
+                                  : Color(0xffDADADA),
+                              style: BorderStyle.solid),
+                          right: BorderSide(
+                              width: 1,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff484856)
+                                  : Color(0xffDADADA),
+                              style: BorderStyle.solid),
+                          verticalInside: BorderSide(
+                              width: 1,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff484856)
+                                  : Color(0xffDADADA),
+                              style: BorderStyle.solid),
+                        ),
+                        children: [
+                          //Floating Exchange Rate
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                              child: Text(
+                                'You send',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffAFAFBE)
+                                        : Color(0xff737373)),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                              child: Text(
+                                '${transactionDetails?.amountExpectedFrom} ${transactionDetails?.currencyFrom?.toUpperCase()}',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffEBEBEB)
+                                        : Color(0xff222222)),
+                              ),
+                            )
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                              child: Text(
+                                'Exchange rate',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffAFAFBE)
+                                        : Color(0xff737373)),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                              child: Text(
+                                '1 ${transactionDetails.currencyFrom?.toUpperCase()} ~ ${transactionDetails.rate} ${transactionDetails.currencyTo?.toUpperCase()}',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffEBEBEB)
+                                        : Color(0xff222222)),
+                              ),
+                            )
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                              child: Text(
+                                'Service fee 0.25%',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffAFAFBE)
+                                        : Color(0xff737373)),
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                              child: Text(
+                                '--- ${transactionDetails.currencyTo?.toUpperCase()}',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffEBEBEB)
+                                        : Color(0xff222222)),
+                              ),
+                            )
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                              child: Text(
+                                'Network fee',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffAFAFBE)
+                                        : Color(0xff737373)),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                '${transactionDetails.networkFee} ${transactionDetails.currencyTo?.toUpperCase()}',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffEBEBEB)
+                                        : Color(0xff222222)),
+                              ),
+                            )
+                          ]),
+
+                          //Fixed Exchange Rate
+                          if (false)
+                            TableRow(children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                                child: Text(
+                                  'Fixed rate',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xffAFAFBE)
+                                          : Color(0xff737373)),
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                                child: Column(
+                                  children: [
+                                    Text('1 ETH ~ 2,518.97904761 XRP',
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                            color: settingsStore.isDarkTheme
+                                                ? Color(0xffEBEBEB)
+                                                : Color(0xff222222))),
+                                    Text('The fixed rate is updated every 30 Seconds',
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.normal,
+                                            color: settingsStore.isDarkTheme
+                                                ? Color(0xffAfAFBE)
+                                                : Color(0xff737373)))
+                                  ],
+                                ),
+                              )
+                            ]),
+                          if (false)
+                            TableRow(children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                                child: Text(
+                                  'Network fee',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xffAFAFBE)
+                                          : Color(0xff737373)),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Text(
+                                  'All fees included in the rate',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xffEBEBEB)
+                                          : Color(0xff222222)),
+                                ),
+                              )
+                            ]),
+                        ],
+                      ),
+                      Table(
+                        border: TableBorder.symmetric(
+                          outside: BorderSide(
+                              width: 1,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff484856)
+                                  : Color(0xffDADADA),
+                              style: BorderStyle.solid),
+                          inside: BorderSide(
+                              width: 1,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff484856)
+                                  : Color(0xffDADADA),
+                              style: BorderStyle.solid),
+                        ),
+                        children: [
+                          TableRow(children: [
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(top: 10.0, left: 10.0, bottom: 10.0),
+                              child: Text(
+                                'You Get',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffAFAFBE)
+                                        : Color(0xff737373)),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                '~ ${expectedAmount} ${transactionDetails.currencyTo?.toUpperCase()}',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffEBEBEB)
+                                        : Color(0xff222222)),
+                              ),
+                            )
+                          ]),
+                        ],
+                      ),
                     ],
-                  ),
-                )
-              ]),
-            if (false)
-              TableRow(children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-                  child: Text(
-                    'Network fee',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xffAFAFBE)
-                            : Color(0xff737373)),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Text(
-                    'All fees included in the rate',
-                    style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xffEBEBEB)
-                            : Color(0xff222222)),
-                  ),
-                )
-              ]),
-          ],
-        ),
-        Table(
-          border: TableBorder.symmetric(
-            outside: BorderSide(
-                width: 1,
-                color: settingsStore.isDarkTheme
-                    ? Color(0xff484856)
-                    : Color(0xffDADADA),
-                style: BorderStyle.solid),
-            inside: BorderSide(
-                width: 1,
-                color: settingsStore.isDarkTheme
-                    ? Color(0xff484856)
-                    : Color(0xffDADADA),
-                style: BorderStyle.solid),
-          ),
-          children: [
-            TableRow(children: [
-              Padding(
-                padding:
-                const EdgeInsets.only(top: 10.0, left: 10.0, bottom: 10.0),
-                child: Text(
-                  'You Get',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xffAFAFBE)
-                          : Color(0xff737373)),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  '~ ${transactionDetails?.amountExpectedTo} ${transactionDetails?.currencyTo?.toUpperCase()}',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xffEBEBEB)
-                          : Color(0xff222222)),
-                ),
-              )
-            ]),
-          ],
-        ),
+                  );
+                } else {
+                  return Container();
+                }
+              }
+            }),
         SizedBox(
           height: 20,
         )

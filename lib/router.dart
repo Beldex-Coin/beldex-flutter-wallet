@@ -2,8 +2,10 @@ import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_currencies_full_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_exchange_amount_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_pairs_params_provider.dart';
+import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_exchange_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_exchanging_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_payment_details_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_payment_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_wallet_address_page.dart';
@@ -554,7 +556,6 @@ class Router {
         return MaterialPageRoute<void>(builder: (context) {
           return MultiProvider(
             providers: [
-              ChangeNotifierProvider<GetExchangeAmountProvider>(create: (_) => GetExchangeAmountProvider()),
               ChangeNotifierProvider<ValidateAddressProvider>(create: (_) => ValidateAddressProvider())
             ],
             child: SwapWalletAddressPage(),
@@ -562,16 +563,25 @@ class Router {
         });
       case Routes.swapPayment:
         return MaterialPageRoute<void>(builder: (context) {
-          return MultiProvider(
-            providers: [
-              ChangeNotifierProvider<GetExchangeAmountProvider>(create: (_) => GetExchangeAmountProvider())
-            ],
-            child: SwapPaymentPage(),
-          );
+          return SwapPaymentPage();
         });
       case Routes.swapPaymentDetails:
         return MaterialPageRoute<void>(builder: (context) {
-          return SwapPaymentDetailsPage(transactionDetails : settings.arguments as CreateTransactionModel);
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider())
+            ],
+            child: SwapPaymentDetailsPage(transactionDetails : settings.arguments as CreateTransactionModel),
+          );
+        });
+      case Routes.swapExchanging:
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider())
+            ],
+            child: SwapExchangingPage(transactionDetails : settings.arguments as CreateTransactionModel),
+          );
         });
       case Routes.signature:
         return MaterialPageRoute<void>(builder: (context) {

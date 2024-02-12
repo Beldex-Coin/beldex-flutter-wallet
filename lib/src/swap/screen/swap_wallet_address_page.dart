@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
@@ -9,7 +11,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../palette.dart';
-import '../provider/get_exchange_amount_provider.dart';
+import '../api_client/get_exchange_amount_api_client.dart';
+import '../model/get_exchange_amount_model.dart';
 import 'number_stepper.dart';
 
 class SwapWalletAddressPage extends BasePage {
@@ -68,17 +71,33 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   var showPrefixIcon = true;
   var showMemo = false;
   var acceptTermsAndConditions = false;
-  late GetExchangeAmountProvider getExchangeAmountProvider;
   late ValidateAddressProvider validateAddressProvider;
+  late GetExchangeAmountApiClient getExchangeAmountApiClient;
+  late StreamController<GetExchangeAmountModel> _getExchangeAmountStreamController;
+  late Timer timer;
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<GetExchangeAmountProvider>(context, listen: false)
-          .getExchangeAmountData(
-              context, {'from': 'btc', "to": 'bdx', "amountFrom": '0.001665'});
+    getExchangeAmountApiClient = GetExchangeAmountApiClient();
+    // Create a stream controller and exchange amount to the stream.
+    _getExchangeAmountStreamController = StreamController<GetExchangeAmountModel>();
+    Future.delayed(Duration(seconds: 2), () {
+      callGetExchangeAmountApi(getExchangeAmountApiClient);
+      timer = Timer.periodic(Duration(seconds: 30), (timer) {
+        callGetExchangeAmountApi(getExchangeAmountApiClient);
+      }); // Start adding getExchangeAmount api result to the stream.
     });
     super.initState();
+  }
+
+  void callGetExchangeAmountApi(
+      GetExchangeAmountApiClient getExchangeAmountApiClient) {
+    getExchangeAmountApiClient.getExchangeAmountData(context,
+        {'from': 'btc', "to": 'bdx', "amountFrom": '0.001665'}).then((value) {
+      if (value!.result!.isNotEmpty) {
+        _getExchangeAmountStreamController.sink.add(value);
+      }
+    });
   }
 
   @override
@@ -87,20 +106,32 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     final _screenHeight = MediaQuery.of(context).size.height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
-    return Consumer<GetExchangeAmountProvider>(
-        builder: (context, getExchangeAmountProvider, child) {
-      this.getExchangeAmountProvider = getExchangeAmountProvider;
-      if (getExchangeAmountProvider.loading) {
-        return Center(
-          child: Container(
-            child: const CircularProgressIndicator(),
-          ),
-        );
-      } else {
-        return body(_screenWidth, _screenHeight, settingsStore,
-            _scrollController, getExchangeAmountProvider);
-      }
-    });
+    return StreamBuilder<GetExchangeAmountModel>(
+      stream: _getExchangeAmountStreamController.stream,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+              child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(
+                      0xff0BA70F)))); // Display a loading indicator when waiting for data.
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          ); // Display an error message if an error occurs.
+        } else if (!snapshot.hasData) {
+          return Center(
+            child: Text('No data available'),
+          ); // Display a message when no data is available.
+        } else {
+          if (snapshot.data!.result!.isNotEmpty) {
+            return body(_screenWidth, _screenHeight, settingsStore,
+                _scrollController, snapshot.data!);
+          } else {
+            return Container();
+          }
+        }
+      },
+    );
   }
 
   Widget body(
@@ -108,27 +139,18 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     double _screenHeight,
     SettingsStore settingsStore,
     ScrollController _scrollController,
-    GetExchangeAmountProvider getExchangeAmountProvider,
+    GetExchangeAmountModel getExchangeAmountModel,
   ) {
-    var sendAmount = '0.001665';
-    var exchangeRate = '...';
-    var serviceFee = '...';
-    var networkFee = '...';
-    var getAmount = '...';
     //GetExchangeAmount
-    if (getExchangeAmountProvider.loading == false) {
-      if (getExchangeAmountProvider.data!.result!.isNotEmpty) {
-        sendAmount =
-            getExchangeAmountProvider.data!.result![0].amountFrom.toString();
-        exchangeRate =
-            getExchangeAmountProvider.data!.result![0].rate.toString();
-        serviceFee = getExchangeAmountProvider.data!.result![0].fee.toString();
-        networkFee =
-            getExchangeAmountProvider.data!.result![0].networkFee.toString();
-        getAmount =
-            getExchangeAmountProvider.data!.result![0].amountTo.toString();
-      }
-    }
+    final sendAmount = getExchangeAmountModel.result![0].amountFrom.toString();
+    final exchangeRate = getExchangeAmountModel.result![0].rate.toString();
+    final serviceFee = getExchangeAmountModel.result![0].fee.toString();
+    final networkFee = getExchangeAmountModel.result![0].networkFee.toString();
+    final getAmount =
+        double.parse(getExchangeAmountModel.result![0].amountTo!) -
+            double.parse(getExchangeAmountModel.result![0].networkFee!);
+    final from = getExchangeAmountModel.result![0].from.toString();
+    final to = getExchangeAmountModel.result![0].to.toString();
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -166,7 +188,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     width: _screenWidth,
                     height: double.infinity,
                     child: walletAddressScreen(settingsStore, sendAmount,
-                        exchangeRate, serviceFee, networkFee, getAmount),
+                        exchangeRate, serviceFee, networkFee, getAmount,from,to),
                   ),
                 ),
               ),
@@ -183,7 +205,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
       String exchangeRate,
       String serviceFee,
       String networkFee,
-      String getAmount) {
+      double getAmount, String from, String to) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -266,7 +288,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8))),
                             child: Text(
-                              'BDX',
+                              '---',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                   fontSize: 12,
@@ -282,9 +304,10 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                                 margin: EdgeInsets.all(6),
                                 padding: EdgeInsets.all(0),
                                 child: CircularProgressIndicator(
-                                  color: Colors.green,
+            valueColor:
+            AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)
                                 ),
-                              )
+                              ))
                             : InkWell(
                                 onTap: () async => _presentQRScanner(
                                     context, validateAddressProvider),
@@ -313,7 +336,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
                             color: Colors.grey.withOpacity(0.6)),
-                        hintText: 'Enter your BDX recipient address',
+                        hintText: 'Enter your ${to.toUpperCase()} recipient address',
                         errorStyle: TextStyle(
                             backgroundColor: Colors.transparent,
                             color: BeldexPalette.red)),
@@ -323,7 +346,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                             .addPostFrameCallback((timeStamp) {
                           validateAddressProvider.setRecipientAddress(value);
                           validateAddressProvider.validateAddressData(context, {
-                            "currency": "bdx",
+                            "currency": "${to}",
                             "address": value,
                             "extraId": ""
                           });
@@ -405,7 +428,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                       fontSize: 14.0,
                       fontWeight: FontWeight.normal,
                       color: Colors.grey.withOpacity(0.6)),
-                  hintText: 'Enter your BDX refund address',
+                  hintText: 'Enter your ${to.toUpperCase()} refund address',
                   errorStyle: TextStyle(color: BeldexPalette.red),
                   suffixIcon: InkWell(
                       onTap: () {},
@@ -462,7 +485,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     ),
                     Expanded(
                       child: Text(
-                        'Please specify the Destination Tag for your BDX receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a Destination Tag, remove the tick.',
+                        'Please specify the Destination Tag for your ${to.toUpperCase()} receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a Destination Tag, remove the tick.',
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -618,7 +641,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                 padding:
                     const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: Text(
-                  '$sendAmount BTC',
+                  '$sendAmount ${from.toUpperCase()}',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -645,7 +668,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                 padding:
                     const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: Text(
-                  '1 BTC ~ $exchangeRate BDX',
+                  '1 ${from.toUpperCase()} ~ $exchangeRate ${to.toUpperCase()}',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -672,7 +695,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                 padding:
                     const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                 child: Text(
-                  '$serviceFee BDX',
+                  '$serviceFee ${to.toUpperCase()}',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -698,7 +721,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
-                  '$networkFee BDX',
+                  '$networkFee ${to.toUpperCase()}',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -809,7 +832,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Text(
-                  '~ $getAmount BDX',
+                  '~ $getAmount ${to.toUpperCase()}',
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
@@ -956,7 +979,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     _recipientAddressController.dispose();
     _destinationTagController.dispose();
     _refundWalletAddressController.dispose();
-    getExchangeAmountProvider.dispose();
+    _getExchangeAmountStreamController.close();
+    timer.cancel();
     validateAddressProvider.dispose();
     super.dispose();
   }
