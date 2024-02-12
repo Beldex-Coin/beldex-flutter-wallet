@@ -357,7 +357,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                           Container(
                             height:_height * 0.71 / 3,
                             width:_width,
-                            margin: EdgeInsets.only(bottom: 15, left: 15, right: 15),
+                            margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
                             decoration: BoxDecoration(
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff272733)
@@ -570,17 +570,66 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       ),
                                     ],
                                   ),
-                                )
+                                ),
                               ],
                             ),
                           ),
+                          Container(
+                            width: _width,
+                            margin: EdgeInsets.only(left:15.0,right: 15.0),
+                            child: Observer(builder: (_) {
+                              return SizedBox(
+                                height: MediaQuery.of(context).size.height*0.20/3,
+                                child: ElevatedButton.icon(
+                                  icon: SvgPicture.asset(
+                                    settingsStore.isDarkTheme?'assets/images/new-images/ic_bns_dark.svg':'assets/images/new-images/ic_bns_light.svg',
+                                  ),
+                                  onPressed: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                      ? () {
+                                    Navigator.of(context,
+                                        rootNavigator: true)
+                                        .pushNamed(Routes.bns);
+                                  }
+                                      : null,
+                                  label: Flexible(
+                                    child: Text(
+                                      S.of(context).buyBns,
+                                      style: TextStyle(
+                                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                            ? settingsStore.isDarkTheme
+                                            ? Colors.white
+                                            : Colors.black
+                                            : settingsStore.isDarkTheme
+                                            ? Color(0xff6C6C78)
+                                            : Color(0xffB2B2B6),
+                                        fontWeight: FontWeight.bold,),
+                                    ),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                        ? settingsStore.isDarkTheme
+                                        ? Color(0xff272733)
+                                        : Color(0xffFFFFFF)
+                                        : settingsStore.isDarkTheme
+                                        ? Color(0xff333343)
+                                        : Color(0xffE8E8E8),
+                                    padding: EdgeInsets.all(12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      side: BorderSide(color: Color(0xff2979FB))
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
+                          )
                         ],
                       ),
                     );
                   }
                   return Container(
-                    margin: EdgeInsets.only(left: 15, right: 15, bottom: 10),
-                    height: MediaQuery.of(context).size.height * 0.83 / 2,
+                    margin: EdgeInsets.only(left: 15, right: 15, bottom: 10,top:10,),
+                    height: MediaQuery.of(context).size.height * 0.73 / 2,
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     width: double.infinity,
                     decoration: BoxDecoration(

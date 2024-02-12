@@ -3644,6 +3644,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Buy BNS`
+  String get buyBns {
+    return Intl.message(
+      'Buy BNS',
+      name: 'buyBns',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `BNS`
+  String get bns {
+    return Intl.message(
+      'BNS',
+      name: 'bns',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

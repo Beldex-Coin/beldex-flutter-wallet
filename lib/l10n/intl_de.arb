@@ -427,5 +427,7 @@
   "initiatingTransactionTitle" : "Transaktion wird eingeleitet..",
   "initiatingTransactionDescription" : "Bitte schließen Sie dieses Fenster nicht und navigieren Sie nicht zu einer anderen App, bis die Transaktion eingeleitet wird",
   "subAddresses": "Unteradressen",
-  "loadingTheWalletDescription": "Bitte schließen Sie dieses Fenster nicht und navigieren Sie nicht zu einer anderen App, bis wir die Wallet geladen haben"
+  "loadingTheWalletDescription": "Bitte schließen Sie dieses Fenster nicht und navigieren Sie nicht zu einer anderen App, bis wir die Wallet geladen haben",
+  "buyBns": "Kaufen Sie BNS",
+  "bns": "BNS"
 }
