@@ -610,6 +610,70 @@ extern "C"
     }
 
     EXPORT
+    bool bns_buy(char *owner, char *backup_owner, char *mapping_years, char *value_bchat, char *value_wallet, char *value_belnet, char *name, uint8_t priority, uint32_t subaddr_account, Utf8Box &error,
+        PendingTransactionRaw &pendingTransaction)
+    {
+        nice(19);
+
+        Beldex::PendingTransaction *transaction;
+        transaction = m_wallet->createBnsTransaction(owner,backup_owner,mapping_years,value_bchat,value_wallet,value_belnet,name);
+
+        int status = transaction->status().first;
+
+        if (status == Beldex::PendingTransaction::Status::Status_Error || status == Beldex::PendingTransaction::Status::Status_Critical)
+        {
+            error = Utf8Box(strdup(transaction->status().second.c_str()));
+            return false;
+        }
+
+        pendingTransaction = PendingTransactionRaw(transaction);
+        return true;
+    }
+
+    EXPORT
+    bool bns_update(char *name, char *mapping_years, uint8_t priority, uint32_t subaddr_account, Utf8Box &error,
+        PendingTransactionRaw &pendingTransaction)
+    {
+        nice(19);
+
+        Beldex::PendingTransaction *transaction;
+        transaction = m_wallet->updateBnsTransaction(name,mapping_years);
+
+        int status = transaction->status().first;
+
+        if (status == Beldex::PendingTransaction::Status::Status_Error || status == Beldex::PendingTransaction::Status::Status_Critical)
+        {
+            error = Utf8Box(strdup(transaction->status().second.c_str()));
+            return false;
+        }
+
+        pendingTransaction = PendingTransactionRaw(transaction);
+        return true;
+    }
+
+    EXPORT
+    bool bns_renew(char *owner, char *backup_owner, char *value_bchat, char *value_wallet, char *value_belnet, char *name, uint8_t priority, uint32_t subaddr_account, Utf8Box &error,
+        PendingTransactionRaw &pendingTransaction)
+    {
+        nice(19);
+
+        Beldex::PendingTransaction *transaction;
+        transaction = m_wallet->bnsRenewTransaction(owner,backup_owner,value_bchat,value_wallet,value_belnet,name);
+
+        int status = transaction->status().first;
+
+        if (status == Beldex::PendingTransaction::Status::Status_Error || status == Beldex::PendingTransaction::Status::Status_Critical)
+        {
+            error = Utf8Box(strdup(transaction->status().second.c_str()));
+            return false;
+        }
+
+        pendingTransaction = PendingTransactionRaw(transaction);
+        return true;
+    }
+
+
+    EXPORT
     bool transaction_commit(PendingTransactionRaw *transaction, Utf8Box &error)
     {
         bool committed = transaction->transaction->commit();
