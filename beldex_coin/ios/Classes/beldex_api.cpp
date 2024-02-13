@@ -616,7 +616,14 @@ extern "C"
         nice(19);
 
         Beldex::PendingTransaction *transaction;
-        transaction = m_wallet->createBnsTransaction(owner,backup_owner,mapping_years,value_bchat,value_wallet,value_belnet,name);
+        std::string owner_str(owner);
+        std::string backup_owner_str(backup_owner);
+        std::string mapping_years_str(mapping_years);
+        std::string value_bchat_str(value_bchat);
+        std::string value_wallet_str(value_wallet);
+        std::string value_belnet_str(value_belnet);
+        std::string name_str(name);
+        transaction = m_wallet->createBnsTransaction(owner_str, backup_owner_str, mapping_years_str, value_bchat_str, value_wallet_str, value_belnet_str, name_str, priority, subaddr_account);
 
         int status = transaction->status().first;
 
@@ -637,7 +644,13 @@ extern "C"
         nice(19);
 
         Beldex::PendingTransaction *transaction;
-        transaction = m_wallet->updateBnsTransaction(name,mapping_years);
+        std::string owner_str(owner);
+        std::string backup_owner_str(backup_owner);
+        std::string value_bchat_str(value_bchat);
+        std::string value_wallet_str(value_wallet);
+        std::string value_belnet_str(value_belnet);
+        std::string name_str(name);
+        transaction = m_wallet->bnsUpdateTransaction(owner_str, backup_owner_str, value_bchat_str, value_wallet_str, value_belnet_str, name_str, priority, subaddr_account);
 
         int status = transaction->status().first;
 
@@ -658,7 +671,10 @@ extern "C"
         nice(19);
 
         Beldex::PendingTransaction *transaction;
-        transaction = m_wallet->bnsRenewTransaction(owner,backup_owner,value_bchat,value_wallet,value_belnet,name);
+        std::string name_str(name);
+        std::string mapping_years_str(mapping_years);
+
+        transaction = m_wallet->bnsRenewTransaction(name_str, mapping_years_str, priority, subaddr_account);
 
         int status = transaction->status().first;
 
@@ -672,6 +688,11 @@ extern "C"
         return true;
     }
 
+    EXPORT
+    bool bns_set_record(char *name)
+    {
+        return m_wallet->setBnsRecord(std::string(name));
+    }
 
     EXPORT
     bool transaction_commit(PendingTransactionRaw *transaction, Utf8Box &error)
