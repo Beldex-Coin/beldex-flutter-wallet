@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
@@ -107,6 +108,32 @@ abstract class SendStoreBase with Store {
     } catch (e) {
       state = SendingFailed(error: e.toString());
       print('createTransaction state catch --> $state');
+    }
+  }
+
+  @action
+  Future createBnsTransaction({String owner, String backUpOwner, String mappingYears, String walletAddress, String bchatId, String belnetId, String bnsName, BeldexTransactionPriority tPriority}) async {
+    state = CreatingTransaction();
+
+    try {
+      final credentials = BeldexBnsTransactionCreationCredentials(
+          owner: owner,
+          backUpOwner: backUpOwner,
+          mappingYears: mappingYears,
+          walletAddress: walletAddress,
+          bchatId: bchatId,
+          belnetId: belnetId,
+          bnsName: bnsName,
+          priority: tPriority);
+
+      _pendingTransaction = await walletService.createBnsTransaction(credentials);
+      state = TransactionCreatedSuccessfully();
+      print('createBnsTransaction state try --> $state');
+      _lastRecipientAddress = '';
+      print('createBnsTransaction _lastRecipientAddress $_lastRecipientAddress');
+    } catch (e) {
+      state = SendingFailed(error: e.toString());
+      print('createBnsTransaction state catch --> $state');
     }
   }
 

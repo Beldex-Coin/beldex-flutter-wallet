@@ -101,6 +101,19 @@ typedef transaction_create = Int8 Function(
     Pointer<Utf8Box> error,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
+typedef bns_buy = Int8 Function(
+    Pointer<Utf8> owner,
+    Pointer<Utf8> backUpOwner,
+    Pointer<Utf8> mappingYears,
+    Pointer<Utf8> bchatId,
+    Pointer<Utf8> walletAddress,
+    Pointer<Utf8> belnetId,
+    Pointer<Utf8> bnsName,
+    Int8 priorityRaw,
+    Int32 subaddrAccount,
+    Pointer<Utf8Box> error,
+    Pointer<PendingTransactionRaw> pendingTransaction);
+
 typedef transaction_commit = Int8 Function(
     Pointer<PendingTransactionRaw>, Pointer<Utf8Box>);
 

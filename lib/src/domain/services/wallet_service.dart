@@ -135,6 +135,11 @@ class WalletService extends Wallet {
       _currentWallet.createTransaction(credentials);
 
   @override
+  Future<PendingTransaction> createBnsTransaction(
+      TransactionCreationCredentials credentials) =>
+      _currentWallet.createBnsTransaction(credentials);
+
+  @override
   Future updateInfo() async => _currentWallet.updateInfo();
 
   @override

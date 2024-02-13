@@ -655,7 +655,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                             }
                             Navigator.of(auth.context).pop();
                             _startCreatingTransaction(sendStore,
-                                _addressController.text, isFlashTransaction);
+                                'raja.bdx', isFlashTransaction);
                             isSuccessful = true;
                           });
                       return isSuccessful;

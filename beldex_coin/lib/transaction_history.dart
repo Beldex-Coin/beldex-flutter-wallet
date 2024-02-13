@@ -51,3 +51,48 @@ Future<PendingTransactionDescription> createTransaction(
       'priorityRaw': priorityRaw,
       'accountIndex': accountIndex
     });
+
+PendingTransactionDescription _createBnsTransactionSync(Map args) {
+  final owner = args['owner'] as String;
+  final backUpOwner = args['backUpOwner'] as String;
+  final mappingYears = args['mappingYears'] as String;
+  final bchatId = args['bchatId'] as String;
+  final walletAddress = args['walletAddress'] as String;
+  final belnetId = args['belnetId'] as String;
+  final bnsName = args['bnsName'] as String;
+  final priorityRaw = args['priorityRaw'] as int;
+  final accountIndex = args['accountIndex'] as int;
+
+  return transaction_history.createBnsTransactionSync(
+      owner: owner,
+      backUpOwner: backUpOwner,
+      mappingYears: mappingYears,
+      bchatId: bchatId,
+      walletAddress: walletAddress,
+      belnetId: belnetId,
+      bnsName: bnsName,
+      priorityRaw: priorityRaw,
+      accountIndex: accountIndex);
+}
+
+Future<PendingTransactionDescription> createBnsTransaction(
+    {String owner,
+      String backUpOwner,
+      String mappingYears,
+      String bchatId,
+      String walletAddress,
+      String belnetId,
+      String bnsName,
+      int priorityRaw,
+      int accountIndex = 0}) =>
+    compute(_createBnsTransactionSync, {
+      'owner': owner,
+      'backUpOwner': backUpOwner,
+      'mappingYears': mappingYears,
+      'bchatId': bchatId,
+      'walletAddress': walletAddress,
+      'belnetId': belnetId,
+      'bnsName': bnsName,
+      'priorityRaw': priorityRaw,
+      'accountIndex': accountIndex
+    });
