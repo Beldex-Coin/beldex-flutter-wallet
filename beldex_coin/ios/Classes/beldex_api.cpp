@@ -189,6 +189,40 @@ extern "C"
 
     };
 
+    struct BnsRow
+    {
+       char *name;
+       char *name_hash;
+       char *owner;
+       char *backup_owner;
+       char *encrypted_bchat_value;
+       char *encrypted_wallet_value;
+       char *encrypted_belnet_value;
+       char *value_bchat;
+       char *value_wallet;
+       char *value_belnet;
+
+       uint64_t update_height;
+       uint64_t expiration_height;
+       
+       // Asigning the BNS data's into the native variables
+       explicit BnsRow(const Wallet::bnsInfo& info):
+           name{strdup(info.name.c_str())},
+           name_hash{strdup(info.name_hash.c_str())},
+           owner{strdup(info.owner.c_str())},
+           backup_owner{strdup(info.backup_owner.c_str())},
+           encrypted_bchat_value{strdup(info.encrypted_bchat_value.c_str())},
+           encrypted_wallet_value{strdup(info.encrypted_wallet_value.c_str())},
+           encrypted_belnet_value{strdup(info.encrypted_belnet_value.c_str())},
+           value_bchat{strdup(info.value_bchat.c_str())},
+           value_wallet{strdup(info.value_wallet.c_str())},
+           value_belnet{strdup(info.value_belnet.c_str())},
+           update_height{info.update_height},
+           expiration_height{info.expiration_height}
+           {}
+
+    };
+
     struct StakeUnlockResult
     {
       bool success;
@@ -525,6 +559,27 @@ extern "C"
             stakes_out[i] = reinterpret_cast<intptr_t>(new StakeRow((*stakes)[i]));
 
         return stakes_out;
+    }
+
+    // For get the total number of BNS 
+    EXPORT
+    int32_t bns_count() {
+       std::unique_ptr<std::vector<Wallet::bnsInfo>> bnsInfos{m_wallet->MyBns()};
+        int32_t count = static_cast<int32_t>(bnsInfos->size());
+        return count;
+    }
+
+    // For get the BNS details from the library(.a)
+    EXPORT
+    intptr_t* bns_get_all() {
+        std::unique_ptr<std::vector<Wallet::bnsInfo>> bnsInfos{m_wallet->MyBns()};
+        size_t size = bnsInfos->size();
+        intptr_t* bnsInfos_out = reinterpret_cast<intptr_t *>(malloc(size * sizeof(intptr_t)));
+
+        for (int i = 0; i < size; i++)
+            bnsInfos_out[i] = reinterpret_cast<intptr_t>(new BnsRow((*bnsInfos)[i]));
+
+        return bnsInfos_out;
     }
 
     EXPORT
