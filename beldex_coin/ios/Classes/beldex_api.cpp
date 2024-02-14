@@ -638,7 +638,7 @@ extern "C"
     }
 
     EXPORT
-    bool bns_update(char *name, char *mapping_years, uint8_t priority, uint32_t subaddr_account, Utf8Box &error,
+    bool bns_update(char *owner, char *backup_owner, char *value_bchat, char *value_wallet, char *value_belnet, char *name, uint8_t priority, uint32_t subaddr_account, Utf8Box &error,
         PendingTransactionRaw &pendingTransaction)
     {
         nice(19);
@@ -665,8 +665,7 @@ extern "C"
     }
 
     EXPORT
-    bool bns_renew(char *owner, char *backup_owner, char *value_bchat, char *value_wallet, char *value_belnet, char *name, uint8_t priority, uint32_t subaddr_account, Utf8Box &error,
-        PendingTransactionRaw &pendingTransaction)
+    bool bns_renew(char *name, char *mapping_years, uint8_t priority, uint32_t subaddr_account, Utf8Box &error, PendingTransactionRaw &pendingTransaction )
     {
         nice(19);
 
