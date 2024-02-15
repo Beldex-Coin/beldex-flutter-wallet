@@ -1006,6 +1006,7 @@ class NewBeldexTextField extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 25.0),
         child: TextFormField(
+          maxLength: 15,
           onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
           enabled: enabled,
           controller: controller,

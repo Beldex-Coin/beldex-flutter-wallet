@@ -443,6 +443,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       .caption
                                       .color),
                               controller: _cryptoAmountController,
+                              maxLength: 15,
                               keyboardType: TextInputType.numberWithOptions(
                                   signed: false, decimal: true),
                               inputFormatters: [
@@ -655,7 +656,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                             }
                             Navigator.of(auth.context).pop();
                             _startCreatingTransaction(sendStore,
-                                'raja.bdx', isFlashTransaction);
+                                _addressController.text, isFlashTransaction);
                             isSuccessful = true;
                           });
                       return isSuccessful;
