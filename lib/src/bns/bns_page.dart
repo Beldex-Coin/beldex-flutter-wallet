@@ -670,13 +670,13 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                           Navigator.of(auth.context).pop();
                           _startingBnsTransaction(
                               sendStore,
-                              '${_bnsOwnerNameController.text}.bdx',
+                              _bnsOwnerNameController.text,
                               _bnsBackUpOwnerNameController.text,
                               bnsPriceDetailsList[buyBnsChangeNotifier.selectedBnsPriceIndex].id,
                               _bChatIdController.text,
                               _walletAddressController.text,
-                              _belnetIdController.text,
-                              _bnsNameController.text);
+                              '${_belnetIdController.text}.bdx',
+                              '${_bnsNameController.text}.bdx');
                         });
                       }
                     : null,
