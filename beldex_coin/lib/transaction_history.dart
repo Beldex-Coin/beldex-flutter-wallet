@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'dart:ffi';
 
+import 'package:beldex_coin/src/structs/bns_info_row.dart';
+import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
 import 'package:beldex_coin/src/native/transaction_history.dart'
@@ -96,3 +99,24 @@ Future<PendingTransactionDescription> createBnsTransaction(
       'priorityRaw': priorityRaw,
       'accountIndex': accountIndex
     });
+
+int countOfBnsTransactions() => transaction_history.bnsCountNative();
+
+List<BnsRow> _getAllBnsSync(int _) {
+  final size = countOfBnsTransactions();
+  final bnsPointer = transaction_history.bnsGetAllNative();
+  final bnsDetails = bnsPointer.asTypedList(size);
+
+  return bnsDetails
+      .map((details) => BnsRow(Pointer<BnsRowPointer>.fromAddress(details).ref))
+      .toList();
+}
+
+Future<List<BnsRow>> getAllBns() =>
+    compute<int, List<BnsRow>>(_getAllBnsSync, 0);
+
+bool bnsSetRecord(String bnsName) {
+  final bnsNamePointer = Utf8.toUtf8(bnsName);
+  return transaction_history.bnsSetRecordNative(bnsNamePointer) != 0;
+}
+

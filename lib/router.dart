@@ -1,4 +1,5 @@
 import 'package:beldex_wallet/src/bns/bns_page.dart';
+import 'package:beldex_wallet/src/bns/buy_bns_change_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -544,6 +545,7 @@ class Router {
                             priceStore: priceStore,
                             transactionDescriptions:
                             transactionDescriptions)),
+                    ChangeNotifierProvider<BuyBnsChangeNotifier>(create: (_) => BuyBnsChangeNotifier())
                   ],
                   child: BnsPage());
             });

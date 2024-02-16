@@ -121,6 +121,10 @@ typedef StakeCount = int Function();
 
 typedef StakeGetAll = Pointer<Int64> Function();
 
+typedef BnsCount = int Function();
+
+typedef BnsGetAll = Pointer<Int64> Function();
+
 typedef StakeCreate = int Function(
     Pointer<Utf8> masterNodeKey,
     Pointer<Utf8> amount,
@@ -128,6 +132,8 @@ typedef StakeCreate = int Function(
     Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef CanRequestUnstake = int Function(Pointer<Utf8> masterNodeKey);
+
+typedef BnsSetRecord = int Function(Pointer<Utf8> name);
 
 typedef SubmitStakeUnlock = int Function(Pointer<Utf8> masterNodeKey,
     Pointer<Utf8Box> error, Pointer<PendingTransactionRaw> pendingTransaction);

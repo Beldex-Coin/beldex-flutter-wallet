@@ -28,6 +28,18 @@ final bnsTransactionCreateNative = beldexApi
     .lookup<NativeFunction<bns_buy>>('bns_buy')
     .asFunction<BnsBuy>();
 
+final bnsCountNative = beldexApi
+    .lookup<NativeFunction<bns_count>>('bns_count')
+    .asFunction<BnsCount>();
+
+final bnsGetAllNative = beldexApi
+    .lookup<NativeFunction<bns_get_all>>('bns_get_all')
+    .asFunction<BnsGetAll>();
+
+final bnsSetRecordNative = beldexApi
+    .lookup<NativeFunction<bns_set_record>>('bns_set_record')
+    .asFunction<BnsSetRecord>();
+
 final transactionCommitNative = beldexApi
     .lookup<NativeFunction<transaction_commit>>('transaction_commit')
     .asFunction<TransactionCommit>();

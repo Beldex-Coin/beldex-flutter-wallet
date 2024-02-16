@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:beldex_coin/transaction_history.dart';
+import 'package:beldex_wallet/src/bns/buy_bns_change_notifier.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -15,12 +17,18 @@ import 'package:beldex_wallet/src/stores/balance/balance_store.dart';
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 import 'package:wakelock/wakelock.dart';
+import 'package:beldex_coin/beldex_coin_structs.dart';
 
 import '../../routes.dart';
+import 'bns_commit_transaction_loader.dart';
+import 'bns_price_item.dart';
+import 'bns_purchase_options.dart';
 
 class BnsPage extends BasePage {
   @override
@@ -56,16 +64,10 @@ class BnsForm extends StatefulWidget {
 class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
   TabController _bnsTabController;
   List<BnsPriceItem> bnsPriceDetailsList = [
-    BnsPriceItem('1y', '1 Year', '650 BDX'),
-    BnsPriceItem('2y', '2 Years', '1000 BDX'),
-    BnsPriceItem('5y', '5 Years', '2000 BDX'),
-    BnsPriceItem('10y', '10 Years', '4000 BDX')
-  ];
-
-  final List<BnsPurchaseOptions> _bnsPurchaseOptions = [
-    BnsPurchaseOptions('Address', true),
-    BnsPurchaseOptions('BChat ID', true),
-    BnsPurchaseOptions('Belnet ID', true)
+    BnsPriceItem('1y', '1 Yr', '650 BDX'),
+    BnsPriceItem('2y', '2 Yrs', '1000 BDX'),
+    BnsPriceItem('5y', '5 Yrs', '2000 BDX'),
+    BnsPriceItem('10y', '10 Yrs', '4000 BDX')
   ];
 
   final _bnsNameController = TextEditingController();
@@ -92,58 +94,135 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
     final walletStore = Provider.of<WalletStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
     _setEffects(context);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
-        TabBar(
-          controller: _bnsTabController,
-          indicatorColor: Colors.green,
-          labelColor: Colors.green,
-          indicatorSize: TabBarIndicatorSize.tab,
-          unselectedLabelColor:
-              settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xffA8A8A8),
-          isScrollable: true,
-          labelStyle: TextStyle(
-              backgroundColor: Colors.transparent,
-              fontSize: 17.0,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'OpenSans'),
-          tabs: <Widget>[
-            Tab(
-              text: 'Buy BNS',
-            ),
-            Tab(
-              text: 'My BNS',
-            ),
-          ],
-        ),
-        Expanded(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: TabBarView(
-              controller: _bnsTabController,
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(40),
+        child: Container(
+          color: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+          child: SafeArea(
+            child: Column(
               children: <Widget>[
-                buyBns(settingsStore, bnsPriceDetailsList,sendStore,syncStore),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xff24242f)
-                        : Color(0xffF3F3F3),
-                  ),
+                Expanded(child: Container()),
+                TabBar(
+                  controller: _bnsTabController,
+                  indicatorColor: Colors.green,
+                  labelColor: Colors.green,
+                  unselectedLabelColor:
+                  settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xffA8A8A8),
+                  labelPadding: EdgeInsets.all(5),
+                  labelStyle: TextStyle(
+                      backgroundColor: Colors.transparent,
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'OpenSans'),
+                  tabs: [Text('Buy BNS'), Text('My BNS')],
                 ),
               ],
             ),
           ),
         ),
-      ],
+      ),
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        child: TabBarView(
+          controller: _bnsTabController,
+          children: <Widget>[
+            Consumer<BuyBnsChangeNotifier>(
+                builder: (context, buyBnsChangeNotifier, child) {
+                  return buyBns(settingsStore, bnsPriceDetailsList, sendStore,
+                      syncStore, buyBnsChangeNotifier);
+                }),
+            myBns(sendStore)
+          ],
+        ),
+      ),
     );
   }
 
+  Widget myBns(SendStore sendStore) {
+    return SingleChildScrollView(
+        child: FutureBuilder<List<BnsRow>>(
+      future: getAllBns(),
+      builder: (BuildContext context, AsyncSnapshot<List<BnsRow>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasError) {
+            return Center(
+              child: Container(
+                  width: 200,
+                  height: 400,
+                  child: Center(
+                    child: Text(snapshot.error.toString()),
+                  )),
+            );
+          }
+          final allBns = snapshot.data;
+          print('Bns Name ${allBns.length}');
+          return ListView(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    IconButton(
+                        icon: Icon(
+                          Icons.arrow_circle_up_outlined,
+                          size: 40,
+                        ),
+                        onPressed: () {
+                          //bnsSetRecord('steve.bdx');
+                        }),
+                    Text(allBns.isEmpty
+                        ? S.current.start_staking
+                        : S.current.stake_more)
+                  ],
+                ),
+              ),
+              if (allBns.isNotEmpty)
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: allBns.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final bns = allBns[index];
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Text(
+                            'Name : ${bns.name}\n Name hash : ${bns.nameHash}\n Value Encrypted Wallet : ${bns.encryptedWalletValue}\n Value wallet : ${bns.valueWallet}'),
+                      );
+                    }),
+            ],
+          );
+        } else {
+          return Center(
+            child: Container(
+                width: 200,
+                height: 400,
+                child: Center(
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context)
+                        .primaryTextTheme
+                        .button
+                        .backgroundColor),
+                    backgroundColor: Theme.of(context)
+                        .accentTextTheme
+                        .caption
+                        .decorationColor,
+                  ),
+                )),
+          );
+        }
+      },
+    ));
+  }
+
   Widget buyBns(
-      SettingsStore settingsStore, List<BnsPriceItem> bnsPriceDetailsList, SendStore sendStore, SyncStore syncStore) {
+      SettingsStore settingsStore,
+      List<BnsPriceItem> bnsPriceDetailsList,
+      SendStore sendStore,
+      SyncStore syncStore,
+      BuyBnsChangeNotifier buyBnsChangeNotifier) {
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -192,16 +271,29 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                         ]),
                   ),
                   Container(
-                    height: 190,
-                    margin: EdgeInsets.only(top: 10),
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    margin: EdgeInsets.only(top: 10, bottom: 5),
                     child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
                         itemCount: bnsPriceDetailsList.length,
                         itemBuilder: (BuildContext context, int index) {
-                          final current = 3;
-                          return bnsPriceItem(bnsPriceDetailsList[index], index,
-                              current, settingsStore);
+                          final selectedIndex =
+                              buyBnsChangeNotifier.selectedBnsPriceIndex;
+                          return bnsPriceItem(
+                              bnsPriceDetailsList[index],
+                              index,
+                              selectedIndex,
+                              settingsStore,
+                              buyBnsChangeNotifier);
                         }),
-                  )
+                  ),
+                  Text(
+                      '${bnsPriceDetailsList[buyBnsChangeNotifier.selectedBnsPriceIndex].year} : ${bnsPriceDetailsList[buyBnsChangeNotifier.selectedBnsPriceIndex].amountOfBdx}',
+                      style: TextStyle(
+                          color: Color(0xff0ba70f),
+                          fontWeight: FontWeight.w800,
+                          fontFamily: 'OpenSans'))
                 ],
               ),
             ),
@@ -234,6 +326,11 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
               child: TextFormField(
                 controller: _bnsNameController,
                 style: TextStyle(fontSize: 14.0),
+                maxLength: 64,
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp('[a-z0-9-]')),
+                  FilteringTextInputFormatter.deny(RegExp('[,. ]'))
+                ],
                 decoration: InputDecoration(
                   suffix: Text(
                     '.bdx',
@@ -251,10 +348,27 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                           ? Color(0xff77778B)
                           : Color(0xff77778B)),
                   hintText: 'The name to purchase via Beldex Name Service',
+                  counterText: '',
                 ),
                 validator: (value) {
                   return null;
                 },
+                onChanged: (value) {
+                  validateBnsName(value, buyBnsChangeNotifier);
+                },
+              ),
+            ),
+            //BNS Name Field Error Message
+            Visibility(
+              visible: buyBnsChangeNotifier.bnsNameFieldIsValid,
+              child: Container(
+                margin: EdgeInsets.only(left: 15, bottom: 10),
+                child: Text(buyBnsChangeNotifier.bnsNameFieldErrorMessage,
+                    style: TextStyle(
+                        fontSize: 13.0,
+                        color: Colors.red,
+                        fontWeight: FontWeight.w300,
+                        fontFamily: 'OpenSans')),
               ),
             ),
             //BNS Owner Name
@@ -286,6 +400,9 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
               child: TextFormField(
                 controller: _bnsOwnerNameController,
                 style: TextStyle(fontSize: 14.0),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]')),
+                ],
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintStyle: TextStyle(
@@ -296,7 +413,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                   hintText: 'bxcALKJHSakhdsadhaskdhHHHDJADHUAWasasgjhrewrb6…',
                 ),
                 validator: (value) {
-                 return null;
+                  return null;
                 },
               ),
             ),
@@ -314,7 +431,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             ),
             //BNS Backup Owner Name Field
             Container(
-              margin: EdgeInsets.only(left: 10, right: 10, top: 5,bottom: 10),
+              margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 10),
               decoration: BoxDecoration(
                 color: settingsStore.isDarkTheme
                     ? Color(0xff24242F)
@@ -329,6 +446,9 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
               child: TextFormField(
                 controller: _bnsBackUpOwnerNameController,
                 style: TextStyle(fontSize: 14.0),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9]')),
+                ],
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintStyle: TextStyle(
@@ -357,17 +477,19 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                 mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  SizedBox(height: 10,),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      bnsPurchaseOptions(_bnsPurchaseOptions[0],settingsStore),
-                      bnsPurchaseOptions(_bnsPurchaseOptions[1],settingsStore),
-                      bnsPurchaseOptions(_bnsPurchaseOptions[2],settingsStore)
+                      bnsPurchaseOptions(buyBnsChangeNotifier.bnsPurchaseOptions[0], settingsStore,buyBnsChangeNotifier,0),
+                      bnsPurchaseOptions(buyBnsChangeNotifier.bnsPurchaseOptions[1], settingsStore,buyBnsChangeNotifier,1),
+                      bnsPurchaseOptions(buyBnsChangeNotifier.bnsPurchaseOptions[2], settingsStore,buyBnsChangeNotifier,2)
                     ],
                   ),
                   Visibility(
-                    visible: _bnsPurchaseOptions[0].selected,
+                    visible: buyBnsChangeNotifier.bnsPurchaseOptions[0].selected,
                     child: Container(
                       margin: EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -380,10 +502,14 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                                 ? Color(0xff3c3c51)
                                 : Color(0xffDADADA)),
                       ),
-                      padding: EdgeInsets.only(left: 8, right: 5,bottom: 15),
+                      padding: EdgeInsets.only(left: 8, right: 5, bottom: 15),
                       child: TextFormField(
                         controller: _walletAddressController,
                         style: TextStyle(fontSize: 14.0),
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp('[a-zA-Z0-9]')),
+                        ],
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle: TextStyle(
@@ -396,11 +522,27 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                         validator: (value) {
                           return null;
                         },
+                        onChanged: (value){
+                          validateWalletAddressField(value, buyBnsChangeNotifier);
+                        },
                       ),
                     ),
                   ),
+                  //Wallet Address Field Error Message
                   Visibility(
-                    visible: _bnsPurchaseOptions[1].selected,
+                    visible: buyBnsChangeNotifier.bnsPurchaseOptions[0].selected && buyBnsChangeNotifier.walletAddressFieldIsValid,
+                    child: Container(
+                      margin: EdgeInsets.only(left: 15, bottom: 10),
+                      child: Text(buyBnsChangeNotifier.walletAddressFieldErrorMessage,
+                          style: TextStyle(
+                              fontSize: 13.0,
+                              color: Colors.red,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'OpenSans')),
+                    ),
+                  ),
+                  Visibility(
+                    visible: buyBnsChangeNotifier.bnsPurchaseOptions[1].selected,
                     child: Container(
                       margin: EdgeInsets.only(left: 10, right: 10, top: 10),
                       decoration: BoxDecoration(
@@ -413,10 +555,15 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                                 ? Color(0xff3c3c51)
                                 : Color(0xffDADADA)),
                       ),
-                      padding: EdgeInsets.only(left: 8, right: 5,bottom: 15),
+                      padding: EdgeInsets.only(left: 8, right: 5, bottom: 15),
                       child: TextFormField(
                         controller: _bChatIdController,
                         style: TextStyle(fontSize: 14.0),
+                        maxLength: 66,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                              RegExp('[a-zA-Z0-9]')),
+                        ],
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle: TextStyle(
@@ -425,15 +572,32 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                                   ? Color(0xff77778B)
                                   : Color(0xff77778B)),
                           hintText: 'BChat ID',
+                          counterText: '',
                         ),
                         validator: (value) {
                           return null;
                         },
+                        onChanged: (value){
+                          validateBchatIdField(value, buyBnsChangeNotifier);
+                        },
                       ),
                     ),
                   ),
+                  //Bchat Id Field Error Message
                   Visibility(
-                    visible: _bnsPurchaseOptions[0].selected,
+                    visible: buyBnsChangeNotifier.bnsPurchaseOptions[1].selected && buyBnsChangeNotifier.bchatIdFieldIsValid,
+                    child: Container(
+                      margin: EdgeInsets.only(left: 15, bottom: 10),
+                      child: Text(buyBnsChangeNotifier.bchatIdFieldErrorMessage,
+                          style: TextStyle(
+                              fontSize: 13.0,
+                              color: Colors.red,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'OpenSans')),
+                    ),
+                  ),
+                  Visibility(
+                    visible: buyBnsChangeNotifier.bnsPurchaseOptions[2].selected,
                     child: Container(
                       margin: EdgeInsets.only(left: 10, right: 10, top: 10),
                       decoration: BoxDecoration(
@@ -446,10 +610,11 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                                 ? Color(0xff3c3c51)
                                 : Color(0xffDADADA)),
                       ),
-                      padding: EdgeInsets.only(left: 8, right: 5,bottom: 15),
+                      padding: EdgeInsets.only(left: 8, right: 5, bottom: 15),
                       child: TextFormField(
                         controller: _belnetIdController,
                         style: TextStyle(fontSize: 14.0),
+                        maxLength: 52,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle: TextStyle(
@@ -458,11 +623,28 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                                   ? Color(0xff77778B)
                                   : Color(0xff77778B)),
                           hintText: 'Belnet ID',
+                          counterText: '',
                         ),
                         validator: (value) {
                           return null;
                         },
+                        onChanged: (value){
+                          validateBelnetIdField(value, buyBnsChangeNotifier);
+                        },
                       ),
+                    ),
+                  ),
+                  //Belnet Id Field Error Message
+                  Visibility(
+                    visible: buyBnsChangeNotifier.bnsPurchaseOptions[2].selected && buyBnsChangeNotifier.belnetIdFieldIsValid,
+                    child: Container(
+                      margin: EdgeInsets.only(left: 15, bottom: 10),
+                      child: Text(buyBnsChangeNotifier.belnetIdFieldErrorMessage,
+                          style: TextStyle(
+                              fontSize: 13.0,
+                              color: Colors.red,
+                              fontWeight: FontWeight.w300,
+                              fontFamily: 'OpenSans')),
                     ),
                   ),
                 ],
@@ -470,34 +652,43 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             ),
             Observer(builder: (_) {
               return InkWell(
-                onTap: syncStore.status is SyncedSyncStatus ||
-                    syncStore.status.blocksLeft == 0
+                onTap: validateAllFields(syncStore,buyBnsChangeNotifier,settingsStore)
                     ? () async {
-                  final currentFocus = FocusScope.of(context);
+                        final currentFocus = FocusScope.of(context);
 
-                  if (!currentFocus.hasPrimaryFocus) {
-                    currentFocus.unfocus();
-                  }
-                  await Navigator.of(context).pushNamed(Routes.auth,
-                      arguments: (bool isAuthenticatedSuccessfully,
-                          AuthPageState auth) async {
-                        print('inside authentication $isAuthenticatedSuccessfully');
-                        if (!isAuthenticatedSuccessfully) {
-                          return;
+                        if (!currentFocus.hasPrimaryFocus) {
+                          currentFocus.unfocus();
                         }
-                        Navigator.of(auth.context).pop();
-                        _startingBnsTransaction(sendStore,_bnsOwnerNameController.text,_bnsBackUpOwnerNameController.text,'1y',_bChatIdController.text,_walletAddressController.text,_belnetIdController.text,_bnsNameController.text);
-                      });
-                }
+                        await Navigator.of(context).pushNamed(Routes.auth,
+                            arguments: (bool isAuthenticatedSuccessfully,
+                                AuthPageState auth) async {
+                          print(
+                              'inside authentication $isAuthenticatedSuccessfully');
+                          if (!isAuthenticatedSuccessfully) {
+                            return;
+                          }
+                          Navigator.of(auth.context).pop();
+                          _startingBnsTransaction(
+                              sendStore,
+                              '${_bnsOwnerNameController.text}.bdx',
+                              _bnsBackUpOwnerNameController.text,
+                              bnsPriceDetailsList[buyBnsChangeNotifier.selectedBnsPriceIndex].id,
+                              _bChatIdController.text,
+                              _walletAddressController.text,
+                              _belnetIdController.text,
+                              _bnsNameController.text);
+                        });
+                      }
                     : null,
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.all(10),
-                  margin: EdgeInsets.only(top: 20,left: 40,right: 40,bottom: 30),
+                  margin:
+                      EdgeInsets.only(top: 20, left: 40, right: 40, bottom: 30),
                   decoration: BoxDecoration(
                       color: Color(0xff00AD07),
                       borderRadius: BorderRadius.circular(10)),
-                  child:  Text(
+                  child: Text(
                     'Purchase',
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -514,91 +705,273 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
     );
   }
 
-  Widget bnsPriceItem(BnsPriceItem bnsPriceDetailsListItem, int index,
-      int current, SettingsStore settingsStore) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(
-              color: current == index
-                  ? Color(0xff0ba70f)
-                  : settingsStore.isDarkTheme
-                      ? Color(0xff3c3c51)
-                      : Color(0xffFFFFFF),
-              width: 2.0),
-          color: settingsStore.isDarkTheme
-              ? Color(0xff3c3c51)
-              : Color(0xffFFFFFF)),
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.only(bottom: 5),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            bnsPriceDetailsListItem.year,
-            style: TextStyle(
-                color: settingsStore.isDarkTheme
-                    ? Color(0xffFFFFFF)
-                    : Color(0xff000000),
-                fontWeight: FontWeight.w500,
-                fontFamily: 'OpenSans'),
-          ),
-          Text(bnsPriceDetailsListItem.amountOfBdx,
+  bool validateAllFields(SyncStore syncStore, BuyBnsChangeNotifier buyBnsChangeNotifier, SettingsStore settingsStore){
+    var isValid = false;
+    if(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0){
+      if(_bnsNameController.text.isEmpty){
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          validateBnsName(_bnsNameController.text, buyBnsChangeNotifier);
+        });
+        isValid = false;
+      }else if(!buyBnsChangeNotifier.bnsPurchaseOptions[0].selected && !buyBnsChangeNotifier.bnsPurchaseOptions[1].selected && !buyBnsChangeNotifier.bnsPurchaseOptions[2].selected){
+        isValid = false;
+      }else if(buyBnsChangeNotifier.bnsPurchaseOptions[0].selected && _walletAddressController.text.isEmpty){
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          validateWalletAddressField(_walletAddressController.text, buyBnsChangeNotifier);
+        });
+        isValid = false;
+      }else if(buyBnsChangeNotifier.bnsPurchaseOptions[1].selected && _bChatIdController.text.isEmpty){
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          validateBchatIdField(_bChatIdController.text, buyBnsChangeNotifier);
+        });
+        isValid = false;
+      }else if(buyBnsChangeNotifier.bnsPurchaseOptions[1].selected && _bChatIdController.text.isNotEmpty && _bChatIdController.text.length<66){
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          validateBchatIdField(_bChatIdController.text, buyBnsChangeNotifier);
+        });
+        isValid = false;
+      }else if(buyBnsChangeNotifier.bnsPurchaseOptions[2].selected && _belnetIdController.text.isEmpty){
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          validateBelnetIdField(_belnetIdController.text, buyBnsChangeNotifier);
+        });
+        isValid = false;
+      }else if(buyBnsChangeNotifier.bnsPurchaseOptions[2].selected && _belnetIdController.text.isNotEmpty && _belnetIdController.text.length <52){
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          validateBelnetIdField(_belnetIdController.text, buyBnsChangeNotifier);
+        });
+        isValid = false;
+      }else {
+        isValid = true;
+      }
+    }else {
+      isValid = false;
+    }
+    return isValid;
+  }
+
+  void validateBnsName(
+      String value, BuyBnsChangeNotifier buyBnsChangeNotifier) {
+    var errorMessage = '';
+    if (value.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        buyBnsChangeNotifier.setBnsNameFieldIsValid(true);
+      });
+      errorMessage = 'Please fill in this field';
+    }else if(value.isNotEmpty && value.characters.first == '-'){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        buyBnsChangeNotifier.setBnsNameFieldIsValid(true);
+      });
+      errorMessage = 'Invalid BNS Name';
+    }else if(value.isNotEmpty && value.characters.last == '-'){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        buyBnsChangeNotifier.setBnsNameFieldIsValid(true);
+      });
+      errorMessage = 'Invalid BNS Name';
+    }else{
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+      buyBnsChangeNotifier.setBnsNameFieldIsValid(false);
+      });
+      errorMessage = '';
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      buyBnsChangeNotifier.setBnsNameFieldErrorMessage(errorMessage);
+    });
+  }
+
+  void validateWalletAddressField (
+      String value, BuyBnsChangeNotifier buyBnsChangeNotifier) {
+    if (value.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        buyBnsChangeNotifier.setWalletAddressFieldIsValid(true);
+      });
+    }else{
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        buyBnsChangeNotifier.setWalletAddressFieldIsValid(false);
+      });
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      buyBnsChangeNotifier.setWalletAddressFieldErrorMessage(
+          buyBnsChangeNotifier.walletAddressFieldIsValid
+              ? 'Please fill in this field'
+              : '');
+    });
+  }
+
+  void validateBchatIdField (
+      String value, BuyBnsChangeNotifier buyBnsChangeNotifier) {
+    var errorMessage = '';
+    if (value.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        buyBnsChangeNotifier.setBchatIdFieldIsValid(true);
+      });
+      errorMessage = 'Please fill in this field';
+    }else if(value.isNotEmpty && value.length<66){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        buyBnsChangeNotifier.setBchatIdFieldIsValid(true);
+      });
+      errorMessage = 'Invalid BChat ID';
+    }else if(value.isNotEmpty && value.substring(0,2)!= 'bd'){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        buyBnsChangeNotifier.setBchatIdFieldIsValid(true);
+      });
+      errorMessage = 'Invalid BChat ID';
+    }else{
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        buyBnsChangeNotifier.setBchatIdFieldIsValid(false);
+      });
+      errorMessage = '';
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      buyBnsChangeNotifier.setBchatIdFieldErrorMessage(errorMessage);
+    });
+  }
+
+  void validateBelnetIdField (
+      String value, BuyBnsChangeNotifier buyBnsChangeNotifier) {
+    var errorMessage = '';
+    if (value.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        buyBnsChangeNotifier.setBelnetIdFieldIsValid(true);
+      });
+      errorMessage = 'Please fill in this field';
+    }else if(value.isNotEmpty && value.length<52){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        buyBnsChangeNotifier.setBelnetIdFieldIsValid(true);
+      });
+      errorMessage = 'Invalid Belnet ID';
+    }else{
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        buyBnsChangeNotifier.setBelnetIdFieldIsValid(false);
+      });
+      errorMessage = '';
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      buyBnsChangeNotifier.setBelnetIdFieldErrorMessage(errorMessage);
+    });
+  }
+
+  Widget bnsPriceItem(
+      BnsPriceItem bnsPriceDetailsListItem,
+      int index,
+      int selectedIndex,
+      SettingsStore settingsStore,
+      BuyBnsChangeNotifier buyBnsChangeNotifier) {
+    return InkWell(
+      onTap: () {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          buyBnsChangeNotifier.setSelectedBnsPriceIndex(index);
+        });
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+                color: selectedIndex == index
+                    ? Color(0xff0ba70f)
+                    : settingsStore.isDarkTheme
+                        ? Color(0xff3c3c51)
+                        : Color(0xffFFFFFF),
+                width: 2.0),
+            color: settingsStore.isDarkTheme
+                ? Color(0xff3c3c51)
+                : Color(0xffFFFFFF)),
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.only(bottom: 5, left: 8, right: 8),
+        child: Text(
+          bnsPriceDetailsListItem.year,
+          style: TextStyle(
+              color: settingsStore.isDarkTheme
+                  ? Color(0xffFFFFFF)
+                  : Color(0xff000000),
+              fontWeight: FontWeight.w500,
+              fontFamily: 'OpenSans'),
+        ),
+      ),
+    );
+  }
+
+  Widget bnsPurchaseOptions(
+      BnsPurchaseOptions bnsPurchaseOption, SettingsStore settingsStore, BuyBnsChangeNotifier buyBnsChangeNotifier, int index) {
+    return InkWell(
+      onTap: (){
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          buyBnsChangeNotifier.updateBnsPurchaseOptionsStatus(index, !buyBnsChangeNotifier.bnsPurchaseOptions[index].selected);
+         switch(index){
+           case 0:
+                  _walletAddressController.clear();
+                  break;
+           case 1:
+                  _bChatIdController.clear();
+                  break;
+           case 2:
+                  _belnetIdController.clear();
+                  break;
+           default:
+                  break;
+         }
+        });
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5),
+            border: Border.all(
+                color: bnsPurchaseOption.selected
+                    ? Color(0xff0ba70f)
+                    : settingsStore.isDarkTheme
+                        ? Color(0xff333343)
+                        : Color(0xffFFFFFF),
+                width: 1.0),
+            color: settingsStore.isDarkTheme
+                ? Color(0xff3c3c51)
+                : Color(0xffFFFFFF)),
+        padding: EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Theme(
+                data: Theme.of(context).copyWith(
+                  unselectedWidgetColor: Colors.green,
+                ),
+                child: SizedBox(
+                  width: 10,
+                  height: 10,
+                  child: Checkbox(
+                    value: bnsPurchaseOption.selected,
+                    onChanged: (bool value) {},
+                    checkColor: settingsStore.isDarkTheme
+                        ? Color(0xff3c3c51)
+                        : Color(0xffFFFFFF),
+                    activeColor: Colors.green,
+                  ),
+                )),
+            SizedBox(
+              width: 10,
+            ),
+            Text(
+              bnsPurchaseOption.title,
               style: TextStyle(
-                  color: Color(0xff0ba70f),
-                  fontWeight: FontWeight.w800,
-                  fontFamily: 'OpenSans'))
-        ],
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xffFFFFFF)
+                      : Color(0xff000000),
+                  fontWeight: FontWeight.w300,
+                  fontSize: 12.0,
+                  fontFamily: 'OpenSans'),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  Widget bnsPurchaseOptions(BnsPurchaseOptions bnsPurchaseOption, SettingsStore settingsStore) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          border: Border.all(
-              color: bnsPurchaseOption.selected
-                  ? Color(0xff0ba70f)
-                  : settingsStore.isDarkTheme
-                  ? Color(0xff333343)
-                  : Color(0xffFFFFFF),
-              width: 1.0),
-          color: settingsStore.isDarkTheme
-              ? Color(0xff3c3c51)
-              : Color(0xffFFFFFF)),
-      padding: EdgeInsets.all(10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Theme(
-              data: Theme.of(context).copyWith(
-                unselectedWidgetColor: Colors.green,
-              ),
-              child: SizedBox(
-                width: 10,
-                height: 10,
-                child: Checkbox(value: bnsPurchaseOption.selected, onChanged: (bool value) {  },checkColor: settingsStore.isDarkTheme
-                    ? Color(0xff3c3c51)
-                    : Color(0xffFFFFFF),activeColor: Colors.green,),
-              )),
-          SizedBox(width: 10,),
-          Text(
-            bnsPurchaseOption.title,
-            style: TextStyle(
-                color: settingsStore.isDarkTheme
-                    ? Color(0xffFFFFFF)
-                    : Color(0xff000000),
-                fontWeight: FontWeight.w300,
-                fontSize: 12.0,
-                fontFamily: 'OpenSans'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _startingBnsTransaction(SendStore sendStore, String owner, String backUpOwner, String mappingYears, String bchatId, String walletAddress, String belnetId, String bnsName) {
+  void _startingBnsTransaction(
+      SendStore sendStore,
+      String owner,
+      String backUpOwner,
+      String mappingYears,
+      String bchatId,
+      String walletAddress,
+      String belnetId,
+      String bnsName) {
     Navigator.push(
         context,
         MaterialPageRoute<void>(
@@ -632,14 +1005,12 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
 
     final sendStore = Provider.of<SendStore>(context);
 
-
     rDisposer = reaction((_) => sendStore.state, (SendingState state) {
       if (state is SendingFailed) {
         //WidgetsBinding.instance.addPostFrameCallback((_) {
         Wakelock.disable();
         Navigator.of(context).pop();
-        showSimpleBeldexDialog(
-            context, S.of(context).alert, state.error,
+        showSimpleBeldexDialog(context, S.of(context).alert, state.error,
             onPressed: (_) => Navigator.of(context).pop());
         //});
       }
@@ -675,7 +1046,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
         Wakelock.disable();
         Navigator.of(context).pop();
         showDialogTransactionSuccessfully(context, onPressed: (_) {
-         /* _addressController.text = '';
+          /* _addressController.text = '';
           _cryptoAmountController.text = '';*/
           Navigator.of(context)..pop()..pop();
         }, onDismiss: (_) {
@@ -686,77 +1057,5 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
     });
 
     _effectsInstalled = true;
-  }
-}
-
-class BnsPriceItem {
-  BnsPriceItem(this.id, this.year, this.amountOfBdx);
-
-  String id;
-  String year;
-  String amountOfBdx;
-}
-
-class BnsPurchaseOptions {
-  BnsPurchaseOptions(this.title, this.selected);
-
-  String title;
-  bool selected;
-}
-
-class CommitTransactionLoader extends StatelessWidget {
-  CommitTransactionLoader({Key key, this.sendStore}) : super(key: key);
-
-  final SendStore sendStore;
-
-
-  @override
-  Widget build(BuildContext context) {
-    final settingsStore = Provider.of<SettingsStore>(context);
-    final height = MediaQuery.of(context).size.height;
-    Wakelock.enable();
-    Future.delayed(const Duration(seconds: 1), () {
-      sendStore.commitTransaction();
-    });
-
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Center(
-          child: Scaffold(
-            body: Container(
-                color: settingsStore.isDarkTheme
-                    ? Color(0xff171720)
-                    : Color(0xffffffff),
-                width: double.infinity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      S.of(context).initiatingTransactionTitle,
-                      style: TextStyle(
-                          fontSize: height * 0.07 / 3,
-                          fontWeight: FontWeight.w800,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffEBEBEB)
-                              : Color(0xff222222)),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15.0, left:8.0,right:8.0),
-                      child: Text(
-                        S.of(context).initiatingTransactionDescription,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: height * 0.07 / 3,
-                            fontWeight: FontWeight.w700,
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xffEBEBEB)
-                                : Color(0xff222222)),
-                      ),
-                    )
-                  ],
-                )),
-          )),
-    );
   }
 }
