@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'bns_purchase_options.dart';
 
 class BuyBnsChangeNotifier extends ChangeNotifier{
+  bool _disposed = false;
   int selectedBnsPriceIndex = 3;
   bool bnsNameFieldIsValid = false;
   String bnsNameFieldErrorMessage = '';
@@ -70,5 +71,18 @@ class BuyBnsChangeNotifier extends ChangeNotifier{
   void setBelnetIdFieldErrorMessage(String errorMessage) {
     belnetIdFieldErrorMessage = errorMessage;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_disposed) {
+      super.notifyListeners();
+    }
   }
 }

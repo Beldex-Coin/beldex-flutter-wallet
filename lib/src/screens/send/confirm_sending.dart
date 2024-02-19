@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
+
 Future showSimpleConfirmDialog(
     BuildContext context, String title, String body, String fee, String address,
     {String buttonText,
@@ -17,12 +18,31 @@ Future showSimpleConfirmDialog(
       context: context);
 }
 
-Future showDialogTransactionSuccessfully(
-    BuildContext context, {
-    void Function(BuildContext context) onPressed,
+Future showDialogTransactionSuccessfully(BuildContext context,
+    {void Function(BuildContext context) onPressed,
     void Function(BuildContext context) onDismiss}) {
   return showDialog<void>(
-      builder: (_) => SendTransactionSuccessfully(onDismiss: onDismiss, onPressed: onPressed),
+      builder: (_) => SendTransactionSuccessfully(
+          onDismiss: onDismiss, onPressed: onPressed),
+      context: context);
+}
+
+Future showBnsConfirmationDialogBox(
+    BuildContext context,
+    String bnsName,
+    String mappingYearsId,
+    String mappingYears,
+    String owner,
+    String backUpOwner,
+    String walletAddress,
+    String bchatId,
+    String belnetId,
+    {void Function(BuildContext context) onPressed,
+    void Function(BuildContext context) onDismiss}) {
+  return showDialog<void>(
+      builder: (_) => BnsConfirmationDialogBox(bnsName, mappingYearsId,
+          mappingYears, owner, backUpOwner, walletAddress, bchatId, belnetId,
+          onDismiss: onDismiss, onPressed: onPressed),
       context: context);
 }
 
@@ -111,8 +131,9 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                   child: Text(
                                     'body',
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 )),
                                 Container(
@@ -143,8 +164,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text('Address'),
                                 Container(
@@ -186,8 +206,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                         child: Text(S.of(context).cancel,
                                             style: TextStyle(
                                                 fontSize: 15,
-                                                fontWeight:
-                                                    FontWeight.bold)))),
+                                                fontWeight: FontWeight.bold)))),
                               ),
                               SizedBox(width: 20),
                               Container(
@@ -300,8 +319,9 @@ class TransactionSendDetails extends StatelessWidget {
                                   child: Text(
                                     body,
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 )),
                                 Container(
@@ -332,8 +352,7 @@ class TransactionSendDetails extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(S.of(context).widgets_address),
                                 Container(
@@ -375,8 +394,7 @@ class TransactionSendDetails extends StatelessWidget {
                                         child: Text(S.of(context).cancel,
                                             style: TextStyle(
                                                 fontSize: 15,
-                                                fontWeight:
-                                                    FontWeight.bold)))),
+                                                fontWeight: FontWeight.bold)))),
                               ),
                               SizedBox(width: 20),
                               Container(
@@ -419,6 +437,7 @@ class SendTransactionSuccessfully extends StatefulWidget {
     this.onPressed,
     this.onDismiss,
   });
+
   final void Function(BuildContext context) onPressed;
   final void Function(BuildContext context) onDismiss;
 
@@ -479,14 +498,11 @@ class _SendTransactionSuccessfullyState
                             //     }
                             //   },
                             //   child:
-                              Container(
-                                child: Icon(
-                                  Icons.close,
-                                  size: 20,
-                                  color:Colors.transparent
-                                ),
-                              ),
-                           // )
+                            Container(
+                              child: Icon(Icons.close,
+                                  size: 20, color: Colors.transparent),
+                            ),
+                            // )
                           ],
                         ),
                         Container(
@@ -496,12 +512,12 @@ class _SendTransactionSuccessfullyState
                               shape: BoxShape.circle,
                             ),
                             child: Image.asset(
-                                'assets/images/new-images/send_1.gif',
-                                errorBuilder: (context,obj,stackTrace){
-                                  return Image.asset('assets/images/new-images/Sent.png');
-                                },
-                                )
-                            ),
+                              'assets/images/new-images/send_1.gif',
+                              errorBuilder: (context, obj, stackTrace) {
+                                return Image.asset(
+                                    'assets/images/new-images/Sent.png');
+                              },
+                            )),
                         Text(
                           S.of(context).transactionInitiatedSuccessfully,
                           style: TextStyle(
@@ -564,8 +580,9 @@ class ConfirmSending extends StatelessWidget {
                           : Colors.white, //Theme.of(context).backgroundColor,
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
-                   // height: MediaQuery.of(context).size.height * 1.4 / 3,
-                    padding: EdgeInsets.only(top: 15.0, left: 20, right: 20,bottom: 20),
+                    // height: MediaQuery.of(context).size.height * 1.4 / 3,
+                    padding: EdgeInsets.only(
+                        top: 15.0, left: 20, right: 20, bottom: 20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -600,8 +617,9 @@ class ConfirmSending extends StatelessWidget {
                                   child: Text(
                                     body,
                                     style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 )),
                                 Container(
@@ -633,9 +651,11 @@ class ConfirmSending extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text('${S.of(context).restore_address}:',style: TextStyle(fontWeight:FontWeight.bold)),
+                                Text('${S.of(context).restore_address}:',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
                                 Container(
-                                  margin: EdgeInsets.only(top:5,bottom:5),
+                                    margin: EdgeInsets.only(top: 5, bottom: 5),
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
                                         color: settingsStore.isDarkTheme
@@ -644,7 +664,10 @@ class ConfirmSending extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(10)),
                                     child: Text(address)),
-                                Text('Fee: $fee',style: TextStyle(fontWeight:FontWeight.bold),),
+                                Text(
+                                  'Fee: $fee',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
                               ],
                             )),
                         Container(
@@ -657,55 +680,54 @@ class ConfirmSending extends StatelessWidget {
                             // crossAxisAlignment: CrossAxisAlignment.end,
                             // mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                               Expanded(
-                                 child: ElevatedButton(
-                            onPressed: (){
-                                 if (onDismiss != null) {
-                                          onDismiss(context);
-                                        }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: settingsStore.isDarkTheme
-                                          ? Color(0xff383848)
-                                          : Color(0xffEDEDED),
-                              padding: EdgeInsets.all(12),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child:Text(S.of(context).cancel,
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
-                                                  fontWeight:
-                                                      FontWeight.bold))
-                          ),
-                               ),
-                               SizedBox(
-                                width: 10,
-                               ),
                               Expanded(
                                 child: ElevatedButton(
-                            onPressed: (){
-                                  if (onPressed != null) {
-                                          onPressed(context);
-                                        }
-                            },
-                            style: ElevatedButton.styleFrom(
-                                primary: Color(0xff0BA70F),
-                                padding: EdgeInsets.all(12),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                            ),
-                            child:Text(
-                                        S.of(context).ok,
+                                    onPressed: () {
+                                      if (onDismiss != null) {
+                                        onDismiss(context);
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: settingsStore.isDarkTheme
+                                          ? Color(0xff383848)
+                                          : Color(0xffEDEDED),
+                                      padding: EdgeInsets.all(12),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: Text(S.of(context).cancel,
                                         style: TextStyle(
                                             fontSize: 15,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      )
-                          ),
+                                            color: settingsStore.isDarkTheme
+                                                ? Colors.white
+                                                : Colors.black,
+                                            fontWeight: FontWeight.bold))),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      if (onPressed != null) {
+                                        onPressed(context);
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: Color(0xff0BA70F),
+                                      padding: EdgeInsets.all(12),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      S.of(context).ok,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    )),
                               ),
                               // Container(
                               //   height: 45,
@@ -755,6 +777,350 @@ class ConfirmSending extends StatelessWidget {
                         )
                       ],
                     ),
+                  )),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BnsConfirmationDialogBox extends StatelessWidget {
+  const BnsConfirmationDialogBox(
+    this.bnsName,
+    this.mappingYearsId,
+    this.mappingYears,
+    this.owner,
+    this.backUpOwner,
+    this.walletAddress,
+    this.bchatId,
+    this.belnetId, {
+    this.onPressed,
+    this.onDismiss,
+  });
+
+  final String bnsName;
+  final String mappingYearsId;
+  final String mappingYears;
+  final String owner;
+  final String backUpOwner;
+  final String walletAddress;
+  final String bchatId;
+  final String belnetId;
+  final void Function(BuildContext context) onPressed;
+  final void Function(BuildContext context) onDismiss;
+
+  @override
+  Widget build(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
+    return Container(
+      color: Colors.transparent,
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+        child: Container(
+          margin: EdgeInsets.all(15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  padding: EdgeInsets.only(
+                      top: 15.0, left: 20, right: 20, bottom: 20),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff272733)
+                          : Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: Text('Confirm Purchase',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w800)),
+                      ),
+                      Container(
+                          padding: EdgeInsets.all(10),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff383848)
+                                  : Color(0xffEDEDED)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Name',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Text(
+                                    bnsName,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Color(0xff0ba70f),
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff444463)
+                                    : Color(0xffc9c9c9),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Year',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Text(
+                                    mappingYears,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xffFFFFFF)
+                                          : Color(0xff222222),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff444463)
+                                    : Color(0xffc9c9c9),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Owner',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Text(
+                                    owner.isNotEmpty ? owner : 'None',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff7D7D9c),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff444463)
+                                    : Color(0xffc9c9c9),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Backup Owner',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Text(
+                                    backUpOwner.isNotEmpty
+                                        ? backUpOwner
+                                        : 'None',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff7D7D9c),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                      Container(
+                          margin: EdgeInsets.only(top: 15),
+                          padding: EdgeInsets.all(10),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff383848)
+                                  : Color(0xffEDEDED)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Address',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Text(
+                                    walletAddress.isNotEmpty
+                                        ? walletAddress
+                                        : 'None',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff7D7D9c),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff444463)
+                                    : Color(0xffc9c9c9),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'BChat ID',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Text(
+                                    bchatId.isNotEmpty ? bchatId : 'None',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff7D7D9c),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff444463)
+                                    : Color(0xffc9c9c9),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Belnet ID',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Text(
+                                    belnetId.isNotEmpty ? belnetId : 'None',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Color(0xff7D7D9c),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.10 / 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    if (onDismiss != null) {
+                                      onDismiss(context);
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: settingsStore.isDarkTheme
+                                        ? Color(0xff383848)
+                                        : Color(0xffEDEDED),
+                                    padding: EdgeInsets.all(12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: Text(S.of(context).cancel,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: settingsStore.isDarkTheme
+                                              ? Colors.white
+                                              : Colors.black,
+                                          fontWeight: FontWeight.bold))),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    if (onPressed != null) {
+                                      onPressed(context);
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Color(0xff0BA70F),
+                                    padding: EdgeInsets.all(12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    S.of(context).ok,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  )),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   )),
             ],
           ),

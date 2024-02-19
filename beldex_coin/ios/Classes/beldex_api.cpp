@@ -138,6 +138,7 @@ extern "C"
         char *paymentId;
 
         int64_t datetime;
+        int8_t isBns;
 
         TransactionInfoRow(Beldex::TransactionInfo *transaction)
         {
@@ -152,6 +153,7 @@ extern "C"
             std::string *hash_str = new std::string(transaction->hash());
             hash = strdup(hash_str->c_str());
             paymentId = strdup(transaction->paymentId().c_str());
+            isBns = static_cast<int8_t>(transaction->isBns());
         }
     };
 

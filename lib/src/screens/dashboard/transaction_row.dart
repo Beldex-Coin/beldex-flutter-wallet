@@ -19,6 +19,7 @@ class TransactionRow extends StatelessWidget {
     this.isPending,
     @required this.onTap,
     this.transaction,
+    this.isBns,
     //this.isStake
   });
 
@@ -32,6 +33,7 @@ class TransactionRow extends StatelessWidget {
 
   final TransactionInfo transaction;
   // final bool isStake;
+  final bool isBns;
 
   void _launchUrl(String url) async {
     if (await canLaunch(url)) await launch(url);
@@ -79,7 +81,11 @@ class TransactionRow extends StatelessWidget {
                                         : Colors.red,
                                     //fit:BoxFit.cover
                                   )
-                                : Padding(
+                                : isBns==true ? SvgPicture.asset(
+                              'assets/images/new-images/ic_bns_dark.svg',
+                              color: Color(0xffAFAFBE),
+                              //fit:BoxFit.cover
+                            ) : Padding(
                                     padding: EdgeInsets.all(5),
                                     child: SvgPicture.asset(
                                       'assets/images/new-images/outgoing_red.svg',
