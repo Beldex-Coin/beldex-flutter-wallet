@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -37,11 +38,12 @@ Future showBnsConfirmationDialogBox(
     String walletAddress,
     String bchatId,
     String belnetId,
+    WalletStore walletStore,
     {void Function(BuildContext context) onPressed,
     void Function(BuildContext context) onDismiss}) {
   return showDialog<void>(
       builder: (_) => BnsConfirmationDialogBox(bnsName, mappingYearsId,
-          mappingYears, owner, backUpOwner, walletAddress, bchatId, belnetId,
+          mappingYears, owner, backUpOwner, walletAddress, bchatId, belnetId, walletStore,
           onDismiss: onDismiss, onPressed: onPressed),
       context: context);
 }
@@ -795,7 +797,8 @@ class BnsConfirmationDialogBox extends StatelessWidget {
     this.backUpOwner,
     this.walletAddress,
     this.bchatId,
-    this.belnetId, {
+    this.belnetId,
+    this.walletStore, {
     this.onPressed,
     this.onDismiss,
   });
@@ -808,6 +811,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
   final String walletAddress;
   final String bchatId;
   final String belnetId;
+  final WalletStore walletStore;
   final void Function(BuildContext context) onPressed;
   final void Function(BuildContext context) onDismiss;
 
@@ -858,7 +862,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Name',
+                                    'Name ',
                                     style: TextStyle(
                                         fontSize: 13,
                                         color: settingsStore.isDarkTheme
@@ -866,12 +870,14 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                             : Color(0xff222222),
                                         fontWeight: FontWeight.w400),
                                   ),
-                                  Text(
-                                    bnsName,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: Color(0xff0ba70f),
-                                      fontWeight: FontWeight.w800,
+                                  Flexible(
+                                    child: Text(
+                                      bnsName,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color(0xff0ba70f),
+                                        fontWeight: FontWeight.w800,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -925,7 +931,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                         fontWeight: FontWeight.w400),
                                   ),
                                   Text(
-                                    owner.isNotEmpty ? owner : 'None',
+                                    owner.isNotEmpty ? owner : walletStore.subaddress.address,
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Color(0xff7D7D9c),

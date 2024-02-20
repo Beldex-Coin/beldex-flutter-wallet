@@ -142,7 +142,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             Consumer<BuyBnsChangeNotifier>(
                 builder: (context, buyBnsChangeNotifier, child) {
               return buyBns(settingsStore, bnsPriceDetailsList, sendStore,
-                  syncStore, buyBnsChangeNotifier);
+                  syncStore, buyBnsChangeNotifier,walletStore);
             }),
             myBns(sendStore, settingsStore,syncStore)
           ],
@@ -215,7 +215,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                       child: TextFormField(
                         controller: _decryptRecordController,
                         style: TextStyle(fontSize: 14.0),
-                        maxLength: 64,
+                        maxLength: 32,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(RegExp(
                               '[a-z0-9-]')),
@@ -273,7 +273,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                                 color: Color(0xff00AD07),
                                 borderRadius: BorderRadius.circular(10)),
                             child: Text(
-                              'Decrypt',
+                              'Add BNS',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 17,
@@ -319,7 +319,64 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                                     : Color(0xffFFFFFF),
                                 borderRadius: BorderRadius.circular(10)),
                             child: ExpansionTile(
-                              title: Column(
+                              title: bnsDetails.name != '(none)' ? Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Name : ',
+                                        style: TextStyle(
+                                            color: settingsStore.isDarkTheme
+                                                ? Color(0xffFFFFFF)
+                                                : Color(0xff222222),
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w800),
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                          bnsDetails.name,
+                                          style: TextStyle(
+                                            color: settingsStore.isDarkTheme
+                                                ? Color(0xffD1D1D3)
+                                                : Color(0xff77778B),
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400,),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Expiration Height : ',
+                                        style: TextStyle(
+                                            color: settingsStore.isDarkTheme
+                                                ? Color(0xffFFFFFF)
+                                                : Color(0xff222222),
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w800),
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                          bnsDetails.expirationHeight
+                                              .toString(),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            color: settingsStore.isDarkTheme
+                                                ? Color(0xffFFFFFF)
+                                                : Color(0xff77778B),
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400,),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ) :Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -454,112 +511,305 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                                 Divider(
                                   color: settingsStore.isDarkTheme ? Color(0xff484856) : Color(0xffDADADA),
                                 ),
-                                //Encrypted Address Value
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                        left: 16, right: 16),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .start,
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
-                                      children: [
-                                        Text(
-                                          'Encrypted Address Value',
-                                          style: TextStyle(
+                                //Backup Owner
+                                Visibility(
+                                  visible: bnsDetails.backUpOwner != '(none)',
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                            'Backup Owner',
+                                            style: TextStyle(
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffFFFFFF)
+                                                    : Color(0xff222222),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            bnsDetails.backUpOwner,
+                                            style: TextStyle(
                                               color: settingsStore.isDarkTheme
-                                                  ? Color(0xffFFFFFF)
-                                                  : Color(0xff222222),
+                                                  ? Color(0xffD1D1D3)
+                                                  : Color(0xff77778B),
                                               fontSize: 13,
-                                              fontWeight: FontWeight.w800),
-                                        ),
-                                        Text(
-                                          bnsDetails.encryptedWalletValue,
-                                          style: TextStyle(
-                                            color: settingsStore.isDarkTheme
-                                                ? Color(0xffD1D1D3)
-                                                : Color(0xff77778B),
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,),
-                                        ),
-                                      ],
+                                              fontWeight: FontWeight.w400,),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                                Divider(
-                                  color: settingsStore.isDarkTheme ? Color(0xff484856) : Color(0xffDADADA),
+                                Visibility(
+                                  visible: bnsDetails.backUpOwner != '(none)',
+                                  child: Divider(
+                                    color: settingsStore.isDarkTheme ? Color(0xff484856) : Color(0xffDADADA),
+                                  ),
+                                ),
+                                //Encrypted Address Value
+                                Visibility(
+                                  visible: bnsDetails.name == '(none)' && bnsDetails.encryptedWalletValue != '(none)',
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                            'Encrypted Address Value',
+                                            style: TextStyle(
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffFFFFFF)
+                                                    : Color(0xff222222),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            bnsDetails.encryptedWalletValue,
+                                            style: TextStyle(
+                                              color: settingsStore.isDarkTheme
+                                                  ? Color(0xffD1D1D3)
+                                                  : Color(0xff77778B),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: bnsDetails.name == '(none)' && bnsDetails.encryptedWalletValue != '(none)',
+                                  child: Divider(
+                                    color: settingsStore.isDarkTheme ? Color(0xff484856) : Color(0xffDADADA),
+                                  ),
                                 ),
                                 //Encrypted BChat ID Value
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                        left: 16, right: 16),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .start,
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
-                                      children: [
-                                        Text(
-                                          'Encrypted BChat Value',
-                                          style: TextStyle(
+                                Visibility(
+                                  visible: bnsDetails.name == '(none)' && bnsDetails.encryptedBchatValue != '(none)',
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                            'Encrypted BChat Value',
+                                            style: TextStyle(
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffFFFFFF)
+                                                    : Color(0xff222222),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            bnsDetails.encryptedBchatValue,
+                                            style: TextStyle(
                                               color: settingsStore.isDarkTheme
-                                                  ? Color(0xffFFFFFF)
-                                                  : Color(0xff222222),
+                                                  ? Color(0xffD1D1D3)
+                                                  : Color(0xff77778B),
                                               fontSize: 13,
-                                              fontWeight: FontWeight.w800),
-                                        ),
-                                        Text(
-                                          bnsDetails.encryptedBchatValue,
-                                          style: TextStyle(
-                                            color: settingsStore.isDarkTheme
-                                                ? Color(0xffD1D1D3)
-                                                : Color(0xff77778B),
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,),
-                                        ),
-                                      ],
+                                              fontWeight: FontWeight.w400,),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                                Divider(
-                                  color: settingsStore.isDarkTheme ? Color(0xff484856) : Color(0xffDADADA),
+                                Visibility(
+                                  visible: bnsDetails.name == '(none)' && bnsDetails.encryptedBchatValue != '(none)',
+                                  child: Divider(
+                                    color: settingsStore.isDarkTheme ? Color(0xff484856) : Color(0xffDADADA),
+                                  ),
                                 ),
                                 //Encrypted Belnet ID Value
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    margin: EdgeInsets.only(
-                                        left: 16, right: 16),
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment
-                                          .start,
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .start,
-                                      children: [
-                                        Text(
-                                          'Encrypted Belnet Value',
-                                          style: TextStyle(
+                                Visibility(
+                                  visible: bnsDetails.name == '(none)' && bnsDetails.encryptedBelnetValue != '(none)',
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                            'Encrypted Belnet Value',
+                                            style: TextStyle(
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffFFFFFF)
+                                                    : Color(0xff222222),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            bnsDetails.encryptedBelnetValue,
+                                            style: TextStyle(
                                               color: settingsStore.isDarkTheme
-                                                  ? Color(0xffFFFFFF)
-                                                  : Color(0xff222222),
+                                                  ? Color(0xffD1D1D3)
+                                                  : Color(0xff77778B),
                                               fontSize: 13,
-                                              fontWeight: FontWeight.w800),
-                                        ),
-                                        Text(
-                                          bnsDetails.encryptedBelnetValue,
-                                          style: TextStyle(
-                                            color: settingsStore.isDarkTheme
-                                                ? Color(0xffD1D1D3)
-                                                : Color(0xff77778B),
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w400,),
-                                        ),
-                                      ],
+                                              fontWeight: FontWeight.w400,),
+                                          ),
+                                        ],
+                                      ),
                                     ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: bnsDetails.name == '(none)' && bnsDetails.encryptedBelnetValue != '(none)',
+                                  child: Divider(
+                                    color: settingsStore.isDarkTheme ? Color(0xff484856) : Color(0xffDADADA),
+                                  ),
+                                ),
+                                //Address Value
+                                Visibility(
+                                  visible: bnsDetails.valueWallet != '(none)',
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                            'Address',
+                                            style: TextStyle(
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffFFFFFF)
+                                                    : Color(0xff222222),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            bnsDetails.valueWallet,
+                                            style: TextStyle(
+                                              color: settingsStore.isDarkTheme
+                                                  ? Color(0xffD1D1D3)
+                                                  : Color(0xff77778B),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: bnsDetails.valueWallet != '(none)',
+                                  child: Divider(
+                                    color: settingsStore.isDarkTheme ? Color(0xff484856) : Color(0xffDADADA),
+                                  ),
+                                ),
+                                //BChat Id Value
+                                Visibility(
+                                  visible: bnsDetails.valueBchat != '(none)',
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                            'BChat ID',
+                                            style: TextStyle(
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffFFFFFF)
+                                                    : Color(0xff222222),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            bnsDetails.valueBchat,
+                                            style: TextStyle(
+                                              color: settingsStore.isDarkTheme
+                                                  ? Color(0xffD1D1D3)
+                                                  : Color(0xff77778B),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: bnsDetails.valueBchat != '(none)',
+                                  child: Divider(
+                                    color: settingsStore.isDarkTheme ? Color(0xff484856) : Color(0xffDADADA),
+                                  ),
+                                ),
+                                //Belnet Id Value
+                                Visibility(
+                                  visible: bnsDetails.valueBelnet != '(none)',
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                            'Belnet ID',
+                                            style: TextStyle(
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffFFFFFF)
+                                                    : Color(0xff222222),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            bnsDetails.valueBelnet,
+                                            style: TextStyle(
+                                              color: settingsStore.isDarkTheme
+                                                  ? Color(0xffD1D1D3)
+                                                  : Color(0xff77778B),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: bnsDetails.valueBelnet != '(none)',
+                                  child: Divider(
+                                    color: settingsStore.isDarkTheme ? Color(0xff484856) : Color(0xffDADADA),
                                   ),
                                 ),
                               ],
@@ -623,7 +873,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
       List<BnsPriceItem> bnsPriceDetailsList,
       SendStore sendStore,
       SyncStore syncStore,
-      BuyBnsChangeNotifier buyBnsChangeNotifier) {
+      BuyBnsChangeNotifier buyBnsChangeNotifier, WalletStore walletStore) {
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.of(context).size.width,
@@ -786,7 +1036,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
               child: TextFormField(
                 controller: _bnsNameController,
                 style: TextStyle(fontSize: 14.0),
-                maxLength: 64,
+                maxLength: 32,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp('[a-z0-9-]')),
                   FilteringTextInputFormatter.deny(RegExp('[,. ]'))
@@ -1159,7 +1409,8 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                             _bChatIdController.text,
                             _belnetIdController.text.isNotEmpty
                                 ? '${_belnetIdController.text}.bdx'
-                                : _belnetIdController.text);
+                                : _belnetIdController.text,
+                        walletStore);
                       }
                     : null,
                 child: Container(
@@ -1570,7 +1821,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
       String backupOwner,
       String walletAddress,
       String bchatId,
-      String belnetId) {
+      String belnetId, WalletStore walletStore) {
     showBnsConfirmationDialogBox(
         context,
         bnsName,
@@ -1580,7 +1831,8 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
         backupOwner,
         walletAddress,
         bchatId,
-        belnetId, onPressed: (_) async {
+        belnetId,
+        walletStore, onPressed: (_) async {
       Navigator.of(context).pop();
       await Navigator.of(context).pushNamed(Routes.auth, arguments:
           (bool isAuthenticatedSuccessfully, AuthPageState auth) async {

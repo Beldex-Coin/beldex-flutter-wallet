@@ -129,7 +129,7 @@ abstract class SendStoreBase with Store {
       _pendingTransaction = await walletService.createBnsTransaction(credentials);
       state = TransactionCreatedSuccessfully();
       print('createBnsTransaction state try --> $state');
-      _lastRecipientAddress = '';
+      _lastRecipientAddress = bnsName;
       print('createBnsTransaction _lastRecipientAddress $_lastRecipientAddress');
     } catch (e) {
       state = SendingFailed(error: e.toString());

@@ -581,8 +581,13 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                               return SizedBox(
                                 height: MediaQuery.of(context).size.height*0.20/3,
                                 child: ElevatedButton.icon(
-                                  icon: SvgPicture.asset(
+                                  icon: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 ? SvgPicture.asset(
                                     settingsStore.isDarkTheme?'assets/images/new-images/ic_bns_dark.svg':'assets/images/new-images/ic_bns_light.svg',
+                                  ) : SvgPicture.asset(
+                                    'assets/images/new-images/ic_bns_dark.svg',
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff6C6C78)
+                                        : Color(0xffB2B2B6),
                                   ),
                                   onPressed: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                       ? () {
@@ -616,7 +621,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                     padding: EdgeInsets.all(12),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
-                                      side: BorderSide(color: Color(0xff2979FB))
+                                      side: BorderSide(color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 ? Color(0xff2979FB):settingsStore.isDarkTheme
+                                          ? Color(0xff333343)
+                                          : Color(0xffE8E8E8))
                                     ),
                                   ),
                                 ),
