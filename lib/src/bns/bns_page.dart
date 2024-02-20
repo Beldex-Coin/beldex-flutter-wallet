@@ -215,7 +215,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                       child: TextFormField(
                         controller: _decryptRecordController,
                         style: TextStyle(fontSize: 14.0),
-                        maxLength: 32,
+                        maxLength: _decryptRecordController.text.contains('-') ? 63 : 32,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(RegExp(
                               '[a-z0-9-]')),
@@ -1036,7 +1036,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
               child: TextFormField(
                 controller: _bnsNameController,
                 style: TextStyle(fontSize: 14.0),
-                maxLength: 32,
+                maxLength: _bnsNameController.text.contains('-') ? 63 : 32,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp('[a-z0-9-]')),
                   FilteringTextInputFormatter.deny(RegExp('[,. ]'))
