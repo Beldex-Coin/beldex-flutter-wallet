@@ -49,7 +49,7 @@ class AddressTextField extends StatelessWidget {
       controller: controller,
       focusNode: focusNode,
       inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9.]')),
       ],
       suffixIcon: Padding(
           padding: EdgeInsets.only(right: 5),

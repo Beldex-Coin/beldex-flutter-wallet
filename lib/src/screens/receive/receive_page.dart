@@ -1006,6 +1006,7 @@ class NewBeldexTextField extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(left: 25.0),
         child: TextFormField(
+          maxLength: 15,
           onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
           enabled: enabled,
           controller: controller,
@@ -1028,7 +1029,8 @@ class NewBeldexTextField extends StatelessWidget {
                       : Color(0xff6F6F6F),
                   fontWeight: FontWeight.w600),
               hintText: hintText,
-              errorStyle: TextStyle(color: BeldexPalette.red)),
+              errorStyle: TextStyle(color: BeldexPalette.red),
+              counterText: ''),
           validator: validator,
           onChanged: onChanged,
         ),

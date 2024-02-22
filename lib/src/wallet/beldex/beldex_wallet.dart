@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_transaction_creation_credentials.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:beldex_coin/stake.dart' as beldex_stake;
@@ -320,6 +321,26 @@ class BelDexWallet extends Wallet {
         priorityRaw: _credentials.priority.serialize(),
         accountIndex: _account.value.id);
     print('transaction created');
+
+    return PendingTransaction.fromTransactionDescription(
+        transactionDescription);
+  }
+
+  @override
+  Future<PendingTransaction> createBnsTransaction(
+      TransactionCreationCredentials credentials) async {
+    final _credentials = credentials as BeldexBnsTransactionCreationCredentials;
+    final transactionDescription = await transaction_history.createBnsTransaction(
+        owner: _credentials.owner,
+        backUpOwner: _credentials.backUpOwner,
+        mappingYears: _credentials.mappingYears,
+        bchatId: _credentials.bchatId,
+        walletAddress: _credentials.walletAddress,
+        belnetId: _credentials.belnetId,
+        bnsName: _credentials.bnsName,
+        priorityRaw: _credentials.priority.serialize(),
+        accountIndex: _account.value.id);
+    print('bns transaction created');
 
     return PendingTransaction.fromTransactionDescription(
         transactionDescription);

@@ -343,6 +343,7 @@ class TransactionDetailsListBodyState
                         isPending: transaction.isPending,
                         transaction: transaction,
                         //isStake: transaction.isStake,
+                        isBns:transaction.isBns,
                       );
                     }
 

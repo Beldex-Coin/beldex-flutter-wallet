@@ -1,3 +1,5 @@
+import 'package:beldex_wallet/src/bns/bns_page.dart';
+import 'package:beldex_wallet/src/bns/buy_bns_change_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -521,6 +523,32 @@ class Router {
                           priceStore: priceStore,
                           transactionDescriptions: transactionDescriptions)),
                 ], child: NewStakePage());});
+
+      case Routes.bns:
+        return MaterialPageRoute<void>(
+            fullscreenDialog: true,
+            builder: (_) {
+              return MultiProvider(
+                  providers: [
+                    ProxyProvider<SettingsStore, BalanceStore>(
+                      update: (_, settingsStore, __) => BalanceStore(
+                          walletService: walletService,
+                          settingsStore: settingsStore,
+                          priceStore: priceStore),
+                    ),
+                    Provider(
+                      create: (_) => SyncStore(walletService: walletService),
+                    ),
+                    Provider(
+                        create: (_) => SendStore(
+                            walletService: walletService,
+                            priceStore: priceStore,
+                            transactionDescriptions:
+                            transactionDescriptions)),
+                    ChangeNotifierProvider<BuyBnsChangeNotifier>(create: (_) => BuyBnsChangeNotifier())
+                  ],
+                  child: BnsPage());
+            });
 
       default:
         return MaterialPageRoute<void>(
