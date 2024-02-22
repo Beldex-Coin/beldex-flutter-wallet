@@ -1768,7 +1768,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
         print('transactionDescription fee --> created');
         Wakelock.disable();
         Navigator.of(context).pop();
-        showSimpleBnsConfirmDialog(
+        showSimpleConfirmDialog(
             context,
             S.of(context).confirm_sending,
             sendStore.pendingTransaction.amount,
