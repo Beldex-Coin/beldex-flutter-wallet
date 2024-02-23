@@ -101,6 +101,19 @@ typedef transaction_create = Int8 Function(
     Pointer<Utf8Box> error,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
+typedef bns_buy = Int8 Function(
+    Pointer<Utf8> owner,
+    Pointer<Utf8> backUpOwner,
+    Pointer<Utf8> mappingYears,
+    Pointer<Utf8> bchatId,
+    Pointer<Utf8> walletAddress,
+    Pointer<Utf8> belnetId,
+    Pointer<Utf8> bnsName,
+    Int8 priorityRaw,
+    Int32 subaddrAccount,
+    Pointer<Utf8Box> error,
+    Pointer<PendingTransactionRaw> pendingTransaction);
+
 typedef transaction_commit = Int8 Function(
     Pointer<PendingTransactionRaw>, Pointer<Utf8Box>);
 
@@ -110,6 +123,10 @@ typedef stake_count = Int32 Function();
 
 typedef stake_get_all = Pointer<Int64> Function();
 
+typedef bns_count = Int32 Function();
+
+typedef bns_get_all = Pointer<Int64> Function();
+
 typedef stake_create = Int8 Function(
     Pointer<Utf8> masterNodeKey,
     Pointer<Utf8> amount,
@@ -117,6 +134,8 @@ typedef stake_create = Int8 Function(
     Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef can_request_unstake = Int8 Function(Pointer<Utf8> masterNodeKey);
+
+typedef bns_set_record = Int8 Function(Pointer<Utf8> name);
 
 typedef submit_stake_unlock = Int8 Function(Pointer<Utf8> masterNodeKey,
     Pointer<Utf8Box> error, Pointer<PendingTransactionRaw> pendingTransaction);

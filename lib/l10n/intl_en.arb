@@ -428,5 +428,7 @@
   "initiatingTransactionTitle" : "Initiating Transaction..",
   "initiatingTransactionDescription" : "Please don't close this window or navigate to another app until the transaction gets initiated",
   "subAddresses": "Sub Addresses",
-  "loadingTheWalletDescription": "Please don't close this window or navigate to another app until we load the wallet"
+  "loadingTheWalletDescription": "Please don't close this window or navigate to another app until we load the wallet",
+  "buyBns": "Buy BNS",
+  "bns": "BNS"
 }

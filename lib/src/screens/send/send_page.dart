@@ -123,7 +123,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   }
 
   bool getAddressBasicValidation(String value) {
-    final pattern = RegExp(r'^[a-zA-Z0-9]+$');
+    final pattern = RegExp(r'^[a-zA-Z0-9.]+$');
     if (!pattern.hasMatch(value)) {
       return false;
     } else {
@@ -354,7 +354,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           });
                           return null;
                         } else {
-                          final alphanumericRegex = RegExp(r'^[a-zA-Z0-9]+$');
+                          final alphanumericRegex = RegExp(r'^[a-zA-Z0-9.]+$');
 
                           if (!alphanumericRegex.hasMatch(value)) {
                             setState(() {
@@ -364,8 +364,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                             return;
                           } else {
                             if (getAddressBasicValidation(value)) {
-                              sendStore.validateAddress(value,
-                                  cryptoCurrency: CryptoCurrency.bdx);
+                              /*sendStore.validateAddress(value, cryptoCurrency: CryptoCurrency.bdx);
                               if (sendStore.errorMessage != null) {
                                 setState(() {
                                   addressValidation = true;
@@ -378,6 +377,11 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                   addressErrorMessage = '';
                                 });
                               }
+                              return null;*/
+                              setState(() {
+                                addressValidation = false;
+                                addressErrorMessage = '';
+                              });
                               return null;
                             } else {
                               setState(() {});
@@ -443,6 +447,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       .caption
                                       .color),
                               controller: _cryptoAmountController,
+                              maxLength: 15,
                               keyboardType: TextInputType.numberWithOptions(
                                   signed: false, decimal: true),
                               inputFormatters: [
@@ -467,7 +472,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       color: Colors.grey.withOpacity(0.6)),
                                   hintText: S.of(context).enterAmount,
                                   errorStyle:
-                                  TextStyle(color: BeldexPalette.red)),
+                                  TextStyle(color: BeldexPalette.red),
+                                  counterText: ''),
                               onTap: (){
                                 isFlashMap = false;
                               },
