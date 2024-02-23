@@ -641,6 +641,7 @@ class ConfirmSending extends StatelessWidget {
                               ],
                             )),
                         Container(
+                            width: MediaQuery.of(context).size.width,
                             margin: EdgeInsets.only(top: 10),
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
@@ -657,6 +658,7 @@ class ConfirmSending extends StatelessWidget {
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold)),
                                 Container(
+                                    width: MediaQuery.of(context).size.width,
                                     margin: EdgeInsets.only(top: 5, bottom: 5),
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
