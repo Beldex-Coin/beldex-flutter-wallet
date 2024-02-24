@@ -1448,6 +1448,10 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
           validateBnsName(_bnsNameController.text, buyBnsChangeNotifier);
         });
         isValid = false;
+      } else if (_bnsNameController.text.isNotEmpty && _bnsNameController.text.characters.first == '-') {
+        isValid = false;
+      } else if (_bnsNameController.text.isNotEmpty && _bnsNameController.text.characters.last == '-') {
+        isValid = false;
       } else if (!buyBnsChangeNotifier.bnsPurchaseOptions[0].selected &&
           !buyBnsChangeNotifier.bnsPurchaseOptions[1].selected &&
           !buyBnsChangeNotifier.bnsPurchaseOptions[2].selected) {
