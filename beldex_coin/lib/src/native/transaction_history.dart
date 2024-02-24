@@ -40,6 +40,10 @@ final bnsSetRecordNative = beldexApi
     .lookup<NativeFunction<bns_set_record>>('bns_set_record')
     .asFunction<BnsSetRecord>();
 
+final getNameToNameHashNative = beldexApi
+    .lookup<NativeFunction<get_names_to_namehash>>('get_names_to_namehash')
+    .asFunction<GetNameToNameHash>();
+
 final transactionCommitNative = beldexApi
     .lookup<NativeFunction<transaction_commit>>('transaction_commit')
     .asFunction<TransactionCommit>();

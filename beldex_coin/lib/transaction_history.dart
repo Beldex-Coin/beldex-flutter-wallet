@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ffi';
 
 import 'package:beldex_coin/src/structs/bns_info_row.dart';
+import 'package:beldex_coin/src/util/convert_utf8_to_string.dart';
 import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
@@ -119,4 +120,16 @@ bool bnsSetRecord(String bnsName) {
   final bnsNamePointer = Utf8.toUtf8(bnsName);
   return transaction_history.bnsSetRecordNative(bnsNamePointer) != 0;
 }
+
+String _getNameToNameHashSync(String name) {
+  final namePointer = Utf8.toUtf8(name);
+  final nameHash = convertUTF8ToString(pointer: transaction_history.getNameToNameHashNative(namePointer));
+
+  free(namePointer);
+
+  return nameHash;
+}
+
+Future<String> getNameToNameHash(String name) =>
+    compute<String, String>(_getNameToNameHashSync, name);
 

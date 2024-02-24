@@ -751,6 +751,12 @@ extern "C"
     }
 
     EXPORT
+    char *get_names_to_namehash(char *name)
+    {
+        return strdup(m_wallet->nameToNamehash(std::string(name)).c_str());
+    }
+
+    EXPORT
     bool transaction_commit(PendingTransactionRaw *transaction, Utf8Box &error)
     {
         bool committed = transaction->transaction->commit();
