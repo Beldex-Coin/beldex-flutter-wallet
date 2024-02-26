@@ -101,6 +101,23 @@ Future<PendingTransactionDescription> createBnsTransaction(
       'accountIndex': accountIndex
     });
 
+PendingTransactionDescription _createSweepAllTransactionSync(Map args) {
+  final priorityRaw = args['priorityRaw'] as int;
+  final accountIndex = args['accountIndex'] as int;
+
+  return transaction_history.createSweepAllTransactionSync(
+      priorityRaw: priorityRaw,
+      accountIndex: accountIndex);
+}
+
+Future<PendingTransactionDescription> createSweepAllTransaction(
+    {int priorityRaw,
+      int accountIndex = 0}) =>
+    compute(_createSweepAllTransactionSync, {
+      'priorityRaw': priorityRaw,
+      'accountIndex': accountIndex
+    });
+
 int countOfBnsTransactions() => transaction_history.bnsCountNative();
 
 List<BnsRow> _getAllBnsSync(int _) {

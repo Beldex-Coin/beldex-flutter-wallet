@@ -28,6 +28,10 @@ final bnsTransactionCreateNative = beldexApi
     .lookup<NativeFunction<bns_buy>>('bns_buy')
     .asFunction<BnsBuy>();
 
+final sweepAllTransactionCreateNative = beldexApi
+    .lookup<NativeFunction<create_sweep_all_transaction>>('create_sweep_all_transaction')
+    .asFunction<CreateSweepAllTransaction>();
+
 final bnsCountNative = beldexApi
     .lookup<NativeFunction<bns_count>>('bns_count')
     .asFunction<BnsCount>();
@@ -131,6 +135,30 @@ PendingTransactionDescription createBnsTransactionSync(
   free(walletAddressPointer);
   free(belnetIdPointer);
   free(bnsNamePointer);
+
+  if (!created) {
+    final message = errorMessagePointer.ref.getValue();
+    free(errorMessagePointer);
+    throw CreationTransactionException(message: message);
+  }
+
+  return PendingTransactionDescription(
+      amount: pendingTransactionRawPointer.ref.amount,
+      fee: pendingTransactionRawPointer.ref.fee,
+      hash: pendingTransactionRawPointer.ref.getHash(),
+      pointerAddress: pendingTransactionRawPointer.address);
+}
+
+PendingTransactionDescription createSweepAllTransactionSync(
+    {int priorityRaw, int accountIndex = 0}) {
+  final errorMessagePointer = allocate<Utf8Box>();
+  final pendingTransactionRawPointer = allocate<PendingTransactionRaw>();
+  final created = sweepAllTransactionCreateNative(
+      priorityRaw,
+      accountIndex,
+      errorMessagePointer,
+      pendingTransactionRawPointer) !=
+      0;
 
   if (!created) {
     final message = errorMessagePointer.ref.getValue();
