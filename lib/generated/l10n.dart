@@ -1215,10 +1215,10 @@ class S {
     );
   }
 
-  /// `Beldex address`
+  /// `Beldex address or BNS name`
   String get send_beldex_address {
     return Intl.message(
-      'Beldex address',
+      'Beldex address or BNS name',
       name: 'send_beldex_address',
       desc: '',
       args: [],

@@ -149,7 +149,7 @@
 
   "send_title" : "Envoyer des",
   "send_your_wallet" : "Votre portefeuille",
-  "send_beldex_address" : "Adresse Beldex",
+  "send_beldex_address" : "Adresse Beldex ou nom BNS",
   "all" : "TOUT",
   "send_error_currency" : "La devise ne peut contenir que des nombres",
   "send_estimated_fee" : "Frais estimés:",

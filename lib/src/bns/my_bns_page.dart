@@ -200,6 +200,15 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                           }
                         } else {
                           Navigator.of(context).pop();
+                          Toast.show(
+                            'Failed to decrypt BNS Record for ${_decryptRecordController
+                                .text}.bdx', context,
+                            duration: Toast.LENGTH_LONG,
+                            gravity: Toast.BOTTOM,
+                            textColor: Colors.white,
+                            backgroundColor: Color(0xff0ba70f),
+                          );
+                          _decryptRecordController.clear();
                         }
                       });
                     });

@@ -173,6 +173,19 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
+            //BNS Description
+            Container(
+              width: MediaQuery.of(context).size.width,
+              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+              child: Text('Purchase or update an BNS record. If you purchase a name, it may take a minute or two for it to show up in the list',
+                  style: TextStyle(
+                      fontSize: 13.0,
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xffFFFFFF)
+                          : Color(0xff000000),
+                      fontWeight: FontWeight.w300,
+                      fontFamily: 'OpenSans')),
+            ),
             //BNS Price
             Container(
               width: MediaQuery.of(context).size.width,
@@ -405,7 +418,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                       color: settingsStore.isDarkTheme
                           ? Color(0xff77778B)
                           : Color(0xff77778B)),
-                  hintText: 'bxcALKJHSakhdsadhaskdhHHHDJADHUAWasasgjhrewrb6…',
+                  hintText: 'The wallet address of the owner',
                 ),
                 validator: (value) {
                   return null;
@@ -415,7 +428,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             //BNS Backup Owner Name
             Container(
               margin: EdgeInsets.only(left: 15, top: 10),
-              child: Text('Backup Owner name (optional)',
+              child: Text('Backup Owner (optional)',
                   style: TextStyle(
                       fontSize: 13.0,
                       color: settingsStore.isDarkTheme
@@ -451,7 +464,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                       color: settingsStore.isDarkTheme
                           ? Color(0xff77778B)
                           : Color(0xff77778B)),
-                  hintText: 'bxcALKJHSakhdsadhaskdhHHHDJADHUAWasasgjhrewrb6…',
+                  hintText: 'The wallet address of the backup owner',
                 ),
                 validator: (value) {
                   return null;
@@ -1047,8 +1060,28 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
       if (state is SendingFailed) {
         Wakelock.disable();
         Navigator.of(context).pop();
-        showSimpleBeldexDialog(context, S.of(context).alert, state.error,
-            onPressed: (_) => Navigator.of(context).pop());
+        var errorMessage = state.error;
+        if(state.error.contains('Reason: Cannot buy an BNS name that is already registered')){
+          errorMessage = 'BNS name is taken. Choose a different one.';
+        }else if(state.error.contains('Could not convert the wallet address string, check it is correct,')){
+          errorMessage = 'Enter a valid wallet address.';
+        }else if(state.error.contains('Wallet address provided could not be parsed owner')){
+          errorMessage = 'Invalid wallet address. Leave blank if you want to use the current wallet as the BNS owner.';
+        }else if(state.error.contains('specifying owner the same as the backup owner')){
+          errorMessage = 'Owner and backup address must be different.';
+        }else if(state.error.contains('Failed to get output distribution')){
+          errorMessage = 'Failed to get output distribution';
+        }
+        showSimpleBeldexDialog(context, S.of(context).alert, errorMessage,
+            onPressed: (_) {
+              _bnsNameController.clear();
+              _bnsOwnerNameController.clear();
+              _bnsBackUpOwnerNameController.clear();
+              _walletAddressController.clear();
+              _bChatIdController.clear();
+              _belnetIdController.clear();
+              Navigator.of(context).pop();
+              });
       }
 
       if (state is TransactionCreatedSuccessfully &&
@@ -1063,7 +1096,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             sendStore.pendingTransaction.fee,
             '${_bnsNameController.text}.bdx', onPressed: (_) {
           _bnsNameController.clear();
-          _bnsOwnerNameController.clear;
+          _bnsOwnerNameController.clear();
           _bnsBackUpOwnerNameController.clear();
           _walletAddressController.clear();
           _bChatIdController.clear();
@@ -1076,7 +1109,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                       CommitTransactionLoader(sendStore: sendStore)));
         }, onDismiss: (_) {
           _bnsNameController.clear();
-          _bnsOwnerNameController.clear;
+          _bnsOwnerNameController.clear();
           _bnsBackUpOwnerNameController.clear();
           _walletAddressController.clear();
           _bChatIdController.clear();
@@ -1089,7 +1122,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
         print('transactionDescription fee --> committed');
         Wakelock.disable();
         Navigator.of(context).pop();
-        showDialogTransactionSuccessfully(context, onPressed: (_) {
+        showDialogTransactionSuccessfully(context, 'BNS purchased successfully', onPressed: (_) {
           Navigator.of(context)..pop()..pop();
         }, onDismiss: (_) {
           Navigator.of(context)..pop()..pop();

@@ -19,11 +19,11 @@ Future showSimpleConfirmDialog(
       context: context);
 }
 
-Future showDialogTransactionSuccessfully(BuildContext context,
+Future showDialogTransactionSuccessfully(BuildContext context,String title,
     {void Function(BuildContext context) onPressed,
     void Function(BuildContext context) onDismiss}) {
   return showDialog<void>(
-      builder: (_) => SendTransactionSuccessfully(
+      builder: (_) => SendTransactionSuccessfully(title: title,
           onDismiss: onDismiss, onPressed: onPressed),
       context: context);
 }
@@ -436,10 +436,12 @@ class TransactionSendDetails extends StatelessWidget {
 
 class SendTransactionSuccessfully extends StatefulWidget {
   const SendTransactionSuccessfully({
+    this.title,
     this.onPressed,
     this.onDismiss,
   });
 
+  final String title;
   final void Function(BuildContext context) onPressed;
   final void Function(BuildContext context) onDismiss;
 
@@ -521,7 +523,7 @@ class _SendTransactionSuccessfullyState
                               },
                             )),
                         Text(
-                          S.of(context).transactionInitiatedSuccessfully,
+                          widget.title,
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w900),
                         )

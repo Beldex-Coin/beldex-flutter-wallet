@@ -149,7 +149,7 @@
 
   "send_title" : "Send",
   "send_your_wallet" : "Your wallet",
-  "send_beldex_address" : "Beldex address",
+  "send_beldex_address" : "Beldex address or BNS name",
   "all" : "ALL",
   "send_error_currency" : "Currency can only contain numbers",
   "send_estimated_fee" : "Estimated Fee:",
