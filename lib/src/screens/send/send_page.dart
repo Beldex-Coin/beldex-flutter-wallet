@@ -293,9 +293,11 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(S.of(context).send_beldex_address,
-                        style: TextStyle(
-                            fontSize: 18.0, fontWeight: FontWeight.w700)),
+                    Flexible(
+                      child: Text(S.of(context).send_beldex_address,
+                          style: TextStyle(
+                              fontSize: 18.0, fontWeight: FontWeight.w700)),
+                    ),
                     GestureDetector(
                         onTap: () async {
                           final contact =
@@ -777,7 +779,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
         print('transactionDescription fee --> committed');
           Wakelock.disable();
           Navigator.of(context).pop();
-          showDialogTransactionSuccessfully(context, onPressed: (_) {
+          showDialogTransactionSuccessfully(context, S.of(context).transactionInitiatedSuccessfully, onPressed: (_) {
             _addressController.text = '';
             _cryptoAmountController.text = '';
             Navigator.of(context)..pop()..pop();

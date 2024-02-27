@@ -112,6 +112,12 @@ typedef BnsBuy = int Function(
     Pointer<Utf8Box> error,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
+typedef CreateSweepAllTransaction = int Function(
+    int priorityRaw,
+    int subaddrAccount,
+    Pointer<Utf8Box> error,
+    Pointer<PendingTransactionRaw> pendingTransaction);
+
 typedef TransactionCommit = int Function(
     Pointer<PendingTransactionRaw>, Pointer<Utf8Box>);
 
@@ -134,6 +140,10 @@ typedef StakeCreate = int Function(
 typedef CanRequestUnstake = int Function(Pointer<Utf8> masterNodeKey);
 
 typedef BnsSetRecord = int Function(Pointer<Utf8> name);
+
+typedef GetNameToNameHash = Pointer<Utf8> Function(Pointer<Utf8> name);
+
+typedef get_names_to_namehash = Pointer<Utf8> Function(Pointer<Utf8> name);
 
 typedef SubmitStakeUnlock = int Function(Pointer<Utf8> masterNodeKey,
     Pointer<Utf8Box> error, Pointer<PendingTransactionRaw> pendingTransaction);

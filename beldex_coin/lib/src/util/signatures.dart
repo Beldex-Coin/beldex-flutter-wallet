@@ -114,6 +114,12 @@ typedef bns_buy = Int8 Function(
     Pointer<Utf8Box> error,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
+typedef create_sweep_all_transaction = Int8 Function(
+    Int8 priorityRaw,
+    Int32 subaddrAccount,
+    Pointer<Utf8Box> error,
+    Pointer<PendingTransactionRaw> pendingTransaction);
+
 typedef transaction_commit = Int8 Function(
     Pointer<PendingTransactionRaw>, Pointer<Utf8Box>);
 
