@@ -206,7 +206,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                             duration: Toast.LENGTH_LONG,
                             gravity: Toast.BOTTOM,
                             textColor: Colors.white,
-                            backgroundColor: Color(0xff0ba70f),
+                            backgroundColor: Colors.red,
                           );
                           _decryptRecordController.clear();
                         }
