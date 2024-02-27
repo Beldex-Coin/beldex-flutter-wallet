@@ -695,6 +695,27 @@ extern "C"
     }
 
     EXPORT
+    bool create_sweep_all_transaction(uint8_t priority, uint32_t subaddr_account, Utf8Box &error,
+        PendingTransactionRaw &pendingTransaction)
+    {
+        nice(19);
+
+        Beldex::PendingTransaction *transaction;
+        transaction = m_wallet->createSweepAllTransaction(priority, subaddr_account);
+
+        int status = transaction->status().first;
+
+        if (status == Beldex::PendingTransaction::Status::Status_Error || status == Beldex::PendingTransaction::Status::Status_Critical)
+        {
+            error = Utf8Box(strdup(transaction->status().second.c_str()));
+            return false;
+        }
+
+        pendingTransaction = PendingTransactionRaw(transaction);
+        return true;
+    }
+
+    EXPORT
     bool bns_update(char *owner, char *backup_owner, char *value_bchat, char *value_wallet, char *value_belnet, char *name, uint8_t priority, uint32_t subaddr_account, Utf8Box &error,
         PendingTransactionRaw &pendingTransaction)
     {
@@ -748,6 +769,12 @@ extern "C"
     bool bns_set_record(char *name)
     {
         return m_wallet->setBnsRecord(std::string(name));
+    }
+
+    EXPORT
+    char *get_names_to_namehash(char *name)
+    {
+        return strdup(m_wallet->nameToNamehash(std::string(name)).c_str());
     }
 
     EXPORT

@@ -69,5 +69,8 @@ abstract class Wallet {
   Future<PendingTransaction> createBnsTransaction(
       TransactionCreationCredentials credentials);
 
+  Future<PendingTransaction> createSweepAllTransaction(
+      TransactionCreationCredentials credentials);
+
   Future rescan({int restoreHeight = 0});
 }

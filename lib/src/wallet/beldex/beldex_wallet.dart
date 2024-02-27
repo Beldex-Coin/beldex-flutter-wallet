@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_transaction_creation_credentials.dart';
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_sweep_all_transaction_creation_credentials.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:beldex_coin/stake.dart' as beldex_stake;
@@ -341,6 +342,19 @@ class BelDexWallet extends Wallet {
         priorityRaw: _credentials.priority.serialize(),
         accountIndex: _account.value.id);
     print('bns transaction created');
+
+    return PendingTransaction.fromTransactionDescription(
+        transactionDescription);
+  }
+
+  @override
+  Future<PendingTransaction> createSweepAllTransaction(
+      TransactionCreationCredentials credentials) async {
+    final _credentials = credentials as BeldexSweepAllTransactionCreationCredentials;
+    final transactionDescription = await transaction_history.createSweepAllTransaction(
+        priorityRaw: _credentials.priority.serialize(),
+        accountIndex: _account.value.id);
+    print('sweep all transaction created');
 
     return PendingTransaction.fromTransactionDescription(
         transactionDescription);

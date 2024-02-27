@@ -303,7 +303,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "selectLanguage" : MessageLookupByLibrary.simpleMessage("Sprache auswählen"),
     "send" : MessageLookupByLibrary.simpleMessage("Senden"),
     "send_beldex" : MessageLookupByLibrary.simpleMessage("Beldex Senden"),
-    "send_beldex_address" : MessageLookupByLibrary.simpleMessage("Beldex-Adresse"),
+    "send_beldex_address" : MessageLookupByLibrary.simpleMessage("Beldex-Adresse oder BNS-Name"),
     "send_creating_transaction" : MessageLookupByLibrary.simpleMessage("Transaktion erstellen"),
     "send_error_currency" : MessageLookupByLibrary.simpleMessage("Die Währung kann nur Zahlen enthalten"),
     "send_estimated_fee" : MessageLookupByLibrary.simpleMessage("Geschätzte Gebühr:"),

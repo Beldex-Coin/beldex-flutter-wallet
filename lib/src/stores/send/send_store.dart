@@ -1,4 +1,5 @@
 import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_transaction_creation_credentials.dart';
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_sweep_all_transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
@@ -134,6 +135,23 @@ abstract class SendStoreBase with Store {
     } catch (e) {
       state = SendingFailed(error: e.toString());
       print('createBnsTransaction state catch --> $state');
+    }
+  }
+
+  @action
+  Future createSweepAllTransaction({BeldexTransactionPriority tPriority}) async {
+    state = CreatingTransaction();
+
+    try {
+      final credentials = BeldexSweepAllTransactionCreationCredentials(
+          priority: tPriority);
+
+      _pendingTransaction = await walletService.createSweepAllTransaction(credentials);
+      state = TransactionCreatedSuccessfully();
+      print('createSweepAllTransaction state try --> $state');
+    } catch (e) {
+      state = SendingFailed(error: e.toString());
+      print('createSweepAllTransaction state catch --> $state');
     }
   }
 
