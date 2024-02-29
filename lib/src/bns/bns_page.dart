@@ -336,7 +336,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                 style: TextStyle(fontSize: 14.0),
                 maxLength: _bnsNameController.text.contains('-') ? 63 : 32,
                 inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp('[a-z0-9-]')),
+                  FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9-]')),
                   FilteringTextInputFormatter.deny(RegExp('[,. ]'))
                 ],
                 decoration: InputDecoration(
