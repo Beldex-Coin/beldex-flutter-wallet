@@ -59,7 +59,7 @@
     - Update for Hardfork 18
     - Minor bug fixes
 -
-  version: 1.3.0
+  version: 1.3.2
   changes:
     - Introduced Buy BNS feature
     - Minor bug fixes

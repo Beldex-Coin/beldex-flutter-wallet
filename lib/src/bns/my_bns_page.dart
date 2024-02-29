@@ -121,7 +121,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                     : 32,
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(RegExp(
-                      '[a-z0-9-]')),
+                      '[a-zA-Z0-9-]')),
                   FilteringTextInputFormatter.deny(RegExp('[,. ]'))
                 ],
                 decoration: InputDecoration(
@@ -162,7 +162,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                     FetchingBnsRecordDialogBox().showFetchingBnsRecordDialog(
                         context, settingsStore);
                     await getNameToNameHash('${_decryptRecordController
-                        .text}.bdx').then((nameHash) {
+                        .text}.bdx'.toLowerCase()).then((nameHash) {
                       var isValidBns = false;
                       getAllBns().then((value) {
                         if (value.isNotEmpty) {
@@ -173,7 +173,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                           }
                           if (isValidBns) {
                             final bnsSetRecordResponse = bnsSetRecord(
-                                '${_decryptRecordController.text}.bdx');
+                                '${_decryptRecordController.text}.bdx'.toLowerCase());
                             if (bnsSetRecordResponse) {
                               callGetAllBns();
                               Navigator.of(context).pop();
