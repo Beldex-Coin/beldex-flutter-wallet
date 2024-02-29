@@ -71,7 +71,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
 
   final _bnsNameController = TextEditingController();
   final _bnsOwnerNameController = TextEditingController();
-  final _bnsBackUpOwnerNameController = TextEditingController();
+  //final _bnsBackUpOwnerNameController = TextEditingController();
   final _bChatIdController = TextEditingController();
   final _belnetIdController = TextEditingController();
   final _walletAddressController = TextEditingController();
@@ -438,7 +438,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                       fontFamily: 'OpenSans')),
             ),
             //BNS Backup Owner Name Field
-            Container(
+            /*Container(
               margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 10),
               decoration: BoxDecoration(
                 color: settingsStore.isDarkTheme
@@ -470,7 +470,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                   return null;
                 },
               ),
-            ),
+            ),*/
             Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.all(10),
@@ -702,7 +702,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                                     buyBnsChangeNotifier.selectedBnsPriceIndex]
                                 .detailYears,
                             _bnsOwnerNameController.text,
-                            _bnsBackUpOwnerNameController.text,
+                            '',//_bnsBackUpOwnerNameController.text,
                             _walletAddressController.text,
                             _bChatIdController.text,
                             _belnetIdController.text.isNotEmpty
@@ -1042,7 +1042,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
     _bnsTabController.dispose();
     _bnsNameController.dispose();
     _bnsOwnerNameController.dispose();
-    _bnsBackUpOwnerNameController.dispose();
+    //_bnsBackUpOwnerNameController.dispose();
     _bChatIdController.dispose();
     _belnetIdController.dispose();
     _walletAddressController.dispose();
@@ -1076,7 +1076,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             onPressed: (_) {
               _bnsNameController.clear();
               _bnsOwnerNameController.clear();
-              _bnsBackUpOwnerNameController.clear();
+              //_bnsBackUpOwnerNameController.clear();
               _walletAddressController.clear();
               _bChatIdController.clear();
               _belnetIdController.clear();
@@ -1097,7 +1097,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             '${_bnsNameController.text}.bdx', onPressed: (_) {
           _bnsNameController.clear();
           _bnsOwnerNameController.clear();
-          _bnsBackUpOwnerNameController.clear();
+          //_bnsBackUpOwnerNameController.clear();
           _walletAddressController.clear();
           _bChatIdController.clear();
           _belnetIdController.clear();
@@ -1110,7 +1110,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
         }, onDismiss: (_) {
           _bnsNameController.clear();
           _bnsOwnerNameController.clear();
-          _bnsBackUpOwnerNameController.clear();
+          //_bnsBackUpOwnerNameController.clear();
           _walletAddressController.clear();
           _bChatIdController.clear();
           _belnetIdController.clear();
