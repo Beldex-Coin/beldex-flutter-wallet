@@ -426,7 +426,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
               ),
             ),
             //BNS Backup Owner Name
-            Container(
+           /* Container(
               margin: EdgeInsets.only(left: 15, top: 10),
               child: Text('Backup Owner (optional)',
                   style: TextStyle(
@@ -436,7 +436,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                           : Color(0xff000000),
                       fontWeight: FontWeight.w300,
                       fontFamily: 'OpenSans')),
-            ),
+            ),*/
             //BNS Backup Owner Name Field
             /*Container(
               margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 10),
