@@ -944,7 +944,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              Divider(
+                             /* Divider(
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff444463)
                                     : Color(0xffc9c9c9),
@@ -973,7 +973,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                     ),
                                   ),
                                 ],
-                              ),
+                              ),*/
                             ],
                           )),
                       Container(
