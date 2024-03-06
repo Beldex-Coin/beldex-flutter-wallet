@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class StandartSwitch extends StatefulWidget {
+class StandardSwitch extends StatefulWidget {
   
 
-   StandartSwitch({@required this.value, @required this.onTaped,this.icon});
+   StandardSwitch({@required this.value, @required this.onTaped,this.icon});
 
   final bool value;
   final VoidCallback onTaped;
   var icon=false;
   @override
-  StandartSwitchState createState() => StandartSwitchState();
+  StandardSwitchState createState() => StandardSwitchState();
 }
 
-class StandartSwitchState extends State<StandartSwitch> {
+class StandardSwitchState extends State<StandardSwitch> {
   @override
   Widget build(BuildContext context) {
      final settingsStore = Provider.of<SettingsStore>(context);
