@@ -199,7 +199,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
   Connectivity connectivity;
   StreamSubscription<ConnectivityResult> subscription;
-  var reconnect = false;
+  //var reconnect = false;
 
 
   Future<void> _presentQRScanner(BuildContext context) async {
@@ -282,12 +282,11 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                   descriptionText = S
                                       .of(context)
                                       .please_try_to_connect_to_another_node;
-                                  reconnect = true;
-                                  if (networkStatus == NetworkStatus.online &&
-                                      reconnect) {
+                                 /* reconnect = true;
+                                  if (networkStatus == NetworkStatus.online && reconnect) {
                                     walletStore.reconnect();
                                     reconnect = false;
-                                  }
+                                  }*/
                                 }
                                 return Container(
                                   child: Column(
