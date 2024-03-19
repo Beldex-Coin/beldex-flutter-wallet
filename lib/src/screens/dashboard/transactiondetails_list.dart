@@ -344,6 +344,7 @@ class TransactionDetailsListBodyState
                         transaction: transaction,
                         //isStake: transaction.isStake,
                         isBns:transaction.isBns,
+                        paymentId:transaction.paymentId
                       );
                     }
 
