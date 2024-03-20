@@ -21,6 +21,7 @@ class TransactionRow extends StatelessWidget {
     this.transaction,
     this.isBns,
     //this.isStake
+    this.paymentId
   });
 
   final VoidCallback onTap;
@@ -34,6 +35,7 @@ class TransactionRow extends StatelessWidget {
   final TransactionInfo transaction;
   // final bool isStake;
   final bool isBns;
+  final String paymentId;
 
   void _launchUrl(String url) async {
     if (await canLaunch(url)) await launch(url);
@@ -229,6 +231,38 @@ class TransactionRow extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 10),
+                        Visibility(
+                          visible: paymentId != '0000000000000000',
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff454555)
+                                      : Color(0xffDADADA)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Payment ID',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w900)),
+                                  Container(
+                                      child: Text(
+                                          paymentId
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: paymentId != '0000000000000000',
+                          child: SizedBox(height: 10)
+                        ),
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(

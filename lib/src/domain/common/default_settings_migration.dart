@@ -67,10 +67,6 @@ Future<void> replaceNodesMigration({@required Box<Node> nodes}) async {
   final replaceNodes = <String, Node>{
     'publicnode1.rpcnode.stream:29095':
     Node(uri: 'publicnode1.rpcnode.stream:29095'),
-    'explorer.beldex.io:19091':
-    Node(uri: 'explorer.beldex.io:19091'),
-    'mainnet.beldex.io:29095':
-    Node(uri: 'mainnet.beldex.io:29095'),
     'publicnode2.rpcnode.stream:29095':
     Node(uri: 'publicnode2.rpcnode.stream:29095'),
     'publicnode3.rpcnode.stream:29095':
@@ -101,8 +97,6 @@ Future<void> changeCurrentNodeToDefault(
 
   const nodesList = <String>[
     'publicnode1.rpcnode.stream:29095',
-    'explorer.beldex.io:19091',
-    'mainnet.beldex.io:29095',
     'publicnode2.rpcnode.stream:29095',
     'publicnode3.rpcnode.stream:29095',
     'publicnode4.rpcnode.stream:29095',
@@ -130,8 +124,6 @@ Future<void> replaceDefaultNode(
       @required Box<Node> nodes}) async {
   const nodesForReplace = <String>[
     'publicnode1.rpcnode.stream:29095',
-    'explorer.beldex.io:19091',
-    'mainnet.beldex.io:29095',
     'publicnode2.rpcnode.stream:29095',
     'publicnode3.rpcnode.stream:29095',
     'publicnode4.rpcnode.stream:29095',

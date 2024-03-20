@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/widgets/standart_switch.dart';
+import 'package:beldex_wallet/src/widgets/standard_switch.dart';
 import 'package:beldex_wallet/theme_changer.dart';
 import 'package:beldex_wallet/themes.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +18,7 @@ class SettingsSwitchListRow extends StatelessWidget {
 
     if (title == S.of(context).settings_save_recipient_address) {
       return Observer(
-          builder: (_) => StandartSwitch(
+          builder: (_) => StandardSwitch(
               value: settingsStore.shouldSaveRecipientAddress,
               icon: false,
               onTaped: () {
@@ -30,7 +30,7 @@ class SettingsSwitchListRow extends StatelessWidget {
 
     if (title == S.of(context).settings_allow_biometric_authentication) {
       return Observer(
-          builder: (_) => StandartSwitch(
+          builder: (_) => StandardSwitch(
               value: settingsStore.allowBiometricAuthentication,
               icon: false,
               onTaped: () {
@@ -42,7 +42,7 @@ class SettingsSwitchListRow extends StatelessWidget {
     }
     if (title == 'Allow face id authentication') {
       return Observer(
-          builder: (_) => StandartSwitch(
+          builder: (_) => StandardSwitch(
               value: settingsStore.allowBiometricAuthentication,
               icon: false,
               onTaped: () {
@@ -55,7 +55,7 @@ class SettingsSwitchListRow extends StatelessWidget {
 
     if (title == S.of(context).settings_dark_mode) {
       return Observer(
-          builder: (_) => StandartSwitch(
+          builder: (_) => StandardSwitch(
               value: settingsStore.isDarkTheme,
               icon: false,
               onTaped: () {
@@ -68,7 +68,7 @@ class SettingsSwitchListRow extends StatelessWidget {
 
     if (title == S.of(context).settings_enable_fiat_currency) {
       return Observer(
-          builder: (_) => StandartSwitch(
+          builder: (_) => StandardSwitch(
               value: settingsStore.enableFiatCurrency,
               icon: false,
               onTaped: () {
