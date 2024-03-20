@@ -4,7 +4,7 @@ import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/dashboard_rescan_dialog.dart';
 import 'package:beldex_wallet/src/util/network_service.dart';
 import 'package:beldex_wallet/src/util/screen_sizer.dart';
-import 'package:beldex_wallet/src/widgets/standart_switch.dart';
+import 'package:beldex_wallet/src/widgets/standard_switch.dart';
 import 'package:beldex_wallet/theme_changer.dart';
 import 'package:beldex_wallet/themes.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -16,7 +16,6 @@ import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/domain/common/balance_display_mode.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-import 'package:beldex_wallet/src/stores/action_list/action_list_store.dart';
 import 'package:beldex_wallet/src/stores/balance/balance_store.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
@@ -77,7 +76,7 @@ class DashboardPage extends BasePage {
       children: [
         Container(
             height: 25,
-            child: StandartSwitch(
+            child: StandardSwitch(
                 value: settingsStore.isDarkTheme,
                 icon: true,
                 onTaped: () {
@@ -200,7 +199,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
   Connectivity connectivity;
   StreamSubscription<ConnectivityResult> subscription;
-  var reconnect = false;
+  //var reconnect = false;
 
 
   Future<void> _presentQRScanner(BuildContext context) async {
@@ -237,7 +236,6 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
   Widget build(BuildContext context) {
     final walletStore = Provider.of<WalletStore>(context);
     final balanceStore = Provider.of<BalanceStore>(context);
-    final actionListStore = Provider.of<ActionListStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
     final networkStatus = Provider.of<NetworkStatus>(context);
@@ -251,12 +249,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
       child: Observer(
           key: _listObserverKey,
           builder: (_) {
-            final items = actionListStore.items ?? <String>[];
-            final itemsCount = 2; //items.length + 2;
             return ListView.builder(
                 key: _listKey,
-                //padding: EdgeInsets.only(bottom: 15),
-                itemCount: itemsCount,
+                itemCount: 2,
                 itemBuilder: (context, index) {
                   if (index == 0) {
                     return Container(
@@ -287,12 +282,11 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                   descriptionText = S
                                       .of(context)
                                       .please_try_to_connect_to_another_node;
-                                  reconnect = true;
-                                  if (networkStatus == NetworkStatus.online &&
-                                      reconnect) {
+                                 /* reconnect = true;
+                                  if (networkStatus == NetworkStatus.online && reconnect) {
                                     walletStore.reconnect();
                                     reconnect = false;
-                                  }
+                                  }*/
                                 }
                                 return Container(
                                   child: Column(

@@ -30,6 +30,7 @@ class MyBnsPage extends StatefulWidget {
 class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
   final _decryptRecordController = TextEditingController();
   StreamController<List<BnsRow>> _getAllBnsStreamController;
+  var isLoading = true;
 
   @override
   void initState() {
@@ -159,59 +160,70 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                     currentFocus.unfocus();
                   }
                   if (_decryptRecordController.text.isNotEmpty) {
-                    FetchingBnsRecordDialogBox().showFetchingBnsRecordDialog(
-                        context, settingsStore);
-                    await getNameToNameHash('${_decryptRecordController
-                        .text}.bdx'.toLowerCase()).then((nameHash) {
-                      var isValidBns = false;
-                      getAllBns().then((value) {
-                        if (value.isNotEmpty) {
-                          for (var i = 0; i < value.length; i++) {
-                            if (nameHash == value[i].nameHash) {
-                              isValidBns = true;
+                    if(!isLoading) {
+                      FetchingBnsRecordDialogBox().showFetchingBnsRecordDialog(
+                          context, settingsStore);
+                      await getNameToNameHash('${_decryptRecordController
+                          .text}.bdx'.toLowerCase()).then((nameHash) {
+                        var isValidBns = false;
+                        getAllBns().then((value) {
+                          if (value.isNotEmpty) {
+                            for (var i = 0; i < value.length; i++) {
+                              if (nameHash == value[i].nameHash) {
+                                isValidBns = true;
+                              }
                             }
-                          }
-                          if (isValidBns) {
-                            final bnsSetRecordResponse = bnsSetRecord(
-                                '${_decryptRecordController.text}.bdx'.toLowerCase());
-                            if (bnsSetRecordResponse) {
-                              callGetAllBns();
+                            if (isValidBns) {
+                              final bnsSetRecordResponse = bnsSetRecord(
+                                  '${_decryptRecordController.text}.bdx'
+                                      .toLowerCase());
+                              if (bnsSetRecordResponse) {
+                                callGetAllBns();
+                                Navigator.of(context).pop();
+                                Toast.show(
+                                  'Successfully decrypted BNS Record for ${_decryptRecordController
+                                      .text}.bdx', context,
+                                  duration: Toast.LENGTH_LONG,
+                                  gravity: Toast.BOTTOM,
+                                  textColor: Colors.white,
+                                  backgroundColor: Color(0xff0ba70f),
+                                );
+                                _decryptRecordController.clear();
+                              }
+                            } else {
                               Navigator.of(context).pop();
                               Toast.show(
-                                'Successfully decrypted BNS Record for ${_decryptRecordController
-                                    .text}.bdx', context,
-                                duration: Toast.LENGTH_LONG,
+                                'The given BNS record doesn\'t exist or does not belong to this wallet.',
+                                context, duration: Toast.LENGTH_LONG,
                                 gravity: Toast.BOTTOM,
                                 textColor: Colors.white,
-                                backgroundColor: Color(0xff0ba70f),
+                                backgroundColor: Colors.red,
                               );
                               _decryptRecordController.clear();
                             }
                           } else {
                             Navigator.of(context).pop();
                             Toast.show(
-                              'The given BNS record doesn\'t exist or does not belong to this wallet.',
-                              context, duration: Toast.LENGTH_LONG,
+                              'Failed to decrypt BNS Record for ${_decryptRecordController
+                                  .text}.bdx', context,
+                              duration: Toast.LENGTH_LONG,
                               gravity: Toast.BOTTOM,
                               textColor: Colors.white,
                               backgroundColor: Colors.red,
                             );
                             _decryptRecordController.clear();
                           }
-                        } else {
-                          Navigator.of(context).pop();
-                          Toast.show(
-                            'Failed to decrypt BNS Record for ${_decryptRecordController
-                                .text}.bdx', context,
-                            duration: Toast.LENGTH_LONG,
-                            gravity: Toast.BOTTOM,
-                            textColor: Colors.white,
-                            backgroundColor: Colors.red,
-                          );
-                          _decryptRecordController.clear();
-                        }
+                        });
                       });
-                    });
+                    }else{
+                      Toast.show(
+                        'Please wait until we fetch the BNS record from Network', context,
+                        duration: Toast.LENGTH_LONG,
+                        gravity: Toast.BOTTOM,
+                        textColor: Colors.white,
+                        backgroundColor: Colors.red,
+                      );
+                    }
                   } else {
                     return null;
                   }
@@ -256,6 +268,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                   AsyncSnapshot<List<BnsRow>> snapshot) {
                 if (snapshot.data != null) {
                   final allBns = snapshot.data;
+                  isLoading = false;
                   if (allBns.isNotEmpty) {
                     return ListView.builder(
                       shrinkWrap: true,
@@ -809,6 +822,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                     );
                   }
                 } else {
+                  isLoading = true;
                   return Center(
                     child: CircularProgressIndicator(
                       valueColor:

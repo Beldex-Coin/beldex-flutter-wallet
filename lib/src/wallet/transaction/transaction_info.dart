@@ -20,7 +20,7 @@ class TransactionInfo {
         isPending = parseBoolFromString(map['isPending'] as String),
        // isStake = parseBoolFromString(map['isStake'] as String),
         amount = map['amount'] as int,
-       // recipientAddress = (map['paymentId'] ?? '') as String,
+        paymentId = (map['paymentId'] ?? '') as String,
         accountIndex = int.parse(map['accountIndex'] as String),
         isBns = parseBoolFromString(map['isBns'] as String);
 
@@ -32,7 +32,7 @@ class TransactionInfo {
         date = DateTime.fromMillisecondsSinceEpoch(row.getDatetime() * 1000),
         isPending = row.isPending != 0,
        // isStake = row.isStake != 0,
-       //recipientAddress = row.getPaymentId(),
+        paymentId = row.getPaymentId(),
         amount = row.getAmount(),
         accountIndex = row.subaddrAccount,
         isBns = row.isBns != 0;
@@ -46,6 +46,7 @@ class TransactionInfo {
   final bool isBns;
  // final bool isStake;
   final int amount;
+  String paymentId;
   String recipientAddress;
 
   String _fiatAmount;

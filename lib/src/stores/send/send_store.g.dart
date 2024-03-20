@@ -102,6 +102,41 @@ mixin _$SendStore on SendStoreBase, Store {
         address: address, amount: amount, tPriority: tPriority));
   }
 
+  final _$createBnsTransactionAsyncAction =
+      AsyncAction('SendStoreBase.createBnsTransaction');
+
+  @override
+  Future<dynamic> createBnsTransaction(
+      {String owner,
+      String backUpOwner,
+      String mappingYears,
+      String walletAddress,
+      String bchatId,
+      String belnetId,
+      String bnsName,
+      BeldexTransactionPriority tPriority}) {
+    return _$createBnsTransactionAsyncAction.run(() => super
+        .createBnsTransaction(
+            owner: owner,
+            backUpOwner: backUpOwner,
+            mappingYears: mappingYears,
+            walletAddress: walletAddress,
+            bchatId: bchatId,
+            belnetId: belnetId,
+            bnsName: bnsName,
+            tPriority: tPriority));
+  }
+
+  final _$createSweepAllTransactionAsyncAction =
+      AsyncAction('SendStoreBase.createSweepAllTransaction');
+
+  @override
+  Future<dynamic> createSweepAllTransaction(
+      {BeldexTransactionPriority tPriority}) {
+    return _$createSweepAllTransactionAsyncAction
+        .run(() => super.createSweepAllTransaction(tPriority: tPriority));
+  }
+
   final _$commitTransactionAsyncAction =
       AsyncAction('SendStoreBase.commitTransaction');
 

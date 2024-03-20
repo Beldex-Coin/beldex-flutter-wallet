@@ -31,22 +31,22 @@ abstract class BasePage extends StatelessWidget {
     }
     final settingsStore = Provider.of<SettingsStore>(context);
     final _backButton = Container(
-        height: 30,
-        width: 40,
+        height: 48,
+        width: 48,
         child: SvgPicture.asset(
           'assets/images/new-images/back_arrow.svg',
           color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
-          height: 80,
-          width: 50,
+          height: 48,
+          width: 48,
           fit: BoxFit.fill,
         ));
     return Container(
       width: 60,
-      padding: EdgeInsets.only(left: 15),
+      padding: EdgeInsets.only(left: 10,top: 4),
       alignment: Alignment.centerLeft,
       child: SizedBox(
-        height: 30,
-        width: 40,
+        height: 48,
+        width: 48,
         child: ButtonTheme(
           buttonColor: Colors.transparent,
           minWidth: double.minPositive,
