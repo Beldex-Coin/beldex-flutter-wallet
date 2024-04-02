@@ -59,7 +59,7 @@ abstract class NodeListBase with Store {
   Future remove({Node node}) async => await node.delete();
 
   @action
-  Future reset() async => await resetToDefault(nodesSource);
+  Future reset() async => await resetToDefault(nodesSource,true);
 
   Future<bool> isNodeOnline(Node node) async {
     try {
