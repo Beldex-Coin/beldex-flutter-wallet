@@ -429,5 +429,7 @@
   "subAddresses": "Unteradressen",
   "loadingTheWalletDescription": "Bitte schließen Sie dieses Fenster nicht und navigieren Sie nicht zu einer anderen App, bis wir die Wallet geladen haben",
   "buyBns": "Kaufen Sie BNS",
-  "bns": "BNS"
+  "bns": "BNS",
+  "bnsUpdate": "BNS-Update",
+  "bnsRenewal": "BNS-Erneuerung"
 }

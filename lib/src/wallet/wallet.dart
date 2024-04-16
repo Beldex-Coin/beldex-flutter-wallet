@@ -69,6 +69,12 @@ abstract class Wallet {
   Future<PendingTransaction> createBnsTransaction(
       TransactionCreationCredentials credentials);
 
+  Future<PendingTransaction> createBnsUpdateTransaction(
+      TransactionCreationCredentials credentials);
+
+  Future<PendingTransaction> createBnsRenewalTransaction(
+      TransactionCreationCredentials credentials);
+
   Future<PendingTransaction> createSweepAllTransaction(
       TransactionCreationCredentials credentials);
 

@@ -3664,6 +3664,26 @@ class S {
       args: [],
     );
   }
+
+  /// `BNS Update`
+  String get bnsUpdate {
+    return Intl.message(
+      'BNS Update',
+      name: 'bnsUpdate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `BNS Renewal`
+  String get bnsRenewal {
+    return Intl.message(
+      'BNS Renewal',
+      name: 'bnsRenewal',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

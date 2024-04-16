@@ -114,6 +114,26 @@ typedef bns_buy = Int8 Function(
     Pointer<Utf8Box> error,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
+typedef bns_update = Int8 Function(
+    Pointer<Utf8> owner,
+    Pointer<Utf8> backUpOwner,
+    Pointer<Utf8> bchatId,
+    Pointer<Utf8> walletAddress,
+    Pointer<Utf8> belnetId,
+    Pointer<Utf8> bnsName,
+    Int8 priorityRaw,
+    Int32 subaddrAccount,
+    Pointer<Utf8Box> error,
+    Pointer<PendingTransactionRaw> pendingTransaction);
+
+typedef bns_renew = Int8 Function(
+    Pointer<Utf8> bnsName,
+    Pointer<Utf8> mappingYears,
+    Int8 priorityRaw,
+    Int32 subaddrAccount,
+    Pointer<Utf8Box> error,
+    Pointer<PendingTransactionRaw> pendingTransaction);
+
 typedef create_sweep_all_transaction = Int8 Function(
     Int8 priorityRaw,
     Int32 subaddrAccount,

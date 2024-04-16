@@ -430,5 +430,7 @@
   "subAddresses": "Sous-adresses",
   "loadingTheWalletDescription": "Veuillez ne pas fermer cette fenêtre ni accéder à une autre application tant que nous n'avons pas chargé le portefeuille.",
   "buyBns": "Acheter des BNS",
-  "bns": "BNS"
+  "bns": "BNS",
+  "bnsUpdate": "Mise à jour du BNS",
+  "bnsRenewal": "Renouvellement du BNS"
 }
