@@ -57,7 +57,7 @@ Future<List<Node>> loadRemoteNodes() async {
 
 Future resetToDefault(Box<Node> nodeSource,bool remoteNode) async {
   var nodes = <Node>[];
-  if (remoteNode) {
+  if (remoteNode && !isTestnet) {
     nodes = await loadRemoteNodes();
   } else {
     nodes = await loadDefaultNodes();
