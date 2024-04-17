@@ -534,7 +534,6 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
         }
         showSimpleBeldexDialog(context, S.of(context).alert, errorMessage,
             onPressed: (_) {
-              _bnsNameController.clear();
               Navigator.of(context).pop();
             });
       }
@@ -550,7 +549,6 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
             sendStore.pendingTransaction.amount,
             sendStore.pendingTransaction.fee,
             '${_bnsNameController.text}.bdx', onPressed: (_) {
-          _bnsNameController.clear();
           Navigator.of(context).pop();
           Navigator.push(
               context,
@@ -558,7 +556,6 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                   builder: (context) =>
                       CommitTransactionLoader(sendStore: sendStore)));
         }, onDismiss: (_) {
-          _bnsNameController.clear();
           Navigator.of(context).pop();
         });
       }
