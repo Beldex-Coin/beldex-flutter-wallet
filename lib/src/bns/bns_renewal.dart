@@ -564,7 +564,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
         print('transactionDescription fee --> committed');
         Wakelock.disable();
         Navigator.of(context).pop();
-        showDialogTransactionSuccessfully(context, 'BNS Renewal successfully', onPressed: (_) {
+        showDialogTransactionSuccessfully(context, 'BNS Renewed Successfully', onPressed: (_) {
           Navigator.of(context)..pop()..pop();
         }, onDismiss: (_) {
           Navigator.of(context)..pop()..pop();

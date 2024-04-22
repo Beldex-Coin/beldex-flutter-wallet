@@ -1023,7 +1023,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
         print('transactionDescription fee --> committed');
         Wakelock.disable();
         Navigator.of(context).pop();
-        showDialogTransactionSuccessfully(context, 'BNS Updated successfully',
+        showDialogTransactionSuccessfully(context, 'BNS Updated Successfully',
             onPressed: (_) {
           Navigator.of(context)..pop()..pop();
         }, onDismiss: (_) {
