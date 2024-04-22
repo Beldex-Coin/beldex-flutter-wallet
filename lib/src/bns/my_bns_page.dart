@@ -787,7 +787,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                       onPressed:() {
                                       Navigator.of(context,
                                       rootNavigator: true)
-                                          .pushNamed(Routes.bnsUpdate,arguments: bnsDetails.name).then((value){
+                                          .pushNamed(Routes.bnsUpdate,arguments: {'bnsName':bnsDetails.name,'ownerAddress':bnsDetails.owner,'walletAddress':bnsDetails.valueWallet,'bchatId':bnsDetails.valueBchat,'belnetId':bnsDetails.valueBelnet}).then((value){
                                             if(value == true){
                                               Navigator.of(context).pop();
                                             }

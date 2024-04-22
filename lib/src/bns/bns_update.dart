@@ -29,9 +29,9 @@ import 'bns_commit_transaction_loader.dart';
 import 'bns_purchase_options.dart';
 
 class BnsUpdatePage extends BasePage {
-  BnsUpdatePage({this.bnsName});
+  BnsUpdatePage({this.bnsDetails});
 
-  final String bnsName;
+  final Map<String, dynamic> bnsDetails;
 
   @override
   String get title => S.current.bnsUpdate;
@@ -52,14 +52,14 @@ class BnsUpdatePage extends BasePage {
 
   @override
   Widget body(BuildContext context) {
-    return BnsUpdatePageForm(bnsName: bnsName,);
+    return BnsUpdatePageForm(bnsDetails: bnsDetails,);
   }
 }
 
 class BnsUpdatePageForm extends StatefulWidget {
-  BnsUpdatePageForm({this.bnsName});
+  BnsUpdatePageForm({this.bnsDetails});
 
-  final String bnsName;
+  final Map<String, dynamic> bnsDetails;
 
   @override
   State<StatefulWidget> createState() => BnsUpdatePageFormState();
@@ -75,8 +75,23 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
   bool _effectsInstalled = false;
   ReactionDisposer rDisposer;
   var _bnsUpdateChangeNotifier = BnsUpdateChangeNotifier();
+  var bnsName = '';
+  var ownerAddress = '';
+  var walletAddress = '';
+  var bchatId = '';
+  var belnetId = '';
   @override
   void initState() {
+    if(widget.bnsDetails != null){
+      bnsName = widget.bnsDetails['bnsName'] as String ?? '';
+      ownerAddress = widget.bnsDetails['ownerAddress'] as String ?? '';
+      walletAddress = widget.bnsDetails['walletAddress'] as String ?? '';
+      bchatId = widget.bnsDetails['bchatId'] as String ?? '';
+      belnetId = widget.bnsDetails['belnetId'] as String ?? '';
+      if(belnetId.isNotEmpty && belnetId != '(none)'){
+        belnetId = belnetId.substring(0, belnetId.indexOf('.'));
+      }
+    }
     super.initState();
   }
 
@@ -616,7 +631,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                         if(bnsUpdateOption == 1){
                           bnsUpdateConfirmationDialogBox(
                               sendStore,
-                              widget.bnsName,
+                              bnsName,
                               _bnsOwnerNameController.text,
                               '',//_bnsBackUpOwnerNameController.text,
                               '',
@@ -626,7 +641,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                         }else{
                           bnsUpdateConfirmationDialogBox(
                               sendStore,
-                              widget.bnsName,
+                              bnsName,
                               '',
                               '',
                               _walletAddressController.text,
@@ -690,6 +705,11 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
             validateOwner(_bnsOwnerNameController.text, bnsUpdateChangeNotifier);
           });
           isValid = false;
+        }else if (_bnsOwnerNameController.text == ownerAddress){
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            validateOwner(_bnsOwnerNameController.text, bnsUpdateChangeNotifier);
+          });
+          isValid = false;
         }else{
           isValid = true;
         }
@@ -705,8 +725,22 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                 _walletAddressController.text, bnsUpdateChangeNotifier);
           });
           isValid = false;
-        } else if (bnsUpdateChangeNotifier.bnsPurchaseOptions[1].selected &&
+        } else if (bnsUpdateChangeNotifier.bnsPurchaseOptions[0].selected &&
+            _walletAddressController.text == walletAddress) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            validateWalletAddressField(
+                _walletAddressController.text, bnsUpdateChangeNotifier);
+          });
+          isValid = false;
+        }else if (bnsUpdateChangeNotifier.bnsPurchaseOptions[1].selected &&
             _bChatIdController.text.isEmpty) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            validateBchatIdField(
+                _bChatIdController.text, bnsUpdateChangeNotifier);
+          });
+          isValid = false;
+        } else if (bnsUpdateChangeNotifier.bnsPurchaseOptions[1].selected &&
+            _bChatIdController.text == bchatId) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             validateBchatIdField(
                 _bChatIdController.text, bnsUpdateChangeNotifier);
@@ -722,6 +756,13 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
           isValid = false;
         } else if (bnsUpdateChangeNotifier.bnsPurchaseOptions[2].selected &&
             _belnetIdController.text.isEmpty) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            validateBelnetIdField(
+                _belnetIdController.text, bnsUpdateChangeNotifier);
+          });
+          isValid = false;
+        } else if (bnsUpdateChangeNotifier.bnsPurchaseOptions[2].selected &&
+            _belnetIdController.text == belnetId) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             validateBelnetIdField(
                 _belnetIdController.text, bnsUpdateChangeNotifier);
@@ -751,15 +792,20 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setOwnerAddressFieldIsValid(true);
       });
-    } else {
+    } else if (value == ownerAddress){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        bnsUpdateChangeNotifier.setOwnerAddressFieldIsValid(true);
+      });
+    }else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setOwnerAddressFieldIsValid(false);
       });
     }
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       bnsUpdateChangeNotifier.setOwnerAddressFieldErrorMessage(
           bnsUpdateChangeNotifier.ownerAddressFieldIsValid
-              ? 'Please fill in this field'
+              ? value == ownerAddress ?'same owner address':'Please fill in this field'
               : '');
     });
   }
@@ -770,7 +816,11 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setWalletAddressFieldIsValid(true);
       });
-    } else {
+    } else if (value == walletAddress){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        bnsUpdateChangeNotifier.setWalletAddressFieldIsValid(true);
+      });
+    }else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setWalletAddressFieldIsValid(false);
       });
@@ -778,7 +828,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       bnsUpdateChangeNotifier.setWalletAddressFieldErrorMessage(
           bnsUpdateChangeNotifier.walletAddressFieldIsValid
-              ? 'Please fill in this field'
+              ? value == walletAddress?'same wallet address':'Please fill in this field'
               : '');
     });
   }
@@ -801,7 +851,12 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
         bnsUpdateChangeNotifier.setBchatIdFieldIsValid(true);
       });
       errorMessage = 'Invalid BChat ID';
-    } else {
+    } else if (value == bchatId){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        bnsUpdateChangeNotifier.setBchatIdFieldIsValid(true);
+      });
+      errorMessage = 'same Bchat id';
+    }else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBchatIdFieldIsValid(false);
       });
@@ -825,7 +880,12 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
         bnsUpdateChangeNotifier.setBelnetIdFieldIsValid(true);
       });
       errorMessage = 'Invalid Belnet ID';
-    } else {
+    } else if (value == belnetId){
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        bnsUpdateChangeNotifier.setBelnetIdFieldIsValid(true);
+      });
+      errorMessage = 'same Belnet id';
+    }else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBelnetIdFieldIsValid(false);
       });
@@ -996,7 +1056,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
             S.of(context).confirm_sending,
             sendStore.pendingTransaction.amount,
             sendStore.pendingTransaction.fee,
-            widget.bnsName,
+            bnsName,
             onPressed: (_) {
           _bnsOwnerNameController.clear();
           //_bnsBackUpOwnerNameController.clear();

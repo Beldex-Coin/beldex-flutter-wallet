@@ -576,7 +576,7 @@ class Router {
                             transactionDescriptions)),
                     ChangeNotifierProvider<BnsUpdateChangeNotifier>(create: (_) => BnsUpdateChangeNotifier())
                   ],
-                  child: BnsUpdatePage(bnsName: settings.arguments as String));
+                  child: BnsUpdatePage(bnsDetails: settings.arguments as Map<String, dynamic>));
             });
       case Routes.bnsRenewal:
         return MaterialPageRoute<void>(
