@@ -104,6 +104,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "biometric_auth_reason" : MessageLookupByLibrary.simpleMessage("Scan your fingerprint to authenticate"),
     "blockRemaining" : m1,
     "bns" : MessageLookupByLibrary.simpleMessage("BNS"),
+    "bnsRenewal" : MessageLookupByLibrary.simpleMessage("BNS Renewal"),
+    "bnsUpdate" : MessageLookupByLibrary.simpleMessage("BNS Update"),
     "body_confirm_unlock_stake" : m2,
     "buyBns" : MessageLookupByLibrary.simpleMessage("Buy BNS"),
     "byUsingThisAppYouAgreeToTheTermsOf" : MessageLookupByLibrary.simpleMessage("By using this app, you agree to the Terms of Agreement set forth to below"),

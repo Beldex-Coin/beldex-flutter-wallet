@@ -1,4 +1,6 @@
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_renewal_transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_transaction_creation_credentials.dart';
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_update_transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_sweep_all_transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:flutter/foundation.dart';
@@ -135,6 +137,52 @@ abstract class SendStoreBase with Store {
     } catch (e) {
       state = SendingFailed(error: e.toString());
       print('createBnsTransaction state catch --> $state');
+    }
+  }
+
+  @action
+  Future createBnsUpdateTransaction({String owner, String backUpOwner, String walletAddress, String bchatId, String belnetId, String bnsName, BeldexTransactionPriority tPriority}) async {
+    state = CreatingTransaction();
+
+    try {
+      final credentials = BeldexBnsUpdateTransactionCreationCredentials(
+          owner: owner,
+          backUpOwner: backUpOwner,
+          walletAddress: walletAddress,
+          bchatId: bchatId,
+          belnetId: belnetId,
+          bnsName: bnsName,
+          priority: tPriority);
+
+      _pendingTransaction = await walletService.createBnsUpdateTransaction(credentials);
+      state = TransactionCreatedSuccessfully();
+      print('createBnsUpdateTransaction state try --> $state');
+      _lastRecipientAddress = bnsName;
+      print('createBnsUpdateTransaction _lastRecipientAddress $_lastRecipientAddress');
+    } catch (e) {
+      state = SendingFailed(error: e.toString());
+      print('createBnsUpdateTransaction state catch --> $state');
+    }
+  }
+
+  @action
+  Future createBnsRenewalTransaction({String bnsName, String mappingYears, BeldexTransactionPriority tPriority}) async {
+    state = CreatingTransaction();
+
+    try {
+      final credentials = BeldexBnsRenewalTransactionCreationCredentials(
+          bnsName: bnsName,
+          mappingYears: mappingYears,
+          priority: tPriority);
+
+      _pendingTransaction = await walletService.createBnsRenewalTransaction(credentials);
+      state = TransactionCreatedSuccessfully();
+      print('createBnsRenewalTransaction state try --> $state');
+      _lastRecipientAddress = bnsName;
+      print('createBnsRenewalTransaction _lastRecipientAddress $_lastRecipientAddress');
+    } catch (e) {
+      state = SendingFailed(error: e.toString());
+      print('createBnsRenewalTransaction state catch --> $state');
     }
   }
 

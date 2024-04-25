@@ -46,4 +46,6 @@ class Routes {
   static const transactionlist = '/transactionlist';
   static const flash = '/flash';
   static const bns = '/bns';
+  static const bnsUpdate = '/bns_update';
+  static const bnsRenewal = '/bns_renewal';
 }

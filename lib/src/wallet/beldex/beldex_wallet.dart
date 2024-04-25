@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_renewal_transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_transaction_creation_credentials.dart';
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_update_transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_sweep_all_transaction_creation_credentials.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
@@ -342,6 +344,40 @@ class BelDexWallet extends Wallet {
         priorityRaw: _credentials.priority.serialize(),
         accountIndex: _account.value.id);
     print('bns transaction created');
+
+    return PendingTransaction.fromTransactionDescription(
+        transactionDescription);
+  }
+
+  @override
+  Future<PendingTransaction> createBnsUpdateTransaction(
+      TransactionCreationCredentials credentials) async {
+    final _credentials = credentials as BeldexBnsUpdateTransactionCreationCredentials;
+    final transactionDescription = await transaction_history.createBnsUpdateTransaction(
+        owner: _credentials.owner,
+        backUpOwner: _credentials.backUpOwner,
+        bchatId: _credentials.bchatId,
+        walletAddress: _credentials.walletAddress,
+        belnetId: _credentials.belnetId,
+        bnsName: _credentials.bnsName,
+        priorityRaw: _credentials.priority.serialize(),
+        accountIndex: _account.value.id);
+    print('bns update transaction created');
+
+    return PendingTransaction.fromTransactionDescription(
+        transactionDescription);
+  }
+
+  @override
+  Future<PendingTransaction> createBnsRenewalTransaction(
+      TransactionCreationCredentials credentials) async {
+    final _credentials = credentials as BeldexBnsRenewalTransactionCreationCredentials;
+    final transactionDescription = await transaction_history.createBnsRenewalTransaction(
+        bnsName: _credentials.bnsName,
+        mappingYears: _credentials.mappingYears,
+        priorityRaw: _credentials.priority.serialize(),
+        accountIndex: _account.value.id);
+    print('bns renewal transaction created');
 
     return PendingTransaction.fromTransactionDescription(
         transactionDescription);

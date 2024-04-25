@@ -140,6 +140,16 @@ class WalletService extends Wallet {
       _currentWallet.createBnsTransaction(credentials);
 
   @override
+  Future<PendingTransaction> createBnsUpdateTransaction(
+      TransactionCreationCredentials credentials) =>
+      _currentWallet.createBnsUpdateTransaction(credentials);
+
+  @override
+  Future<PendingTransaction> createBnsRenewalTransaction(
+      TransactionCreationCredentials credentials) =>
+      _currentWallet.createBnsRenewalTransaction(credentials);
+
+  @override
   Future<PendingTransaction> createSweepAllTransaction(
       TransactionCreationCredentials credentials) =>
       _currentWallet.createSweepAllTransaction(credentials);

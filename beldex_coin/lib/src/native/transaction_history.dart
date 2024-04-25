@@ -28,6 +28,14 @@ final bnsTransactionCreateNative = beldexApi
     .lookup<NativeFunction<bns_buy>>('bns_buy')
     .asFunction<BnsBuy>();
 
+final bnsUpdateTransactionCreateNative = beldexApi
+    .lookup<NativeFunction<bns_update>>('bns_update')
+    .asFunction<BnsUpdate>();
+
+final bnsRenewalTransactionCreateNative = beldexApi
+    .lookup<NativeFunction<bns_renew>>('bns_renew')
+    .asFunction<BnsRenew>();
+
 final sweepAllTransactionCreateNative = beldexApi
     .lookup<NativeFunction<create_sweep_all_transaction>>('create_sweep_all_transaction')
     .asFunction<CreateSweepAllTransaction>();
@@ -135,6 +143,81 @@ PendingTransactionDescription createBnsTransactionSync(
   free(walletAddressPointer);
   free(belnetIdPointer);
   free(bnsNamePointer);
+
+  if (!created) {
+    final message = errorMessagePointer.ref.getValue();
+    free(errorMessagePointer);
+    throw CreationTransactionException(message: message);
+  }
+
+  return PendingTransactionDescription(
+      amount: pendingTransactionRawPointer.ref.amount,
+      fee: pendingTransactionRawPointer.ref.fee,
+      hash: pendingTransactionRawPointer.ref.getHash(),
+      pointerAddress: pendingTransactionRawPointer.address);
+}
+
+PendingTransactionDescription createBnsUpdateTransactionSync(
+    {String owner, String backUpOwner, String bchatId, String walletAddress, String belnetId, String bnsName, int priorityRaw, int accountIndex = 0}) {
+  final ownerPointer = Utf8.toUtf8(owner);
+  final backUpOwnerPointer = Utf8.toUtf8(backUpOwner);
+  final bchatIdPointer = Utf8.toUtf8(bchatId);
+  final walletAddressPointer = Utf8.toUtf8(walletAddress);
+  final belnetIdPointer = Utf8.toUtf8(belnetId);
+  final bnsNamePointer = Utf8.toUtf8(bnsName);
+  final errorMessagePointer = allocate<Utf8Box>();
+  final pendingTransactionRawPointer = allocate<PendingTransactionRaw>();
+  final created = bnsUpdateTransactionCreateNative(
+      ownerPointer,
+      backUpOwnerPointer,
+      bchatIdPointer,
+      walletAddressPointer,
+      belnetIdPointer,
+      bnsNamePointer,
+      priorityRaw,
+      accountIndex,
+      errorMessagePointer,
+      pendingTransactionRawPointer) !=
+      0;
+
+  free(ownerPointer);
+  free(backUpOwnerPointer);
+  free(bchatIdPointer);
+  free(walletAddressPointer);
+  free(belnetIdPointer);
+  free(bnsNamePointer);
+
+  if (!created) {
+    final message = errorMessagePointer.ref.getValue();
+    free(errorMessagePointer);
+    throw CreationTransactionException(message: message);
+  }
+
+  return PendingTransactionDescription(
+      amount: pendingTransactionRawPointer.ref.amount,
+      fee: pendingTransactionRawPointer.ref.fee,
+      hash: pendingTransactionRawPointer.ref.getHash(),
+      pointerAddress: pendingTransactionRawPointer.address);
+}
+
+PendingTransactionDescription createBnsRenewalTransactionSync(
+    {String bnsName, String mappingYears, int priorityRaw, int accountIndex = 0}) {
+  final bnsNamePointer = Utf8.toUtf8(bnsName);
+  final mappingYearsPointer = Utf8.toUtf8(mappingYears);
+  final errorMessagePointer = allocate<Utf8Box>();
+  final pendingTransactionRawPointer = allocate<PendingTransactionRaw>();
+  final created = bnsRenewalTransactionCreateNative(
+      bnsNamePointer,
+      mappingYearsPointer,
+      priorityRaw,
+      accountIndex,
+      errorMessagePointer,
+      pendingTransactionRawPointer) !=
+      0;
+
+  free(bnsNamePointer);
+  free(mappingYearsPointer);
+
 
   if (!created) {
     final message = errorMessagePointer.ref.getValue();

@@ -1,4 +1,8 @@
 import 'package:beldex_wallet/src/bns/bns_page.dart';
+import 'package:beldex_wallet/src/bns/bns_renewal.dart';
+import 'package:beldex_wallet/src/bns/bns_renewal_change_notifier.dart';
+import 'package:beldex_wallet/src/bns/bns_update.dart';
+import 'package:beldex_wallet/src/bns/bns_update_change_notifier.dart';
 import 'package:beldex_wallet/src/bns/buy_bns_change_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -548,6 +552,56 @@ class Router {
                     ChangeNotifierProvider<BuyBnsChangeNotifier>(create: (_) => BuyBnsChangeNotifier())
                   ],
                   child: BnsPage());
+            });
+      case Routes.bnsUpdate:
+        return MaterialPageRoute<void>(
+            fullscreenDialog: true,
+            builder: (_) {
+              return MultiProvider(
+                  providers: [
+                    ProxyProvider<SettingsStore, BalanceStore>(
+                      update: (_, settingsStore, __) => BalanceStore(
+                          walletService: walletService,
+                          settingsStore: settingsStore,
+                          priceStore: priceStore),
+                    ),
+                    Provider(
+                      create: (_) => SyncStore(walletService: walletService),
+                    ),
+                    Provider(
+                        create: (_) => SendStore(
+                            walletService: walletService,
+                            priceStore: priceStore,
+                            transactionDescriptions:
+                            transactionDescriptions)),
+                    ChangeNotifierProvider<BnsUpdateChangeNotifier>(create: (_) => BnsUpdateChangeNotifier())
+                  ],
+                  child: BnsUpdatePage(bnsDetails: settings.arguments as Map<String, dynamic>));
+            });
+      case Routes.bnsRenewal:
+        return MaterialPageRoute<void>(
+            fullscreenDialog: true,
+            builder: (_) {
+              return MultiProvider(
+                  providers: [
+                    ProxyProvider<SettingsStore, BalanceStore>(
+                      update: (_, settingsStore, __) => BalanceStore(
+                          walletService: walletService,
+                          settingsStore: settingsStore,
+                          priceStore: priceStore),
+                    ),
+                    Provider(
+                      create: (_) => SyncStore(walletService: walletService),
+                    ),
+                    Provider(
+                        create: (_) => SendStore(
+                            walletService: walletService,
+                            priceStore: priceStore,
+                            transactionDescriptions:
+                            transactionDescriptions)),
+                    ChangeNotifierProvider<BnsRenewalChangeNotifier>(create: (_) => BnsRenewalChangeNotifier())
+                  ],
+                  child: BnsRenewalPage(bnsName: settings.arguments as String));
             });
 
       default:

@@ -37,9 +37,10 @@ Future defaultSettingsMigration(
               BalanceDisplayMode.fullBalance.raw);
           await sharedPreferences.setBool('save_recipient_address', true);
           await sharedPreferences.setBool('enable_fiat_currency', true);
-          await resetToDefault(nodes);
+          await resetToDefault(nodes,false);
           await changeCurrentNodeToDefault(
               sharedPreferences: sharedPreferences, nodes: nodes);
+          await sharedPreferences.setBool('node_initial_setup', true);
 
           break;
         case 2:
@@ -64,18 +65,7 @@ Future defaultSettingsMigration(
 }
 
 Future<void> replaceNodesMigration({@required Box<Node> nodes}) async {
-  final replaceNodes = <String, Node>{
-    'publicnode1.rpcnode.stream:29095':
-    Node(uri: 'publicnode1.rpcnode.stream:29095'),
-    'publicnode2.rpcnode.stream:29095':
-    Node(uri: 'publicnode2.rpcnode.stream:29095'),
-    'publicnode3.rpcnode.stream:29095':
-    Node(uri: 'publicnode3.rpcnode.stream:29095'),
-    'publicnode4.rpcnode.stream:29095':
-    Node(uri: 'publicnode4.rpcnode.stream:29095'),
-    'publicnode5.rpcnode.stream:29095':
-    Node(uri: 'publicnode5.rpcnode.stream:29095')
-  };
+  final replaceNodes = <String, Node>{};
 
   nodes.values.forEach((Node node) async {
     final nodeToReplace = replaceNodes[node.uri];
@@ -95,50 +85,32 @@ Future<void> changeCurrentNodeToDefault(
   final timeZone = DateTime.now().timeZoneOffset.inHours;
   var nodeUri = '';
 
-  const nodesList = <String>[
-    'publicnode1.rpcnode.stream:29095',
-    'publicnode2.rpcnode.stream:29095',
-    'publicnode3.rpcnode.stream:29095',
-    'publicnode4.rpcnode.stream:29095',
-    'publicnode5.rpcnode.stream:29095'
-  ];
-
   if (timeZone >= 1) { // Eurasia
     final _random = Random();
-    final element = nodesList[_random.nextInt(nodesList.length)];
-    print('nodeId 0 -> ${element.toString()}');
-    nodeUri = element.toString();
-  } else if (timeZone <= -4) { // America
+    final element = nodes.values.elementAt(_random.nextInt(nodes.length));
+    print('nodeId 0 -> ${element.uri.toString()}');
+    nodeUri = element.uri;
+  } else { // America
     nodeUri = 'publicnode1.rpcnode.stream:29095';
   }
 
-  final node = nodes.values.firstWhere((Node node) => node.uri == nodeUri) ??
-      nodes.values.first;
-  final nodeId = node != null ? node.key as int : 0; // 0 - England
+  final node = nodes.values.firstWhere((Node node) => node.uri == nodeUri,orElse: () => nodes.values.first);
 
-  await sharedPreferences.setInt('current_node_id', nodeId);
+  await sharedPreferences.setInt('current_node_id', node.key as int);
 }
 
 Future<void> replaceDefaultNode(
     {@required SharedPreferences sharedPreferences,
       @required Box<Node> nodes}) async {
-  const nodesForReplace = <String>[
-    'publicnode1.rpcnode.stream:29095',
-    'publicnode2.rpcnode.stream:29095',
-    'publicnode3.rpcnode.stream:29095',
-    'publicnode4.rpcnode.stream:29095',
-    'publicnode5.rpcnode.stream:29095'
-  ];
+  const nodesForReplace = <String>[];
+  Node currentNode;
   final currentNodeId = sharedPreferences.getInt('current_node_id');
-  final currentNode =
-  nodes.values.firstWhere((Node node) => node.key == currentNodeId);
-  final needToReplace =
-  currentNode == null ? true : nodesForReplace.contains(currentNode.uri);
-
-  if (!needToReplace) {
-    return;
+  try {
+    currentNode = nodes.values.firstWhere((Node node) =>
+    node.key == currentNodeId);
+  }catch (_) {}
+  if (currentNode == null || nodesForReplace.contains(currentNode.uri)) {
+    await changeCurrentNodeToDefault(
+        sharedPreferences: sharedPreferences, nodes: nodes);
   }
-
-  await changeCurrentNodeToDefault(
-      sharedPreferences: sharedPreferences, nodes: nodes);
 }

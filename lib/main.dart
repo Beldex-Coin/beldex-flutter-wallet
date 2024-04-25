@@ -109,7 +109,9 @@ void main() async {
         walletStore: walletStore,
         walletService: walletService,
         authenticationStore: authenticationStore,
-        loginStore: loginStore);
+        loginStore: loginStore,
+        nodes: nodes,
+        sharedPreferences: sharedPreferences);
 
     runApp(MultiProvider(providers: [
       Provider(create: (_) => sharedPreferences),
