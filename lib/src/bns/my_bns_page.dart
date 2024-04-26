@@ -20,6 +20,8 @@ import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
 
+import '../../routes.dart';
+
 class MyBnsPage extends StatefulWidget {
   MyBnsPage({Key key}) : super(key: key);
 
@@ -775,6 +777,102 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                         0xff484856) : Color(0xffDADADA),
                                   ),
                                 ),
+                                //Update and Renewal
+                               Visibility(
+                                 visible:bnsDetails.name != '(none)',
+                                 child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      OutlinedButton(
+                                      onPressed:() {
+                                      Navigator.of(context,
+                                      rootNavigator: true)
+                                          .pushNamed(Routes.bnsUpdate,arguments: {'bnsName':bnsDetails.name,'ownerAddress':bnsDetails.owner,'walletAddress':bnsDetails.valueWallet,'bchatId':bnsDetails.valueBchat,'belnetId':bnsDetails.valueBelnet}).then((value){
+                                            if(value == true){
+                                              Navigator.of(context).pop();
+                                            }
+                                      });
+                                      },
+                                      style: OutlinedButton.styleFrom(
+                                        side: BorderSide(
+                                          color: Color(0xff3DA2FF),
+                                          width: 1.0,
+                                          style: BorderStyle.solid
+                                        ),
+                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                                        backgroundColor: settingsStore.isDarkTheme?Color(0xff24242F):Colors.white
+                                      ),
+                                      child: Row(
+                                        children: <Widget>[
+                                          Align(
+                                              alignment: Alignment.centerLeft,
+                                              child: SvgPicture.asset(
+                                                'assets/images/new-images/bns_update.svg',
+                                                color: Color(0xff3DA2FF),),
+                                          ),
+                                          Align(
+                                              alignment: Alignment.center,
+                                              child: Text(
+                                                'Update',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(0xff3DA2FF)
+                                                ),
+                                              )
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      OutlinedButton(
+                                        onPressed:() {
+                                          Navigator.of(context,
+                                              rootNavigator: true)
+                                              .pushNamed(Routes.bnsRenewal,arguments: bnsDetails.name).then((value){
+                                            if(value == true){
+                                              Navigator.of(context).pop();
+                                            }
+                                          });
+                                        },
+                                        style: OutlinedButton.styleFrom(
+                                            side: BorderSide(
+                                                color: Color(0xff00CF08),
+                                                width: 1.0,
+                                                style: BorderStyle.solid
+                                            ),
+                                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+                                            backgroundColor: settingsStore.isDarkTheme?Color(0xff24242F):Colors.white
+                                        ),
+                                        child: Row(
+                                          children: <Widget>[
+                                            Align(
+                                                alignment: Alignment.centerLeft,
+                                                child:  SvgPicture.asset(
+                                                  'assets/images/new-images/bns_renewal.svg',
+                                                  color: Color(0xff00CF08),)
+                                            ),
+                                            Align(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  'Renew',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontWeight: FontWeight.bold,
+                                                    color: Color(0xff00CF08)
+                                                  ),
+                                                )
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                  ],),
+                               )
                               ],
                             ),
                           ),

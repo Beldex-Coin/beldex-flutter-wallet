@@ -48,6 +48,39 @@ Future showBnsConfirmationDialogBox(
       context: context);
 }
 
+Future showBnsUpdateConfirmationDialogBox(
+    BuildContext context,
+    String bnsName,
+    String owner,
+    String backUpOwner,
+    String walletAddress,
+    String bchatId,
+    String belnetId,
+    WalletStore walletStore,
+    int bnsUpdateOption,
+    {void Function(BuildContext context) onPressed,
+      void Function(BuildContext context) onDismiss}) {
+  return showDialog<void>(
+      builder: (_) => BnsUpdateConfirmationDialogBox(bnsName, owner, backUpOwner, walletAddress, bchatId, belnetId, walletStore,bnsUpdateOption,
+          onDismiss: onDismiss, onPressed: onPressed),
+      context: context);
+}
+
+Future showBnsRenewalConfirmationDialogBox(
+    BuildContext context,
+    String bnsName,
+    String mappingYearsId,
+    String mappingYears,
+    WalletStore walletStore,
+    {void Function(BuildContext context) onPressed,
+      void Function(BuildContext context) onDismiss}) {
+  return showDialog<void>(
+      builder: (_) => BnsRenewalConfirmationDialogBox(bnsName, mappingYearsId,
+          mappingYears, walletStore,
+          onDismiss: onDismiss, onPressed: onPressed),
+      context: context);
+}
+
 Future showDetailsAfterSendSuccessfully(
     BuildContext context, String title, String body, String fee, String address,
     {String buttonText,
@@ -460,7 +493,7 @@ class _SendTransactionSuccessfullyState
 
   void callFuture() async {
     Future.delayed(Duration(seconds: 4), () {
-      Navigator.of(context)..pop()..pop();
+      Navigator.of(context)..pop()..pop(true);
     });
   }
 
@@ -1065,6 +1098,518 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: Color(0xff7D7D9c),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          )),
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.10 / 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    if (onDismiss != null) {
+                                      onDismiss(context);
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: settingsStore.isDarkTheme
+                                        ? Color(0xff383848)
+                                        : Color(0xffEDEDED),
+                                    padding: EdgeInsets.all(12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: Text(S.of(context).cancel,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: settingsStore.isDarkTheme
+                                              ? Colors.white
+                                              : Colors.black,
+                                          fontWeight: FontWeight.bold))),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    if (onPressed != null) {
+                                      onPressed(context);
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Color(0xff0BA70F),
+                                    padding: EdgeInsets.all(12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    S.of(context).ok,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  )),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  )),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BnsUpdateConfirmationDialogBox extends StatelessWidget {
+  const BnsUpdateConfirmationDialogBox(
+      this.bnsName,
+      this.owner,
+      this.backUpOwner,
+      this.walletAddress,
+      this.bchatId,
+      this.belnetId,
+      this.walletStore,
+      this.bnsUpdateOption,{
+        this.onPressed,
+        this.onDismiss,
+      });
+
+  final String bnsName;
+  final String owner;
+  final String backUpOwner;
+  final String walletAddress;
+  final String bchatId;
+  final String belnetId;
+  final WalletStore walletStore;
+  final int bnsUpdateOption;
+  final void Function(BuildContext context) onPressed;
+  final void Function(BuildContext context) onDismiss;
+
+  @override
+  Widget build(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
+    return Container(
+      color: Colors.transparent,
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+        child: Container(
+          margin: EdgeInsets.all(15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  padding: EdgeInsets.only(
+                      top: 15.0, left: 20, right: 20, bottom: 20),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff272733)
+                          : Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: Text('Confirm Update',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w800)),
+                      ),
+                      Container(
+                          padding: EdgeInsets.all(10),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff383848)
+                                  : Color(0xffEDEDED)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Name ',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      bnsName,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color(0xff0ba70f),
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff444463)
+                                    : Color(0xffc9c9c9),
+                              ),
+                              //Update Owner
+                              Visibility(
+                                visible: bnsUpdateOption == 1,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Owner',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xffFFFFFF)
+                                              : Color(0xff222222),
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    Text(
+                                      owner.isNotEmpty ? owner : walletStore.subaddress.address,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xff7D7D9c),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              /*Visibility(
+                                visible: bnsUpdateOption == 1,
+                                child: Divider(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff444463)
+                                      : Color(0xffc9c9c9),
+                                ),
+                              ),
+                              Visibility(
+                                visible: bnsUpdateOption == 1,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Backup Owner',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xffFFFFFF)
+                                              : Color(0xff222222),
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    Text(
+                                      backUpOwner.isNotEmpty
+                                          ? backUpOwner
+                                          : 'None',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xff7D7D9c),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),*/
+
+                              //Update Values
+                              Visibility(
+                                visible: bnsUpdateOption == 2,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Address',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xffFFFFFF)
+                                              : Color(0xff222222),
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    Text(
+                                      walletAddress.isNotEmpty
+                                          ? walletAddress
+                                          : 'None',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xff7D7D9c),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Visibility(
+                                visible: bnsUpdateOption == 2,
+                                child: Divider(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff444463)
+                                      : Color(0xffc9c9c9),
+                                ),
+                              ),
+                              Visibility(
+                                visible: bnsUpdateOption == 2,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'BChat ID',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xffFFFFFF)
+                                              : Color(0xff222222),
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    Text(
+                                      bchatId.isNotEmpty ? bchatId : 'None',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xff7D7D9c),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Visibility(
+                                visible: bnsUpdateOption == 2,
+                                child: Divider(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff444463)
+                                      : Color(0xffc9c9c9),
+                                ),
+                              ),
+                              Visibility(
+                                visible: bnsUpdateOption == 2,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Belnet ID',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xffFFFFFF)
+                                              : Color(0xff222222),
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    Text(
+                                      belnetId.isNotEmpty ? belnetId : 'None',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Color(0xff7D7D9c),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )),
+                      Container(
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.10 / 3),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    if (onDismiss != null) {
+                                      onDismiss(context);
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: settingsStore.isDarkTheme
+                                        ? Color(0xff383848)
+                                        : Color(0xffEDEDED),
+                                    padding: EdgeInsets.all(12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: Text(S.of(context).cancel,
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          color: settingsStore.isDarkTheme
+                                              ? Colors.white
+                                              : Colors.black,
+                                          fontWeight: FontWeight.bold))),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: ElevatedButton(
+                                  onPressed: () {
+                                    if (onPressed != null) {
+                                      onPressed(context);
+                                    }
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Color(0xff0BA70F),
+                                    padding: EdgeInsets.all(12),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    S.of(context).ok,
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  )),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  )),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BnsRenewalConfirmationDialogBox extends StatelessWidget {
+  const BnsRenewalConfirmationDialogBox(
+      this.bnsName,
+      this.mappingYearsId,
+      this.mappingYears,
+      this.walletStore, {
+        this.onPressed,
+        this.onDismiss,
+      });
+
+  final String bnsName;
+  final String mappingYearsId;
+  final String mappingYears;
+  final WalletStore walletStore;
+  final void Function(BuildContext context) onPressed;
+  final void Function(BuildContext context) onDismiss;
+
+  @override
+  Widget build(BuildContext context) {
+    final settingsStore = Provider.of<SettingsStore>(context);
+    return Container(
+      color: Colors.transparent,
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+        child: Container(
+          margin: EdgeInsets.all(15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                  padding: EdgeInsets.only(
+                      top: 15.0, left: 20, right: 20, bottom: 20),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff272733)
+                          : Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: Text('Confirm Renewal',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w800)),
+                      ),
+                      Container(
+                          padding: EdgeInsets.all(10),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff383848)
+                                  : Color(0xffEDEDED)),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Name ',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Flexible(
+                                    child: Text(
+                                      bnsName,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Color(0xff0ba70f),
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Divider(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff444463)
+                                    : Color(0xffc9c9c9),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Year',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Text(
+                                    mappingYears,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xffFFFFFF)
+                                          : Color(0xff222222),
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),

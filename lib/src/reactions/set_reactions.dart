@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'package:beldex_wallet/src/domain/common/default_settings_migration.dart';
+import 'package:beldex_wallet/src/node/node_list.dart';
 import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:beldex_wallet/src/node/node.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
@@ -11,6 +14,7 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/price/price_store.dart';
 import 'package:beldex_wallet/src/stores/authentication/authentication_store.dart';
 import 'package:beldex_wallet/src/stores/login/login_store.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Timer _reconnectionTimer;
 ReactionDisposer _connectToNodeDisposer;
@@ -24,8 +28,11 @@ void setReactions(
     @required WalletStore walletStore,
     @required WalletService walletService,
     @required AuthenticationStore authenticationStore,
-    @required LoginStore loginStore}) {
-  connectToNode(settingsStore: settingsStore, walletStore: walletStore);
+    @required LoginStore loginStore,
+    @required Box<Node> nodes,
+    @required SharedPreferences sharedPreferences}) {
+  dynamicallySelectNode(sharedPreferences: sharedPreferences,nodes : nodes,settingsStore: settingsStore);
+  connectToNode(settingsStore: settingsStore, walletStore: walletStore,sharedPreferences: sharedPreferences);
   onSyncStatusChange(
       syncStore: syncStore,
       walletStore: walletStore,
@@ -42,11 +49,24 @@ void setReactions(
   });
 }
 
-void connectToNode({SettingsStore settingsStore, WalletStore walletStore}) {
-  _connectToNodeDisposer?.call();
+void dynamicallySelectNode({SharedPreferences sharedPreferences, Box<Node> nodes,SettingsStore settingsStore}) async {
+  await resetToDefault(nodes,true);
+  await changeCurrentNodeToDefault(
+      sharedPreferences: sharedPreferences, nodes: nodes);
+  await settingsStore.loadSettings();
+}
 
+void connectToNode({SettingsStore settingsStore, WalletStore walletStore, SharedPreferences sharedPreferences}) {
+  _connectToNodeDisposer?.call();
   _connectToNodeDisposer = reaction((_) => settingsStore.node,
-      (Node node) async => await walletStore.connectToNode(node: node));
+      (Node node) async {
+    final nodeInitialSetUp = sharedPreferences.getBool('node_initial_setup');
+    if(!nodeInitialSetUp) {
+      await walletStore.connectToNode(node: node);
+    }else{
+      await sharedPreferences.setBool('node_initial_setup', false);
+    }
+  });
 }
 
 void onCurrentWalletChange(

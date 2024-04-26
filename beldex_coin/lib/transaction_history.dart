@@ -101,6 +101,72 @@ Future<PendingTransactionDescription> createBnsTransaction(
       'accountIndex': accountIndex
     });
 
+PendingTransactionDescription _createBnsUpdateTransactionSync(Map args) {
+  final owner = args['owner'] as String;
+  final backUpOwner = args['backUpOwner'] as String;
+  final bchatId = args['bchatId'] as String;
+  final walletAddress = args['walletAddress'] as String;
+  final belnetId = args['belnetId'] as String;
+  final bnsName = args['bnsName'] as String;
+  final priorityRaw = args['priorityRaw'] as int;
+  final accountIndex = args['accountIndex'] as int;
+
+  return transaction_history.createBnsUpdateTransactionSync(
+      owner: owner,
+      backUpOwner: backUpOwner,
+      bchatId: bchatId,
+      walletAddress: walletAddress,
+      belnetId: belnetId,
+      bnsName: bnsName,
+      priorityRaw: priorityRaw,
+      accountIndex: accountIndex);
+}
+
+Future<PendingTransactionDescription> createBnsUpdateTransaction(
+    {String owner,
+      String backUpOwner,
+      String bchatId,
+      String walletAddress,
+      String belnetId,
+      String bnsName,
+      int priorityRaw,
+      int accountIndex = 0}) =>
+    compute(_createBnsUpdateTransactionSync, {
+      'owner': owner,
+      'backUpOwner': backUpOwner,
+      'bchatId': bchatId,
+      'walletAddress': walletAddress,
+      'belnetId': belnetId,
+      'bnsName': bnsName,
+      'priorityRaw': priorityRaw,
+      'accountIndex': accountIndex
+    });
+
+PendingTransactionDescription _createBnsRenewalTransactionSync(Map args) {
+  final bnsName = args['bnsName'] as String;
+  final mappingYears = args['mappingYears'] as String;
+  final priorityRaw = args['priorityRaw'] as int;
+  final accountIndex = args['accountIndex'] as int;
+
+  return transaction_history.createBnsRenewalTransactionSync(
+      bnsName: bnsName,
+      mappingYears: mappingYears,
+      priorityRaw: priorityRaw,
+      accountIndex: accountIndex);
+}
+
+Future<PendingTransactionDescription> createBnsRenewalTransaction(
+    {String bnsName,
+      String mappingYears,
+      int priorityRaw,
+      int accountIndex = 0}) =>
+    compute(_createBnsRenewalTransactionSync, {
+      'bnsName': bnsName,
+      'mappingYears': mappingYears,
+      'priorityRaw': priorityRaw,
+      'accountIndex': accountIndex
+    });
+
 PendingTransactionDescription _createSweepAllTransactionSync(Map args) {
   final priorityRaw = args['priorityRaw'] as int;
   final accountIndex = args['accountIndex'] as int;

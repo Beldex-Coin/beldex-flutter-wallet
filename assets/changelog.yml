@@ -72,3 +72,9 @@
     - Fixed UI issues
     - Updated Node list
     - Minor bug fixes
+-
+  version: 1.4.0
+  changes:
+    - User can update and renew their BNS names now
+    - Improved node connectivity for better synchronisation
+    - Minor bug fixes

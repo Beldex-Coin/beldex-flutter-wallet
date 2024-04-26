@@ -1122,7 +1122,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
         print('transactionDescription fee --> committed');
         Wakelock.disable();
         Navigator.of(context).pop();
-        showDialogTransactionSuccessfully(context, 'BNS purchased successfully', onPressed: (_) {
+        showDialogTransactionSuccessfully(context, 'BNS Purchased Successfully', onPressed: (_) {
           Navigator.of(context)..pop()..pop();
         }, onDismiss: (_) {
           Navigator.of(context)..pop()..pop();
