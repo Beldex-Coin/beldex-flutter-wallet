@@ -7,11 +7,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/themes.dart';
 import 'package:beldex_wallet/theme_changer.dart';
+import 'package:beldex_wallet/l10n.dart';
 
 enum AppBarStyle { regular, withShadow }
 
 abstract class BasePage extends StatelessWidget {
-  String get title => null;
+  String? getTitle(AppLocalizations t) { return null;}
 
   Color get textColor => Colors.white;
 
@@ -25,8 +26,8 @@ abstract class BasePage extends StatelessWidget {
 
   void onClose(BuildContext context) => Navigator.of(context).pop();
 
-  Widget leading(BuildContext context) {
-    if (ModalRoute.of(context).isFirst) {
+  Widget? leading(BuildContext context) {
+    if (ModalRoute.of(context)?.isFirst ?? false) {
       return null;
     }
     final settingsStore = Provider.of<SettingsStore>(context);
@@ -57,21 +58,23 @@ abstract class BasePage extends StatelessWidget {
     );
   }
 
-  Widget middle(BuildContext context) {
+  Widget? middle(BuildContext context) {
+    final title = getTitle(tr(context));
     return title == null
         ? null
         : Text(
             title,
             style: TextStyle(
+                backgroundColor: Colors.transparent,
                 fontSize: 23.0,
                 fontWeight: FontWeight.w700,
-                color: Theme.of(context).primaryTextTheme.caption.color),
+                color: Theme.of(context).primaryTextTheme.caption?.color),
           );
   }
 
-  Widget trailing(BuildContext context) {
+  Widget? trailing(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    if (ModalRoute.of(context).isFirst) {
+    if (ModalRoute.of(context)?.isFirst ?? false) {
       return null;
     }
 
@@ -116,9 +119,9 @@ abstract class BasePage extends StatelessWidget {
       case AppBarStyle.regular:
         return NavBar(
             context: context,
-            leading: leading(context),
-            middle: middle(context),
-            trailing: trailing(context),
+            leading: leading(context)!,
+            middle: middle(context)!,
+            trailing: trailing(context)!,
             backgroundColor: _isDarkTheme
                 ? Theme.of(context).backgroundColor
                 : Theme.of(context).backgroundColor);
@@ -126,9 +129,9 @@ abstract class BasePage extends StatelessWidget {
       case AppBarStyle.withShadow:
         return NavBar.withShadow(
             context: context,
-            leading: leading(context),
-            middle: middle(context),
-            trailing: trailing(context),
+            leading: leading(context)!,
+            middle: middle(context)!,
+            trailing: trailing(context)!,
             backgroundColor: _isDarkTheme
                 ? Theme.of(context).backgroundColor
                 : Theme.of(context).backgroundColor);
@@ -136,9 +139,9 @@ abstract class BasePage extends StatelessWidget {
       default:
         return NavBar(
             context: context,
-            leading: leading(context),
-            middle: middle(context),
-            trailing: trailing(context),
+            leading: leading(context)!,
+            middle: middle(context)!,
+            trailing: trailing(context)!,
             backgroundColor: _isDarkTheme
                 ? Theme.of(context).backgroundColor
                 : Theme.of(context).backgroundColor);
@@ -147,7 +150,7 @@ abstract class BasePage extends StatelessWidget {
 
   Widget body(BuildContext context);
 
-  Widget bottomNavigationBar(BuildContext context) => null;
+  Widget? bottomNavigationBar(BuildContext context) => null;
 
   @override
   Widget build(BuildContext context) {

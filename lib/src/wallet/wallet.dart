@@ -11,15 +11,15 @@ import 'package:beldex_wallet/src/node/node.dart';
 abstract class Wallet {
   WalletType getType();
 
-  WalletType walletType;
+  WalletType get walletType;
 
-  Observable<Balance> onBalanceChange;
+  Stream<Balance> get onBalanceChange;
 
-  Observable<SyncStatus> syncStatus;
+  Stream<SyncStatus> get syncStatus;
 
-  Observable<String> get onNameChange;
+  Stream<String> get onNameChange;
 
-  Observable<String> get onAddressChange;
+  Stream<String> get onAddressChange;
 
   String get name;
 
@@ -55,8 +55,8 @@ abstract class Wallet {
 
   TransactionHistory getHistory();
 
-  Future connectToNode(
-      {Node node, bool useSSL = false, bool isLightWallet = false});
+  Future<void> connectToNode(
+      {required Node node, bool useSSL = false, bool isLightWallet = false});
 
   Future startSync();
 

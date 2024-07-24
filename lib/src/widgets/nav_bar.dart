@@ -6,39 +6,39 @@ import 'package:provider/provider.dart';
 
 class NavBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
   factory NavBar(
-      {BuildContext context,
-      Widget leading,
-      Widget middle,
-      Widget trailing,
-      Color backgroundColor}) {
-    final _themeChanger = Provider.of<ThemeChanger>(context);
+      {BuildContext? context,
+        Widget? leading,
+        Widget? middle,
+        Widget? trailing,
+        Color? backgroundColor}) {
+    final _themeChanger = Provider.of<ThemeChanger>(context!);
     final _isDarkTheme = _themeChanger.getTheme() == Themes.darkTheme;
 
     return NavBar._internal(
-        leading: leading,
-        middle: middle,
-        trailing: trailing,
+        leading: leading!,
+        middle: middle!,
+        trailing: trailing!,
         height: _height,
         backgroundColor:
-            _isDarkTheme ? Theme.of(context).backgroundColor : backgroundColor);
+            _isDarkTheme ? Theme.of(context).backgroundColor : backgroundColor!);
   }
 
   factory NavBar.withShadow(
-      {BuildContext context,
-      Widget leading,
-      Widget middle,
-      Widget trailing,
-      Color backgroundColor}) {
-    final _themeChanger = Provider.of<ThemeChanger>(context);
+      {BuildContext? context,
+        Widget? leading,
+        Widget? middle,
+        Widget? trailing,
+        Color? backgroundColor}) {
+    final _themeChanger = Provider.of<ThemeChanger>(context!);
     final _isDarkTheme = _themeChanger.getTheme() == Themes.darkTheme;
 
     return NavBar._internal(
-      leading: leading,
-      middle: middle,
-      trailing: trailing,
+      leading: leading!,
+      middle: middle!,
+      trailing: trailing!,
       height: 80,
       backgroundColor:
-          _isDarkTheme ? Theme.of(context).backgroundColor : backgroundColor,
+          _isDarkTheme ? Theme.of(context).backgroundColor : backgroundColor!,
       decoration: BoxDecoration(
           color: _isDarkTheme
               ? Theme.of(context).backgroundColor
@@ -63,11 +63,11 @@ class NavBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
   static const _originalHeight = 44.0; // iOS nav bar height
   static const _height = 60.0;
 
-  final Widget leading;
-  final Widget middle;
-  final Widget trailing;
-  final Color backgroundColor;
-  final BoxDecoration decoration;
+  final Widget? leading;
+  final Widget? middle;
+  final Widget? trailing;
+  final Color? backgroundColor;
+  final BoxDecoration? decoration;
   final double height;
 
   @override

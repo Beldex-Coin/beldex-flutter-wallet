@@ -66,63 +66,52 @@ final transactionEstimateFeeNative = beldexApi
     .asFunction<TransactionEstimateFee>();
 
 PendingTransactionDescription createTransactionSync(
-    {String address, String amount, int priorityRaw, int accountIndex = 0}) {
-  final addressPointer = Utf8.toUtf8(address);
-  final amountPointer = amount != null ? Utf8.toUtf8(amount) : nullptr;
-  final errorMessagePointer = allocate<Utf8Box>();
-  final pendingTransactionRawPointer = allocate<PendingTransactionRaw>();
-  final created = transactionCreateNative(
+    {required String address, required String? amount, required int priorityRaw, int accountIndex = 0}) {
+  final addressPointer = address.toNativeUtf8();
+  final amountPointer = amount != null ? amount.toNativeUtf8() : nullptr;
+  final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
+  final result = transactionCreateNative(
           addressPointer,
           amountPointer,
           priorityRaw,
           accountIndex,
-          errorMessagePointer,
-          pendingTransactionRawPointer) !=
-      0;
+          pendingTransactionRawPointer);
 
-  free(addressPointer);
+  calloc.free(addressPointer);
 
   if (amountPointer != nullptr) {
-    free(amountPointer);
+    calloc.free(amountPointer);
   }
 
-  if (!created) {
-    final message = errorMessagePointer.ref.getValue();
-    free(errorMessagePointer);
-    throw CreationTransactionException(message: message);
-  }
+  if (result.good)
+    return PendingTransactionDescription(
+        amount: pendingTransactionRawPointer.ref.amount,
+        fee: pendingTransactionRawPointer.ref.fee,
+        hash: pendingTransactionRawPointer.ref.getHash(),
+        pointerAddress: pendingTransactionRawPointer.address);
 
-  return PendingTransactionDescription(
-      amount: pendingTransactionRawPointer.ref.amount,
-      fee: pendingTransactionRawPointer.ref.fee,
-      hash: pendingTransactionRawPointer.ref.getHash(),
-      pointerAddress: pendingTransactionRawPointer.address);
+  calloc.free(pendingTransactionRawPointer);
+  throw CreationTransactionException(message: result.errorString());
 }
 
-void commitTransaction({Pointer<PendingTransactionRaw> transactionPointer}) {
-  final errorMessagePointer = allocate<Utf8Box>();
-  final isCommited =
-      transactionCommitNative(transactionPointer, errorMessagePointer) != 0;
+void commitTransaction({required Pointer<PendingTransactionRaw> transactionPointer}) {
+  final result = transactionCommitNative(transactionPointer);
 
-  if (!isCommited) {
-    final message = errorMessagePointer.ref.getValue();
-    free(errorMessagePointer);
-    throw CreationTransactionException(message: message);
-  }
+  if (!result.good)
+    throw CreationTransactionException(message: result.errorString());
 }
 
 PendingTransactionDescription createBnsTransactionSync(
-    {String owner, String backUpOwner, String mappingYears, String bchatId, String walletAddress, String belnetId, String bnsName, int priorityRaw, int accountIndex = 0}) {
-  final ownerPointer = Utf8.toUtf8(owner);
-  final backUpOwnerPointer = Utf8.toUtf8(backUpOwner);
-  final mappingYearsPointer = Utf8.toUtf8(mappingYears);
-  final bchatIdPointer = Utf8.toUtf8(bchatId);
-  final walletAddressPointer = Utf8.toUtf8(walletAddress);
-  final belnetIdPointer = Utf8.toUtf8(belnetId);
-  final bnsNamePointer = Utf8.toUtf8(bnsName);
-  final errorMessagePointer = allocate<Utf8Box>();
-  final pendingTransactionRawPointer = allocate<PendingTransactionRaw>();
-  final created = bnsTransactionCreateNative(
+    {required String owner, required String backUpOwner, required String mappingYears, required String bchatId, required String walletAddress, required String belnetId, required String bnsName, required int priorityRaw, int accountIndex = 0}) {
+  final ownerPointer = owner.toNativeUtf8();
+  final backUpOwnerPointer = backUpOwner.toNativeUtf8();
+  final mappingYearsPointer = mappingYears.toNativeUtf8();
+  final bchatIdPointer = bchatId.toNativeUtf8();
+  final walletAddressPointer = walletAddress.toNativeUtf8();
+  final belnetIdPointer = belnetId.toNativeUtf8();
+  final bnsNamePointer = bnsName.toNativeUtf8();
+  final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
+  final result = bnsTransactionCreateNative(
       ownerPointer,
       backUpOwnerPointer,
       mappingYearsPointer,
@@ -132,42 +121,37 @@ PendingTransactionDescription createBnsTransactionSync(
       bnsNamePointer,
       priorityRaw,
       accountIndex,
-      errorMessagePointer,
-      pendingTransactionRawPointer) !=
-      0;
+      pendingTransactionRawPointer);
 
-  free(ownerPointer);
-  free(backUpOwnerPointer);
-  free(mappingYearsPointer);
-  free(bchatIdPointer);
-  free(walletAddressPointer);
-  free(belnetIdPointer);
-  free(bnsNamePointer);
+  calloc.free(ownerPointer);
+  calloc.free(backUpOwnerPointer);
+  calloc.free(mappingYearsPointer);
+  calloc.free(bchatIdPointer);
+  calloc.free(walletAddressPointer);
+  calloc.free(belnetIdPointer);
+  calloc.free(bnsNamePointer);
 
-  if (!created) {
-    final message = errorMessagePointer.ref.getValue();
-    free(errorMessagePointer);
-    throw CreationTransactionException(message: message);
-  }
+  if (result.good)
+    return PendingTransactionDescription(
+        amount: pendingTransactionRawPointer.ref.amount,
+        fee: pendingTransactionRawPointer.ref.fee,
+        hash: pendingTransactionRawPointer.ref.getHash(),
+        pointerAddress: pendingTransactionRawPointer.address);
 
-  return PendingTransactionDescription(
-      amount: pendingTransactionRawPointer.ref.amount,
-      fee: pendingTransactionRawPointer.ref.fee,
-      hash: pendingTransactionRawPointer.ref.getHash(),
-      pointerAddress: pendingTransactionRawPointer.address);
+  calloc.free(pendingTransactionRawPointer);
+  throw CreationTransactionException(message: result.errorString());
 }
 
 PendingTransactionDescription createBnsUpdateTransactionSync(
-    {String owner, String backUpOwner, String bchatId, String walletAddress, String belnetId, String bnsName, int priorityRaw, int accountIndex = 0}) {
-  final ownerPointer = Utf8.toUtf8(owner);
-  final backUpOwnerPointer = Utf8.toUtf8(backUpOwner);
-  final bchatIdPointer = Utf8.toUtf8(bchatId);
-  final walletAddressPointer = Utf8.toUtf8(walletAddress);
-  final belnetIdPointer = Utf8.toUtf8(belnetId);
-  final bnsNamePointer = Utf8.toUtf8(bnsName);
-  final errorMessagePointer = allocate<Utf8Box>();
-  final pendingTransactionRawPointer = allocate<PendingTransactionRaw>();
-  final created = bnsUpdateTransactionCreateNative(
+    {required String owner, required String backUpOwner, required String bchatId, required String walletAddress, required String belnetId, required String bnsName, required int priorityRaw, int accountIndex = 0}) {
+  final ownerPointer = owner.toNativeUtf8();
+  final backUpOwnerPointer = backUpOwner.toNativeUtf8();
+  final bchatIdPointer = bchatId.toNativeUtf8();
+  final walletAddressPointer = walletAddress.toNativeUtf8();
+  final belnetIdPointer = belnetId.toNativeUtf8();
+  final bnsNamePointer = bnsName.toNativeUtf8();
+  final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
+  final result = bnsUpdateTransactionCreateNative(
       ownerPointer,
       backUpOwnerPointer,
       bchatIdPointer,
@@ -176,82 +160,68 @@ PendingTransactionDescription createBnsUpdateTransactionSync(
       bnsNamePointer,
       priorityRaw,
       accountIndex,
-      errorMessagePointer,
-      pendingTransactionRawPointer) !=
-      0;
+      pendingTransactionRawPointer);
 
-  free(ownerPointer);
-  free(backUpOwnerPointer);
-  free(bchatIdPointer);
-  free(walletAddressPointer);
-  free(belnetIdPointer);
-  free(bnsNamePointer);
+  calloc.free(ownerPointer);
+  calloc.free(backUpOwnerPointer);
+  calloc.free(bchatIdPointer);
+  calloc.free(walletAddressPointer);
+  calloc.free(belnetIdPointer);
+  calloc.free(bnsNamePointer);
 
-  if (!created) {
-    final message = errorMessagePointer.ref.getValue();
-    free(errorMessagePointer);
-    throw CreationTransactionException(message: message);
-  }
+  if (result.good)
+    return PendingTransactionDescription(
+        amount: pendingTransactionRawPointer.ref.amount,
+        fee: pendingTransactionRawPointer.ref.fee,
+        hash: pendingTransactionRawPointer.ref.getHash(),
+        pointerAddress: pendingTransactionRawPointer.address);
 
-  return PendingTransactionDescription(
-      amount: pendingTransactionRawPointer.ref.amount,
-      fee: pendingTransactionRawPointer.ref.fee,
-      hash: pendingTransactionRawPointer.ref.getHash(),
-      pointerAddress: pendingTransactionRawPointer.address);
+  calloc.free(pendingTransactionRawPointer);
+  throw CreationTransactionException(message: result.errorString());
 }
 
 PendingTransactionDescription createBnsRenewalTransactionSync(
-    {String bnsName, String mappingYears, int priorityRaw, int accountIndex = 0}) {
-  final bnsNamePointer = Utf8.toUtf8(bnsName);
-  final mappingYearsPointer = Utf8.toUtf8(mappingYears);
-  final errorMessagePointer = allocate<Utf8Box>();
-  final pendingTransactionRawPointer = allocate<PendingTransactionRaw>();
-  final created = bnsRenewalTransactionCreateNative(
+    {required String bnsName, required String mappingYears, required int priorityRaw, int accountIndex = 0}) {
+  final bnsNamePointer = bnsName.toNativeUtf8();
+  final mappingYearsPointer = mappingYears.toNativeUtf8();
+  final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
+  final result = bnsRenewalTransactionCreateNative(
       bnsNamePointer,
       mappingYearsPointer,
       priorityRaw,
       accountIndex,
-      errorMessagePointer,
-      pendingTransactionRawPointer) !=
-      0;
+      pendingTransactionRawPointer);
 
-  free(bnsNamePointer);
-  free(mappingYearsPointer);
+  calloc.free(bnsNamePointer);
+  calloc.free(mappingYearsPointer);
 
 
-  if (!created) {
-    final message = errorMessagePointer.ref.getValue();
-    free(errorMessagePointer);
-    throw CreationTransactionException(message: message);
-  }
+  if (result.good)
+    return PendingTransactionDescription(
+        amount: pendingTransactionRawPointer.ref.amount,
+        fee: pendingTransactionRawPointer.ref.fee,
+        hash: pendingTransactionRawPointer.ref.getHash(),
+        pointerAddress: pendingTransactionRawPointer.address);
 
-  return PendingTransactionDescription(
-      amount: pendingTransactionRawPointer.ref.amount,
-      fee: pendingTransactionRawPointer.ref.fee,
-      hash: pendingTransactionRawPointer.ref.getHash(),
-      pointerAddress: pendingTransactionRawPointer.address);
+  calloc.free(pendingTransactionRawPointer);
+  throw CreationTransactionException(message: result.errorString());
 }
 
 PendingTransactionDescription createSweepAllTransactionSync(
-    {int priorityRaw, int accountIndex = 0}) {
-  final errorMessagePointer = allocate<Utf8Box>();
-  final pendingTransactionRawPointer = allocate<PendingTransactionRaw>();
-  final created = sweepAllTransactionCreateNative(
+    {required int priorityRaw, int accountIndex = 0}) {
+  final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
+  final result = sweepAllTransactionCreateNative(
       priorityRaw,
       accountIndex,
-      errorMessagePointer,
-      pendingTransactionRawPointer) !=
-      0;
+      pendingTransactionRawPointer);
 
-  if (!created) {
-    final message = errorMessagePointer.ref.getValue();
-    free(errorMessagePointer);
-    throw CreationTransactionException(message: message);
-  }
+  if (result.good)
+    return PendingTransactionDescription(
+        amount: pendingTransactionRawPointer.ref.amount,
+        fee: pendingTransactionRawPointer.ref.fee,
+        hash: pendingTransactionRawPointer.ref.getHash(),
+        pointerAddress: pendingTransactionRawPointer.address);
 
-  return PendingTransactionDescription(
-      amount: pendingTransactionRawPointer.ref.amount,
-      fee: pendingTransactionRawPointer.ref.fee,
-      hash: pendingTransactionRawPointer.ref.getHash(),
-      pointerAddress: pendingTransactionRawPointer.address);
+  calloc.free(pendingTransactionRawPointer);
+  throw CreationTransactionException(message: result.errorString());
 }

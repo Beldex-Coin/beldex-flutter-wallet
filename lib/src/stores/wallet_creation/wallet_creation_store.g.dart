@@ -6,10 +6,11 @@ part of 'wallet_creation_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$WalletCreationStore on WalletCreationStoreBase, Store {
-  final _$stateAtom = Atom(name: 'WalletCreationStoreBase.state');
+  late final _$stateAtom =
+      Atom(name: 'WalletCreationStoreBase.state', context: context);
 
   @override
   WalletCreationState get state {
@@ -24,40 +25,11 @@ mixin _$WalletCreationStore on WalletCreationStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: 'WalletCreationStoreBase.errorMessage');
+  late final _$createAsyncAction =
+      AsyncAction('WalletCreationStoreBase.create', context: context);
 
   @override
-  String get errorMessage {
-    _$errorMessageAtom.reportRead();
-    return super.errorMessage;
-  }
-
-  @override
-  set errorMessage(String value) {
-    _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
-      super.errorMessage = value;
-    });
-  }
-
-  final _$isValidAtom = Atom(name: 'WalletCreationStoreBase.isValid');
-
-  @override
-  bool get isValid {
-    _$isValidAtom.reportRead();
-    return super.isValid;
-  }
-
-  @override
-  set isValid(bool value) {
-    _$isValidAtom.reportWrite(value, super.isValid, () {
-      super.isValid = value;
-    });
-  }
-
-  final _$createAsyncAction = AsyncAction('WalletCreationStoreBase.create');
-
-  @override
-  Future<dynamic> create({String name, String language}) {
+  Future<dynamic> create({required String name, required String language}) {
     return _$createAsyncAction
         .run(() => super.create(name: name, language: language));
   }
@@ -65,9 +37,7 @@ mixin _$WalletCreationStore on WalletCreationStoreBase, Store {
   @override
   String toString() {
     return '''
-state: ${state},
-errorMessage: ${errorMessage},
-isValid: ${isValid}
+state: ${state}
     ''';
   }
 }

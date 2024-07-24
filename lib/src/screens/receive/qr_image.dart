@@ -4,7 +4,7 @@ import 'package:beldex_wallet/src/screens/receive/qr_painter.dart';
 
 class QrImage extends StatelessWidget {
   QrImage({
-    @required String data,
+    required String data,
     this.size = 100.0,
     this.backgroundColor,
     Color foregroundColor = Colors.black,
@@ -13,7 +13,7 @@ class QrImage extends StatelessWidget {
   }) : _painter = QrPainter(data, foregroundColor, version, errorCorrectionLevel);
 
   final QrPainter _painter;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final double size;
 
   @override

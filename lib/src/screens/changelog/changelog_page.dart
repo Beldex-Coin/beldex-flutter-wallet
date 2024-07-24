@@ -1,7 +1,7 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:provider/provider.dart';
 import 'package:yaml/yaml.dart';
@@ -10,7 +10,7 @@ class ChangelogPage extends BasePage {
   final String changelogPath = 'assets/changelog.yml';
 
   @override
-  String get title => S.current.changelog;
+  String getTitle(AppLocalizations t) => t.changelog;
 
 @override
 Widget trailing(BuildContext context){
@@ -24,6 +24,9 @@ Widget trailing(BuildContext context){
        final settingsStore = Provider.of<SettingsStore>(context);
     return FutureBuilder(
       builder: (context, snapshot) {
+        if(!snapshot.hasData) {
+          return Container();
+        }
         final changelogs = loadYaml(snapshot.data.toString()) as YamlList;
 
         return ListView.builder(
@@ -35,7 +38,10 @@ Widget trailing(BuildContext context){
                 .join('\n');
 
             return Theme(
-             data: Theme.of(context).copyWith(accentColor:settingsStore.isDarkTheme ? Colors.white : Colors.black,
+              data: Theme.of(context).copyWith(
+                  colorScheme: ColorScheme.fromSwatch().copyWith(
+                    secondary: settingsStore.isDarkTheme ? Colors.white : Colors.black, // Your accent color
+                  ),
                   dividerColor: Colors.transparent,
                   textSelectionTheme: TextSelectionThemeData(
                     selectionColor: Colors.green
@@ -47,7 +53,7 @@ Widget trailing(BuildContext context){
                       borderRadius: BorderRadius.circular(10)
                     ),
                 child: ExpansionTile(
-                  title: Text(versionTitle,style: TextStyle(fontSize: 16,fontWeight: FontWeight.w800)),
+                  title: Text(versionTitle,style: TextStyle(backgroundColor: Colors.transparent,fontSize: 16,fontWeight: FontWeight.w800)),
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,

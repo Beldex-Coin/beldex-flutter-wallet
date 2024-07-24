@@ -1,6 +1,4 @@
-
- //import 'package:beldex_wallet/src/stores/auth/auth_store.dart';
- import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 
 class ButtonClickNotifier with ChangeNotifier{
   bool _buttonClicked = false;

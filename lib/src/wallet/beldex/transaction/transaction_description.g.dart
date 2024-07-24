@@ -18,7 +18,7 @@ class TransactionDescriptionAdapter
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return TransactionDescription(
-      id: fields[0] as String,
+      id: fields[0] as String?,
       recipientAddress: fields[1] as String,
     );
   }

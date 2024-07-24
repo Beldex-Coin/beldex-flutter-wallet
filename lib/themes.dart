@@ -48,7 +48,7 @@ class Themes {
     dividerTheme: DividerThemeData(
       color: Colors.grey,//Palette.lightGrey
     ),
-    accentTextTheme: TextTheme(
+    textTheme: TextTheme(
       headline6: TextStyle(
         color: Palette.backPressButtonColor,
         //color: Colors.grey,
@@ -90,12 +90,14 @@ class Themes {
       shadowColor: Palette.cardButtonColor,
       //color: Palette.cadetBlue
     ),
-    buttonColor: Palette.darkGrey,
+    buttonTheme: ButtonThemeData(
+      buttonColor: Palette.darkGrey,
+    ),
     primaryIconTheme: IconThemeData(
       color: Colors.white
     ),
-    accentIconTheme: IconThemeData(
-      color: Palette.saveAndCopyButtonColor,//Colors.white
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      foregroundColor: Palette.saveAndCopyButtonColor,//Colors.white
     )
   );
 
@@ -144,7 +146,7 @@ class Themes {
     dividerTheme: DividerThemeData(
       color: PaletteDark.darkThemeGreyWithOpacity
     ),
-    accentTextTheme: TextTheme(
+    textTheme: TextTheme(
       headline6: TextStyle(
         color: PaletteDark.backPressButtonColor,
         //color: PaletteDark.darkThemeTitle,
@@ -186,12 +188,14 @@ class Themes {
       shadowColor: PaletteDark.cardButtonColor,
       //color: PaletteDark.darkThemeGrey
     ),
-    buttonColor: PaletteDark.darkThemePinButton,
+    buttonTheme: ButtonThemeData(
+      buttonColor: PaletteDark.darkThemePinButton,
+    ),
     primaryIconTheme: IconThemeData(
       color: PaletteDark.darkThemeViolet
     ),
-    accentIconTheme: IconThemeData(
-      color: PaletteDark.saveAndCopyButtonColor,//PaletteDark.darkThemeIndigoButtonBorder
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      foregroundColor: PaletteDark.saveAndCopyButtonColor,//PaletteDark.darkThemeIndigoButtonBorder
     )
   );
 

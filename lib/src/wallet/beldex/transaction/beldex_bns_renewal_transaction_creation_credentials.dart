@@ -4,7 +4,7 @@ import 'package:beldex_wallet/src/wallet/transaction/transaction_creation_creden
 class BeldexBnsRenewalTransactionCreationCredentials
     extends TransactionCreationCredentials {
   BeldexBnsRenewalTransactionCreationCredentials(
-      {this.bnsName,this.mappingYears,this.priority});
+      {required this.bnsName,required this.mappingYears,required this.priority});
 
   final String bnsName;
   final String mappingYears;

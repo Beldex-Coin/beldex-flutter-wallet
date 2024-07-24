@@ -10,28 +10,28 @@ bool _startedUpdatingPrice = false;
 
 Future<double> _updatePrice(Map args) async => await fetchPriceFor(
     fiat: args['fiat'] as FiatCurrency,
-    crypto: args['crypto'] as CryptoCurrency);
+    /*crypto: args['crypto'] as CryptoCurrency*/);
 
 Future<double> updatePrice(Map args) async => compute(_updatePrice, args);
 
 Future<void> startUpdatingPrice(
-    {SettingsStore settingsStore, PriceStore priceStore}) async {
+    {required SettingsStore settingsStore, required PriceStore priceStore}) async {
   if (_startedUpdatingPrice || !settingsStore.enableFiatCurrency) {
     return;
   }
 
-  const currentCrypto = CryptoCurrency.bdx;
+  //const currentCrypto = CryptoCurrency.bdx;
   _startedUpdatingPrice = true;
 
   final price = await updatePrice(
-      <String, dynamic>{'fiat': settingsStore.fiatCurrency, 'crypto': currentCrypto});
+      <String, dynamic>{'fiat': settingsStore.fiatCurrency});
   priceStore.changePriceForPair(
-      fiat: settingsStore.fiatCurrency, crypto: currentCrypto, price: price);
+      fiat: settingsStore.fiatCurrency, price: price);
 
   Timer.periodic(Duration(seconds: 30), (_) async {
     final price = await updatePrice(
-        <String, dynamic>{'fiat': settingsStore.fiatCurrency, 'crypto': currentCrypto});
+        <String, dynamic>{'fiat': settingsStore.fiatCurrency});
     priceStore.changePriceForPair(
-        fiat: settingsStore.fiatCurrency, crypto: currentCrypto, price: price);
+        fiat: settingsStore.fiatCurrency, price: price);
   });
 }

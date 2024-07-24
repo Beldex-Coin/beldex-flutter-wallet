@@ -6,25 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 
 Future showSimpleConfirmDialog(
-    BuildContext context, String title, String body, String fee, String address,
-    {String buttonText,
-    void Function(BuildContext context) onPressed,
-    void Function(BuildContext context) onDismiss}) {
+    BuildContext context, String? title, String? body, String? fee, String address,
+    {String? buttonText,
+    required void Function(BuildContext context) onPressed,
+    void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
       builder: (_) => ConfirmSending(title, body, fee, address,
-          buttonText: buttonText, onDismiss: onDismiss, onPressed: onPressed),
+          buttonText: buttonText!, onDismiss: onDismiss!, onPressed: onPressed),
       context: context);
 }
 
 Future showDialogTransactionSuccessfully(BuildContext context,String title,
-    {void Function(BuildContext context) onPressed,
-    void Function(BuildContext context) onDismiss}) {
+    {required void Function(BuildContext context) onPressed,
+    void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
       builder: (_) => SendTransactionSuccessfully(title: title,
-          onDismiss: onDismiss, onPressed: onPressed),
+          onDismiss: onDismiss!, onPressed: onPressed),
       context: context);
 }
 
@@ -39,12 +39,12 @@ Future showBnsConfirmationDialogBox(
     String bchatId,
     String belnetId,
     WalletStore walletStore,
-    {void Function(BuildContext context) onPressed,
-    void Function(BuildContext context) onDismiss}) {
+    {required void Function(BuildContext context) onPressed,
+    void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
       builder: (_) => BnsConfirmationDialogBox(bnsName, mappingYearsId,
           mappingYears, owner, backUpOwner, walletAddress, bchatId, belnetId, walletStore,
-          onDismiss: onDismiss, onPressed: onPressed),
+          onDismiss: onDismiss!, onPressed: onPressed),
       context: context);
 }
 
@@ -58,11 +58,11 @@ Future showBnsUpdateConfirmationDialogBox(
     String belnetId,
     WalletStore walletStore,
     int bnsUpdateOption,
-    {void Function(BuildContext context) onPressed,
-      void Function(BuildContext context) onDismiss}) {
+    {required void Function(BuildContext context) onPressed,
+      void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
       builder: (_) => BnsUpdateConfirmationDialogBox(bnsName, owner, backUpOwner, walletAddress, bchatId, belnetId, walletStore,bnsUpdateOption,
-          onDismiss: onDismiss, onPressed: onPressed),
+          onDismiss: onDismiss!, onPressed: onPressed),
       context: context);
 }
 
@@ -72,23 +72,23 @@ Future showBnsRenewalConfirmationDialogBox(
     String mappingYearsId,
     String mappingYears,
     WalletStore walletStore,
-    {void Function(BuildContext context) onPressed,
-      void Function(BuildContext context) onDismiss}) {
+    {required void Function(BuildContext context) onPressed,
+      void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
       builder: (_) => BnsRenewalConfirmationDialogBox(bnsName, mappingYearsId,
           mappingYears, walletStore,
-          onDismiss: onDismiss, onPressed: onPressed),
+          onDismiss: onDismiss!, onPressed: onPressed),
       context: context);
 }
 
 Future showDetailsAfterSendSuccessfully(
     BuildContext context, String title, String body, String fee, String address,
-    {String buttonText,
-    void Function(BuildContext context) onPressed,
-    void Function(BuildContext context) onDismiss}) {
+    {String? buttonText,
+    required void Function(BuildContext context) onPressed,
+    void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
       builder: (_) => SendDetailsAfterTransaction(title, body, fee, address,
-          buttonText: buttonText, onDismiss: onDismiss, onPressed: onPressed),
+          buttonText: buttonText!, onDismiss: onDismiss!, onPressed: onPressed),
       context: context);
 }
 
@@ -107,9 +107,9 @@ class SendDetailsAfterTransaction extends StatelessWidget {
   final String body;
   final String fee;
   final String address;
-  final String buttonText;
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
+  final String? buttonText;
+  final void Function(BuildContext context)? onPressed;
+  final void Function(BuildContext context)? onDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -234,11 +234,11 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                 child: GestureDetector(
                                     onTap: () {
                                       if (onDismiss != null) {
-                                        onDismiss(context);
+                                        onDismiss!(context);
                                       }
                                     },
                                     child: Center(
-                                        child: Text(S.of(context).cancel,
+                                        child: Text(tr(context).cancel,
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.bold)))),
@@ -253,12 +253,12 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                 child: GestureDetector(
                                     onTap: () {
                                       if (onPressed != null) {
-                                        onPressed(context);
+                                        onPressed!(context);
                                       }
                                     },
                                     child: Center(
                                         child: Text(
-                                      S.of(context).ok,
+                                      tr(context).ok,
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
@@ -294,9 +294,9 @@ class TransactionSendDetails extends StatelessWidget {
   final String body;
   final String fee;
   final String address;
-  final String buttonText;
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
+  final String? buttonText;
+  final void Function(BuildContext context)? onPressed;
+  final void Function(BuildContext context)? onDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -341,7 +341,7 @@ class TransactionSendDetails extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Text(
-                                    S.of(context).amount,
+                                    tr(context).amount,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700),
@@ -389,7 +389,7 @@ class TransactionSendDetails extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(S.of(context).widgets_address),
+                                Text(tr(context).widgets_address),
                                 Container(
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
@@ -422,11 +422,11 @@ class TransactionSendDetails extends StatelessWidget {
                                 child: GestureDetector(
                                     onTap: () {
                                       if (onDismiss != null) {
-                                        onDismiss(context);
+                                        onDismiss!(context);
                                       }
                                     },
                                     child: Center(
-                                        child: Text(S.of(context).cancel,
+                                        child: Text(tr(context).cancel,
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.bold)))),
@@ -441,12 +441,12 @@ class TransactionSendDetails extends StatelessWidget {
                                 child: GestureDetector(
                                     onTap: () {
                                       if (onPressed != null) {
-                                        onPressed(context);
+                                        onPressed!(context);
                                       }
                                     },
                                     child: Center(
                                         child: Text(
-                                      S.of(context).ok,
+                                      tr(context).ok,
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
@@ -469,14 +469,14 @@ class TransactionSendDetails extends StatelessWidget {
 
 class SendTransactionSuccessfully extends StatefulWidget {
   const SendTransactionSuccessfully({
-    this.title,
+    required this.title,
     this.onPressed,
     this.onDismiss,
   });
 
   final String title;
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
+  final void Function(BuildContext context)? onPressed;
+  final void Function(BuildContext context)? onDismiss;
 
   @override
   _SendTransactionSuccessfullyState createState() =>
@@ -589,13 +589,13 @@ class ConfirmSending extends StatelessWidget {
     this.onDismiss,
   });
 
-  final String title;
-  final String body;
-  final String fee;
+  final String? title;
+  final String? body;
+  final String? fee;
   final String address;
-  final String buttonText;
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
+  final String? buttonText;
+  final void Function(BuildContext context)? onPressed;
+  final void Function(BuildContext context)? onDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -625,7 +625,7 @@ class ConfirmSending extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
-                          child: Text(title,
+                          child: Text(title ?? "",
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.w800)),
                         ),
@@ -641,7 +641,7 @@ class ConfirmSending extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Text(
-                                    S.of(context).transaction_details_amount,
+                                    tr(context).transaction_details_amount,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700),
@@ -652,7 +652,7 @@ class ConfirmSending extends StatelessWidget {
                                     child: Container(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Text(
-                                    body,
+                                    body ?? "",
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
@@ -689,7 +689,7 @@ class ConfirmSending extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text('${S.of(context).restore_address}:',
+                                Text('${tr(context).restore_address}:',
                                     style:
                                         TextStyle(fontWeight: FontWeight.bold)),
                                 Container(
@@ -723,11 +723,11 @@ class ConfirmSending extends StatelessWidget {
                                 child: ElevatedButton(
                                     onPressed: () {
                                       if (onDismiss != null) {
-                                        onDismiss(context);
+                                        onDismiss!(context);
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      primary: settingsStore.isDarkTheme
+                                      backgroundColor: settingsStore.isDarkTheme
                                           ? Color(0xff383848)
                                           : Color(0xffEDEDED),
                                       padding: EdgeInsets.all(12),
@@ -735,7 +735,7 @@ class ConfirmSending extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
-                                    child: Text(S.of(context).cancel,
+                                    child: Text(tr(context).cancel,
                                         style: TextStyle(
                                             fontSize: 15,
                                             color: settingsStore.isDarkTheme
@@ -750,18 +750,18 @@ class ConfirmSending extends StatelessWidget {
                                 child: ElevatedButton(
                                     onPressed: () {
                                       if (onPressed != null) {
-                                        onPressed(context);
+                                        onPressed!(context);
                                       }
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      primary: Color(0xff0BA70F),
+                                      backgroundColor: Color(0xff0BA70F),
                                       padding: EdgeInsets.all(12),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
                                     child: Text(
-                                      S.of(context).ok,
+                                      tr(context).ok,
                                       style: TextStyle(
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
@@ -783,7 +783,7 @@ class ConfirmSending extends StatelessWidget {
                               //         }
                               //       },
                               //       child: Center(
-                              //           child: Text(S.of(context).cancel,
+                              //           child: Text(tr(context).cancel,
                               //               style: TextStyle(
                               //                   fontSize: 15,
                               //                   fontWeight:
@@ -804,7 +804,7 @@ class ConfirmSending extends StatelessWidget {
                               //       },
                               //       child: Center(
                               //           child: Text(
-                              //         S.of(context).ok,
+                              //         tr(context).ok,
                               //         style: TextStyle(
                               //             fontSize: 15,
                               //             fontWeight: FontWeight.bold,
@@ -849,8 +849,8 @@ class BnsConfirmationDialogBox extends StatelessWidget {
   final String bchatId;
   final String belnetId;
   final WalletStore walletStore;
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
+  final void Function(BuildContext context)? onPressed;
+  final void Function(BuildContext context)? onDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -1115,11 +1115,11 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                               child: ElevatedButton(
                                   onPressed: () {
                                     if (onDismiss != null) {
-                                      onDismiss(context);
+                                      onDismiss!(context);
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    primary: settingsStore.isDarkTheme
+                                    backgroundColor: settingsStore.isDarkTheme
                                         ? Color(0xff383848)
                                         : Color(0xffEDEDED),
                                     padding: EdgeInsets.all(12),
@@ -1127,7 +1127,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
-                                  child: Text(S.of(context).cancel,
+                                  child: Text(tr(context).cancel,
                                       style: TextStyle(
                                           fontSize: 15,
                                           color: settingsStore.isDarkTheme
@@ -1142,18 +1142,18 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                               child: ElevatedButton(
                                   onPressed: () {
                                     if (onPressed != null) {
-                                      onPressed(context);
+                                      onPressed!(context);
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    primary: Color(0xff0BA70F),
+                                    backgroundColor: Color(0xff0BA70F),
                                     padding: EdgeInsets.all(12),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
                                   child: Text(
-                                    S.of(context).ok,
+                                    tr(context).ok,
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -1195,8 +1195,8 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
   final String belnetId;
   final WalletStore walletStore;
   final int bnsUpdateOption;
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
+  final void Function(BuildContext context)? onPressed;
+  final void Function(BuildContext context)? onDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -1443,11 +1443,11 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                               child: ElevatedButton(
                                   onPressed: () {
                                     if (onDismiss != null) {
-                                      onDismiss(context);
+                                      onDismiss!(context);
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    primary: settingsStore.isDarkTheme
+                                    backgroundColor: settingsStore.isDarkTheme
                                         ? Color(0xff383848)
                                         : Color(0xffEDEDED),
                                     padding: EdgeInsets.all(12),
@@ -1455,7 +1455,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
-                                  child: Text(S.of(context).cancel,
+                                  child: Text(tr(context).cancel,
                                       style: TextStyle(
                                           fontSize: 15,
                                           color: settingsStore.isDarkTheme
@@ -1470,18 +1470,18 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                               child: ElevatedButton(
                                   onPressed: () {
                                     if (onPressed != null) {
-                                      onPressed(context);
+                                      onPressed!(context);
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    primary: Color(0xff0BA70F),
+                                    backgroundColor: Color(0xff0BA70F),
                                     padding: EdgeInsets.all(12),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
                                   child: Text(
-                                    S.of(context).ok,
+                                    tr(context).ok,
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
@@ -1515,8 +1515,8 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
   final String mappingYearsId;
   final String mappingYears;
   final WalletStore walletStore;
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
+  final void Function(BuildContext context)? onPressed;
+  final void Function(BuildContext context)? onDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -1627,11 +1627,11 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                               child: ElevatedButton(
                                   onPressed: () {
                                     if (onDismiss != null) {
-                                      onDismiss(context);
+                                      onDismiss!(context);
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    primary: settingsStore.isDarkTheme
+                                    backgroundColor: settingsStore.isDarkTheme
                                         ? Color(0xff383848)
                                         : Color(0xffEDEDED),
                                     padding: EdgeInsets.all(12),
@@ -1639,7 +1639,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
-                                  child: Text(S.of(context).cancel,
+                                  child: Text(tr(context).cancel,
                                       style: TextStyle(
                                           fontSize: 15,
                                           color: settingsStore.isDarkTheme
@@ -1654,18 +1654,18 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                               child: ElevatedButton(
                                   onPressed: () {
                                     if (onPressed != null) {
-                                      onPressed(context);
+                                      onPressed!(context);
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    primary: Color(0xff0BA70F),
+                                    backgroundColor: Color(0xff0BA70F),
                                     padding: EdgeInsets.all(12),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
                                   child: Text(
-                                    S.of(context).ok,
+                                    tr(context).ok,
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,

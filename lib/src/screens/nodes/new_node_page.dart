@@ -2,9 +2,8 @@ import 'package:beldex_wallet/src/screens/nodes/test_mainnet_node.dart';
 import 'package:beldex_wallet/src/screens/nodes/test_node.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/widgets/nospaceformatter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/node_list/node_list_store.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
@@ -14,7 +13,7 @@ import 'package:toast/toast.dart';
 
 class NewNodePage extends BasePage {
   @override
-  String get title => S.current.nodes;
+  String getTitle(AppLocalizations t) => t.nodes;
 
   @override
   Widget trailing(BuildContext context) {
@@ -62,6 +61,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
           // Prevent closing the dialog when the user presses the back button
           onWillPop: () async => false,
           child: AlertDialog(
+            surfaceTintColor: Colors.transparent,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             content: Column(
@@ -75,7 +75,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(13.0),
-                  child: Text(S.of(context).checkingNodeConnection,
+                  child: Text(tr(context).checkingNodeConnection,
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
                 )
@@ -103,6 +103,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
     final settingsStore = Provider.of<SettingsStore>(context);
     var newNodePageChangeNotifier =
         Provider.of<NewNodePageChangeNotifier>(context);
+    ToastContext().init(context);
     return GestureDetector(
      onTap: (){
        FocusScope.of(context).unfocus();
@@ -129,8 +130,9 @@ class NewNodeFormState extends State<NewNodePageForm> {
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.all(15.0),
-                      child: Text(S.of(context).addNode,
+                      child: Text(tr(context).addNode,
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontWeight: FontWeight.bold, fontSize: 19)),
                     ),
                     Padding(
@@ -142,8 +144,13 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                   ? Color(0xff333343)
                                   : Color(0xffFFFFFF),
                               filled: true,
-                              hintText: S.of(context).node_address,
-                              hintStyle: TextStyle(color: Color(0xff77778B)),
+                              hintText: tr(context).node_address,
+                              hintStyle: TextStyle(backgroundColor: Colors.transparent,color: Color(0xff77778B)),
+                              errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                               contentPadding: EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 10),
                               border: OutlineInputBorder(
@@ -159,7 +166,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                 borderRadius: BorderRadius.circular(8),
                               )),
                           validator: (value) {
-                            nodeList.validateNodeAddress(value);
+                            nodeList.validateNodeAddress(value!,tr(context));
                             return nodeList.errorMessage;
                           }),
                     ),
@@ -181,13 +188,19 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                   ? Color(0xff333343)
                                   : Color(0xffFFFFFF),
                               filled: true,
-                              hintText: S.of(context).node_port,
+                              hintText: tr(context).node_port,
                               hintStyle: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff77778B)
                                       : Color(0xff77778B)),
                               contentPadding: EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 10),
+                              errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
@@ -200,7 +213,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                 borderRadius: BorderRadius.circular(8),
                               )),
                           validator: (value) {
-                            nodeList.validateNodePort(value);
+                            nodeList.validateNodePort(value!,tr(context));
                             return nodeList.errorMessage;
                           }),
                     ),
@@ -210,8 +223,9 @@ class NewNodeFormState extends State<NewNodePageForm> {
                       child: TextFormField(
                           controller: _nodenameController,
                           decoration: InputDecoration(
-                            hintText: S.of(context).nodeNameOptional,
+                            hintText: tr(context).nodeNameOptional,
                             hintStyle: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
@@ -240,8 +254,9 @@ class NewNodeFormState extends State<NewNodePageForm> {
                       child: TextFormField(
                           controller: _loginController,
                           decoration: InputDecoration(
-                            hintText: S.of(context).userNameOptional,
+                            hintText: tr(context).userNameOptional,
                             hintStyle: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
@@ -270,8 +285,9 @@ class NewNodeFormState extends State<NewNodePageForm> {
                       child: TextFormField(
                           controller: _passwordController,
                           decoration: InputDecoration(
-                            hintText: S.of(context).passwordOptional,
+                            hintText: tr(context).passwordOptional,
                             hintStyle: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
@@ -312,8 +328,9 @@ class NewNodeFormState extends State<NewNodePageForm> {
                             child: Row(
                               children: [
                                 Text(
-                                  S.of(context).testResult,
+                                  tr(context).testResult,
                                   style: TextStyle(
+                                    backgroundColor: Colors.transparent,
                                     fontSize: MediaQuery.of(context).size.height *
                                         0.06 /
                                         3,
@@ -324,8 +341,9 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                         child: Padding(
                                         padding:
                                             const EdgeInsets.only(left: 10.0),
-                                        child: Text(S.of(context).checking,
+                                        child: Text(tr(context).checking,
                                             style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               color: Color(0xff2979FB),
                                               fontWeight: FontWeight.w800,
                                               fontSize: MediaQuery.of(context)
@@ -341,8 +359,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                         child: Text(
                                             newNodePageChangeNotifier
                                                     .isNodeChecked
-                                                ? S.of(context).success
-                                                : S.of(context).connectionFailed,
+                                                ? tr(context).success
+                                                : tr(context).connectionFailed,
                                             style: TextStyle(
                                               color: !newNodePageChangeNotifier
                                                       .isNodeChecked
@@ -377,7 +395,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                               padding: const EdgeInsets.only(left: 8.0),
                               child: GestureDetector(
                                   onTap: () async {
-                                    if (!_formKey.currentState.validate()) {
+                                    if (!(_formKey.currentState?.validate() ?? false)) {
                                       return;
                                     } else {
                                       _loading(true);
@@ -403,8 +421,9 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                       _loading(false);
                                     }
                                   },
-                                  child: Text(S.of(context).test,
+                                  child: Text(tr(context).test,
                                       style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize:
                                             MediaQuery.of(context).size.height *
                                                 0.07 /
@@ -424,8 +443,9 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                     _loginController.text = '';
                                     _passwordController.text = '';
                                   },
-                                  child: Text(S.of(context).cancel,
+                                  child: Text(tr(context).cancel,
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xffB9B9B9)
                                               : Color(0xff9292A7),
@@ -439,24 +459,24 @@ class NewNodeFormState extends State<NewNodePageForm> {
                               child: GestureDetector(
                                   onTap: newNodePageChangeNotifier.isNodeChecked
                                       ? () async {
-                                          if (!_formKey.currentState.validate()) {
+                                          if (!(_formKey.currentState?.validate() ?? false)) {
                                             return;
                                           }
                                           if (newNodePageChangeNotifier
                                               .isMainnet) {
                                             var status = false;
                                             for (var i = 0;
-                                                i < nodeList.nodes.length;
+                                                i < nodeList.nodes!.length;
                                                 i++) {
-                                              if (nodeList.nodes[i].uri.contains(
+                                              if (nodeList.nodes![i].uri.contains(
                                                   '${_nodeAddressController.text}:${_nodePortController.text}')) {
                                                 status = true;
-                                                Toast.show('This node is already exist', context,
-                                                 duration: Toast.LENGTH_SHORT,
+                                                Toast.show('This node is already exist',
+                                                  duration: Toast.lengthShort,
                                               gravity: Toast
-                                                  .BOTTOM, // Toast gravity (top, center, or bottom)
-                                               textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
-                                  backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                                                  .bottom, // Toast gravity (top, center, or bottom)
+                                                  textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),
+                                                  backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                                                 );
                                                 return;
                                               }
@@ -473,21 +493,17 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                             Navigator.of(context).pop();
                                           } else {
                                             Toast.show(
-                                              S.of(context).pleaseAddAMainnetNode,
-                                              context,
-                                              duration: Toast.LENGTH_SHORT,
+                                              tr(context).pleaseAddAMainnetNode,
+                                              duration: Toast.lengthShort,
                                               gravity: Toast
-                                                  .BOTTOM, // Toast gravity (top, center, or bottom)
-                                              textColor:
-                                                  Colors.white, // Text color
-                                              backgroundColor: Color(
-                                                  0xff0BA70F), // Background color
+                                                  .bottom, // Toast gravity (top, center, or bottom)
+                                              textStyle: TextStyle(color: Colors.white), // Text color // Background color
                                             );
                                           }
                                         }
                                       : null,
                                   child: Text(
-                                    S.of(context).add,
+                                    tr(context).add,
                                     style: TextStyle(
                                         fontSize:
                                             MediaQuery.of(context).size.height *

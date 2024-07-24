@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:beldex_wallet/src/domain/common/default_settings_migration.dart';
 import 'package:beldex_wallet/src/node/node_list.dart';
-import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:beldex_wallet/src/node/node.dart';
@@ -16,21 +15,21 @@ import 'package:beldex_wallet/src/stores/authentication/authentication_store.dar
 import 'package:beldex_wallet/src/stores/login/login_store.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Timer _reconnectionTimer;
-ReactionDisposer _connectToNodeDisposer;
-ReactionDisposer _onSyncStatusChangeDisposer;
-ReactionDisposer _onCurrentWalletChangeDisposer;
+Timer? _reconnectionTimer;
+ReactionDisposer? _connectToNodeDisposer;
+ReactionDisposer? _onSyncStatusChangeDisposer;
+ReactionDisposer? _onCurrentWalletChangeDisposer;
 
 void setReactions(
-    {@required SettingsStore settingsStore,
-    @required PriceStore priceStore,
-    @required SyncStore syncStore,
-    @required WalletStore walletStore,
-    @required WalletService walletService,
-    @required AuthenticationStore authenticationStore,
-    @required LoginStore loginStore,
-    @required Box<Node> nodes,
-    @required SharedPreferences sharedPreferences}) {
+    {required SettingsStore settingsStore,
+    required PriceStore priceStore,
+    required SyncStore syncStore,
+    required WalletStore walletStore,
+    required WalletService walletService,
+    required AuthenticationStore authenticationStore,
+    required LoginStore loginStore,
+    required Box<Node> nodes,
+    required SharedPreferences sharedPreferences}) {
   dynamicallySelectNode(sharedPreferences: sharedPreferences,nodes : nodes,settingsStore: settingsStore);
   connectToNode(settingsStore: settingsStore, walletStore: walletStore,sharedPreferences: sharedPreferences);
   onSyncStatusChange(
@@ -49,19 +48,19 @@ void setReactions(
   });
 }
 
-void dynamicallySelectNode({SharedPreferences sharedPreferences, Box<Node> nodes,SettingsStore settingsStore}) async {
+void dynamicallySelectNode({required SharedPreferences sharedPreferences, required Box<Node> nodes, required SettingsStore settingsStore}) async {
   await resetToDefault(nodes,true);
   await changeCurrentNodeToDefault(
       sharedPreferences: sharedPreferences, nodes: nodes);
   await settingsStore.loadSettings();
 }
 
-void connectToNode({SettingsStore settingsStore, WalletStore walletStore, SharedPreferences sharedPreferences}) {
+void connectToNode({required SettingsStore settingsStore, required WalletStore walletStore, required SharedPreferences sharedPreferences}) {
   _connectToNodeDisposer?.call();
   _connectToNodeDisposer = reaction((_) => settingsStore.node,
-      (Node node) async {
+      (Node? node) async {
     final nodeInitialSetUp = sharedPreferences.getBool('node_initial_setup');
-    if(!nodeInitialSetUp) {
+    if(!nodeInitialSetUp!) {
       await walletStore.connectToNode(node: node);
     }else{
       await sharedPreferences.setBool('node_initial_setup', false);
@@ -70,9 +69,9 @@ void connectToNode({SettingsStore settingsStore, WalletStore walletStore, Shared
 }
 
 void onCurrentWalletChange(
-    {WalletStore walletStore,
-    SettingsStore settingsStore,
-    PriceStore priceStore}) {
+    {required WalletStore walletStore,
+    required SettingsStore settingsStore,
+    required PriceStore priceStore}) {
   _onCurrentWalletChangeDisposer?.call();
 
 //_onCurrentWalletChangeDisposer = 
@@ -83,9 +82,9 @@ reaction((_) => walletStore.name, (String _) {
 }
 
 void onSyncStatusChange(
-    {SyncStore syncStore,
-    WalletStore walletStore,
-    SettingsStore settingsStore}) {
+    {required SyncStore syncStore,
+    required WalletStore walletStore,
+    required SettingsStore settingsStore}) {
   _onSyncStatusChangeDisposer?.call();
 
 // _onSyncStatusChangeDisposer =
@@ -101,13 +100,13 @@ void onSyncStatusChange(
   });
 }
 
-void startReconnectionObserver({SyncStore syncStore, WalletStore walletStore}) {
+void startReconnectionObserver({required SyncStore syncStore, required WalletStore walletStore}) {
   _reconnectionTimer?.cancel();
   _reconnectionTimer = Timer.periodic(Duration(seconds: 1060), (_) async {
     try {
       final isConnected = await walletStore.isConnected();
 
-      if (!isConnected) {
+      if (isConnected !=null && !isConnected) {
         await walletStore.reconnect();
       }
     } catch (e) {

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
@@ -7,12 +8,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:wakelock/wakelock.dart';
 
 class BnsUpdateInitiatingTransactionLoader extends StatelessWidget {
   BnsUpdateInitiatingTransactionLoader(
-      {Key key, this.owner, this.backUpOwner, this.bchatId, this.walletAddress, this.belnetId, this.bnsName, this.sendStore})
+      {Key? key, required this.owner, required this.backUpOwner, required this.bchatId, required this.walletAddress, required this.belnetId, required this.bnsName, required this.sendStore})
       : super(key: key);
 
   final String owner;
@@ -46,7 +46,7 @@ class BnsUpdateInitiatingTransactionLoader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      S.of(context).initiatingTransactionTitle,
+                      tr(context).initiatingTransactionTitle,
                       style: TextStyle(
                           fontSize: height * 0.07 / 3,
                           fontWeight: FontWeight.w800,
@@ -57,7 +57,7 @@ class BnsUpdateInitiatingTransactionLoader extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 15.0, left: 8, right: 8),
                       child: Text(
-                        S.of(context).initiatingTransactionDescription,
+                        tr(context).initiatingTransactionDescription,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: height * 0.07 / 3,

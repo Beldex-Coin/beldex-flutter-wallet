@@ -9,18 +9,16 @@ class RescanWalletStore = RescanWalletStoreBase with _$RescanWalletStore;
 enum RescanWalletState { rescaning, none }
 
 abstract class RescanWalletStoreBase with Store {
-  RescanWalletStoreBase({@required WalletService walletService}) {
-    _walletService = walletService;
+  RescanWalletStoreBase({required WalletService walletService}):
+    _walletService = walletService,
     state = RescanWalletState.none;
-  }
 
   @observable
   RescanWalletState state;
 
   WalletService _walletService;
 
-  @action
-  Future rescanCurrentWallet({int restoreHeight}) async {
+  Future rescanCurrentWallet({required int restoreHeight}) async {
     state = RescanWalletState.rescaning;
     await _walletService.rescan(restoreHeight: restoreHeight);
     state = RescanWalletState.none;

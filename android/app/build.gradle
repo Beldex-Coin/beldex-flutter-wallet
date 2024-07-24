@@ -32,7 +32,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -44,16 +44,16 @@ android {
 
     defaultConfig {
         applicationId "io.beldex.wallet"
-        minSdkVersion 21
-        targetSdkVersion 33
+        minSdkVersion 23
+        targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
 
         externalNativeBuild {
             cmake {
-                cppFlags "-std=c++11"
+                cppFlags "-std=c++17"
                 arguments '-DANDROID_STL=c++_shared', '-DBUILD_TESTING=OFF'
-                version "3.10.0+"//"3.10.2"
+                version "3.18.1"//"3.10.2"
             }
         }
     }
@@ -74,9 +74,9 @@ android {
             //signingConfig signingConfigs.release //important
 
             minifyEnabled true
-            useProguard true
+            /*useProguard true
 
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'*/
         }
     }
 }

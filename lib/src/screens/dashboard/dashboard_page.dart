@@ -12,7 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/domain/common/balance_display_mode.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -35,7 +35,7 @@ class DashboardPage extends BasePage {
           child: IconButton(
             icon: SvgPicture.asset(
               'assets/images/new-images/refresh.svg',
-              color: Theme.of(context).primaryTextTheme.caption.color,
+              color: Theme.of(context).primaryTextTheme.caption?.color,
               width: 23,
               height: 23,
             ),
@@ -60,9 +60,10 @@ class DashboardPage extends BasePage {
         return Text(
           walletStore.name,
           style: TextStyle(
+              backgroundColor: Colors.transparent,
               fontSize: 24.0 - (12 - 8) * 2.0,
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).primaryTextTheme.headline6.color),
+              color: Theme.of(context).primaryTextTheme.headline6?.color),
         );
       },
     );
@@ -130,8 +131,9 @@ class DashboardPage extends BasePage {
                       onPressed: () =>
                           Navigator.of(context).pushNamed(Routes.addressBook),
                       label: Flexible(
-                        child: Text(S.of(context).address_book,
+                        child: Text(tr(context).address_book,
                             style: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 fontWeight: FontWeight.bold,
                                 color: settingsStore.isDarkTheme
                                     ? Colors.white
@@ -161,8 +163,9 @@ class DashboardPage extends BasePage {
                       onPressed: () =>
                           Navigator.of(context).pushNamed(Routes.transactionlist),
                       label: Flexible(
-                        child: Text(S.of(context).transactions,
+                        child: Text(tr(context).transactions,
                             style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontWeight: FontWeight.bold,
                               color: Colors.white,)),
                       ),
@@ -184,7 +187,7 @@ class DashboardPage extends BasePage {
 }
 
 class DashboardPageBody extends StatefulWidget {
-  DashboardPageBody({Key key}) : super(key: key);
+  DashboardPageBody({Key? key}) : super(key: key);
 
   @override
   DashboardPageBodyState createState() => DashboardPageBodyState();
@@ -197,21 +200,21 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
   final _listObserverKey = GlobalKey();
   final _listKey = GlobalKey();
 
-  Connectivity connectivity;
-  StreamSubscription<ConnectivityResult> subscription;
+  Connectivity? connectivity;
+  StreamSubscription<ConnectivityResult>? subscription;
   //var reconnect = false;
 
 
   Future<void> _presentQRScanner(BuildContext context) async {
     try {
       final code = await presentQRScanner();
-      final uri = Uri.parse(code);
+      final uri = Uri.parse(code!);
       var address = '';
       var amount = '';
       if (uri != null) {
         address = uri.path;
         if (uri.queryParameters.isNotEmpty) {
-          amount = uri.queryParameters[uri.queryParameters.keys.first];
+          amount = uri.queryParameters[uri.queryParameters.keys.first]!;
         }
       } else {
         address = code;
@@ -261,7 +264,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                               key: _syncingObserverKey,
                               builder: (_) {
                                 final status = syncStore.status;
-                                final statusText = status.title();
+                                final statusText = status.title(tr(context));
                                 final progress = syncStore.status.progress();
                                 final isFailure = status is FailedSyncStatus;
                                 print('dashboard ----->');
@@ -279,8 +282,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       'dashboard page descriptionText $descriptionText');
                                 }
                                 if (status is FailedSyncStatus) {
-                                  descriptionText = S
-                                      .of(context)
+                                  descriptionText = tr(context)
                                       .please_try_to_connect_to_another_node;
                                  /* reconnect = true;
                                   if (networkStatus == NetworkStatus.online && reconnect) {
@@ -310,6 +312,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           Text(
                                               '${statusText[0].toUpperCase() + statusText.substring(1).toLowerCase()}',
                                               style: TextStyle(
+                                                  backgroundColor: Colors.transparent,
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.bold,
                                                   color: isFailure
@@ -337,10 +340,11 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       ),
                                     descriptionText.isNotEmpty ? Text(descriptionText,
                                           style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               fontSize: 11,
                                               color: Theme.of(context)
                                                   .primaryTextTheme
-                                                  .caption
+                                                  .caption!
                                                   .color,
                                               height: 2.0)): Container(height: 10)
                                     ],
@@ -404,9 +408,10 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                               Text(
                                                 '$balance ',
                                                 style: TextStyle(
+                                                  backgroundColor: Colors.transparent,
                                                   color: Theme.of(context)
                                                       .primaryTextTheme
-                                                      .caption
+                                                      .caption!
                                                       .color,
                                                   fontSize: MediaQuery.of(context)
                                                       .size
@@ -417,11 +422,11 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                 ),
                                               ),
                                               Text(
-                                                S.of(context).bdx,
+                                                tr(context).bdx,
                                                 style: TextStyle(
                                                   color: Theme.of(context)
                                                       .primaryTextTheme
-                                                      .caption
+                                                      .caption!
                                                       .color,
                                                   fontSize: 14,
                                                   fontWeight: FontWeight.w600,
@@ -469,6 +474,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
                                         return Text(balance,
                                             style: TextStyle(
+                                                backgroundColor: Colors.transparent,
                                                 color: Color(0xff0BA70F),
                                                 fontSize:
                                                 MediaQuery.of(context).size.height *
@@ -501,13 +507,14 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                   ? () {
                                                 Navigator.of(context,
                                                     rootNavigator: true)
-                                                    .pushNamed(Routes.send);
+                                                    .pushNamed(Routes.send,arguments: {'flash': false, 'address': "", 'amount': ""});
                                               }
                                                   : null,
                                               label: Flexible(
                                                 child: Text(
-                                                  S.of(context).send,
+                                                  tr(context).send,
                                                   style: TextStyle(
+                                                    backgroundColor: Colors.transparent,
                                                     color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                                         ? Colors.white
                                                         : settingsStore.isDarkTheme
@@ -546,8 +553,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                     .pushNamed(Routes.receive),
                                             label: Flexible(
                                               child: Text(
-                                                S.of(context).receive,
+                                                tr(context).receive,
                                                 style: TextStyle(
+                                                  backgroundColor: Colors.transparent,
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,),
                                               ),
@@ -592,8 +600,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       : null,
                                   label: Flexible(
                                     child: Text(
-                                      S.of(context).buyBns,
+                                      tr(context).buyBns,
                                       style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                             ? settingsStore.isDarkTheme
                                             ? Colors.white
@@ -642,8 +651,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         Text(
-                          S.of(context).flashTransaction,
+                          tr(context).flashTransaction,
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 23, fontWeight: FontWeight.w800),
                         ),
                         Observer(
@@ -680,10 +690,10 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         FittedBox(
                           fit: BoxFit.contain,
                           child: Text(
-                              S.of(context)
+                              tr(context)
                                   .transferYourBdxMoreFasternWithFlashTransaction,
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 16)),
+                              style: TextStyle(backgroundColor: Colors.transparent, fontSize: 16)),
                         )
                       ],
                     ),
@@ -693,8 +703,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
     );
   }
 
-  Future<bool> onBackPressed() {
-    return showDialog(
+  Future<bool> onBackPressed() async {
+    final result = await showDialog<bool>(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
@@ -706,6 +716,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                 : Color(0xffffffff),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
+            surfaceTintColor: Colors.transparent,
             child: Container(
               height: 170,
               child: Padding(
@@ -715,7 +726,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      S.of(context).are_you_sure,
+                      tr(context).are_you_sure,
                       textAlign: TextAlign.center,
                       style:
                       TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
@@ -723,9 +734,10 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        S.of(context).doYouWantToExitTheWallet,
+                        tr(context).doYouWantToExitTheWallet,
                         textAlign: TextAlign.center,
                         style: TextStyle(
+                            backgroundColor: Colors.transparent,
                             fontSize: 17, fontWeight: FontWeight.w800),
                       ),
                     ),
@@ -749,8 +761,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                 Navigator.of(context).pop(false);
                               },
                               child: Text(
-                                S.of(context).no,
+                                tr(context).no,
                                 style: TextStyle(
+                                    backgroundColor: Colors.transparent,
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xff93939B)
                                         : Color(0xff222222),
@@ -769,8 +782,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                 Navigator.of(context).pop(true);
                               },
                               child: Text(
-                                S.of(context).yes,
+                                tr(context).yes,
                                 style: TextStyle(
+                                    backgroundColor: Colors.transparent,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold),
                               ),
@@ -785,15 +799,16 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
             ),
           );
         });
+    return result ?? false;
   }
 }
 
 class Item {
   Item({this.id, this.icon, this.text, this.amount, this.color});
 
-  String id;
-  IconData icon;
-  String text;
-  String amount;
-  Color color;
+  String? id;
+  IconData? icon;
+  String? text;
+  String? amount;
+  Color? color;
 }

@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/src/stores/rescan/rescan_wallet_store.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //blockheight widget's property
@@ -27,7 +27,7 @@ class RescanPage extends BasePage {
   final blockchainKey = GlobalKey<_BlockHeightSwapingWidgetState>();
 
   @override
-  String get title => '${S.current.rescan} wallet';
+  String getTitle(AppLocalizations t) => '${t.rescan} wallet';
 
   @override
   Widget trailing(BuildContext context) {
@@ -58,9 +58,9 @@ class RescanPage extends BasePage {
         bottomSection: Observer(
             builder: (_) => LoadingPrimaryButton(
                 isLoading: rescanWalletStore.state == RescanWalletState.rescaning,
-                text: S.of(context).rescan,
+                text: tr(context).rescan,
                 onPressed: () async {
-                  if (_formKey.currentState.validate()) {
+                  if (_formKey.currentState?.validate() ?? false) {
                     print('block height ---> $height');
                     await rescanWalletStore.rescanCurrentWallet(
                         restoreHeight: height);
@@ -70,9 +70,8 @@ class RescanPage extends BasePage {
                     return null;
                   }
                 },
-                color: Theme.of(context).primaryTextTheme.button.backgroundColor,
-                borderColor:
-                    Theme.of(context).primaryTextTheme.button.backgroundColor)),
+                color:  Color.fromARGB(255,46, 160, 33),
+                borderColor: Color.fromARGB(255,46, 160, 33))),
       ),
     );
   }
@@ -84,7 +83,7 @@ class RescanPage extends BasePage {
 }
 
 class BlockHeightSwapingWidget extends StatefulWidget {
-  const BlockHeightSwapingWidget({Key key}) : super(key: key);
+  const BlockHeightSwapingWidget({Key? key}) : super(key: key);
 
   @override
   State<BlockHeightSwapingWidget> createState() =>
@@ -100,8 +99,8 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
   @override
   void initState() {
     restoreHeightController.addListener(() => _height =
-        restoreHeightController.text != null
-            ? int.parse(restoreHeightController.text, onError: (source) => 0)
+    restoreHeightController.text.isNotEmpty
+            ? int.parse(restoreHeightController.text)
             : 0);
     super.initState();
   }
@@ -155,7 +154,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                         padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
                         child: TextFormField(
                           textInputAction: TextInputAction.done,
-                          style: TextStyle(fontSize: 14.0),
+                          style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
                           controller: restoreHeightController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           inputFormatters: [FilteringTextInputFormatter.digitsOnly,NoSpaceFormatter(),FilteringTextInputFormatter.deny(RegExp('[-,. ]'))],
@@ -164,17 +163,19 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintStyle: TextStyle(
+                                backgroundColor:Colors.transparent,
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
                             hintText:
-                                S.of(context).widgets_restore_from_blockheight,
+                                tr(context).widgets_restore_from_blockheight,
+                            errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red)
                           ),
                           validator: (value) {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
-                            if (!pattern.hasMatch(value)) {
-                              return S.of(context).enterValidHeightWithoutSpace;
-                            }else if(!checkCurrentHeight(value)){
+                            if (!pattern.hasMatch(value!)) {
+                              return tr(context).enterValidHeightWithoutSpace;
+                            }else if(!checkCurrentHeight(value!)){
                               return 'Please enter a valid Height';
                             }else {
                               return null;
@@ -224,23 +225,23 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                                   child: TextFormField(
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
-                                    style: TextStyle(fontSize: 14.0),
+                                    style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
                                     decoration: InputDecoration(
                                       //suffix:Icon(Icons.calendar_today,), //SvgPicture.asset('assets/images/new-images/calendar.svg',color:Colors.black),
                                       border: InputBorder.none,
                                       hintStyle: TextStyle(
+                                          backgroundColor:Colors.transparent,
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xff77778B)
                                               : Color(0xff77778B)),
-                                      hintText: S
-                                          .of(context)
+                                      hintText: tr(context)
                                           .widgets_restore_from_date,
+                                      errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red)
                                     ),
                                     controller: dateController,
                                     validator: (value) {
-                                      if (value.isEmpty) {
-                                        return S
-                                            .of(context)
+                                      if (value?.isEmpty ?? false) {
+                                        return tr(context)
                                             .dateShouldNotBeEmpty;
                                       } else {
                                         return null;
@@ -281,8 +282,8 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                     children: [
                       Text(
                           isRestoreByHeight
-                              ? S.of(context).widgets_restore_from_date
-                              : S.of(context).widgets_restore_from_blockheight,
+                              ? tr(context).widgets_restore_from_date
+                              : tr(context).widgets_restore_from_blockheight,
                           style: TextStyle(
                               color: Color(0xffffffff),
                               fontSize: 14,
@@ -303,6 +304,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
   Future selectDate(BuildContext context) async {
     final now = DateTime.now();
     final date = await showDatePicker(
+        initialEntryMode:DatePickerEntryMode.calendarOnly,
         context: context,
         initialDate: now.subtract(Duration(days: 1)),
         firstDate: DateTime(2014, DateTime.april),

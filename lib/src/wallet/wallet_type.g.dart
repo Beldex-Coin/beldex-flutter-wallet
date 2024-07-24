@@ -20,7 +20,7 @@ class WalletTypeAdapter extends TypeAdapter<WalletType> {
       case 2:
         return WalletType.none;
       default:
-        return null;
+        return WalletType.monero;
     }
   }
 

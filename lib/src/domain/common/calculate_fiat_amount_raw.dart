@@ -1,9 +1,6 @@
-String calculateFiatAmountRaw({double price, double cryptoAmount}) {
-  if (price == null) {
-    return '0.00';
-  }
+String calculateFiatAmountRaw({double? price, required double cryptoAmount}) {
 
-  final result = price * cryptoAmount;
+  final result = (price ?? 0.00) * cryptoAmount;
 
   if (result == 0.0) {
     return '0.00';

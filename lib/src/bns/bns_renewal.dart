@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/bns/bns_renewal_change_notifier.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
@@ -11,7 +12,6 @@ import 'package:beldex_wallet/src/bns/bns_renewal_initiating_transaction_loader.
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/stores/balance/balance_store.dart';
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
@@ -29,12 +29,12 @@ import 'bns_commit_transaction_loader.dart';
 import 'bns_price_item.dart';
 
 class BnsRenewalPage extends BasePage {
-  BnsRenewalPage({this.bnsName});
+  BnsRenewalPage({required this.bnsName});
 
   final String bnsName;
 
   @override
-  String get title => S.current.bnsRenewal;
+  String getTitle(AppLocalizations t) => t.bnsRenewal;
 
   @override
   Widget trailing(BuildContext context) {
@@ -57,7 +57,7 @@ class BnsRenewalPage extends BasePage {
 }
 
 class BnsRenewalPageForm extends StatefulWidget {
-  BnsRenewalPageForm({this.bnsName});
+  BnsRenewalPageForm({required this.bnsName});
 
   final String bnsName;
 
@@ -75,11 +75,11 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
 
   final _bnsNameController = TextEditingController();
   bool _effectsInstalled = false;
-  ReactionDisposer rDisposer;
+  ReactionDisposer? rDisposer;
 
   @override
   void initState() {
-    if(widget.bnsName!=null){
+    if(widget.bnsName.isNotEmpty){
       final bnsName = widget.bnsName;
       _bnsNameController.text = bnsName.substring(0, bnsName.indexOf('.'));
     }
@@ -155,8 +155,9 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                     RichText(
                       textAlign: TextAlign.start,
                       text: TextSpan(
-                          text: S.of(context).bns,
+                          text: tr(context).bns,
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               color: Color(0xff0ba70f),
                               fontSize: 15,
                               fontWeight: FontWeight.w800,
@@ -165,6 +166,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                             TextSpan(
                                 text: ' Price',
                                 style: TextStyle(
+                                    backgroundColor: Colors.transparent,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w800,
                                     color: settingsStore.isDarkTheme
@@ -206,6 +208,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                                 text:
                                 '${bnsPriceDetailsList[bnsRenewalChangeNotifier.selectedBnsPriceIndex].detailYears} : ',
                                 style: TextStyle(
+                                    backgroundColor: Colors.transparent,
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xffFFFFFF)
                                         : Color(0xff000000),
@@ -219,6 +222,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                                           .selectedBnsPriceIndex]
                                           .amountOfBdx,
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           fontSize: 15,
                                           fontWeight: FontWeight.w800,
                                           color: Color(0xff0ba70f)))
@@ -233,6 +237,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                             text: TextSpan(
                                 text: 'You Save ',
                                 style: TextStyle(
+                                    backgroundColor: Colors.transparent,
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xffFFFFFF)
                                         : Color(0xff000000),
@@ -246,6 +251,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                                           .selectedBnsPriceIndex]
                                           .youSave,
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           fontSize: 13,
                                           fontWeight: FontWeight.w800,
                                           color: Color(0xff0ba70f)))
@@ -263,6 +269,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                 margin: EdgeInsets.only(left: 15),
                 child: Text('Name',
                     style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         fontSize: 13.0,
                         color: settingsStore.isDarkTheme
                             ? Color(0xffFFFFFF)
@@ -287,7 +294,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                 child: TextFormField(
                   readOnly: true,
                   controller: _bnsNameController,
-                  style: TextStyle(fontSize: 14.0),
+                  style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                   maxLength: _bnsNameController.text.contains('-') ? 63 : 32,
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp('[a-zA-Z0-9-]')),
@@ -297,6 +304,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                     suffix: Text(
                       '.bdx',
                       style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           color: settingsStore.isDarkTheme
                               ? Color(0xffFFFFFF)
                               : Color(0xff000000),
@@ -305,6 +313,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                     ),
                     border: InputBorder.none,
                     hintStyle: TextStyle(
+                        backgroundColor: Colors.transparent,
                         fontSize: 12.0,
                         color: settingsStore.isDarkTheme
                             ? Color(0xff77778B)
@@ -383,6 +392,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                             'Renew',
                             textAlign: TextAlign.center,
                             style: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 fontSize: 17,
                                 color: Color(0xffffffff),
                                 fontWeight: FontWeight.bold))
@@ -480,6 +490,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
         child: Text(
           bnsPriceDetailsListItem.year,
           style: TextStyle(
+              backgroundColor: Colors.transparent,
               color: settingsStore.isDarkTheme
                   ? Color(0xffFFFFFF)
                   : Color(0xff000000),
@@ -532,10 +543,10 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
         }else if(state.error.contains('Failed to get output distribution')){
           errorMessage = 'Failed to get output distribution';
         }
-        showSimpleBeldexDialog(context, S.of(context).alert, errorMessage,
+        showSimpleBeldexDialog(context, tr(context).alert, errorMessage,
             onPressed: (_) {
               Navigator.of(context).pop();
-            });
+            }, onDismiss: (BuildContext context) {  });
       }
 
       if (state is TransactionCreatedSuccessfully &&
@@ -545,9 +556,9 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
         Navigator.of(context).pop();
         showSimpleConfirmDialog(
             context,
-            S.of(context).confirm_sending,
-            sendStore.pendingTransaction.amount,
-            sendStore.pendingTransaction.fee,
+            tr(context).confirm_sending,
+            sendStore.pendingTransaction?.amount,
+            sendStore.pendingTransaction?.fee,
             '${_bnsNameController.text}.bdx', onPressed: (_) {
           Navigator.of(context).pop();
           Navigator.push(

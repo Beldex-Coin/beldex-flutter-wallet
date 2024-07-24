@@ -4,20 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:beldex_wallet/palette.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_keys_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-//import 'package:flutter_windowmanager/flutter_windowmanager.dart';
-//import 'package:fluttertoast/fluttertoast.dart';
 import 'package:toast/toast.dart';
+import '../../../l10n.dart';
 
 class ShowKeysPage extends BasePage {
   @override
   bool get isModalBackButton => true;
 
   @override
-  String get title => S.current.wallet_keys;
+  String getTitle(AppLocalizations t) => t.wallet_keys;
 
   @override
   Widget trailing(BuildContext context) {
@@ -33,15 +30,16 @@ class ShowKeysPage extends BasePage {
     final walletKeysStore = Provider.of<WalletKeysStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
     //setPageSecure();
+    ToastContext().init(context);
     return Container(
         padding: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 5, right: 5),
         child: Observer(
           builder: (_) {
             final keysMap = {
-              S.of(context).view_key_public: walletKeysStore.publicViewKey,
-              S.of(context).view_key_private: walletKeysStore.privateViewKey,
-              S.of(context).spend_key_public: walletKeysStore.publicSpendKey,
-              S.of(context).spend_key_private: walletKeysStore.privateSpendKey
+              tr(context).view_key_public: walletKeysStore.publicViewKey,
+              tr(context).view_key_private: walletKeysStore.privateViewKey,
+              tr(context).spend_key_public: walletKeysStore.publicSpendKey,
+              tr(context).spend_key_private: walletKeysStore.privateSpendKey
             };
 
             return ListView.separated(
@@ -82,13 +80,12 @@ class ShowKeysPage extends BasePage {
                               Clipboard.setData(ClipboardData(
                                   text: keysMap.values.elementAt(index)));
                               Toast.show(
-                                S.of(context).copied,
-                                context,
+                                tr(context).copied,
                                 duration: Toast
-                                    .LENGTH_SHORT, // Toast duration (short or long)
+                                    .lengthShort, // Toast duration (short or long)
                                 gravity: Toast
-                                    .BOTTOM, // Toast gravity (top, center, or bottom)
-                                textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                    .bottom,
+                                textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                               );
 
@@ -121,10 +118,7 @@ class ShowKeysPage extends BasePage {
                               child: Text(value,
                                   style: TextStyle(
                                     fontSize: 13.0,
-                                    color: Theme.of(context)
-                                        .primaryTextTheme
-                                        .caption
-                                        .color,
+                                    color: Theme.of(context).primaryTextTheme.caption?.color,
                                   )),
                             ),
                             Flexible(flex: 1, child: Container())

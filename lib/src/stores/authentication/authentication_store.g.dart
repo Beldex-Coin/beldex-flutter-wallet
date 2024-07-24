@@ -6,10 +6,11 @@ part of 'authentication_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$AuthenticationStore on AuthenticationStoreBase, Store {
-  final _$stateAtom = Atom(name: 'AuthenticationStoreBase.state');
+  late final _$stateAtom =
+      Atom(name: 'AuthenticationStoreBase.state', context: context);
 
   @override
   AuthenticationState get state {
@@ -24,23 +25,24 @@ mixin _$AuthenticationStore on AuthenticationStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: 'AuthenticationStoreBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: 'AuthenticationStoreBase.errorMessage', context: context);
 
   @override
-  String get errorMessage {
+  String? get errorMessage {
     _$errorMessageAtom.reportRead();
     return super.errorMessage;
   }
 
   @override
-  set errorMessage(String value) {
+  set errorMessage(String? value) {
     _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
       super.errorMessage = value;
     });
   }
 
-  final _$AuthenticationStoreBaseActionController =
-      ActionController(name: 'AuthenticationStoreBase');
+  late final _$AuthenticationStoreBaseActionController =
+      ActionController(name: 'AuthenticationStoreBase', context: context);
 
   @override
   void created() {

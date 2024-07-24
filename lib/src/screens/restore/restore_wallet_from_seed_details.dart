@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet_restoration/wallet_restoration_store.dart';
 import 'package:beldex_wallet/src/stores/wallet_restoration/wallet_restoration_state.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -29,7 +29,7 @@ final _formKey2 = GlobalKey<FormState>();
 
 class RestoreWalletFromSeedDetailsPage extends BasePage {
   @override
-  String get title => S.current.walletRestore;
+  String getTitle(AppLocalizations t) => t.walletRestore;
 
   @override
   Widget trailing(BuildContext context) {
@@ -51,7 +51,7 @@ class _RestoreFromSeedDetailsFormState
   final _formKey = GlobalKey<FormState>();
   final _blockchainHeightKey = GlobalKey<BlockchainHeightState>();
   final _nameController = TextEditingController();
-  String heighterrorMessage;
+  String? heighterrorMessage;
  // ReactionDisposer restoreSeedDisposer;
 
   @override
@@ -76,11 +76,12 @@ class _RestoreFromSeedDetailsFormState
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
+                  surfaceTintColor: Colors.transparent,
                   content: Text(state.error),
                   actions: <Widget>[
-                    FlatButton(
+                    TextButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: Text(S.of(context).ok),
+                      child: Text(tr(context).ok),
                     ),
                   ],
                 );
@@ -110,7 +111,7 @@ class _RestoreFromSeedDetailsFormState
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        S.of(context).enterWalletName,
+                        tr(context).enterWalletName,
                         style: TextStyle(
                             fontSize:
                                 MediaQuery.of(context).size.height * 0.07 / 3,
@@ -137,11 +138,11 @@ class _RestoreFromSeedDetailsFormState
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff77778B)
                                       : Color(0xff6F6F6F)),
-                              hintText: S.of(context).enterWalletName_,
+                              hintText: tr(context).enterWalletName_,
                               errorStyle: TextStyle(height: 0.1)),
-                          onChanged: (val) => _formKey.currentState.validate(),
+                          onChanged: (val) => _formKey.currentState?.validate(),
                           validator: (value) {
-                            walletRestorationStore.validateWalletName(value);
+                            walletRestorationStore.validateWalletName(value ?? '',tr(context));
                             return walletRestorationStore.errorMessage;
                           },
                         ),
@@ -155,21 +156,18 @@ class _RestoreFromSeedDetailsFormState
         bottomSection: Observer(builder: (_) {
           return LoadingPrimaryButton(
               onPressed: () {
-                if (_formKey.currentState.validate()) {
-                  if (_formKey2.currentState.validate()) {
-                    walletRestorationStore.restoreFromSeed(
-                        name: _nameController.text, restoreHeight: height);
-                    restoreHeights(height);
-                  }
+                if ((_formKey.currentState?.validate() ?? false) && (_formKey2.currentState?.validate() ?? false)) {
+                  walletRestorationStore.restoreFromSeed(
+                      name: _nameController.text, restoreHeight: height);
+                  restoreHeights(height);
                 } else {
                   return;
                 }
               },
               isLoading: walletRestorationStore.state is WalletIsRestoring,
-              text: S.of(context).restore_recover,
-              color: Theme.of(context).primaryTextTheme.button.backgroundColor,
-              borderColor:
-                  Theme.of(context).primaryTextTheme.button.backgroundColor);
+              text: tr(context).restore_recover,
+              color: Color.fromARGB(255,46, 160, 33),
+              borderColor: Color.fromARGB(255,46, 160, 33));
         }),
       ),
     );
@@ -182,7 +180,7 @@ class _RestoreFromSeedDetailsFormState
 }
 
 class BlockHeightSwappingWidget extends StatefulWidget {
-  const BlockHeightSwappingWidget({Key key}) : super(key: key);
+  const BlockHeightSwappingWidget({Key? key}) : super(key: key);
 
   @override
   State<BlockHeightSwappingWidget> createState() =>
@@ -193,8 +191,8 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
   @override
   void initState() {
     restoreHeightController.addListener(() => _height =
-        restoreHeightController.text != null
-            ? int.parse(restoreHeightController.text, onError: (source) => 0)
+    restoreHeightController.text.isNotEmpty
+            ? int.parse(restoreHeightController.text)
             : 0);
     super.initState();
   }
@@ -241,14 +239,13 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff77778B)
                                       : Color(0xff77778B)),
-                              hintText: S
-                                  .of(context)
+                              hintText: tr(context)
                                   .widgets_restore_from_blockheight,
                               errorStyle: TextStyle(height: 0.1)),
                           validator: (value) {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
-                            if (!pattern.hasMatch(value)) {
-                              return S.of(context).enterValidHeightWithoutSpace;
+                            if (!pattern.hasMatch(value!)) {
+                              return tr(context).enterValidHeightWithoutSpace;
                             }else {
                               return null;
                             }
@@ -291,15 +288,13 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xff77778B)
                                               : Color(0xff77778B)),
-                                      hintText: S
-                                          .of(context)
+                                      hintText: tr(context)
                                           .widgets_restore_from_date,
                                     ),
                                     controller: dateController,
                                     validator: (value) {
-                                      if (value.isEmpty) {
-                                        return S
-                                            .of(context)
+                                      if (value?.isEmpty ?? false) {
+                                        return tr(context)
                                             .dateShouldNotBeEmpty;
                                       } else {
                                         return null;
@@ -331,7 +326,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
               },
               style: ElevatedButton.styleFrom(
                 alignment: Alignment.center,
-                primary: Color(0xff2979FB),
+                backgroundColor: Color(0xff2979FB),
                 padding: EdgeInsets.all(12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -342,8 +337,8 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                 children: [
                   Text(
                       isRestoreByHeight
-                          ? S.of(context).widgets_restore_from_date
-                          : S.of(context).widgets_restore_from_blockheight,
+                          ? tr(context).widgets_restore_from_date
+                          : tr(context).widgets_restore_from_blockheight,
                       style: TextStyle(
                           color: Color(0xffffffff),
                           fontSize: 14,
@@ -364,6 +359,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
   Future selectDate(BuildContext context) async {
     final now = DateTime.now();
     final date = await showDatePicker(
+        initialEntryMode:DatePickerEntryMode.calendarOnly,
         context: context,
         initialDate: now.subtract(Duration(days: 1)),
         firstDate: DateTime(2014, DateTime.april),

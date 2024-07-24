@@ -2,12 +2,12 @@ import 'dart:ui';
 
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 Future showBeldexDialog(BuildContext context, Widget child,
-    {void Function(BuildContext context) onDismiss}) {
+    {required void Function(BuildContext context) onDismiss}) {
   return showDialog<void>(
       builder: (_) => BeldexDialog(body: child, onDismiss: onDismiss),
       context: context);
@@ -15,14 +15,12 @@ Future showBeldexDialog(BuildContext context, Widget child,
 
 Future showSimpleBeldexDialog(BuildContext context, String title, String body,
     {bool status = false,
-    String buttonText,
-    void Function(BuildContext context) onPressed,
-    void Function(BuildContext context) onDismiss}) {
+    required void Function(BuildContext context) onPressed,
+    required void Function(BuildContext context) onDismiss}) {
   return showDialog<void>(
       builder: (_) => SimpleBeldexDialog(
             title,
             body,
-            buttonText: buttonText,
             onDismiss: onDismiss,
             onPressed: onPressed,
             status: status,
@@ -32,12 +30,12 @@ Future showSimpleBeldexDialog(BuildContext context, String title, String body,
 
 Future showDialogForResetNode(
     BuildContext context, String title, String body, String fee, String address,
-    {String buttonText,
-    void Function(BuildContext context) onPressed,
-    void Function(BuildContext context) onDismiss}) {
+    {String? buttonText,
+    required void Function(BuildContext context) onPressed,
+    void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
       builder: (_) => ShowResetNodeDialog(title, body, fee, address,
-          buttonText: buttonText, onDismiss: onDismiss, onPressed: onPressed),
+          buttonText: buttonText!, onDismiss: onDismiss!, onPressed: onPressed),
       context: context);
 }
 
@@ -56,9 +54,9 @@ class ShowResetNodeDialog extends StatefulWidget {
   final String body;
   final String fee;
   final String address;
-  final String buttonText;
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
+  final String? buttonText;
+  final void Function(BuildContext context)? onPressed;
+  final void Function(BuildContext context)? onDismiss;
 
   @override
   _ShowResetNodeDialogState createState() => _ShowResetNodeDialogState();
@@ -69,10 +67,11 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     return AlertDialog(
+      surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       title: Center(
           child: Text('${widget.title}',
-              style: TextStyle(fontWeight: FontWeight.w800))),
+              style: TextStyle(backgroundColor: Colors.transparent,fontWeight: FontWeight.w800))),
       backgroundColor:
           settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
       content: Column(
@@ -89,7 +88,7 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
               Expanded(
                 flex: 1,
                 child: ElevatedButton(
-                  onPressed: () => widget.onDismiss(context),
+                  onPressed: () => widget.onDismiss!(context),
                   style: ElevatedButton.styleFrom(
                     primary: settingsStore.isDarkTheme
                         ? Color(0xff383848)
@@ -99,8 +98,9 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-                  child: Text(S.of(context).cancel,
+                  child: Text(tr(context).cancel,
                       style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           color: settingsStore.isDarkTheme
                               ? Color(0xff93939B)
                               : Color(0xff16161D),
@@ -113,7 +113,7 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
               Expanded(
                 flex: 1,
                 child: ElevatedButton(
-                  onPressed: () => widget.onPressed(context),
+                  onPressed: () => widget.onPressed!(context),
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xff0BA70F),
                     padding: EdgeInsets.all(15),
@@ -122,8 +122,9 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
                     ),
                   ),
                   child: Text(
-                    S.of(context).ok,
+                    tr(context).ok,
                     style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         color: Colors.white, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -137,14 +138,14 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
 }
 
 Future showConfirmBeldexDialog(BuildContext context, String title, String body,
-    {void Function(BuildContext context) onConfirm,
-    Future Function(BuildContext context) onFutureConfirm,
-    void Function(BuildContext context) onDismiss}) {
+    {void Function(BuildContext context)? onConfirm,
+    Future Function(BuildContext context)? onFutureConfirm,
+    void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
       builder: (_) => ConfirmBeldexDialog(title, body,
-          onDismiss: onDismiss,
-          onConfirm: onConfirm,
-          onFutureConfirm: onFutureConfirm),
+          onDismiss: onDismiss!,
+          onConfirm: onConfirm!,
+          onFutureConfirm: onFutureConfirm!),
       context: context);
 }
 
@@ -154,14 +155,14 @@ class BeldexDialog extends StatelessWidget {
     this.onDismiss,
   });
 
-  final void Function(BuildContext context) onDismiss;
-  final Widget body;
+  final void Function(BuildContext context)? onDismiss;
+  final Widget? body;
 
   void _onDismiss(BuildContext context) {
     if (onDismiss == null) {
       Navigator.of(context).pop();
     } else {
-      onDismiss(context);
+      onDismiss!(context);
     }
   }
 
@@ -197,14 +198,13 @@ class BeldexDialog extends StatelessWidget {
 
 class SimpleBeldexDialog extends StatelessWidget {
   SimpleBeldexDialog(this.title, this.body,
-      {this.buttonText, this.onPressed, this.onDismiss, this.status});
+      {this.onPressed, this.onDismiss, required this.status});
 
   final String title;
   final String body;
-  final String buttonText;
   final bool status;
-  final void Function(BuildContext context) onPressed;
-  final void Function(BuildContext context) onDismiss;
+  final void Function(BuildContext context)? onPressed;
+  final void Function(BuildContext context)? onDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -221,38 +221,34 @@ class SimpleBeldexDialog extends StatelessWidget {
                       child: Text(title,
                           textAlign: TextAlign.center,
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 18,
                               fontWeight: FontWeight.w800,
                               decoration: TextDecoration.none,
                               color: Theme.of(context)
                                   .primaryTextTheme
-                                  .caption
+                                  .caption!
                                   .color))),
               Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 15),
                   child: Text(body,
                       textAlign: TextAlign.center,
                       style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           fontSize: 15,
                           decoration: TextDecoration.none,
                           color: Theme.of(context)
                               .primaryTextTheme
-                              .caption
+                              .caption!
                               .color))),
               Container(
                 width: MediaQuery.of(context).size.width / 3,
                 child: PrimaryButton(
-                    text: buttonText ?? S.of(context).ok,
-                    color: Theme.of(context)
-                        .primaryTextTheme
-                        .button
-                        .backgroundColor,
-                    borderColor: Theme.of(context)
-                        .primaryTextTheme
-                        .button
-                        .backgroundColor,
+                    text: tr(context).ok,
+                    color: Theme.of(context).primaryTextTheme.button?.backgroundColor,
+                    borderColor: Theme.of(context).primaryTextTheme.button?.backgroundColor,
                     onPressed: () {
-                      if (onPressed != null) onPressed(context);
+                      if (onPressed != null) onPressed!(context);
                     }),
               )
             ],
@@ -267,9 +263,9 @@ class ConfirmBeldexDialog extends StatelessWidget {
 
   final String title;
   final String body;
-  final Future Function(BuildContext context) onFutureConfirm;
-  final void Function(BuildContext context) onConfirm;
-  final void Function(BuildContext context) onDismiss;
+  final Future Function(BuildContext context)? onFutureConfirm;
+  final void Function(BuildContext context)? onConfirm;
+  final void Function(BuildContext context)? onDismiss;
 
   @override
   Widget build(BuildContext context) {
@@ -285,23 +281,25 @@ class ConfirmBeldexDialog extends StatelessWidget {
                   child: Text(title,
                       textAlign: TextAlign.center,
                       style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
                           decoration: TextDecoration.none,
                           color: Theme.of(context)
                               .primaryTextTheme
-                              .caption
+                              .caption!
                               .color))),
               Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 15),
                   child: Text(body,
                       textAlign: TextAlign.center,
                       style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           fontSize: 15,
                           decoration: TextDecoration.none,
                           color: Theme.of(context)
                               .primaryTextTheme
-                              .caption
+                              .caption!
                               .color))),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -310,7 +308,7 @@ class ConfirmBeldexDialog extends StatelessWidget {
                     flex: 1,
                     child: ElevatedButton(
                       onPressed: () =>
-                          onDismiss != null ? onDismiss(context) : null,
+                          onDismiss != null ? onDismiss!(context) : null,
                       style: ElevatedButton.styleFrom(
                         primary: settingsStore.isDarkTheme
                             ? Color(0xff383848)
@@ -321,8 +319,9 @@ class ConfirmBeldexDialog extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        S.of(context).cancel,
+                        tr(context).cancel,
                         style: TextStyle(
+                            backgroundColor: Colors.transparent,
                             decoration: TextDecoration.none,
                             color: settingsStore.isDarkTheme
                                 ? Color(0xff93939B)
@@ -339,7 +338,7 @@ class ConfirmBeldexDialog extends StatelessWidget {
                     flex: 1,
                     child: ElevatedButton(
                       onPressed: () =>
-                          onConfirm != null ? onConfirm(context) : null,
+                          onConfirm != null ? onConfirm!(context) : null,
                       style: ElevatedButton.styleFrom(
                         primary: Color(0xff0BA70F),
                         padding: EdgeInsets.all(15),
@@ -348,7 +347,7 @@ class ConfirmBeldexDialog extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        S.of(context).ok,
+                        tr(context).ok,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             decoration: TextDecoration.none,

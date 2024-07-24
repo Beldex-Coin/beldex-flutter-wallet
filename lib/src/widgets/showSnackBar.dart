@@ -9,7 +9,7 @@ void displaySnackBar(BuildContext context, String text){
 //                           content: Text(
 //                            text,
 //                             textAlign: TextAlign.center,
-//                             style: TextStyle(color: Colors.white),
+//                             style: TextStyle(backgroundColor: Colors.transparent,color: Colors.white),
 //                           ),
 //                           backgroundColor: Color(0xff0BA70F),
 //                           duration: Duration(seconds: 1),
@@ -17,10 +17,9 @@ void displaySnackBar(BuildContext context, String text){
 
 Toast.show(
       text,
-      context,
-      duration: Toast.LENGTH_SHORT, // Toast duration (short or long)
-      gravity: Toast.BOTTOM,       // Toast gravity (top, center, or bottom)
-      textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+      duration: Toast.lengthShort, // Toast duration (short or long)
+      gravity: Toast.bottom,       // Toast gravity (top, center, or bottom)
+      textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900, // Background color
     );
 

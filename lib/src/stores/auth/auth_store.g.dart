@@ -6,10 +6,10 @@ part of 'auth_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$AuthStore on AuthStoreBase, Store {
-  final _$stateAtom = Atom(name: 'AuthStoreBase.state');
+  late final _$stateAtom = Atom(name: 'AuthStoreBase.state', context: context);
 
   @override
   AuthState get state {
@@ -24,7 +24,8 @@ mixin _$AuthStore on AuthStoreBase, Store {
     });
   }
 
-  final _$_failureCounterAtom = Atom(name: 'AuthStoreBase._failureCounter');
+  late final _$_failureCounterAtom =
+      Atom(name: 'AuthStoreBase._failureCounter', context: context);
 
   @override
   int get _failureCounter {
@@ -39,22 +40,24 @@ mixin _$AuthStore on AuthStoreBase, Store {
     });
   }
 
-  final _$authAsyncAction = AsyncAction('AuthStoreBase.auth');
+  late final _$authAsyncAction =
+      AsyncAction('AuthStoreBase.auth', context: context);
 
   @override
-  Future<dynamic> auth({String password}) {
-    return _$authAsyncAction.run(() => super.auth(password: password));
+  Future<dynamic> auth({required String password, required AppLocalizations l10n}) {
+    return _$authAsyncAction
+        .run(() => super.auth(password: password, l10n: l10n));
   }
 
-  final _$AuthStoreBaseActionController =
-      ActionController(name: 'AuthStoreBase');
+  late final _$AuthStoreBaseActionController =
+      ActionController(name: 'AuthStoreBase', context: context);
 
   @override
-  void biometricAuth() {
+  void biometricAuth(AppLocalizations t) {
     final _$actionInfo = _$AuthStoreBaseActionController.startAction(
         name: 'AuthStoreBase.biometricAuth');
     try {
-      return super.biometricAuth();
+      return super.biometricAuth(t);
     } finally {
       _$AuthStoreBaseActionController.endAction(_$actionInfo);
     }

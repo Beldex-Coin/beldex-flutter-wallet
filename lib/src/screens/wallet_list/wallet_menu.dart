@@ -2,7 +2,7 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet_list/wallet_list_store.dart';
 import 'package:beldex_wallet/src/wallet/wallet_description.dart';
 import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
@@ -27,8 +27,7 @@ class WalletMenu {
             auth.close();
             Navigator.of(context).pop(true);
           } catch (e) {
-            auth.changeProcessText(S
-                .of(context)
+            auth.changeProcessText(tr(context)
                 .wallet_list_failed_to_load(wallet.name, e.toString()));
           }
         });
@@ -50,6 +49,7 @@ class WalletMenu {
             builder: (BuildContext context1) {
               final settingsStore = Provider.of<SettingsStore>(context);
               return Dialog(
+                surfaceTintColor: Colors.transparent,
                 elevation: 0,
                 backgroundColor: settingsStore.isDarkTheme
                     ? Color(0xff272733)
@@ -70,31 +70,26 @@ class WalletMenu {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            S.of(context).youAreAboutToDeletenYourWallet,
+                            tr(context).youAreAboutToDeletenYourWallet,
                             textAlign: TextAlign.center,
                             style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 18,
                               fontWeight: FontWeight.w800,
-                              color: Theme.of(context)
-                                  .primaryTextTheme
-                                  .caption
-                                  .color,
+                              color: Theme.of(context).primaryTextTheme.caption?.color,
                             ),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Text(
-                              S
-                                  .of(context)
+                              tr(context)
                                   .makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate,
                               // 'Make sure to take a backup of your Mnemonic seed, wallet address and private keys',
                               textAlign: TextAlign.center,
                               style: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontSize: 16,
-                                  color: Theme.of(context)
-                                      .primaryTextTheme
-                                      .caption
-                                      .color),
+                                  color: Theme.of(context).primaryTextTheme.caption?.color),
                             ),
                           ),
                           SizedBox(
@@ -119,8 +114,9 @@ class WalletMenu {
                                       ),
                                     ),
                                     child: Text(
-                                      S.of(context).no,
+                                      tr(context).no,
                                       style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
                                         color: settingsStore.isDarkTheme
@@ -143,9 +139,9 @@ class WalletMenu {
                                 //            ),
 
                                 //           child:  Text(
-                                //         S.of(context1).no,
+                                //         tr(context1).no,
                                 //         textAlign: TextAlign.center,
-                                //         style: TextStyle(color:settingsStore.isDarkTheme ? Color(0xff93939B) : Color(0xff16161D) ,fontWeight:FontWeight.w900),
+                                //         style: TextStyle(backgroundColor: Colors.transparent,color:settingsStore.isDarkTheme ? Color(0xff93939B) : Color(0xff16161D) ,fontWeight:FontWeight.w900),
                                 //       ),
                                 //         ),
 
@@ -165,16 +161,14 @@ class WalletMenu {
                                           return;
                                         }
                                         try {
-                                          auth.changeProcessText(S
-                                              .of(context)
+                                          auth.changeProcessText(tr(context)
                                               .wallet_list_removing_wallet(
                                                   wallet.name));
                                           await _walletListStore.remove(wallet);
                                           auth.close();
                                           Navigator.of(context).pop(false);
                                         } catch (e) {
-                                          auth.changeProcessText(S
-                                              .of(context)
+                                          auth.changeProcessText(tr(context)
                                               .wallet_list_failed_to_remove(
                                                   wallet.name, e.toString()));
                                         }
@@ -188,8 +182,9 @@ class WalletMenu {
                                       ),
                                     ),
                                     child: Text(
-                                      S.of(context).yes,
+                                      tr(context).yes,
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           color: Color(0xffffffff),
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold),
@@ -207,13 +202,12 @@ class WalletMenu {
                                 //           }
                                 //           try {
                                 //             auth.changeProcessText(
-                                //                 S.of(context).wallet_list_removing_wallet(wallet.name));
+                                //                 tr(context).wallet_list_removing_wallet(wallet.name));
                                 //             await _walletListStore.remove(wallet);
                                 //             auth.close();
                                 //             Navigator.of(context).pop(false);
                                 //           } catch (e) {
-                                //             auth.changeProcessText(S
-                                //                 .of(context)
+                                //             auth.changeProcessText(tr(context)
                                 //                 .wallet_list_failed_to_remove(wallet.name, e.toString()));
                                 //           }
                                 //         });
@@ -226,9 +220,9 @@ class WalletMenu {
                                 //         color: Color(0xff0BA70F),
                                 //      ),
                                 //     child: Text(
-                                //         S.of(context1).yes,
+                                //         tr(context1).yes,
                                 //         textAlign: TextAlign.center,
-                                //         style: TextStyle(color:Color(0xffffffff),fontWeight:FontWeight.bold),
+                                //         style: TextStyle(backgroundColor: Colors.transparent,color:Color(0xffffffff),fontWeight:FontWeight.bold),
                                 //       ),
                                 //   ),
                                 // ),

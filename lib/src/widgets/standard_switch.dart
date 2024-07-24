@@ -6,11 +6,11 @@ import 'package:provider/provider.dart';
 class StandardSwitch extends StatefulWidget {
   
 
-   StandardSwitch({@required this.value, @required this.onTaped,this.icon});
+   StandardSwitch({required this.value, required this.onTaped,required this.icon});
 
   final bool value;
   final VoidCallback onTaped;
-  var icon=false;
+  bool icon=false;
   @override
   StandardSwitchState createState() => StandardSwitchState();
 }
@@ -31,8 +31,10 @@ class StandardSwitchState extends State<StandardSwitch> {
             color:settingsStore.isDarkTheme ? Color(0xff333343): Color(0xffEDEDED),  //Theme.of(context).toggleButtonsTheme.color,
             gradient: LinearGradient(
               colors: [
-                Theme.of(context).accentTextTheme.headline6.backgroundColor,//Colors.black,
-                Theme.of(context).accentTextTheme.headline6.backgroundColor,//Colors.grey[900],
+                settingsStore.isDarkTheme?Color.fromARGB(255, 31, 32, 39):Color.fromARGB(
+                    255, 235, 235, 235),//Colors.black,
+                settingsStore.isDarkTheme?Color.fromARGB(255, 31, 32, 39):Color.fromARGB(
+                    255, 235, 235, 235),//Colors.grey[900],
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -48,8 +50,8 @@ class StandardSwitchState extends State<StandardSwitch> {
             //shape:BoxShape.circle,
               color:widget.icon ? widget.value ? Color(0xff0BA70F) : Color(0xff737373) :
                widget.value
-                  ? Theme.of(context).primaryTextTheme.button.backgroundColor
-                  : Theme.of(context).accentTextTheme.caption.decorationColor,
+                   ? Theme.of(context).primaryTextTheme.button?.backgroundColor
+                   : Theme.of(context).textTheme.caption?.decorationColor,
               borderRadius: BorderRadius.all(Radius.circular(100.0))),
           child:  widget.icon ? widget.value ?
          SvgPicture.asset('assets/images/new-images/moon_image.svg') :  SvgPicture.asset('assets/images/new-images/sun_image.svg') : Container()

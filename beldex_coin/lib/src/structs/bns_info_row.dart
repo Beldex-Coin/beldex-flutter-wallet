@@ -4,42 +4,42 @@ import 'package:ffi/ffi.dart';
 
 class BnsRowPointer extends Struct {
 
-  Pointer<Utf8> _name;
+  external Pointer<Utf8> _name;
 
-  Pointer<Utf8> _nameHash;
+  external Pointer<Utf8> _nameHash;
 
-  Pointer<Utf8> _owner;
+  external Pointer<Utf8> _owner;
 
-  Pointer<Utf8> _backUpOwner;
+  external Pointer<Utf8> _backUpOwner;
 
-  Pointer<Utf8> _encryptedBchatValue;
+  external Pointer<Utf8> _encryptedBchatValue;
 
-  Pointer<Utf8> _encryptedWalletValue;
+  external Pointer<Utf8> _encryptedWalletValue;
 
-  Pointer<Utf8> _encryptedBelnetValue;
+  external Pointer<Utf8> _encryptedBelnetValue;
 
-  Pointer<Utf8> _valueBchat;
+  external Pointer<Utf8> _valueBchat;
 
-  Pointer<Utf8> _valueWallet;
+  external Pointer<Utf8> _valueWallet;
 
-  Pointer<Utf8> _valueBelnet;
-
-  @Uint64()
-  int _updateHeight;
+  external Pointer<Utf8> _valueBelnet;
 
   @Uint64()
-  int _expirationHeight;
+  external int _updateHeight;
 
-  String get name => Utf8.fromUtf8(_name);
-  String get nameHash => Utf8.fromUtf8(_nameHash);
-  String get owner => Utf8.fromUtf8(_owner);
-  String get backUpOwner => Utf8.fromUtf8(_backUpOwner);
-  String get encryptedBchatValue => Utf8.fromUtf8(_encryptedBchatValue);
-  String get encryptedWalletValue => Utf8.fromUtf8(_encryptedWalletValue);
-  String get encryptedBelnetValue => Utf8.fromUtf8(_encryptedBelnetValue);
-  String get valueBchat => Utf8.fromUtf8(_valueBchat);
-  String get valueWallet => Utf8.fromUtf8(_valueWallet);
-  String get valueBelnet => Utf8.fromUtf8(_valueBelnet);
+  @Uint64()
+  external int _expirationHeight;
+
+  String get name => _name.toDartString();
+  String get nameHash => _nameHash.toDartString();
+  String get owner => _owner.toDartString();
+  String get backUpOwner => _backUpOwner.toDartString();
+  String get encryptedBchatValue => _encryptedBchatValue.toDartString();
+  String get encryptedWalletValue => _encryptedWalletValue.toDartString();
+  String get encryptedBelnetValue => _encryptedBelnetValue.toDartString();
+  String get valueBchat => _valueBchat.toDartString();
+  String get valueWallet => _valueWallet.toDartString();
+  String get valueBelnet => _valueBelnet.toDartString();
   int get updateHeight => _updateHeight;
   int get expirationHeight => _expirationHeight;
 }

@@ -3,15 +3,15 @@ import 'package:mobx/mobx.dart';
 import 'package:hive/hive.dart';
 import 'package:beldex_wallet/src/node/node.dart';
 import 'package:beldex_wallet/src/node/node_list.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 
 part 'node_list_store.g.dart';
 
 class NodeListStore = NodeListBase with _$NodeListStore;
 
 abstract class NodeListBase with Store {
-  NodeListBase({this.nodesSource}) {
-    nodes = ObservableList<Node>();
+  NodeListBase({required this.nodesSource}) :
+        nodes = ObservableList<Node>() {
     _onNodesChangeSubscription = nodesSource.watch().listen((e) => update());
     update();
   }
@@ -20,14 +20,14 @@ abstract class NodeListBase with Store {
   ObservableList<Node> nodes;
 
   @observable
-  bool isValid;
+  bool isValid=false;
 
   @observable
-  String errorMessage;
+  String? errorMessage;
 
   Box<Node> nodesSource;
 
-  StreamSubscription<BoxEvent> _onNodesChangeSubscription;
+  StreamSubscription<BoxEvent>? _onNodesChangeSubscription;
 
 //  @override
 //  void dispose() {
@@ -39,12 +39,11 @@ abstract class NodeListBase with Store {
 //  }
 
   @action
-  void update() =>
-      nodes.replaceRange(0, nodes.length, nodesSource.values.toList());
+  void update() => nodes.replaceRange(0, nodes.length, nodesSource.values.toList());
 
   @action
   Future addNode(
-      {String address, String port, String login, String password}) async {
+      {required String address, String? port, required String login, required String password}) async {
     var uri = address;
 
     if (port != null && port.isNotEmpty) {
@@ -56,7 +55,7 @@ abstract class NodeListBase with Store {
   }
 
   @action
-  Future remove({Node node}) async => await node.delete();
+  Future remove({required Node node}) async => await node.delete();
 
   @action
   Future reset() async => await resetToDefault(nodesSource,true);
@@ -69,15 +68,15 @@ abstract class NodeListBase with Store {
     }
   }
 
-  void validateNodeAddress(String value) {
+  void validateNodeAddress(String value,AppLocalizations t) {
     const pattern =
         '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\$|^[0-9a-zA-Z.]+\$';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
-    errorMessage = isValid ? null : S.current.error_text_node_address;
+    errorMessage = (isValid ? null : t.error_text_node_address);
   }
 
-  void validateNodePort(String value) {
+  void validateNodePort(String value,AppLocalizations t) {
     const pattern = '^[0-9]{1,5}';
     final regExp = RegExp(pattern);
 
@@ -92,6 +91,6 @@ abstract class NodeListBase with Store {
       isValid = false;
     }
 
-    errorMessage = isValid ? null : S.current.error_text_node_port;
+    errorMessage = (isValid ? null : t.error_text_node_port);
   }
 }
