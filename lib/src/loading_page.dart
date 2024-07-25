@@ -5,7 +5,7 @@ import 'package:beldex_wallet/src/wallet/wallet_description.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../l10n.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class LoadingPage extends StatelessWidget{
   LoadingPage({ Key? key, required this.wallet, required this.walletListStore }) : super(key: key);
@@ -19,10 +19,10 @@ class LoadingPage extends StatelessWidget{
     final settingsStore = Provider.of<SettingsStore>(context);
     ScreenSize.init(context);
     final height = MediaQuery.of(context).size.height;
-    Wakelock.enable();
+    WakelockPlus.enable();
     Future.delayed(const Duration(seconds: 1), () async {
       await walletListStore.loadWallet(wallet);
-      Wakelock.disable();
+      WakelockPlus.disable();
       Navigator.of(context).pop();
     });
     return WillPopScope(

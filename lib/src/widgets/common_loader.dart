@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/l10n.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 class CommonLoader extends StatelessWidget {
   CommonLoader({Key? key, required this.address, required this.sendStore,required this.isFlashTransaction}) : super(key: key);
 
@@ -20,7 +20,7 @@ class CommonLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
- Wakelock.enable();
+ WakelockPlus.enable();
     Future.delayed(const Duration(seconds: 1), (){
       if(isFlashTransaction) {
         sendStore.createTransaction(address: address,tPriority:BeldexTransactionPriority.flash,t: tr(context));

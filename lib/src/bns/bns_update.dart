@@ -21,7 +21,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../../l10n.dart';
 import '../../routes.dart';
@@ -1016,7 +1016,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     _bChatIdController.dispose();
     _belnetIdController.dispose();
     _walletAddressController.dispose();
-    Wakelock.disable();
+    WakelockPlus.disable();
     rDisposer?.call();
     super.dispose();
   }
@@ -1028,7 +1028,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
 
     rDisposer = reaction((_) => sendStore.state, (SendingState state) {
       if (state is SendingFailed) {
-        Wakelock.disable();
+        WakelockPlus.disable();
         Navigator.of(context).pop();
         var errorMessage = state.error;
         if (state.error.contains(
@@ -1064,7 +1064,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
       if (state is TransactionCreatedSuccessfully &&
           sendStore.pendingTransaction != null) {
         print('transactionDescription fee --> created');
-        Wakelock.disable();
+        WakelockPlus.disable();
         Navigator.of(context).pop();
         showSimpleConfirmDialog(
             context,
@@ -1096,7 +1096,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
 
       if (state is TransactionCommitted) {
         print('transactionDescription fee --> committed');
-        Wakelock.disable();
+        WakelockPlus.disable();
         Navigator.of(context).pop();
         showDialogTransactionSuccessfully(context, 'BNS Updated Successfully',
             onPressed: (_) {

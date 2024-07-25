@@ -61,7 +61,7 @@ dependencies:
   share_plus: ^7.2.1
   # share: ^0.6.2+1
   #lottie:
-  wakelock: ^0.4.0
+  wakelock_plus: ^1.1.4
   toast: ^0.3.0
   #esys_flutter_share: ^1.0.2
   #date_range_picker: ^1.0.7

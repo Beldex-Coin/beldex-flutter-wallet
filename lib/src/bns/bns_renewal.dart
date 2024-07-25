@@ -22,7 +22,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../../routes.dart';
 import 'bns_commit_transaction_loader.dart';
@@ -517,7 +517,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
   @override
   void dispose() {
     _bnsNameController.dispose();
-    Wakelock.disable();
+    WakelockPlus.disable();
     rDisposer?.call();
     super.dispose();
   }
@@ -529,7 +529,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
 
     rDisposer = reaction((_) => sendStore.state, (SendingState state) {
       if (state is SendingFailed) {
-        Wakelock.disable();
+        WakelockPlus.disable();
         Navigator.of(context).pop();
         var errorMessage = state.error;
         if(state.error.contains('Reason: Cannot buy an BNS name that is already registered')){
@@ -552,7 +552,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
       if (state is TransactionCreatedSuccessfully &&
           sendStore.pendingTransaction != null) {
         print('transactionDescription fee --> created');
-        Wakelock.disable();
+        WakelockPlus.disable();
         Navigator.of(context).pop();
         showSimpleConfirmDialog(
             context,
@@ -573,7 +573,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
 
       if (state is TransactionCommitted) {
         print('transactionDescription fee --> committed');
-        Wakelock.disable();
+        WakelockPlus.disable();
         Navigator.of(context).pop();
         showDialogTransactionSuccessfully(context, 'BNS Renewed Successfully', onPressed: (_) {
           Navigator.of(context)..pop()..pop();

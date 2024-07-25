@@ -8,7 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class BnsUpdateInitiatingTransactionLoader extends StatelessWidget {
   BnsUpdateInitiatingTransactionLoader(
@@ -27,7 +27,7 @@ class BnsUpdateInitiatingTransactionLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
-    Wakelock.enable();
+    WakelockPlus.enable();
     Future.delayed(const Duration(seconds: 1), () {
       sendStore.createBnsUpdateTransaction(owner:owner, backUpOwner:backUpOwner, walletAddress:walletAddress, bchatId:bchatId,  belnetId:belnetId, bnsName:bnsName, tPriority: BeldexTransactionPriority.slow);
     });
