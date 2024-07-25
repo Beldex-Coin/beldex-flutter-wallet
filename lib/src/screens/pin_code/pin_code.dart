@@ -273,6 +273,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                         Text(
                           _changePinLengthText(tr(context)),
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 17.0,
                               fontWeight: FontWeight.w800,
                               color:

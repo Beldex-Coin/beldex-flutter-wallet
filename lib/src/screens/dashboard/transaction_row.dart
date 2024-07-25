@@ -64,6 +64,8 @@ class TransactionRow extends StatelessWidget {
                 textSelectionTheme:
                     TextSelectionThemeData(selectionColor: Colors.green)),
             child: ExpansionTile(
+                iconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+                collapsedIconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
                 // initiallyExpanded: true,
                 title: Container(
                   child: Column(

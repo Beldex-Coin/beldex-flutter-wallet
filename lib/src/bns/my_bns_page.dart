@@ -302,6 +302,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                     : Color(0xffFFFFFF),
                                 borderRadius: BorderRadius.circular(10)),
                             child: ExpansionTile(
+                              iconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+                              collapsedIconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
                               title: bnsDetails.name != '(none)' ? Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,

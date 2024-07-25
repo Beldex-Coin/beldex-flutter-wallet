@@ -228,6 +228,7 @@ class ContactFormState extends State<ContactForm> {
                                           CryptoCurrency.all[index].toString(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               fontSize: 16,
                                               color: _selectedCrypto !=
                                                       CryptoCurrency.all[index]
@@ -314,6 +315,7 @@ class ContactFormState extends State<ContactForm> {
                     tr(context).reset,
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                         color: settingsStore.isDarkTheme
@@ -379,7 +381,7 @@ class ContactFormState extends State<ContactForm> {
                                             Text(
                                               e.toString(),
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(fontSize: 15),
+                                              style: TextStyle(backgroundColor: Colors.transparent,fontSize: 15),
                                             ),
                                             SizedBox(
                                               height: 50,
@@ -415,6 +417,7 @@ class ContactFormState extends State<ContactForm> {
                                                       child: Text(
                                                         tr(context).ok,
                                                         style: TextStyle(
+                                                          backgroundColor: Colors.transparent,
                                                           color: Theme.of(context).primaryTextTheme.caption?.color,
                                                         ),
                                                       ),
@@ -442,6 +445,7 @@ class ContactFormState extends State<ContactForm> {
                     tr(context).add,
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                         color: Color(0xffffffff)),

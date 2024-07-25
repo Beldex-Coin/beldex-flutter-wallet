@@ -197,7 +197,6 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
   final _connectionStatusObserverKey = GlobalKey();
   final _balanceObserverKey = GlobalKey();
   final _syncingObserverKey = GlobalKey();
-  final _listObserverKey = GlobalKey();
   final _listKey = GlobalKey();
 
   Connectivity? connectivity;
@@ -249,77 +248,74 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
     }
     return WillPopScope(
       onWillPop: onBackPressed,
-      child: Observer(
-          key: _listObserverKey,
-          builder: (_) {
-            return ListView.builder(
-                key: _listKey,
-                itemCount: 2,
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Container(
-                      child: Column(
-                        children: [
-                          Observer(
-                              key: _syncingObserverKey,
-                              builder: (_) {
-                                final status = syncStore.status;
-                                final statusText = status.title(tr(context));
-                                final progress = syncStore.status.progress();
-                                final isFailure = status is FailedSyncStatus;
-                                print('dashboard ----->');
-                                print('dashboard page status --> $status');
-                                print('dashboard page progress --> $progress');
+      child: ListView.builder(
+          key: _listKey,
+          itemCount: 2,
+          itemBuilder: (context, index) {
+            if (index == 0) {
+              return Container(
+                child: Column(
+                  children: [
+                    Observer(
+                        key: _syncingObserverKey,
+                        builder: (_) {
+                          final status = syncStore.status;
+                          final statusText = status.title(tr(context));
+                          final progress = syncStore.status.progress();
+                          final isFailure = status is FailedSyncStatus;
+                          print('dashboard ----->');
+                          print('dashboard page status --> $status');
+                          print('dashboard page progress --> $progress');
 
-                                var descriptionText = '';
-                                print(
-                                    'dashboard page status is SyncingSyncStatus ${status is SyncingSyncStatus}');
-                                if (status is SyncingSyncStatus) {
-                                  descriptionText = '';
-                                  print(
-                                      'dashboard page syncStore.status.toString() ${syncStore.status.toString()}');
-                                  print(
-                                      'dashboard page descriptionText $descriptionText');
-                                }
-                                if (status is FailedSyncStatus) {
-                                  descriptionText = tr(context)
-                                      .please_try_to_connect_to_another_node;
-                                 /* reconnect = true;
+                          var descriptionText = '';
+                          print(
+                              'dashboard page status is SyncingSyncStatus ${status is SyncingSyncStatus}');
+                          if (status is SyncingSyncStatus) {
+                            descriptionText = '';
+                            print(
+                                'dashboard page syncStore.status.toString() ${syncStore.status.toString()}');
+                            print(
+                                'dashboard page descriptionText $descriptionText');
+                          }
+                          if (status is FailedSyncStatus) {
+                            descriptionText = tr(context)
+                                .please_try_to_connect_to_another_node;
+                            /* reconnect = true;
                                   if (networkStatus == NetworkStatus.online && reconnect) {
                                     walletStore.reconnect();
                                     reconnect = false;
                                   }*/
-                                }
-                                return Container(
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 1.5,
-                                        child: LinearProgressIndicator(
-                                          backgroundColor: Palette.separator,
-                                          valueColor: AlwaysStoppedAnimation<Color>(
-                                              isFailure
-                                                  ? BeldexPalette.red
-                                                  : BeldexPalette.belgreen
-                                          ),
-                                          value: progress,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                              '${statusText[0].toUpperCase() + statusText.substring(1).toLowerCase()}',
-                                              style: TextStyle(
-                                                  backgroundColor: Colors.transparent,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: isFailure
-                                                      ? BeldexPalette.red
-                                                      : BeldexPalette.belgreen
-                                              )),
-                                          /*syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                          }
+                          return Container(
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 1.5,
+                                  child: LinearProgressIndicator(
+                                    backgroundColor: Palette.separator,
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                        isFailure
+                                            ? BeldexPalette.red
+                                            : BeldexPalette.belgreen
+                                    ),
+                                    value: progress,
+                                  ),
+                                ),
+                                SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                        '${statusText[0].toUpperCase() + statusText.substring(1).toLowerCase()}',
+                                        style: TextStyle(
+                                            backgroundColor: Colors.transparent,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: isFailure
+                                                ? BeldexPalette.red
+                                                : BeldexPalette.belgreen
+                                        )),
+                                    /*syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                              ? GestureDetector(
                                                  onTap: () async {
                                                    await showDialog<void>(
@@ -336,369 +332,368 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                  ),
                                                )
                                              : Container()*/
-                                        ],
-                                      ),
-                                    descriptionText.isNotEmpty ? Text(descriptionText,
-                                          style: TextStyle(
-                                              backgroundColor: Colors.transparent,
-                                              fontSize: 11,
-                                              color: Theme.of(context)
-                                                  .primaryTextTheme
-                                                  .caption!
-                                                  .color,
-                                              height: 2.0)): Container(height: 10)
-                                    ],
-                                  ),
-                                );
-                              }),
-                          // SizedBox(height:10),
+                                  ],
+                                ),
+                                descriptionText.isNotEmpty ? Text(descriptionText,
+                                    style: TextStyle(
+                                        backgroundColor: Colors.transparent,
+                                        fontSize: 11,
+                                        color: Theme.of(context)
+                                            .primaryTextTheme
+                                            .caption!
+                                            .color,
+                                        height: 2.0)): Container(height: 10)
+                              ],
+                            ),
+                          );
+                        }),
+                    // SizedBox(height:10),
+                    Container(
+                      height:_height * 0.71 / 3,
+                      width:_width,
+                      margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+                      decoration: BoxDecoration(
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xff272733)
+                              : Color(0xffEDEDED),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Container(
-                            height:_height * 0.71 / 3,
-                            width:_width,
-                            margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
-                            decoration: BoxDecoration(
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xff272733)
-                                    : Color(0xffEDEDED),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 15, right: 15, top: 15, bottom: 8),
-                                  child: Observer(
-                                      key: _connectionStatusObserverKey,
-                                      builder: (_) {
-                                        final savedDisplayMode =
-                                            settingsStore.balanceDisplayMode;
-                                        var balance = '---';
-                                        final displayMode = balanceStore.isReversing
-                                            ? (savedDisplayMode ==
-                                            BalanceDisplayMode.availableBalance
-                                            ? BalanceDisplayMode.fullBalance
-                                            : BalanceDisplayMode.availableBalance)
-                                            : savedDisplayMode;
+                            margin: EdgeInsets.only(
+                                left: 15, right: 15, top: 15, bottom: 8),
+                            child: Observer(
+                                key: _connectionStatusObserverKey,
+                                builder: (_) {
+                                  final savedDisplayMode =
+                                      settingsStore.balanceDisplayMode;
+                                  var balance = '---';
+                                  final displayMode = balanceStore.isReversing
+                                      ? (savedDisplayMode ==
+                                      BalanceDisplayMode.availableBalance
+                                      ? BalanceDisplayMode.fullBalance
+                                      : BalanceDisplayMode.availableBalance)
+                                      : savedDisplayMode;
 
-                                        if (displayMode ==
-                                            BalanceDisplayMode.availableBalance) {
-                                          balance =
-                                              balanceStore.unlockedBalanceString ??
-                                                  '00.000000000';
-                                          print(
-                                              'Dashboard availableBalance --> $balance');
-                                        }
-                                        if (displayMode ==
-                                            BalanceDisplayMode.fullBalance) {
-                                          balance = balanceStore.fullBalanceString ??
-                                              '00.000000000';
-                                          print('Dashboard fullBalance --> $balance');
-                                        }
-                                        return GestureDetector(
-                                          onTapUp: (_) =>
-                                          balanceStore.isReversing = false,
-                                          onTapDown: (_) =>
-                                          balanceStore.isReversing = true,
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                            CrossAxisAlignment.baseline,
-                                            textBaseline: TextBaseline.alphabetic,
-                                            children: [
-                                              Text(
-                                                '$balance ',
-                                                style: TextStyle(
-                                                  backgroundColor: Colors.transparent,
-                                                  color: Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .caption!
-                                                      .color,
-                                                  fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                      0.12 /
-                                                      3,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                              ),
-                                              Text(
-                                                tr(context).bdx,
-                                                style: TextStyle(
-                                                  color: Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .caption!
-                                                      .color,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                              ),
-                                            ],
+                                  if (displayMode ==
+                                      BalanceDisplayMode.availableBalance) {
+                                    balance =
+                                        balanceStore.unlockedBalanceString ??
+                                            '00.000000000';
+                                    print(
+                                        'Dashboard availableBalance --> $balance');
+                                  }
+                                  if (displayMode ==
+                                      BalanceDisplayMode.fullBalance) {
+                                    balance = balanceStore.fullBalanceString ??
+                                        '00.000000000';
+                                    print('Dashboard fullBalance --> $balance');
+                                  }
+                                  return GestureDetector(
+                                    onTapUp: (_) =>
+                                    balanceStore.isReversing = false,
+                                    onTapDown: (_) =>
+                                    balanceStore.isReversing = true,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.baseline,
+                                      textBaseline: TextBaseline.alphabetic,
+                                      children: [
+                                        Text(
+                                          '$balance ',
+                                          style: TextStyle(
+                                            backgroundColor: Colors.transparent,
+                                            color: Theme.of(context)
+                                                .primaryTextTheme
+                                                .caption!
+                                                .color,
+                                            fontSize: MediaQuery.of(context)
+                                                .size
+                                                .height *
+                                                0.12 /
+                                                3,
+                                            fontWeight: FontWeight.bold,
                                           ),
-                                        );
-                                      }),
-                                ),
-                                Container(
-                                  margin:
-                                  EdgeInsets.only(left: 15, right: 15),
-                                  child: Observer(
-                                      key: _balanceObserverKey,
-                                      builder: (_) {
-                                        final savedDisplayMode =
-                                            settingsStore.balanceDisplayMode;
-                                        final displayMode =
-                                        settingsStore.enableFiatCurrency
-                                            ? (balanceStore.isReversing
-                                            ? (savedDisplayMode ==
-                                            BalanceDisplayMode
-                                                .availableBalance
-                                            ? BalanceDisplayMode.fullBalance
-                                            : BalanceDisplayMode
-                                            .availableBalance)
-                                            : savedDisplayMode)
-                                            : BalanceDisplayMode.hiddenBalance;
-                                        final symbol =
-                                        settingsStore.fiatCurrency.toString();
-                                        var balance = '---';
+                                        ),
+                                        Text(
+                                          tr(context).bdx,
+                                          style: TextStyle(
+                                            color: Theme.of(context)
+                                                .primaryTextTheme
+                                                .caption!
+                                                .color,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          ),
+                          Container(
+                            margin:
+                            EdgeInsets.only(left: 15, right: 15),
+                            child: Observer(
+                                key: _balanceObserverKey,
+                                builder: (_) {
+                                  final savedDisplayMode =
+                                      settingsStore.balanceDisplayMode;
+                                  final displayMode =
+                                  settingsStore.enableFiatCurrency
+                                      ? (balanceStore.isReversing
+                                      ? (savedDisplayMode ==
+                                      BalanceDisplayMode
+                                          .availableBalance
+                                      ? BalanceDisplayMode.fullBalance
+                                      : BalanceDisplayMode
+                                      .availableBalance)
+                                      : savedDisplayMode)
+                                      : BalanceDisplayMode.hiddenBalance;
+                                  final symbol =
+                                  settingsStore.fiatCurrency.toString();
+                                  var balance = '---';
 
-                                        if (displayMode ==
-                                            BalanceDisplayMode.availableBalance) {
-                                          balance =
-                                          '${balanceStore.fiatUnlockedBalance} $symbol';
+                                  if (displayMode ==
+                                      BalanceDisplayMode.availableBalance) {
+                                    balance =
+                                    '${balanceStore.fiatUnlockedBalance} $symbol';
+                                  }
+
+                                  if (displayMode ==
+                                      BalanceDisplayMode.fullBalance) {
+                                    balance =
+                                    '${balanceStore.fiatFullBalance} $symbol';
+                                  }
+
+                                  return Text(balance,
+                                      style: TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          color: Color(0xff0BA70F),
+                                          fontSize:
+                                          MediaQuery.of(context).size.height *
+                                              0.07 /
+                                              3));
+                                }),
+                          ),
+                          Flexible(child:Container()),
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: 15.0, right: 15.0, bottom: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: Observer(builder: (_) {
+                                    return SizedBox(
+                                      height: MediaQuery.of(context).size.height*0.20/3,
+                                      child: ElevatedButton.icon(
+                                        icon: SvgPicture.asset(
+                                          'assets/images/new-images/send.svg',
+                                          color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                              ? Colors.white
+                                              : settingsStore.isDarkTheme
+                                              ? Color(0xff6C6C78)
+                                              : Color(0xffB2B2B6),
+                                        ),
+                                        onPressed: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                            ? () {
+                                          Navigator.of(context,
+                                              rootNavigator: true)
+                                              .pushNamed(Routes.send,arguments: {'flash': false, 'address': "", 'amount': ""});
                                         }
-
-                                        if (displayMode ==
-                                            BalanceDisplayMode.fullBalance) {
-                                          balance =
-                                          '${balanceStore.fiatFullBalance} $symbol';
-                                        }
-
-                                        return Text(balance,
+                                            : null,
+                                        label: Flexible(
+                                          child: Text(
+                                            tr(context).send,
                                             style: TextStyle(
-                                                backgroundColor: Colors.transparent,
-                                                color: Color(0xff0BA70F),
-                                                fontSize:
-                                                MediaQuery.of(context).size.height *
-                                                    0.07 /
-                                                    3));
-                                      }),
-                                ),
-                                Flexible(child:Container()),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 15.0, right: 15.0, bottom: 15),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: Observer(builder: (_) {
-                                          return SizedBox(
-                                            height: MediaQuery.of(context).size.height*0.20/3,
-                                            child: ElevatedButton.icon(
-                                              icon: SvgPicture.asset(
-                                                'assets/images/new-images/send.svg',
-                                                color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                                    ? Colors.white
-                                                    : settingsStore.isDarkTheme
-                                                    ? Color(0xff6C6C78)
-                                                    : Color(0xffB2B2B6),
-                                              ),
-                                              onPressed: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                                  ? () {
-                                                Navigator.of(context,
-                                                    rootNavigator: true)
-                                                    .pushNamed(Routes.send,arguments: {'flash': false, 'address': "", 'amount': ""});
-                                              }
-                                                  : null,
-                                              label: Flexible(
-                                                child: Text(
-                                                  tr(context).send,
-                                                  style: TextStyle(
-                                                    backgroundColor: Colors.transparent,
-                                                    color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                                        ? Colors.white
-                                                        : settingsStore.isDarkTheme
-                                                        ? Color(0xff6C6C78)
-                                                        : Color(0xffB2B2B6),
-                                                    fontWeight: FontWeight.bold,),
-                                                ),
-                                              ),
-                                              style: ElevatedButton.styleFrom(
-                                                primary: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                                    ? Color(0xff0BA70F)
-                                                    : settingsStore.isDarkTheme
-                                                    ? Color(0xff333343)
-                                                    : Color(0xffE8E8E8),
-                                                padding: EdgeInsets.all(12),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        }),
-                                      ),
-                                      SizedBox(
-                                        width: 10,
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: SizedBox(
-                                          height: MediaQuery.of(context).size.height*0.20/3,
-                                          child: ElevatedButton.icon(
-                                            icon: SvgPicture.asset(
-                                                'assets/images/new-images/receive.svg'),
-                                            onPressed: () =>
-                                                Navigator.of(context, rootNavigator: true)
-                                                    .pushNamed(Routes.receive),
-                                            label: Flexible(
-                                              child: Text(
-                                                tr(context).receive,
-                                                style: TextStyle(
-                                                  backgroundColor: Colors.transparent,
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,),
-                                              ),
-                                            ),
-                                            style: ElevatedButton.styleFrom(
-                                              primary: Color(0xff2979FB),
-                                              padding: EdgeInsets.all(12),
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(10),
-                                              ),
-                                            ),
+                                              backgroundColor: Colors.transparent,
+                                              color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                                  ? Colors.white
+                                                  : settingsStore.isDarkTheme
+                                                  ? Color(0xff6C6C78)
+                                                  : Color(0xffB2B2B6),
+                                              fontWeight: FontWeight.bold,),
+                                          ),
+                                        ),
+                                        style: ElevatedButton.styleFrom(
+                                          primary: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                              ? Color(0xff0BA70F)
+                                              : settingsStore.isDarkTheme
+                                              ? Color(0xff333343)
+                                              : Color(0xffE8E8E8),
+                                          padding: EdgeInsets.all(12),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
                                           ),
                                         ),
                                       ),
-                                    ],
+                                    );
+                                  }),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: SizedBox(
+                                    height: MediaQuery.of(context).size.height*0.20/3,
+                                    child: ElevatedButton.icon(
+                                      icon: SvgPicture.asset(
+                                          'assets/images/new-images/receive.svg'),
+                                      onPressed: () =>
+                                          Navigator.of(context, rootNavigator: true)
+                                              .pushNamed(Routes.receive),
+                                      label: Flexible(
+                                        child: Text(
+                                          tr(context).receive,
+                                          style: TextStyle(
+                                            backgroundColor: Colors.transparent,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,),
+                                        ),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Color(0xff2979FB),
+                                        padding: EdgeInsets.all(12),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                          Container(
-                            width: _width,
-                            margin: EdgeInsets.only(left:15.0,right: 15.0),
-                            child: Observer(builder: (_) {
-                              return SizedBox(
-                                height: MediaQuery.of(context).size.height*0.20/3,
-                                child: ElevatedButton.icon(
-                                  icon: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 ? SvgPicture.asset(
-                                    settingsStore.isDarkTheme?'assets/images/new-images/ic_bns_dark.svg':'assets/images/new-images/ic_bns_light.svg',
-                                  ) : SvgPicture.asset(
-                                    'assets/images/new-images/ic_bns_dark.svg',
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xff6C6C78)
-                                        : Color(0xffB2B2B6),
-                                  ),
-                                  onPressed: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                      ? () {
-                                    Navigator.of(context,
-                                        rootNavigator: true)
-                                        .pushNamed(Routes.bns);
-                                  }
-                                      : null,
-                                  label: Flexible(
-                                    child: Text(
-                                      tr(context).buyBns,
-                                      style: TextStyle(
-                                        backgroundColor: Colors.transparent,
-                                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                            ? settingsStore.isDarkTheme
-                                            ? Colors.white
-                                            : Colors.black
-                                            : settingsStore.isDarkTheme
-                                            ? Color(0xff6C6C78)
-                                            : Color(0xffB2B2B6),
-                                        fontWeight: FontWeight.bold,),
-                                    ),
-                                  ),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                        ? settingsStore.isDarkTheme
-                                        ? Color(0xff272733)
-                                        : Color(0xffFFFFFF)
-                                        : settingsStore.isDarkTheme
-                                        ? Color(0xff333343)
-                                        : Color(0xffE8E8E8),
-                                    padding: EdgeInsets.all(12),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      side: BorderSide(color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 ? Color(0xff2979FB):settingsStore.isDarkTheme
-                                          ? Color(0xff333343)
-                                          : Color(0xffE8E8E8))
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
-                          )
                         ],
                       ),
-                    );
-                  }
-                  return Container(
-                    margin: EdgeInsets.only(left: 15, right: 15, bottom: 10,top:10,),
-                    height: MediaQuery.of(context).size.height * 0.73 / 2,
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xff272733)
-                            : Color(0xffEDEDED),
-                        borderRadius: BorderRadius.circular(10.0)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text(
-                          tr(context).flashTransaction,
-                          style: TextStyle(
-                              backgroundColor: Colors.transparent,
-                              fontSize: 23, fontWeight: FontWeight.w800),
-                        ),
-                        Observer(
-                          builder: (_) {
-                            return GestureDetector(
-                              onTap: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                  ? () {
-                                _presentQRScanner(context);
-                              }
-                                  : null,
-                              child: Container(
-                                padding: EdgeInsets.all(15),
-                                decoration: BoxDecoration(
-                                  color: settingsStore.isDarkTheme
-                                      ? Color(0xffD9D9D9)
-                                      : Color(0xffE2E2E2),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Color(0xffFFFFFF),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: SvgPicture.asset(
-                                      'assets/images/new-images/flashqr.svg',
-                                      color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
-                                          ? Color(0xff222222)
-                                          : Color(0xffD9D9D9),
-                                    )),
-                              ),
-                            );
-                          },
-                        ),
-                        FittedBox(
-                          fit: BoxFit.contain,
-                          child: Text(
-                              tr(context)
-                                  .transferYourBdxMoreFasternWithFlashTransaction,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(backgroundColor: Colors.transparent, fontSize: 16)),
-                        )
-                      ],
                     ),
-                  );
-                });
+                    Container(
+                      width: _width,
+                      margin: EdgeInsets.only(left:15.0,right: 15.0),
+                      child: Observer(builder: (_) {
+                        return SizedBox(
+                          height: MediaQuery.of(context).size.height*0.20/3,
+                          child: ElevatedButton.icon(
+                            icon: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 ? SvgPicture.asset(
+                              settingsStore.isDarkTheme?'assets/images/new-images/ic_bns_dark.svg':'assets/images/new-images/ic_bns_light.svg',
+                            ) : SvgPicture.asset(
+                              'assets/images/new-images/ic_bns_dark.svg',
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff6C6C78)
+                                  : Color(0xffB2B2B6),
+                            ),
+                            onPressed: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                ? () {
+                              Navigator.of(context,
+                                  rootNavigator: true)
+                                  .pushNamed(Routes.bns);
+                            }
+                                : null,
+                            label: Flexible(
+                              child: Text(
+                                tr(context).buyBns,
+                                style: TextStyle(
+                                  backgroundColor: Colors.transparent,
+                                  color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                      ? settingsStore.isDarkTheme
+                                      ? Colors.white
+                                      : Colors.black
+                                      : settingsStore.isDarkTheme
+                                      ? Color(0xff6C6C78)
+                                      : Color(0xffB2B2B6),
+                                  fontWeight: FontWeight.bold,),
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              primary: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                  ? settingsStore.isDarkTheme
+                                  ? Color(0xff272733)
+                                  : Color(0xffFFFFFF)
+                                  : settingsStore.isDarkTheme
+                                  ? Color(0xff333343)
+                                  : Color(0xffE8E8E8),
+                              padding: EdgeInsets.all(12),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  side: BorderSide(color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 ? Color(0xff2979FB):settingsStore.isDarkTheme
+                                      ? Color(0xff333343)
+                                      : Color(0xffE8E8E8))
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    )
+                  ],
+                ),
+              );
+            }
+            return Container(
+              margin: EdgeInsets.only(left: 15, right: 15, bottom: 10,top:10,),
+              height: MediaQuery.of(context).size.height * 0.73 / 2,
+              padding: EdgeInsets.only(top: 10, bottom: 10),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xff272733)
+                      : Color(0xffEDEDED),
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(
+                    tr(context).flashTransaction,
+                    style: TextStyle(
+                        backgroundColor: Colors.transparent,
+                        fontSize: 23, fontWeight: FontWeight.w800),
+                  ),
+                  Observer(
+                    builder: (_) {
+                      return GestureDetector(
+                        onTap: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                            ? () {
+                          _presentQRScanner(context);
+                        }
+                            : null,
+                        child: Container(
+                          padding: EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffD9D9D9)
+                                : Color(0xffE2E2E2),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                color: Color(0xffFFFFFF),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: SvgPicture.asset(
+                                'assets/images/new-images/flashqr.svg',
+                                color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                    ? Color(0xff222222)
+                                    : Color(0xffD9D9D9),
+                              )),
+                        ),
+                      );
+                    },
+                  ),
+                  FittedBox(
+                    fit: BoxFit.contain,
+                    child: Text(
+                        tr(context)
+                            .transferYourBdxMoreFasternWithFlashTransaction,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(backgroundColor: Colors.transparent, fontSize: 16)),
+                  )
+                ],
+              ),
+            );
           }),
     );
   }
