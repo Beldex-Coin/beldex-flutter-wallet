@@ -79,6 +79,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'*/
         }
     }
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_11
+    }
+    ndkVersion '21.4.7075529'
+    buildToolsVersion '34.0.0'
 }
 
 flutter {

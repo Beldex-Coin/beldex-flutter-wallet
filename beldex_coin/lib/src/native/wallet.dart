@@ -144,7 +144,6 @@ bool setupNodeSync(
     passwordPointer = password.toNativeUtf8();
   }
 
-  final errorMessagePointer = calloc<Utf8>();
   final isSetupNode = setupNodeNative(
           addressPointer,
           loginPointer,
