@@ -10,12 +10,12 @@ import '../../../l10n.dart';
 
 Future showSimpleConfirmDialog(
     BuildContext context, String? title, String? body, String? fee, String address,
-    {String? buttonText,
+    {
     required void Function(BuildContext context) onPressed,
     void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
       builder: (_) => ConfirmSending(title, body, fee, address,
-          buttonText: buttonText!, onDismiss: onDismiss!, onPressed: onPressed),
+          onDismiss: onDismiss!, onPressed: onPressed),
       context: context);
 }
 
@@ -139,6 +139,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: Text(title,
                               style: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontSize: 18, fontWeight: FontWeight.w800)),
                         ),
                         Container(
@@ -155,6 +156,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                   child: Text(
                                     'Amount',
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -166,6 +168,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                   child: Text(
                                     'body',
                                     style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -240,6 +243,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                     child: Center(
                                         child: Text(tr(context).cancel,
                                             style: TextStyle(
+                                                backgroundColor: Colors.transparent,
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.bold)))),
                               ),
@@ -260,6 +264,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                         child: Text(
                                       tr(context).ok,
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white),
@@ -326,6 +331,7 @@ class TransactionSendDetails extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: Text(title,
                               style: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontSize: 18, fontWeight: FontWeight.w800)),
                         ),
                         Container(
@@ -343,6 +349,7 @@ class TransactionSendDetails extends StatelessWidget {
                                   child: Text(
                                     tr(context).amount,
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -354,6 +361,7 @@ class TransactionSendDetails extends StatelessWidget {
                                   child: Text(
                                     body,
                                     style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -428,6 +436,7 @@ class TransactionSendDetails extends StatelessWidget {
                                     child: Center(
                                         child: Text(tr(context).cancel,
                                             style: TextStyle(
+                                                backgroundColor: Colors.transparent,
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.bold)))),
                               ),
@@ -448,6 +457,7 @@ class TransactionSendDetails extends StatelessWidget {
                                         child: Text(
                                       tr(context).ok,
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white),
@@ -558,6 +568,7 @@ class _SendTransactionSuccessfullyState
                         Text(
                           widget.title,
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 18, fontWeight: FontWeight.w900),
                         )
                       ],
@@ -584,7 +595,6 @@ class ConfirmSending extends StatelessWidget {
     this.body,
     this.fee,
     this.address, {
-    this.buttonText,
     this.onPressed,
     this.onDismiss,
   });
@@ -593,7 +603,6 @@ class ConfirmSending extends StatelessWidget {
   final String? body;
   final String? fee;
   final String address;
-  final String? buttonText;
   final void Function(BuildContext context)? onPressed;
   final void Function(BuildContext context)? onDismiss;
 
@@ -627,6 +636,7 @@ class ConfirmSending extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: Text(title ?? "",
                               style: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontSize: 18, fontWeight: FontWeight.w800)),
                         ),
                         Container(
@@ -643,6 +653,7 @@ class ConfirmSending extends StatelessWidget {
                                   child: Text(
                                     tr(context).transaction_details_amount,
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700),
                                   ),
@@ -654,6 +665,7 @@ class ConfirmSending extends StatelessWidget {
                                   child: Text(
                                     body ?? "",
                                     style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -691,7 +703,7 @@ class ConfirmSending extends StatelessWidget {
                               children: [
                                 Text('${tr(context).restore_address}:',
                                     style:
-                                        TextStyle(fontWeight: FontWeight.bold)),
+                                        TextStyle(backgroundColor: Colors.transparent,fontWeight: FontWeight.bold)),
                                 Container(
                                     width: MediaQuery.of(context).size.width,
                                     margin: EdgeInsets.only(top: 5, bottom: 5),
@@ -705,7 +717,7 @@ class ConfirmSending extends StatelessWidget {
                                     child: Text(address)),
                                 Text(
                                   'Fee: $fee',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(backgroundColor: Colors.transparent,fontWeight: FontWeight.bold),
                                 ),
                               ],
                             )),
@@ -737,6 +749,7 @@ class ConfirmSending extends StatelessWidget {
                                     ),
                                     child: Text(tr(context).cancel,
                                         style: TextStyle(
+                                            backgroundColor: Colors.transparent,
                                             fontSize: 15,
                                             color: settingsStore.isDarkTheme
                                                 ? Colors.white
@@ -763,6 +776,7 @@ class ConfirmSending extends StatelessWidget {
                                     child: Text(
                                       tr(context).ok,
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           fontSize: 15,
                                           fontWeight: FontWeight.bold,
                                           color: Colors.white),
@@ -785,6 +799,7 @@ class ConfirmSending extends StatelessWidget {
                               //       child: Center(
                               //           child: Text(tr(context).cancel,
                               //               style: TextStyle(
+                              //               backgroundColor: Colors.transparent,
                               //                   fontSize: 15,
                               //                   fontWeight:
                               //                       FontWeight.bold)))),
@@ -806,6 +821,7 @@ class ConfirmSending extends StatelessWidget {
                               //           child: Text(
                               //         tr(context).ok,
                               //         style: TextStyle(
+                              //         backgroundColor: Colors.transparent,
                               //             fontSize: 15,
                               //             fontWeight: FontWeight.bold,
                               //             color: Colors.white),
@@ -880,6 +896,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 10.0),
                         child: Text('Confirm Purchase',
                             style: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 fontSize: 16, fontWeight: FontWeight.w800)),
                       ),
                       Container(
@@ -901,6 +918,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     'Name ',
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 13,
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xffFFFFFF)
@@ -911,6 +929,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                     child: Text(
                                       bnsName,
                                       style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 16,
                                         color: Color(0xff0ba70f),
                                         fontWeight: FontWeight.w800,
@@ -931,6 +950,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     'Year',
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 13,
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xffFFFFFF)
@@ -940,6 +960,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     mappingYears,
                                     style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 16,
                                       color: settingsStore.isDarkTheme
                                           ? Color(0xffFFFFFF)
@@ -961,6 +982,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     'Owner',
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 13,
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xffFFFFFF)
@@ -970,6 +992,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     owner.isNotEmpty ? owner : walletStore.subaddress.address,
                                     style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       color: Color(0xff7D7D9c),
                                       fontWeight: FontWeight.w500,
@@ -989,6 +1012,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     'Backup Owner',
                                     style: TextStyle(
+                                    backgroundColor: Colors.transparent,
                                         fontSize: 13,
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xffFFFFFF)
@@ -1000,6 +1024,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                         ? backUpOwner
                                         : 'None',
                                     style: TextStyle(
+                                    backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       color: Color(0xff7D7D9c),
                                       fontWeight: FontWeight.w500,
@@ -1029,6 +1054,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     'Address',
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 13,
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xffFFFFFF)
@@ -1040,6 +1066,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                         ? walletAddress
                                         : 'None',
                                     style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       color: Color(0xff7D7D9c),
                                       fontWeight: FontWeight.w500,
@@ -1059,6 +1086,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     'BChat ID',
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 13,
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xffFFFFFF)
@@ -1068,6 +1096,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     bchatId.isNotEmpty ? bchatId : 'None',
                                     style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       color: Color(0xff7D7D9c),
                                       fontWeight: FontWeight.w500,
@@ -1087,6 +1116,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     'Belnet ID',
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 13,
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xffFFFFFF)
@@ -1096,6 +1126,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     belnetId.isNotEmpty ? belnetId : 'None',
                                     style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 12,
                                       color: Color(0xff7D7D9c),
                                       fontWeight: FontWeight.w500,
@@ -1129,6 +1160,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   ),
                                   child: Text(tr(context).cancel,
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           fontSize: 15,
                                           color: settingsStore.isDarkTheme
                                               ? Colors.white
@@ -1155,6 +1187,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   child: Text(
                                     tr(context).ok,
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white),
@@ -1226,6 +1259,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 10.0),
                         child: Text('Confirm Update',
                             style: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 fontSize: 16, fontWeight: FontWeight.w800)),
                       ),
                       Container(
@@ -1247,6 +1281,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     'Name ',
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 13,
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xffFFFFFF)
@@ -1257,6 +1292,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                     child: Text(
                                       bnsName,
                                       style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 16,
                                         color: Color(0xff0ba70f),
                                         fontWeight: FontWeight.w800,
@@ -1280,6 +1316,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                     Text(
                                       'Owner',
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           fontSize: 13,
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xffFFFFFF)
@@ -1289,6 +1326,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                     Text(
                                       owner.isNotEmpty ? owner : walletStore.subaddress.address,
                                       style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 12,
                                         color: Color(0xff7D7D9c),
                                         fontWeight: FontWeight.w500,
@@ -1314,6 +1352,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                     Text(
                                       'Backup Owner',
                                       style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                           fontSize: 13,
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xffFFFFFF)
@@ -1325,6 +1364,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                           ? backUpOwner
                                           : 'None',
                                       style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                         fontSize: 12,
                                         color: Color(0xff7D7D9c),
                                         fontWeight: FontWeight.w500,
@@ -1344,6 +1384,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                     Text(
                                       'Address',
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           fontSize: 13,
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xffFFFFFF)
@@ -1355,6 +1396,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                           ? walletAddress
                                           : 'None',
                                       style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 12,
                                         color: Color(0xff7D7D9c),
                                         fontWeight: FontWeight.w500,
@@ -1380,6 +1422,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                     Text(
                                       'BChat ID',
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           fontSize: 13,
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xffFFFFFF)
@@ -1389,6 +1432,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                     Text(
                                       bchatId.isNotEmpty ? bchatId : 'None',
                                       style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 12,
                                         color: Color(0xff7D7D9c),
                                         fontWeight: FontWeight.w500,
@@ -1414,6 +1458,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                     Text(
                                       'Belnet ID',
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           fontSize: 13,
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xffFFFFFF)
@@ -1423,6 +1468,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                     Text(
                                       belnetId.isNotEmpty ? belnetId : 'None',
                                       style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 12,
                                         color: Color(0xff7D7D9c),
                                         fontWeight: FontWeight.w500,
@@ -1457,6 +1503,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                   ),
                                   child: Text(tr(context).cancel,
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           fontSize: 15,
                                           color: settingsStore.isDarkTheme
                                               ? Colors.white
@@ -1483,6 +1530,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                   child: Text(
                                     tr(context).ok,
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white),
@@ -1546,6 +1594,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                         padding: const EdgeInsets.only(bottom: 10.0),
                         child: Text('Confirm Renewal',
                             style: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 fontSize: 16, fontWeight: FontWeight.w800)),
                       ),
                       Container(
@@ -1567,6 +1616,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     'Name ',
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 13,
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xffFFFFFF)
@@ -1577,6 +1627,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                                     child: Text(
                                       bnsName,
                                       style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 16,
                                         color: Color(0xff0ba70f),
                                         fontWeight: FontWeight.w800,
@@ -1597,6 +1648,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     'Year',
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 13,
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xffFFFFFF)
@@ -1606,6 +1658,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     mappingYears,
                                     style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 16,
                                       color: settingsStore.isDarkTheme
                                           ? Color(0xffFFFFFF)
@@ -1641,6 +1694,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                                   ),
                                   child: Text(tr(context).cancel,
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           fontSize: 15,
                                           color: settingsStore.isDarkTheme
                                               ? Colors.white
@@ -1667,6 +1721,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                                   child: Text(
                                     tr(context).ok,
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 15,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white),

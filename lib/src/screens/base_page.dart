@@ -183,7 +183,9 @@ abstract class BasePage extends StatelessWidget {
                 child: trailing(context),
               )
             ],
-            backgroundColor: Colors.transparent
+            backgroundColor: _isDarkTheme
+            ? Color(0xff171720)
+            : Color(0xffffffff),
             //  _isDarkTheme
             //     ? Theme.of(context).backgroundColor
             //     : Theme.of(context).backgroundColor

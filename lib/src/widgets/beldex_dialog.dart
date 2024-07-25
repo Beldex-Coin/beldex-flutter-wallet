@@ -30,12 +30,11 @@ Future showSimpleBeldexDialog(BuildContext context, String title, String body,
 
 Future showDialogForResetNode(
     BuildContext context, String title, String body, String fee, String address,
-    {String? buttonText,
+    {
     required void Function(BuildContext context) onPressed,
     void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
-      builder: (_) => ShowResetNodeDialog(title, body, fee, address,
-          buttonText: buttonText!, onDismiss: onDismiss!, onPressed: onPressed),
+      builder: (_) => ShowResetNodeDialog(title, body, fee, address, onDismiss: onDismiss!, onPressed: onPressed),
       context: context);
 }
 
@@ -45,7 +44,6 @@ class ShowResetNodeDialog extends StatefulWidget {
     this.body,
     this.fee,
     this.address, {
-    this.buttonText,
     this.onPressed,
     this.onDismiss,
   }); // : super(key: key);
@@ -54,7 +52,6 @@ class ShowResetNodeDialog extends StatefulWidget {
   final String body;
   final String fee;
   final String address;
-  final String? buttonText;
   final void Function(BuildContext context)? onPressed;
   final void Function(BuildContext context)? onDismiss;
 
@@ -71,7 +68,7 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       title: Center(
           child: Text('${widget.title}',
-              style: TextStyle(backgroundColor: Colors.transparent,fontWeight: FontWeight.w800))),
+              style: TextStyle(color: settingsStore.isDarkTheme ? Colors.white : Colors.black, backgroundColor: Colors.transparent,fontWeight: FontWeight.w800))),
       backgroundColor:
           settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
       content: Column(
@@ -139,13 +136,11 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
 
 Future showConfirmBeldexDialog(BuildContext context, String title, String body,
     {void Function(BuildContext context)? onConfirm,
-    Future Function(BuildContext context)? onFutureConfirm,
     void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
       builder: (_) => ConfirmBeldexDialog(title, body,
           onDismiss: onDismiss!,
-          onConfirm: onConfirm!,
-          onFutureConfirm: onFutureConfirm!),
+          onConfirm: onConfirm!),
       context: context);
 }
 
@@ -259,11 +254,10 @@ class SimpleBeldexDialog extends StatelessWidget {
 
 class ConfirmBeldexDialog extends StatelessWidget {
   ConfirmBeldexDialog(this.title, this.body,
-      {this.onFutureConfirm, this.onConfirm, this.onDismiss});
+      {this.onConfirm, this.onDismiss});
 
   final String title;
   final String body;
-  final Future Function(BuildContext context)? onFutureConfirm;
   final void Function(BuildContext context)? onConfirm;
   final void Function(BuildContext context)? onDismiss;
 
