@@ -25,8 +25,8 @@ class NewNavListTrailing extends StatelessWidget {
       child: Container(
         child: Theme(
           data: ThemeData(
-            splashColor:isDisable?Colors.transparent:Colors.grey,
-            highlightColor:isDisable?Colors.transparent:Colors.grey,
+            splashColor:Colors.transparent,
+            highlightColor:Colors.transparent,
           ),
           child: ListTile(
             contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
