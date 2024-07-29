@@ -142,15 +142,18 @@ class TransactionDetailsListBodyState
                                                         data: Theme.of(
                                                             context)
                                                             .copyWith(
-                                                            colorScheme: ColorScheme.fromSwatch().copyWith(
-                                                              secondary: Colors.green, // Your accent color
-                                                            ),
                                                             checkboxTheme:
                                                             CheckboxThemeData(
-                                                              fillColor:
-                                                              MaterialStateProperty.all(Colors.green),
-                                                              checkColor:
-                                                              MaterialStateProperty.all(Colors.white),
+                                                              fillColor: MaterialStateColor.resolveWith(
+                                                                      (states) {
+                                                                    if (states.contains(MaterialState.selected)) {
+                                                                      return Colors.green; // the color when checkbox is selected;
+                                                                    }
+                                                                    return settingsStore.isDarkTheme
+                                                                        ? Color(0xff292935)
+                                                                        : Color(0xffffffff); //the color when checkbox is unselected;
+                                                                  }),
+                                                              checkColor: MaterialStateProperty.all(Colors.white),
                                                             )),
                                                         child:
                                                         Checkbox(
@@ -178,15 +181,18 @@ class TransactionDetailsListBodyState
                                                         data: Theme.of(
                                                             context)
                                                             .copyWith(
-                                                            colorScheme: ColorScheme.fromSwatch().copyWith(
-                                                              secondary: Colors.green, // Your accent color
-                                                            ),
                                                             checkboxTheme:
                                                             CheckboxThemeData(
-                                                              fillColor:
-                                                              MaterialStateProperty.all(Colors.green),
-                                                              checkColor:
-                                                              MaterialStateProperty.all(Colors.white),
+                                                              fillColor: MaterialStateColor.resolveWith(
+                                                                      (states) {
+                                                                    if (states.contains(MaterialState.selected)) {
+                                                                      return Colors.green; // the color when checkbox is selected;
+                                                                    }
+                                                                    return settingsStore.isDarkTheme
+                                                                        ? Color(0xff292935)
+                                                                        : Color(0xffffffff); //the color when checkbox is unselected;
+                                                                  }),
+                                                              checkColor: MaterialStateProperty.all(Colors.white),
                                                             )),
                                                         child:
                                                         Checkbox(
