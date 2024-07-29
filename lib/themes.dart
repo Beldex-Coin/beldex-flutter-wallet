@@ -61,7 +61,7 @@ class Themes {
         decorationColor: Palette.buttonColor, // button blue border color
       ),
       button: TextStyle(
-        backgroundColor: Palette.indigo, // button indigo background color
+        backgroundColor: Colors.transparent, // button indigo background color
         decorationColor: Palette.deepIndigo // button indigo border color
       ),
       subtitle2: TextStyle(
@@ -159,7 +159,7 @@ class Themes {
         decorationColor: PaletteDark.buttonColor, // button blue border color
       ),
       button: TextStyle(
-        backgroundColor: PaletteDark.darkThemeIndigoButton, // button indigo background color
+        backgroundColor: Colors.transparent, // button indigo background color
         decorationColor: PaletteDark.darkThemeIndigoButtonBorder // button indigo border color
       ),
       subtitle2: TextStyle(
