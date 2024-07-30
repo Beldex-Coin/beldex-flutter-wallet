@@ -69,8 +69,8 @@ class Themes {
         backgroundColor: Palette.lightLavender // send page border color
       ),
       headline5: TextStyle(
-        color: Palette.lightGrey2, // receive page
-        backgroundColor: Colors.white, // restore button background color
+        color: Colors.black, // receive page
+        backgroundColor: Colors.transparent, // restore button background color
         decorationColor: Palette.dashBoardBorderColor,//Palette.darkGrey, // restore button border color
       ),
       subtitle1: TextStyle(
@@ -167,8 +167,8 @@ class Themes {
         backgroundColor: PaletteDark.darkThemeDarkGrey // send page border color
       ),
       headline5: TextStyle(
-        color: PaletteDark.darkThemeBlack, // receive page
-        backgroundColor: PaletteDark.darkThemeMidGrey, // restore button background color
+        color: Colors.white, // receive page
+        backgroundColor: Colors.transparent, // restore button background color
         decorationColor: PaletteDark.darkGrey,//PaletteDark.darkThemeDarkGrey, // restore button border color
       ),
       subtitle1: TextStyle(
