@@ -97,6 +97,7 @@ dependencies:
   connectivity_plus: ^5.0.2
   #flutter_windowmanager:
   font_awesome_flutter:
+  upgrader:
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/util/network_service.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
@@ -36,6 +38,7 @@ import 'package:beldex_wallet/src/wallet/wallet_type.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
 import 'package:beldex_wallet/src/screens/pin_code/bio_auth_provider.dart';
+import 'package:upgrader/upgrader.dart';
 
 void main() async {
   try {
@@ -132,18 +135,23 @@ void main() async {
     ], child: BeldexWalletApp()));
   } catch (e) {
     runApp(MaterialApp(
-      debugShowCheckedModeBanner: true,
-      home: Scaffold(
-        body: Container(
-          margin:
-            EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 20),
-          child: Text(
-            'Error:--\n${e.toString()}',
-            style: TextStyle(backgroundColor: Colors.transparent,fontSize: 22),
-          )
-        )
-      )
-    ));
+        debugShowCheckedModeBanner: true,
+        home: UpgradeAlert(
+          showLater: false,
+          showIgnore: false,
+          dialogStyle: Platform.isIOS
+              ? UpgradeDialogStyle.cupertino
+              : UpgradeDialogStyle.material,
+          child: Scaffold(
+              body: Container(
+                  margin:
+                      EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 20),
+                  child: Text(
+                    'Error:--\n${e.toString()}',
+                    style: TextStyle(
+                        backgroundColor: Colors.transparent, fontSize: 22),
+                  ))),
+        )));
   }
 }
 
@@ -303,6 +311,13 @@ class MaterialAppWithTheme extends StatelessWidget {
             contacts: contacts,
             nodes: nodes,
             transactionDescriptions: transactionDescriptions),
-        home: Root());
+      home: UpgradeAlert(
+          showLater: false,
+          showIgnore: false,
+          dialogStyle: Platform.isIOS
+              ? UpgradeDialogStyle.cupertino
+              : UpgradeDialogStyle.material,
+          child: Root()),
+    );
   }
 }
