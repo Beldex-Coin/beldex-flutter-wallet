@@ -1,12 +1,10 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:flutter/rendering.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet_creation/wallet_creation_store.dart';
 import 'package:beldex_wallet/src/stores/wallet_creation/wallet_creation_state.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_list_service.dart';
@@ -19,16 +17,16 @@ import 'package:beldex_wallet/src/util/generate_name.dart';
 
 class NewWalletPage extends BasePage {
   NewWalletPage(
-      {@required this.walletsService,
-      @required this.walletService,
-      @required this.sharedPreferences});
+      {required this.walletsService,
+      required this.walletService,
+      required this.sharedPreferences});
 
   final WalletListService walletsService;
   final WalletService walletService;
   final SharedPreferences sharedPreferences;
 
   @override
-  String get title => S.current.new_wallet;
+  String getTitle(AppLocalizations t) => t.new_wallet;
 
   @override
   Widget trailing(BuildContext context) {
@@ -73,25 +71,28 @@ class _WalletNameFormState extends State<WalletNameForm> {
     super.initState();
   }
 
-  final List<String> seedLocales = [
-    S.current.seed_language_english,
-    //S.current.seed_language_chinese,
-    'Chinese (simplified)',
-    S.current.seed_language_dutch,
-    S.current.seed_language_german,
-    S.current.seed_language_japanese,
-    S.current.seed_language_portuguese,
-    S.current.seed_language_russian,
-    S.current.seed_language_spanish,
-    S.current.seed_language_french,
-    S.current.seed_language_italian
-  ];
+  List<String> getSeedLocales(AppLocalizations l10n) {
+    return [
+      l10n.seed_language_english,
+      'Chinese (simplified)',
+      l10n.seed_language_dutch,
+      l10n.seed_language_german,
+      l10n.seed_language_japanese,
+      l10n.seed_language_portuguese,
+      l10n.seed_language_russian,
+      l10n.seed_language_spanish,
+      l10n.seed_language_french,
+      l10n.seed_language_italian
+    ];
+  }
+
   final _scrollController = ScrollController(keepScrollOffset: true);
   int _selectedIndex = 0;
   bool isError = false;
   bool canremove = false;
 
   void _onSelected(int index) {
+    final seedLocales = getSeedLocales(tr(context));
     final seedLanguageStore = context.read<SeedLanguageStore>();
     setState(() {
       _selectedIndex = index;
@@ -116,6 +117,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
     final walletCreationStore = Provider.of<WalletCreationStore>(context);
     final seedLanguageStore = Provider.of<SeedLanguageStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
+    final seedLocales = getSeedLocales(tr(context));
     reaction((_) => walletCreationStore.state, (WalletCreationState state) {
       if (state is WalletCreatedSuccessfully) {
         Navigator.of(context).popUntil((route) => route.isFirst);
@@ -127,11 +129,12 @@ class _WalletNameFormState extends State<WalletNameForm> {
               context: context,
               builder: (BuildContext context) {
                 return AlertDialog(
+                  surfaceTintColor: Colors.transparent,
                   content: Text(state.error),
                   actions: <Widget>[
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: Text(S.of(context).ok),
+                      child: Text(tr(context).ok),
                     ),
                   ],
                 );
@@ -147,8 +150,8 @@ class _WalletNameFormState extends State<WalletNameForm> {
           child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                S.of(context).wallet_name,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                tr(context).wallet_name,
+                style: TextStyle(backgroundColor: Colors.transparent,fontSize: 18, fontWeight: FontWeight.w700),
               )),
         ),
         Padding(
@@ -169,30 +172,32 @@ class _WalletNameFormState extends State<WalletNameForm> {
                     children: [
                       TextFormField(
                         style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           fontSize: 16.0,
                           color: settingsStore.isDarkTheme
                               ? Colors.white
                               : Colors
-                                  .black, //Theme.of(context).accentTextTheme.subtitle2.color
+                                .black, //Theme.of(context).textTheme.subtitle2.color
                         ),
                         controller: nameController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 16.0,
                               color: settingsStore.isDarkTheme
                                   ? Color(0xff747474)
                                   : Color(0xff6F6F6F)),
-                          hintText: S.of(context).enterWalletName_,
-                          errorStyle: TextStyle(height: 1),
+                          hintText: tr(context).enterWalletName_,
+                          errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 1),
                         ),
                         validator: (value) {
                           final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
-                          if (!pattern.hasMatch(value)) {
-                            return S.of(context).enterValidNameUpto15Characters;
+                          if (!pattern.hasMatch(value!)) {
+                            return tr(context).enterValidNameUpto15Characters;
                           } else {
-                            walletCreationStore.validateWalletName(value);
+                            walletCreationStore.validateWalletName(value,tr(context));
                             return walletCreationStore.errorMessage;
                           }
                         },
@@ -206,7 +211,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                     Icons.clear,
                                     color: Theme.of(context)
                                         .primaryTextTheme
-                                        .caption
+                                        .caption!
                                         .color,
                                   ),
                                   onPressed: () {
@@ -234,9 +239,9 @@ class _WalletNameFormState extends State<WalletNameForm> {
           child: Column(
             children: [
               Text(
-                S.of(context).chooseSeedLanguage,
+                tr(context).chooseSeedLanguage,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                style: TextStyle(backgroundColor: Colors.transparent,fontSize: 18, fontWeight: FontWeight.w700),
               ),
               SizedBox(
                 height: 15,
@@ -255,7 +260,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                           ? Color(0xff3A3A45)
                           : Color(0xffC2C2C2),
                       radius: Radius.circular(10.0),
-                      isAlwaysShown: true,
+                      thumbVisibility: true,
                       child: Container(
                         margin: EdgeInsets.only(right: 8),
                         color: settingsStore.isDarkTheme
@@ -294,6 +299,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                               child: Text(
                                                 seedLocales[index],
                                                 style: TextStyle(
+                                                    backgroundColor: Colors.transparent,
                                                     fontSize: 18,
                                                     fontWeight:
                                                         FontWeight.bold),
@@ -310,6 +316,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                           child: Text(
                                             seedLocales[index],
                                             style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               fontSize: 18,
                                               color: Colors.grey[800],
                                               // fontWeight: FontWeight.bold
@@ -336,7 +343,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                 width: double.infinity,
                 child: LoadingPrimaryButton(
                   onPressed: () {
-                    if (_formKey.currentState.validate()) {
+                    if (_formKey.currentState?.validate() ?? false) {
                       if (_selectedIndex == 0) {
                         seedLanguageStore.setSelectedSeedLanguage(
                             seedLocales[_selectedIndex]);
@@ -346,11 +353,9 @@ class _WalletNameFormState extends State<WalletNameForm> {
                           language: seedLanguageStore.selectedSeedLanguage);
                     }
                   },
-                  text: S.of(context).continue_text,
-                  color:
-                      Theme.of(context).primaryTextTheme.button.backgroundColor,
-                  borderColor:
-                      Theme.of(context).primaryTextTheme.button.backgroundColor,
+                  text: tr(context).continue_text,
+                  color: Color.fromARGB(255,46, 160, 33),
+                  borderColor: Color.fromARGB(255,46, 160, 33),
                   isLoading: walletCreationStore.state is WalletIsCreating,
                 ),
               ),

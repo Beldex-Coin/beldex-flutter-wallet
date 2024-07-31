@@ -5,7 +5,7 @@ import 'package:mobx/mobx.dart';
 import 'package:beldex_wallet/src/domain/services/user_service.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
 import 'package:beldex_wallet/src/stores/auth/auth_state.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 
 part 'auth_store.g.dart';
 
@@ -13,16 +13,15 @@ class AuthStore = AuthStoreBase with _$AuthStore;
 
 abstract class AuthStoreBase with Store {
   AuthStoreBase(
-      {@required this.userService,
-      @required this.walletService,
-      @required this.sharedPreferences}) {
-    state = AuthenticationStateInitial();
+      {required this.userService,
+        required this.walletService,
+        required this.sharedPreferences}):
+        state = AuthenticationStateInitial(),
     _failureCounter = 0;
-  }
   
   static const maxFailedLogins = 3;
   static const banTimeout = 180; // 3 minutes
-  final banTimeoutKey = S.current.auth_store_ban_timeout;
+  final banTimeoutKey = "ban_timeout";
 
   final UserService userService;
   final WalletService walletService;
@@ -36,13 +35,13 @@ abstract class AuthStoreBase with Store {
   int _failureCounter;
 
   @action
-  Future auth({String password}) async {
+  Future auth({required String password,required AppLocalizations l10n}) async {
     state = AuthenticationStateInitial();
     final _banDuration = banDuration();
 
     if (_banDuration != null) {
       state = AuthenticationBanned(
-          error: S.current.auth_store_banned_for + '${_banDuration.inMinutes}' + S.current.auth_store_banned_minutes);
+          error: l10n.auth_store_banned_for + '${_banDuration.inMinutes}' + l10n.auth_store_banned_minutes);
       return;
     }
 
@@ -58,15 +57,15 @@ abstract class AuthStoreBase with Store {
       if (_failureCounter >= maxFailedLogins) {
         final banDuration = await ban();
         state = AuthenticationBanned(
-            error: S.current.auth_store_banned_for + '${banDuration.inMinutes}' + S.current.auth_store_banned_minutes);
+            error: l10n.auth_store_banned_for + '${banDuration.inMinutes}' + l10n.auth_store_banned_minutes);
         return;
       }
 
-      state = AuthenticationFailure(error: S.current.auth_store_incorrect_password);
+      state = AuthenticationFailure(error: l10n.auth_store_incorrect_password);
     }
   }
 
-  Duration banDuration() {
+  Duration? banDuration() {
     final unbanTimestamp = sharedPreferences.getInt(banTimeoutKey);
 
     if (unbanTimestamp == null) {
@@ -93,12 +92,12 @@ abstract class AuthStoreBase with Store {
   }
 
   @action
-  void biometricAuth() {
+  void biometricAuth(AppLocalizations t) {
     final _banDuration = banDuration();
 
     if (_banDuration != null) {
       state = AuthenticationBanned(
-          error: S.current.auth_store_banned_for + '${_banDuration.inMinutes}' + S.current.auth_store_banned_minutes);
+          error: t.auth_store_banned_for + '${_banDuration.inMinutes}' + t.auth_store_banned_minutes);
       return;
     }
     state = AuthenticatedSuccessfully();

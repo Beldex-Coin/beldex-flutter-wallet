@@ -1,7 +1,7 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:provider/provider.dart';
@@ -48,8 +48,9 @@ class WelcomePage extends BasePage {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        S.of(context).wallet_list_title,
+                        tr(context).wallet_list_title,
                         style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -63,8 +64,9 @@ class WelcomePage extends BasePage {
                             ? 'assets/images/new-images/Empty_screen_image.svg'
                             : 'assets/images/new-images/Empty_screen_image_white.svg')),
                     Text(
-                      S.of(context).welcomeToBeldexWallet,
+                      tr(context).welcomeToBeldexWallet,
                       style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         fontSize: _screenHeight * 0.05 / 3,
                         fontWeight: FontWeight.w700,
                         color: settingsStore.isDarkTheme
@@ -75,11 +77,11 @@ class WelcomePage extends BasePage {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
-                        S
-                            .of(context)
+                        tr(context)
                             .selectAnOptionBelowToCreateOrnRecoverExistingWallet,
                         textAlign: TextAlign.center,
                         style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           fontSize: _screenHeight * 0.05 / 3,
                           color: settingsStore.isDarkTheme
                               ? Color(0xffFFFFFF)
@@ -96,14 +98,14 @@ class WelcomePage extends BasePage {
                       },
                       style: ElevatedButton.styleFrom(
                           alignment: Alignment.center,
-                          primary: Color(0xff2979FB),
+                          backgroundColor: Color(0xff2979FB),
                           padding: EdgeInsets.only(
                               top: 13, bottom: 13, left: 42, right: 42),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       child: Text(
-                        S.of(context).restore_wallet,
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        tr(context).restore_wallet,
+                        style: TextStyle(backgroundColor: Colors.transparent,color:Theme.of(context).primaryTextTheme.button?.color,fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(
@@ -115,14 +117,14 @@ class WelcomePage extends BasePage {
                       },
                       style: ElevatedButton.styleFrom(
                           alignment: Alignment.centerLeft,
-                          primary: Color(0xff0BA70F),
+                          backgroundColor: Color(0xff0BA70F),
                           padding: EdgeInsets.only(
                               top: 13, bottom: 13, left: 42, right: 42),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       child: Text(
-                        S.of(context).create_new,
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        tr(context).create_new,
+                        style: TextStyle(backgroundColor: Colors.transparent,color:Theme.of(context).primaryTextTheme.button?.color,fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(

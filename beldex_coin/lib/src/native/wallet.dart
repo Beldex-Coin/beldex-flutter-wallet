@@ -6,7 +6,6 @@ import 'package:ffi/ffi.dart';
 import 'package:flutter/services.dart';
 import 'package:beldex_coin/src/exceptions/setup_wallet_exception.dart';
 import 'package:beldex_coin/src/beldex_api.dart';
-import 'package:beldex_coin/src/util/convert_utf8_to_string.dart';
 import 'package:beldex_coin/src/util/signatures.dart';
 import 'package:beldex_coin/src/util/types.dart';
 
@@ -128,57 +127,56 @@ bool isRefreshingSync() => isRefreshingNative() != 0;
 bool isConnectedSync() => isConnectedNative() != 0;
 
 bool setupNodeSync(
-    {String address,
-    String login,
-    String password,
+    {required String address,
+    String? login,
+    String? password,
     bool useSSL = false,
     bool isLightWallet = false}) {
-  final addressPointer = Utf8.toUtf8(address);
-  Pointer<Utf8> loginPointer;
-  Pointer<Utf8> passwordPointer;
+  final addressPointer = address.toNativeUtf8();
+  Pointer<Utf8> loginPointer = nullptr;
+  Pointer<Utf8> passwordPointer = nullptr;
 
   if (login != null) {
-    loginPointer = Utf8.toUtf8(login);
+    loginPointer = login.toNativeUtf8();
   }
 
   if (password != null) {
-    passwordPointer = Utf8.toUtf8(password);
+    passwordPointer = password.toNativeUtf8();
   }
 
-  final errorMessagePointer = allocate<Utf8>();
   final isSetupNode = setupNodeNative(
           addressPointer,
           loginPointer,
           passwordPointer,
           _boolToInt(useSSL),
-          _boolToInt(isLightWallet),
-          errorMessagePointer) !=
-      0;
+          _boolToInt(isLightWallet));
 
-  free(addressPointer);
-  free(loginPointer);
-  free(passwordPointer);
+  calloc.free(addressPointer);
+  if(loginPointer != nullptr)
+    calloc.free(loginPointer);
+  if(passwordPointer != nullptr)
+    calloc.free(passwordPointer);
 
-  if (!isSetupNode) {
-    throw SetupWalletException(
-        message: convertUTF8ToString(pointer: errorMessagePointer));
+  if (isSetupNode.good) {
+    return true;
   }
 
-  return isSetupNode;
+  throw SetupWalletException(
+      message: isSetupNode.errorString());
 }
 
 void startRefreshSync() => startRefreshNative();
 
-Future<bool> connectToNode() async => connecToNodeNative() != 0;
+Future<bool> connectToNode() async => connecToNodeNative().good;
 
-void setRefreshFromBlockHeight({int height}) =>
+void setRefreshFromBlockHeight({required int height}) =>
     setRefreshFromBlockHeightNative(height);
 
-void setRecoveringFromSeed({bool isRecovery}) =>
+void setRecoveringFromSeed({required bool isRecovery}) =>
     setRecoveringFromSeedNative(_boolToInt(isRecovery));
 
 void storeSync() {
-  final pathPointer = Utf8.toUtf8('');
+  final pathPointer = ''.toNativeUtf8();
   storeNative(pathPointer);
-  free(pathPointer);
+  calloc.free(pathPointer);
 }

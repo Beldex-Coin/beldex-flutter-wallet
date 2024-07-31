@@ -6,11 +6,11 @@ part of 'seed_language_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$SeedLanguageStore on SeedLanguageStoreBase, Store {
-  final _$selectedSeedLanguageAtom =
-      Atom(name: 'SeedLanguageStoreBase.selectedSeedLanguage');
+  late final _$selectedSeedLanguageAtom = Atom(
+      name: 'SeedLanguageStoreBase.selectedSeedLanguage', context: context);
 
   @override
   String get selectedSeedLanguage {
@@ -26,8 +26,8 @@ mixin _$SeedLanguageStore on SeedLanguageStoreBase, Store {
     });
   }
 
-  final _$SeedLanguageStoreBaseActionController =
-      ActionController(name: 'SeedLanguageStoreBase');
+  late final _$SeedLanguageStoreBaseActionController =
+      ActionController(name: 'SeedLanguageStoreBase', context: context);
 
   @override
   void setSelectedSeedLanguage(String seedLanguage) {

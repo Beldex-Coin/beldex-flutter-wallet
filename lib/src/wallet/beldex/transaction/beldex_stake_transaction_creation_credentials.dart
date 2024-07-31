@@ -2,7 +2,7 @@ import 'package:beldex_wallet/src/wallet/transaction/transaction_creation_creden
 
 class BeldexStakeTransactionCreationCredentials
     extends TransactionCreationCredentials {
-  BeldexStakeTransactionCreationCredentials({this.address, this.amount});
+  BeldexStakeTransactionCreationCredentials({required this.address, required this.amount});
 
   final String address;
   final String amount;

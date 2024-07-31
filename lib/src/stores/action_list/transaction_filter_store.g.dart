@@ -6,11 +6,11 @@ part of 'transaction_filter_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$TransactionFilterStore on TransactionFilterStoreBase, Store {
-  final _$displayIncomingAtom =
-      Atom(name: 'TransactionFilterStoreBase.displayIncoming');
+  late final _$displayIncomingAtom = Atom(
+      name: 'TransactionFilterStoreBase.displayIncoming', context: context);
 
   @override
   bool get displayIncoming {
@@ -25,8 +25,8 @@ mixin _$TransactionFilterStore on TransactionFilterStoreBase, Store {
     });
   }
 
-  final _$displayOutgoingAtom =
-      Atom(name: 'TransactionFilterStoreBase.displayOutgoing');
+  late final _$displayOutgoingAtom = Atom(
+      name: 'TransactionFilterStoreBase.displayOutgoing', context: context);
 
   @override
   bool get displayOutgoing {
@@ -41,38 +41,40 @@ mixin _$TransactionFilterStore on TransactionFilterStoreBase, Store {
     });
   }
 
-  final _$startDateAtom = Atom(name: 'TransactionFilterStoreBase.startDate');
+  late final _$startDateAtom =
+      Atom(name: 'TransactionFilterStoreBase.startDate', context: context);
 
   @override
-  DateTime get startDate {
+  DateTime? get startDate {
     _$startDateAtom.reportRead();
     return super.startDate;
   }
 
   @override
-  set startDate(DateTime value) {
+  set startDate(DateTime? value) {
     _$startDateAtom.reportWrite(value, super.startDate, () {
       super.startDate = value;
     });
   }
 
-  final _$endDateAtom = Atom(name: 'TransactionFilterStoreBase.endDate');
+  late final _$endDateAtom =
+      Atom(name: 'TransactionFilterStoreBase.endDate', context: context);
 
   @override
-  DateTime get endDate {
+  DateTime? get endDate {
     _$endDateAtom.reportRead();
     return super.endDate;
   }
 
   @override
-  set endDate(DateTime value) {
+  set endDate(DateTime? value) {
     _$endDateAtom.reportWrite(value, super.endDate, () {
       super.endDate = value;
     });
   }
 
-  final _$TransactionFilterStoreBaseActionController =
-      ActionController(name: 'TransactionFilterStoreBase');
+  late final _$TransactionFilterStoreBaseActionController =
+      ActionController(name: 'TransactionFilterStoreBase', context: context);
 
   @override
   void toggleIncoming() {
@@ -97,7 +99,7 @@ mixin _$TransactionFilterStore on TransactionFilterStoreBase, Store {
   }
 
   @override
-  void changeStartDate(DateTime date) {
+  void changeStartDate(DateTime? date) {
     final _$actionInfo = _$TransactionFilterStoreBaseActionController
         .startAction(name: 'TransactionFilterStoreBase.changeStartDate');
     try {
@@ -108,7 +110,7 @@ mixin _$TransactionFilterStore on TransactionFilterStoreBase, Store {
   }
 
   @override
-  void changeEndDate(DateTime date) {
+  void changeEndDate(DateTime? date) {
     final _$actionInfo = _$TransactionFilterStoreBaseActionController
         .startAction(name: 'TransactionFilterStoreBase.changeEndDate');
     try {

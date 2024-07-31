@@ -5,12 +5,11 @@ import 'package:provider/provider.dart';
 import 'new_nav_list_trailing.dart';
 
 class NewNavListArrow extends StatelessWidget {
-  NewNavListArrow({this.text, this.leading, this.onTap,this.size,this.isDisable});
+  NewNavListArrow({this.text, this.leading, this.onTap, required this.isDisable});
 
-  final String text;
-  final Widget leading;
-  final GestureTapCallback onTap;
-  final double size;
+  final String ?text;
+  final Widget? leading;
+  final GestureTapCallback? onTap;
   final bool isDisable;
   @override
   Widget build(BuildContext context) {
@@ -25,11 +24,10 @@ class NewNavListArrow extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6.0)
                   ),
            child: leading),
-        text: text,
+        text: text!,
         trailing: Icon(Icons.arrow_forward_ios_rounded,
             color: isDisable?Colors.grey:settingsStore.isDarkTheme ? Color(0xff3F3F4D): Color(0xff3F3F4D),
             size: 20),
-        onTap: onTap,
-    size: size,);
+        onTap: onTap!);
   }
 }

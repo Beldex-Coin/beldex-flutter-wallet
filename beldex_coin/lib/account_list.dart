@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ffi';
 
 import 'package:flutter/foundation.dart';
@@ -26,8 +27,8 @@ void _setLabelForAccount(Map<String, dynamic> args) {
   account_list.setLabelForAccountSync(label: label, accountIndex: accountIndex);
 }
 
-Future<void> addAccount({String label}) async => compute(_addAccount, label);
+Future<void> addAccount({required String label}) async => compute(_addAccount, label);
 
-Future<void> setLabelForAccount({int accountIndex, String label}) async =>
+Future<void> setLabelForAccount({required int accountIndex, required String label}) async =>
     compute(
         _setLabelForAccount, {'accountIndex': accountIndex, 'label': label});

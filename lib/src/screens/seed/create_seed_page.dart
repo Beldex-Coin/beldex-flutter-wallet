@@ -6,9 +6,10 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/wallet_seed/wallet_seed_store.dart';
 
 Widget createSeedPage(
-          {@required SettingsStore settingsStore,
-          @required WalletService walletService,
-          @required void Function() callback}) =>
+          {required SettingsStore settingsStore,
+          required WalletService walletService,
+            required void Function() callback,
+            required bool showSeed}) =>
       Provider(
           create: (_) => WalletSeedStore(walletService: walletService),
-          child: SeedPage(onCloseCallback: callback));
+          child: SeedPage(onCloseCallback: callback,showSeed: showSeed));

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
@@ -15,7 +15,7 @@ class ProfilePage extends BasePage {
   final _bodyKey = GlobalKey();
 
   @override
-  String get title => S.current.settings_title;
+  String getTitle(AppLocalizations t) => t.settings_title;
 
   @override
   Widget trailing(BuildContext context) {
@@ -27,7 +27,7 @@ class ProfilePage extends BasePage {
 }
 
 class ProfilePageBody extends StatefulWidget {
-  ProfilePageBody({Key key}) : super(key: key);
+  ProfilePageBody({Key? key}) : super(key: key);
 
   @override
   ProfilePageBodyState createState() => ProfilePageBodyState();
@@ -40,6 +40,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
   final _seedSyncingObserverKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    final t= tr(context);
     final syncStore = Provider.of<SyncStore>(context);
     return SingleChildScrollView(
         child: Column(
@@ -55,7 +56,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
               margin: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.4 / 4),
               child: Text(
-                S.of(context).wallet,
+                tr(context).wallet,
                 style: TextStyle(fontSize: 20.0, color: Color(0xff737385)),
               ),
             ),
@@ -64,8 +65,8 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                 leading: SvgPicture.asset('assets/images/new-images/wallet.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6.color),
-                text: S.current.wallets,
+                    color: Theme.of(context).primaryTextTheme.headline6?.color),
+                text: t.wallets,
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).pushNamed(Routes.walletList);
@@ -76,8 +77,8 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                     'assets/images/new-images/wallet_settings.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6.color),
-                text: S.of(context).walletSettings,
+                    color: Theme.of(context).primaryTextTheme.headline6?.color),
+                text: tr(context).walletSettings,
                 onTap: () => Navigator.of(context).pushNamed(Routes.settings)),
 
             Container(
@@ -85,7 +86,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                   left: MediaQuery.of(context).size.width * 0.4 / 4,
                   top: MediaQuery.of(context).size.width * 0.3 / 3),
               child: Text(
-                S.of(context).account,
+                tr(context).account,
                 style: TextStyle(fontSize: 20.0, color: Color(0xff737385)),
               ),
             ),
@@ -106,8 +107,8 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                     'assets/images/new-images/address_book.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6.color),
-                text: S.current.address_book,
+                    color: Theme.of(context).primaryTextTheme.headline6?.color),
+                text: t.address_book,
                 onTap: () =>
                     Navigator.of(context).pushNamed(Routes.addressBook)),
             Observer(
@@ -119,8 +120,8 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                         'assets/images/new-images/settings_account.svg',
                         width: 25,
                         height: 25,
-                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.headline6.color : Colors.grey ),
-                    text: S.current.accounts,
+                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.headline6?.color : Colors.grey ),
+                    text: t.accounts,
                     onTap: (){
                       if(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus) {
                         Navigator.of(context).pushNamed(Routes.accountList);
@@ -134,7 +135,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                   left: MediaQuery.of(context).size.width * 0.4 / 4,
                   top: MediaQuery.of(context).size.width * 0.3 / 3),
               child: Text(
-                S.of(context).seedKeys,
+                tr(context).seedKeys,
                 style: TextStyle(fontSize: 20.0, color: Color(0xff737385)),
               ),
             ),
@@ -148,8 +149,8 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                         'assets/images/new-images/settings_show_keys.svg',
                         width: 25,
                         height: 25,
-                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.headline6.color : Colors.grey),
-                    text: S.current.show_keys,
+                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.headline6?.color : Colors.grey),
+                    text: t.show_keys,
                     onTap: () {
                       if(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus) {
                         Navigator.of(context).pushNamed(Routes.auth,
@@ -172,8 +173,8 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                         'assets/images/new-images/settings_show_seed.svg',
                         width: 25,
                         height: 25,
-                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.headline6.color : Colors.grey),
-                    text: S.current.show_seed,
+                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.headline6?.color : Colors.grey),
+                    text: t.show_seed,
                     onTap: () {
                       if(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus) {
                         Navigator.of(context).pushNamed(Routes.auth,

@@ -6,9 +6,9 @@ import '../../routes.dart';
 
 class Picker<Item extends Object> extends StatelessWidget {
   Picker(
-      {@required this.selectedAtIndex,
-      @required this.items,
-      @required this.title,
+      {required this.selectedAtIndex,
+      required this.items,
+      required this.title,
       this.pickerHeight = 300,
       this.onItemSelected});
 
@@ -16,7 +16,7 @@ class Picker<Item extends Object> extends StatelessWidget {
   final List<Item> items;
   final String title;
   final double pickerHeight;
-  final Function(Item) onItemSelected;
+  final Function(Item)? onItemSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class Picker<Item extends Object> extends StatelessWidget {
                             : Divider(
                                 height: 1,
                                 thickness: 2,
-                                color: Theme.of(context).accentTextTheme.headline5.decorationColor,//Color.fromRGBO(235, 238, 242, 1.0)
+                                color: Theme.of(context).textTheme.headline5?.decorationColor,//Color.fromRGBO(235, 238, 242, 1.0)
                         ),
                         itemBuilder: (_, index) {
                           if (index == 0) {
@@ -60,13 +60,11 @@ class Picker<Item extends Object> extends StatelessWidget {
                                   title,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 26,
                                       fontWeight: FontWeight.w600,
                                       decoration: TextDecoration.none,
-                                      color: Theme.of(context)
-                                          .primaryTextTheme
-                                          .caption
-                                          .color),
+                                      color: Theme.of(context).primaryTextTheme.caption?.color),
                                 ),
                               ),
                             );
@@ -81,7 +79,7 @@ class Picker<Item extends Object> extends StatelessWidget {
                                 return;
                               }
                               Navigator.of(context).pop();
-                              onItemSelected(item);
+                              onItemSelected!(item);
                             },
                             child: Container(
                               color: Colors.transparent,
@@ -90,15 +88,13 @@ class Picker<Item extends Object> extends StatelessWidget {
                                   child: Text(
                                 item.toString(),
                                 style: TextStyle(
+                                    backgroundColor: Colors.transparent,
                                     decoration: TextDecoration.none,
                                     fontSize: 18,
                                     fontWeight: FontWeight.normal,
                                     color: index == selectedAtIndex
                                         ? Color.fromRGBO(138, 80, 255, 1.0)
-                                        : Theme.of(context)
-                                            .primaryTextTheme
-                                            .caption
-                                            .color),
+                                        : Theme.of(context).primaryTextTheme.caption?.color),
                               )),
                             ),
                           );

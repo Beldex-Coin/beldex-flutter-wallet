@@ -14,7 +14,7 @@ class LoadingCurrentWallet extends LoginState {}
 class LoadedCurrentWalletSuccessfully extends LoginState {}
 
 class LoadedCurrentWalletFailure extends LoginState {
-  LoadedCurrentWalletFailure({this.errorMessage});
+  LoadedCurrentWalletFailure({required this.errorMessage});
   
   final String errorMessage;
 }
@@ -23,9 +23,8 @@ class LoginStore = LoginStoreBase with _$LoginStore;
 
 abstract class LoginStoreBase with Store {
   LoginStoreBase(
-      {@required this.sharedPreferences, @required this.walletsService}) {
+      {required this.sharedPreferences, required this.walletsService}):
     state = InitialLoginState();
-  }
 
   final SharedPreferences sharedPreferences;
   final WalletListService walletsService;

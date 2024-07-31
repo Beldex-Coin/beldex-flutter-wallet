@@ -8,24 +8,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 
-WalletService walletService;
+WalletService? walletService;
 
 Future addSubAddressDialog(
     BuildContext context, String title, String body, String fee, String address,
-    {String buttonText,
-    void Function(BuildContext context) onPressed,
-    void Function(BuildContext context) onDismiss}) {
+    {String? buttonText,
+    required void Function(BuildContext context) onPressed,
+    void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
       builder: (_) => Provider<dynamic>(
-          create: (_) => SubadrressCreationStore(walletService: walletService),
+          create: (_) => SubadrressCreationStore(walletService: walletService!),
           child: AddSubAddress()),
       context: context);
 }
 
 class AddSubAddress extends StatelessWidget {
-  const AddSubAddress({Key key}) : super(key: key);
+  const AddSubAddress({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -75,11 +75,11 @@ class AddSubAddress extends StatelessWidget {
                                   Center(
                                     child: BeldexTextField(
                                         controller: _labelController,
-                                        hintText: S.of(context).name,
-                                        //S.of(context).new_subaddress_label_name,
+                                        hintText: tr(context).name,
+                                        //tr(context).new_subaddress_label_name,
                                         validator: (value) {
                                           subAddressCreationStore
-                                              .validateSubaddressName(value);
+                                              .validateSubaddressName(value!);
                                           return subAddressCreationStore
                                               .errorMessage;
                                         }),
@@ -91,21 +91,15 @@ class AddSubAddress extends StatelessWidget {
                               width: 250,
                               child: LoadingPrimaryButton(
                                   onPressed: () async {
-                                    if (_formKey.currentState.validate()) {
+                                    if (_formKey.currentState?.validate() ?? false) {
                                       await subAddressCreationStore.add(
                                           label: _labelController.text);
                                       Navigator.of(context).pop();
                                     }
                                   },
                                   text: 'Create',
-                                  color: Theme.of(context)
-                                      .primaryTextTheme
-                                      .button
-                                      .backgroundColor,
-                                  borderColor: Theme.of(context)
-                                      .primaryTextTheme
-                                      .button
-                                      .backgroundColor,
+                                  color: Color.fromARGB(255,46, 160, 33),
+                                  borderColor: Color.fromARGB(255,46, 160, 33),
                                   isLoading: subAddressCreationStore.state
                                       is SubaddressIsCreating),
                             ),

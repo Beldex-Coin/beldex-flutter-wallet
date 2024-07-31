@@ -3,11 +3,12 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wakelock/wakelock.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
+
+import '../../l10n.dart';
 
 class CommitTransactionLoader extends StatelessWidget {
-  CommitTransactionLoader({Key key, this.sendStore}) : super(key: key);
+  CommitTransactionLoader({Key? key, required this.sendStore}) : super(key: key);
 
   final SendStore sendStore;
 
@@ -15,7 +16,7 @@ class CommitTransactionLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
-    Wakelock.enable();
+    WakelockPlus.enable();
     Future.delayed(const Duration(seconds: 1), () {
       sendStore.commitTransaction();
     });
@@ -34,7 +35,7 @@ class CommitTransactionLoader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      S.of(context).initiatingTransactionTitle,
+                      tr(context).initiatingTransactionTitle,
                       style: TextStyle(
                           fontSize: height * 0.07 / 3,
                           fontWeight: FontWeight.w800,
@@ -46,7 +47,7 @@ class CommitTransactionLoader extends StatelessWidget {
                       padding:
                       const EdgeInsets.only(top: 15.0, left: 8.0, right: 8.0),
                       child: Text(
-                        S.of(context).initiatingTransactionDescription,
+                        tr(context).initiatingTransactionDescription,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: height * 0.07 / 3,

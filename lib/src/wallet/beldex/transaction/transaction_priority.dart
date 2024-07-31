@@ -1,8 +1,8 @@
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../../l10n.dart';
 import 'package:beldex_wallet/src/domain/common/enumerable_item.dart';
 
 class BeldexTransactionPriority extends EnumerableItem<int> with Serializable<int> {
-  const BeldexTransactionPriority({String title, int raw})
+  const BeldexTransactionPriority({required String title, required int raw})
       : super(title: title, raw: raw);
 
   static const all = [
@@ -14,24 +14,24 @@ class BeldexTransactionPriority extends EnumerableItem<int> with Serializable<in
   static const flash = BeldexTransactionPriority(title: 'Flash', raw: 5);
   static const standard = flash;
 
-  static BeldexTransactionPriority deserialize({int raw}) {
+  static BeldexTransactionPriority deserialize({required int raw}) {
     switch (raw) {
       case 1:
         return slow;
       case 5:
         return flash;
       default:
-        return null;
+        return flash;
     }
   }
 
   @override
-  String toString() {
+  String getTitle(AppLocalizations l10n) {
     switch (this) {
       case BeldexTransactionPriority.slow:
-        return S.current.transaction_priority_slow;
+        return l10n.transaction_priority_slow;
       case BeldexTransactionPriority.flash:
-        return S.current.transaction_priority_blink;
+        return l10n.transaction_priority_blink;
       default:
         return '';
     }

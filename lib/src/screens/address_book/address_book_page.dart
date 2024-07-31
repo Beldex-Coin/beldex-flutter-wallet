@@ -1,19 +1,19 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/util/screen_sizer.dart';
-import 'package:beldex_wallet/src/widgets/showSnackBar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/address_book/address_book_store.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
+import '../../domain/common/contact.dart';
 
 class AddressBookPage extends BasePage {
   AddressBookPage({this.isEditable = true});
@@ -21,10 +21,10 @@ class AddressBookPage extends BasePage {
   final bool isEditable;
 
   @override
-  String get title => S.current.address_book;
+  String getTitle(AppLocalizations t) => t.address_book;
 
   @override
-  Widget trailing(BuildContext context) {
+  Widget? trailing(BuildContext context) {
     if (!isEditable) return null;
     final addressBookStore = Provider.of<AddressBookStore>(context);
     return Container(
@@ -32,7 +32,7 @@ class AddressBookPage extends BasePage {
       child: IconButton(
         icon: SvgPicture.asset('assets/images/new-images/menu_add_address.svg'),
         onPressed: () async {
-          await Navigator.of(context).pushNamed(Routes.addressBookAddContact);
+          await Navigator.of(context).pushNamed(Routes.addressBookAddContact,arguments: Contact(name: "",address: ""));
           await addressBookStore.updateContactList();
         },
       ),
@@ -43,6 +43,7 @@ class AddressBookPage extends BasePage {
   Widget body(BuildContext context) {
     final addressBookStore = Provider.of<AddressBookStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
+    ToastContext().init(context);
     ScreenSize.init(context);
     return Observer(builder: (_) {
       var addressBook = addressBookStore.contactList;
@@ -62,7 +63,7 @@ class AddressBookPage extends BasePage {
                     ),
                     Container(
                         child: Text(
-                      S.of(context).noAddressesInBook,
+                      tr(context).noAddressesInBook,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 18,
@@ -147,30 +148,27 @@ class AddressBookPage extends BasePage {
                             ))
                         : Slidable(
                             key: Key('${contact.key}'),
-                            actionPane: SlidableDrawerActionPane(),
-                            secondaryActions: <Widget>[
-                              IconSlideAction(
-                                caption: S.of(context).edit,
-                                color: Colors.blue,
-                                foregroundColor: settingsStore.isDarkTheme
-                                    ? Color(0xff171720)
-                                    : Color(0xffffffff),
+                            endActionPane: ActionPane(
+                              motion: const DrawerMotion(),
+                              children: [
+                                SlidableAction(
+                                label: tr(context).edit,
+                                backgroundColor: Colors.blue,
+                                foregroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
                                 icon: Icons.edit,
-                                onTap: () async {
+                                onPressed: (context)  async {
                                   await Navigator.of(context).pushNamed(
                                       Routes.addressBookAddContact,
                                       arguments: contact);
                                   await addressBookStore.updateContactList();
                                 },
                               ),
-                              IconSlideAction(
-                                caption: S.of(context).delete,
-                                color: Colors.red,
-                                foregroundColor: settingsStore.isDarkTheme
-                                    ? Color(0xff171720)
-                                    : Color(0xffffffff),
-                                icon: CupertinoIcons.delete,
-                                onTap: () async {
+                              SlidableAction(
+                              label: tr(context).delete,
+                              backgroundColor: Colors.red,
+                              icon: CupertinoIcons.delete,
+                              foregroundColor:settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+                              onPressed: (context) async {
                                   await showAlertDialog(context)
                                       .then((isDelete) async {
                                     if (isDelete != null && isDelete) {
@@ -182,17 +180,22 @@ class AddressBookPage extends BasePage {
                                   });
                                 },
                               ),
-                            ],
-                            dismissal: SlidableDismissal(
-                              onDismissed: (actionType) async {
-                                await addressBookStore.delete(contact: contact);
-                                await addressBookStore.updateContactList();
-                              },
-                              onWillDismiss: (actionType) async {
-                                return await showAlertDialog(context);
-                              },
-                              child: SlidableDrawerDismissal(),
-                            ),
+                              ]),
+                      startActionPane: ActionPane(
+                          motion: const DrawerMotion(),
+                          dismissible: DismissiblePane(
+                            onDismissed: () async {
+                              await addressBookStore.delete(
+                                  contact: contact);
+                              await addressBookStore
+                                  .updateContactList();
+                            },
+                            confirmDismiss: () async {
+                              return await showAlertDialog(
+                                  context);
+                            },
+                          ),
+                          children: []),
                             child: Container(
                                 height: MediaQuery.of(context).size.height *
                                     0.55 /
@@ -243,16 +246,10 @@ class AddressBookPage extends BasePage {
                                               Clipboard.setData(ClipboardData(
                                                   text: contact.address));
                                               Toast.show(
-                                                'Address ${S.of(context).copied}',
-                                                context,
-                                                duration: Toast.LENGTH_SHORT,
-                                                gravity: Toast
-                                                    .BOTTOM, 
-                                                textColor: settingsStore
-                                                        .isDarkTheme
-                                                    ? Colors.black
-                                                    : Colors
-                                                        .white,
+                                                'Address ${tr(context).copied}',
+                                                duration: Toast.lengthShort,
+                                                gravity: Toast.bottom,
+                                                textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),
                                                 backgroundColor:
                                                     settingsStore.isDarkTheme
                                                         ? Colors.grey.shade50
@@ -286,13 +283,13 @@ class AddressBookPage extends BasePage {
 
   Future<bool> showAlertDialog(BuildContext context) async {
     var result = false;
-    await showConfirmBeldexDialog(context, S.of(context).removeContact,
-        S.of(context).areYouSureYouWantToRemoveSelectedContact,
+    await showConfirmBeldexDialog(context, tr(context).removeContact,
+        tr(context).areYouSureYouWantToRemoveSelectedContact,
         onDismiss: (context) => Navigator.pop(context, false),
         onConfirm: (context) {
           result = true;
           Navigator.pop(context, true);
-          return true;
+          //return true;
         });
     return result;
   }

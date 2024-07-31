@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SettingsTextListRow extends StatelessWidget {
-  SettingsTextListRow({@required this.onTaped, this.title, this.widget});
+  SettingsTextListRow({required this.onTaped, this.title, this.widget});
 
-  final VoidCallback onTaped;
-  final String title;
-  final Widget widget;
+  final VoidCallback? onTaped;
+  final String? title;
+  final Widget? widget;
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -21,14 +21,14 @@ class SettingsTextListRow extends StatelessWidget {
           children: <Widget>[
             Flexible(
               child: Text(
-                title,
+                title!,
                 style: TextStyle(
                     fontSize:MediaQuery.of(context).size.height*0.06/3, // 14.0,
                     fontWeight: FontWeight.w400,
-                    color: Theme.of(context).primaryTextTheme.headline6.color),
+                    color: Theme.of(context).primaryTextTheme.headline6?.color),
               ),
             ),
-            Flexible(child: widget)
+            Flexible(child: widget!)
           ],
         ),
         onTap: onTaped,

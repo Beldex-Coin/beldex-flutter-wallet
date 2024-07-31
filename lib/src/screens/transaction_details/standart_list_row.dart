@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:beldex_wallet/palette.dart';
 
 class StandartListRow extends StatelessWidget {
-  StandartListRow({this.title, this.value});
+  StandartListRow({required this.title, this.value});
 
   final String title;
-  final String value;
+  final String? value;
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +18,12 @@ class StandartListRow extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryTextTheme.caption.color),
+                    color: Theme.of(context).primaryTextTheme.caption?.color),
                 textAlign: TextAlign.left),
             Padding(
               padding: const EdgeInsets.only(top: 5),
-              child: Text(value,
-                  style: TextStyle(fontSize: 14, color: Theme.of(context).primaryTextTheme.caption.color)),
+              child: Text(value!,
+                  style: TextStyle(fontSize: 14, color: Theme.of(context).primaryTextTheme.caption?.color)),
             )
           ]),
     );

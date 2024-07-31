@@ -6,25 +6,27 @@ part of 'settings_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$SettingsStore on SettingsStoreBase, Store {
-  final _$nodeAtom = Atom(name: 'SettingsStoreBase.node');
+  late final _$nodeAtom =
+      Atom(name: 'SettingsStoreBase.node', context: context);
 
   @override
-  Node get node {
+  Node? get node {
     _$nodeAtom.reportRead();
     return super.node;
   }
 
   @override
-  set node(Node value) {
+  set node(Node? value) {
     _$nodeAtom.reportWrite(value, super.node, () {
       super.node = value;
     });
   }
 
-  final _$fiatCurrencyAtom = Atom(name: 'SettingsStoreBase.fiatCurrency');
+  late final _$fiatCurrencyAtom =
+      Atom(name: 'SettingsStoreBase.fiatCurrency', context: context);
 
   @override
   FiatCurrency get fiatCurrency {
@@ -39,8 +41,8 @@ mixin _$SettingsStore on SettingsStoreBase, Store {
     });
   }
 
-  final _$transactionPriorityAtom =
-      Atom(name: 'SettingsStoreBase.transactionPriority');
+  late final _$transactionPriorityAtom =
+      Atom(name: 'SettingsStoreBase.transactionPriority', context: context);
 
   @override
   BeldexTransactionPriority get transactionPriority {
@@ -55,23 +57,24 @@ mixin _$SettingsStore on SettingsStoreBase, Store {
     });
   }
 
-  final _$balanceDisplayModeAtom =
-      Atom(name: 'SettingsStoreBase.balanceDisplayMode');
+  late final _$balanceDisplayModeAtom =
+      Atom(name: 'SettingsStoreBase.balanceDisplayMode', context: context);
 
   @override
-  BalanceDisplayMode get balanceDisplayMode {
+  BalanceDisplayMode? get balanceDisplayMode {
     _$balanceDisplayModeAtom.reportRead();
     return super.balanceDisplayMode;
   }
 
   @override
-  set balanceDisplayMode(BalanceDisplayMode value) {
+  set balanceDisplayMode(BalanceDisplayMode? value) {
     _$balanceDisplayModeAtom.reportWrite(value, super.balanceDisplayMode, () {
       super.balanceDisplayMode = value;
     });
   }
 
-  final _$balanceDetailAtom = Atom(name: 'SettingsStoreBase.balanceDetail');
+  late final _$balanceDetailAtom =
+      Atom(name: 'SettingsStoreBase.balanceDetail', context: context);
 
   @override
   AmountDetail get balanceDetail {
@@ -86,8 +89,8 @@ mixin _$SettingsStore on SettingsStoreBase, Store {
     });
   }
 
-  final _$shouldSaveRecipientAddressAtom =
-      Atom(name: 'SettingsStoreBase.shouldSaveRecipientAddress');
+  late final _$shouldSaveRecipientAddressAtom = Atom(
+      name: 'SettingsStoreBase.shouldSaveRecipientAddress', context: context);
 
   @override
   bool get shouldSaveRecipientAddress {
@@ -103,8 +106,8 @@ mixin _$SettingsStore on SettingsStoreBase, Store {
     });
   }
 
-  final _$allowBiometricAuthenticationAtom =
-      Atom(name: 'SettingsStoreBase.allowBiometricAuthentication');
+  late final _$allowBiometricAuthenticationAtom = Atom(
+      name: 'SettingsStoreBase.allowBiometricAuthentication', context: context);
 
   @override
   bool get allowBiometricAuthentication {
@@ -120,8 +123,8 @@ mixin _$SettingsStore on SettingsStoreBase, Store {
     });
   }
 
-  final _$enableFiatCurrencyAtom =
-      Atom(name: 'SettingsStoreBase.enableFiatCurrency');
+  late final _$enableFiatCurrencyAtom =
+      Atom(name: 'SettingsStoreBase.enableFiatCurrency', context: context);
 
   @override
   bool get enableFiatCurrency {
@@ -136,7 +139,8 @@ mixin _$SettingsStore on SettingsStoreBase, Store {
     });
   }
 
-  final _$isDarkThemeAtom = Atom(name: 'SettingsStoreBase.isDarkTheme');
+  late final _$isDarkThemeAtom =
+      Atom(name: 'SettingsStoreBase.isDarkTheme', context: context);
 
   @override
   bool get isDarkTheme {
@@ -151,8 +155,8 @@ mixin _$SettingsStore on SettingsStoreBase, Store {
     });
   }
 
-  final _$defaultPinLengthAtom =
-      Atom(name: 'SettingsStoreBase.defaultPinLength');
+  late final _$defaultPinLengthAtom =
+      Atom(name: 'SettingsStoreBase.defaultPinLength', context: context);
 
   @override
   int get defaultPinLength {
@@ -167,108 +171,128 @@ mixin _$SettingsStore on SettingsStoreBase, Store {
     });
   }
 
-  final _$setAllowBiometricAuthenticationAsyncAction =
-      AsyncAction('SettingsStoreBase.setAllowBiometricAuthentication');
+  late final _$languageOverrideAtom =
+      Atom(name: 'SettingsStoreBase.languageOverride', context: context);
+
+  @override
+  String? get languageOverride {
+    _$languageOverrideAtom.reportRead();
+    return super.languageOverride;
+  }
+
+  @override
+  set languageOverride(String? value) {
+    _$languageOverrideAtom.reportWrite(value, super.languageOverride, () {
+      super.languageOverride = value;
+    });
+  }
+
+  late final _$setAllowBiometricAuthenticationAsyncAction = AsyncAction(
+      'SettingsStoreBase.setAllowBiometricAuthentication',
+      context: context);
 
   @override
   Future<dynamic> setAllowBiometricAuthentication(
-      {@required bool allowBiometricAuthentication}) {
+      {required bool allowBiometricAuthentication}) {
     return _$setAllowBiometricAuthenticationAsyncAction.run(() => super
         .setAllowBiometricAuthentication(
             allowBiometricAuthentication: allowBiometricAuthentication));
   }
 
-  final _$setEnableFiatCurrencyAsyncAction =
-      AsyncAction('SettingsStoreBase.setEnableFiatCurrency');
+  late final _$setEnableFiatCurrencyAsyncAction =
+      AsyncAction('SettingsStoreBase.setEnableFiatCurrency', context: context);
 
   @override
-  Future<dynamic> setEnableFiatCurrency({@required bool enableFiatCurrency}) {
+  Future<dynamic> setEnableFiatCurrency({required bool enableFiatCurrency}) {
     return _$setEnableFiatCurrencyAsyncAction.run(() =>
         super.setEnableFiatCurrency(enableFiatCurrency: enableFiatCurrency));
   }
 
-  final _$saveDarkThemeAsyncAction =
-      AsyncAction('SettingsStoreBase.saveDarkTheme');
+  late final _$saveDarkThemeAsyncAction =
+      AsyncAction('SettingsStoreBase.saveDarkTheme', context: context);
 
   @override
-  Future<dynamic> saveDarkTheme({@required bool isDarkTheme}) {
+  Future<dynamic> saveDarkTheme({required bool isDarkTheme}) {
     return _$saveDarkThemeAsyncAction
         .run(() => super.saveDarkTheme(isDarkTheme: isDarkTheme));
   }
 
-  final _$saveLanguageCodeAsyncAction =
-      AsyncAction('SettingsStoreBase.saveLanguageCode');
+  late final _$saveLanguageOverrideAsyncAction =
+      AsyncAction('SettingsStoreBase.saveLanguageOverride', context: context);
 
   @override
-  Future<dynamic> saveLanguageCode({@required String languageCode}) {
-    return _$saveLanguageCodeAsyncAction
-        .run(() => super.saveLanguageCode(languageCode: languageCode));
+  Future<dynamic> saveLanguageOverride(String? language) {
+    return _$saveLanguageOverrideAsyncAction
+        .run(() => super.saveLanguageOverride(language));
   }
 
-  final _$setCurrentNodeAsyncAction =
-      AsyncAction('SettingsStoreBase.setCurrentNode');
+  late final _$setCurrentNodeAsyncAction =
+      AsyncAction('SettingsStoreBase.setCurrentNode', context: context);
 
   @override
-  Future<dynamic> setCurrentNode({@required Node node}) {
-    return _$setCurrentNodeAsyncAction
-        .run(() => super.setCurrentNode(node: node));
+  Future<dynamic> setCurrentNode(Node node) {
+    return _$setCurrentNodeAsyncAction.run(() => super.setCurrentNode(node));
   }
 
-  final _$setCurrentFiatCurrencyAsyncAction =
-      AsyncAction('SettingsStoreBase.setCurrentFiatCurrency');
+  late final _$setCurrentFiatCurrencyAsyncAction =
+      AsyncAction('SettingsStoreBase.setCurrentFiatCurrency', context: context);
 
   @override
-  Future<dynamic> setCurrentFiatCurrency({@required FiatCurrency currency}) {
+  Future<dynamic> setCurrentFiatCurrency({required FiatCurrency currency}) {
     return _$setCurrentFiatCurrencyAsyncAction
         .run(() => super.setCurrentFiatCurrency(currency: currency));
   }
 
-  final _$setCurrentTransactionPriorityAsyncAction =
-      AsyncAction('SettingsStoreBase.setCurrentTransactionPriority');
+  late final _$setCurrentTransactionPriorityAsyncAction = AsyncAction(
+      'SettingsStoreBase.setCurrentTransactionPriority',
+      context: context);
 
   @override
   Future<dynamic> setCurrentTransactionPriority(
-      {@required BeldexTransactionPriority priority}) {
+      {required BeldexTransactionPriority priority}) {
     return _$setCurrentTransactionPriorityAsyncAction
         .run(() => super.setCurrentTransactionPriority(priority: priority));
   }
 
-  final _$setCurrentBalanceDisplayModeAsyncAction =
-      AsyncAction('SettingsStoreBase.setCurrentBalanceDisplayMode');
+  late final _$setCurrentBalanceDisplayModeAsyncAction = AsyncAction(
+      'SettingsStoreBase.setCurrentBalanceDisplayMode',
+      context: context);
 
   @override
   Future<dynamic> setCurrentBalanceDisplayMode(
-      {@required BalanceDisplayMode balanceDisplayMode}) {
+      {required BalanceDisplayMode balanceDisplayMode}) {
     return _$setCurrentBalanceDisplayModeAsyncAction.run(() => super
         .setCurrentBalanceDisplayMode(balanceDisplayMode: balanceDisplayMode));
   }
 
-  final _$setCurrentBalanceDetailAsyncAction =
-      AsyncAction('SettingsStoreBase.setCurrentBalanceDetail');
+  late final _$setCurrentBalanceDetailAsyncAction = AsyncAction(
+      'SettingsStoreBase.setCurrentBalanceDetail',
+      context: context);
 
   @override
   Future<dynamic> setCurrentBalanceDetail(
-      {@required AmountDetail balanceDetail}) {
+      {required AmountDetail balanceDetail}) {
     return _$setCurrentBalanceDetailAsyncAction
         .run(() => super.setCurrentBalanceDetail(balanceDetail: balanceDetail));
   }
 
-  final _$setSaveRecipientAddressAsyncAction =
-      AsyncAction('SettingsStoreBase.setSaveRecipientAddress');
+  late final _$setSaveRecipientAddressAsyncAction = AsyncAction(
+      'SettingsStoreBase.setSaveRecipientAddress',
+      context: context);
 
   @override
   Future<dynamic> setSaveRecipientAddress(
-      {@required bool shouldSaveRecipientAddress}) {
+      {required bool shouldSaveRecipientAddress}) {
     return _$setSaveRecipientAddressAsyncAction.run(() => super
         .setSaveRecipientAddress(
             shouldSaveRecipientAddress: shouldSaveRecipientAddress));
   }
 
-  final _$setDefaultPinLengthAsyncAction =
-      AsyncAction('SettingsStoreBase.setDefaultPinLength');
+  late final _$setDefaultPinLengthAsyncAction =
+      AsyncAction('SettingsStoreBase.setDefaultPinLength', context: context);
 
   @override
-  Future<dynamic> setDefaultPinLength({@required int pinLength}) {
+  Future<dynamic> setDefaultPinLength({required int pinLength}) {
     return _$setDefaultPinLengthAsyncAction
         .run(() => super.setDefaultPinLength(pinLength: pinLength));
   }
@@ -285,7 +309,8 @@ shouldSaveRecipientAddress: ${shouldSaveRecipientAddress},
 allowBiometricAuthentication: ${allowBiometricAuthentication},
 enableFiatCurrency: ${enableFiatCurrency},
 isDarkTheme: ${isDarkTheme},
-defaultPinLength: ${defaultPinLength}
+defaultPinLength: ${defaultPinLength},
+languageOverride: ${languageOverride}
     ''';
   }
 }

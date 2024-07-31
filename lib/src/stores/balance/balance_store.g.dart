@@ -6,31 +6,31 @@ part of 'balance_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$BalanceStore on BalanceStoreBase, Store {
-  Computed<String> _$fullBalanceStringComputed;
+  Computed<String>? _$fullBalanceStringComputed;
 
   @override
   String get fullBalanceString => (_$fullBalanceStringComputed ??=
           Computed<String>(() => super.fullBalanceString,
               name: 'BalanceStoreBase.fullBalanceString'))
       .value;
-  Computed<String> _$unlockedBalanceStringComputed;
+  Computed<String>? _$unlockedBalanceStringComputed;
 
   @override
   String get unlockedBalanceString => (_$unlockedBalanceStringComputed ??=
           Computed<String>(() => super.unlockedBalanceString,
               name: 'BalanceStoreBase.unlockedBalanceString'))
       .value;
-  Computed<String> _$fiatFullBalanceComputed;
+  Computed<String>? _$fiatFullBalanceComputed;
 
   @override
   String get fiatFullBalance => (_$fiatFullBalanceComputed ??= Computed<String>(
           () => super.fiatFullBalance,
           name: 'BalanceStoreBase.fiatFullBalance'))
       .value;
-  Computed<String> _$fiatUnlockedBalanceComputed;
+  Computed<String>? _$fiatUnlockedBalanceComputed;
 
   @override
   String get fiatUnlockedBalance => (_$fiatUnlockedBalanceComputed ??=
@@ -38,7 +38,8 @@ mixin _$BalanceStore on BalanceStoreBase, Store {
               name: 'BalanceStoreBase.fiatUnlockedBalance'))
       .value;
 
-  final _$fullBalanceAtom = Atom(name: 'BalanceStoreBase.fullBalance');
+  late final _$fullBalanceAtom =
+      Atom(name: 'BalanceStoreBase.fullBalance', context: context);
 
   @override
   int get fullBalance {
@@ -53,7 +54,8 @@ mixin _$BalanceStore on BalanceStoreBase, Store {
     });
   }
 
-  final _$unlockedBalanceAtom = Atom(name: 'BalanceStoreBase.unlockedBalance');
+  late final _$unlockedBalanceAtom =
+      Atom(name: 'BalanceStoreBase.unlockedBalance', context: context);
 
   @override
   int get unlockedBalance {
@@ -68,7 +70,8 @@ mixin _$BalanceStore on BalanceStoreBase, Store {
     });
   }
 
-  final _$isReversingAtom = Atom(name: 'BalanceStoreBase.isReversing');
+  late final _$isReversingAtom =
+      Atom(name: 'BalanceStoreBase.isReversing', context: context);
 
   @override
   bool get isReversing {

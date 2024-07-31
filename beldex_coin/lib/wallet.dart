@@ -52,53 +52,42 @@ bool isRefreshingSync() => beldex_wallet.isRefreshingNative() != 0;
 bool isConnectedSync() => beldex_wallet.isConnectedNative() != 0;
 
 bool setupNodeSync(
-    {String address,
-    String login,
-    String password,
+    {required String address,
+    String? login,
+    String? password,
     bool useSSL = false,
     bool isLightWallet = false}) {
-  final addressPointer = Utf8.toUtf8(address);
-  Pointer<Utf8> loginPointer;
-  Pointer<Utf8> passwordPointer;
+  final addressPointer = address.toNativeUtf8();
+  final Pointer<Utf8> loginPointer = (login ?? '').toNativeUtf8();
+  final Pointer<Utf8> passwordPointer = (password ?? '').toNativeUtf8();
 
-  if (login != null) {
-    loginPointer = Utf8.toUtf8(login);
-  }
-
-  if (password != null) {
-    passwordPointer = Utf8.toUtf8(password);
-  }
-
-  final errorMessagePointer = allocate<Utf8>();
   final isSetupNode = beldex_wallet.setupNodeNative(
           addressPointer,
           loginPointer,
           passwordPointer,
           _boolToInt(useSSL),
-          _boolToInt(isLightWallet),
-          errorMessagePointer) !=
-      0;
+          _boolToInt(isLightWallet));
 
-  free(addressPointer);
-  free(loginPointer);
-  free(passwordPointer);
+  calloc.free(addressPointer);
+  calloc.free(loginPointer);
+  calloc.free(passwordPointer);
 
-  if (!isSetupNode) {
+  if (!isSetupNode.good) {
     throw SetupWalletException(
-        message: convertUTF8ToString(pointer: errorMessagePointer));
+        message: isSetupNode.errorString());
   }
 
-  return isSetupNode;
+  return true;
 }
 
 void startRefreshSync() => beldex_wallet.startRefreshNative();
 
-Future<bool> connectToNode() async => beldex_wallet.connecToNodeNative() != 0;
+Future<bool> connectToNode() async => beldex_wallet.connecToNodeNative().good;
 
-void setRefreshFromBlockHeight({int height}) =>
+void setRefreshFromBlockHeight({required int height}) =>
     beldex_wallet.setRefreshFromBlockHeightNative(height);
 
-void setRecoveringFromSeed({bool isRecovery}) =>
+void setRecoveringFromSeed({required bool isRecovery}) =>
     beldex_wallet.setRecoveringFromSeedNative(_boolToInt(isRecovery));
 
 void closeCurrentWallet() => beldex_wallet.closeCurrentWalletNative();
@@ -116,19 +105,15 @@ String getPublicSpendKey() =>
     convertUTF8ToString(pointer: beldex_wallet.getPublicSpendKeyNative());
 
 class SyncListener {
-  SyncListener(this.onNewBlock, this.onNewTransaction) {
-    _cachedBlockchainHeight = 0;
-    _lastKnownBlockHeight = 0;
-    _initialSyncHeight = 0;
-  }
+  SyncListener(this.onNewBlock, this.onNewTransaction);
 
   void Function(int, int, int, bool) onNewBlock;
   void Function() onNewTransaction;
 
-  Timer _updateSyncInfoTimer;
-  int _cachedBlockchainHeight;
-  int _lastKnownBlockHeight;
-  int _initialSyncHeight;
+  Timer? _updateSyncInfoTimer;
+  int _cachedBlockchainHeight = 0;
+  int _lastKnownBlockHeight = 0;
+  int _initialSyncHeight = 0;
 
   Future<int> getNodeHeightOrUpdate(int baseHeight) async {
     if (_cachedBlockchainHeight < baseHeight || _cachedBlockchainHeight == 0) {
@@ -164,7 +149,7 @@ class SyncListener {
       print('refreshing --> $refreshing');
       if (!refreshing) {
         if (isNewTransactionExist()) {
-          onNewTransaction?.call();
+          onNewTransaction.call();
         }
       }
 
@@ -175,7 +160,7 @@ class SyncListener {
       }else{
         onNewBlock?.call(syncHeight, left, ptc, refreshing);
       }*/
-      onNewBlock?.call(syncHeight, bchHeight, left, refreshing);
+      onNewBlock.call(syncHeight, bchHeight, left, refreshing);
     });
   }
 
@@ -217,15 +202,15 @@ int _getNodeHeight(Object _) => getNodeHeightSync();
 void startRefresh() => startRefreshSync();
 
 Future setupNode(
-        {String address,
-        String login,
-        String password,
+        {required String address,
+        /*String login,
+        String password,*/
         bool useSSL = false,
         bool isLightWallet = false}) =>
     compute<Map<String, Object>, void>(_setupNodeSync, {
       'address': address,
-      'login': login,
-      'password': password,
+      /*'login': login,
+      'password': password,*/
       'useSSL': useSSL,
       'isLightWallet': isLightWallet
     });

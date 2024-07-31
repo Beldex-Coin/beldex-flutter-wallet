@@ -4,9 +4,9 @@ import 'package:beldex_wallet/src/wallet/transaction/transaction_creation_creden
 class BeldexTransactionCreationCredentials
     extends TransactionCreationCredentials {
   BeldexTransactionCreationCredentials(
-      {this.address, this.priority, this.amount});
+      {required this.address, required this.priority, this.amount});
 
   final String address;
-  final String amount;
+  final String? amount;
   final BeldexTransactionPriority priority;
 }

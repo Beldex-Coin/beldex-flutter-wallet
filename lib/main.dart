@@ -1,8 +1,8 @@
+import 'dart:io';
+
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/util/network_service.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
-import 'package:native_updater/native_updater.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:beldex_coin/wallet.dart' as beldex_wallet;
 import 'package:beldex_wallet/router.dart' as beldexroute;
+import 'l10n.dart';
 import 'theme_changer.dart';
 import 'themes.dart';
 import 'package:beldex_wallet/src/domain/common/get_encryption_key.dart';
@@ -35,10 +36,10 @@ import 'package:beldex_wallet/src/domain/common/default_settings_migration.dart'
 import 'package:beldex_wallet/src/domain/common/fiat_currency.dart';
 import 'package:beldex_wallet/src/wallet/wallet_type.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
-import 'package:beldex_wallet/src/domain/common/language.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
 import 'package:beldex_wallet/src/screens/pin_code/bio_auth_provider.dart';
+import 'package:upgrader/upgrader.dart';
+
 void main() async {
   try {
     WidgetsFlutterBinding.ensureInitialized();
@@ -61,7 +62,7 @@ void main() async {
     (Node.boxName);
     final transactionDescriptions = await Hive.openBox<TransactionDescription>(
         TransactionDescription.boxName,
-        encryptionKey: transactionDescriptionsBoxKey);
+        encryptionCipher: HiveAesCipher(transactionDescriptionsBoxKey));
     final walletInfoSource = await Hive.openBox<WalletInfo>(WalletInfo.boxName);
 
     final sharedPreferences = await SharedPreferences.getInstance();
@@ -99,7 +100,7 @@ void main() async {
     final loginStore = LoginStore(
         sharedPreferences: sharedPreferences, walletsService: walletListService);
     final seedLanguageStore = SeedLanguageStore();
-    final sendStore = SendStore();
+    final sendStore = SendStore(walletService: walletService, settingsStore: settingsStore, priceStore: priceStore,);
     final networkService = NetworkService().controller.stream;
 
     setReactions(
@@ -134,26 +135,31 @@ void main() async {
     ], child: BeldexWalletApp()));
   } catch (e) {
     runApp(MaterialApp(
-      debugShowCheckedModeBanner: true,
-      home: Scaffold(
-        body: Container(
-          margin:
-            EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 20),
-          child: Text(
-            'Error:\n${e.toString()}',
-            style: TextStyle(fontSize: 22),
-          )
-        )
-      )
-    ));
+        debugShowCheckedModeBanner: true,
+        home: UpgradeAlert(
+          showLater: false,
+          showIgnore: false,
+          dialogStyle: Platform.isIOS
+              ? UpgradeDialogStyle.cupertino
+              : UpgradeDialogStyle.material,
+          child: Scaffold(
+              body: Container(
+                  margin:
+                      EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 20),
+                  child: Text(
+                    'Error:--\n${e.toString()}',
+                    style: TextStyle(
+                        backgroundColor: Colors.transparent, fontSize: 22),
+                  ))),
+        )));
   }
 }
 
 Future<void> initialSetup(
-    {WalletListService walletListService,
-    SharedPreferences sharedPreferences,
-    Box<Node> nodes,
-    AuthenticationStore authStore,
+    {required WalletListService walletListService,
+    required SharedPreferences sharedPreferences,
+    required Box<Node> nodes,
+    required AuthenticationStore authStore,
     int initialMigrationVersion = 1,
     WalletType initialWalletType = WalletType.beldex}) async {
   await walletListService.changeWalletManger(walletType: initialWalletType);
@@ -179,10 +185,10 @@ class _BeldexWalletAppState extends State<BeldexWalletApp> {
   @override
   void initState() {
     super.initState();
-    checkVersion(context);
+    //checkVersion(context);
   }
 
-  Future<void> checkVersion(BuildContext context) async {
+  /*Future<void> checkVersion(BuildContext context) async {
     /// For example: You got status code of 412 from the
     /// response of HTTP request.
     /// Let's say the statusCode 412 requires you to force update
@@ -206,7 +212,7 @@ class _BeldexWalletAppState extends State<BeldexWalletApp> {
             iOSCloseButtonLabel: 'Exit',
             iOSAlertTitle: 'Mandatory Update',
         );
-      }/* else if (serverLatestVersion > localVersion) {
+      }*//* else if (serverLatestVersion > localVersion) {
         NativeUpdater.displayUpdateAlert(
           context,
           forceUpdate: true,
@@ -215,20 +221,21 @@ class _BeldexWalletAppState extends State<BeldexWalletApp> {
           iOSDescription: 'Your App requires that you update to the latest version. You cannot use this app until it is updated.',
           iOSUpdateButtonLabel: 'Upgrade',
           iOSCloseButtonLabel: 'Exit',
-        );*/
+        );*//*
     });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
 
-    return ChangeNotifierProvider<ThemeChanger>(
-        create: (_) => ThemeChanger(
-            settingsStore.isDarkTheme ? Themes.darkTheme : Themes.lightTheme),
-        child: ChangeNotifierProvider<Language>(
-            create: (_) => Language(settingsStore.languageCode),
-            child: MaterialAppWithTheme()));
+    return ChangeNotifierProvider(
+        create: (_) => ThemeChanger(settingsStore.isDarkTheme ? Themes.darkTheme : Themes.lightTheme),
+        builder: (context, child) => ChangeNotifierProvider(
+          create: (_) => LanguageNotifier(),
+          builder: (context, child) => MaterialAppWithTheme(),
+        )
+    );
   }
 }
 
@@ -265,7 +272,7 @@ class MaterialAppWithTheme extends StatelessWidget {
     final theme = Provider.of<ThemeChanger>(context);
     final statusBarColor =
         settingsStore.isDarkTheme ?  Color(0xff171720) : Color(0xffffffff);
-    final currentLanguage = Provider.of<Language>(context);
+    final languageNotifier = Provider.of<LanguageNotifier>(context);
     final contacts = Provider.of<Box<Contact>>(context);
     final nodes = Provider.of<Box<Node>>(context);
     final transactionDescriptions =
@@ -277,14 +284,19 @@ class MaterialAppWithTheme extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: theme.getTheme(),
-        localizationsDelegates: [
-          S.delegate,
-          GlobalCupertinoLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-        ],
-        supportedLocales: S.delegate.supportedLocales,
-        locale: Locale(currentLanguage.getCurrentLanguage()),
+        localeListResolutionCallback: (List<Locale>? userLocales, Iterable<Locale> supported) {
+          for (var userLocale in userLocales ?? <Locale>[]) {
+            for (var locale in supported) {
+              if (locale.languageCode == userLocale.languageCode &&
+                  (locale.countryCode == null || locale.countryCode! == userLocale.countryCode))
+                return userLocale;
+            }
+          }
+          return Locale('en');
+        },
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        locale: settingsStore.languageOverride != null ? Locale(settingsStore.languageOverride!) : null,
         onGenerateRoute: (settings) => beldexroute.Router.generateRoute(
             sharedPreferences: sharedPreferences,
             walletListService: walletListService,
@@ -299,6 +311,13 @@ class MaterialAppWithTheme extends StatelessWidget {
             contacts: contacts,
             nodes: nodes,
             transactionDescriptions: transactionDescriptions),
-        home: Root());
+      home: UpgradeAlert(
+          showLater: false,
+          showIgnore: false,
+          dialogStyle: Platform.isIOS
+              ? UpgradeDialogStyle.cupertino
+              : UpgradeDialogStyle.material,
+          child: Root()),
+    );
   }
 }

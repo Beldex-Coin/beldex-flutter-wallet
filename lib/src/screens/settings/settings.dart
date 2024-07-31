@@ -1,12 +1,11 @@
 import 'dart:io';
 
-import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/domain/common/balance_display_mode.dart';
@@ -27,7 +26,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends BasePage {
   @override
-  String get title => S.current.walletSettings;
+  String getTitle(AppLocalizations t) => t.walletSettings;
 
   @override
   Color get backgroundColor => Palette.lightGrey2;
@@ -64,16 +63,15 @@ class SettingsFormState extends State<SettingsForm> {
   TextEditingController searchDecimalController = TextEditingController();
   TextEditingController searchCurrencyController = TextEditingController();
 
-  String decimalFilter;
-  String currencyFilter;
+  String? decimalFilter;
+  String? currencyFilter;
 
-  LocalAuthentication auth;
+  LocalAuthentication auth  = LocalAuthentication();
   List<BiometricType> _availableBiometrics = <BiometricType>[];
-  StateSetter _searchCurrencySetState;
+  StateSetter? _searchCurrencySetState;
 
   @override
   void initState() {
-    auth = LocalAuthentication();
     //-->
     _getAvailableBiometrics();
     super.initState();
@@ -83,7 +81,7 @@ class SettingsFormState extends State<SettingsForm> {
       });
     });
     searchCurrencyController.addListener(() {
-      _searchCurrencySetState(() {
+      _searchCurrencySetState!(() {
         currencyFilter = searchCurrencyController.text;
       });
     });
@@ -120,12 +118,13 @@ class SettingsFormState extends State<SettingsForm> {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
+    final t = tr(context);
     return SingleChildScrollView(
         child: Column(
           children: <Widget>[
             //Nodes Header
             NewNavListHeader(
-              title: S.current.settings_nodes,
+              title: t.settings_nodes,
             ),
             //Current Node
             Theme(
@@ -141,17 +140,19 @@ class SettingsFormState extends State<SettingsForm> {
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
-                    Text(S.current.settings_current_node,
+                    Text(t.settings_current_node,
                         style: TextStyle(
+                            backgroundColor: Colors.transparent,
                             fontWeight: FontWeight.w400,
                             fontSize: MediaQuery.of(context).size.height *
                                 0.06 /
-                                3, color: Theme.of(context).primaryTextTheme.headline6.color),),
+                                3, color: Theme.of(context).primaryTextTheme.headline6?.color),),
                     settingsStore.node == null
                         ? Container()
                         : Observer(builder: (_) {
-                      return Text(settingsStore.node.uri,
+                      return Text(settingsStore.node?.uri ?? "",
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               color: Color(0xff1BB71F),
                               fontSize: 13));
                     })
@@ -163,7 +164,7 @@ class SettingsFormState extends State<SettingsForm> {
               ),
             ),
             //Wallets Header
-            NewNavListHeader(title: S.current.settings_wallets),
+            NewNavListHeader(title: t.settings_wallets),
             Column(
               children: [
                 //Display Balance as
@@ -178,6 +179,7 @@ class SettingsFormState extends State<SettingsForm> {
                               return Future.value(false);
                             },
                             child: Dialog(
+                              surfaceTintColor: Colors.transparent,
                               backgroundColor: Colors.transparent,
                               insetPadding: EdgeInsets.all(15),
                               child: Container(
@@ -201,8 +203,9 @@ class SettingsFormState extends State<SettingsForm> {
                                           padding:
                                               const EdgeInsets.all(8.0),
                                           child: Text(
-                                            S.of(context).settings_display_balance_as,
+                                            tr(context).settings_display_balance_as,
                                             style: TextStyle(
+                                                backgroundColor: Colors.transparent,
                                                 fontSize: 18,
                                                 fontWeight:
                                                     FontWeight.bold),
@@ -225,8 +228,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                         context.read<
                                                             SettingsStore>();
                                                     if (BalanceDisplayMode
-                                                            .all[index] !=
-                                                        null) {
+                                                            .all[index] != null) {
                                                       await settingsStore.setCurrentBalanceDisplayMode(
                                                           balanceDisplayMode:
                                                               BalanceDisplayMode
@@ -274,6 +276,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                                 TextAlign
                                                                     .center,
                                                             style: TextStyle(
+                                                                backgroundColor: Colors.transparent,
                                                                 fontSize:
                                                                     14,
                                                                 color: settingsStore.balanceDisplayMode !=
@@ -314,21 +317,19 @@ class SettingsFormState extends State<SettingsForm> {
                           );
                         });
                   },
-                  title: S.current.settings_display_balance_as,
+                  title: t.settings_display_balance_as,
                   widget: Observer(
                       builder: (_) => Text(
                             settingsStore.balanceDisplayMode.toString(),
                             textAlign: TextAlign.right,
                             style: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 fontSize:
                                     MediaQuery.of(context).size.height *
                                         0.06 /
                                         3,
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline6
-                                    .color),
+                                color: Theme.of(context).primaryTextTheme.headline6?.color),
                           )),
                 ),
                 //Decimals
@@ -343,6 +344,7 @@ class SettingsFormState extends State<SettingsForm> {
                               return Future.value(false);
                             },
                             child: Dialog(
+                              surfaceTintColor: Colors.transparent,
                               backgroundColor: Colors.transparent,
                               insetPadding: EdgeInsets.all(15),
                               child: Container(
@@ -368,27 +370,28 @@ class SettingsFormState extends State<SettingsForm> {
                                           child: Text(
                                             'Decimals',
                                             style: TextStyle(
+                                                backgroundColor: Colors.transparent,
                                                 fontSize: 18,
                                                 fontWeight:
                                                     FontWeight.bold),
                                           ),
                                         ),
                                         Expanded(
-                                          child: DraggableScrollbar.rrect(
+                                          child: RawScrollbar(
                                             padding: EdgeInsets.only(
                                                 left: 5,
                                                 right: 5,
                                                 top: 10,
                                                 bottom: 10),
                                             controller: _scrollController,
-                                            heightScrollThumb: 25,
+                                            /*heightScrollThumb: 25,
                                             alwaysVisibleScrollThumb:
                                                 false,
                                             backgroundColor:
                                                 Theme.of(context)
                                                     .primaryTextTheme
                                                     .button
-                                                    .backgroundColor,
+                                                    .backgroundColor,*/
                                             child: ListView.builder(
                                                 itemCount: AmountDetail
                                                     .all.length,
@@ -408,7 +411,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                       : '${AmountDetail.all[index]}'
                                                               .toLowerCase()
                                                               .contains(
-                                                                  decimalFilter
+                                                                  decimalFilter!
                                                                       .toLowerCase())
                                                           ? decimalDropDownListItem(
                                                               settingsStore,
@@ -439,26 +442,24 @@ class SettingsFormState extends State<SettingsForm> {
                           );
                         });
                   },
-                  title: S.current.settings_balance_detail,
+                  title: t.settings_balance_detail,
                   widget: Observer(
                       builder: (_) => Text(
-                            settingsStore.balanceDetail.toString(),
+                        settingsStore.balanceDetail.getTitle(tr(context)),
                             textAlign: TextAlign.right,
                             style: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 fontSize:
                                     MediaQuery.of(context).size.height *
                                         0.06 /
                                         3,
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline6
-                                    .color),
+                                color: Theme.of(context).primaryTextTheme.headline6?.color),
                           )),
                 ),
                 //Enable fiat currency conversation
                 SettingsSwitchListRow(
-                  title: S.current.settings_enable_fiat_currency,
+                  title: t.settings_enable_fiat_currency,
                 ),
                 //Currency
                 SettingsTextListRow(
@@ -475,6 +476,7 @@ class SettingsFormState extends State<SettingsForm> {
                                   return Future.value(false);
                                 },
                                 child: Dialog(
+                                  surfaceTintColor: Colors.transparent,
                                   backgroundColor: Colors.transparent,
                                   insetPadding: EdgeInsets.all(15),
                                   child: Container(
@@ -502,6 +504,7 @@ class SettingsFormState extends State<SettingsForm> {
                                               child: Text(
                                                 'Currency',
                                                 style: TextStyle(
+                                                  backgroundColor: Colors.transparent,
                                                   fontSize: 18,
                                                   fontWeight:
                                                       FontWeight.bold,
@@ -518,17 +521,18 @@ class SettingsFormState extends State<SettingsForm> {
                                                     InputDecoration(
                                                   hintText:
                                                       'Search Currency',
+                                                  hintStyle: TextStyle(backgroundColor: Colors.transparent),
                                                   suffixIcon: IconButton(
                                                       icon: Icon(
                                                         Icons.close,
-                                                        color: currencyFilter == null || currencyFilter.isEmpty ? Colors.transparent : settingsStore
+                                                        color: currencyFilter == null || currencyFilter!.isEmpty ? Colors.transparent : settingsStore
                                                                 .isDarkTheme
                                                             ? Color(
                                                                 0xffffffff)
                                                             : Color(
                                                                 0xff171720),
                                                       ),
-                                                      onPressed: currencyFilter == null || currencyFilter.isEmpty ? null : () {
+                                                      onPressed: currencyFilter == null || currencyFilter!.isEmpty ? null : () {
                                                         searchCurrencyController
                                                             .clear();
                                                       }),
@@ -577,7 +581,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                         radius: Radius
                                                             .circular(
                                                                 10.0),
-                                                        isAlwaysShown:
+                                                        thumbVisibility:
                                                             true,
                                                         child: ListView
                                                             .builder(
@@ -594,7 +598,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                                   return currencyFilter == null ||
                                                                           currencyFilter == ''
                                                                       ? currencyDropDownListItem(settingsStore, index)
-                                                                      : '${FiatCurrency.all[index]}'.toLowerCase().contains(currencyFilter.toLowerCase())
+                                                                      : '${FiatCurrency.all[index]}'.toLowerCase().contains(currencyFilter!.toLowerCase())
                                                                           ? currencyDropDownListItem(settingsStore, index)
                                                                           : Container();
                                                                 }),
@@ -625,7 +629,7 @@ class SettingsFormState extends State<SettingsForm> {
                               );
                             }));
                   },
-                  title: S.current.settings_currency,
+                  title: t.settings_currency,
                   widget: Observer(
                       builder: (_) => Text(
                             settingsStore.fiatCurrency.toString(),
@@ -636,10 +640,7 @@ class SettingsFormState extends State<SettingsForm> {
                                         0.06 /
                                         3,
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline6
-                                    .color),
+                                color: Theme.of(context).primaryTextTheme.headline6?.color),
                           )),
                 ),
                 //Fee priority
@@ -654,13 +655,14 @@ class SettingsFormState extends State<SettingsForm> {
                               return Future.value(false);
                             },
                             child: Dialog(
+                              surfaceTintColor: Colors.transparent,
                               backgroundColor: Colors.transparent,
                               insetPadding: EdgeInsets.all(15),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
                                 height:
                                     MediaQuery.of(context).size.height *
-                                        0.70 /
+                                        0.75 /
                                         3,
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
@@ -679,6 +681,7 @@ class SettingsFormState extends State<SettingsForm> {
                                           child: Text(
                                             'Fee Priority',
                                             style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -699,8 +702,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                       context.read<
                                                           SettingsStore>();
                                                   if (BeldexTransactionPriority
-                                                          .all[index] !=
-                                                      null) {
+                                                          .all[index] != null) {
                                                     await settingsStore
                                                         .setCurrentTransactionPriority(
                                                             priority:
@@ -754,6 +756,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                                 TextAlign
                                                                     .center,
                                                             style: TextStyle(
+                                                                backgroundColor: Colors.transparent,
                                                                 fontSize:
                                                                     14,
                                                                 color: settingsStore.transactionPriority !=
@@ -791,31 +794,29 @@ class SettingsFormState extends State<SettingsForm> {
                           );
                         });
                   },
-                  title: S.current.settings_fee_priority,
+                  title: t.settings_fee_priority,
                   widget: Observer(
                       builder: (_) => Text(
                             settingsStore.transactionPriority.toString(),
                             textAlign: TextAlign.right,
                             style: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 fontSize:
                                     MediaQuery.of(context).size.height *
                                         0.06 /
                                         3,
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context)
-                                    .primaryTextTheme
-                                    .headline6
-                                    .color),
+                                color: Theme.of(context).primaryTextTheme.headline6?.color),
                           )),
                 ),
                 //Save recipient address
                 SettingsSwitchListRow(
-                  title: S.current.settings_save_recipient_address,
+                  title: t.settings_save_recipient_address,
                 ),
               ],
             ),
             //Personal Header
-            NewNavListHeader(title: S.current.settings_personal),
+            NewNavListHeader(title: t.settings_personal),
             Column(
               children: [
                 //Change PIN
@@ -826,14 +827,14 @@ class SettingsFormState extends State<SettingsForm> {
                   ),
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
-                    title: Text(S.current.settings_change_pin,
+                    title: Text(t.settings_change_pin,
                         style: TextStyle(
                             fontSize:
                                 MediaQuery.of(context).size.height * 0.06 / 3,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context)
                                 .primaryTextTheme
-                                .headline6
+                                .headline6!
                                 .color)),
                     trailing: Icon(
                       Icons.arrow_forward_ios_rounded,
@@ -863,15 +864,12 @@ class SettingsFormState extends State<SettingsForm> {
                   ),
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
-                    title: Text(S.current.change_language,
+                    title: Text(t.change_language,
                         style: TextStyle(
                             fontSize:
                                 MediaQuery.of(context).size.height * 0.06 / 3,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context)
-                                .primaryTextTheme
-                                .headline6
-                                .color)),
+                            color: Theme.of(context).primaryTextTheme.headline6?.color)),
                     trailing: Icon(
                       Icons.arrow_forward_ios_rounded,
                       size: 20,
@@ -885,19 +883,19 @@ class SettingsFormState extends State<SettingsForm> {
                 //Allow biometric authentication
                 SettingsSwitchListRow(
                   title: Platform.isAndroid
-                      ? S.current.settings_allow_biometric_authentication
+                      ? t.settings_allow_biometric_authentication
                       : _availableBiometrics.contains(BiometricType.face)
-                          ? S.current.allowFaceIdAuthentication
-                          : S.current.settings_allow_biometric_authentication,
+                          ? t.allowFaceIdAuthentication
+                          : t.settings_allow_biometric_authentication,
                 ),
                 //Dark mode
                 SettingsSwitchListRow(
-                  title: S.current.settings_dark_mode,
+                  title: t.settings_dark_mode,
                 ),
               ],
             ),
             //Support Header
-            NewNavListHeader(title: S.current.settings_support),
+            NewNavListHeader(title: t.settings_support),
             Column(
               children: [
                 Theme(
@@ -907,15 +905,12 @@ class SettingsFormState extends State<SettingsForm> {
                   ),
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
-                    title: Text(S.current.settings_terms_and_conditions,
+                    title: Text(t.settings_terms_and_conditions,
                         style: TextStyle(
                             fontSize:
                                 MediaQuery.of(context).size.height * 0.06 / 3,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context)
-                                .primaryTextTheme
-                                .headline6
-                                .color)),
+                            color: Theme.of(context).primaryTextTheme.headline6?.color)),
                     trailing: Icon(
                       Icons.arrow_forward_ios_rounded,
                       size: 20,
@@ -934,15 +929,12 @@ class SettingsFormState extends State<SettingsForm> {
                   ),
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
-                    title: Text(S.current.faq,
+                    title: Text(t.faq,
                         style: TextStyle(
                             fontSize:
                                 MediaQuery.of(context).size.height * 0.06 / 3,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context)
-                                .primaryTextTheme
-                                .headline6
-                                .color)),
+                            color: Theme.of(context).primaryTextTheme.headline6?.color)),
                     trailing: Icon(
                       Icons.arrow_forward_ios_rounded,
                       size: 20,
@@ -961,15 +953,12 @@ class SettingsFormState extends State<SettingsForm> {
                   ),
                   child: ListTile(
                     contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
-                    title: Text(S.current.changelog,
+                    title: Text(t.changelog,
                         style: TextStyle(
                             fontSize:
                                 MediaQuery.of(context).size.height * 0.06 / 3,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context)
-                                .primaryTextTheme
-                                .headline6
-                                .color)),
+                            color: Theme.of(context).primaryTextTheme.headline6?.color)),
                     trailing: Icon(
                       Icons.arrow_forward_ios_rounded,
                       size: 20,
@@ -1025,7 +1014,7 @@ class SettingsFormState extends State<SettingsForm> {
               ),
               child: ListTile(
                 title: Center(
-                  child: Text(S.current.version(settingsStore.currentVersion),
+                  child: Text(t.version(settingsStore.currentVersion),
                       style:
                           TextStyle(fontSize: 16.0, color: Color(0xff9292A7))),
                 ),
@@ -1061,7 +1050,7 @@ class SettingsFormState extends State<SettingsForm> {
               padding: EdgeInsets.only(top: 10, bottom: 10),
               child: Observer(
                 builder: (_) => Text(
-                  AmountDetail.all[index].toString(),
+                  AmountDetail.all[index].getTitle(tr(context)),
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 14,

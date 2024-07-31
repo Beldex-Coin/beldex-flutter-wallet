@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NavListHeader extends StatelessWidget {
-  NavListHeader({this.title});
+  NavListHeader({required this.title});
 
   final String title;
 
@@ -17,7 +17,7 @@ class NavListHeader extends StatelessWidget {
             children: <Widget>[
               Text(
                 title,
-                style: TextStyle(fontSize: 15.0, color: Theme.of(context).primaryTextTheme.caption.color),
+                style: TextStyle(backgroundColor: Colors.transparent,fontSize: 15.0, color: Theme.of(context).primaryTextTheme.caption?.color),
               )
             ],
           ),

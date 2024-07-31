@@ -23,7 +23,7 @@ import 'package:beldex_coin/beldex_coin_structs.dart';
 import '../../routes.dart';
 
 class MyBnsPage extends StatefulWidget {
-  MyBnsPage({Key key}) : super(key: key);
+  MyBnsPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => MyBnsPageState();
@@ -31,7 +31,7 @@ class MyBnsPage extends StatefulWidget {
 
 class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
   final _decryptRecordController = TextEditingController();
-  StreamController<List<BnsRow>> _getAllBnsStreamController;
+  StreamController<List<BnsRow>>? _getAllBnsStreamController;
   var isLoading = true;
 
   @override
@@ -49,6 +49,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
     final balanceStore = Provider.of<BalanceStore>(context);
     final walletStore = Provider.of<WalletStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
+    ToastContext().init(context);
     return Container(
       width: MediaQuery
           .of(context)
@@ -83,6 +84,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
             Text(
               'Here you can find all the BNS Names owned by this wallet. Decrypting a record you own will return the name and value at the BNS record.',
               style: TextStyle(
+                  backgroundColor: Colors.transparent,
                   fontSize: 13.0,
                   color: settingsStore.isDarkTheme
                       ? Color(0xffAFAFBE)
@@ -95,6 +97,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
               margin: EdgeInsets.only(left: 5, top: 10),
               child: Text('Add Record',
                   style: TextStyle(
+                      backgroundColor: Colors.transparent,
                       fontSize: 13.0,
                       color: settingsStore.isDarkTheme
                           ? Color(0xffFFFFFF)
@@ -118,7 +121,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
               padding: EdgeInsets.only(left: 8, right: 5),
               child: TextFormField(
                 controller: _decryptRecordController,
-                style: TextStyle(fontSize: 14.0),
+                style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                 maxLength: _decryptRecordController.text.contains('-')
                     ? 63
                     : 32,
@@ -131,6 +134,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                   suffix: Text(
                     '.bdx',
                     style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         color: settingsStore.isDarkTheme
                             ? Color(0xffFFFFFF)
                             : Color(0xff000000),
@@ -139,6 +143,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                   ),
                   border: InputBorder.none,
                   hintStyle: TextStyle(
+                      backgroundColor: Colors.transparent,
                       fontSize: 12.0,
                       color: settingsStore.isDarkTheme
                           ? Color(0xff77778B)
@@ -184,10 +189,10 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                 Navigator.of(context).pop();
                                 Toast.show(
                                   'Successfully decrypted BNS Record for ${_decryptRecordController
-                                      .text}.bdx', context,
-                                  duration: Toast.LENGTH_LONG,
-                                  gravity: Toast.BOTTOM,
-                                  textColor: Colors.white,
+                                      .text}.bdx',
+                                  duration: Toast.lengthShort,
+                                  gravity: Toast.bottom,
+                                  textStyle:TextStyle(color: Colors.white),
                                   backgroundColor: Color(0xff0ba70f),
                                 );
                                 _decryptRecordController.clear();
@@ -196,9 +201,9 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                               Navigator.of(context).pop();
                               Toast.show(
                                 'The given BNS record doesn\'t exist or does not belong to this wallet.',
-                                context, duration: Toast.LENGTH_LONG,
-                                gravity: Toast.BOTTOM,
-                                textColor: Colors.white,
+                                duration: Toast.lengthShort,
+                                gravity: Toast.bottom,
+                                textStyle:TextStyle(color: Colors.white),
                                 backgroundColor: Colors.red,
                               );
                               _decryptRecordController.clear();
@@ -207,10 +212,10 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                             Navigator.of(context).pop();
                             Toast.show(
                               'Failed to decrypt BNS Record for ${_decryptRecordController
-                                  .text}.bdx', context,
-                              duration: Toast.LENGTH_LONG,
-                              gravity: Toast.BOTTOM,
-                              textColor: Colors.white,
+                                  .text}.bdx',
+                              duration: Toast.lengthShort,
+                              gravity: Toast.bottom,
+                              textStyle:TextStyle(color: Colors.white),
                               backgroundColor: Colors.red,
                             );
                             _decryptRecordController.clear();
@@ -219,10 +224,10 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                       });
                     }else{
                       Toast.show(
-                        'Please wait until we fetch the BNS record from Network', context,
-                        duration: Toast.LENGTH_LONG,
-                        gravity: Toast.BOTTOM,
-                        textColor: Colors.white,
+                        'Please wait until we fetch the BNS record from Network',
+                        duration: Toast.lengthShort,
+                        gravity: Toast.bottom,
+                        textStyle:TextStyle(color: Colors.white),
                         backgroundColor: Colors.red,
                       );
                     }
@@ -244,6 +249,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                       'Add BNS',
                       textAlign: TextAlign.center,
                       style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           fontSize: 17,
                           color: Color(0xffffffff),
                           fontWeight: FontWeight.bold),
@@ -257,6 +263,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
               margin: EdgeInsets.only(left: 5, top: 10, bottom: 10),
               child: Text('BNS Records',
                   style: TextStyle(
+                      backgroundColor: Colors.transparent,
                       fontSize: 13.0,
                       color: settingsStore.isDarkTheme
                           ? Color(0xffFFFFFF)
@@ -265,25 +272,25 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                       fontFamily: 'OpenSans')),
             ),
             StreamBuilder<List<BnsRow>>(
-              stream: _getAllBnsStreamController.stream,
+              stream: _getAllBnsStreamController?.stream,
               builder: (BuildContext context,
                   AsyncSnapshot<List<BnsRow>> snapshot) {
                 if (snapshot.data != null) {
                   final allBns = snapshot.data;
                   isLoading = false;
-                  if (allBns.isNotEmpty) {
+                  if (allBns?.isNotEmpty ?? false) {
                     return ListView.builder(
                       shrinkWrap: true,
                       physics: ScrollPhysics(),
                       reverse: true,
-                      itemCount: allBns.length,
+                      itemCount: allBns?.length,
                       itemBuilder: (BuildContext context, int index) {
-                        final bnsDetails = allBns[index];
+                        final bnsDetails = allBns![index];
                         return Theme(
                           data: Theme.of(context).copyWith(
-                              accentColor: settingsStore.isDarkTheme
-                                  ? Colors.white
-                                  : Colors.black,
+                              colorScheme: ColorScheme.fromSwatch().copyWith(
+                                secondary: settingsStore.isDarkTheme ? Colors.white : Colors.black, // Your accent color
+                              ),
                               dividerColor: Colors.transparent,
                               textSelectionTheme: TextSelectionThemeData(
                                   selectionColor: Color(0xff0ba70f))),
@@ -295,6 +302,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                     : Color(0xffFFFFFF),
                                 borderRadius: BorderRadius.circular(10)),
                             child: ExpansionTile(
+                              iconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+                              collapsedIconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
                               title: bnsDetails.name != '(none)' ? Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -302,6 +311,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   Text(
                                     bnsDetails.name,
                                     style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       color: settingsStore.isDarkTheme
                                           ? Color(0xffD1D1D3)
                                           : Color(0xff77778B),
@@ -314,6 +324,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                       Text(
                                         'Expiration Height : ',
                                         style: TextStyle(
+                                            backgroundColor: Colors.transparent,
                                             color: settingsStore.isDarkTheme
                                                 ? Color(0xffFFFFFF)
                                                 : Color(0xff222222),
@@ -326,6 +337,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                               .toString(),
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
+                                            backgroundColor: Colors.transparent,
                                             color: settingsStore.isDarkTheme
                                                 ? Color(0xffFFFFFF)
                                                 : Color(0xff77778B),
@@ -343,6 +355,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   Text(
                                     bnsDetails.nameHash,
                                     style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       color: settingsStore.isDarkTheme
                                           ? Color(0xffD1D1D3)
                                           : Color(0xff77778B),
@@ -355,6 +368,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                       Text(
                                         'Expiration Height : ',
                                         style: TextStyle(
+                                            backgroundColor: Colors.transparent,
                                             color: settingsStore.isDarkTheme
                                                 ? Color(0xffFFFFFF)
                                                 : Color(0xff222222),
@@ -367,6 +381,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                               .toString(),
                                           overflow: TextOverflow.ellipsis,
                                           style: TextStyle(
+                                            backgroundColor: Colors.transparent,
                                             color: settingsStore.isDarkTheme
                                                 ? Color(0xffFFFFFF)
                                                 : Color(0xff77778B),
@@ -395,6 +410,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                       Text(
                                         'Update Height',
                                         style: TextStyle(
+                                            backgroundColor: Colors.transparent,
                                             color: settingsStore.isDarkTheme
                                                 ? Color(0xffFFFFFF)
                                                 : Color(0xff222222),
@@ -405,6 +421,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                         child: Text(
                                           bnsDetails.updateHeight.toString(),
                                           style: TextStyle(
+                                            backgroundColor: Colors.transparent,
                                             color: settingsStore.isDarkTheme
                                                 ? Color(0xffFFFFFF)
                                                 : Color(0xff77778B),
@@ -434,6 +451,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                         Text(
                                           'Owner',
                                           style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               color: settingsStore.isDarkTheme
                                                   ? Color(0xffFFFFFF)
                                                   : Color(0xff222222),
@@ -443,6 +461,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                         Text(
                                           bnsDetails.owner,
                                           style: TextStyle(
+                                            backgroundColor: Colors.transparent,
                                             color: settingsStore.isDarkTheme
                                                 ? Color(0xffD1D1D3)
                                                 : Color(0xff77778B),
@@ -474,6 +493,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           Text(
                                             'Backup Owner',
                                             style: TextStyle(
+                                                backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
                                                     ? Color(0xffFFFFFF)
                                                     : Color(0xff222222),
@@ -483,6 +503,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           Text(
                                             bnsDetails.backUpOwner,
                                             style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               color: settingsStore.isDarkTheme
                                                   ? Color(0xffD1D1D3)
                                                   : Color(0xff77778B),
@@ -520,6 +541,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           Text(
                                             'Encrypted Address Value',
                                             style: TextStyle(
+                                                backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
                                                     ? Color(0xffFFFFFF)
                                                     : Color(0xff222222),
@@ -529,6 +551,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           Text(
                                             bnsDetails.encryptedWalletValue,
                                             style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               color: settingsStore.isDarkTheme
                                                   ? Color(0xffD1D1D3)
                                                   : Color(0xff77778B),
@@ -568,6 +591,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           Text(
                                             'Encrypted BChat Value',
                                             style: TextStyle(
+                                                backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
                                                     ? Color(0xffFFFFFF)
                                                     : Color(0xff222222),
@@ -577,6 +601,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           Text(
                                             bnsDetails.encryptedBchatValue,
                                             style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               color: settingsStore.isDarkTheme
                                                   ? Color(0xffD1D1D3)
                                                   : Color(0xff77778B),
@@ -616,6 +641,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           Text(
                                             'Encrypted Belnet Value',
                                             style: TextStyle(
+                                                backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
                                                     ? Color(0xffFFFFFF)
                                                     : Color(0xff222222),
@@ -625,6 +651,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           Text(
                                             bnsDetails.encryptedBelnetValue,
                                             style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               color: settingsStore.isDarkTheme
                                                   ? Color(0xffD1D1D3)
                                                   : Color(0xff77778B),
@@ -662,6 +689,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           Text(
                                             'Address',
                                             style: TextStyle(
+                                                backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
                                                     ? Color(0xffFFFFFF)
                                                     : Color(0xff222222),
@@ -671,6 +699,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           Text(
                                             bnsDetails.valueWallet,
                                             style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               color: settingsStore.isDarkTheme
                                                   ? Color(0xffD1D1D3)
                                                   : Color(0xff77778B),
@@ -706,6 +735,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           Text(
                                             'BChat ID',
                                             style: TextStyle(
+                                                backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
                                                     ? Color(0xffFFFFFF)
                                                     : Color(0xff222222),
@@ -715,6 +745,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           Text(
                                             bnsDetails.valueBchat,
                                             style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               color: settingsStore.isDarkTheme
                                                   ? Color(0xffD1D1D3)
                                                   : Color(0xff77778B),
@@ -750,6 +781,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           Text(
                                             'Belnet ID',
                                             style: TextStyle(
+                                                backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
                                                     ? Color(0xffFFFFFF)
                                                     : Color(0xff222222),
@@ -759,6 +791,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           Text(
                                             bnsDetails.valueBelnet,
                                             style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               color: settingsStore.isDarkTheme
                                                   ? Color(0xffD1D1D3)
                                                   : Color(0xff77778B),
@@ -816,6 +849,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                                 'Update',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
+                                                    backgroundColor: Colors.transparent,
                                                   fontWeight: FontWeight.bold,
                                                   color: Color(0xff3DA2FF)
                                                 ),
@@ -860,6 +894,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                                   'Renew',
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
+                                                      backgroundColor: Colors.transparent,
                                                       fontWeight: FontWeight.bold,
                                                     color: Color(0xff00CF08)
                                                   ),
@@ -908,6 +943,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                             'Here you can find all the BNS Names owned by this wallet. Decrypting a record you own will return the name and value at the BNS record.',
                             textAlign: TextAlign.center,
                             style: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 fontSize: 13.0,
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xffAFAFBE)
@@ -967,14 +1003,14 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
 
   void callGetAllBns() {
     getAllBns().then((value) {
-      _getAllBnsStreamController.sink.add(value);
+      _getAllBnsStreamController?.sink.add(value);
     });
   }
 
   @override
   void dispose() {
     _decryptRecordController.dispose();
-    _getAllBnsStreamController.close();
+    _getAllBnsStreamController?.close();
     super.dispose();
   }
 }

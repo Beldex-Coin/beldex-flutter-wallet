@@ -2,11 +2,9 @@ import 'dart:async';
 import 'package:beldex_wallet/src/wallet/beldex/beldex_amount_format.dart';
 import 'package:beldex_wallet/src/wallet/beldex/beldex_balance.dart';
 import 'package:mobx/mobx.dart';
-import 'package:flutter/foundation.dart';
 import 'package:beldex_wallet/src/wallet/wallet.dart';
 import 'package:beldex_wallet/src/wallet/balance.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
-import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 import 'package:beldex_wallet/src/domain/common/calculate_fiat_amount.dart';
 import 'package:beldex_wallet/src/stores/price/price_store.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
@@ -18,20 +16,16 @@ class BalanceStore = BalanceStoreBase with _$BalanceStore;
 
 abstract class BalanceStoreBase with Store {
   BalanceStoreBase(
-      {String fullBalance = '0.0',
-      String unlockedBalance = '0.0',
-      @required WalletService walletService,
-      @required SettingsStore settingsStore,
-      @required PriceStore priceStore}) {
-    fullBalance = fullBalance;
-    unlockedBalance = unlockedBalance;
-    isReversing = false;
-    _walletService = walletService;
-    _settingsStore = settingsStore;
-    _priceStore = priceStore;
+      {
+        required WalletService walletService,
+        required SettingsStore settingsStore,
+        required PriceStore priceStore}):
+        _walletService = walletService,
+        _settingsStore = settingsStore,
+        _priceStore = priceStore {
 
     if (_walletService.currentWallet != null) {
-      _onWalletChanged(_walletService.currentWallet);
+      _onWalletChanged(_walletService.currentWallet!);
     }
 
     _onWalletChangeSubscription = _walletService.onWalletChange
@@ -39,63 +33,45 @@ abstract class BalanceStoreBase with Store {
   }
 
   @observable
-  int fullBalance;
+  int fullBalance=0;
 
   @observable
-  int unlockedBalance;
+  int unlockedBalance=0;
 
   @computed
   String get fullBalanceString {
-    if (fullBalance == null) {
-      return belDexAmountToString(0, detail: _settingsStore.balanceDetail);
-    }
-
     return belDexAmountToString(fullBalance, detail: _settingsStore.balanceDetail);
   }
 
   @computed
   String get unlockedBalanceString {
-    if (unlockedBalance == null) {
-      return belDexAmountToString(0, detail: _settingsStore.balanceDetail);
-    }
-
     return belDexAmountToString(unlockedBalance, detail: _settingsStore.balanceDetail);
   }
 
   @computed
   String get fiatFullBalance {
-    if (fullBalance == null) {
-      print('fullBalance == null');
-      return '0.00';
-    }
-
-    final symbol = PriceStoreBase.generateSymbolForPair(
-        fiat: _settingsStore.fiatCurrency, crypto: CryptoCurrency.bdx);
-    final price = _priceStore.prices[symbol];
+    final symbol = PriceStoreBase.generateSymbolForFiat(
+        fiat: _settingsStore.fiatCurrency);
+    final price = _priceStore.prices[symbol] ?? double.nan;
     return calculateFiatAmount(price: price, cryptoAmount: fullBalance);
   }
 
   @computed
   String get fiatUnlockedBalance {
-    if (unlockedBalance == null) {
-      print('unlockedBalance == null');
-      return '0.00';
-    }
-
-    final symbol = PriceStoreBase.generateSymbolForPair(
-        fiat: _settingsStore.fiatCurrency, crypto: CryptoCurrency.bdx);
-    final price = _priceStore.prices[symbol];
+    final symbol = PriceStoreBase.generateSymbolForFiat(
+        fiat: _settingsStore.fiatCurrency);
+    final price = _priceStore.prices[symbol] ?? double.nan;
     return calculateFiatAmount(price: price, cryptoAmount: unlockedBalance);
   }
 
   @observable
-  bool isReversing;
+  bool isReversing=false;
 
-  WalletService _walletService;
-  StreamSubscription<Wallet> _onWalletChangeSubscription;
-  StreamSubscription<Balance> _onBalanceChangeSubscription;
-  SettingsStore _settingsStore;
-  PriceStore _priceStore;
+  final WalletService _walletService;
+  late StreamSubscription<Wallet> _onWalletChangeSubscription;
+  StreamSubscription<Balance>? _onBalanceChangeSubscription;
+  final SettingsStore _settingsStore;
+  final PriceStore _priceStore;
 
 //  @override
 //  void dispose() {
@@ -120,9 +96,9 @@ abstract class BalanceStoreBase with Store {
     }
   }
 
-  Future _onWalletChanged(Wallet wallet) async {
+  Future _onWalletChanged(Wallet? wallet) async {
     if (_onBalanceChangeSubscription != null) {
-      await _onBalanceChangeSubscription.cancel();
+      await _onBalanceChangeSubscription?.cancel();
     }
 
     _onBalanceChangeSubscription = _walletService.onBalanceChange
@@ -131,13 +107,13 @@ abstract class BalanceStoreBase with Store {
     await _updateBalances(wallet);
   }
 
-  Future _updateBalances(Wallet wallet) async {
+  Future _updateBalances(Wallet? wallet) async {
     if (wallet == null) {
       return;
     }
 
-    fullBalance = await _walletService.getFullBalance();
-    unlockedBalance = await _walletService.getUnlockedBalance();
+    fullBalance = await _walletService.getFullBalance() ?? 0;
+    unlockedBalance = await _walletService.getUnlockedBalance() ?? 0;
     await updateFiatBalance();
   }
 

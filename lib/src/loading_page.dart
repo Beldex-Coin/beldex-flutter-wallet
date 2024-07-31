@@ -4,11 +4,11 @@ import 'package:beldex_wallet/src/util/screen_sizer.dart';
 import 'package:beldex_wallet/src/wallet/wallet_description.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
-import 'package:wakelock/wakelock.dart';
+import '../l10n.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class LoadingPage extends StatelessWidget{
-  LoadingPage({ Key key, this.wallet,this.walletListStore }) : super(key: key);
+  LoadingPage({ Key? key, required this.wallet, required this.walletListStore }) : super(key: key);
 
   final WalletDescription wallet;
   final WalletListStore walletListStore;
@@ -19,10 +19,10 @@ class LoadingPage extends StatelessWidget{
     final settingsStore = Provider.of<SettingsStore>(context);
     ScreenSize.init(context);
     final height = MediaQuery.of(context).size.height;
-    Wakelock.enable();
+    WakelockPlus.enable();
     Future.delayed(const Duration(seconds: 1), () async {
       await walletListStore.loadWallet(wallet);
-      Wakelock.disable();
+      WakelockPlus.disable();
       Navigator.of(context).pop();
     });
     return WillPopScope(
@@ -53,16 +53,18 @@ class LoadingPage extends StatelessWidget{
                   strokeWidth: 6,
                 )),*/
             Text(
-              S.of(context).loadingTheWallet,
+              tr(context).loadingTheWallet,
               style: TextStyle(
+                  backgroundColor: Colors.transparent,
                   fontSize: height * 0.07 / 3,fontWeight: FontWeight.w800,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff222222)),
             ),
           Padding(
             padding: const EdgeInsets.only(top: 15.0,left:8,right:8),
             child: Text(
-              S.of(context).loadingTheWalletDescription,
+              tr(context).loadingTheWalletDescription,
               textAlign: TextAlign.center,
               style: TextStyle(
+                  backgroundColor: Colors.transparent,
                   fontSize: height * 0.07 / 3,fontWeight: FontWeight.w700,color: settingsStore.isDarkTheme ? Color(0xffEBEBEB) : Color(0xff222222)),
             ),
           )

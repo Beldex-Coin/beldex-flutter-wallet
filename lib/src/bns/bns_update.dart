@@ -11,7 +11,6 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/stores/balance/balance_store.dart';
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
@@ -22,19 +21,20 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
+import '../../l10n.dart';
 import '../../routes.dart';
 import 'bns_commit_transaction_loader.dart';
 import 'bns_purchase_options.dart';
 
 class BnsUpdatePage extends BasePage {
-  BnsUpdatePage({this.bnsDetails});
+  BnsUpdatePage({required this.bnsDetails});
 
   final Map<String, dynamic> bnsDetails;
 
   @override
-  String get title => S.current.bnsUpdate;
+  String getTitle(AppLocalizations t) => t.bnsUpdate;
 
   @override
   Widget trailing(BuildContext context) {
@@ -57,7 +57,7 @@ class BnsUpdatePage extends BasePage {
 }
 
 class BnsUpdatePageForm extends StatefulWidget {
-  BnsUpdatePageForm({this.bnsDetails});
+  BnsUpdatePageForm({required this.bnsDetails});
 
   final Map<String, dynamic> bnsDetails;
 
@@ -73,7 +73,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
   final _belnetIdController = TextEditingController();
   final _walletAddressController = TextEditingController();
   bool _effectsInstalled = false;
-  ReactionDisposer rDisposer;
+  ReactionDisposer? rDisposer;
   var _bnsUpdateChangeNotifier = BnsUpdateChangeNotifier();
   var bnsName = '';
   var ownerAddress = '';
@@ -82,7 +82,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
   var belnetId = '';
   @override
   void initState() {
-    if(widget.bnsDetails != null){
+    if(widget.bnsDetails.isNotEmpty){
       bnsName = widget.bnsDetails['bnsName'] as String ?? '';
       ownerAddress = widget.bnsDetails['ownerAddress'] as String ?? '';
       walletAddress = widget.bnsDetails['walletAddress'] as String ?? '';
@@ -172,13 +172,14 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                         fillColor: MaterialStateProperty.all(Color(0xff00AD07)),
                         onChanged: (value) {
                           bnsUpdateChangeNotifier
-                              .setSelectedBnsUpdateOption(value);
+                              .setSelectedBnsUpdateOption(value!);
                           FocusScope.of(context).unfocus();
                         },
                       ),
                       Container(
                         child: Text('Update Owner',
                             style: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 fontSize: 18.0,
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xffFFFFFF)
@@ -199,6 +200,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                           margin: EdgeInsets.only(left: 15, top: 5),
                           child: Text('Owner',
                               style: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontSize: 13.0,
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xffAFAFBE)
@@ -222,7 +224,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                           padding: EdgeInsets.only(left: 8, right: 5),
                           child: TextFormField(
                             controller: _bnsOwnerNameController,
-                            style: TextStyle(fontSize: 14.0),
+                            style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(
                                   RegExp('[a-zA-Z0-9]')),
@@ -230,6 +232,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                             decoration: InputDecoration(
                               border: InputBorder.none,
                               hintStyle: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontSize: 12.0,
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff77778B)
@@ -251,6 +254,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                             margin: EdgeInsets.only(left: 15),
                             child: Text(bnsUpdateChangeNotifier.ownerAddressFieldErrorMessage,
                                 style: TextStyle(
+                                    backgroundColor: Colors.transparent,
                                     fontSize: 13.0,
                                     color: Colors.red,
                                     fontWeight: FontWeight.w300,
@@ -344,13 +348,14 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                           fillColor: MaterialStateProperty.all(Color(0xff00AD07)),
                           onChanged: (value) {
                             bnsUpdateChangeNotifier
-                                .setSelectedBnsUpdateOption(value);
+                                .setSelectedBnsUpdateOption(value!);
                             FocusScope.of(context).unfocus();
                           },
                         ),
                         Container(
                           child: Text('Update Values',
                               style: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontSize: 18.0,
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xffFFFFFF)
@@ -419,7 +424,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                     left: 8, right: 5, bottom: 15),
                                 child: TextFormField(
                                   controller: _walletAddressController,
-                                  style: TextStyle(fontSize: 14.0),
+                                  style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
                                         RegExp('[a-zA-Z0-9]')),
@@ -427,6 +432,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintStyle: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 12.0,
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff77778B)
@@ -455,6 +461,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                     bnsUpdateChangeNotifier
                                         .walletAddressFieldErrorMessage,
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 13.0,
                                         color: Colors.red,
                                         fontWeight: FontWeight.w300,
@@ -481,7 +488,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                     left: 8, right: 5, bottom: 15),
                                 child: TextFormField(
                                   controller: _bChatIdController,
-                                  style: TextStyle(fontSize: 14.0),
+                                  style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                                   maxLength: 66,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
@@ -490,6 +497,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintStyle: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 12.0,
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff77778B)
@@ -518,6 +526,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                     bnsUpdateChangeNotifier
                                         .bchatIdFieldErrorMessage,
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 13.0,
                                         color: Colors.red,
                                         fontWeight: FontWeight.w300,
@@ -544,11 +553,12 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                     left: 8, right: 5, bottom: 15),
                                 child: TextFormField(
                                   controller: _belnetIdController,
-                                  style: TextStyle(fontSize: 14.0),
+                                  style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                                   maxLength: 52,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintStyle: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 12.0,
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff77778B)
@@ -577,6 +587,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                     bnsUpdateChangeNotifier
                                         .belnetIdFieldErrorMessage,
                                     style: TextStyle(
+                                        backgroundColor: Colors.transparent,
                                         fontSize: 13.0,
                                         color: Colors.red,
                                         fontWeight: FontWeight.w300,
@@ -597,6 +608,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                   text: TextSpan(
                       text: 'Note : ',
                       style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           fontSize: 15,
                           fontFamily: 'OpenSans',
                           fontWeight: FontWeight.bold,
@@ -608,6 +620,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                           text:
                               'You can only update owner address or values at a time. If you want to update both, you can either update the value before ownership or after transferring ownership.',
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 14,
                               fontFamily: 'OpenSans',
                               fontWeight: FontWeight.w400,
@@ -677,6 +690,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                               'Update',
                               textAlign: TextAlign.center,
                               style: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontSize: 17,
                                   color: Color(0xffffffff),
                                   fontWeight: FontWeight.bold))
@@ -947,7 +961,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                   height: 10,
                   child: Checkbox(
                     value: bnsPurchaseOption.selected,
-                    onChanged: (bool value) {},
+                    onChanged: (bool? value) {},
                     checkColor: settingsStore.isDarkTheme
                         ? Color(0xff3c3c51)
                         : Color(0xffFFFFFF),
@@ -960,6 +974,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
             Text(
               bnsPurchaseOption.title,
               style: TextStyle(
+                  backgroundColor: Colors.transparent,
                   color: settingsStore.isDarkTheme
                       ? Color(0xffFFFFFF)
                       : Color(0xff000000),
@@ -1001,7 +1016,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     _bChatIdController.dispose();
     _belnetIdController.dispose();
     _walletAddressController.dispose();
-    Wakelock.disable();
+    WakelockPlus.disable();
     rDisposer?.call();
     super.dispose();
   }
@@ -1013,7 +1028,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
 
     rDisposer = reaction((_) => sendStore.state, (SendingState state) {
       if (state is SendingFailed) {
-        Wakelock.disable();
+        WakelockPlus.disable();
         Navigator.of(context).pop();
         var errorMessage = state.error;
         if (state.error.contains(
@@ -1032,7 +1047,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
         } else if (state.error.contains('Failed to get output distribution')) {
           errorMessage = 'Failed to get output distribution';
         }
-        showSimpleBeldexDialog(context, S.of(context).alert, errorMessage,
+        showSimpleBeldexDialog(context, tr(context).alert, errorMessage,
             onPressed: (_) {
           _bnsOwnerNameController.clear();
           //_bnsBackUpOwnerNameController.clear();
@@ -1043,19 +1058,19 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
             _bnsUpdateChangeNotifier.refresh();
           }
           Navigator.of(context).pop();
-        });
+        }, onDismiss: (BuildContext context) {  });
       }
 
       if (state is TransactionCreatedSuccessfully &&
           sendStore.pendingTransaction != null) {
         print('transactionDescription fee --> created');
-        Wakelock.disable();
+        WakelockPlus.disable();
         Navigator.of(context).pop();
         showSimpleConfirmDialog(
             context,
-            S.of(context).confirm_sending,
-            sendStore.pendingTransaction.amount,
-            sendStore.pendingTransaction.fee,
+            tr(context).confirm_sending,
+            sendStore.pendingTransaction?.amount,
+            sendStore.pendingTransaction?.fee,
             bnsName,
             onPressed: (_) {
           _bnsOwnerNameController.clear();
@@ -1081,7 +1096,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
 
       if (state is TransactionCommitted) {
         print('transactionDescription fee --> committed');
-        Wakelock.disable();
+        WakelockPlus.disable();
         Navigator.of(context).pop();
         showDialogTransactionSuccessfully(context, 'BNS Updated Successfully',
             onPressed: (_) {

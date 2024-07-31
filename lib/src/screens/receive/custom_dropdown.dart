@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ExpandedSection extends StatefulWidget {
-  final Widget child;
-  final int height;
+  final Widget? child;
+  final int? height;
   final bool expand;
 
   ExpandedSection({this.expand = false, this.child, this.height});
@@ -13,8 +13,8 @@ class ExpandedSection extends StatefulWidget {
 
 class _ExpandedSectionState extends State<ExpandedSection>
     with SingleTickerProviderStateMixin {
-  AnimationController expandController;
-  Animation<double> animation;
+  AnimationController? expandController;
+  Animation<double>? animation;
 
   @override
   void initState() {
@@ -28,16 +28,16 @@ class _ExpandedSectionState extends State<ExpandedSection>
     expandController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 500));
     animation = CurvedAnimation(
-      parent: expandController,
+      parent: expandController!,
       curve: Curves.fastOutSlowIn,
     );
   }
 
   void _runExpandCheck() {
     if (widget.expand) {
-      expandController.forward();
+      expandController?.forward();
     } else {
-      expandController.reverse();
+      expandController?.reverse();
     }
   }
 
@@ -49,7 +49,7 @@ class _ExpandedSectionState extends State<ExpandedSection>
 
   @override
   void dispose() {
-    expandController.dispose();
+    expandController?.dispose();
     super.dispose();
   }
 
@@ -57,14 +57,14 @@ class _ExpandedSectionState extends State<ExpandedSection>
   Widget build(BuildContext context) {
     return SizeTransition(
         axisAlignment: 1.0,
-        sizeFactor: animation,
+        sizeFactor: animation!,
         child: Container(
         
           padding: EdgeInsets.only(bottom: 5),
           constraints: BoxConstraints(
               //minHeight: 100,
               minWidth: double.infinity,
-              maxHeight: widget.height > 5 ? 195 : widget.height == 1?55:widget.height * 50.0),
+              maxHeight: widget.height! > 5 ? 195 : widget.height! == 1?55:widget.height! * 50.0),
           child: Padding(padding: const EdgeInsets.only(bottom: 5), child: widget.child),
         ));
   }

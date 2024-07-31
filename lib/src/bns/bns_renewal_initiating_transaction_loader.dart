@@ -7,12 +7,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
+
+import '../../l10n.dart';
 
 class BnsRenewalInitiatingTransactionLoader extends StatelessWidget {
   BnsRenewalInitiatingTransactionLoader(
-      {Key key, this.mappingYears, this.bnsName, this.sendStore})
+      {Key? key, required this.mappingYears, required this.bnsName, required this.sendStore})
       : super(key: key);
 
   final String mappingYears;
@@ -23,7 +24,7 @@ class BnsRenewalInitiatingTransactionLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
-    Wakelock.enable();
+    WakelockPlus.enable();
     Future.delayed(const Duration(seconds: 1), () {
       sendStore.createBnsRenewalTransaction(bnsName:bnsName, mappingYears:mappingYears, tPriority: BeldexTransactionPriority.slow);
     });
@@ -42,7 +43,7 @@ class BnsRenewalInitiatingTransactionLoader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      S.of(context).initiatingTransactionTitle,
+                      tr(context).initiatingTransactionTitle,
                       style: TextStyle(
                           fontSize: height * 0.07 / 3,
                           fontWeight: FontWeight.w800,
@@ -53,7 +54,7 @@ class BnsRenewalInitiatingTransactionLoader extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 15.0, left: 8, right: 8),
                       child: Text(
-                        S.of(context).initiatingTransactionDescription,
+                        tr(context).initiatingTransactionDescription,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             fontSize: height * 0.07 / 3,

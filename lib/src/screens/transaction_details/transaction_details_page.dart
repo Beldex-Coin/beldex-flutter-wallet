@@ -2,7 +2,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_info.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/screens/transaction_details/standart_list_item.dart';
@@ -10,14 +10,15 @@ import 'package:beldex_wallet/src/screens/transaction_details/standart_list_row.
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart';
 
 class TransactionDetailsPage extends BasePage {
-  TransactionDetailsPage({this.transactionInfo});
+  TransactionDetailsPage({required this.transactionInfo});
 
   final TransactionInfo transactionInfo;
 
   @override
-  String get title => S.current.transaction_details_title;
+  String getTitle(AppLocalizations t) => t.transaction_details_title;
 
   @override
   Widget body(BuildContext context) {
@@ -30,7 +31,7 @@ class TransactionDetailsPage extends BasePage {
 
 class TransactionDetailsForm extends StatefulWidget {
   TransactionDetailsForm(
-      {@required this.transactionInfo, @required this.settingsStore});
+      {required this.transactionInfo, required this.settingsStore});
 
   final TransactionInfo transactionInfo;
   final SettingsStore settingsStore;
@@ -42,39 +43,39 @@ class TransactionDetailsForm extends StatefulWidget {
 class TransactionDetailsFormState extends State<TransactionDetailsForm> {
   final _items = <StandartListItem>[];
 
-  @override
-  void initState() {
-    final _dateFormat = widget.settingsStore.getCurrentDateFormat(
-        formatUSA: 'yyyy.MM.dd, HH:mm', formatDefault: 'dd.MM.yyyy, HH:mm');
+  /*final _dateFormat = widget.settingsStore.getCurrentDateFormat(
+        formatUSA: 'yyyy.MM.dd, HH:mm', formatDefault: 'dd.MM.yyyy, HH:mm');*/
+  List<StandartListItem> getItems(AppLocalizations t) {
+    final _dateFormat = DateFormat.yMMMMEEEEd(t.localeName).add_jm();
     final items = [
       StandartListItem(
-          title: S.current.transaction_details_transaction_id,
+          title: t.transaction_details_transaction_id,
           value: widget.transactionInfo.id),
       StandartListItem(
-          title: S.current.transaction_details_date,
+          title: t.transaction_details_date,
           value: _dateFormat.format(widget.transactionInfo.date)),
       StandartListItem(
-          title: S.current.transaction_details_height,
+          title: t.transaction_details_height,
           value: '${widget.transactionInfo.height}'),
       StandartListItem(
-          title: S.current.transaction_details_amount,
+          title: t.transaction_details_amount,
           value: widget.transactionInfo.amountFormatted())
     ];
 
     if (widget.settingsStore.shouldSaveRecipientAddress &&
         widget.transactionInfo.recipientAddress != null) {
       items.add(StandartListItem(
-          title: S.current.transaction_details_recipient_address,
-          value: widget.transactionInfo.recipientAddress));
+          title: t.transaction_details_recipient_address,
+          value: widget.transactionInfo.recipientAddress!));
     }
 
-    _items.addAll(items);
-    super.initState();
+    return items;
   }
 
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
+    ToastContext().init(context);
     return Container(
       padding: EdgeInsets.only(left: 20, right: 15, top: 10, bottom: 10),
       child: ListView.separated(
@@ -95,11 +96,10 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
                 } else {
                   Clipboard.setData(ClipboardData(text: item.value));
                   Toast.show(
-                    S.of(context).transaction_details_copied(item.title),
-                    context,
-                    duration: Toast.LENGTH_SHORT,
-                    gravity: Toast.BOTTOM,
-                     textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                    tr(context).transaction_details_copied(item.title),
+                    duration: Toast.lengthShort,
+                    gravity: Toast.bottom,
+                    textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                   );
 

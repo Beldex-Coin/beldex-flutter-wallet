@@ -1,35 +1,35 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:provider/provider.dart';
-import 'package:esys_flutter_share/esys_flutter_share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet_seed/wallet_seed_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:toast/toast.dart';
 
 class SeedPage extends BasePage {
-  SeedPage({this.onCloseCallback});
+  SeedPage({required this.onCloseCallback,required this.showSeed});
 
   @override
   bool get isModalBackButton => true;
 
   @override
-  String get title =>
-      onCloseCallback != null ? S.current.widgets_seed : S.current.recoverySeed;
+  String getTitle(AppLocalizations t) => !showSeed ? t.widgets_seed : t.recoverySeed;
 
   final VoidCallback onCloseCallback;
+  final bool showSeed;
 
   @override
   void onClose(BuildContext context) =>
-      onCloseCallback != null ? onCloseCallback() : Navigator.of(context).pop();
+      !showSeed ? onCloseCallback() : Navigator.of(context).pop();
 
   @override
-  Widget leading(BuildContext context) {
-    return onCloseCallback != null ? Offstage() : super.leading(context);
+  Widget? leading(BuildContext context) {
+    return !showSeed ? Offstage() : super.leading(context);
   }
 
   @override
@@ -41,14 +41,16 @@ class SeedPage extends BasePage {
   Widget body(BuildContext context) {
     return SeedDisplayWidget(
       onCloseCallback: onCloseCallback,
+      showSeed: showSeed,
     );
   }
 }
 
 class SeedDisplayWidget extends StatefulWidget {
-  SeedDisplayWidget({Key key, this.onCloseCallback}) : super(key: key);
+  SeedDisplayWidget({Key? key, this.onCloseCallback,required this.showSeed}) : super(key: key);
 
-  VoidCallback onCloseCallback;
+  VoidCallback? onCloseCallback;
+  bool showSeed;
 
   @override
   State<SeedDisplayWidget> createState() => _SeedDisplayWidgetState();
@@ -73,8 +75,9 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
     final settingsStore = Provider.of<SettingsStore>(context);
     final walletSeedStore = Provider.of<WalletSeedStore>(context);
     String _seed;
-    String _isSeed;
+    String? _isSeed;
     final _height = MediaQuery.of(context).size.height;
+    ToastContext().init(context);
     return ScrollableWithBottomSection(
       contentPadding: EdgeInsets.all(0),
       content: Container(
@@ -90,17 +93,18 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                       child: RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                            text: S.of(context).note,
+                            text: tr(context).note,
                             style: TextStyle(
+                                backgroundColor: Colors.transparent,
                                 color: Color(0xffFF3131),
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400),
                             children: [
                               TextSpan(
-                                  text: S
-                                      .of(context)
+                                  text: tr(context)
                                       .youCantViewTheSeedBecauseYouveRestoredUsingKeys,
                                   style: TextStyle(
+                                      backgroundColor: Colors.transparent,
                                       fontSize: 15,
                                       fontWeight: FontWeight.w400,
                                       color: settingsStore.isDarkTheme
@@ -125,17 +129,18 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                 child: RichText(
                                   textAlign: TextAlign.center,
                                   text: TextSpan(
-                                      text: S.of(context).note,
+                                      text: tr(context).note,
                                       style: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           color: Color(0xffFF3131),
                                           fontSize: 15,
                                           fontWeight: FontWeight.w400),
                                       children: [
                                         TextSpan(
-                                            text: S
-                                                .of(context)
+                                            text: tr(context)
                                                 .neverShareYourSeedToAnyoneCheckYourSurroundingsTo,
                                             style: TextStyle(
+                                                backgroundColor: Colors.transparent,
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w400,
                                                 color: settingsStore
@@ -151,6 +156,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                               Text(
                                 walletSeedStore.name,
                                 style: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontWeight: FontWeight.w800,
                                   fontSize: 20,
                                 ),
@@ -178,6 +184,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                       Text(walletSeedStore.seed,
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               fontSize: 15,
                                               color:
                                                   settingsStore.isDarkTheme
@@ -190,7 +197,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(15.0),
-                                child: widget.onCloseCallback != null
+                                child: !widget.showSeed
                                     ? Row(
                                         children: [
                                           Expanded(
@@ -208,17 +215,15 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                                 text:
                                                                     _seed));
                                                         Toast.show(
-                                                          S
-                                                              .of(context)
+                                                          tr(context)
                                                               .copied,
-                                                          context,
                                                           duration: Toast
-                                                              .LENGTH_SHORT,
+                                                              .lengthShort,
                                                           // Toast duration (short or long)
                                                           gravity:
-                                                              Toast.BOTTOM,
+                                                              Toast.bottom,
                                                           // Toast gravity (top, center, or bottom)
-                                                          textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                                          textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900, // Background color
                                                         );
                                                       }
@@ -248,10 +253,10 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                           .center,
                                                   children: [
                                                     Text(
-                                                        S
-                                                            .of(context)
+                                                        tr(context)
                                                             .copySeed,
                                                         style: TextStyle(
+                                                          backgroundColor: Colors.transparent,
                                                           fontSize: 16,
                                                           fontWeight:
                                                               FontWeight
@@ -293,12 +298,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                             flex: 1,
                                             child: ElevatedButton(
                                               onPressed: () {
-                                                Share.text(
-                                                    S
-                                                        .of(context)
-                                                        .seed_share,
-                                                    _seed,
-                                                    'text/plain');
+                                                Share.share(_seed,subject: tr(context).seed_share,);
                                               },
                                               style:
                                                   ElevatedButton.styleFrom(
@@ -312,8 +312,9 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                 ),
                                               ),
                                               child: Text(
-                                                  S.of(context).save,
+                                                  tr(context).save,
                                                   style: TextStyle(
+                                                      backgroundColor: Colors.transparent,
                                                       fontSize: 16,
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -338,14 +339,13 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                     ClipboardData(
                                                         text: _seed));
                                                 Toast.show(
-                                                  S.of(context).copied,
-                                                  context,
+                                                  tr(context).copied,
                                                   duration:
-                                                      Toast.LENGTH_SHORT,
+                                                      Toast.lengthShort,
                                                   // Toast duration (short or long)
-                                                  gravity: Toast.BOTTOM,
+                                                  gravity: Toast.bottom,
                                                   // Toast gravity (top, center, or bottom)
-                                                  textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                                  textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                                                 );
                                               },
@@ -366,10 +366,10 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                           .center,
                                                   children: [
                                                     Text(
-                                                        S
-                                                            .of(context)
+                                                        tr(context)
                                                             .copySeed,
                                                         style: TextStyle(
+                                                          backgroundColor: Colors.transparent,
                                                           fontSize: 16,
                                                           fontWeight:
                                                               FontWeight
@@ -397,12 +397,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                             flex: 1,
                                             child: ElevatedButton(
                                               onPressed: () {
-                                                Share.text(
-                                                    S
-                                                        .of(context)
-                                                        .seed_share,
-                                                    _seed,
-                                                    'text/plain');
+                                                Share.share(_seed,subject: tr(context).seed_share);
                                               },
                                               style:
                                                   ElevatedButton.styleFrom(
@@ -416,8 +411,9 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                 ),
                                               ),
                                               child: Text(
-                                                  S.of(context).save,
+                                                  tr(context).save,
                                                   style: TextStyle(
+                                                      backgroundColor: Colors.transparent,
                                                       fontSize: 16,
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -437,30 +433,30 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
         )),
       ),
       bottomSection:  Column(children: [
-        widget.onCloseCallback != null && !isCopied || _isSeed != null
+        !widget.showSeed && !isCopied || _isSeed != null
             ? Padding(
           padding: const EdgeInsets.all(8.0),
           child: Text(
-            S.of(context).copyAndSaveTheSeedToContinue,
-            style: TextStyle(fontSize: 15),
+            tr(context).copyAndSaveTheSeedToContinue,
+            style: TextStyle(backgroundColor: Colors.transparent,fontSize: 15),
           ),
         )
             : Container(),
         Row(children: [
           Expanded(
-            child: widget.onCloseCallback != null || _isSeed != null
+            child: !widget.showSeed || _isSeed != null
                 ? Container(
               margin: EdgeInsets.all(10),
               child: ElevatedButton(
                 onPressed: isCopied
                     ? () {
-                  widget.onCloseCallback != null
-                      ? widget.onCloseCallback()
+                  !widget.showSeed
+                      ? widget.onCloseCallback!()
                       : Navigator.of(context).pop();
                 }
                     : null,
                 style: ElevatedButton.styleFrom(
-                  primary: isCopied
+                  backgroundColor: isCopied
                       ? Color(0xff0BA70F)
                       : settingsStore.isDarkTheme
                       ? Color(0xff272733)
@@ -470,8 +466,9 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(S.of(context).continue_text,
+                child: Text(tr(context).continue_text,
                     style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         color: isCopied
                             ? Color(0xffffffff)
                             : settingsStore.isDarkTheme
@@ -492,8 +489,9 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text(S.of(context).ok,
+                child: Text(tr(context).ok,
                     style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         color: Color(0xffffffff),
                         fontSize: 16,
                         fontWeight: FontWeight.bold)),

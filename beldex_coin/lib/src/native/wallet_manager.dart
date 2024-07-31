@@ -31,79 +31,73 @@ final loadWalletNative = beldexApi
     .asFunction<LoadWallet>();
 
 void createWalletSync(
-    {String path, String password, String language, int nettype = 0}) {
-  final pathPointer = Utf8.toUtf8(path);
-  final passwordPointer = Utf8.toUtf8(password);
-  final languagePointer = Utf8.toUtf8(language);
-  final errorMessagePointer = allocate<Utf8>();
+    {required String path, required String password, required String language, int nettype = 0}) {
+  final pathPointer = path.toNativeUtf8();
+  final passwordPointer = password.toNativeUtf8();
+  final languagePointer = language.toNativeUtf8();
   final isWalletCreated = createWalletNative(pathPointer, passwordPointer,
-          languagePointer, nettype, errorMessagePointer) !=
-      0;
+          languagePointer, nettype);
 
-  free(pathPointer);
-  free(passwordPointer);
-  free(languagePointer);
+  calloc.free(pathPointer);
+  calloc.free(passwordPointer);
+  calloc.free(languagePointer);
 
-  if (!isWalletCreated) {
+  if (!isWalletCreated.good) {
     throw WalletCreationException(
-        message: convertUTF8ToString(pointer: errorMessagePointer));
+        message: isWalletCreated.errorString());
   }
 }
 
-bool isWalletExistSync({String path}) {
-  final pathPointer = Utf8.toUtf8(path);
+bool isWalletExistSync({required String path}) {
+  final pathPointer = path.toNativeUtf8();
   final isExist = isWalletExistNative(pathPointer) != 0;
 
-  free(pathPointer);
+  calloc.free(pathPointer);
 
   return isExist;
 }
 
 void restoreWalletFromSeedSync(
-    {String path,
-    String password,
-    String seed,
+    {required String path,
+    required String password,
+    required String seed,
     int nettype = 0,
     int restoreHeight = 0}) {
-  final pathPointer = Utf8.toUtf8(path);
-  final passwordPointer = Utf8.toUtf8(password);
-  final seedPointer = Utf8.toUtf8(seed);
-  final errorMessagePointer = allocate<Utf8>();
+  final pathPointer = path.toNativeUtf8();
+  final passwordPointer = password.toNativeUtf8();
+  final seedPointer = seed.toNativeUtf8();
   final isWalletRestored = restoreWalletFromSeedNative(
           pathPointer,
           passwordPointer,
           seedPointer,
           nettype,
-          restoreHeight,
-          errorMessagePointer) !=
-      0;
+          restoreHeight);
 
-  free(pathPointer);
-  free(passwordPointer);
-  free(seedPointer);
+  calloc.free(pathPointer);
+  calloc.free(passwordPointer);
+  calloc.free(seedPointer);
 
-  if (!isWalletRestored) {
+  if (!isWalletRestored.good) {
     throw WalletRestoreFromSeedException(
-        message: convertUTF8ToString(pointer: errorMessagePointer));
+        message: isWalletRestored.errorString());
   }
 }
 
 void restoreWalletFromKeysSync(
-    {String path,
-    String password,
-    String language,
-    String address,
-    String viewKey,
-    String spendKey,
+    {required String path,
+    required String password,
+    required String language,
+    required String address,
+    required String viewKey,
+    required String spendKey,
     int nettype = 0,
     int restoreHeight = 0}) {
-  final pathPointer = Utf8.toUtf8(path);
-  final passwordPointer = Utf8.toUtf8(password);
-  final languagePointer = Utf8.toUtf8(language);
-  final addressPointer = Utf8.toUtf8(address);
-  final viewKeyPointer = Utf8.toUtf8(viewKey);
-  final spendKeyPointer = Utf8.toUtf8(spendKey);
-  final errorMessagePointer = allocate<Utf8>();
+  final pathPointer = path.toNativeUtf8();
+  final passwordPointer = password.toNativeUtf8();
+  final languagePointer = language.toNativeUtf8();
+  final addressPointer = address.toNativeUtf8();
+  final viewKeyPointer = viewKey.toNativeUtf8();
+  final spendKeyPointer = spendKey.toNativeUtf8();
   final isWalletRestored = restoreWalletFromKeysNative(
           pathPointer,
           passwordPointer,
@@ -112,19 +106,17 @@ void restoreWalletFromKeysSync(
           viewKeyPointer,
           spendKeyPointer,
           nettype,
-          restoreHeight,
-          errorMessagePointer) !=
-      0;
+          restoreHeight);
 
-  free(pathPointer);
-  free(passwordPointer);
-  free(languagePointer);
-  free(addressPointer);
-  free(viewKeyPointer);
-  free(spendKeyPointer);
+  calloc.free(pathPointer);
+  calloc.free(passwordPointer);
+  calloc.free(languagePointer);
+  calloc.free(addressPointer);
+  calloc.free(viewKeyPointer);
+  calloc.free(spendKeyPointer);
 
-  if (!isWalletRestored) {
+  if (!isWalletRestored.good) {
     throw WalletRestoreFromKeysException(
-        message: convertUTF8ToString(pointer: errorMessagePointer));
+        message: isWalletRestored.errorString());
   }
 }

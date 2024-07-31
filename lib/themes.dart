@@ -48,7 +48,7 @@ class Themes {
     dividerTheme: DividerThemeData(
       color: Colors.grey,//Palette.lightGrey
     ),
-    accentTextTheme: TextTheme(
+    textTheme: TextTheme(
       headline6: TextStyle(
         color: Palette.backPressButtonColor,
         //color: Colors.grey,
@@ -61,7 +61,7 @@ class Themes {
         decorationColor: Palette.buttonColor, // button blue border color
       ),
       button: TextStyle(
-        backgroundColor: Palette.indigo, // button indigo background color
+        backgroundColor: Colors.transparent, // button indigo background color
         decorationColor: Palette.deepIndigo // button indigo border color
       ),
       subtitle2: TextStyle(
@@ -69,8 +69,8 @@ class Themes {
         backgroundColor: Palette.lightLavender // send page border color
       ),
       headline5: TextStyle(
-        color: Palette.lightGrey2, // receive page
-        backgroundColor: Colors.white, // restore button background color
+        color: Colors.black, // receive page
+        backgroundColor: Colors.transparent, // restore button background color
         decorationColor: Palette.dashBoardBorderColor,//Palette.darkGrey, // restore button border color
       ),
       subtitle1: TextStyle(
@@ -90,12 +90,14 @@ class Themes {
       shadowColor: Palette.cardButtonColor,
       //color: Palette.cadetBlue
     ),
-    buttonColor: Palette.darkGrey,
+    buttonTheme: ButtonThemeData(
+      buttonColor: Palette.darkGrey,
+    ),
     primaryIconTheme: IconThemeData(
       color: Colors.white
     ),
-    accentIconTheme: IconThemeData(
-      color: Palette.saveAndCopyButtonColor,//Colors.white
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      foregroundColor: Palette.saveAndCopyButtonColor,//Colors.white
     )
   );
 
@@ -144,7 +146,7 @@ class Themes {
     dividerTheme: DividerThemeData(
       color: PaletteDark.darkThemeGreyWithOpacity
     ),
-    accentTextTheme: TextTheme(
+    textTheme: TextTheme(
       headline6: TextStyle(
         color: PaletteDark.backPressButtonColor,
         //color: PaletteDark.darkThemeTitle,
@@ -157,7 +159,7 @@ class Themes {
         decorationColor: PaletteDark.buttonColor, // button blue border color
       ),
       button: TextStyle(
-        backgroundColor: PaletteDark.darkThemeIndigoButton, // button indigo background color
+        backgroundColor: Colors.transparent, // button indigo background color
         decorationColor: PaletteDark.darkThemeIndigoButtonBorder // button indigo border color
       ),
       subtitle2: TextStyle(
@@ -165,8 +167,8 @@ class Themes {
         backgroundColor: PaletteDark.darkThemeDarkGrey // send page border color
       ),
       headline5: TextStyle(
-        color: PaletteDark.darkThemeBlack, // receive page
-        backgroundColor: PaletteDark.darkThemeMidGrey, // restore button background color
+        color: Colors.white, // receive page
+        backgroundColor: Colors.transparent, // restore button background color
         decorationColor: PaletteDark.darkGrey,//PaletteDark.darkThemeDarkGrey, // restore button border color
       ),
       subtitle1: TextStyle(
@@ -186,12 +188,14 @@ class Themes {
       shadowColor: PaletteDark.cardButtonColor,
       //color: PaletteDark.darkThemeGrey
     ),
-    buttonColor: PaletteDark.darkThemePinButton,
+    buttonTheme: ButtonThemeData(
+      buttonColor: PaletteDark.darkThemePinButton,
+    ),
     primaryIconTheme: IconThemeData(
       color: PaletteDark.darkThemeViolet
     ),
-    accentIconTheme: IconThemeData(
-      color: PaletteDark.saveAndCopyButtonColor,//PaletteDark.darkThemeIndigoButtonBorder
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      foregroundColor: PaletteDark.saveAndCopyButtonColor,//PaletteDark.darkThemeIndigoButtonBorder
     )
   );
 
