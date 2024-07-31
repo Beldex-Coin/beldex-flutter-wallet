@@ -6,10 +6,11 @@ part of 'price_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$PriceStore on PriceStoreBase, Store {
-  final _$pricesAtom = Atom(name: 'PriceStoreBase.prices');
+  late final _$pricesAtom =
+      Atom(name: 'PriceStoreBase.prices', context: context);
 
   @override
   ObservableMap<String, double> get prices {
@@ -24,16 +25,15 @@ mixin _$PriceStore on PriceStoreBase, Store {
     });
   }
 
-  final _$PriceStoreBaseActionController =
-      ActionController(name: 'PriceStoreBase');
+  late final _$PriceStoreBaseActionController =
+      ActionController(name: 'PriceStoreBase', context: context);
 
   @override
-  void changePriceForPair(
-      {FiatCurrency fiat, CryptoCurrency crypto, double price}) {
+  void changePriceForPair({required FiatCurrency fiat, required double price}) {
     final _$actionInfo = _$PriceStoreBaseActionController.startAction(
         name: 'PriceStoreBase.changePriceForPair');
     try {
-      return super.changePriceForPair(fiat: fiat, crypto: crypto, price: price);
+      return super.changePriceForPair(fiat: fiat, price: price);
     } finally {
       _$PriceStoreBaseActionController.endAction(_$actionInfo);
     }

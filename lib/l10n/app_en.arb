@@ -28,7 +28,7 @@
 
 
   "wallet_menu" : "Menu",
-  "Blocks_remaining" : "{status} Blocks Remaining",
+  "blocksRemaining" : "{status} Blocks Remaining",
   "please_try_to_connect_to_another_node" : "Please try to connect to another node",
   "beldex_hidden" : "Beldex Hidden",
   "beldex_available_balance" : "Beldex Available Balance",

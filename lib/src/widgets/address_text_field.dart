@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/domain/common/contact.dart';
@@ -14,7 +14,7 @@ enum AddressTextFieldOption { qrCode, addressBook, subAddressList, saveAddress }
 
 class AddressTextField extends StatelessWidget {
   AddressTextField(
-      {@required this.controller,
+      {required this.controller,
       this.isActive = true,
       this.placeholder,
       this.options = const [
@@ -32,22 +32,22 @@ class AddressTextField extends StatelessWidget {
   static const prefixIconHeight = 20.0;
   static const spaceBetweenPrefixIcons = 15.0;
 
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final bool isActive;
-  final String placeholder;
-  final Function(Uri) onURIScanned;
+  final String? placeholder;
+  final Function(Uri)? onURIScanned;
   final List<AddressTextFieldOption> options;
-  final FormFieldValidator<String> validator;
-  final FocusNode focusNode;
-  final ValueChanged<String> onChanged;
-  final AutovalidateMode autoValidateMode;
-  final void Function() onTap;
+  final FormFieldValidator<String?>? validator;
+  final FocusNode? focusNode;
+  final ValueChanged<String>? onChanged;
+  final AutovalidateMode? autoValidateMode;
+  final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return BeldexTextField(
       enabled: isActive,
-      controller: controller,
-      focusNode: focusNode,
+      controller: controller!,
+      focusNode: focusNode ?? FocusNode(),
       inputFormatters: [
         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9.-]')),
       ],
@@ -95,7 +95,7 @@ class AddressTextField extends StatelessWidget {
                           width: 20,
                           height: 20,
                           color:
-                              Theme.of(context).primaryTextTheme.caption.color,
+                              Theme.of(context).primaryTextTheme.caption?.color,
                           placeholderBuilder: (context) {
                             return Icon(Icons.image);
                           },
@@ -114,7 +114,7 @@ class AddressTextField extends StatelessWidget {
                           width: 25,
                           height: 25,
                           color:
-                              Theme.of(context).primaryTextTheme.caption.color,
+                              Theme.of(context).primaryTextTheme.caption?.color,
                           placeholderBuilder: (context) {
                             return Icon(Icons.image);
                           },
@@ -139,30 +139,30 @@ class AddressTextField extends StatelessWidget {
               ],
             ),
           )),
-      hintText: placeholder ?? S.of(context).enterAddress,
+      hintText: placeholder ?? tr(context).enterAddress,
       validator: validator,
-      onChanged: onChanged,
-      autoValidateMode: autoValidateMode,
-      onTap: onTap,
+      onChanged: onChanged!,
+      autoValidateMode: autoValidateMode ?? AutovalidateMode.disabled,
+      onTap: onTap!,
     );
   }
 
   Future<void> _presentQRScanner(BuildContext context) async {
     try {
       final code = await presentQRScanner();
-      final uri = Uri.parse(code);
+      final uri = Uri.parse(code!);
       var address = '';
 
       if (uri == null) {
-        controller.text = code;
+        controller?.text = code;
         return;
       }
 
       address = uri.path;
-      controller.text = address;
+      controller?.text = address;
 
       if (onURIScanned != null) {
-        onURIScanned(uri);
+        onURIScanned!(uri);
       }
     } catch (e) {
       print('Error $e');
@@ -174,7 +174,7 @@ class AddressTextField extends StatelessWidget {
         .pushNamed(Routes.pickerAddressBook);
 
     if (contact is Contact && contact.address != null) {
-      controller.text = contact.address;
+      controller?.text = contact.address;
     }
   }
 
@@ -183,14 +183,14 @@ class AddressTextField extends StatelessWidget {
         .pushNamed(Routes.subaddressList);
 
     if (subAddress is Subaddress && subAddress.address != null) {
-      controller.text = subAddress.address;
+      controller?.text = subAddress.address;
     }
   }
 
   Future<void> _saveAddress(BuildContext context) async {
     try {
       final data = await Clipboard.getData('text/plain');
-      controller.text = data.text.toString();
+      controller?.text = data!.text.toString();
     } catch (e) {
       print(e);
     }

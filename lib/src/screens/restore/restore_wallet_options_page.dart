@@ -5,13 +5,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
 import 'package:provider/provider.dart';
 
 class RestoreWalletOptionsPage extends BasePage {
   @override
-  String get title => S.current.recoverySeedkey;
+  String getTitle(AppLocalizations t) => t.recoverySeedkey;
 
   @override
   Color get backgroundColor => Palette.creamyGrey;
@@ -62,7 +62,7 @@ class RestoreWalletOptionsPage extends BasePage {
                                 ),
                               ),
                               Text(
-                                S.of(context).restore_title_from_seed,
+                                tr(context).restore_title_from_seed,
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -74,7 +74,7 @@ class RestoreWalletOptionsPage extends BasePage {
                           ),
                           SizedBox(height: 15),
                           Text(
-                            S.of(context).restore_description_from_seed,
+                            tr(context).restore_description_from_seed,
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.normal),
                           )
@@ -140,7 +140,7 @@ class RestoreWalletOptionsPage extends BasePage {
                                 ),
                               ),
                               Text(
-                                S.of(context).restore_title_from_keys,
+                                tr(context).restore_title_from_keys,
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -154,7 +154,7 @@ class RestoreWalletOptionsPage extends BasePage {
                             height: 10,
                           ),
                           Text(
-                            S.of(context).restore_description_from_keys,
+                            tr(context).restore_description_from_keys,
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.normal),
                           )

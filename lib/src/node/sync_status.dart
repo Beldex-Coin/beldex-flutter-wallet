@@ -1,4 +1,4 @@
-import 'package:beldex_wallet/generated/l10n.dart';
+import 'package:beldex_wallet/l10n.dart';
 
 abstract class SyncStatus {
   const SyncStatus(this.currentHeight, this.targetHeight,this.blocksLeft);
@@ -9,7 +9,7 @@ abstract class SyncStatus {
 
   double progress() => targetHeight > 0 ? currentHeight / targetHeight : 0.0;
 
-  String title();
+  String title(AppLocalizations t);
 }
 
 class SyncingSyncStatus extends SyncStatus {
@@ -19,13 +19,13 @@ class SyncingSyncStatus extends SyncStatus {
   double progress() => targetHeight > 0 ? currentHeight / targetHeight : 0.0;
   
   @override
-  String title(){
+  String title(AppLocalizations t){
     if(blocksLeft == 1) {
-      return S.current.blockRemaining('$blocksLeft');
+      return t.blockRemaining('$blocksLeft');
     }else if(blocksLeft == 0) {
-      return S.current.sync_status_synchronized;
+      return t.sync_status_synchronized;
     }else{
-      return S.current.Blocks_remaining('$blocksLeft');
+      return t.blocksRemaining('$blocksLeft');
     }
   }
 
@@ -40,7 +40,7 @@ class SyncedSyncStatus extends SyncStatus {
   double progress() => 1.0;
 
   @override
-  String title() => S.current.sync_status_synchronized;
+  String title(AppLocalizations t) => t.sync_status_synchronized;
 }
 
 class NotConnectedSyncStatus extends SyncStatus {
@@ -50,7 +50,7 @@ class NotConnectedSyncStatus extends SyncStatus {
   double progress() => 0.0;
 
   @override
-  String title() => S.current.sync_status_not_connected;
+  String title(AppLocalizations t) => t.sync_status_not_connected;
 }
 
 class StartingSyncStatus extends SyncStatus {
@@ -60,7 +60,7 @@ class StartingSyncStatus extends SyncStatus {
   double progress() => 0.0;
 
   @override
-  String title() => S.current.sync_status_starting_sync;
+  String title(AppLocalizations t) => t.sync_status_starting_sync;
 }
 
 class FailedSyncStatus extends SyncStatus {
@@ -70,7 +70,7 @@ class FailedSyncStatus extends SyncStatus {
   double progress() => 1.0;
 
   @override
-  String title() => S.current.sync_status_failed_connect;
+  String title(AppLocalizations t) => t.sync_status_failed_connect;
 }
 
 class ConnectingSyncStatus extends SyncStatus {
@@ -80,7 +80,7 @@ class ConnectingSyncStatus extends SyncStatus {
   double progress() => 0.0;
 
   @override
-  String title() => S.current.sync_status_connecting;
+  String title(AppLocalizations t) => t.sync_status_connecting;
 }
 
 class ConnectedSyncStatus extends SyncStatus {
@@ -90,5 +90,5 @@ class ConnectedSyncStatus extends SyncStatus {
   double progress() => 0.0;
 
   @override
-  String title() => S.current.sync_status_connected;
+  String title(AppLocalizations t) => t.sync_status_connected;
 }

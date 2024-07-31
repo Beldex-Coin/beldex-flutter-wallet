@@ -4,15 +4,15 @@ import 'package:flutter/widgets.dart';
 
 class CustomScrollbar extends SingleChildRenderObjectWidget {
   final ScrollController controller;
-  final Widget child;
-  final double strokeWidth;
-  final EdgeInsets padding;
-  final Color trackColor;
-  final Color thumbColor;
+  final Widget? child;
+  final double? strokeWidth;
+  final EdgeInsets? padding;
+  final Color? trackColor;
+  final Color? thumbColor;
 
   const CustomScrollbar({
-    Key key,
-    this.controller,
+    Key? key,
+    required this.controller,
     this.child,
     this.strokeWidth,
     this.padding,
@@ -36,16 +36,16 @@ class CustomScrollbar extends SingleChildRenderObjectWidget {
   void updateRenderObject(
       BuildContext context, covariant RenderCustomScrollbar renderObject) {
     if (strokeWidth != null) {
-      renderObject.strokeWidth = strokeWidth;
+      renderObject.strokeWidth = strokeWidth!;
     }
     if (padding != null) {
-      renderObject.padding = padding;
+      renderObject.padding = padding!;
     }
     if (trackColor != null) {
-      renderObject.trackColor = trackColor;
+      renderObject.trackColor = trackColor!;
     }
     if (thumbColor != null) {
-      renderObject.thumbColor = thumbColor;
+      renderObject.thumbColor = thumbColor!;
     }
   }
 }
@@ -54,14 +54,14 @@ class RenderCustomScrollbar extends RenderShiftedBox {
   final ScrollController controller;
   Offset _thumbPoint = Offset(0, 0);
   EdgeInsets padding;
-  double strokeWidth;
-  Color trackColor;
-  Color thumbColor;
+  double? strokeWidth;
+  Color? trackColor;
+  Color? thumbColor;
 
   RenderCustomScrollbar({
-    RenderBox child,
-    this.padding,
-    this.controller,
+    RenderBox? child,
+    required this.padding,
+    required this.controller,
     this.strokeWidth,
     this.trackColor,
     this.thumbColor,
@@ -76,7 +76,7 @@ class RenderCustomScrollbar extends RenderShiftedBox {
   }
 
   double _getHorizontalOffset() {
-    return size.width - padding.right - strokeWidth / 2;
+    return size.width - padding.right - strokeWidth! / 2;
   }
 
   double _getThumbVerticalOffset() {
@@ -109,7 +109,7 @@ class RenderCustomScrollbar extends RenderShiftedBox {
   @override
   void paint(PaintingContext context, Offset offset) {
     if (child == null) return;
-    context.paintChild(child, offset);
+    context.paintChild(child!, offset);
     _resetThumbStartPointIfNeeded();
     _trackPaint(context, offset);
     _thumbPaint(context, offset);
@@ -127,8 +127,8 @@ class RenderCustomScrollbar extends RenderShiftedBox {
     var width = _getHorizontalOffset();
     final trackPaint = Paint()
       ..strokeCap = StrokeCap.round
-      ..color = trackColor
-      ..strokeWidth = strokeWidth;
+      ..color = trackColor!
+      ..strokeWidth = strokeWidth!;
     final startPoint = Offset(width, offset.dy + padding.top);
     final endPoint = Offset(width, startPoint.dy + _getHeightWithPadding());
     context.canvas.drawLine(startPoint, endPoint, trackPaint);
@@ -137,8 +137,8 @@ class RenderCustomScrollbar extends RenderShiftedBox {
   void _thumbPaint(PaintingContext context, Offset offset) {
     var width = _getHorizontalOffset();
     final paintThumb = Paint()
-      ..strokeWidth = strokeWidth
-      ..color = thumbColor
+      ..strokeWidth = strokeWidth!
+      ..color = thumbColor!
       ..strokeCap = StrokeCap.round;
     final startPoint =
     Offset(width, (_thumbPoint.dy + offset.dy + padding.top));
@@ -155,6 +155,7 @@ class RenderCustomScrollbar extends RenderShiftedBox {
     TextSpan span = TextSpan(
         text: _getPercent(),
         style: TextStyle(
+            backgroundColor: Colors.transparent,
             color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold));
     TextPainter tp = TextPainter(text: span, textDirection: TextDirection.ltr);
     tp.layout();
@@ -175,13 +176,13 @@ class RenderCustomScrollbar extends RenderShiftedBox {
   void performLayout() {
     size = constraints.biggest;
     if (child == null) return;
-    child.layout(constraints.copyWith(maxWidth: _getChildMaxWidth()),
+    child?.layout(constraints.copyWith(maxWidth: _getChildMaxWidth()),
         parentUsesSize: !constraints.isTight);
-    final BoxParentData childParentData = child.parentData as BoxParentData;
+    final childParentData = child?.parentData as BoxParentData;
     childParentData.offset = Offset.zero;
   }
 
   double _getChildMaxWidth() {
-    return constraints.maxWidth - padding.horizontal - strokeWidth;
+    return constraints.maxWidth - padding.horizontal - strokeWidth!;
   }
 }

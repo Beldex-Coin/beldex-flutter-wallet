@@ -6,7 +6,7 @@ import 'package:beldex_wallet/src/domain/common/format_amount.dart';
 
 class TransactionInfo {
   TransactionInfo(this.id, this.height, this.direction, this.date,
-      this.isPending, this.amount, this.accountIndex, this.isBns//this.isStake
+      this.isPending, this.amount, this.paymentId, this.accountIndex, this.isBns//this.isStake
       );
 
   TransactionInfo.fromMap(Map map)
@@ -47,9 +47,9 @@ class TransactionInfo {
  // final bool isStake;
   final int amount;
   String paymentId;
-  String recipientAddress;
+  String? recipientAddress;
 
-  String _fiatAmount;
+  String? _fiatAmount;
 
   String amountFormatted() => '${belDexAmountToString(amount)} BDX';
 

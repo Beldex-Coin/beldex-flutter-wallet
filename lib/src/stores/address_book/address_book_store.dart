@@ -1,6 +1,5 @@
 import 'package:mobx/mobx.dart';
-import 'package:flutter/foundation.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/domain/common/contact.dart';
 import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 import 'package:hive/hive.dart';
@@ -10,41 +9,41 @@ part 'address_book_store.g.dart';
 class AddressBookStore = AddressBookStoreBase with _$AddressBookStore;
 
 abstract class AddressBookStoreBase with Store {
-  AddressBookStoreBase({@required this.contacts}) {
+  AddressBookStoreBase({required this.contacts}) {
     updateContactList();
   }
 
   @observable
-  List<Contact> contactList;
+  List<Contact> contactList=[];
 
   @observable
-  bool isValid;
+  bool isValid=false;
 
   @observable
-  String errorMessage;
+  String? errorMessage;
 
   Box<Contact> contacts;
 
   @action
-  Future add({Contact contact}) async => contacts.add(contact);
+  Future add({required Contact contact}) async => contacts.add(contact);
 
   @action
   Future updateContactList() async => contactList = contacts.values.toList();
 
   @action
-  Future update({Contact contact}) async => contact.save();
+  Future update({required Contact contact}) async => contact.save();
 
   @action
-  Future delete({Contact contact}) async => await contact.delete();
+  Future delete({required Contact contact}) async => await contact.delete();
 
-  void validateContactName(String value) {
+  void validateContactName(String value,AppLocalizations t) {
     const pattern = '''^[^`,'"]{1,32}\$''';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
-    errorMessage = isValid ? null : S.current.error_text_contact_name;
+    errorMessage = (isValid ? '' : t.error_text_contact_name);
   }
 
-  void validateAddress(String value, {CryptoCurrency cryptoCurrency}) {
+  void validateAddress(String value, {CryptoCurrency? cryptoCurrency,required AppLocalizations t}) {
     // XMR (95, 106), ADA (59, 92, 105), BCH (42), BNB (42), BTC (34, 42), DASH (34), EOS (42),
     // ETH (42), LTC (34), NANO (64, 65), TRX (34), USDT (42), XLM (56), XRP (34)
     const pattern = '^[0-9a-zA-Z]{95}\$|^[0-9a-zA-Z]{34}\$|^[0-9a-zA-Z]{42}\$|^[0-9a-zA-Z]{56}\$|^[0-9a-zA-Z]{59}\$|^[0-9a-zA-Z_]{64}\$|^[0-9a-zA-Z_]{65}\$|^[0-9a-zA-Z]{92}\$|^[0-9a-zA-Z]{105}\$|^[0-9a-zA-Z]{106}\$|^[0-9a-zA-Z]{97}\$|^[0-9a-zA-Z]{96}\$';
@@ -100,6 +99,6 @@ abstract class AddressBookStoreBase with Store {
       }
     }
 
-    errorMessage = isValid ? null : S.current.error_text_address;
+    errorMessage = (isValid ? '' : t.error_text_address)!;
   }
 }

@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:flutter_svg/svg.dart';
 
 class DangerZonePage extends BasePage {
-  DangerZonePage({this.nextPage, this.pageTitle});
+  DangerZonePage({required this.nextPage, required this.pageTitle});
 
   final String nextPage;
   final String pageTitle;
@@ -28,10 +28,10 @@ class DangerZonePage extends BasePage {
     final _screenWidth = MediaQuery.of(context).size.width;
     final textScaleFactor = _screenWidth < _baseWidth ? 0.76 : 1.0;
     final appStore =
-        Platform.isAndroid ? S.of(context).playStore : S.of(context).appstore;
+        Platform.isAndroid ? tr(context).playStore : tr(context).appstore;
     final item = nextPage == Routes.seed
-        ? S.of(context).seed_title
-        : S.of(context).keys_title;
+        ? tr(context).seed_title
+        : tr(context).keys_title;
 
     return Column(children: <Widget>[
       Expanded(
@@ -51,11 +51,11 @@ class DangerZonePage extends BasePage {
             Container(
               margin: EdgeInsets.all(10),
               child: Text(
-                S.of(context).important,
+                tr(context).important,
                 style: TextStyle(
                   fontSize: 30.0,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryTextTheme.caption.color,
+                  color: Theme.of(context).primaryTextTheme.caption?.color,
                 ),
                 textScaleFactor: textScaleFactor,
                 textAlign: TextAlign.center,
@@ -64,10 +64,10 @@ class DangerZonePage extends BasePage {
             Container(
                 margin: EdgeInsets.all(10),
                 child: Text(
-                  S.of(context).never_give_your(item),
+                  tr(context).never_give_your(item),
                   style: TextStyle(
                     fontSize: 22.0,
-                    color: Theme.of(context).primaryTextTheme.caption.color,
+                    color: Theme.of(context).primaryTextTheme.caption?.color,
                   ),
                   textScaleFactor: textScaleFactor,
                   textAlign: TextAlign.center,
@@ -75,11 +75,11 @@ class DangerZonePage extends BasePage {
             Container(
                 margin: EdgeInsets.all(10),
                 child: Text(
-                  S.of(context).neverInputYourBeldexWalletItemIntoAnySoftwareOr(
+                  tr(context).neverInputYourBeldexWalletItemIntoAnySoftwareOr(
                       item, appStore),
                   style: TextStyle(
                     fontSize: 16.0,
-                    color: Theme.of(context).primaryTextTheme.caption.color,
+                    color: Theme.of(context).primaryTextTheme.caption?.color,
                   ),
                   textScaleFactor: textScaleFactor,
                   textAlign: TextAlign.center,
@@ -89,7 +89,7 @@ class DangerZonePage extends BasePage {
                 style: TextStyle(
                   fontSize: 13.0,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryTextTheme.caption.color,
+                  color: Theme.of(context).primaryTextTheme.caption?.color,
                 ),
               )
             )
@@ -100,10 +100,10 @@ class DangerZonePage extends BasePage {
         margin: EdgeInsets.all(15),
         child: PrimaryButton(
             onPressed: () => Navigator.popAndPushNamed(context, nextPage),
-            text: S.of(context).yes_im_sure,
-            color: Theme.of(context).primaryTextTheme.button.backgroundColor,
+            text: tr(context).yes_im_sure,
+            color: Theme.of(context).primaryTextTheme.button?.backgroundColor,
             borderColor:
-                Theme.of(context).primaryTextTheme.button.backgroundColor),
+                Theme.of(context).primaryTextTheme.button?.backgroundColor),
       ),
     ]);
   }

@@ -1,7 +1,7 @@
 import 'package:beldex_coin/beldex_coin_structs.dart';
 
 class Subaddress {
-  Subaddress({this.id, this.address, this.label});
+  Subaddress({required this.id, required this.address, required this.label});
 
   Subaddress.fromMap(Map map)
       : id = map['id'] == null ? 0 : int.parse(map['id'] as String),

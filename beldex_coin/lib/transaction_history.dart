@@ -26,7 +26,7 @@ List<TransactionInfoRow> getAllTransactions() {
       .toList();
 }
 
-void commitTransactionFromPointerAddress({int address}) =>
+void commitTransactionFromPointerAddress({required int address}) =>
     transaction_history.commitTransaction(
         transactionPointer:
             Pointer<PendingTransactionRaw>.fromAddress(address));
@@ -45,9 +45,9 @@ PendingTransactionDescription _createTransactionSync(Map args) {
 }
 
 Future<PendingTransactionDescription> createTransaction(
-        {String address,
-        String amount,
-        int priorityRaw,
+        {required String address,
+        required String amount,
+        required int priorityRaw,
         int accountIndex = 0}) =>
     compute(_createTransactionSync, {
       'address': address,
@@ -80,14 +80,14 @@ PendingTransactionDescription _createBnsTransactionSync(Map args) {
 }
 
 Future<PendingTransactionDescription> createBnsTransaction(
-    {String owner,
-      String backUpOwner,
-      String mappingYears,
-      String bchatId,
-      String walletAddress,
-      String belnetId,
-      String bnsName,
-      int priorityRaw,
+    {required String owner,
+      required String backUpOwner,
+      required String mappingYears,
+      required String bchatId,
+      required String walletAddress,
+      required String belnetId,
+      required String bnsName,
+      required int priorityRaw,
       int accountIndex = 0}) =>
     compute(_createBnsTransactionSync, {
       'owner': owner,
@@ -123,13 +123,13 @@ PendingTransactionDescription _createBnsUpdateTransactionSync(Map args) {
 }
 
 Future<PendingTransactionDescription> createBnsUpdateTransaction(
-    {String owner,
-      String backUpOwner,
-      String bchatId,
-      String walletAddress,
-      String belnetId,
-      String bnsName,
-      int priorityRaw,
+    {required String owner,
+      required String backUpOwner,
+      required String bchatId,
+      required String walletAddress,
+      required String belnetId,
+      required String bnsName,
+      required int priorityRaw,
       int accountIndex = 0}) =>
     compute(_createBnsUpdateTransactionSync, {
       'owner': owner,
@@ -156,9 +156,9 @@ PendingTransactionDescription _createBnsRenewalTransactionSync(Map args) {
 }
 
 Future<PendingTransactionDescription> createBnsRenewalTransaction(
-    {String bnsName,
-      String mappingYears,
-      int priorityRaw,
+    {required String bnsName,
+      required String mappingYears,
+      required int priorityRaw,
       int accountIndex = 0}) =>
     compute(_createBnsRenewalTransactionSync, {
       'bnsName': bnsName,
@@ -177,7 +177,7 @@ PendingTransactionDescription _createSweepAllTransactionSync(Map args) {
 }
 
 Future<PendingTransactionDescription> createSweepAllTransaction(
-    {int priorityRaw,
+    {required int priorityRaw,
       int accountIndex = 0}) =>
     compute(_createSweepAllTransactionSync, {
       'priorityRaw': priorityRaw,
@@ -200,15 +200,15 @@ Future<List<BnsRow>> getAllBns() =>
     compute<int, List<BnsRow>>(_getAllBnsSync, 0);
 
 bool bnsSetRecord(String bnsName) {
-  final bnsNamePointer = Utf8.toUtf8(bnsName);
+  final bnsNamePointer = bnsName.toNativeUtf8();
   return transaction_history.bnsSetRecordNative(bnsNamePointer) != 0;
 }
 
 String _getNameToNameHashSync(String name) {
-  final namePointer = Utf8.toUtf8(name);
+  final namePointer = name.toNativeUtf8();
   final nameHash = convertUTF8ToString(pointer: transaction_history.getNameToNameHashNative(namePointer));
 
-  free(namePointer);
+  calloc.free(namePointer);
 
   return nameHash;
 }

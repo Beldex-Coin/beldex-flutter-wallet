@@ -4,11 +4,11 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 
 class CreateAccountDialog extends StatefulWidget {
-  CreateAccountDialog({Key key, this.account, this.accList, this.accountListStore}) : super(key: key);
-  final Account account;
+  CreateAccountDialog({Key? key, this.account, required this.accList, required this.accountListStore}) : super(key: key);
+  final Account? account;
   final List<Account> accList;
   final AccountListStore accountListStore;
 
@@ -24,7 +24,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
 
   @override
   void initState() {
-    if (widget.account != null) _textController.text = widget.account.label;
+    if (widget.account != null) _textController.text = widget.account!.label;
     WidgetsBinding.instance.addObserver(this);
     getAccList(context);
    // newValueAssigned(context);
@@ -99,6 +99,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
             backgroundColor: settingsStore.isDarkTheme
                 ? Color(0xff272733)
                 : Color(0xffFFFFFF),
+            surfaceTintColor: Colors.transparent,
             child: Container(
               width: MediaQuery.of(context).size.width,
               margin: EdgeInsets.all(20),
@@ -108,9 +109,9 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      S.of(context).addAccount,
+                      tr(context).addAccount,
                       style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      TextStyle(backgroundColor: Colors.transparent,fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: 20,
@@ -119,9 +120,14 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                         controller: _textController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
-                          hintText: S.of(context).accountName,
-                          hintStyle: TextStyle(color: Color(0xff77778B)),
+                          hintText: tr(context).accountName,
+                          hintStyle: TextStyle(backgroundColor:Colors.transparent,color: Color(0xff77778B)),
                           contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                          errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -132,14 +138,19 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                             ),
                           ),
                         ),
+                        style: TextStyle(backgroundColor: Colors.transparent,),
                         validator: (value) {
-                          if (!validateInput(value) || value.length > 15) {
-                            return S.of(context).enterValidNameUpto15Characters;
+                          if (!validateInput(value!) || value.length > 15) {
+                            return tr(context).enterValidNameUpto15Characters;
                           } else if (checkNameAlreadyExist(value)) {
-                            return S.of(context).accountAlreadyExist;
+                            return tr(context).accountAlreadyExist;
                           } else {
                             accountListStore.validateAccountName(value);
-                            return accountListStore.errorMessage;
+                            if(accountListStore.errorMessage?.isNotEmpty ?? false) {
+                              return accountListStore.errorMessage;
+                            }else{
+                              return null;
+                            }
                           }
                         }),
                     SizedBox(
@@ -161,8 +172,9 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             child: Text(
-                              S.of(context).cancel,
+                              tr(context).cancel,
                               style: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontSize: 17,
                                   color: settingsStore.isDarkTheme
                                       ? Colors.white
@@ -177,18 +189,18 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                         Expanded(
                           child: MaterialButton(
                             onPressed: () {
-                              if (!_formKey.currentState.validate()) {
-                                return null;
+                              if (!(_formKey.currentState?.validate() ?? false)) {
+                                return;
                               }
                               if (widget.account != null &&
                                   !checkNameAlreadyExist(
                                       _textController.text)) {
                                 accountListStore.renameAccount(
-                                    index: widget.account.id,
+                                    index: widget.account!.id,
                                     label: _textController.text);
                               } else if (checkNameAlreadyExist(
                                   _textController.text)) {
-                                return S.of(context).accountAlreadyExist;
+                                //return tr(context).accountAlreadyExist;
                               } else {
                                 accountListStore.addAccount(
                                     label: _textController.text);
@@ -204,9 +216,10 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                                 borderRadius: BorderRadius.circular(10)),
                             child: Text(
                               widget.account != null
-                                  ? S.of(context).rename
-                                  : S.of(context).add,
+                                  ? tr(context).rename
+                                  : tr(context).add,
                               style: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   fontSize: 17,
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),

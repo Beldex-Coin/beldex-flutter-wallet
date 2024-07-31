@@ -29,25 +29,22 @@ final submitStakeUnlockNative = beldexApi
     .asFunction<SubmitStakeUnlock>();
 
 PendingTransactionDescription createStakeSync(
-    String masterNodeKey, String amount) {
-  final masterNodeKeyPointer = Utf8.toUtf8(masterNodeKey);
-  final amountPointer = Utf8.toUtf8(amount);
-  final errorMessagePointer = allocate<Utf8Box>();
-  final pendingTransactionRawPointer = allocate<PendingTransactionRaw>();
-  final created = stakeCreateNative(masterNodeKeyPointer, amountPointer,
-          errorMessagePointer, pendingTransactionRawPointer) !=
-      0;
+    String masterNodeKey, String? amount) {
+  final masterNodeKeyPointer =  masterNodeKey.toNativeUtf8();
+  final amountPointer = amount != null ? amount.toNativeUtf8() : nullptr;
+  final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
+  final created = stakeCreateNative(masterNodeKeyPointer, amountPointer, pendingTransactionRawPointer);
 
-  free(masterNodeKeyPointer);
+  calloc.free(masterNodeKeyPointer);
 
-  if (amountPointer != nullptr) {
-    free(amountPointer);
-  }
+  //if (amountPointer != nullptr) {
+    calloc.free(amountPointer);
+  //}
 
-  if (!created) {
-    final message = errorMessagePointer.ref.getValue();
-    free(errorMessagePointer);
-    throw CreationTransactionException(message: message);
+  if (!created.good) {
+    //final message = errorMessagePointer.ref.getValue();
+    //free(errorMessagePointer);
+    throw CreationTransactionException(message: created.errorString());
   }
 
   return PendingTransactionDescription(
@@ -57,25 +54,23 @@ PendingTransactionDescription createStakeSync(
       pointerAddress: pendingTransactionRawPointer.address);
 }
 
-PendingTransactionDescription submitStakeUnlockSync(String masterNodeKey) {
-  final masterNodeKeyPointer = Utf8.toUtf8(masterNodeKey);
-  final errorMessagePointer = allocate<Utf8Box>();
-  final pendingTransactionRawPointer = allocate<PendingTransactionRaw>();
-  final created = submitStakeUnlockNative(masterNodeKeyPointer,
-          errorMessagePointer, pendingTransactionRawPointer) !=
-      0;
+void submitStakeUnlockSync(String masterNodeKey) {
+  final masterNodeKeyPointer = masterNodeKey.toNativeUtf8();
+  final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
+  final result = submitStakeUnlockNative(masterNodeKeyPointer, pendingTransactionRawPointer);
 
-  free(masterNodeKeyPointer);
+  calloc.free(masterNodeKeyPointer);
 
-  if (!created) {
-    final message = errorMessagePointer.ref.getValue();
-    free(errorMessagePointer);
-    throw CreationTransactionException(message: message);
-  }
+  if (!result.good) //{
+    //final message = errorMessagePointer.ref.getValue();
+    //free(errorMessagePointer);
+    throw CreationTransactionException(message: result.errorString());
+  //}
+  calloc.free(pendingTransactionRawPointer);
 
-  return PendingTransactionDescription(
+  /*return PendingTransactionDescription(
       amount: pendingTransactionRawPointer.ref.amount,
       fee: pendingTransactionRawPointer.ref.fee,
       hash: pendingTransactionRawPointer.ref.getHash(),
-      pointerAddress: pendingTransactionRawPointer.address);
+      pointerAddress: pendingTransactionRawPointer.address);*/
 }

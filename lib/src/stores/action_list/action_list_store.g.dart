@@ -6,24 +6,24 @@ part of 'action_list_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$ActionListStore on ActionListBase, Store {
-  Computed<List<TransactionListItem>> _$transactionsComputed;
+  Computed<List<TransactionListItem>>? _$transactionsComputed;
 
   @override
   List<TransactionListItem> get transactions => (_$transactionsComputed ??=
           Computed<List<TransactionListItem>>(() => super.transactions,
               name: 'ActionListBase.transactions'))
       .value;
-  Computed<List<ActionListItem>> _$itemsComputed;
+  Computed<List<ActionListItem>>? _$itemsComputed;
 
   @override
   List<ActionListItem> get items =>
       (_$itemsComputed ??= Computed<List<ActionListItem>>(() => super.items,
               name: 'ActionListBase.items'))
           .value;
-  Computed<int> _$totalCountComputed;
+  Computed<int>? _$totalCountComputed;
 
   @override
   int get totalCount =>
@@ -31,7 +31,8 @@ mixin _$ActionListStore on ActionListBase, Store {
               name: 'ActionListBase.totalCount'))
           .value;
 
-  final _$_transactionsAtom = Atom(name: 'ActionListBase._transactions');
+  late final _$_transactionsAtom =
+      Atom(name: 'ActionListBase._transactions', context: context);
 
   @override
   List<TransactionListItem> get _transactions {

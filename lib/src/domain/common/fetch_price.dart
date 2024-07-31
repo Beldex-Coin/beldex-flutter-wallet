@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 const fiatApiAuthority = 'api.coingecko.com';
 
 const apiString = 'api/v3/simple/price?ids=beldex&vs_currencies=';
-Future<double> fetchPriceFor({CryptoCurrency crypto, FiatCurrency fiat}) async {
+Future<double> fetchPriceFor({required FiatCurrency fiat}) async {
   var price = 0.0;
 
   try {

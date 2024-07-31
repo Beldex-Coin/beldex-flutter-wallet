@@ -6,25 +6,26 @@ part of 'wallet_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$WalletStore on WalletStoreBase, Store {
-  final _$addressAtom = Atom(name: 'WalletStoreBase.address');
+  late final _$addressAtom =
+      Atom(name: 'WalletStoreBase.address', context: context);
 
   @override
-  String get address {
+  String? get address {
     _$addressAtom.reportRead();
     return super.address;
   }
 
   @override
-  set address(String value) {
+  set address(String? value) {
     _$addressAtom.reportWrite(value, super.address, () {
       super.address = value;
     });
   }
 
-  final _$nameAtom = Atom(name: 'WalletStoreBase.name');
+  late final _$nameAtom = Atom(name: 'WalletStoreBase.name', context: context);
 
   @override
   String get name {
@@ -39,7 +40,8 @@ mixin _$WalletStore on WalletStoreBase, Store {
     });
   }
 
-  final _$subaddressAtom = Atom(name: 'WalletStoreBase.subaddress');
+  late final _$subaddressAtom =
+      Atom(name: 'WalletStoreBase.subaddress', context: context);
 
   @override
   Subaddress get subaddress {
@@ -54,7 +56,8 @@ mixin _$WalletStore on WalletStoreBase, Store {
     });
   }
 
-  final _$accountAtom = Atom(name: 'WalletStoreBase.account');
+  late final _$accountAtom =
+      Atom(name: 'WalletStoreBase.account', context: context);
 
   @override
   Account get account {
@@ -69,7 +72,7 @@ mixin _$WalletStore on WalletStoreBase, Store {
     });
   }
 
-  final _$typeAtom = Atom(name: 'WalletStoreBase.type');
+  late final _$typeAtom = Atom(name: 'WalletStoreBase.type', context: context);
 
   @override
   CryptoCurrency get type {
@@ -84,7 +87,8 @@ mixin _$WalletStore on WalletStoreBase, Store {
     });
   }
 
-  final _$amountValueAtom = Atom(name: 'WalletStoreBase.amountValue');
+  late final _$amountValueAtom =
+      Atom(name: 'WalletStoreBase.amountValue', context: context);
 
   @override
   String get amountValue {
@@ -99,69 +103,58 @@ mixin _$WalletStore on WalletStoreBase, Store {
     });
   }
 
-  final _$isValidAtom = Atom(name: 'WalletStoreBase.isValid');
+  late final _$errorMessageAtom =
+      Atom(name: 'WalletStoreBase.errorMessage', context: context);
 
   @override
-  bool get isValid {
-    _$isValidAtom.reportRead();
-    return super.isValid;
-  }
-
-  @override
-  set isValid(bool value) {
-    _$isValidAtom.reportWrite(value, super.isValid, () {
-      super.isValid = value;
-    });
-  }
-
-  final _$errorMessageAtom = Atom(name: 'WalletStoreBase.errorMessage');
-
-  @override
-  String get errorMessage {
+  String? get errorMessage {
     _$errorMessageAtom.reportRead();
     return super.errorMessage;
   }
 
   @override
-  set errorMessage(String value) {
+  set errorMessage(String? value) {
     _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
       super.errorMessage = value;
     });
   }
 
-  final _$reconnectAsyncAction = AsyncAction('WalletStoreBase.reconnect');
+  late final _$reconnectAsyncAction =
+      AsyncAction('WalletStoreBase.reconnect', context: context);
 
   @override
   Future<dynamic> reconnect() {
     return _$reconnectAsyncAction.run(() => super.reconnect());
   }
 
-  final _$rescanAsyncAction = AsyncAction('WalletStoreBase.rescan');
+  late final _$rescanAsyncAction =
+      AsyncAction('WalletStoreBase.rescan', context: context);
 
   @override
-  Future<dynamic> rescan({int restoreHeight}) {
+  Future<dynamic> rescan({required int restoreHeight}) {
     return _$rescanAsyncAction
         .run(() => super.rescan(restoreHeight: restoreHeight));
   }
 
-  final _$startSyncAsyncAction = AsyncAction('WalletStoreBase.startSync');
+  late final _$startSyncAsyncAction =
+      AsyncAction('WalletStoreBase.startSync', context: context);
 
   @override
   Future<dynamic> startSync() {
     return _$startSyncAsyncAction.run(() => super.startSync());
   }
 
-  final _$connectToNodeAsyncAction =
-      AsyncAction('WalletStoreBase.connectToNode');
+  late final _$connectToNodeAsyncAction =
+      AsyncAction('WalletStoreBase.connectToNode', context: context);
 
   @override
-  Future<dynamic> connectToNode({Node node}) {
+  Future<dynamic> connectToNode({required Node? node}) {
     return _$connectToNodeAsyncAction
         .run(() => super.connectToNode(node: node));
   }
 
-  final _$WalletStoreBaseActionController =
-      ActionController(name: 'WalletStoreBase');
+  late final _$WalletStoreBaseActionController =
+      ActionController(name: 'WalletStoreBase', context: context);
 
   @override
   void setAccount(Account account) {
@@ -197,11 +190,11 @@ mixin _$WalletStore on WalletStoreBase, Store {
   }
 
   @override
-  void validateAmount(String amount) {
+  void validateAmount(String amount, AppLocalizations t) {
     final _$actionInfo = _$WalletStoreBaseActionController.startAction(
         name: 'WalletStoreBase.validateAmount');
     try {
-      return super.validateAmount(amount);
+      return super.validateAmount(amount, t);
     } finally {
       _$WalletStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -216,7 +209,6 @@ subaddress: ${subaddress},
 account: ${account},
 type: ${type},
 amountValue: ${amountValue},
-isValid: ${isValid},
 errorMessage: ${errorMessage}
     ''';
   }

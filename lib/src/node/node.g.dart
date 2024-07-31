@@ -18,8 +18,8 @@ class NodeAdapter extends TypeAdapter<Node> {
     };
     return Node(
       uri: fields[0] as String,
-      login: fields[1] as String,
-      password: fields[2] as String,
+      login: fields[1] as String?,
+      password: fields[2] as String?,
     );
   }
 

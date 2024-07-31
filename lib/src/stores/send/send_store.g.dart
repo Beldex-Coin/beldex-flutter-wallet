@@ -6,10 +6,10 @@ part of 'send_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$SendStore on SendStoreBase, Store {
-  final _$stateAtom = Atom(name: 'SendStoreBase.state');
+  late final _$stateAtom = Atom(name: 'SendStoreBase.state', context: context);
 
   @override
   SendingState get state {
@@ -24,7 +24,8 @@ mixin _$SendStore on SendStoreBase, Store {
     });
   }
 
-  final _$fiatAmountAtom = Atom(name: 'SendStoreBase.fiatAmount');
+  late final _$fiatAmountAtom =
+      Atom(name: 'SendStoreBase.fiatAmount', context: context);
 
   @override
   String get fiatAmount {
@@ -39,7 +40,8 @@ mixin _$SendStore on SendStoreBase, Store {
     });
   }
 
-  final _$cryptoAmountAtom = Atom(name: 'SendStoreBase.cryptoAmount');
+  late final _$cryptoAmountAtom =
+      Atom(name: 'SendStoreBase.cryptoAmount', context: context);
 
   @override
   String get cryptoAmount {
@@ -54,7 +56,8 @@ mixin _$SendStore on SendStoreBase, Store {
     });
   }
 
-  final _$isValidAtom = Atom(name: 'SendStoreBase.isValid');
+  late final _$isValidAtom =
+      Atom(name: 'SendStoreBase.isValid', context: context);
 
   @override
   bool get isValid {
@@ -69,52 +72,58 @@ mixin _$SendStore on SendStoreBase, Store {
     });
   }
 
-  final _$errorMessageAtom = Atom(name: 'SendStoreBase.errorMessage');
+  late final _$errorMessageAtom =
+      Atom(name: 'SendStoreBase.errorMessage', context: context);
 
   @override
-  String get errorMessage {
+  String? get errorMessage {
     _$errorMessageAtom.reportRead();
     return super.errorMessage;
   }
 
   @override
-  set errorMessage(String value) {
+  set errorMessage(String? value) {
     _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
       super.errorMessage = value;
     });
   }
 
-  final _$createStakeAsyncAction = AsyncAction('SendStoreBase.createStake');
+  late final _$createStakeAsyncAction =
+      AsyncAction('SendStoreBase.createStake', context: context);
 
   @override
-  Future<dynamic> createStake({String address, String amount}) {
-    return _$createStakeAsyncAction
-        .run(() => super.createStake(address: address, amount: amount));
+  Future<dynamic> createStake(
+      {required String address, String? amount, required AppLocalizations l10n}) {
+    return _$createStakeAsyncAction.run(
+        () => super.createStake(address: address, amount: amount, l10n: l10n));
   }
 
-  final _$createTransactionAsyncAction =
-      AsyncAction('SendStoreBase.createTransaction');
+  late final _$createTransactionAsyncAction =
+      AsyncAction('SendStoreBase.createTransaction', context: context);
 
   @override
   Future<dynamic> createTransaction(
-      {String address, String amount, BeldexTransactionPriority tPriority}) {
+      {required String address,
+      String? amount,
+      BeldexTransactionPriority? tPriority,
+      required AppLocalizations t}) {
     return _$createTransactionAsyncAction.run(() => super.createTransaction(
-        address: address, amount: amount, tPriority: tPriority));
+        address: address, amount: amount, tPriority: tPriority, t: t));
   }
 
-  final _$createBnsTransactionAsyncAction =
-      AsyncAction('SendStoreBase.createBnsTransaction');
+  late final _$createBnsTransactionAsyncAction =
+      AsyncAction('SendStoreBase.createBnsTransaction', context: context);
 
   @override
   Future<dynamic> createBnsTransaction(
-      {String owner,
-      String backUpOwner,
-      String mappingYears,
-      String walletAddress,
-      String bchatId,
-      String belnetId,
-      String bnsName,
-      BeldexTransactionPriority tPriority}) {
+      {required String owner,
+      required String backUpOwner,
+      required String mappingYears,
+      required String walletAddress,
+      required String bchatId,
+      required String belnetId,
+      required String bnsName,
+      required BeldexTransactionPriority tPriority}) {
     return _$createBnsTransactionAsyncAction.run(() => super
         .createBnsTransaction(
             owner: owner,
@@ -127,26 +136,65 @@ mixin _$SendStore on SendStoreBase, Store {
             tPriority: tPriority));
   }
 
-  final _$createSweepAllTransactionAsyncAction =
-      AsyncAction('SendStoreBase.createSweepAllTransaction');
+  late final _$createBnsUpdateTransactionAsyncAction =
+      AsyncAction('SendStoreBase.createBnsUpdateTransaction', context: context);
+
+  @override
+  Future<dynamic> createBnsUpdateTransaction(
+      {required String owner,
+      required String backUpOwner,
+      required String walletAddress,
+      required String bchatId,
+      required String belnetId,
+      required String bnsName,
+      required BeldexTransactionPriority tPriority}) {
+    return _$createBnsUpdateTransactionAsyncAction.run(() => super
+        .createBnsUpdateTransaction(
+            owner: owner,
+            backUpOwner: backUpOwner,
+            walletAddress: walletAddress,
+            bchatId: bchatId,
+            belnetId: belnetId,
+            bnsName: bnsName,
+            tPriority: tPriority));
+  }
+
+  late final _$createBnsRenewalTransactionAsyncAction = AsyncAction(
+      'SendStoreBase.createBnsRenewalTransaction',
+      context: context);
+
+  @override
+  Future<dynamic> createBnsRenewalTransaction(
+      {required String bnsName,
+      required String mappingYears,
+      required BeldexTransactionPriority tPriority}) {
+    return _$createBnsRenewalTransactionAsyncAction.run(() => super
+        .createBnsRenewalTransaction(
+            bnsName: bnsName,
+            mappingYears: mappingYears,
+            tPriority: tPriority));
+  }
+
+  late final _$createSweepAllTransactionAsyncAction =
+      AsyncAction('SendStoreBase.createSweepAllTransaction', context: context);
 
   @override
   Future<dynamic> createSweepAllTransaction(
-      {BeldexTransactionPriority tPriority}) {
+      {required BeldexTransactionPriority tPriority}) {
     return _$createSweepAllTransactionAsyncAction
         .run(() => super.createSweepAllTransaction(tPriority: tPriority));
   }
 
-  final _$commitTransactionAsyncAction =
-      AsyncAction('SendStoreBase.commitTransaction');
+  late final _$commitTransactionAsyncAction =
+      AsyncAction('SendStoreBase.commitTransaction', context: context);
 
   @override
   Future<dynamic> commitTransaction() {
     return _$commitTransactionAsyncAction.run(() => super.commitTransaction());
   }
 
-  final _$_calculateFiatAmountAsyncAction =
-      AsyncAction('SendStoreBase._calculateFiatAmount');
+  late final _$_calculateFiatAmountAsyncAction =
+      AsyncAction('SendStoreBase._calculateFiatAmount', context: context);
 
   @override
   Future<dynamic> _calculateFiatAmount() {
@@ -154,8 +202,8 @@ mixin _$SendStore on SendStoreBase, Store {
         .run(() => super._calculateFiatAmount());
   }
 
-  final _$_calculateCryptoAmountAsyncAction =
-      AsyncAction('SendStoreBase._calculateCryptoAmount');
+  late final _$_calculateCryptoAmountAsyncAction =
+      AsyncAction('SendStoreBase._calculateCryptoAmount', context: context);
 
   @override
   Future<dynamic> _calculateCryptoAmount() {
@@ -163,15 +211,15 @@ mixin _$SendStore on SendStoreBase, Store {
         .run(() => super._calculateCryptoAmount());
   }
 
-  final _$SendStoreBaseActionController =
-      ActionController(name: 'SendStoreBase');
+  late final _$SendStoreBaseActionController =
+      ActionController(name: 'SendStoreBase', context: context);
 
   @override
-  void setSendAll() {
+  void setSendAll(AppLocalizations t) {
     final _$actionInfo = _$SendStoreBaseActionController.startAction(
         name: 'SendStoreBase.setSendAll');
     try {
-      return super.setSendAll();
+      return super.setSendAll(t);
     } finally {
       _$SendStoreBaseActionController.endAction(_$actionInfo);
     }

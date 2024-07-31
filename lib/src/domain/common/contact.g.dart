@@ -19,7 +19,8 @@ class ContactAdapter extends TypeAdapter<Contact> {
     return Contact(
       name: fields[0] as String,
       address: fields[1] as String,
-    )..raw = fields[2] as int;
+      raw: fields[2] as int,
+    );
   }
 
   @override

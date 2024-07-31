@@ -1,10 +1,10 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 
 class WalletAlertDialog<Item extends int> extends StatefulWidget {
-  WalletAlertDialog({Key key, this.onItemSelected}) : super(key: key);
+  WalletAlertDialog({Key? key, required this.onItemSelected}) : super(key: key);
   final Function(Item) onItemSelected;
 
   @override
@@ -16,6 +16,7 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     return Dialog(
+      surfaceTintColor: Colors.transparent,
       insetPadding: EdgeInsets.all(15),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       backgroundColor:
@@ -27,8 +28,8 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              S.of(context).changeWallet,
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              tr(context).changeWallet,
+              style: TextStyle(backgroundColor:Colors.transparent,fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: 20,
@@ -44,8 +45,9 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Text(
-                S.of(context).wallet_list_load_wallet,
+                tr(context).wallet_list_load_wallet,
                 style: TextStyle(
+                    backgroundColor:Colors.transparent,
                     fontSize: 16,
                     color: Colors.white,
                     fontWeight: FontWeight.bold),
@@ -67,8 +69,9 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Text(
-                S.of(context).removeWallet,
+                tr(context).removeWallet,
                 style: TextStyle(
+                    backgroundColor:Colors.transparent,
                     fontSize: 16,
                     color:
                         settingsStore.isDarkTheme ? Colors.white : Colors.black,

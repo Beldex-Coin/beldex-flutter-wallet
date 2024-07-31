@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 
@@ -9,9 +8,9 @@ class MyScrollbar extends StatefulWidget {
   final ScrollController scrollController;
 
   const MyScrollbar({
-    Key key,
-    this.scrollController,
-    @required this.builder,
+    Key? key,
+    required this.scrollController,
+    required this.builder,
   })  : assert(builder != null),
         super(key: key);
 
@@ -20,14 +19,14 @@ class MyScrollbar extends StatefulWidget {
 }
 
 class _MyScrollbarState extends State<MyScrollbar> {
-  ScrollbarPainter _scrollbarPainter;
-  ScrollController _scrollController;
-  Orientation _orientation;
+  ScrollbarPainter? _scrollbarPainter;
+  ScrollController _scrollController = ScrollController();
+  Orientation? _orientation;
 
   @override
   void initState() {
     super.initState();
-    _scrollController = widget.scrollController ?? ScrollController();
+    _scrollController = widget.scrollController;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _updateScrollPainter(_scrollController.position);
     });
@@ -40,7 +39,7 @@ class _MyScrollbarState extends State<MyScrollbar> {
   }
   @override
   void dispose() {
-    _scrollbarPainter.dispose();
+    _scrollbarPainter?.dispose();
     super.dispose();
   }
 
@@ -57,7 +56,7 @@ class _MyScrollbarState extends State<MyScrollbar> {
     );
   }
   bool _updateScrollPainter(ScrollMetrics position) {
-    _scrollbarPainter.update(
+    _scrollbarPainter?.update(
       position,
       position.axisDirection,
     );
@@ -84,7 +83,7 @@ class _MyScrollbarState extends State<MyScrollbar> {
               _updateScrollPainter(notification.metrics),
           child: CustomPaint(
             painter: _scrollbarPainter,
-            child: widget.builder(context, _scrollController),
+            child: widget.builder(context, _scrollController!),
           ),
         );
       },

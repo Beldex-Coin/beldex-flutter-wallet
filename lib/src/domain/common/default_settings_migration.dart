@@ -10,9 +10,9 @@ import 'package:beldex_wallet/src/node/node_list.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 
 Future defaultSettingsMigration(
-    {@required int version,
-      @required SharedPreferences sharedPreferences,
-      @required Box<Node> nodes}) async {
+    {required int version,
+      required SharedPreferences sharedPreferences,
+      required Box<Node> nodes}) async {
   final currentVersion =
       sharedPreferences.getInt('current_default_settings_migration_version') ??
           0;
@@ -64,7 +64,7 @@ Future defaultSettingsMigration(
       'current_default_settings_migration_version', version);
 }
 
-Future<void> replaceNodesMigration({@required Box<Node> nodes}) async {
+Future<void> replaceNodesMigration({required Box<Node> nodes}) async {
   final replaceNodes = <String, Node>{};
 
   nodes.values.forEach((Node node) async {
@@ -80,10 +80,10 @@ Future<void> replaceNodesMigration({@required Box<Node> nodes}) async {
 }
 
 Future<void> changeCurrentNodeToDefault(
-    {@required SharedPreferences sharedPreferences,
-      @required Box<Node> nodes}) async {
+    {required SharedPreferences sharedPreferences,
+      required Box<Node> nodes}) async {
   final timeZone = DateTime.now().timeZoneOffset.inHours;
-  var nodeUri = '';
+  late String nodeUri;
 
   if (timeZone >= 1) { // Eurasia
     final _random = Random();
@@ -100,10 +100,10 @@ Future<void> changeCurrentNodeToDefault(
 }
 
 Future<void> replaceDefaultNode(
-    {@required SharedPreferences sharedPreferences,
-      @required Box<Node> nodes}) async {
+    {required SharedPreferences sharedPreferences,
+      required Box<Node> nodes}) async {
   const nodesForReplace = <String>[];
-  Node currentNode;
+  Node? currentNode;
   final currentNodeId = sharedPreferences.getInt('current_node_id');
   try {
     currentNode = nodes.values.firstWhere((Node node) =>

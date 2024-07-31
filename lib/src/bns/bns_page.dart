@@ -12,7 +12,6 @@ import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:beldex_wallet/src/widgets/bns_initiating_transaction_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
 import 'package:beldex_wallet/src/stores/balance/balance_store.dart';
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
@@ -22,8 +21,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
+import '../../l10n.dart';
 import '../../routes.dart';
 import 'bns_commit_transaction_loader.dart';
 import 'bns_price_item.dart';
@@ -31,7 +31,8 @@ import 'bns_purchase_options.dart';
 
 class BnsPage extends BasePage {
   @override
-  String get title => S.current.bns;
+  String getTitle(AppLocalizations t) => t.bns;
+
 
   @override
   Widget trailing(BuildContext context) {
@@ -54,14 +55,14 @@ class BnsPage extends BasePage {
 }
 
 class BnsForm extends StatefulWidget {
-  BnsForm({Key key}) : super(key: key);
+  BnsForm({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => BnsFormState();
 }
 
 class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
-  TabController _bnsTabController;
+  TabController? _bnsTabController;
   List<BnsPriceItem> bnsPriceDetailsList = [
     BnsPriceItem('1y', '1 Yr', '1 Year', '650 BDX', ''),
     BnsPriceItem('2y', '2 Yrs', '2 Years', '1000 BDX', '23.08%'),
@@ -76,7 +77,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
   final _belnetIdController = TextEditingController();
   final _walletAddressController = TextEditingController();
   bool _effectsInstalled = false;
-  ReactionDisposer rDisposer;
+  ReactionDisposer? rDisposer;
 
   @override
   void initState() {
@@ -202,7 +203,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                   RichText(
                     textAlign: TextAlign.start,
                     text: TextSpan(
-                        text: S.of(context).bns,
+                        text: tr(context).bns,
                         style: TextStyle(
                             color: Color(0xff0ba70f),
                             fontSize: 15,
@@ -343,6 +344,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                   suffix: Text(
                     '.bdx',
                     style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         color: settingsStore.isDarkTheme
                             ? Color(0xffFFFFFF)
                             : Color(0xff000000),
@@ -351,6 +353,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                   ),
                   border: InputBorder.none,
                   hintStyle: TextStyle(
+                      backgroundColor: Colors.transparent,
                       fontSize: 12.0,
                       color: settingsStore.isDarkTheme
                           ? Color(0xff77778B)
@@ -373,6 +376,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                 margin: EdgeInsets.only(left: 15, bottom: 10),
                 child: Text(buyBnsChangeNotifier.bnsNameFieldErrorMessage,
                     style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         fontSize: 13.0,
                         color: Colors.red,
                         fontWeight: FontWeight.w300,
@@ -384,6 +388,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
               margin: EdgeInsets.only(left: 15, top: 10),
               child: Text('Owner (optional)',
                   style: TextStyle(
+                      backgroundColor: Colors.transparent,
                       fontSize: 13.0,
                       color: settingsStore.isDarkTheme
                           ? Color(0xffFFFFFF)
@@ -414,6 +419,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintStyle: TextStyle(
+                      backgroundColor: Colors.transparent,
                       fontSize: 12.0,
                       color: settingsStore.isDarkTheme
                           ? Color(0xff77778B)
@@ -526,7 +532,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                       padding: EdgeInsets.only(left: 8, right: 5, bottom: 15),
                       child: TextFormField(
                         controller: _walletAddressController,
-                        style: TextStyle(fontSize: 14.0),
+                        style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
                               RegExp('[a-zA-Z0-9]')),
@@ -534,6 +540,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 12.0,
                               color: settingsStore.isDarkTheme
                                   ? Color(0xff77778B)
@@ -560,6 +567,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                       child: Text(
                           buyBnsChangeNotifier.walletAddressFieldErrorMessage,
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 13.0,
                               color: Colors.red,
                               fontWeight: FontWeight.w300,
@@ -584,7 +592,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                       padding: EdgeInsets.only(left: 8, right: 5, bottom: 15),
                       child: TextFormField(
                         controller: _bChatIdController,
-                        style: TextStyle(fontSize: 14.0),
+                        style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                         maxLength: 66,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
@@ -593,6 +601,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 12.0,
                               color: settingsStore.isDarkTheme
                                   ? Color(0xff77778B)
@@ -618,6 +627,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                       margin: EdgeInsets.only(left: 15, bottom: 10),
                       child: Text(buyBnsChangeNotifier.bchatIdFieldErrorMessage,
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 13.0,
                               color: Colors.red,
                               fontWeight: FontWeight.w300,
@@ -642,11 +652,12 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                       padding: EdgeInsets.only(left: 8, right: 5, bottom: 15),
                       child: TextFormField(
                         controller: _belnetIdController,
-                        style: TextStyle(fontSize: 14.0),
+                        style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                         maxLength: 52,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 12.0,
                               color: settingsStore.isDarkTheme
                                   ? Color(0xff77778B)
@@ -673,6 +684,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                       child: Text(
                           buyBnsChangeNotifier.belnetIdFieldErrorMessage,
                           style: TextStyle(
+                              backgroundColor: Colors.transparent,
                               fontSize: 13.0,
                               color: Colors.red,
                               fontWeight: FontWeight.w300,
@@ -988,7 +1000,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                   height: 10,
                   child: Checkbox(
                     value: bnsPurchaseOption.selected,
-                    onChanged: (bool value) {},
+                    onChanged: (bool? value) {},
                     checkColor: settingsStore.isDarkTheme
                         ? Color(0xff3c3c51)
                         : Color(0xffFFFFFF),
@@ -1039,14 +1051,14 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    _bnsTabController.dispose();
+    _bnsTabController?.dispose();
     _bnsNameController.dispose();
     _bnsOwnerNameController.dispose();
     //_bnsBackUpOwnerNameController.dispose();
     _bChatIdController.dispose();
     _belnetIdController.dispose();
     _walletAddressController.dispose();
-    Wakelock.disable();
+    WakelockPlus.disable();
     rDisposer?.call();
     super.dispose();
   }
@@ -1058,7 +1070,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
 
     rDisposer = reaction((_) => sendStore.state, (SendingState state) {
       if (state is SendingFailed) {
-        Wakelock.disable();
+        WakelockPlus.disable();
         Navigator.of(context).pop();
         var errorMessage = state.error;
         if(state.error.contains('Reason: Cannot buy an BNS name that is already registered')){
@@ -1072,7 +1084,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
         }else if(state.error.contains('Failed to get output distribution')){
           errorMessage = 'Failed to get output distribution';
         }
-        showSimpleBeldexDialog(context, S.of(context).alert, errorMessage,
+        showSimpleBeldexDialog(context, tr(context).alert, errorMessage,
             onPressed: (_) {
               _bnsNameController.clear();
               _bnsOwnerNameController.clear();
@@ -1081,19 +1093,19 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
               _bChatIdController.clear();
               _belnetIdController.clear();
               Navigator.of(context).pop();
-              });
+              }, onDismiss: (BuildContext context) {  });
       }
 
       if (state is TransactionCreatedSuccessfully &&
           sendStore.pendingTransaction != null) {
         print('transactionDescription fee --> created');
-        Wakelock.disable();
+        WakelockPlus.disable();
         Navigator.of(context).pop();
         showSimpleConfirmDialog(
             context,
-            S.of(context).confirm_sending,
-            sendStore.pendingTransaction.amount,
-            sendStore.pendingTransaction.fee,
+            tr(context).confirm_sending,
+            sendStore.pendingTransaction?.amount,
+            sendStore.pendingTransaction?.fee,
             '${_bnsNameController.text}.bdx', onPressed: (_) {
           _bnsNameController.clear();
           _bnsOwnerNameController.clear();
@@ -1120,7 +1132,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
 
       if (state is TransactionCommitted) {
         print('transactionDescription fee --> committed');
-        Wakelock.disable();
+        WakelockPlus.disable();
         Navigator.of(context).pop();
         showDialogTransactionSuccessfully(context, 'BNS Purchased Successfully', onPressed: (_) {
           Navigator.of(context)..pop()..pop();

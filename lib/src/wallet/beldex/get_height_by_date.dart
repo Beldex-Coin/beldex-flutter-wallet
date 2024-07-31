@@ -70,7 +70,7 @@ final dates = {
 // };
 
 
-int getHeightByDate({DateTime date}) {
+int getHeightByDate({required DateTime date}) {
   final raw = '${date.year}-${date.month < 10 ? '0${date.month}' : date.month}';
   final firstDate = dateFormat.parse(dates.keys.first);
   var height = dates[raw] ?? 0;

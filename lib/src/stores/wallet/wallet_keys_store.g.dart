@@ -6,10 +6,11 @@ part of 'wallet_keys_store.dart';
 // StoreGenerator
 // **************************************************************************
 
-// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$WalletKeysStore on WalletKeysStoreBase, Store {
-  final _$publicViewKeyAtom = Atom(name: 'WalletKeysStoreBase.publicViewKey');
+  late final _$publicViewKeyAtom =
+      Atom(name: 'WalletKeysStoreBase.publicViewKey', context: context);
 
   @override
   String get publicViewKey {
@@ -24,7 +25,8 @@ mixin _$WalletKeysStore on WalletKeysStoreBase, Store {
     });
   }
 
-  final _$privateViewKeyAtom = Atom(name: 'WalletKeysStoreBase.privateViewKey');
+  late final _$privateViewKeyAtom =
+      Atom(name: 'WalletKeysStoreBase.privateViewKey', context: context);
 
   @override
   String get privateViewKey {
@@ -39,7 +41,8 @@ mixin _$WalletKeysStore on WalletKeysStoreBase, Store {
     });
   }
 
-  final _$publicSpendKeyAtom = Atom(name: 'WalletKeysStoreBase.publicSpendKey');
+  late final _$publicSpendKeyAtom =
+      Atom(name: 'WalletKeysStoreBase.publicSpendKey', context: context);
 
   @override
   String get publicSpendKey {
@@ -54,8 +57,8 @@ mixin _$WalletKeysStore on WalletKeysStoreBase, Store {
     });
   }
 
-  final _$privateSpendKeyAtom =
-      Atom(name: 'WalletKeysStoreBase.privateSpendKey');
+  late final _$privateSpendKeyAtom =
+      Atom(name: 'WalletKeysStoreBase.privateSpendKey', context: context);
 
   @override
   String get privateSpendKey {

@@ -10,16 +10,16 @@ class WalletListStore = WalletListStoreBase with _$WalletListStore;
 
 abstract class WalletListStoreBase with Store {
   WalletListStoreBase(
-      {@required WalletListService walletListService,
-      @required WalletService walletService}) {
-    _walletListService = walletListService;
-    _walletService = walletService;
-    wallets = [];
+  {required WalletListService walletListService,
+  required WalletService walletService}):
+_walletListService = walletListService,
+_walletService = walletService
+  {
     walletListService.getAll().then((walletList) => wallets = walletList);
   }
 
   @observable
-  List<WalletDescription> wallets;
+  List<WalletDescription> wallets = [];
 
   WalletListService _walletListService;
   WalletService _walletService;

@@ -78,3 +78,9 @@
     - User can update and renew their BNS names now
     - Improved node connectivity for better synchronisation
     - Minor bug fixes
+-
+  version: 1.4.1
+  changes:
+    - Targeted latest android version
+    - Updated google play core libraries
+    - Minor bug fixes

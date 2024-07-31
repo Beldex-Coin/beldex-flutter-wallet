@@ -4,13 +4,13 @@ import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
+import '../../../l10n.dart';
 import 'package:provider/provider.dart';
 
 class RestoreOptionsPage extends BasePage {
 
   @override
-  String get title => S.current.restore_restore_wallet;
+  String getTitle(AppLocalizations t) => t.restore_restore_wallet;
 
   @override
   Color get backgroundColor => Palette.creamyGrey;
@@ -46,9 +46,9 @@ class RestoreOptionsPage extends BasePage {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(S.of(context).restore_title_from_seed_keys,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                        Text(tr(context).restore_title_from_seed_keys,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
                         SizedBox(height: 15),
-                        Text(S.of(context).restore_description_from_seed_keys,style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal,
+                        Text(tr(context).restore_description_from_seed_keys,style: TextStyle(fontSize: 12,fontWeight: FontWeight.normal,
                         color: settingsStore.isDarkTheme ?  Color(0xffACACAC) : Color(0xff545454),
                         ),
                         ),

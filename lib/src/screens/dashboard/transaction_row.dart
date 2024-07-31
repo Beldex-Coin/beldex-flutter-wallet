@@ -1,8 +1,7 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_info.dart';
 import 'package:flutter/material.dart';
-import 'package:beldex_wallet/generated/l10n.dart';
-import 'package:beldex_wallet/palette.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_direction.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,16 +11,16 @@ import 'package:toast/toast.dart';
 
 class TransactionRow extends StatelessWidget {
   TransactionRow({
-    this.direction,
-    this.formattedDate,
-    this.formattedAmount,
-    this.formattedFiatAmount,
-    this.isPending,
-    @required this.onTap,
-    this.transaction,
-    this.isBns,
+    required this.direction,
+    required this.formattedDate,
+    required this.formattedAmount,
+    required this.formattedFiatAmount,
+    required this.isPending,
+    required this.onTap,
+    required this.transaction,
+    required this.isBns,
     //this.isStake
-    this.paymentId
+    required this.paymentId
   });
 
   final VoidCallback onTap;
@@ -44,6 +43,7 @@ class TransactionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
+    ToastContext().init(context);
     return InkWell(
         // onTap: onTap,
         child: Container(
@@ -57,12 +57,15 @@ class TransactionRow extends StatelessWidget {
         children: [
           Theme(
             data: Theme.of(context).copyWith(
-                accentColor:
-                    settingsStore.isDarkTheme ? Colors.white : Colors.black,
+                colorScheme: ColorScheme.fromSwatch().copyWith(
+                  secondary: settingsStore.isDarkTheme ? Colors.white : Colors.black, // Your accent color
+                ),
                 dividerColor: Colors.transparent,
                 textSelectionTheme:
                     TextSelectionThemeData(selectionColor: Colors.green)),
             child: ExpansionTile(
+                iconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+                collapsedIconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
                 // initiallyExpanded: true,
                 title: Container(
                   child: Column(
@@ -113,11 +116,11 @@ class TransactionRow extends StatelessWidget {
                                         (direction ==
                                                     TransactionDirection
                                                         .incoming
-                                                ? S.of(context).received
-                                                : S.of(context).sent) +
+                                                ? tr(context).received
+                                                : tr(context).sent) +
                                             (isPending
-                                                ? S.of(context).pending
-                                                : // isStake ? S.of(context).stake :
+                                                ? tr(context).pending
+                                                : // isStake ? tr(context).stake :
                                                 ''),
                                         style: TextStyle(
                                             fontSize: 14,
@@ -172,8 +175,7 @@ class TransactionRow extends StatelessWidget {
                                 Row(
                                   children: [
                                     Text(
-                                        S
-                                            .of(context)
+                                        tr(context)
                                             .transaction_details_transaction_id,
                                         style: TextStyle(
                                             fontSize: 14,
@@ -201,13 +203,12 @@ class TransactionRow extends StatelessWidget {
                                         Clipboard.setData(ClipboardData(
                                             text: transaction.id));
                                         Toast.show(
-                                          S.of(context).copied,
-                                          context,
+                                          tr(context).copied,
                                           duration: Toast
-                                              .LENGTH_SHORT, // Toast duration (short or long)
+                                              .lengthShort, // Toast duration (short or long)
                                           gravity: Toast
-                                              .BOTTOM, // Toast gravity (top, center, or bottom)
-                                          textColor:settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                          .bottom, // Toast gravity (top, center, or bottom)
+                                          textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,// Background color
                                         );
                                       },
@@ -366,8 +367,7 @@ class TransactionRow extends StatelessWidget {
                                           padding: const EdgeInsets.only(
                                               left: 8.0, top: 10),
                                           child: Text(
-                                              S
-                                                  .of(context)
+                                              tr(context)
                                                   .transaction_details_recipient_address,
                                               style: TextStyle(
                                                   fontSize: 14,
@@ -381,7 +381,7 @@ class TransactionRow extends StatelessWidget {
                                         children: [
                                           Expanded(
                                               child: Text(
-                                            transaction.recipientAddress,
+                                            transaction.recipientAddress!,
                                             style: TextStyle(
                                               color: Color(0xffACACAC),
                                             ),
@@ -390,16 +390,14 @@ class TransactionRow extends StatelessWidget {
                                             onTap: () {
                                               Clipboard.setData(ClipboardData(
                                                   text: transaction
-                                                      .recipientAddress));
+                                                      .recipientAddress!));
                                               Toast.show(
-                                                S.of(context).copied,
-                                                context,
+                                                tr(context).copied,
                                                 duration: Toast
-                                                    .LENGTH_SHORT, 
+                                                    .lengthShort,
                                                 gravity: Toast
-                                                    .BOTTOM,
-                                                textColor:
-                                                    Colors.white, 
+                                                    .bottom,
+                                                textStyle: TextStyle(color: Colors.white),
                                                 backgroundColor: Color(
                                                     0xff0BA70F), 
                                               );

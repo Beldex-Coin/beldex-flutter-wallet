@@ -1,15 +1,33 @@
-import 'package:barcode_scan/barcode_scan.dart';
+import 'package:barcode_scan2/barcode_scan2.dart';
+import 'package:flutter/services.dart';
 
 var isQrScannerShown = false;
 
-Future<String> presentQRScanner() async {
+class QRScanException implements Exception{
+  QRScanException(this.message);
+
+  String message;
+
+  @override
+  String toString() => message;
+}
+
+
+Future<String?> presentQRScanner() async {
   isQrScannerShown = true;
   try {
-    final result = await BarcodeScanner.scan();
+    final ScanResult result = await BarcodeScanner.scan();
+
     isQrScannerShown = false;
-    return result;
-  } catch (e) {
+    if (result.type == ResultType.Error) {
+      throw QRScanException(result.rawContent);
+    }
+    if (result.type == ResultType.Cancelled) {
+      return null;
+    }
+    return result.rawContent;
+  } on PlatformException catch (e) {
     isQrScannerShown = false;
-    rethrow;
+    throw QRScanException(e.toString());
   }
 }
