@@ -25,14 +25,14 @@ class ActionListStore = ActionListBase with _$ActionListStore;
 abstract class ActionListBase with Store {
   ActionListBase(
       {required WalletService walletService,
-      required SettingsStore settingsStore,
-      required PriceStore priceStore,
-      required this.transactionFilterStore,
-      required this.transactionDescriptions}):
-    _transactions = <TransactionListItem>[],
-    _walletService = walletService,
-    _settingsStore = settingsStore,
-    _priceStore = priceStore
+        required SettingsStore settingsStore,
+        required PriceStore priceStore,
+        required this.transactionFilterStore,
+        required this.transactionDescriptions}):
+        _transactions = <TransactionListItem>[],
+        _walletService = walletService,
+        _settingsStore = settingsStore,
+        _priceStore = priceStore
   {
 
     if (walletService.currentWallet != null) {

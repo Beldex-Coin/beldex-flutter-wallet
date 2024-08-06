@@ -1,7 +1,7 @@
-import '../../../l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_info.dart';
 import 'package:flutter/material.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_direction.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,7 +18,9 @@ class TransactionRow extends StatelessWidget {
     required this.isPending,
     required this.onTap,
     required this.transaction,
+    required this.isBns,
     //this.isStake
+    required this.paymentId
   });
 
   final VoidCallback onTap;
@@ -31,6 +33,8 @@ class TransactionRow extends StatelessWidget {
 
   final TransactionInfo transaction;
   // final bool isStake;
+  final bool isBns;
+  final String paymentId;
 
   void _launchUrl(String url) async {
     if (await canLaunch(url)) await launch(url);
@@ -60,6 +64,8 @@ class TransactionRow extends StatelessWidget {
                 textSelectionTheme:
                     TextSelectionThemeData(selectionColor: Colors.green)),
             child: ExpansionTile(
+                iconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+                collapsedIconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
                 // initiallyExpanded: true,
                 title: Container(
                   child: Column(
@@ -80,7 +86,11 @@ class TransactionRow extends StatelessWidget {
                                         : Colors.red,
                                     //fit:BoxFit.cover
                                   )
-                                : Padding(
+                                : isBns==true ? SvgPicture.asset(
+                              'assets/images/new-images/ic_bns_dark.svg',
+                              color: Color(0xffAFAFBE),
+                              //fit:BoxFit.cover
+                            ) : Padding(
                                     padding: EdgeInsets.all(5),
                                     child: SvgPicture.asset(
                                       'assets/images/new-images/outgoing_red.svg',
@@ -197,7 +207,7 @@ class TransactionRow extends StatelessWidget {
                                           duration: Toast
                                               .lengthShort, // Toast duration (short or long)
                                           gravity: Toast
-                                              .bottom, // Toast gravity (top, center, or bottom)
+                                          .bottom, // Toast gravity (top, center, or bottom)
                                           textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,// Background color
                                         );
@@ -222,6 +232,38 @@ class TransactionRow extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 10),
+                        Visibility(
+                          visible: paymentId != '0000000000000000',
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff454555)
+                                      : Color(0xffDADADA)),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Payment ID',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w900)),
+                                  Container(
+                                      child: Text(
+                                          paymentId
+                                      )),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: paymentId != '0000000000000000',
+                          child: SizedBox(height: 10)
+                        ),
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(

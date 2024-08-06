@@ -1,10 +1,10 @@
 import 'dart:ui';
-import '../../../l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
+import '../../../l10n.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 class DisclaimerPage extends BasePage {

@@ -1,4 +1,3 @@
-// import 'dart:html';
 import 'dart:io' show Platform;
 import 'package:beldex_wallet/src/domain/common/biometric_auth.dart';
 import 'package:beldex_wallet/src/stores/auth/auth_store.dart';
@@ -9,9 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'dart:math' as math;
-
 import '../../../l10n.dart';
+import 'dart:math' as math;
 
 abstract class PinCodeWidget extends StatefulWidget {
   PinCodeWidget(
@@ -466,7 +464,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
       pin.add(num);
     });
 
-    if (pin.length == pinLength) {
+    if(pin.length == pinLength) {
       onPinCodeEntered(this);
     }
   }

@@ -1,7 +1,6 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../l10n.dart';
 
 class WalletAlertDialog<Item extends int> extends StatefulWidget {
@@ -17,11 +16,11 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     return Dialog(
+      surfaceTintColor: Colors.transparent,
       insetPadding: EdgeInsets.all(15),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       backgroundColor:
           settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffFFFFFF),
-      surfaceTintColor: Colors.transparent,
       child: Container(
         width: MediaQuery.of(context).size.width,
         margin: EdgeInsets.all(20),

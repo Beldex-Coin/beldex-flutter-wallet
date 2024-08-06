@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:beldex_wallet/src/domain/common/balance_display_mode.dart';
 import 'package:beldex_wallet/src/domain/common/default_settings_migration.dart';
@@ -19,29 +20,29 @@ class SettingsStore = SettingsStoreBase with _$SettingsStore;
 abstract class SettingsStoreBase with Store {
   SettingsStoreBase(
       {required SharedPreferences sharedPreferences,
-      required Box<Node> nodes,
-      required FiatCurrency initialFiatCurrency,
-      required BeldexTransactionPriority initialTransactionPriority,
-      required BalanceDisplayMode initialBalanceDisplayMode,
-      required AmountDetail initialBalanceDetail,
-      required bool initialSaveRecipientAddress,
-      required bool allowBiometricAuthenticationKey,
-      required bool enableFiatCurrencyKey,
-      required bool initialDarkTheme,
-      required int initialPinLength,
-      required String? initialLanguageOverride}):
-    fiatCurrency = initialFiatCurrency,
-    transactionPriority = initialTransactionPriority,
-    balanceDisplayMode = initialBalanceDisplayMode,
-    balanceDetail = initialBalanceDetail,
-    shouldSaveRecipientAddress = initialSaveRecipientAddress,
-    _sharedPreferences = sharedPreferences,
-    _nodes = nodes,
-    allowBiometricAuthentication = allowBiometricAuthenticationKey,
-    enableFiatCurrency = enableFiatCurrencyKey,
-    isDarkTheme = initialDarkTheme,
-    defaultPinLength = initialPinLength
-   //languageOverride = initialLanguageOverride
+        required Box<Node> nodes,
+        required FiatCurrency initialFiatCurrency,
+        required BeldexTransactionPriority initialTransactionPriority,
+        required BalanceDisplayMode initialBalanceDisplayMode,
+        required AmountDetail initialBalanceDetail,
+        required bool initialSaveRecipientAddress,
+        required bool allowBiometricAuthenticationKey,
+        required bool enableFiatCurrencyKey,
+        required bool initialDarkTheme,
+        required int initialPinLength,
+        required String? initialLanguageOverride}):
+        fiatCurrency = initialFiatCurrency,
+        transactionPriority = initialTransactionPriority,
+        balanceDisplayMode = initialBalanceDisplayMode,
+        balanceDetail = initialBalanceDetail,
+        shouldSaveRecipientAddress = initialSaveRecipientAddress,
+        _sharedPreferences = sharedPreferences,
+        _nodes = nodes,
+        allowBiometricAuthentication = allowBiometricAuthenticationKey,
+        enableFiatCurrency = enableFiatCurrencyKey,
+        isDarkTheme = initialDarkTheme,
+        defaultPinLength = initialPinLength
+  //languageOverride = initialLanguageOverride
   {
     PackageInfo.fromPlatform().then(
         (PackageInfo packageInfo) => currentVersion = packageInfo.version);
@@ -62,10 +63,10 @@ abstract class SettingsStoreBase with Store {
 
   static Future<SettingsStore> load(
       {required SharedPreferences sharedPreferences,
-      required Box<Node> nodes,
-      required FiatCurrency initialFiatCurrency,
-      required BeldexTransactionPriority initialTransactionPriority,
-      required BalanceDisplayMode initialBalanceDisplayMode}) async {
+        required Box<Node> nodes,
+        required FiatCurrency initialFiatCurrency,
+        required BeldexTransactionPriority initialTransactionPriority,
+        required BalanceDisplayMode initialBalanceDisplayMode}) async {
     final currentFiatCurrency = FiatCurrency(
         symbol: sharedPreferences.getString(currentFiatCurrencyKey) ?? '');
     final currentTransactionPriority = BeldexTransactionPriority.deserialize(
@@ -234,8 +235,6 @@ abstract class SettingsStoreBase with Store {
 
   Future<Node> _fetchCurrentNode() async {
     final id = _sharedPreferences.getInt(currentNodeIdKey);
-    print('Error -> $id');
-    print('Error -> 1 ${_nodes.get(id)}');
     return _nodes.get(id)!;
   }
 
@@ -246,7 +245,7 @@ abstract class SettingsStoreBase with Store {
   }
 
   /*DateFormat getCurrentDateFormat(
-          {required String formatUSA, required String formatDefault}) =>
+          {@required String formatUSA, @required String formatDefault}) =>
       currentLocale == 'en_US'
           ? DateFormat(formatUSA, languageCode)
           : DateFormat(formatDefault, languageCode);*/

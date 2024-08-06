@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet_restoration/wallet_restoration_store.dart';
 import 'package:beldex_wallet/src/stores/wallet_restoration/wallet_restoration_state.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -16,8 +17,6 @@ import 'package:beldex_wallet/src/widgets/blockchain_height_widget.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../../l10n.dart';
 
 // blockheight widget's property
 final dateController = TextEditingController();
@@ -114,6 +113,7 @@ class _RestoreFromSeedDetailsFormState
                       child: Text(
                         tr(context).enterWalletName,
                         style: TextStyle(
+                            backgroundColor: Colors.transparent,
                             fontSize:
                                 MediaQuery.of(context).size.height * 0.07 / 3,
                             color: settingsStore.isDarkTheme
@@ -136,11 +136,12 @@ class _RestoreFromSeedDetailsFormState
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintStyle: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff77778B)
                                       : Color(0xff6F6F6F)),
                               hintText: tr(context).enterWalletName_,
-                              errorStyle: TextStyle(height: 0.1)),
+                              errorStyle: TextStyle(backgroundColor: Colors.transparent,height: 0.1)),
                           onChanged: (val) => _formKey.currentState?.validate(),
                           validator: (value) {
                             walletRestorationStore.validateWalletName(value ?? '',tr(context));
@@ -192,7 +193,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
   @override
   void initState() {
     restoreHeightController.addListener(() => _height =
-        restoreHeightController.text.isNotEmpty
+    restoreHeightController.text.isNotEmpty
             ? int.parse(restoreHeightController.text)
             : 0);
     super.initState();
@@ -229,7 +230,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                         padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
                         child: TextFormField(
                           textInputAction: TextInputAction.done,
-                          style: TextStyle(fontSize: 14.0),
+                          style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                           controller: restoreHeightController,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           inputFormatters: [FilteringTextInputFormatter.digitsOnly,NoSpaceFormatter(),FilteringTextInputFormatter.deny(RegExp('[-,. ]'))],
@@ -237,12 +238,13 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintStyle: TextStyle(
+                                  backgroundColor: Colors.transparent,
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff77778B)
                                       : Color(0xff77778B)),
                               hintText: tr(context)
                                   .widgets_restore_from_blockheight,
-                              errorStyle: TextStyle(height: 0.1)),
+                              errorStyle: TextStyle(backgroundColor: Colors.transparent,height: 0.1)),
                           validator: (value) {
                             final pattern = RegExp(r'^(?!.*\s)\d+$');
                             if (!pattern.hasMatch(value!)) {
@@ -281,11 +283,12 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                                   child: TextFormField(
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
-                                    style: TextStyle(fontSize: 14.0),
+                                    style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                                     decoration: InputDecoration(
                                       //suffix:Icon(Icons.calendar_today,), //SvgPicture.asset('assets/images/new-images/calendar.svg',color:Colors.black),
                                       border: InputBorder.none,
                                       hintStyle: TextStyle(
+                                          backgroundColor: Colors.transparent,
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xff77778B)
                                               : Color(0xff77778B)),
@@ -327,7 +330,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
               },
               style: ElevatedButton.styleFrom(
                 alignment: Alignment.center,
-                primary: Color(0xff2979FB),
+                backgroundColor: Color(0xff2979FB),
                 padding: EdgeInsets.all(12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -341,6 +344,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                           ? tr(context).widgets_restore_from_date
                           : tr(context).widgets_restore_from_blockheight,
                       style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           color: Color(0xffffffff),
                           fontSize: 14,
                           fontWeight: FontWeight.bold)),

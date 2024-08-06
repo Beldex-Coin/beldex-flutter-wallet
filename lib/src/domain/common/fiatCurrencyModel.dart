@@ -10,7 +10,7 @@ const fiatApiAuthority = 'api.coingecko.com';
 
 const apiString = 'api/v3/simple/price?ids=beldex&vs_currencies=';
 
-Future<dynamic> getPriceForGivenFiat({required CryptoCurrency crypto,required FiatCurrency fiat}) async{
+Future<dynamic> getPriceForGivenFiat({required CryptoCurrency crypto, required FiatCurrency fiat}) async{
  var price = 0.0;
 
  try{

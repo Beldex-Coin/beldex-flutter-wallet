@@ -1,10 +1,10 @@
 import 'dart:ui';
 
-import '../../../l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import '../../../l10n.dart';
 
 Future showBiometricDialog(
     BuildContext context,

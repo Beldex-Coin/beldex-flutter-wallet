@@ -1,8 +1,8 @@
-import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/wallet/mnemotic_item.dart';
 import 'package:beldex_wallet/src/wallet/beldex/mnemonics/chinese_simplified.dart';
 import 'package:beldex_wallet/src/wallet/beldex/mnemonics/dutch.dart';
@@ -91,6 +91,7 @@ class SeedWidgetState extends State<SeedWidget> {
     setState(
             () => items.add(MnemoticItem(text: text.trim(), dic: widget.words)));
     _seedController.text = '';
+
     //if (widget.onMnemonicChange != null) {
       widget.onMnemonicChange(items);
     //}
@@ -114,7 +115,7 @@ class SeedWidgetState extends State<SeedWidget> {
       items = [];
       _seedController.text = '';
 
-      //if (widget.onMnemonicChange) {
+      //if (widget.onMnemonicChange != null) {
         widget.onMnemonicChange(items);
       //}
     });
@@ -158,11 +159,12 @@ class SeedWidgetState extends State<SeedWidget> {
 
     for (final item in items) {
       //isValid = item.isCorrect();
-     /* if (!isValid) {
+      /* if (!isValid) {
         break;
       }*/
       if(!item.isCorrect()){
         return false;
+        break;
       }
     }
     return true;
@@ -201,14 +203,11 @@ class SeedWidgetState extends State<SeedWidget> {
                           inputFormatters: [WordLimitInputFormatter(25)],
                           textInputAction: TextInputAction.done,
                           onChanged: (text) {
-                            print("onChanged 0-> $text");
                             if (text.isNotEmpty) {
-                              print("onChanged 1-> $text");
                               words = text
                                   .split(' ')
                                   .where((word) => word.isNotEmpty)
                                   .toList();
-                              print("onChanged 3-> $words");
                               if (words.length > maxWordCount) {
                                 // Remove additional words
                                 _seedController.text =

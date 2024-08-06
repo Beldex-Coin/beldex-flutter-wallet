@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/domain/common/language.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:provider/provider.dart';
-
-import '../../../l10n.dart';
 
 class ChangeLanguage extends BasePage {
   @override
@@ -86,7 +85,7 @@ class ChangeLanguage extends BasePage {
                                       Navigator.of(context).pop();
                                       /*await settingsStore.saveLanguageCode(
                                           languageCode:
-                                          languages.keys.elementAt(index));
+                                              languages.keys.elementAt(index));
                                       currentLanguage.setCurrentLanguage(
                                           languages.keys.elementAt(index));
                                       Navigator.of(context).pop();*/

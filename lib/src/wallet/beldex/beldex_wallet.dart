@@ -1,5 +1,9 @@
 import 'dart:async';
 
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_renewal_transaction_creation_credentials.dart';
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_transaction_creation_credentials.dart';
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_update_transaction_creation_credentials.dart';
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_sweep_all_transaction_creation_credentials.dart';
 import 'package:hive/hive.dart';
 import 'package:beldex_coin/stake.dart' as beldex_stake;
 import 'package:beldex_coin/transaction_history.dart' as transaction_history;
@@ -79,7 +83,7 @@ class BelDexWallet extends Wallet {
 
   static Future<BelDexWallet> configured(
       {required Box<WalletInfo> walletInfoSource,
-      required WalletInfo walletInfo}) async {
+        required WalletInfo walletInfo}) async {
     final wallet =
     BelDexWallet(walletInfoSource: walletInfoSource, walletInfo: walletInfo);
 
@@ -102,7 +106,6 @@ class BelDexWallet extends Wallet {
   WalletType getType() => WalletType.beldex;
 
   @override
-
   WalletType get walletType => WalletType.beldex;
 
   @override
@@ -228,6 +231,13 @@ class BelDexWallet extends Wallet {
     return _cachedSubaddressList!;
   }
 
+  @override
+  SubaddressList getSubAddressList() {
+    _cachedSubaddressList ??= SubaddressList();
+
+    return _cachedSubaddressList!;
+  }
+
   AccountList getAccountList() {
     _cachedAccountList ??= AccountList();
 
@@ -258,8 +268,8 @@ class BelDexWallet extends Wallet {
 
       await beldex_wallet.setupNode(
           address: node.uri,
-          /*login: node.login!,
-          password: node.password!,*/
+          /*login: node.login,
+          password: node.password,*/
           useSSL: useSSL,
           isLightWallet: isLightWallet);
       _syncStatus.value = ConnectedSyncStatus(getCurrentHeight());
@@ -330,6 +340,73 @@ class BelDexWallet extends Wallet {
   }
 
   @override
+  Future<PendingTransaction> createBnsTransaction(
+      TransactionCreationCredentials credentials) async {
+    final _credentials = credentials as BeldexBnsTransactionCreationCredentials;
+    final transactionDescription = await transaction_history.createBnsTransaction(
+        owner: _credentials.owner,
+        backUpOwner: _credentials.backUpOwner,
+        mappingYears: _credentials.mappingYears,
+        bchatId: _credentials.bchatId,
+        walletAddress: _credentials.walletAddress,
+        belnetId: _credentials.belnetId,
+        bnsName: _credentials.bnsName,
+        priorityRaw: _credentials.priority.serialize(),
+        accountIndex: _account.value.id);
+    print('bns transaction created');
+
+    return PendingTransaction.fromTransactionDescription(
+        transactionDescription);
+  }
+
+  @override
+  Future<PendingTransaction> createBnsUpdateTransaction(
+      TransactionCreationCredentials credentials) async {
+    final _credentials = credentials as BeldexBnsUpdateTransactionCreationCredentials;
+    final transactionDescription = await transaction_history.createBnsUpdateTransaction(
+        owner: _credentials.owner,
+        backUpOwner: _credentials.backUpOwner,
+        bchatId: _credentials.bchatId,
+        walletAddress: _credentials.walletAddress,
+        belnetId: _credentials.belnetId,
+        bnsName: _credentials.bnsName,
+        priorityRaw: _credentials.priority.serialize(),
+        accountIndex: _account.value.id);
+    print('bns update transaction created');
+
+    return PendingTransaction.fromTransactionDescription(
+        transactionDescription);
+  }
+
+  @override
+  Future<PendingTransaction> createBnsRenewalTransaction(
+      TransactionCreationCredentials credentials) async {
+    final _credentials = credentials as BeldexBnsRenewalTransactionCreationCredentials;
+    final transactionDescription = await transaction_history.createBnsRenewalTransaction(
+        bnsName: _credentials.bnsName,
+        mappingYears: _credentials.mappingYears,
+        priorityRaw: _credentials.priority.serialize(),
+        accountIndex: _account.value.id);
+    print('bns renewal transaction created');
+
+    return PendingTransaction.fromTransactionDescription(
+        transactionDescription);
+  }
+
+  @override
+  Future<PendingTransaction> createSweepAllTransaction(
+      TransactionCreationCredentials credentials) async {
+    final _credentials = credentials as BeldexSweepAllTransactionCreationCredentials;
+    final transactionDescription = await transaction_history.createSweepAllTransaction(
+        priorityRaw: _credentials.priority.serialize(),
+        accountIndex: _account.value.id);
+    print('sweep all transaction created');
+
+    return PendingTransaction.fromTransactionDescription(
+        transactionDescription);
+  }
+
+  @override
   Future rescan({int restoreHeight = 0}) async {
     _syncStatus.value = StartingSyncStatus(getCurrentHeight());
     setRefreshFromBlockHeight(height: restoreHeight);
@@ -389,7 +466,6 @@ class BelDexWallet extends Wallet {
       } else {
         print('isRefreshingNew else $isRefreshing');
         await askForUpdateTransactionHistory();
-        print('isRefreshingNew else - $isRefreshing');
         await askForUpdateBalance();
 
         if (blocksLeft < 2) {

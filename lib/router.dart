@@ -11,10 +11,17 @@ import 'package:beldex_wallet/src/swap/screen/swap_payment_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_wallet_address_page.dart';
 import 'package:beldex_wallet/src/swap/signature_page.dart';
 import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
+import 'package:beldex_wallet/src/bns/bns_page.dart';
+import 'package:beldex_wallet/src/bns/bns_renewal.dart';
+import 'package:beldex_wallet/src/bns/bns_renewal_change_notifier.dart';
+import 'package:beldex_wallet/src/bns/bns_update.dart';
+import 'package:beldex_wallet/src/bns/bns_update_change_notifier.dart';
+import 'package:beldex_wallet/src/bns/buy_bns_change_notifier.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
+import 'l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 // MARK: Import domains
 
@@ -89,8 +96,6 @@ import 'package:beldex_wallet/src/wallet/transaction/transaction_info.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'l10n.dart';
-
 class Router {
   static Route<dynamic> generateRoute(
       {required SharedPreferences sharedPreferences,
@@ -140,7 +145,7 @@ class Router {
               update: (_, authStore, __) => WalletCreationStore(
               authStore: authStore,
               sharedPreferences: sharedPreferences,
-              walletListService: walletListService),)
+              walletListService: walletListService),),
             ],
             child: NewWalletPage(
                 walletsService: walletListService,
@@ -282,9 +287,8 @@ class Router {
             fullscreenDialog: true,
             builder: (_) {
               return MultiProvider(providers: [
-                  Provider(
-                      create: (_) =>
-                          SubaddressListStore(walletService: walletService))
+                  Provider(create: (_) => SubaddressListStore(walletService: walletService)),
+                  ChangeNotifierProvider<ReceivePageChangeNotifier>(create: (_) => ReceivePageChangeNotifier())
                 ], child: ReceivePage());});
       case Routes.transactionDetails:
         return MaterialPageRoute<void>(
@@ -540,6 +544,84 @@ class Router {
                           transactionDescriptions: transactionDescriptions)),
                 ], child: NewStakePage());});
 
+      case Routes.bns:
+        return MaterialPageRoute<void>(
+            fullscreenDialog: true,
+            builder: (_) {
+              return MultiProvider(
+                  providers: [
+                    ProxyProvider<SettingsStore, BalanceStore>(
+                      update: (_, settingsStore, __) => BalanceStore(
+                          walletService: walletService,
+                          settingsStore: settingsStore,
+                          priceStore: priceStore),
+                    ),
+                    Provider(
+                      create: (_) => SyncStore(walletService: walletService),
+                    ),
+                    Provider(
+                        create: (_) => SendStore(
+                            walletService: walletService,
+                            priceStore: priceStore,
+                            settingsStore: settingsStore,
+                            transactionDescriptions:
+                            transactionDescriptions)),
+                    ChangeNotifierProvider<BuyBnsChangeNotifier>(create: (_) => BuyBnsChangeNotifier())
+                  ],
+                  child: BnsPage());
+            });
+      case Routes.bnsUpdate:
+        return MaterialPageRoute<void>(
+            fullscreenDialog: true,
+            builder: (_) {
+              return MultiProvider(
+                  providers: [
+                    ProxyProvider<SettingsStore, BalanceStore>(
+                      update: (_, settingsStore, __) => BalanceStore(
+                          walletService: walletService,
+                          settingsStore: settingsStore,
+                          priceStore: priceStore),
+                    ),
+                    Provider(
+                      create: (_) => SyncStore(walletService: walletService),
+                    ),
+                    Provider(
+                        create: (_) => SendStore(
+                            walletService: walletService,
+                            priceStore: priceStore,
+                            settingsStore: settingsStore,
+                            transactionDescriptions:
+                            transactionDescriptions)),
+                    ChangeNotifierProvider<BnsUpdateChangeNotifier>(create: (_) => BnsUpdateChangeNotifier())
+                  ],
+                  child: BnsUpdatePage(bnsDetails: settings.arguments as Map<String, dynamic>));
+            });
+      case Routes.bnsRenewal:
+        return MaterialPageRoute<void>(
+            fullscreenDialog: true,
+            builder: (_) {
+              return MultiProvider(
+                  providers: [
+                    ProxyProvider<SettingsStore, BalanceStore>(
+                      update: (_, settingsStore, __) => BalanceStore(
+                          walletService: walletService,
+                          settingsStore: settingsStore,
+                          priceStore: priceStore),
+                    ),
+                    Provider(
+                      create: (_) => SyncStore(walletService: walletService),
+                    ),
+                    Provider(
+                        create: (_) => SendStore(
+                            walletService: walletService,
+                            priceStore: priceStore,
+                            settingsStore: settingsStore,
+                            transactionDescriptions:
+                            transactionDescriptions)),
+                    ChangeNotifierProvider<BnsRenewalChangeNotifier>(create: (_) => BnsRenewalChangeNotifier())
+                  ],
+                  child: BnsRenewalPage(bnsName: settings.arguments as String));
+            });
       case Routes.swapExchange:
         return MaterialPageRoute<void>(builder: (context) {
           return MultiProvider(

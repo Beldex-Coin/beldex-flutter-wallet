@@ -1,8 +1,8 @@
-import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/wallet/beldex/get_height_by_date.dart';
 import 'package:provider/provider.dart';
 import 'nospaceformatter.dart';
@@ -23,7 +23,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
   @override
   void initState() {
     restoreHeightController.addListener(() => _height =
-        restoreHeightController.text.isNotEmpty
+    restoreHeightController.text.isNotEmpty
             ? int.parse(restoreHeightController.text)
             : 0);
     super.initState();
@@ -49,7 +49,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                   child: Container(
                     padding: EdgeInsets.only(left: 30,top:5,bottom: 5),
               child: TextFormField(
-                  style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
+                style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                   controller: restoreHeightController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly,NoSpaceFormatter(),FilteringTextInputFormatter.deny(RegExp('[-,. ]'))],

@@ -1,8 +1,8 @@
-import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:provider/provider.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet_list/wallet_list_store.dart';
 import 'package:beldex_wallet/src/wallet/wallet_description.dart';
 import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
@@ -49,6 +49,7 @@ class WalletMenu {
             builder: (BuildContext context1) {
               final settingsStore = Provider.of<SettingsStore>(context);
               return Dialog(
+                surfaceTintColor: Colors.transparent,
                 elevation: 0,
                 backgroundColor: settingsStore.isDarkTheme
                     ? Color(0xff272733)
@@ -56,7 +57,6 @@ class WalletMenu {
                 shape: RoundedRectangleBorder(
                     borderRadius:
                         BorderRadius.circular(10.0)), //this right here
-                surfaceTintColor: Colors.transparent,
                 child: FractionallySizedBox(
                   widthFactor: 0.95,
                   // heightFactor:0.50 ,
@@ -139,7 +139,7 @@ class WalletMenu {
                                 //            ),
 
                                 //           child:  Text(
-                                //         S.of(context1).no,
+                                //         tr(context1).no,
                                 //         textAlign: TextAlign.center,
                                 //         style: TextStyle(backgroundColor: Colors.transparent,color:settingsStore.isDarkTheme ? Color(0xff93939B) : Color(0xff16161D) ,fontWeight:FontWeight.w900),
                                 //       ),
@@ -202,13 +202,12 @@ class WalletMenu {
                                 //           }
                                 //           try {
                                 //             auth.changeProcessText(
-                                //                 S.of(context).wallet_list_removing_wallet(wallet.name));
+                                //                 tr(context).wallet_list_removing_wallet(wallet.name));
                                 //             await _walletListStore.remove(wallet);
                                 //             auth.close();
                                 //             Navigator.of(context).pop(false);
                                 //           } catch (e) {
-                                //             auth.changeProcessText(S
-                                //                 .of(context)
+                                //             auth.changeProcessText(tr(context)
                                 //                 .wallet_list_failed_to_remove(wallet.name, e.toString()));
                                 //           }
                                 //         });
@@ -221,7 +220,7 @@ class WalletMenu {
                                 //         color: Color(0xff0BA70F),
                                 //      ),
                                 //     child: Text(
-                                //         S.of(context1).yes,
+                                //         tr(context1).yes,
                                 //         textAlign: TextAlign.center,
                                 //         style: TextStyle(backgroundColor: Colors.transparent,color:Color(0xffffffff),fontWeight:FontWeight.bold),
                                 //       ),

@@ -1,14 +1,14 @@
-import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet_seed/wallet_seed_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:toast/toast.dart';
 
 class SeedPage extends BasePage {
@@ -456,7 +456,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                 }
                     : null,
                 style: ElevatedButton.styleFrom(
-                  primary: isCopied
+                  backgroundColor: isCopied
                       ? Color(0xff0BA70F)
                       : settingsStore.isDarkTheme
                       ? Color(0xff272733)

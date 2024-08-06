@@ -1,11 +1,10 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:flutter/rendering.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet_creation/wallet_creation_store.dart';
 import 'package:beldex_wallet/src/stores/wallet_creation/wallet_creation_state.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_list_service.dart';
@@ -15,9 +14,6 @@ import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
 import 'package:beldex_wallet/src/util/generate_name.dart';
-
-import '../../../l10n.dart';
-
 
 class NewWalletPage extends BasePage {
   NewWalletPage(
@@ -54,6 +50,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
   final _formKey = GlobalKey<FormState>();
   final nameController = TextEditingController();
   final ValueNotifier<bool> _isTextFieldNotEmpty = ValueNotifier(false);
+
   Future setName() async {
     var flag = true;
     while (flag) {
@@ -180,14 +177,14 @@ class _WalletNameFormState extends State<WalletNameForm> {
                           color: settingsStore.isDarkTheme
                               ? Colors.white
                               : Colors
-                                  .black, //Theme.of(context).textTheme.subtitle2.color
+                                .black, //Theme.of(context).textTheme.subtitle2.color
                         ),
                         controller: nameController,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            backgroundColor: Colors.transparent,
+                              backgroundColor: Colors.transparent,
                               fontSize: 16.0,
                               color: settingsStore.isDarkTheme
                                   ? Color(0xff747474)
@@ -211,7 +208,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                           return isNotEmpty
                               ? IconButton(
                                   icon: Icon(
-                                     Icons.clear,
+                                    Icons.clear,
                                     color: Theme.of(context)
                                         .primaryTextTheme
                                         .caption!

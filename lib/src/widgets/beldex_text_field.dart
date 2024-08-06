@@ -41,7 +41,7 @@ class BeldexTextField extends StatelessWidget {
             onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
             enabled: enabled,
             controller: controller,
-            focusNode: focusNode ?? FocusNode(),
+          focusNode: focusNode ?? FocusNode(),
             style: TextStyle(
               backgroundColor: Colors.transparent,
                 fontSize: 16.0,

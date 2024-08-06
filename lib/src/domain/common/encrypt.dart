@@ -3,7 +3,7 @@ import 'package:beldex_wallet/.secrets.g.dart' as secrets;
 
 String encrypt({required String source, required String key, int keyLength = 16}) {
   final _key = Key.fromUtf8(key);
-  final iv = IV.fromLength(keyLength);
+  final iv = IV.allZerosOfLength(keyLength);
   final encrypter = Encrypter(AES(_key));
   final encrypted = encrypter.encrypt(source, iv: iv);
 
@@ -12,7 +12,7 @@ String encrypt({required String source, required String key, int keyLength = 16}
 
 String decrypt({required String source, required String key, int keyLength = 16}) {
   final _key = Key.fromUtf8(key);
-  final iv = IV.fromLength(keyLength);
+  final iv = IV.allZerosOfLength(keyLength);
   final encrypter = Encrypter(AES(_key));
   final decrypted = encrypter.decrypt64(source, iv: iv);
 

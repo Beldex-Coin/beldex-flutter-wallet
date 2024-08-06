@@ -105,7 +105,7 @@ class AccountListPage extends BasePage {
                               }
                             },
                             child: Container(
-                              width: MediaQuery.of(context).size.width,
+                             width: MediaQuery.of(context).size.width,
                              decoration: BoxDecoration(
                                color:  settingsStore.isDarkTheme ? isCurrent ? Color(0xff383848) : Color(0xff1B1B23) : Color(0xffFFFFFF),
                                   borderRadius: BorderRadius.circular(10)),
@@ -191,7 +191,7 @@ class AccountListPage extends BasePage {
                             ),
                             child: Text(
                               tr(context).no,
-                              style: TextStyle(fontSize: 16,fontWeight:FontWeight.bold,color: settingsStore.isDarkTheme ?Color(0xff93939B): Color(0xff222222), ),
+                              style: TextStyle(backgroundColor: Colors.transparent,fontSize: 16,fontWeight:FontWeight.bold,color: settingsStore.isDarkTheme ?Color(0xff93939B): Color(0xff222222), ),
                             ),
                           ),
                         ),
@@ -213,7 +213,7 @@ class AccountListPage extends BasePage {
                             ),
                             child: Text(
                               tr(context).yes,
-                              style: TextStyle(color: Color(0xffffffff),fontSize: 16,fontWeight:FontWeight.bold),
+                              style: TextStyle(backgroundColor: Colors.transparent,color: Color(0xffffffff),fontSize: 16,fontWeight:FontWeight.bold),
                             ),
                           ),
                         ),

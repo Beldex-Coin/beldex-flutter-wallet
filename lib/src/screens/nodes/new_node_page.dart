@@ -2,16 +2,14 @@ import 'package:beldex_wallet/src/screens/nodes/test_mainnet_node.dart';
 import 'package:beldex_wallet/src/screens/nodes/test_node.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/widgets/nospaceformatter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/node_list/node_list_store.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
-
-import '../../../l10n.dart';
 
 class NewNodePage extends BasePage {
   @override
@@ -192,7 +190,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                               filled: true,
                               hintText: tr(context).node_port,
                               hintStyle: TextStyle(
-                                backgroundColor: Colors.transparent,
+                                  backgroundColor: Colors.transparent,
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff77778B)
                                       : Color(0xff77778B)),
@@ -227,7 +225,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                           decoration: InputDecoration(
                             hintText: tr(context).nodeNameOptional,
                             hintStyle: TextStyle(
-                              backgroundColor: Colors.transparent,
+                                backgroundColor: Colors.transparent,
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
@@ -258,7 +256,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                           decoration: InputDecoration(
                             hintText: tr(context).userNameOptional,
                             hintStyle: TextStyle(
-                              backgroundColor: Colors.transparent,
+                                backgroundColor: Colors.transparent,
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
@@ -364,7 +362,6 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                                 ? tr(context).success
                                                 : tr(context).connectionFailed,
                                             style: TextStyle(
-                                              backgroundColor: Colors.transparent,
                                               color: !newNodePageChangeNotifier
                                                       .isNodeChecked
                                                   ? Colors.red
@@ -475,11 +472,11 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                                   '${_nodeAddressController.text}:${_nodePortController.text}')) {
                                                 status = true;
                                                 Toast.show('This node is already exist',
-                                                 duration: Toast.lengthShort,
+                                                  duration: Toast.lengthShort,
                                               gravity: Toast
                                                   .bottom, // Toast gravity (top, center, or bottom)
-                                                  textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
-                                  backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                                                  textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),
+                                                  backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                                                 );
                                                 return;
                                               }
@@ -500,9 +497,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                               duration: Toast.lengthShort,
                                               gravity: Toast
                                                   .bottom, // Toast gravity (top, center, or bottom)
-                                              textStyle: TextStyle(color: Colors.white), // Text color
-                                              backgroundColor: Color(
-                                                  0xff0BA70F), // Background color
+                                              textStyle: TextStyle(color: Colors.white), // Text color // Background color
                                             );
                                           }
                                         }
@@ -510,7 +505,6 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                   child: Text(
                                     tr(context).add,
                                     style: TextStyle(
-                                        backgroundColor: Colors.transparent,
                                         fontSize:
                                             MediaQuery.of(context).size.height *
                                                 0.07 /

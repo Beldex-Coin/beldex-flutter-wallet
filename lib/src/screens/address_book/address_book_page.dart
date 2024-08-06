@@ -13,7 +13,6 @@ import 'package:beldex_wallet/src/stores/address_book/address_book_store.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
-
 import '../../domain/common/contact.dart';
 
 class AddressBookPage extends BasePage {
@@ -150,14 +149,14 @@ class AddressBookPage extends BasePage {
                         : Slidable(
                             key: Key('${contact.key}'),
                             endActionPane: ActionPane(
-                            motion: const DrawerMotion(),
-                            children: [
-                            SlidableAction(
-                               label: tr(context).edit,
-                               backgroundColor: Colors.blue,
-                               foregroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+                              motion: const DrawerMotion(),
+                              children: [
+                                SlidableAction(
+                                label: tr(context).edit,
+                                backgroundColor: Colors.blue,
+                                foregroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
                                 icon: Icons.edit,
-                                  onPressed: (context) async {
+                                onPressed: (context)  async {
                                   await Navigator.of(context).pushNamed(
                                       Routes.addressBookAddContact,
                                       arguments: contact);
@@ -165,12 +164,11 @@ class AddressBookPage extends BasePage {
                                 },
                               ),
                               SlidableAction(
-                                label: tr(context).delete,
-                                backgroundColor: Colors.red,
-                                icon: CupertinoIcons.delete,
-                                foregroundColor:
-                                settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
-                                onPressed: (context) async {
+                              label: tr(context).delete,
+                              backgroundColor: Colors.red,
+                              icon: CupertinoIcons.delete,
+                              foregroundColor:settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+                              onPressed: (context) async {
                                   await showAlertDialog(context)
                                       .then((isDelete) async {
                                     if (isDelete != null && isDelete) {
@@ -182,7 +180,7 @@ class AddressBookPage extends BasePage {
                                   });
                                 },
                               ),
-                            ]),
+                              ]),
                       startActionPane: ActionPane(
                           motion: const DrawerMotion(),
                           dismissible: DismissiblePane(
@@ -291,7 +289,7 @@ class AddressBookPage extends BasePage {
         onConfirm: (context) {
           result = true;
           Navigator.pop(context, true);
-          //return result;
+          //return true;
         });
     return result;
   }

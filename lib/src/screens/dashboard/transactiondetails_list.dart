@@ -12,10 +12,9 @@ import 'package:beldex_wallet/src/stores/action_list/action_list_store.dart';
 import 'package:beldex_wallet/src/stores/action_list/date_section_item.dart';
 import 'package:beldex_wallet/src/stores/action_list/transaction_list_item.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import '../../../l10n.dart';
+import 'package:intl/intl.dart';
 
 class TransactionDetailsList extends BasePage {
   final _bodyKey = GlobalKey();
@@ -116,106 +115,112 @@ class TransactionDetailsListBodyState
                                           ? Color(0xff292935)
                                           : Color(0xffffffff),
                                       itemBuilder: (context) => [
-                                            PopupMenuItem(
-                                                enabled: false,
-                                                value: -1,
-                                                child: Text(
-                                                    'Filter by',
-                                                    style: TextStyle(backgroundColor:Colors.transparent,
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Theme.of(
-                                                                context)
-                                                            .primaryTextTheme
-                                                            .caption!
-                                                            .color))),
-                                            PopupMenuItem(
-                                                value: 0,
-                                                child: Observer(
-                                                    builder: (_) => Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Text(tr(context)
-                                                                  .incoming,style: TextStyle(backgroundColor: Colors.transparent),),
-                                                              Theme(
-                                                                data: Theme.of(
-                                                                        context)
-                                                                    .copyWith(
-                                                                    colorScheme: ColorScheme.fromSwatch().copyWith(
-                                                                      secondary: Colors.green, // Your accent color
-                                                                    ),
-                                                                        checkboxTheme:
-                                                                            CheckboxThemeData(
-                                                                          fillColor:
-                                                                              MaterialStateProperty.all(Colors.green),
-                                                                          checkColor:
-                                                                              MaterialStateProperty.all(Colors.white),
-                                                                        )),
-                                                                child:
-                                                                    Checkbox(
-                                                                  value: actionListStore
-                                                                      .transactionFilterStore
-                                                                      .displayIncoming,
-                                                                  onChanged: (value) =>
-                                                                      actionListStore
-                                                                          .transactionFilterStore
-                                                                          .toggleIncoming(),
-                                                                ),
-                                                              )
-                                                            ]))),
-                                            PopupMenuItem(
-                                                value: 1,
-                                                child: Observer(
-                                                    builder: (_) => Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Text(tr(context)
-                                                                  .outgoing,style: TextStyle(backgroundColor: Colors.transparent),),
-                                                              Theme(
-                                                                data: Theme.of(
-                                                                        context)
-                                                                    .copyWith(
-                                                                    colorScheme: ColorScheme.fromSwatch().copyWith(
-                                                                      secondary: Colors.green, // Your accent color
-                                                                    ),
-                                                                        checkboxTheme:
-                                                                            CheckboxThemeData(
-                                                                          fillColor:
-                                                                              MaterialStateProperty.all(Colors.green),
-                                                                          checkColor:
-                                                                              MaterialStateProperty.all(Colors.white),
-                                                                        )),
-                                                                child:
-                                                                    Checkbox(
-                                                                  value: actionListStore
-                                                                      .transactionFilterStore
-                                                                      .displayOutgoing,
-                                                                  onChanged: (value) =>
-                                                                      actionListStore
-                                                                          .transactionFilterStore
-                                                                          .toggleOutgoing(),
-                                                                ),
-                                                              )
-                                                            ]))),
-                                            PopupMenuItem(
-                                                value: 2,
-                                                child: Text(tr(context)
-                                                    .transactions_by_date,style: TextStyle(backgroundColor: Colors.transparent),)),
-                                          ],
+                                        PopupMenuItem(
+                                            enabled: false,
+                                            value: -1,
+                                            child: Text(
+                                                'Filter by',
+                                                style: TextStyle(backgroundColor:Colors.transparent,
+                                                    fontWeight:
+                                                    FontWeight.bold,
+                                                    color: Theme.of(
+                                                        context)
+                                                        .primaryTextTheme
+                                                        .caption!
+                                                        .color))),
+                                        PopupMenuItem(
+                                            value: 0,
+                                            child: Observer(
+                                                builder: (_) => Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                    children: [
+                                                      Text(tr(context)
+                                                          .incoming,style: TextStyle(backgroundColor: Colors.transparent),),
+                                                      Theme(
+                                                        data: Theme.of(
+                                                            context)
+                                                            .copyWith(
+                                                            checkboxTheme:
+                                                            CheckboxThemeData(
+                                                              fillColor: MaterialStateColor.resolveWith(
+                                                                      (states) {
+                                                                    if (states.contains(MaterialState.selected)) {
+                                                                      return Colors.green; // the color when checkbox is selected;
+                                                                    }
+                                                                    return settingsStore.isDarkTheme
+                                                                        ? Color(0xff292935)
+                                                                        : Color(0xffffffff); //the color when checkbox is unselected;
+                                                                  }),
+                                                              checkColor: MaterialStateProperty.all(Colors.white),
+                                                            )),
+                                                        child:
+                                                        Checkbox(
+                                                          value: actionListStore
+                                                              .transactionFilterStore
+                                                              .displayIncoming,
+                                                          onChanged: (value) =>
+                                                              actionListStore
+                                                                  .transactionFilterStore
+                                                                  .toggleIncoming(),
+                                                        ),
+                                                      )
+                                                    ]))),
+                                        PopupMenuItem(
+                                            value: 1,
+                                            child: Observer(
+                                                builder: (_) => Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                    children: [
+                                                      Text(tr(context)
+                                                          .outgoing,style: TextStyle(backgroundColor: Colors.transparent),),
+                                                      Theme(
+                                                        data: Theme.of(
+                                                            context)
+                                                            .copyWith(
+                                                            checkboxTheme:
+                                                            CheckboxThemeData(
+                                                              fillColor: MaterialStateColor.resolveWith(
+                                                                      (states) {
+                                                                    if (states.contains(MaterialState.selected)) {
+                                                                      return Colors.green; // the color when checkbox is selected;
+                                                                    }
+                                                                    return settingsStore.isDarkTheme
+                                                                        ? Color(0xff292935)
+                                                                        : Color(0xffffffff); //the color when checkbox is unselected;
+                                                                  }),
+                                                              checkColor: MaterialStateProperty.all(Colors.white),
+                                                            )),
+                                                        child:
+                                                        Checkbox(
+                                                          value: actionListStore
+                                                              .transactionFilterStore
+                                                              .displayOutgoing,
+                                                          onChanged: (value) =>
+                                                              actionListStore
+                                                                  .transactionFilterStore
+                                                                  .toggleOutgoing(),
+                                                        ),
+                                                      )
+                                                    ]))),
+                                        PopupMenuItem(
+                                            value: 2,
+                                            child: Text(tr(context)
+                                                .transactions_by_date,style: TextStyle(backgroundColor: Colors.transparent),)),
+                                      ],
                                       onSelected: (item) {
                                         print('item length --> $item');
                                         if (item == 2) {
                                           showCustomDateRangePicker(
-                                              context,
-                                              dismissible: false,
-                                              startDate: DateTime.now().subtract(Duration(days: 1)),
-                                              endDate: DateTime.now(),
-                                              minimumDate: DateTime(2018),
-                                              maximumDate: DateTime.now(),
+                                            context,
+                                            dismissible: false,
+                                            startDate: DateTime.now().subtract(Duration(days: 1)),
+                                            endDate: DateTime.now(),
+                                            minimumDate: DateTime(2018),
+                                            maximumDate: DateTime.now(),
                                             onApplyClick: (DateTime start,DateTime end){
                                               actionListStore.transactionFilterStore.changeStartDate(start);
                                               actionListStore.transactionFilterStore.changeEndDate(end.add(Duration(days: 1)));
@@ -328,6 +333,8 @@ class TransactionDetailsListBodyState
                         isPending: transaction.isPending,
                         transaction: transaction,
                         //isStake: transaction.isStake,
+                        isBns:transaction.isBns,
+                        paymentId:transaction.paymentId
                       );
                     }
 
@@ -395,7 +402,8 @@ class TransactionDetailsListBodyState
                                 },
                                 child: Text(
                                   tr(context).no,
-                                  style: TextStyle(backgroundColor:Colors.transparent,
+                                  style: TextStyle(
+                                    backgroundColor:Colors.transparent,
                                     fontWeight: FontWeight.bold,
                                     color: Theme.of(context)
                                         .primaryTextTheme
@@ -418,7 +426,8 @@ class TransactionDetailsListBodyState
                                 },
                                 child: Text(
                                   tr(context).yes,
-                                  style: TextStyle(backgroundColor:Colors.transparent,
+                                  style: TextStyle(
+                                    backgroundColor:Colors.transparent,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                   ),

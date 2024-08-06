@@ -12,6 +12,7 @@ class AccountListStore = AccountListStoreBase with _$AccountListStore;
 
 abstract class AccountListStoreBase with Store {
   AccountListStoreBase({required WalletService walletService}) {
+
     if (walletService.currentWallet != null) {
       _onWalletChanged(walletService.currentWallet!);
     }

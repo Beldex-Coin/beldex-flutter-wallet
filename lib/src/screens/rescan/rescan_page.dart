@@ -1,5 +1,4 @@
 import 'package:beldex_coin/wallet.dart';
-import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/get_height_by_date.dart';
 import 'package:beldex_wallet/src/widgets/nospaceformatter.dart';
@@ -12,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/src/stores/rescan/rescan_wallet_store.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //blockheight widget's property
@@ -99,7 +99,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
   @override
   void initState() {
     restoreHeightController.addListener(() => _height =
-        restoreHeightController.text.isNotEmpty
+    restoreHeightController.text.isNotEmpty
             ? int.parse(restoreHeightController.text)
             : 0);
     super.initState();

@@ -4,14 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:beldex_wallet/routes.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_list_service.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/wallet_restoration/wallet_restoration_store.dart';
 import 'package:beldex_wallet/src/widgets/seed_widget.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
-
-import '../../../l10n.dart';
 
 class RestoreWalletFromSeedPage extends BasePage {
   RestoreWalletFromSeedPage(

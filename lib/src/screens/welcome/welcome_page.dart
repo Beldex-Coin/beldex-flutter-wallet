@@ -1,7 +1,7 @@
-import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:provider/provider.dart';
@@ -50,6 +50,7 @@ class WelcomePage extends BasePage {
                       child: Text(
                         tr(context).wallet_list_title,
                         style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -65,6 +66,7 @@ class WelcomePage extends BasePage {
                     Text(
                       tr(context).welcomeToBeldexWallet,
                       style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         fontSize: _screenHeight * 0.05 / 3,
                         fontWeight: FontWeight.w700,
                         color: settingsStore.isDarkTheme
@@ -79,6 +81,7 @@ class WelcomePage extends BasePage {
                             .selectAnOptionBelowToCreateOrnRecoverExistingWallet,
                         textAlign: TextAlign.center,
                         style: TextStyle(
+                          backgroundColor: Colors.transparent,
                           fontSize: _screenHeight * 0.05 / 3,
                           color: settingsStore.isDarkTheme
                               ? Color(0xffFFFFFF)

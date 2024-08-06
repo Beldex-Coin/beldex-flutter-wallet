@@ -111,6 +111,80 @@ mixin _$SendStore on SendStoreBase, Store {
         address: address, amount: amount, tPriority: tPriority, t: t));
   }
 
+  late final _$createBnsTransactionAsyncAction =
+      AsyncAction('SendStoreBase.createBnsTransaction', context: context);
+
+  @override
+  Future<dynamic> createBnsTransaction(
+      {required String owner,
+      required String backUpOwner,
+      required String mappingYears,
+      required String walletAddress,
+      required String bchatId,
+      required String belnetId,
+      required String bnsName,
+      required BeldexTransactionPriority tPriority}) {
+    return _$createBnsTransactionAsyncAction.run(() => super
+        .createBnsTransaction(
+            owner: owner,
+            backUpOwner: backUpOwner,
+            mappingYears: mappingYears,
+            walletAddress: walletAddress,
+            bchatId: bchatId,
+            belnetId: belnetId,
+            bnsName: bnsName,
+            tPriority: tPriority));
+  }
+
+  late final _$createBnsUpdateTransactionAsyncAction =
+      AsyncAction('SendStoreBase.createBnsUpdateTransaction', context: context);
+
+  @override
+  Future<dynamic> createBnsUpdateTransaction(
+      {required String owner,
+      required String backUpOwner,
+      required String walletAddress,
+      required String bchatId,
+      required String belnetId,
+      required String bnsName,
+      required BeldexTransactionPriority tPriority}) {
+    return _$createBnsUpdateTransactionAsyncAction.run(() => super
+        .createBnsUpdateTransaction(
+            owner: owner,
+            backUpOwner: backUpOwner,
+            walletAddress: walletAddress,
+            bchatId: bchatId,
+            belnetId: belnetId,
+            bnsName: bnsName,
+            tPriority: tPriority));
+  }
+
+  late final _$createBnsRenewalTransactionAsyncAction = AsyncAction(
+      'SendStoreBase.createBnsRenewalTransaction',
+      context: context);
+
+  @override
+  Future<dynamic> createBnsRenewalTransaction(
+      {required String bnsName,
+      required String mappingYears,
+      required BeldexTransactionPriority tPriority}) {
+    return _$createBnsRenewalTransactionAsyncAction.run(() => super
+        .createBnsRenewalTransaction(
+            bnsName: bnsName,
+            mappingYears: mappingYears,
+            tPriority: tPriority));
+  }
+
+  late final _$createSweepAllTransactionAsyncAction =
+      AsyncAction('SendStoreBase.createSweepAllTransaction', context: context);
+
+  @override
+  Future<dynamic> createSweepAllTransaction(
+      {required BeldexTransactionPriority tPriority}) {
+    return _$createSweepAllTransactionAsyncAction
+        .run(() => super.createSweepAllTransaction(tPriority: tPriority));
+  }
+
   late final _$commitTransactionAsyncAction =
       AsyncAction('SendStoreBase.commitTransaction', context: context);
 

@@ -1,8 +1,8 @@
-import 'package:beldex_wallet/l10n.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/domain/common/contact.dart';
@@ -49,7 +49,7 @@ class AddressTextField extends StatelessWidget {
       controller: controller!,
       focusNode: focusNode ?? FocusNode(),
       inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9.-]')),
       ],
       suffixIcon: Padding(
           padding: EdgeInsets.only(right: 5),

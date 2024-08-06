@@ -72,7 +72,7 @@ class RootState extends State<Root> with WidgetsBindingObserver {
     final walletStore = Provider.of<WalletStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
 
-    if (_isInactive! && !_postFrameCallback!) {
+    if (_isInactive! && !_postFrameCallback) {
       _postFrameCallback = true;
 
       WidgetsBinding.instance.addPostFrameCallback((_) {

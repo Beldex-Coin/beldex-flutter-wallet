@@ -5,7 +5,7 @@ import 'package:beldex_wallet/src/wallet/beldex/beldex_amount_format.dart';
 
 class PendingTransaction {
   /*PendingTransaction(
-      {@required this.amount, @required this.fee, @required this.hash});*/
+      {required this.amount, required this.fee, required this.hash});*/
 
   PendingTransaction.fromTransactionDescription(
       PendingTransactionDescription transactionDescription)

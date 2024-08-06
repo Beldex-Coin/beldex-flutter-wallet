@@ -182,7 +182,6 @@ class BeldexWalletsManager extends WalletsManager {
       await walletFileDir.delete();
       print('Wallet Directory deleted');
     }
-
     final id = (walletTypeToString(wallet.type)?.toLowerCase() ?? 'unknown' ) + '_' + wallet.name;
     await walletInfoSource.values.firstWhere((info) => info.id == id).delete();
   }

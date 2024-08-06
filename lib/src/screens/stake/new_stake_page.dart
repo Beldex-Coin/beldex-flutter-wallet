@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/domain/common/balance_display_mode.dart';
@@ -24,8 +25,6 @@ import 'package:beldex_wallet/src/widgets/beldex_text_field.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/src/util/constants.dart' as constants;
-
-import '../../../l10n.dart';
 
 class NewStakePage extends BasePage {
   @override
@@ -329,11 +328,11 @@ class NewStakeFormState extends State<NewStakeForm>
         bottomSection: Observer(builder: (_) {
           return NewSlideToAct(
             text: tr(context).stake_beldex,
-            outerColor: Theme.of(context).primaryTextTheme.subtitle2!.color!,
+            outerColor: Theme.of(context).primaryTextTheme.subtitle2!.color,
             innerColor: BeldexPalette.teal,
             onFutureSubmit: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                 ? () async {
-                    if (_formKey.currentState?.validate() ?? false) {
+              if (_formKey.currentState?.validate() ?? false) {
                       var isSuccessful = false;
 
                       await Navigator.of(context).pushNamed(Routes.auth,

@@ -149,7 +149,7 @@
 
   "send_title" : "Envoyer des",
   "send_your_wallet" : "Votre portefeuille",
-  "send_beldex_address" : "Adresse Beldex",
+  "send_beldex_address" : "Adresse Beldex ou nom BNS",
   "all" : "TOUT",
   "send_error_currency" : "La devise ne peut contenir que des nombres",
   "send_estimated_fee" : "Frais estimés:",
@@ -428,5 +428,9 @@
   "initiatingTransactionTitle" : "Initier une transaction..",
   "initiatingTransactionDescription" : "Veuillez ne pas fermer cette fenêtre ni accéder à une autre application tant que la transaction n'a pas été initiée.",
   "subAddresses": "Sous-adresses",
-  "loadingTheWalletDescription": "Veuillez ne pas fermer cette fenêtre ni accéder à une autre application tant que nous n'avons pas chargé le portefeuille."
+  "loadingTheWalletDescription": "Veuillez ne pas fermer cette fenêtre ni accéder à une autre application tant que nous n'avons pas chargé le portefeuille.",
+  "buyBns": "Acheter des BNS",
+  "bns": "BNS",
+  "bnsUpdate": "Mise à jour du BNS",
+  "bnsRenewal": "Renouvellement du BNS"
 }

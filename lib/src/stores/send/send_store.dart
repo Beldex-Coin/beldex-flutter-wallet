@@ -1,8 +1,12 @@
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_renewal_transaction_creation_credentials.dart';
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_transaction_creation_credentials.dart';
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_bns_update_transaction_creation_credentials.dart';
+import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_sweep_all_transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
-import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 import 'package:beldex_wallet/src/domain/common/openalias_record.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
@@ -13,8 +17,6 @@ import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_stake_transac
 import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_description.dart';
 import 'package:beldex_wallet/src/wallet/transaction/pending_transaction.dart';
-
-import '../../../l10n.dart';
 
 part 'send_store.g.dart';
 
@@ -27,8 +29,9 @@ abstract class SendStoreBase with Store {
       this.transactionDescriptions,
       required this.priceStore}):
     _pendingTransaction = null;
-    final NumberFormat _cryptoNumberFormat = NumberFormat()..maximumFractionDigits = 12;
-    final NumberFormat _fiatNumberFormat = NumberFormat()..maximumFractionDigits = 2;
+
+  final NumberFormat _cryptoNumberFormat = NumberFormat()..maximumFractionDigits = 12;
+  final NumberFormat _fiatNumberFormat = NumberFormat()..maximumFractionDigits = 2;
 
   WalletService walletService;
   SettingsStore settingsStore;
@@ -106,6 +109,95 @@ abstract class SendStoreBase with Store {
     } catch (e) {
       state = SendingFailed(error: e.toString());
       print('createTransaction state catch --> $state');
+    }
+  }
+
+  @action
+  Future createBnsTransaction({required String owner, required String backUpOwner, required String mappingYears, required String walletAddress, required String bchatId, required String belnetId, required String bnsName, required BeldexTransactionPriority tPriority}) async {
+    state = CreatingTransaction();
+
+    try {
+      final credentials = BeldexBnsTransactionCreationCredentials(
+          owner: owner,
+          backUpOwner: backUpOwner,
+          mappingYears: mappingYears,
+          walletAddress: walletAddress,
+          bchatId: bchatId,
+          belnetId: belnetId,
+          bnsName: bnsName,
+          priority: tPriority);
+
+      _pendingTransaction = await walletService.createBnsTransaction(credentials);
+      state = TransactionCreatedSuccessfully();
+      print('createBnsTransaction state try --> $state');
+      _lastRecipientAddress = bnsName;
+      print('createBnsTransaction _lastRecipientAddress $_lastRecipientAddress');
+    } catch (e) {
+      state = SendingFailed(error: e.toString());
+      print('createBnsTransaction state catch --> $state');
+    }
+  }
+
+  @action
+  Future createBnsUpdateTransaction({required String owner, required String backUpOwner, required String walletAddress, required String bchatId, required String belnetId, required String bnsName, required BeldexTransactionPriority tPriority}) async {
+    state = CreatingTransaction();
+
+    try {
+      final credentials = BeldexBnsUpdateTransactionCreationCredentials(
+          owner: owner,
+          backUpOwner: backUpOwner,
+          walletAddress: walletAddress,
+          bchatId: bchatId,
+          belnetId: belnetId,
+          bnsName: bnsName,
+          priority: tPriority);
+
+      _pendingTransaction = await walletService.createBnsUpdateTransaction(credentials);
+      state = TransactionCreatedSuccessfully();
+      print('createBnsUpdateTransaction state try --> $state');
+      _lastRecipientAddress = bnsName;
+      print('createBnsUpdateTransaction _lastRecipientAddress $_lastRecipientAddress');
+    } catch (e) {
+      state = SendingFailed(error: e.toString());
+      print('createBnsUpdateTransaction state catch --> $state');
+    }
+  }
+
+  @action
+  Future createBnsRenewalTransaction({required String bnsName, required String mappingYears, required BeldexTransactionPriority tPriority}) async {
+    state = CreatingTransaction();
+
+    try {
+      final credentials = BeldexBnsRenewalTransactionCreationCredentials(
+          bnsName: bnsName,
+          mappingYears: mappingYears,
+          priority: tPriority);
+
+      _pendingTransaction = await walletService.createBnsRenewalTransaction(credentials);
+      state = TransactionCreatedSuccessfully();
+      print('createBnsRenewalTransaction state try --> $state');
+      _lastRecipientAddress = bnsName;
+      print('createBnsRenewalTransaction _lastRecipientAddress $_lastRecipientAddress');
+    } catch (e) {
+      state = SendingFailed(error: e.toString());
+      print('createBnsRenewalTransaction state catch --> $state');
+    }
+  }
+
+  @action
+  Future createSweepAllTransaction({required BeldexTransactionPriority tPriority}) async {
+    state = CreatingTransaction();
+
+    try {
+      final credentials = BeldexSweepAllTransactionCreationCredentials(
+          priority: tPriority);
+
+      _pendingTransaction = await walletService.createSweepAllTransaction(credentials);
+      state = TransactionCreatedSuccessfully();
+      print('createSweepAllTransaction state try --> $state');
+    } catch (e) {
+      state = SendingFailed(error: e.toString());
+      print('createSweepAllTransaction state catch --> $state');
     }
   }
 
@@ -215,7 +307,7 @@ abstract class SendStoreBase with Store {
         case CryptoCurrency.xmr:
           isValid = (value.length == 95) ||
               (value.length == 97) || // Testnet addresses have 2 extra bits indicating the network id
-              (value.length == 106)||(value.length == 96);
+              (value.length == 106);
           break;
         case CryptoCurrency.ada:
           isValid = (value.length == 59) ||
@@ -346,6 +438,6 @@ abstract class SendStoreBase with Store {
     errorMessage = (isValid
         ? null
         : 'Value of amount can\'t exceed available balance.\n'
-            'The number of fraction digits must be less or equal to 2')!;
+          'The number of fraction digits must be less or equal to 2')!;
   }
 }

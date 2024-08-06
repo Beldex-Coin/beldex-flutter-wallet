@@ -73,7 +73,8 @@ bool setupNodeSync(
   calloc.free(passwordPointer);
 
   if (!isSetupNode.good) {
-    throw SetupWalletException(message: isSetupNode.errorString());
+    throw SetupWalletException(
+        message: isSetupNode.errorString());
   }
 
   return true;
@@ -202,14 +203,14 @@ void startRefresh() => startRefreshSync();
 
 Future setupNode(
         {required String address,
-        /*String? login,
-        String? password,*/
+        /*String login,
+        String password,*/
         bool useSSL = false,
         bool isLightWallet = false}) =>
     compute<Map<String, Object>, void>(_setupNodeSync, {
       'address': address,
-     /* 'login': login!,
-      'password': password!,*/
+      /*'login': login,
+      'password': password,*/
       'useSSL': useSSL,
       'isLightWallet': isLightWallet
     });

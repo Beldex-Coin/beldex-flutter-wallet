@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SettingsLinkListRow extends StatelessWidget {
   SettingsLinkListRow(
-      {this.onTaped,required this.title, this.link, this.image,this.balanceVisibility,this.decimalVisibility,this.currencyVisibility,this.feePriorityVisibility});
+      {this.onTaped, required this.title, this.link, this.image,this.balanceVisibility,this.decimalVisibility,this.currencyVisibility,this.feePriorityVisibility});
 
   final VoidCallback? onTaped;
   final String title;

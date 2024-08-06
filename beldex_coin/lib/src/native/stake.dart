@@ -30,11 +30,10 @@ final submitStakeUnlockNative = beldexApi
 
 PendingTransactionDescription createStakeSync(
     String masterNodeKey, String? amount) {
-  final masterNodeKeyPointer = masterNodeKey.toNativeUtf8();
+  final masterNodeKeyPointer =  masterNodeKey.toNativeUtf8();
   final amountPointer = amount != null ? amount.toNativeUtf8() : nullptr;
   final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
-  final created = stakeCreateNative(masterNodeKeyPointer, amountPointer,
-         pendingTransactionRawPointer);
+  final created = stakeCreateNative(masterNodeKeyPointer, amountPointer, pendingTransactionRawPointer);
 
   calloc.free(masterNodeKeyPointer);
 
@@ -58,8 +57,7 @@ PendingTransactionDescription createStakeSync(
 void submitStakeUnlockSync(String masterNodeKey) {
   final masterNodeKeyPointer = masterNodeKey.toNativeUtf8();
   final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
-  final result = submitStakeUnlockNative(masterNodeKeyPointer,
-          pendingTransactionRawPointer);
+  final result = submitStakeUnlockNative(masterNodeKeyPointer, pendingTransactionRawPointer);
 
   calloc.free(masterNodeKeyPointer);
 
@@ -68,7 +66,7 @@ void submitStakeUnlockSync(String masterNodeKey) {
     //free(errorMessagePointer);
     throw CreationTransactionException(message: result.errorString());
   //}
-    calloc.free(pendingTransactionRawPointer);
+  calloc.free(pendingTransactionRawPointer);
 
   /*return PendingTransactionDescription(
       amount: pendingTransactionRawPointer.ref.amount,

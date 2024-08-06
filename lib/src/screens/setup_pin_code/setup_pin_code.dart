@@ -6,7 +6,6 @@ import 'package:beldex_wallet/src/stores/user/user_store.dart';
 import 'package:beldex_wallet/src/screens/pin_code/pin_code.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-
 import '../../../l10n.dart';
 
 class SetupPinCodePage extends BasePage {
@@ -41,11 +40,11 @@ class SetupPinCodeForm extends PinCodeWidget {
 class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
     extends PinCodeState<WidgetType> {
   /*_SetupPinCodeFormState() {
-    title = tr(context).enterYourPin;
+    title = S.current.enterYourPin;
   }*/
 
   bool isEnteredOriginalPin() => _originalPin.isNotEmpty;
-  //Function(BuildContext)? onPinCodeSetup;
+  //Function(BuildContext) onPinCodeSetup;
   List<int> _originalPin = [];
   UserStore? _userStore;
   SettingsStore? _settingsStore;
@@ -66,13 +65,13 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
             barrierDismissible: false,
             builder: (BuildContext context) {
               return Dialog(
+                surfaceTintColor: Colors.transparent,
                 elevation: 0,
                 backgroundColor: _settingsStore?.isDarkTheme ?? false
                     ? Color(0xff272733)
                     : Color(0xffFFFFFF),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)),
-                surfaceTintColor: Colors.transparent,
                 //this right here
                 child: Container(
                   height: 170,
@@ -130,13 +129,13 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
             barrierDismissible: false,
             builder: (BuildContext context) {
               return Dialog(
+                surfaceTintColor: Colors.transparent,
                 elevation: 0,
                 backgroundColor: _settingsStore?.isDarkTheme ?? false
                     ? Color(0xff272733)
                     : Color(0xffFFFFFF),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0)),
-                surfaceTintColor: Colors.transparent,
                 //this right here
                 child: Container(
                   height: 170,

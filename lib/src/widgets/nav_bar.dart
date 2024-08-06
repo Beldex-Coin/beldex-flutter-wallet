@@ -7,10 +7,10 @@ import 'package:provider/provider.dart';
 class NavBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
   factory NavBar(
       {BuildContext? context,
-      Widget? leading,
-      Widget? middle,
-      Widget? trailing,
-      Color? backgroundColor}) {
+        Widget? leading,
+        Widget? middle,
+        Widget? trailing,
+        Color? backgroundColor}) {
     final _themeChanger = Provider.of<ThemeChanger>(context!);
     final _isDarkTheme = _themeChanger.getTheme() == Themes.darkTheme;
 
@@ -25,10 +25,10 @@ class NavBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
 
   factory NavBar.withShadow(
       {BuildContext? context,
-      Widget? leading,
-      Widget? middle,
-      Widget? trailing,
-      Color? backgroundColor}) {
+        Widget? leading,
+        Widget? middle,
+        Widget? trailing,
+        Color? backgroundColor}) {
     final _themeChanger = Provider.of<ThemeChanger>(context!);
     final _isDarkTheme = _themeChanger.getTheme() == Themes.darkTheme;
 

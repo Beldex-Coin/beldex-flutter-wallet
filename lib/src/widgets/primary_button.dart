@@ -76,7 +76,7 @@ class PrimaryButtonWelcome extends StatelessWidget {
                 ? Theme.of(context).primaryTextTheme.button?.backgroundColor
                 : color,
             padding: EdgeInsets.only(
-              top: 13, bottom: 13, left: 42, right: 42),
+                top: 13, bottom: 13, left: 42, right: 42),
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: borderColor!),
                 borderRadius: BorderRadius.circular(10.0)),

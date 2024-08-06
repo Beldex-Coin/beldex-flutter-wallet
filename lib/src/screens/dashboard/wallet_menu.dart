@@ -1,10 +1,9 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:provider/provider.dart';
-
-import '../../../l10n.dart';
 
 class WalletMenu {
   WalletMenu(this.context)
@@ -14,7 +13,7 @@ class WalletMenu {
   ];
 
   final List<String> items ;
-
+  
   final BuildContext context;
 
   void action(int index) {
@@ -132,7 +131,7 @@ class _AlertReconnectConfirmDialogState
                     child: Text(
                       tr(context).ok,
                       style: TextStyle(
-                        backgroundColor: Colors.transparent,
+                          backgroundColor:Colors.transparent,
                           fontSize: 17,
                           color: Colors.white,
                           fontWeight: FontWeight.bold),

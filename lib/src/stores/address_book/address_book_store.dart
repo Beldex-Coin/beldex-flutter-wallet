@@ -1,9 +1,8 @@
 import 'package:mobx/mobx.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/domain/common/contact.dart';
 import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 import 'package:hive/hive.dart';
-
-import '../../../l10n.dart';
 
 part 'address_book_store.g.dart';
 

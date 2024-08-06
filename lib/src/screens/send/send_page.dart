@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/domain/common/contact.dart';
 import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
@@ -11,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobx/mobx.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/domain/common/balance_display_mode.dart';
@@ -28,7 +28,7 @@ import 'package:beldex_wallet/src/wallet/beldex/calculate_estimated_fee.dart';
 import 'package:beldex_wallet/src/widgets/address_text_field.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:provider/provider.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 class SendPage extends BasePage {
   SendPage({required this.flashMap});
 
@@ -124,7 +124,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   }
 
   bool getAddressBasicValidation(String value) {
-    final pattern = RegExp(r'^[a-zA-Z0-9]+$');
+    final pattern = RegExp(r'^[a-zA-Z0-9.]+$');
     if (!pattern.hasMatch(value)) {
       return false;
     } else {
@@ -141,7 +141,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     _cryptoAmountController?.dispose();
     _fiatAmountController?.dispose();
     _focusNodeAddress?.dispose();
-    Wakelock.disable();
+    WakelockPlus.disable();
    // Screen.keepOn(false);
     super.dispose();
   }
@@ -298,10 +298,12 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(tr(context).send_beldex_address,
-                        style: TextStyle(
-                            backgroundColor: Colors.transparent,
-                            fontSize: 18.0, fontWeight: FontWeight.w700)),
+                    Flexible(
+                      child: Text(tr(context).send_beldex_address,
+                          style: TextStyle(
+                              backgroundColor: Colors.transparent,
+                              fontSize: 18.0, fontWeight: FontWeight.w700)),
+                    ),
                     GestureDetector(
                         onTap: () async {
                           final contact =
@@ -360,8 +362,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           });
                           return null;
                         } else {
-                          final alphanumericRegex = RegExp(r'^[a-zA-Z0-9]+$');
-
+                          final alphanumericRegex = RegExp(r'^[a-zA-Z0-9.]+$');
                           if(value !=null) {
                             if (!alphanumericRegex.hasMatch(value)) {
                               setState(() {
@@ -391,8 +392,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                     tr(context).enterAValidAddress;
                                 return;
                               }
+                              }
                             }
-                          }
                         }
                       },
                       onChanged: (value){},
@@ -454,6 +455,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       .caption!
                                       .color),
                               controller: _cryptoAmountController,
+                              maxLength: 15,
                               keyboardType: TextInputType.numberWithOptions(
                                   signed: false, decimal: true),
                               inputFormatters: [
@@ -478,7 +480,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                       color: Colors.grey.withOpacity(0.6)),
                                   hintText: tr(context).enterAmount,
                                   errorStyle:
-                                  TextStyle(color: BeldexPalette.red)),
+                                  TextStyle(color: BeldexPalette.red),
+                                  counterText: ''),
                               onTap: (){
                                 isFlashMap = false;
                               },
@@ -491,34 +494,35 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                   });
                                   return null;
                                 } else {
-                                  if(value != null) {
-                                    if (getAmountValidation(value)) {
-                                      sendStore.validateBELDEX(value,
-                                          balanceStore.unlockedBalance,
-                                          tr(context));
-                                      if (sendStore.errorMessage != null) {
-                                        setState(() {
-                                          amountValidation = true;
-                                          amountErrorMessage = tr(context)
-                                              .pleaseEnterAValidAmount;
-                                        });
-                                        return;
+                                  if (value != null) {
+                                      if (getAmountValidation(value)) {
+                                        sendStore.validateBELDEX(value,
+                                            balanceStore.unlockedBalance,
+                                            tr(context));
+                                        if (sendStore.errorMessage != null) {
+                                          setState(() {
+                                            amountValidation = true;
+                                            amountErrorMessage = tr(context)
+                                                .pleaseEnterAValidAmount;
+                                          });
+                                          return;
+                                        } else {
+                                          setState(() {
+                                            amountValidation = false;
+                                            amountErrorMessage = "";
+                                          });
+                                        }
+                                        return null;
                                       } else {
                                         setState(() {
-                                          amountValidation = false;
-                                          amountErrorMessage = "";
+                                          amountValidation = true;
+                                          amountErrorMessage =
+                                              tr(context)
+                                                  .pleaseEnterAValidAmount;
                                         });
+                                        return;
                                       }
-                                      return null;
-                                    } else {
-                                      setState(() {
-                                        amountValidation = true;
-                                        amountErrorMessage =
-                                            tr(context).pleaseEnterAValidAmount;
-                                      });
-                                      return;
                                     }
-                                  }
                                 }
                               }),
                           Row(
@@ -745,7 +749,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     rdisposer3 = reaction((_) => sendStore.state, (SendingState state) {
       if (state is SendingFailed) {
         //WidgetsBinding.instance.addPostFrameCallback((_) {
-         Wakelock.disable();
+         WakelockPlus.disable();
           Navigator.of(context).pop();
           showSimpleBeldexDialog(
               context, tr(context).alert, state.error,
@@ -757,7 +761,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
           sendStore.pendingTransaction != null) {
         // WidgetsBinding.instance.addPostFrameCallback((_) {
         print('transactionDescription fee --> created');
-        Wakelock.disable();
+        WakelockPlus.disable();
         Navigator.of(context).pop();
         showSimpleConfirmDialog(
             context,
@@ -782,9 +786,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       if (state is TransactionCommitted) {
         //WidgetsBinding.instance.addPostFrameCallback((_) {
         print('transactionDescription fee --> committed');
-          Wakelock.disable();
+          WakelockPlus.disable();
           Navigator.of(context).pop();
-          showDialogTransactionSuccessfully(context, onPressed: (_) {
+          showDialogTransactionSuccessfully(context, tr(context).transactionInitiatedSuccessfully, onPressed: (_) {
             _addressController.text = '';
             _cryptoAmountController.text = '';
             Navigator.of(context)..pop()..pop();
@@ -809,7 +813,7 @@ class CommitTransactionLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.of(context).size.height;
-    Wakelock.enable();
+    WakelockPlus.enable();
     Future.delayed(const Duration(seconds: 1), () {
       sendStore.commitTransaction();
     });

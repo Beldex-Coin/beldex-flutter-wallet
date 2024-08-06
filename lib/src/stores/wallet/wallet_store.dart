@@ -8,7 +8,6 @@ import 'package:beldex_wallet/src/wallet/beldex/subaddress.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
 import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-
 import '../../../l10n.dart';
 
 part 'wallet_store.g.dart';
@@ -17,11 +16,11 @@ class WalletStore = WalletStoreBase with _$WalletStore;
 
 abstract class WalletStoreBase with Store {
   WalletStoreBase({required WalletService walletService, required SettingsStore settingsStore}):
-    _walletService = walletService,
-    _settingsStore = settingsStore,
-    name = '',
-    type = CryptoCurrency.bdx,
-    amountValue = ''{
+        _walletService = walletService,
+        _settingsStore = settingsStore,
+        name = '',
+        type = CryptoCurrency.bdx,
+        amountValue = ''{
 
     if (_walletService.currentWallet != null) {
       _onWalletChanged(_walletService.currentWallet!);

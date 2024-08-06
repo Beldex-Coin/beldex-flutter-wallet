@@ -1,8 +1,8 @@
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_info.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/screens/transaction_details/standart_list_item.dart';
@@ -10,8 +10,7 @@ import 'package:beldex_wallet/src/screens/transaction_details/standart_list_row.
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:toast/toast.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../l10n.dart';
+import 'package:intl/intl.dart';
 
 class TransactionDetailsPage extends BasePage {
   TransactionDetailsPage({required this.transactionInfo});
@@ -44,10 +43,10 @@ class TransactionDetailsForm extends StatefulWidget {
 class TransactionDetailsFormState extends State<TransactionDetailsForm> {
   final _items = <StandartListItem>[];
 
-    /*final _dateFormat = widget.settingsStore.getCurrentDateFormat(
+  /*final _dateFormat = widget.settingsStore.getCurrentDateFormat(
         formatUSA: 'yyyy.MM.dd, HH:mm', formatDefault: 'dd.MM.yyyy, HH:mm');*/
-    List<StandartListItem> getItems(AppLocalizations t) {
-      final _dateFormat = DateFormat.yMMMMEEEEd(t.localeName).add_jm();
+  List<StandartListItem> getItems(AppLocalizations t) {
+    final _dateFormat = DateFormat.yMMMMEEEEd(t.localeName).add_jm();
     final items = [
       StandartListItem(
           title: t.transaction_details_transaction_id,

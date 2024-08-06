@@ -1,10 +1,10 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobx/mobx.dart';
 import 'package:beldex_wallet/src/domain/services/user_service.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
 import 'package:beldex_wallet/src/stores/auth/auth_state.dart';
-
 import '../../../l10n.dart';
 
 part 'auth_store.g.dart';
@@ -14,9 +14,9 @@ class AuthStore = AuthStoreBase with _$AuthStore;
 abstract class AuthStoreBase with Store {
   AuthStoreBase(
       {required this.userService,
-      required this.walletService,
-      required this.sharedPreferences}):
-    state = AuthenticationStateInitial(),
+        required this.walletService,
+        required this.sharedPreferences}):
+        state = AuthenticationStateInitial(),
     _failureCounter = 0;
   
   static const maxFailedLogins = 3;

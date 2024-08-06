@@ -45,6 +45,9 @@ class Routes {
   static const auth1 = '/auth1';
   static const transactionlist = '/transactionlist';
   static const flash = '/flash';
+  static const bns = '/bns';
+  static const bnsUpdate = '/bns_update';
+  static const bnsRenewal = '/bns_renewal';
   static const swapExchange = '/swapExchange';
   static const swapWalletAddress = '/swapWalletAddress';
   static const swapPayment = '/swapPayment';

@@ -6,7 +6,6 @@ import 'package:ffi/ffi.dart';
 import 'package:flutter/services.dart';
 import 'package:beldex_coin/src/exceptions/setup_wallet_exception.dart';
 import 'package:beldex_coin/src/beldex_api.dart';
-import 'package:beldex_coin/src/util/convert_utf8_to_string.dart';
 import 'package:beldex_coin/src/util/signatures.dart';
 import 'package:beldex_coin/src/util/types.dart';
 

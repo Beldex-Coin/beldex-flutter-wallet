@@ -228,6 +228,7 @@ class ContactFormState extends State<ContactForm> {
                                           CryptoCurrency.all[index].toString(),
                                           textAlign: TextAlign.center,
                                           style: TextStyle(
+                                              backgroundColor: Colors.transparent,
                                               fontSize: 16,
                                               color: _selectedCrypto !=
                                                       CryptoCurrency.all[index]
@@ -255,23 +256,23 @@ class ContactFormState extends State<ContactForm> {
                 options: [AddressTextFieldOption.qrCode],
                 autoValidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) {
-                  if(value?.isEmpty  ?? false || value == ''){
+                  if(value?.isEmpty ?? false || value == ''){
                     return 'Address should not be empty';
                   }else
                   {
-                     if(widget.contact.name.isEmpty && widget.contact.address.isEmpty){
+                    if(widget.contact.name.isEmpty && widget.contact.address.isEmpty){
                   for (var items in addressBookStore.contactList) {
                     if (items.address.contains(value!)) {
                       return tr(context).theAddressAlreadyExist;
                     }
                   }
                   }
-                  addressBookStore.validateAddress(value!, cryptoCurrency: _selectedCrypto,t:tr(context));
-                     if(addressBookStore.errorMessage?.isNotEmpty ?? false) {
-                       return addressBookStore.errorMessage;
-                     }else{
-                       return null;
-                     }
+                    addressBookStore.validateAddress(value!, cryptoCurrency: _selectedCrypto,t:tr(context));
+                    if(addressBookStore.errorMessage?.isNotEmpty ?? false) {
+                      return addressBookStore.errorMessage;
+                    }else{
+                      return null;
+                    }
                   }
                 },
                 onChanged: (context){},
@@ -314,6 +315,7 @@ class ContactFormState extends State<ContactForm> {
                     tr(context).reset,
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                         color: settingsStore.isDarkTheme
@@ -346,7 +348,8 @@ class ContactFormState extends State<ContactForm> {
                             } else {
                               widget.contact?.name = _contactNameController.text;
                               widget.contact?.address = _addressController.text;
-                              //widget.contact.updateCryptoCurrency(currency: _selectedCrypto);
+                              /*widget.contact.updateCryptoCurrency(
+                                  currency: _selectedCrypto);*/
 
                               await addressBookStore.update(
                                   contact: widget.contact!);
@@ -378,7 +381,7 @@ class ContactFormState extends State<ContactForm> {
                                             Text(
                                               e.toString(),
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(fontSize: 15),
+                                              style: TextStyle(backgroundColor: Colors.transparent,fontSize: 15),
                                             ),
                                             SizedBox(
                                               height: 50,
@@ -414,6 +417,7 @@ class ContactFormState extends State<ContactForm> {
                                                       child: Text(
                                                         tr(context).ok,
                                                         style: TextStyle(
+                                                          backgroundColor: Colors.transparent,
                                                           color: Theme.of(context).primaryTextTheme.caption?.color,
                                                         ),
                                                       ),
@@ -441,6 +445,7 @@ class ContactFormState extends State<ContactForm> {
                     tr(context).add,
                     textAlign: TextAlign.center,
                     style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         fontSize: 17,
                         fontWeight: FontWeight.bold,
                         color: Color(0xffffffff)),

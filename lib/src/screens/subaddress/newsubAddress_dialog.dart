@@ -6,8 +6,8 @@ import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../l10n.dart';
+
 class SubAddressAlert extends StatefulWidget {
   const SubAddressAlert({Key? key, required this.subAddressListStore}) : super(key: key);
   final SubaddressListStore subAddressListStore;
@@ -59,10 +59,10 @@ class SubAddressAlertState extends State<SubAddressAlert> {
           final subAddressCreationStore =
               Provider.of<SubadrressCreationStore>(context, listen: false);
           return Dialog(
+            surfaceTintColor: Colors.transparent,
             insetPadding: EdgeInsets.all(15),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             backgroundColor:settingsStore.isDarkTheme ?Color(0xff272733) : Color(0xffFFFFFF),
-            surfaceTintColor: Colors.transparent,
             child: Form(
               key: _formKey,
               child: Container(

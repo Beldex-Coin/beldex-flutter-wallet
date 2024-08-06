@@ -149,7 +149,7 @@
 
   "send_title" : "Senden Sie",
   "send_your_wallet" : "Dein Wallet",
-  "send_beldex_address" : "Beldex-Adresse",
+  "send_beldex_address" : "Beldex-Adresse oder BNS-Name",
   "all" : "ALLE",
   "send_error_currency" : "Die Währung kann nur Zahlen enthalten",
   "send_estimated_fee" : "Geschätzte Gebühr:",
@@ -427,5 +427,9 @@
   "initiatingTransactionTitle" : "Transaktion wird eingeleitet..",
   "initiatingTransactionDescription" : "Bitte schließen Sie dieses Fenster nicht und navigieren Sie nicht zu einer anderen App, bis die Transaktion eingeleitet wird",
   "subAddresses": "Unteradressen",
-  "loadingTheWalletDescription": "Bitte schließen Sie dieses Fenster nicht und navigieren Sie nicht zu einer anderen App, bis wir die Wallet geladen haben"
+  "loadingTheWalletDescription": "Bitte schließen Sie dieses Fenster nicht und navigieren Sie nicht zu einer anderen App, bis wir die Wallet geladen haben",
+  "buyBns": "Kaufen Sie BNS",
+  "bns": "BNS",
+  "bnsUpdate": "BNS-Update",
+  "bnsRenewal": "BNS-Erneuerung"
 }

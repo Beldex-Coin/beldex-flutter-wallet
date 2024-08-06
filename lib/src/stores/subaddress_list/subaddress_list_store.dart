@@ -14,7 +14,7 @@ class SubaddressListStore = SubaddressListStoreBase with _$SubaddressListStore;
 
 abstract class SubaddressListStoreBase with Store {
   SubaddressListStoreBase({required WalletService walletService}):
-    subaddresses = ObservableList<Subaddress>()
+        subaddresses = ObservableList<Subaddress>()
   {
 
     if (walletService.currentWallet != null) {

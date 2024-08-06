@@ -38,10 +38,10 @@ Widget trailing(BuildContext context){
                 .join('\n');
 
             return Theme(
-             data: Theme.of(context).copyWith(
-                 colorScheme: ColorScheme.fromSwatch().copyWith(
-                   secondary: settingsStore.isDarkTheme ? Colors.white : Colors.black, // Your accent color
-                 ),
+              data: Theme.of(context).copyWith(
+                  colorScheme: ColorScheme.fromSwatch().copyWith(
+                    secondary: settingsStore.isDarkTheme ? Colors.white : Colors.black, // Your accent color
+                  ),
                   dividerColor: Colors.transparent,
                   textSelectionTheme: TextSelectionThemeData(
                     selectionColor: Colors.green
@@ -53,7 +53,9 @@ Widget trailing(BuildContext context){
                       borderRadius: BorderRadius.circular(10)
                     ),
                 child: ExpansionTile(
-                  title: Text(versionTitle,style: TextStyle(backgroundColor: Colors.transparent,fontSize: 16,fontWeight: FontWeight.w800)),
+                  title: Text(versionTitle,style: TextStyle(color: settingsStore.isDarkTheme ? Colors.white : Colors.black,backgroundColor: Colors.transparent,fontSize: 16,fontWeight: FontWeight.w800)),
+                  iconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+                  collapsedIconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
                   children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,

@@ -14,7 +14,6 @@ class UserService {
 
     try {
       final encodedPassword = encodedPinCode(pin: password);
-      print("Password-> $encodedPassword");
 
       await secureStorage.write(key: key, value: encodedPassword);
     } catch (e) {
@@ -30,6 +29,7 @@ class UserService {
       return false;
     }
     String? password;
+
     try {
       password = await secureStorage.read(key: key);
     } catch (e) {

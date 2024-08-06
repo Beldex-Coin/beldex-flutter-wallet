@@ -5,10 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
 import 'package:provider/provider.dart';
-
-import '../../../l10n.dart';
 
 class RestoreWalletOptionsPage extends BasePage {
   @override

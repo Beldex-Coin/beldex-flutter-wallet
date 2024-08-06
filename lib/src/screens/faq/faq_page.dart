@@ -1,8 +1,8 @@
 import 'dart:convert';
-import '../../../l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 
@@ -58,7 +58,7 @@ class FaqPage extends BasePage {
 
                     return Theme(
                       data: Theme.of(context).copyWith(
-                          dividerColor: Colors.transparent,),
+                        dividerColor: Colors.transparent,),
                       child: Container(
                         margin:
                             EdgeInsets.only(left: 15, right: 15.0, bottom: 8.0),
@@ -76,7 +76,7 @@ class FaqPage extends BasePage {
                             itemTitle,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
-                                color:settingsStore.isDarkTheme
+                                color: settingsStore.isDarkTheme
                                     ? Colors.white
                                     : Colors.black,
                                 fontSize: 13, fontWeight: FontWeight.w800),
@@ -116,7 +116,6 @@ class FaqPage extends BasePage {
   }
 
   String getFaqPath(BuildContext context) {
-
     switch (tr(context).localeName) {
       case 'en':
         return 'assets/faq/faq_en.json';

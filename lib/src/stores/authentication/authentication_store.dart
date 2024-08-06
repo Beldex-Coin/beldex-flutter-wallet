@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:beldex_wallet/src/domain/services/user_service.dart';
 
@@ -21,7 +22,7 @@ enum AuthenticationState {
 
 abstract class AuthenticationStoreBase with Store {
   AuthenticationStoreBase({required this.userService}):
-    state = AuthenticationState.uninitialized;
+        state = AuthenticationState.uninitialized;
 
   final UserService userService;
 

@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-
 import '../../../l10n.dart';
 
 WalletService? walletService;
@@ -77,7 +76,7 @@ class AddSubAddress extends StatelessWidget {
                                     child: BeldexTextField(
                                         controller: _labelController,
                                         hintText: tr(context).name,
-                                        //S.of(context).new_subaddress_label_name,
+                                        //tr(context).new_subaddress_label_name,
                                         validator: (value) {
                                           subAddressCreationStore
                                               .validateSubaddressName(value!);

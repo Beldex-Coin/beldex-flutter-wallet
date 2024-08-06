@@ -1,4 +1,3 @@
-import 'package:beldex_wallet/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
@@ -7,6 +6,7 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
+import 'package:beldex_wallet/l10n.dart';
 
 class SeedLanguage extends BasePage {
   @override
@@ -176,8 +176,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
             },
             text: tr(context).seed_language_next,
             color: Theme.of(context).primaryTextTheme.button?.backgroundColor,
-            borderColor:
-                Theme.of(context).primaryTextTheme.button?.backgroundColor),
+            borderColor: Theme.of(context).primaryTextTheme.button?.backgroundColor),
       ),
     );
   }

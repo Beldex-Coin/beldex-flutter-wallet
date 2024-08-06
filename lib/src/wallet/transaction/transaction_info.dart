@@ -6,7 +6,7 @@ import 'package:beldex_wallet/src/domain/common/format_amount.dart';
 
 class TransactionInfo {
   TransactionInfo(this.id, this.height, this.direction, this.date,
-      this.isPending, this.amount, this.accountIndex, //this.isStake
+      this.isPending, this.amount, this.paymentId, this.accountIndex, this.isBns//this.isStake
       );
 
   TransactionInfo.fromMap(Map map)
@@ -20,8 +20,9 @@ class TransactionInfo {
         isPending = parseBoolFromString(map['isPending'] as String),
        // isStake = parseBoolFromString(map['isStake'] as String),
         amount = map['amount'] as int,
-       // recipientAddress = (map['paymentId'] ?? '') as String,
-        accountIndex = int.parse(map['accountIndex'] as String);
+        paymentId = (map['paymentId'] ?? '') as String,
+        accountIndex = int.parse(map['accountIndex'] as String),
+        isBns = parseBoolFromString(map['isBns'] as String);
 
   TransactionInfo.fromRow(TransactionInfoRow row)
       : id = row.getHash(),
@@ -31,9 +32,10 @@ class TransactionInfo {
         date = DateTime.fromMillisecondsSinceEpoch(row.getDatetime() * 1000),
         isPending = row.isPending != 0,
        // isStake = row.isStake != 0,
-       //recipientAddress = row.getPaymentId(),
+        paymentId = row.getPaymentId(),
         amount = row.getAmount(),
-        accountIndex = row.subaddrAccount;
+        accountIndex = row.subaddrAccount,
+        isBns = row.isBns != 0;
 
   final String id;
   final int height;
@@ -41,8 +43,10 @@ class TransactionInfo {
   final DateTime date;
   final int accountIndex;
   final bool isPending;
+  final bool isBns;
  // final bool isStake;
   final int amount;
+  String paymentId;
   String? recipientAddress;
 
   String? _fiatAmount;

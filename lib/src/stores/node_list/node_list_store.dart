@@ -3,7 +3,6 @@ import 'package:mobx/mobx.dart';
 import 'package:hive/hive.dart';
 import 'package:beldex_wallet/src/node/node.dart';
 import 'package:beldex_wallet/src/node/node_list.dart';
-
 import '../../../l10n.dart';
 
 part 'node_list_store.g.dart';
@@ -12,7 +11,7 @@ class NodeListStore = NodeListBase with _$NodeListStore;
 
 abstract class NodeListBase with Store {
   NodeListBase({required this.nodesSource}) :
-    nodes = ObservableList<Node>() {
+        nodes = ObservableList<Node>() {
     _onNodesChangeSubscription = nodesSource.watch().listen((e) => update());
     update();
   }
@@ -59,7 +58,7 @@ abstract class NodeListBase with Store {
   Future remove({required Node node}) async => await node.delete();
 
   @action
-  Future reset() async => await resetToDefault(nodesSource);
+  Future reset() async => await resetToDefault(nodesSource,true);
 
   Future<bool> isNodeOnline(Node node) async {
     try {

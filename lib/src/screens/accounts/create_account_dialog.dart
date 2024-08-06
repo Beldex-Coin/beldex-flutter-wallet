@@ -111,7 +111,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                     Text(
                       tr(context).addAccount,
                       style:
-                          TextStyle(backgroundColor: Colors.transparent,fontSize: 18, fontWeight: FontWeight.bold),
+                      TextStyle(backgroundColor: Colors.transparent,fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: 20,

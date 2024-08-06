@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/domain/common/balance_display_mode.dart';
@@ -22,8 +23,6 @@ import 'package:beldex_wallet/src/widgets/nav/new_nav_list_header.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../l10n.dart';
 
 class SettingsPage extends BasePage {
   @override
@@ -180,8 +179,8 @@ class SettingsFormState extends State<SettingsForm> {
                               return Future.value(false);
                             },
                             child: Dialog(
-                              backgroundColor: Colors.transparent,
                               surfaceTintColor: Colors.transparent,
+                              backgroundColor: Colors.transparent,
                               insetPadding: EdgeInsets.all(15),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
@@ -345,8 +344,8 @@ class SettingsFormState extends State<SettingsForm> {
                               return Future.value(false);
                             },
                             child: Dialog(
-                              backgroundColor: Colors.transparent,
                               surfaceTintColor: Colors.transparent,
+                              backgroundColor: Colors.transparent,
                               insetPadding: EdgeInsets.all(15),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,
@@ -385,13 +384,13 @@ class SettingsFormState extends State<SettingsForm> {
                                                 top: 10,
                                                 bottom: 10),
                                             controller: _scrollController,
-                                           /* heightScrollThumb: 25,
+                                            /*heightScrollThumb: 25,
                                             alwaysVisibleScrollThumb:
                                                 false,
                                             backgroundColor:
                                                 Theme.of(context)
                                                     .primaryTextTheme
-                                                    .button!
+                                                    .button
                                                     .backgroundColor,*/
                                             child: ListView.builder(
                                                 itemCount: AmountDetail
@@ -446,7 +445,7 @@ class SettingsFormState extends State<SettingsForm> {
                   title: t.settings_balance_detail,
                   widget: Observer(
                       builder: (_) => Text(
-                            settingsStore.balanceDetail.getTitle(tr(context)),
+                        settingsStore.balanceDetail.getTitle(tr(context)),
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
@@ -477,8 +476,8 @@ class SettingsFormState extends State<SettingsForm> {
                                   return Future.value(false);
                                 },
                                 child: Dialog(
-                                  backgroundColor: Colors.transparent,
                                   surfaceTintColor: Colors.transparent,
+                                  backgroundColor: Colors.transparent,
                                   insetPadding: EdgeInsets.all(15),
                                   child: Container(
                                     width:
@@ -636,7 +635,6 @@ class SettingsFormState extends State<SettingsForm> {
                             settingsStore.fiatCurrency.toString(),
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                                backgroundColor: Colors.transparent,
                                 fontSize:
                                     MediaQuery.of(context).size.height *
                                         0.06 /
@@ -657,8 +655,8 @@ class SettingsFormState extends State<SettingsForm> {
                               return Future.value(false);
                             },
                             child: Dialog(
-                              backgroundColor: Colors.transparent,
                               surfaceTintColor: Colors.transparent,
+                              backgroundColor: Colors.transparent,
                               insetPadding: EdgeInsets.all(15),
                               child: Container(
                                 width: MediaQuery.of(context).size.width,

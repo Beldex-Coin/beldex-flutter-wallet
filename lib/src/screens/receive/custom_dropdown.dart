@@ -64,7 +64,7 @@ class _ExpandedSectionState extends State<ExpandedSection>
           constraints: BoxConstraints(
               //minHeight: 100,
               minWidth: double.infinity,
-              maxHeight: widget.height! > 5 ? 195 : widget.height == 1?55:widget.height! * 50.0),
+              maxHeight: widget.height! > 5 ? 195 : widget.height! == 1?55:widget.height! * 50.0),
           child: Padding(padding: const EdgeInsets.only(bottom: 5), child: widget.child),
         ));
   }

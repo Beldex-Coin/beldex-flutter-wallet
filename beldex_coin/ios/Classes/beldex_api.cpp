@@ -26,22 +26,23 @@ extern "C"
         char error[1023];
     } status_and_error;
     void set_error(status_and_error& sae, std::string_view error) {
-            size_t len = std::min(error.size(), sizeof(sae.error)-1);
-            std::memcpy(sae.error, error.data(), len);
-            sae.error[len] = '\0';
+        size_t len = std::min(error.size(), sizeof(sae.error)-1);
+        std::memcpy(sae.error, error.data(), len);
+        sae.error[len] = '\0';
     }
     status_and_error make_status_and_error(bool good, std::string_view error) {
-            status_and_error sae;
-            sae.good = good;
-            set_error(sae, error);
-            return sae;
+        status_and_error sae;
+        sae.good = good;
+        set_error(sae, error);
+        return sae;
     }
     status_and_error make_good_status() {
-            return make_status_and_error(true, "");
+        return make_status_and_error(true, "");
     }
     status_and_error make_fail_status(std::string_view error) {
-            return make_status_and_error(false, error);
+        return make_status_and_error(false, error);
     }
+
 
     struct SubaddressRow
     {
@@ -147,12 +148,12 @@ extern "C"
         uint32_t subaddrAccount;
         int8_t direction;
         int8_t isPending;
-        //int8_t isStake;
 
         char *hash;
         char *paymentId;
 
         int64_t datetime;
+        int8_t isBns;
 
         TransactionInfoRow(Beldex::TransactionInfo *transaction)
         {
@@ -164,10 +165,10 @@ extern "C"
             datetime = static_cast<int64_t>(transaction->timestamp());
             direction = transaction->direction();
             isPending = static_cast<int8_t>(transaction->isPending());
-            //isStake = static_cast<int8_t>(transaction->isStake());
             std::string *hash_str = new std::string(transaction->hash());
             hash = strdup(hash_str->c_str());
             paymentId = strdup(transaction->paymentId().c_str());
+            isBns = static_cast<int8_t>(transaction->isBns());
         }
     };
 
@@ -201,6 +202,40 @@ extern "C"
            unlock_height{info.unlock_height.value_or(0)},
            awaiting{(int)info.awaiting},
            decommissioned{(int)info.decommissioned}
+           {}
+
+    };
+
+    struct BnsRow
+    {
+       char *name;
+       char *name_hash;
+       char *owner;
+       char *backup_owner;
+       char *encrypted_bchat_value;
+       char *encrypted_wallet_value;
+       char *encrypted_belnet_value;
+       char *value_bchat;
+       char *value_wallet;
+       char *value_belnet;
+
+       uint64_t update_height;
+       uint64_t expiration_height;
+       
+       // Asigning the BNS data's into the native variables
+       explicit BnsRow(const Wallet::bnsInfo& info):
+           name{strdup(info.name.c_str())},
+           name_hash{strdup(info.name_hash.c_str())},
+           owner{strdup(info.owner.c_str())},
+           backup_owner{strdup(info.backup_owner.c_str())},
+           encrypted_bchat_value{strdup(info.encrypted_bchat_value.c_str())},
+           encrypted_wallet_value{strdup(info.encrypted_wallet_value.c_str())},
+           encrypted_belnet_value{strdup(info.encrypted_belnet_value.c_str())},
+           value_bchat{strdup(info.value_bchat.c_str())},
+           value_wallet{strdup(info.value_wallet.c_str())},
+           value_belnet{strdup(info.value_belnet.c_str())},
+           update_height{info.update_height},
+           expiration_height{info.expiration_height}
            {}
 
     };
@@ -299,7 +334,7 @@ extern "C"
     {
         Beldex::NetworkType _networkType = static_cast<Beldex::NetworkType>(networkType);
         Beldex::Wallet *wallet = Beldex::WalletManagerFactory::getWalletManager()->recoveryWallet(
-            path, password, seed, _networkType, restoreHeight);
+                path, password, seed, _networkType, restoreHeight);
 
         auto [status, errorString] = wallet->status();
 
@@ -504,7 +539,7 @@ extern "C"
 
     EXPORT
     int32_t stake_count() {
-        std::unique_ptr<std::vector<Wallet::stakeInfo>> stakes{m_wallet->listCurrentStakes()};
+       std::unique_ptr<std::vector<Wallet::stakeInfo>> stakes{m_wallet->listCurrentStakes()};
         int32_t count = static_cast<int32_t>(stakes->size());
         return count;
     }
@@ -521,6 +556,27 @@ extern "C"
         return stakes_out;
     }
 
+    // For get the total number of BNS 
+    EXPORT
+    int32_t bns_count() {
+       std::unique_ptr<std::vector<Wallet::bnsInfo>> bnsInfos{m_wallet->MyBns()};
+        int32_t count = static_cast<int32_t>(bnsInfos->size());
+        return count;
+    }
+
+    // For get the BNS details from the library(.a)
+    EXPORT
+    intptr_t* bns_get_all() {
+        std::unique_ptr<std::vector<Wallet::bnsInfo>> bnsInfos{m_wallet->MyBns()};
+        size_t size = bnsInfos->size();
+        intptr_t* bnsInfos_out = reinterpret_cast<intptr_t *>(malloc(size * sizeof(intptr_t)));
+
+        for (int i = 0; i < size; i++)
+            bnsInfos_out[i] = reinterpret_cast<intptr_t>(new BnsRow((*bnsInfos)[i]));
+
+        return bnsInfos_out;
+    }
+
     EXPORT
     status_and_error stake_create(char *service_node_key, char *amount, PendingTransactionRaw &pendingTransaction)
     {
@@ -529,8 +585,8 @@ extern "C"
         Beldex::PendingTransaction *transaction;
 
         uint64_t _amount = amount != nullptr
-            ? Beldex::Wallet::amountFromString(amount)
-            :get_unlocked_balance(0);
+                           ? Beldex::Wallet::amountFromString(amount)
+                           :get_unlocked_balance(0);
         transaction = m_wallet->stakePending(service_node_key, _amount);
 
         int status = transaction->status().first;
@@ -594,12 +650,119 @@ extern "C"
     }
 
     EXPORT
+    status_and_error bns_buy(char *owner, char *backup_owner, char *mapping_years, char *value_bchat, char *value_wallet, char *value_belnet, char *name, uint8_t priority, uint32_t subaddr_account,
+        PendingTransactionRaw &pendingTransaction)
+    {
+        nice(19);
+
+        Beldex::PendingTransaction *transaction;
+        std::string owner_str(owner);
+        std::string backup_owner_str(backup_owner);
+        std::string mapping_years_str(mapping_years);
+        std::string value_bchat_str(value_bchat);
+        std::string value_wallet_str(value_wallet);
+        std::string value_belnet_str(value_belnet);
+        std::string name_str(name);
+        transaction = m_wallet->createBnsTransaction(owner_str, backup_owner_str, mapping_years_str, value_bchat_str, value_wallet_str, value_belnet_str, name_str, priority, subaddr_account);
+
+        int status = transaction->status().first;
+
+        if (status == Beldex::PendingTransaction::Status::Status_Error || status == Beldex::PendingTransaction::Status::Status_Critical)
+        {
+            return make_fail_status(transaction->status().second);
+        }
+
+        pendingTransaction = PendingTransactionRaw(transaction);
+        return make_good_status();
+    }
+
+    EXPORT
+    status_and_error create_sweep_all_transaction(uint8_t priority, uint32_t subaddr_account,
+        PendingTransactionRaw &pendingTransaction)
+    {
+        nice(19);
+
+        Beldex::PendingTransaction *transaction;
+        transaction = m_wallet->createSweepAllTransaction(priority, subaddr_account);
+
+        int status = transaction->status().first;
+
+        if (status == Beldex::PendingTransaction::Status::Status_Error || status == Beldex::PendingTransaction::Status::Status_Critical)
+        {
+            return make_fail_status(transaction->status().second);
+        }
+
+        pendingTransaction = PendingTransactionRaw(transaction);
+        return make_good_status();
+    }
+
+    EXPORT
+    status_and_error bns_update(char *owner, char *backup_owner, char *value_bchat, char *value_wallet, char *value_belnet, char *name, uint8_t priority, uint32_t subaddr_account,
+        PendingTransactionRaw &pendingTransaction)
+    {
+        nice(19);
+
+        Beldex::PendingTransaction *transaction;
+        std::string owner_str(owner);
+        std::string backup_owner_str(backup_owner);
+        std::string value_bchat_str(value_bchat);
+        std::string value_wallet_str(value_wallet);
+        std::string value_belnet_str(value_belnet);
+        std::string name_str(name);
+        transaction = m_wallet->bnsUpdateTransaction(owner_str, backup_owner_str, value_bchat_str, value_wallet_str, value_belnet_str, name_str, priority, subaddr_account);
+
+        int status = transaction->status().first;
+
+        if (status == Beldex::PendingTransaction::Status::Status_Error || status == Beldex::PendingTransaction::Status::Status_Critical)
+        {
+            return make_fail_status(transaction->status().second);
+        }
+
+        pendingTransaction = PendingTransactionRaw(transaction);
+        return make_good_status();
+    }
+
+    EXPORT
+    status_and_error bns_renew(char *name, char *mapping_years, uint8_t priority, uint32_t subaddr_account, PendingTransactionRaw &pendingTransaction )
+    {
+        nice(19);
+
+        Beldex::PendingTransaction *transaction;
+        std::string name_str(name);
+        std::string mapping_years_str(mapping_years);
+
+        transaction = m_wallet->bnsRenewTransaction(name_str, mapping_years_str, priority, subaddr_account);
+
+        int status = transaction->status().first;
+
+        if (status == Beldex::PendingTransaction::Status::Status_Error || status == Beldex::PendingTransaction::Status::Status_Critical)
+        {
+            return make_fail_status(transaction->status().second);
+        }
+
+        pendingTransaction = PendingTransactionRaw(transaction);
+        return make_good_status();
+    }
+
+    EXPORT
+    bool bns_set_record(char *name)
+    {
+        return m_wallet->setBnsRecord(std::string(name));
+    }
+
+    EXPORT
+    char *get_names_to_namehash(char *name)
+    {
+        return strdup(m_wallet->nameToNamehash(std::string(name)).c_str());
+    }
+
+    EXPORT
     status_and_error transaction_commit(PendingTransactionRaw *transaction)
     {
         status_and_error result = make_status_and_error(transaction->transaction->commit(), "");
 
         if (!result.good)
-                    set_error(result, transaction->transaction->status().second);
+            set_error(result, transaction->transaction->status().second);
         else if (m_listener)
             m_listener->m_new_transaction = true;
 

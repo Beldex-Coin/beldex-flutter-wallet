@@ -28,7 +28,7 @@ class StakeRowPointer extends Struct {
   external int _amount;
 
   @Uint64()
-  external  int _unlock_height;
+  external int _unlock_height;
 
   @Bool()
   external bool _awaiting;

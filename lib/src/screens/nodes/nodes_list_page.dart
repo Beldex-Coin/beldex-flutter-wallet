@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -11,8 +12,6 @@ import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/src/util/constants.dart' as constants;
-
-import '../../../l10n.dart';
 
 class NodeListPage extends BasePage {
   @override
@@ -147,7 +146,7 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                                   onPressed: (context) async {
                                 Navigator.of(context).pop();
                                 await settings.setCurrentNode(node);
-                              }, status: true,onDismiss:(context){ Navigator.of(context).pop();});
+                                  }, status: true,onDismiss:(context){ Navigator.of(context).pop();});
                             }
                           },
                         )));

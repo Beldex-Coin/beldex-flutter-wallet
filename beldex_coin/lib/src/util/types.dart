@@ -1,9 +1,9 @@
 import 'dart:ffi';
 
-import 'package:beldex_coin/src/structs/status_and_error.dart';
 import 'package:ffi/ffi.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
 import 'package:beldex_coin/src/structs/ut8_box.dart';
+import 'package:beldex_coin/src/structs/status_and_error.dart';
 
 typedef CreateWallet = status_and_error Function(
     Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, int);
@@ -98,6 +98,41 @@ typedef TransactionCreate = status_and_error Function(
     int subaddrAccount,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
+typedef BnsBuy = status_and_error Function(
+    Pointer<Utf8> owner,
+    Pointer<Utf8> backUpOwner,
+    Pointer<Utf8> mappingYears,
+    Pointer<Utf8> bchatId,
+    Pointer<Utf8> walletAddress,
+    Pointer<Utf8> belnetId,
+    Pointer<Utf8> bnsName,
+    int priorityRaw,
+    int subaddrAccount,
+    Pointer<PendingTransactionRaw> pendingTransaction);
+
+typedef BnsUpdate = status_and_error Function(
+    Pointer<Utf8> owner,
+    Pointer<Utf8> backUpOwner,
+    Pointer<Utf8> bchatId,
+    Pointer<Utf8> walletAddress,
+    Pointer<Utf8> belnetId,
+    Pointer<Utf8> bnsName,
+    int priorityRaw,
+    int subaddrAccount,
+    Pointer<PendingTransactionRaw> pendingTransaction);
+
+typedef BnsRenew = status_and_error Function(
+    Pointer<Utf8> bnsName,
+    Pointer<Utf8> mappingYears,
+    int priorityRaw,
+    int subaddrAccount,
+    Pointer<PendingTransactionRaw> pendingTransaction);
+
+typedef CreateSweepAllTransaction = status_and_error Function(
+    int priorityRaw,
+    int subaddrAccount,
+    Pointer<PendingTransactionRaw> pendingTransaction);
+
 typedef TransactionCommit = status_and_error Function(
     Pointer<PendingTransactionRaw>);
 
@@ -107,12 +142,22 @@ typedef StakeCount = int Function();
 
 typedef StakeGetAll = Pointer<Int64> Function();
 
+typedef BnsCount = int Function();
+
+typedef BnsGetAll = Pointer<Int64> Function();
+
 typedef StakeCreate = status_and_error Function(
     Pointer<Utf8> masterNodeKey,
     Pointer<Utf8> amount,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef CanRequestUnstake = int Function(Pointer<Utf8> masterNodeKey);
+
+typedef BnsSetRecord = int Function(Pointer<Utf8> name);
+
+typedef GetNameToNameHash = Pointer<Utf8> Function(Pointer<Utf8> name);
+
+typedef get_names_to_namehash = Pointer<Utf8> Function(Pointer<Utf8> name);
 
 typedef SubmitStakeUnlock = status_and_error Function(Pointer<Utf8> masterNodeKey,
     Pointer<PendingTransactionRaw> pendingTransaction);

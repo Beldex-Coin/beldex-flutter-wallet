@@ -7,6 +7,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_keys_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:toast/toast.dart';
+import '../../../l10n.dart';
 
 import '../../../l10n.dart';
 

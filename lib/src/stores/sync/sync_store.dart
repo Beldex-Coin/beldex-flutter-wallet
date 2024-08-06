@@ -12,8 +12,8 @@ class SyncStore = SyncStoreBase with _$SyncStore;
 abstract class SyncStoreBase with Store {
   SyncStoreBase(
       {SyncStatus syncStatus = const NotConnectedSyncStatus(0),
-      required WalletService walletService}):
-    status = syncStatus
+        required WalletService walletService}):
+        status = syncStatus
   {
 
     if (walletService.currentWallet != null) {

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
 
@@ -7,10 +8,10 @@ class WalletKeysStore = WalletKeysStoreBase with _$WalletKeysStore;
 
 abstract class WalletKeysStoreBase with Store {
   WalletKeysStoreBase({required WalletService walletService}):
-    publicViewKey = '',
-    privateViewKey = '',
-    publicSpendKey = '',
-    privateSpendKey = ''{
+        publicViewKey = '',
+        privateViewKey = '',
+        publicSpendKey = '',
+        privateSpendKey = ''{
 
     if (walletService.currentWallet != null) {
       walletService.getKeys().then((keys) {

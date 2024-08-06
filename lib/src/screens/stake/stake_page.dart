@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
 import 'package:beldex_coin/stake.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
@@ -15,8 +16,6 @@ import 'package:beldex_wallet/src/widgets/nav/nav_list_header.dart';
 import 'package:beldex_wallet/src/widgets/nav/nav_list_trailing.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../../l10n.dart';
 
 extension StakeParsing on StakeRow {
   double get ownedPercentage {
@@ -154,7 +153,7 @@ class StakePageBodyState extends State<StakePageBody> {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
                                 content:
-                                    Text(t.unable_unlock_stake),
+                                    Text(tr(context).unable_unlock_stake),
                                 backgroundColor: Colors.red,
                               ));
                               return false;
@@ -174,8 +173,8 @@ class StakePageBodyState extends State<StakePageBody> {
                             if (isAuthenticated) {
                               await showConfirmBeldexDialog(
                                   context,
-                                  t.title_confirm_unlock_stake,
-                                  t.body_confirm_unlock_stake(
+                                  tr(context).title_confirm_unlock_stake,
+                                  tr(context).body_confirm_unlock_stake(
                                       stake.masterNodeKey),
                                   onDismiss: (buildContext) {
                                 isSuccessful = false;
@@ -192,7 +191,7 @@ class StakePageBodyState extends State<StakePageBody> {
                             await submitStakeUnlock(stake.masterNodeKey);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content:
-                                  Text(t.unlock_stake_requested),
+                                  Text(tr(context).unlock_stake_requested),
                               backgroundColor: Colors.green,
                             ));
                           },

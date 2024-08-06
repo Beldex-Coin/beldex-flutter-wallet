@@ -4,9 +4,8 @@ import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-import 'package:provider/provider.dart';
-
 import '../../../l10n.dart';
+import 'package:provider/provider.dart';
 
 class RestoreOptionsPage extends BasePage {
 

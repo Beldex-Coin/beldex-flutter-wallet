@@ -53,3 +53,34 @@
     - Fixed issues in transaction history filters
     - Fixed issues in switch wallet and switch nodes
     - Fixed seed does not display issue in few languages
+-
+  version: 1.2.0
+  changes:
+    - Update for Hardfork 18
+    - Minor bug fixes
+-
+  version: 1.3.2
+  changes:
+    - Introduced Buy BNS feature
+    - Minor bug fixes
+-
+  version: 1.3.3
+  changes:
+    - Fixed reconnecting issue if wallet fails to connect
+    - Fixed crash in fetching My BNS details
+    - Fixed missing payment ID details for integrated address transaction
+    - Fixed UI issues
+    - Updated Node list
+    - Minor bug fixes
+-
+  version: 1.4.0
+  changes:
+    - User can update and renew their BNS names now
+    - Improved node connectivity for better synchronisation
+    - Minor bug fixes
+-
+  version: 1.4.1
+  changes:
+    - Targeted latest android version
+    - Updated google play core libraries
+    - Minor bug fixes

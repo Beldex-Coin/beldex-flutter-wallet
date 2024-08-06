@@ -4,23 +4,10 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
 import 'package:beldex_wallet/src/widgets/present_picker.dart';
-
 import '../../../../l10n.dart';
 import '../../../stores/settings/settings_store.dart';
 
 class SeedLanguagePicker extends StatelessWidget {
- /* final List<String> seedLocales = [
-    S.current.seed_language_english,
-    S.current.seed_language_chinese,
-    S.current.seed_language_dutch,
-    S.current.seed_language_german,
-    S.current.seed_language_japanese,
-    S.current.seed_language_portuguese,
-    S.current.seed_language_russian,
-    S.current.seed_language_spanish,
-    S.current.seed_language_french,
-    S.current.seed_language_italian
-  ];*/
   List<String> getSeedLocales(AppLocalizations t){
     return [
       t.seed_language_english,

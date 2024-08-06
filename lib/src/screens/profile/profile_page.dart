@@ -1,10 +1,14 @@
+import 'package:beldex_wallet/src/node/sync_status.dart';
+import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../l10n.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
-import '../../../l10n.dart';
+import 'package:provider/provider.dart';
 import '../../widgets/nav/new_nav_list_arrow.dart';
 
 class ProfilePage extends BasePage {
@@ -30,9 +34,14 @@ class ProfilePageBody extends StatefulWidget {
 }
 
 class ProfilePageBodyState extends State<ProfilePageBody> {
+  var i = 0;
+  final _accountSyncingObserverKey = GlobalKey();
+  final _keysSyncingObserverKey = GlobalKey();
+  final _seedSyncingObserverKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     final t= tr(context);
+    final syncStore = Provider.of<SyncStore>(context);
     return SingleChildScrollView(
         child: Column(
       children: <Widget>[
@@ -52,6 +61,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
               ),
             ),
             NewNavListArrow(
+                isDisable:false,
                 leading: SvgPicture.asset('assets/images/new-images/wallet.svg',
                     width: 25,
                     height: 25,
@@ -62,6 +72,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                   Navigator.of(context).pushNamed(Routes.walletList);
                 }),
             NewNavListArrow(
+                isDisable:false,
                 leading: SvgPicture.asset(
                     'assets/images/new-images/wallet_settings.svg',
                     width: 25,
@@ -91,6 +102,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
             //     onTap: () =>
             //         Navigator.of(context).pushNamed(Routes.stake)),
             NewNavListArrow(
+                isDisable:false,
                 leading: SvgPicture.asset(
                     'assets/images/new-images/address_book.svg',
                     width: 25,
@@ -99,15 +111,24 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                 text: t.address_book,
                 onTap: () =>
                     Navigator.of(context).pushNamed(Routes.addressBook)),
-            NewNavListArrow(
-                leading: SvgPicture.asset(
-                    'assets/images/new-images/settings_account.svg',
-                    width: 25,
-                    height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6?.color),
-                text: t.accounts,
-                onTap: () =>
-                    Navigator.of(context).pushNamed(Routes.accountList)),
+            Observer(
+              key: _accountSyncingObserverKey,
+              builder: (_) {
+                return NewNavListArrow(
+                    isDisable: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? false : true,
+                    leading: SvgPicture.asset(
+                        'assets/images/new-images/settings_account.svg',
+                        width: 25,
+                        height: 25,
+                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.headline6?.color : Colors.grey ),
+                    text: t.accounts,
+                    onTap: (){
+                      if(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus) {
+                        Navigator.of(context).pushNamed(Routes.accountList);
+                      }
+                    });
+              },
+            ),
             //Important -->
             Container(
               margin: EdgeInsets.only(
@@ -119,34 +140,54 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
               ),
             ),
             //NewNavListHeader(title: S.current.dangerzone),
-            NewNavListArrow(
-                leading: SvgPicture.asset(
-                    'assets/images/new-images/settings_show_keys.svg',
-                    width: 25,
-                    height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6?.color),
-                text: t.show_keys,
-                onTap: () => Navigator.of(context).pushNamed(Routes.auth,
-                    arguments: (bool isAuthenticatedSuccessfully,
-                            AuthPageState auth) =>
-                        isAuthenticatedSuccessfully
-                            ? Navigator.of(auth.context)
+            Observer(
+              key: _keysSyncingObserverKey,
+              builder: (_) {
+                return NewNavListArrow(
+                    isDisable:syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? false : true,
+                    leading: SvgPicture.asset(
+                        'assets/images/new-images/settings_show_keys.svg',
+                        width: 25,
+                        height: 25,
+                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.headline6?.color : Colors.grey),
+                    text: t.show_keys,
+                    onTap: () {
+                      if(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus) {
+                        Navigator.of(context).pushNamed(Routes.auth,
+                            arguments: (bool isAuthenticatedSuccessfully,
+                                AuthPageState auth) =>
+                            isAuthenticatedSuccessfully
+                                ? Navigator.of(auth.context)
                                 .popAndPushNamed(Routes.dangerzoneKeys)
-                            : null)),
-            NewNavListArrow(
-                leading: SvgPicture.asset(
-                    'assets/images/new-images/settings_show_seed.svg',
-                    width: 25,
-                    height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6?.color),
-                text: t.show_seed,
-                onTap: () => Navigator.of(context).pushNamed(Routes.auth,
-                    arguments: (bool isAuthenticatedSuccessfully,
-                            AuthPageState auth) =>
-                        isAuthenticatedSuccessfully
-                            ? Navigator.of(auth.context)
+                                : null);
+                      }
+                    });
+              },
+            ),
+            Observer(
+              key: _seedSyncingObserverKey,
+              builder: (_) {
+                return NewNavListArrow(
+                    isDisable:syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? false : true,
+                    leading: SvgPicture.asset(
+                        'assets/images/new-images/settings_show_seed.svg',
+                        width: 25,
+                        height: 25,
+                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.headline6?.color : Colors.grey),
+                    text: t.show_seed,
+                    onTap: () {
+                      if(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus) {
+                        Navigator.of(context).pushNamed(Routes.auth,
+                            arguments: (bool isAuthenticatedSuccessfully,
+                                AuthPageState auth) =>
+                            isAuthenticatedSuccessfully
+                                ? Navigator.of(auth.context)
                                 .popAndPushNamed(Routes.dangerzoneSeed)
-                            : null)),
+                                : null);
+                      }
+                    });
+              },
+            ),
           ],
         ),
       ],

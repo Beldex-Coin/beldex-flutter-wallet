@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/wallet_list/wallet_option_dialog.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
@@ -9,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/routes.dart';
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/wallet/wallet_description.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/wallet_list/wallet_list_store.dart';
@@ -18,6 +18,7 @@ import '../../loading_page.dart';
 class WalletListPage extends BasePage {
   @override
   String getTitle(AppLocalizations t) => t.wallets;
+
 
   @override
   Widget trailing(BuildContext context) {

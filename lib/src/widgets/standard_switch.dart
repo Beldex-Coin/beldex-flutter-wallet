@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
-class StandartSwitch extends StatefulWidget {
+class StandardSwitch extends StatefulWidget {
   
 
-   StandartSwitch({required this.value, required this.onTaped,required this.icon});
+   StandardSwitch({required this.value, required this.onTaped,required this.icon});
 
   final bool value;
   final VoidCallback onTaped;
   bool icon=false;
   @override
-  StandartSwitchState createState() => StandartSwitchState();
+  StandardSwitchState createState() => StandardSwitchState();
 }
 
-class StandartSwitchState extends State<StandartSwitch> {
+class StandardSwitchState extends State<StandardSwitch> {
   @override
   Widget build(BuildContext context) {
      final settingsStore = Provider.of<SettingsStore>(context);
@@ -50,8 +50,8 @@ class StandartSwitchState extends State<StandartSwitch> {
             //shape:BoxShape.circle,
               color:widget.icon ? widget.value ? Color(0xff0BA70F) : Color(0xff737373) :
                widget.value
-                  ? Theme.of(context).primaryTextTheme.button?.backgroundColor
-                  : Theme.of(context).textTheme.caption?.decorationColor,
+                   ? Theme.of(context).primaryTextTheme.button?.backgroundColor
+                   : Theme.of(context).textTheme.caption?.decorationColor,
               borderRadius: BorderRadius.all(Radius.circular(100.0))),
           child:  widget.icon ? widget.value ?
          SvgPicture.asset('assets/images/new-images/moon_image.svg') :  SvgPicture.asset('assets/images/new-images/sun_image.svg') : Container()

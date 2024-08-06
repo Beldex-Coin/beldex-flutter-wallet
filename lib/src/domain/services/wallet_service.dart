@@ -1,6 +1,7 @@
 import 'package:beldex_wallet/src/node/node.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/wallet/balance.dart';
+import 'package:beldex_wallet/src/wallet/beldex/subaddress_list.dart';
 import 'package:beldex_wallet/src/wallet/transaction/pending_transaction.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_history.dart';
@@ -11,11 +12,11 @@ import 'package:rxdart/rxdart.dart';
 
 class WalletService extends Wallet {
   WalletService():
-    _currentWallet = null,
-    //walletType = WalletType.none;
-    _syncStatus = BehaviorSubject<SyncStatus>(),
-    _onBalanceChange = BehaviorSubject<Balance>(),
-    _onWalletChanged = BehaviorSubject<Wallet>();
+        _currentWallet = null,
+        //walletType = WalletType.none;
+        _syncStatus = BehaviorSubject<SyncStatus>(),
+        _onBalanceChange = BehaviorSubject<Balance>(),
+        _onWalletChanged = BehaviorSubject<Wallet>();
 
   @override
   Stream<Balance> get onBalanceChange => _onBalanceChange.stream;
@@ -87,6 +88,9 @@ class WalletService extends Wallet {
   Future<Map<String, String>> getKeys() => _currentWallet!.getKeys();
 
   @override
+  SubaddressList getSubAddressList() => _currentWallet!.getSubAddressList();
+
+  @override
   Future<int> getFullBalance() => _currentWallet!.getFullBalance();
 
   @override
@@ -109,12 +113,13 @@ class WalletService extends Wallet {
 
   @override
   Future<void> connectToNode(
-          {required Node? node, bool useSSL = false, bool isLightWallet = false}) async {
+      {required Node? node, bool useSSL = false, bool isLightWallet = false}) async {
     if (node == null) {
       return;
+    }else {
+      await _currentWallet?.connectToNode(
+          node: node, useSSL: useSSL, isLightWallet: isLightWallet);
     }
-    await _currentWallet!.connectToNode(
-        node: node, useSSL: useSSL, isLightWallet: isLightWallet);
   }
 
   @override
@@ -132,6 +137,26 @@ class WalletService extends Wallet {
   Future<PendingTransaction> createTransaction(
           TransactionCreationCredentials credentials) =>
       _currentWallet!.createTransaction(credentials);
+
+  @override
+  Future<PendingTransaction> createBnsTransaction(
+      TransactionCreationCredentials credentials) =>
+      _currentWallet!.createBnsTransaction(credentials);
+
+  @override
+  Future<PendingTransaction> createBnsUpdateTransaction(
+      TransactionCreationCredentials credentials) =>
+      _currentWallet!.createBnsUpdateTransaction(credentials);
+
+  @override
+  Future<PendingTransaction> createBnsRenewalTransaction(
+      TransactionCreationCredentials credentials) =>
+      _currentWallet!.createBnsRenewalTransaction(credentials);
+
+  @override
+  Future<PendingTransaction> createSweepAllTransaction(
+      TransactionCreationCredentials credentials) =>
+      _currentWallet!.createSweepAllTransaction(credentials);
 
   @override
   Future updateInfo() async => _currentWallet!.updateInfo();

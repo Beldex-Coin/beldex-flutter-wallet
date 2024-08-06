@@ -1,4 +1,3 @@
-
 import '../../l10n.dart';
 
 class AmountDetail {

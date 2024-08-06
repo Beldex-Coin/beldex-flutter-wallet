@@ -10,7 +10,7 @@ abstract class PriceStoreBase with Store {
   PriceStoreBase() : prices = ObservableMap();
 
   static String generateSymbolForFiat(
-          {required FiatCurrency fiat}) =>
+      {required FiatCurrency fiat}) =>
       'BDX' + fiat.toString().toUpperCase();
 
   @observable

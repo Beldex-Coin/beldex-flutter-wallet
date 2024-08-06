@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import 'package:beldex_wallet/src/domain/common/encrypt.dart';
@@ -146,6 +147,13 @@ class WalletListService {
         print('the name of wallet is $walletName');
         if(walletName!=null) {
           await sharedPreferences.setString('current_wallet_name', walletName);
+        }
+        final subAddressList = wallet.getSubAddressList();
+        await subAddressList.refresh(accountIndex: 0);
+        final subAddresses = subAddressList.getAll();
+        if(subAddresses.isNotEmpty){
+          await sharedPreferences.setString('currentSubAddress', subAddresses[0].label ?? '');
+          await sharedPreferences.setString('currentAddress', subAddresses[0].address ?? '');
         }
         print('-------');
       //}
