@@ -84,6 +84,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   late GetCurrenciesFullProvider getCurrenciesFullProvider;
   late GetPairsParamsProvider getPairsParamsProvider;
   late GetExchangeAmountProvider getExchangeAmountProvider;
+  Timer? timer;
 
   @override
   void initState() {
@@ -101,6 +102,10 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       Provider.of<GetCurrenciesFullProvider>(context, listen: false).getCurrenciesFullData(context);
       Provider.of<GetPairsParamsProvider>(context, listen: false).getPairsParamsData(context,[{'from':'btc','to':'bdx'},{'from':'bdx','to':'btc'}]);
       Provider.of<GetExchangeAmountProvider>(context,listen: false).getExchangeAmountData(context,{'from':'btc',"to":'bdx',"amountFrom":_sendAmountController.text.toString()});
+      timer?.cancel();
+      timer = Timer.periodic(Duration(seconds: 30), (timer) {
+        Provider.of<GetExchangeAmountProvider>(context,listen: false).getExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()});
+      });
     });
     super.initState();
   }
@@ -108,6 +113,10 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   void callGetExchangeAmountData(BuildContext context, Map<String, String> params, GetExchangeAmountProvider getExchangeAmountProvider){
     if(getExchangeAmountProvider.loading==false){
       getExchangeAmountProvider.getExchangeAmountData(context, params);
+      timer?.cancel();
+      timer = Timer.periodic(Duration(seconds: 30), (timer) {
+        getExchangeAmountProvider.getExchangeAmountData(context, params);
+      });
     }
   }
 
@@ -143,6 +152,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     getCurrenciesFullProvider.dispose();
     getPairsParamsProvider.dispose();
     getExchangeAmountProvider.dispose();
+    timer?.cancel();
     super.dispose();
   }
 
