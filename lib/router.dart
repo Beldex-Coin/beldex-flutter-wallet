@@ -640,7 +640,7 @@ class Router {
             providers: [
               ChangeNotifierProvider<ValidateAddressProvider>(create: (_) => ValidateAddressProvider())
             ],
-            child: SwapWalletAddressPage(),
+            child: SwapWalletAddressPage(exchangeData : settings.arguments as ExchangeData),
           );
         });
       case Routes.swapPayment:

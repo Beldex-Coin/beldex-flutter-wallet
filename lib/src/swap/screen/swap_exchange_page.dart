@@ -15,6 +15,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../palette.dart';
+import '../../../routes.dart';
 import '../provider/get_currencies_full_provider.dart';
 import 'number_stepper.dart';
 
@@ -620,7 +621,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         if (enableTo.fullName != null) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             getCurrenciesFullProvider.setSelectedYouGetCoins(
-                Coins(enableTo.name, enableTo.fullName));
+                Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName));
             getCurrenciesFullProvider.setGetCoinsDropDownVisible(
                 !getCurrenciesFullProvider.getGetCoinsDropDownVisible());
             getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
@@ -673,7 +674,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         if (enableFrom.name != null) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             getCurrenciesFullProvider.setSelectedYouSendCoins(
-                Coins(enableFrom.name, enableFrom.fullName));
+                Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName));
             getCurrenciesFullProvider.setSendCoinsDropDownVisible(
                 !getCurrenciesFullProvider.getSendCoinsDropDownVisible());
             getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
@@ -1382,7 +1383,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               alignment: Alignment.center,
               child: ElevatedButton(
                 onPressed: () {
-                  getCurrenciesFullProvider.getCurrenciesFullData(context);
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pushNamed(Routes.swapWalletAddress, arguments: ExchangeData(getCurrenciesFullProvider.getSelectedYouSendCoins().id?.toLowerCase(), getCurrenciesFullProvider.getSelectedYouGetCoins().id?.toLowerCase(), _sendAmountController.text.toString(),getCurrenciesFullProvider.getSelectedYouGetCoins().extraIdName));
                 },
                 style: ElevatedButton.styleFrom(
                   primary: true
@@ -1699,8 +1701,18 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 }
 
 class Coins {
-  Coins(this.id, this.name);
+  Coins(this.id, this.name, this.extraIdName);
 
   String? id;
   String? name;
+  String? extraIdName = "";
+}
+
+class ExchangeData {
+  ExchangeData(this.from, this.to, this.amountFrom, this.extraIdName);
+
+  String? from;
+  String? to;
+  String? amountFrom;
+  String? extraIdName = "";
 }

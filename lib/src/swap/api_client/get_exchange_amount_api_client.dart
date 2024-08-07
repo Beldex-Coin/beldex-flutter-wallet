@@ -5,7 +5,7 @@ class GetExchangeAmountApiClient {
   late GetExchangeAmountModel? data;
   GetExchangeAmountApiService services = GetExchangeAmountApiService();
 
-  Future<GetExchangeAmountModel?> getExchangeAmountData(context, Map<String, String> params) async {
+  Future<GetExchangeAmountModel?> getExchangeAmountData(context, Map<String?, String?> params) async {
     data = await services.getSignature(params);
     return data;
   }

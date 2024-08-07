@@ -5,6 +5,7 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_exchange_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,6 +17,10 @@ import '../model/get_exchange_amount_model.dart';
 import 'number_stepper.dart';
 
 class SwapWalletAddressPage extends BasePage {
+  SwapWalletAddressPage({required this.exchangeData});
+
+  final ExchangeData exchangeData;
+
   @override
   bool get isModalBackButton => false;
 
@@ -32,11 +37,15 @@ class SwapWalletAddressPage extends BasePage {
 
   @override
   Widget body(BuildContext context) {
-    return SwapWalletAddressHome();
+    return SwapWalletAddressHome(exchangeData: exchangeData,);
   }
 }
 
 class SwapWalletAddressHome extends StatefulWidget {
+  SwapWalletAddressHome({required this.exchangeData});
+
+  final ExchangeData exchangeData;
+
   @override
   State<SwapWalletAddressHome> createState() => _SwapWalletAddressState();
 }
@@ -75,9 +84,11 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   late GetExchangeAmountApiClient getExchangeAmountApiClient;
   late StreamController<GetExchangeAmountModel> _getExchangeAmountStreamController;
   late Timer timer;
+  late ExchangeData _exchangeData;
 
   @override
   void initState() {
+    _exchangeData = widget.exchangeData;
     getExchangeAmountApiClient = GetExchangeAmountApiClient();
     // Create a stream controller and exchange amount to the stream.
     _getExchangeAmountStreamController = StreamController<GetExchangeAmountModel>();
@@ -92,9 +103,11 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
 
   void callGetExchangeAmountApi(
       GetExchangeAmountApiClient getExchangeAmountApiClient) {
+    print("Exchange Amount -> ${_exchangeData.from}, ${_exchangeData.to}, ${_exchangeData.amountFrom}, ${_exchangeData.extraIdName}");
     getExchangeAmountApiClient.getExchangeAmountData(context,
-        {'from': 'btc', "to": 'bdx', "amountFrom": '0.001665'}).then((value) {
+        {'from': _exchangeData.from, "to": _exchangeData.to, "amountFrom": _exchangeData.amountFrom}).then((value) {
       if (value!.result!.isNotEmpty) {
+        print("Exchange Amount Api Response Value -> ${value.result}");
         _getExchangeAmountStreamController.sink.add(value);
       }
     });
@@ -453,92 +466,95 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             ),
           ),
         ),
-        //Destination Tag Info
-        Container(
-            margin: EdgeInsets.only(bottom: 20),
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Colors.transparent,
-              border: Border.all(
-                color: settingsStore.isDarkTheme
-                    ? Color(0xff41415B)
-                    : Color(0xFFDADADA),
+        //Extra Id Name Info
+        Visibility(
+          visible: _exchangeData.extraIdName!.isNotEmpty,
+          child: Container(
+              margin: EdgeInsets.only(bottom: 20),
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Colors.transparent,
+                border: Border.all(
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xff41415B)
+                      : Color(0xFFDADADA),
+                ),
               ),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 3.0),
-                      child: Icon(Icons.info_outline,
-                          size: 15,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffD1D1DB)
-                              : Color(0xff77778B)),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: Text(
-                        'Please specify the Destination Tag for your ${to.toUpperCase()} receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a Destination Tag, remove the tick.',
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 3.0),
+                        child: Icon(Icons.info_outline,
+                            size: 15,
                             color: settingsStore.isDarkTheme
-                                ? Color(0xffAFAFBE)
+                                ? Color(0xffD1D1DB)
                                 : Color(0xff77778B)),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          showMemo = !showMemo;
-                        });
-                      },
-                      child: Icon(
-                          showMemo
-                              ? Icons.check_box_outlined
-                              : Icons.check_box_outline_blank,
-                          size: 15,
-                          color: showMemo
-                              ? Color(0xff20D030)
-                              : settingsStore.isDarkTheme
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Text(
+                          'Please specify the ${_exchangeData.extraIdName} for your ${to.toUpperCase()} receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a ${_exchangeData.extraIdName}, remove the tick.',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffAFAFBE)
+                                  : Color(0xff77778B)),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            showMemo = !showMemo;
+                          });
+                        },
+                        child: Icon(
+                            showMemo
+                                ? Icons.check_box_outlined
+                                : Icons.check_box_outline_blank,
+                            size: 15,
+                            color: showMemo
+                                ? Color(0xff20D030)
+                                : settingsStore.isDarkTheme
+                                    ? Color(0xffFFFFFF)
+                                    : Color(0xff222222)),
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        child: Text(
+                          'My wallet requires ${_exchangeData.extraIdName}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: settingsStore.isDarkTheme
                                   ? Color(0xffFFFFFF)
                                   : Color(0xff222222)),
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: Text(
-                        'My wallet requires Destination Tag',
-                        style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xffFFFFFF)
-                                : Color(0xff222222)),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
-            )),
-        //Destination Tag TextFormField
+                    ],
+                  ),
+                ],
+              )),
+        ),
+        //Extra Id Name TextFormField
         Visibility(
           visible: showMemo,
           child: Container(
@@ -576,7 +592,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     fontSize: 14.0,
                     fontWeight: FontWeight.normal,
                     color: Colors.grey.withOpacity(0.6)),
-                hintText: 'Enter Destination Tag',
+                hintText: 'Enter ${_exchangeData.extraIdName}',
                 errorStyle: TextStyle(color: BeldexPalette.red),
               ),
             ),

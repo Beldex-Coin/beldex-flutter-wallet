@@ -5,7 +5,7 @@ import 'dart:convert';
 import '../model/get_exchange_amount_model.dart';
 
 class GetExchangeAmountApiService {
-  Future<GetExchangeAmountModel?> getSignature(Map<String, String> params) async {
+  Future<GetExchangeAmountModel?> getSignature(Map<String?, String?> params) async {
     print('url --> 1');
     final signatureResponseBody =
     await callSignatureApiService(Apis.getExchangeAmount,params: params);
@@ -21,7 +21,7 @@ class GetExchangeAmountApiService {
   }
 
   Future<Map<String, dynamic>> callSignatureApiService(String method,
-      {Map<String, dynamic>? params}) async {
+      {Map<String?, dynamic?>? params}) async {
     Map<String, dynamic> resultBody;
 
     final requestBody = params != null
@@ -82,7 +82,7 @@ class Signature {
   String jsonrpc;
   String id;
   String method;
-  Map<String, dynamic> params;
+  Map<String?, dynamic?> params;
 
   Map<String, dynamic> toJson() => <String, dynamic>{
     'jsonrpc': jsonrpc,
