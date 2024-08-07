@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/dashboard_rescan_dialog.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_exchange_page.dart';
 import 'package:beldex_wallet/src/util/network_service.dart';
 import 'package:beldex_wallet/src/util/screen_sizer.dart';
 import 'package:beldex_wallet/src/widgets/standard_switch.dart';
@@ -577,8 +578,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       icon: SvgPicture.asset(
                                         'assets/images/swap/swap.svg',colorFilter:ColorFilter.mode(Color(0xff0BA70F), BlendMode.srcIn),),
                                       onPressed: () =>
-                                          Navigator.of(context, rootNavigator: true)
-                                              .pushNamed(Routes.swapExchange),
+                                          //Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange),
+                                      Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapWalletAddress,arguments: ExchangeData("btc", "xrp", "0.2", "Destination Tag")),
                                       label: Flexible(
                                         child: Text(
                                           'Swap',

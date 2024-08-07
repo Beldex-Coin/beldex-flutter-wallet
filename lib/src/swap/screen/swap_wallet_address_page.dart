@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import '../../../palette.dart';
 import '../api_client/get_exchange_amount_api_client.dart';
 import '../model/get_exchange_amount_model.dart';
+import '../provider/valdiate_extra_id_field_provider.dart';
 import 'number_stepper.dart';
 
 class SwapWalletAddressPage extends BasePage {
@@ -78,13 +79,13 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   final _destinationTagController = TextEditingController();
   final _refundWalletAddressController = TextEditingController();
   var showPrefixIcon = true;
-  var showMemo = false;
   var acceptTermsAndConditions = false;
   late ValidateAddressProvider validateAddressProvider;
   late GetExchangeAmountApiClient getExchangeAmountApiClient;
   late StreamController<GetExchangeAmountModel> _getExchangeAmountStreamController;
   late Timer timer;
   late ExchangeData _exchangeData;
+  late ValidateExtraIdFieldProvider validateExtraIdFieldProvider;
 
   @override
   void initState() {
@@ -111,6 +112,29 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         _getExchangeAmountStreamController.sink.add(value);
       }
     });
+  }
+
+  bool isEnabled(){
+    if(validateExtraIdFieldProvider.showMemo){
+      if(_destinationTagController.text.isEmpty){
+        return false;
+      }else {
+        if (acceptTermsAndConditions &&
+            !validateAddressProvider.loading &&
+            _recipientAddressController.text.isNotEmpty &&
+            validateAddressProvider.successState) {
+          return true;
+        }else {
+          return false;
+        }
+      }
+    }else{
+      if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState ){
+        return true;
+      }else {
+        return false;
+      }
+    }
   }
 
   @override
@@ -323,7 +347,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                               ))
                             : InkWell(
                                 onTap: () async => _presentQRScanner(
-                                    context, validateAddressProvider),
+                                    context, validateAddressProvider,to),
                                 child: Container(
                                   width: 20.0,
                                   margin: EdgeInsets.only(
@@ -466,138 +490,176 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             ),
           ),
         ),
-        //Extra Id Name Info
-        Visibility(
-          visible: _exchangeData.extraIdName!.isNotEmpty,
-          child: Container(
-              margin: EdgeInsets.only(bottom: 20),
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
-                color: Colors.transparent,
-                border: Border.all(
-                  color: settingsStore.isDarkTheme
-                      ? Color(0xff41415B)
-                      : Color(0xFFDADADA),
+
+        Consumer<ValidateExtraIdFieldProvider>(
+          builder: (context, validateExtraIdFieldProvider, child) {
+            this.validateExtraIdFieldProvider = validateExtraIdFieldProvider;
+            return Column(
+              children: [
+                //Extra Id Name Info
+                Visibility(
+                  visible: _exchangeData.extraIdName!.isNotEmpty,
+                  child: Container(
+                      margin: EdgeInsets.only(bottom: 20),
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.transparent,
+                        border: Border.all(
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xff41415B)
+                              : Color(0xFFDADADA),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(top: 3.0),
+                                child: Icon(Icons.info_outline,
+                                    size: 15,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffD1D1DB)
+                                        : Color(0xff77778B)),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'Please specify the ${_exchangeData.extraIdName} for your ${to.toUpperCase()} receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a ${_exchangeData.extraIdName}, remove the tick.',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xffAFAFBE)
+                                          : Color(0xff77778B)),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  _destinationTagController.clear();
+                                  validateExtraIdFieldProvider.setShowErrorBorder(false);
+                                  validateExtraIdFieldProvider.setErrorMessage("");
+                                  validateExtraIdFieldProvider.setShowMemo(!validateExtraIdFieldProvider.getShowMemo());
+                                },
+                                child: Icon(
+                                    validateExtraIdFieldProvider.getShowMemo()
+                                        ? Icons.check_box_outlined
+                                        : Icons.check_box_outline_blank,
+                                    size: 15,
+                                    color: validateExtraIdFieldProvider.getShowMemo()
+                                        ? Color(0xff20D030)
+                                        : settingsStore.isDarkTheme
+                                        ? Color(0xffFFFFFF)
+                                        : Color(0xff222222)),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'My wallet requires ${_exchangeData.extraIdName}',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w400,
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xffFFFFFF)
+                                          : Color(0xff222222)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      )),
                 ),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                //Extra Id Name TextFormField
+                Visibility(
+                  visible: validateExtraIdFieldProvider.getShowMemo(),
+                  child: Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 3.0),
-                        child: Icon(Icons.info_outline,
-                            size: 15,
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xffD1D1DB)
-                                : Color(0xff77778B)),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Expanded(
-                        child: Text(
-                          'Please specify the ${_exchangeData.extraIdName} for your ${to.toUpperCase()} receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a ${_exchangeData.extraIdName}, remove the tick.',
+                      Container(
+                        padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xff24242f)
+                              : Color(0xfff3f3f3),
+                          border: Border.all(
+                            color: validateExtraIdFieldProvider.getShowErrorBorder()
+                                ? Colors.red
+                                : Color(0xff333343),
+                          ),
+                        ),
+                        child: TextFormField(
                           style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffAFAFBE)
-                                  : Color(0xff77778B)),
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.normal,
+                              color: Theme.of(context).primaryTextTheme.caption!.color),
+                          controller: _destinationTagController,
+                          keyboardType:
+                          TextInputType.numberWithOptions(signed: false, decimal: true),
+                          inputFormatters: [
+                            TextInputFormatter.withFunction((oldValue, newValue) {
+                              final regEx = RegExp(r'^\d*\.?\d*');
+                              final newString = regEx.stringMatch(newValue.text) ?? '';
+                              return newString == newValue.text ? newValue : oldValue;
+                            }),
+                            FilteringTextInputFormatter.deny(RegExp('[-, ]'))
+                          ],
+                          textInputAction: TextInputAction.done,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintStyle: TextStyle(
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.grey.withOpacity(0.6)),
+                            hintText: 'Enter ${_exchangeData.extraIdName}',
+                            errorStyle: TextStyle(color: BeldexPalette.red),
+                          ),
+                          onChanged: (value){
+                            if(value.isEmpty){
+                              validateExtraIdFieldProvider.setShowErrorBorder(true);
+                              validateExtraIdFieldProvider.setErrorMessage("Please enter ${_exchangeData.extraIdName}");
+                            }else{
+                              validateExtraIdFieldProvider.setErrorMessage("");
+                              validateExtraIdFieldProvider.setShowErrorBorder(false);
+                            }
+                          },
                         ),
                       ),
+                      Visibility(
+                        visible:validateExtraIdFieldProvider.getErrorMessage().isNotEmpty,
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              validateExtraIdFieldProvider.getErrorMessage(),
+                              style: TextStyle(
+                                  backgroundColor: Colors.transparent,
+                                  color: Colors.red),
+                            )),
+                      ),
+                      SizedBox(height: 10,)
                     ],
                   ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          setState(() {
-                            showMemo = !showMemo;
-                          });
-                        },
-                        child: Icon(
-                            showMemo
-                                ? Icons.check_box_outlined
-                                : Icons.check_box_outline_blank,
-                            size: 15,
-                            color: showMemo
-                                ? Color(0xff20D030)
-                                : settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Expanded(
-                        child: Text(
-                          'My wallet requires ${_exchangeData.extraIdName}',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffFFFFFF)
-                                  : Color(0xff222222)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              )),
-        ),
-        //Extra Id Name TextFormField
-        Visibility(
-          visible: showMemo,
-          child: Container(
-            margin: EdgeInsets.only(bottom: 10),
-            padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: settingsStore.isDarkTheme
-                  ? Color(0xff24242f)
-                  : Color(0xfff3f3f3),
-              border: Border.all(
-                color: Color(0xff333343),
-              ),
-            ),
-            child: TextFormField(
-              style: TextStyle(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.normal,
-                  color: Theme.of(context).primaryTextTheme.caption!.color),
-              controller: _destinationTagController,
-              keyboardType:
-                  TextInputType.numberWithOptions(signed: false, decimal: true),
-              inputFormatters: [
-                TextInputFormatter.withFunction((oldValue, newValue) {
-                  final regEx = RegExp(r'^\d*\.?\d*');
-                  final newString = regEx.stringMatch(newValue.text) ?? '';
-                  return newString == newValue.text ? newValue : oldValue;
-                }),
-                FilteringTextInputFormatter.deny(RegExp('[-, ]'))
+                ),
               ],
-              textInputAction: TextInputAction.done,
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintStyle: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.grey.withOpacity(0.6)),
-                hintText: 'Enter ${_exchangeData.extraIdName}',
-                errorStyle: TextStyle(color: BeldexPalette.red),
-              ),
-            ),
-          ),
+            );
+          },
         ),
+
         //Transaction Preview
         Container(
           margin: EdgeInsets.only(left: 10.0, bottom: 10.0, top: 5.0),
@@ -934,41 +996,59 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
           ),
         ),
         //Exchange Button
-        Align(
-          alignment: Alignment.center,
-          child: ElevatedButton(
-            onPressed: () => acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState ?{
-              //Payment Screen
-            }:null,
-            style: ElevatedButton.styleFrom(
-              primary: acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState
-                  ? Color(0xff0BA70F)
-                  : settingsStore.isDarkTheme
+        Consumer<ValidateExtraIdFieldProvider>(
+          builder: (context, validateExtraIdFieldProvider, child) {
+            this.validateExtraIdFieldProvider = validateExtraIdFieldProvider;
+            return Align(
+              alignment: Alignment.center,
+              child: ElevatedButton(
+                onPressed: () {
+                  if(validateExtraIdFieldProvider.showMemo){
+                    if(_destinationTagController.text.isEmpty){
+                      validateExtraIdFieldProvider.setShowErrorBorder(true);
+                      validateExtraIdFieldProvider.setErrorMessage("Please enter ${_exchangeData.extraIdName}");
+                    }else {
+                      if (acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState) {
+                        //Navigate to Payment Screen
+                      }
+                    }
+                  }else{
+                    if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState ){
+                      //Navigate to Payment Screen
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: isEnabled()
+                      ? Color(0xff0BA70F)
+                      : settingsStore.isDarkTheme
                       ? Color(0xff32324A)
                       : Color(0xffFFFFFF),
-              padding:
+                  padding:
                   EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            child: Text('Next',
-                style: TextStyle(
-                    color: acceptTermsAndConditions
-                        ? Color(0xffffffff)
-                        : settingsStore.isDarkTheme
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text('Next',
+                    style: TextStyle(
+                        color: isEnabled()
+                            ? Color(0xffffffff)
+                            : settingsStore.isDarkTheme
                             ? Color(0xff77778B)
                             : Color(0xffB1B1D1),
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold)),
-          ),
-        )
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold)),
+              ),
+            );
+          },
+        ),
       ],
     );
   }
 
   Future<void> _presentQRScanner(BuildContext context,
-      ValidateAddressProvider validateAddressProvider) async {
+      ValidateAddressProvider validateAddressProvider, String to) async {
     try {
       final code = await presentQRScanner();
       final uri = Uri.parse(code!);
@@ -980,7 +1060,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         _recipientAddressController.text =
             validateAddressProvider.getRecipientAddress();
         validateAddressProvider.validateAddressData(context, {
-          "currency": "bdx",
+          "currency": "${to}",
           "address": _recipientAddressController.text.toString(),
           "extraId": ""
         });
