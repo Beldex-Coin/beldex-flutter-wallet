@@ -78,8 +78,52 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   late GetStatusApiClient getStatusApiClient;
   late StreamController<GetStatusModel> _getStatusStreamController;
 
+  ValueNotifier<String> pendingTransactionTimeRemaining = ValueNotifier("");
+  Timer? pendingTransactionTimer;
+  bool timeIsExpire = false;
+  //var createdTxnDetails = {'type': 'float', 'payTill': DateTime.now().toString()};
+
+  void startAndStopPendingTransactionTimer() {
+    pendingTransactionTimer?.cancel();
+    DateTime today;
+    DateTime addTime;
+    /*if (createdTxnDetails['type'] == 'float') {
+      today = DateTime.now();
+      addTime = today.add(Duration(hours: 3));
+    } else {
+      today = DateTime.parse(createdTxnDetails['payTill']!);
+      addTime = today;
+    }*/
+    today = DateTime.now();
+    addTime = today.add(Duration(hours: 3));
+
+    final countDownDate = addTime.millisecondsSinceEpoch;
+
+    pendingTransactionTimer = Timer.periodic(Duration(seconds: 1), (Timer t) {
+      final now = DateTime.now().millisecondsSinceEpoch;
+      final distance = countDownDate - now;
+
+      final hours = (distance ~/ (1000 * 60 * 60)) % 24;
+      final minutes = (distance ~/ (1000 * 60)) % 60;
+      final seconds = (distance ~/ 1000) % 60;
+
+      pendingTransactionTimeRemaining.value = '$hours h $minutes m $seconds s';
+
+      if (distance < 0) {
+        pendingTransactionTimeRemaining.value = '00:00:00';
+        timeIsExpire = true;
+        clearIntervals();
+      }
+    });
+  }
+
+  void clearIntervals() {
+    pendingTransactionTimer?.cancel();
+  }
+
   @override
   void initState() {
+    startAndStopPendingTransactionTimer();
     createdTransactionDetails = widget.transactionDetails;
     getStatusApiClient = GetStatusApiClient();
     // Create a stream controller and get status to the stream.
@@ -355,10 +399,25 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                     SizedBox(
                       width: 5,
                     ),
-                    Icon(
-                      Icons.copy,
-                      color: Color(0xff20D030),
-                      size: 14,
+                    InkWell(
+                      onTap: (){
+                        Clipboard.setData(ClipboardData(
+                            text: createdTransactionDetails!.id.toString()));
+                        Toast.show(
+                          tr(context).copied,
+                          duration: Toast
+                              .lengthShort, // Toast duration (short or long)
+                          gravity: Toast
+                              .bottom,
+                          textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
+                          backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                        );
+                      },
+                      child: Icon(
+                        Icons.copy,
+                        color: Color(0xff20D030),
+                        size: 14,
+                      ),
                     )
                   ],
                 )
@@ -406,14 +465,17 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                     SizedBox(
                       width: 5,
                     ),
-                    Text(
-                      '${createdTransactionDetails?.createdAt}',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffEBEBEB)
-                              : Color(0xff222222)),
+                    ValueListenableBuilder<String>(
+                      valueListenable: pendingTransactionTimeRemaining,
+                      builder: (context, value, child) => Text(
+                        value,//'${createdTransactionDetails?.createdAt}',
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffEBEBEB)
+                                : Color(0xff222222)),
+                      ),
                     ),
                   ],
                 )
@@ -551,13 +613,16 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                       width: 5,
                     ),
                     Flexible(
-                      child: Text('Time Remaining : ${createdTransactionDetails?.createdAt}',
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffFFFFFF)
-                                  : Color(0xff222222))),
+                      child: ValueListenableBuilder<String>(
+                        valueListenable: pendingTransactionTimeRemaining,
+                        builder: (context, value, child) => Text('Time Remaining : $value',//${createdTransactionDetails?.createdAt}',
+                            style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xffFFFFFF)
+                                    : Color(0xff222222))),
+                      ),
                     )
                   ],
                 ),
@@ -908,6 +973,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   @override
   void dispose() {
     timer.cancel();
+    clearIntervals();
     super.dispose();
   }
 }
