@@ -539,7 +539,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                             .start,
                                         children: [
                                           Text(
-                                            'Encrypted Address Value',
+                                            'Encrypted Wallet Value',
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
@@ -672,6 +672,56 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                         0xff484856) : Color(0xffDADADA),
                                   ),
                                 ),
+                                //Encrypted ETH Address Value
+                                Visibility(
+                                  visible: bnsDetails.name == '(none)' &&
+                                      bnsDetails.encryptedEthAddrValue !=
+                                          '(none)',
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                            'Encrypted ETH Value',
+                                            style: TextStyle(
+                                                backgroundColor: Colors.transparent,
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffFFFFFF)
+                                                    : Color(0xff222222),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            bnsDetails.encryptedEthAddrValue,
+                                            style: TextStyle(
+                                              backgroundColor: Colors.transparent,
+                                              color: settingsStore.isDarkTheme
+                                                  ? Color(0xffD1D1D3)
+                                                  : Color(0xff77778B),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: bnsDetails.name == '(none)' &&
+                                      bnsDetails.encryptedEthAddrValue !=
+                                          '(none)',
+                                  child: Divider(
+                                    color: settingsStore.isDarkTheme ? Color(
+                                        0xff484856) : Color(0xffDADADA),
+                                  ),
+                                ),
                                 //Address Value
                                 Visibility(
                                   visible: bnsDetails.valueWallet != '(none)',
@@ -687,7 +737,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                             .start,
                                         children: [
                                           Text(
-                                            'Address',
+                                            'Wallet Address',
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
@@ -810,6 +860,52 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                         0xff484856) : Color(0xffDADADA),
                                   ),
                                 ),
+                                //ETH Address Value
+                                Visibility(
+                                  visible: bnsDetails.valueEthAddr != '(none)',
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                            'ETH Address',
+                                            style: TextStyle(
+                                                backgroundColor: Colors.transparent,
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffFFFFFF)
+                                                    : Color(0xff222222),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            bnsDetails.valueEthAddr,
+                                            style: TextStyle(
+                                              backgroundColor: Colors.transparent,
+                                              color: settingsStore.isDarkTheme
+                                                  ? Color(0xffD1D1D3)
+                                                  : Color(0xff77778B),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: bnsDetails.valueEthAddr != '(none)',
+                                  child: Divider(
+                                    color: settingsStore.isDarkTheme ? Color(
+                                        0xff484856) : Color(0xffDADADA),
+                                  ),
+                                ),
                                 //Update and Renewal
                                Visibility(
                                  visible:bnsDetails.name != '(none)',
@@ -820,7 +916,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                       onPressed:() {
                                       Navigator.of(context,
                                       rootNavigator: true)
-                                          .pushNamed(Routes.bnsUpdate,arguments: {'bnsName':bnsDetails.name,'ownerAddress':bnsDetails.owner,'walletAddress':bnsDetails.valueWallet,'bchatId':bnsDetails.valueBchat,'belnetId':bnsDetails.valueBelnet}).then((value){
+                                          .pushNamed(Routes.bnsUpdate,arguments: {'bnsName':bnsDetails.name,'ownerAddress':bnsDetails.owner,'walletAddress':bnsDetails.valueWallet,'bchatId':bnsDetails.valueBchat,'belnetId':bnsDetails.valueBelnet, 'ethAddress':bnsDetails.valueEthAddr}).then((value){
                                             if(value == true){
                                               Navigator.of(context).pop();
                                             }

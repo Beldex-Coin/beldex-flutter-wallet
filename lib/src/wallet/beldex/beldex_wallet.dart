@@ -350,6 +350,7 @@ class BelDexWallet extends Wallet {
         bchatId: _credentials.bchatId,
         walletAddress: _credentials.walletAddress,
         belnetId: _credentials.belnetId,
+        ethAddress: _credentials.ethAddress,
         bnsName: _credentials.bnsName,
         priorityRaw: _credentials.priority.serialize(),
         accountIndex: _account.value.id);
@@ -369,6 +370,7 @@ class BelDexWallet extends Wallet {
         bchatId: _credentials.bchatId,
         walletAddress: _credentials.walletAddress,
         belnetId: _credentials.belnetId,
+        ethAddress: _credentials.ethAddress,
         bnsName: _credentials.bnsName,
         priorityRaw: _credentials.priority.serialize(),
         accountIndex: _account.value.id);

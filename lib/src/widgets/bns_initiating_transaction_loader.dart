@@ -12,7 +12,7 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 
 class BnsInitiatingTransactionLoader extends StatelessWidget {
   BnsInitiatingTransactionLoader(
-      {Key? key, required this.owner, required this.backUpOwner, required this.mappingYears, required this.bchatId, required this.walletAddress, required this.belnetId, required this.bnsName, required this.sendStore})
+      {Key? key, required this.owner, required this.backUpOwner, required this.mappingYears, required this.bchatId, required this.walletAddress, required this.belnetId, required this.bnsName, required this.ethAddress, required this.sendStore})
       : super(key: key);
 
   final String owner;
@@ -22,6 +22,7 @@ class BnsInitiatingTransactionLoader extends StatelessWidget {
   final String walletAddress;
   final String belnetId;
   final String bnsName;
+  final String ethAddress;
   final SendStore sendStore;
 
   @override
@@ -30,7 +31,7 @@ class BnsInitiatingTransactionLoader extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
     WakelockPlus.enable();
     Future.delayed(const Duration(seconds: 1), () {
-      sendStore.createBnsTransaction(owner:owner, backUpOwner:backUpOwner, mappingYears:mappingYears, walletAddress:walletAddress, bchatId:bchatId,  belnetId:belnetId, bnsName:bnsName, tPriority: BeldexTransactionPriority.slow);
+      sendStore.createBnsTransaction(owner:owner, backUpOwner:backUpOwner, mappingYears:mappingYears, walletAddress:walletAddress, bchatId:bchatId,  belnetId:belnetId, ethAddress:ethAddress, bnsName:bnsName, tPriority: BeldexTransactionPriority.slow);
     });
 
     return WillPopScope(

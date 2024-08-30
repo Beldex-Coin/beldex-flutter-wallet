@@ -63,6 +63,7 @@ PendingTransactionDescription _createBnsTransactionSync(Map args) {
   final bchatId = args['bchatId'] as String;
   final walletAddress = args['walletAddress'] as String;
   final belnetId = args['belnetId'] as String;
+  final ethAddress = args['ethAddress'] as String;
   final bnsName = args['bnsName'] as String;
   final priorityRaw = args['priorityRaw'] as int;
   final accountIndex = args['accountIndex'] as int;
@@ -74,6 +75,7 @@ PendingTransactionDescription _createBnsTransactionSync(Map args) {
       bchatId: bchatId,
       walletAddress: walletAddress,
       belnetId: belnetId,
+      ethAddress: ethAddress,
       bnsName: bnsName,
       priorityRaw: priorityRaw,
       accountIndex: accountIndex);
@@ -86,6 +88,7 @@ Future<PendingTransactionDescription> createBnsTransaction(
       required String bchatId,
       required String walletAddress,
       required String belnetId,
+      required String ethAddress,
       required String bnsName,
       required int priorityRaw,
       int accountIndex = 0}) =>
@@ -96,6 +99,7 @@ Future<PendingTransactionDescription> createBnsTransaction(
       'bchatId': bchatId,
       'walletAddress': walletAddress,
       'belnetId': belnetId,
+      'ethAddress': ethAddress,
       'bnsName': bnsName,
       'priorityRaw': priorityRaw,
       'accountIndex': accountIndex
@@ -107,6 +111,7 @@ PendingTransactionDescription _createBnsUpdateTransactionSync(Map args) {
   final bchatId = args['bchatId'] as String;
   final walletAddress = args['walletAddress'] as String;
   final belnetId = args['belnetId'] as String;
+  final ethAddress = args['ethAddress'] as String;
   final bnsName = args['bnsName'] as String;
   final priorityRaw = args['priorityRaw'] as int;
   final accountIndex = args['accountIndex'] as int;
@@ -117,6 +122,7 @@ PendingTransactionDescription _createBnsUpdateTransactionSync(Map args) {
       bchatId: bchatId,
       walletAddress: walletAddress,
       belnetId: belnetId,
+      ethAddress: ethAddress,
       bnsName: bnsName,
       priorityRaw: priorityRaw,
       accountIndex: accountIndex);
@@ -128,6 +134,7 @@ Future<PendingTransactionDescription> createBnsUpdateTransaction(
       required String bchatId,
       required String walletAddress,
       required String belnetId,
+      required String ethAddress,
       required String bnsName,
       required int priorityRaw,
       int accountIndex = 0}) =>
@@ -137,6 +144,7 @@ Future<PendingTransactionDescription> createBnsUpdateTransaction(
       'bchatId': bchatId,
       'walletAddress': walletAddress,
       'belnetId': belnetId,
+      'ethAddress': ethAddress,
       'bnsName': bnsName,
       'priorityRaw': priorityRaw,
       'accountIndex': accountIndex

@@ -113,7 +113,7 @@ abstract class SendStoreBase with Store {
   }
 
   @action
-  Future createBnsTransaction({required String owner, required String backUpOwner, required String mappingYears, required String walletAddress, required String bchatId, required String belnetId, required String bnsName, required BeldexTransactionPriority tPriority}) async {
+  Future createBnsTransaction({required String owner, required String backUpOwner, required String mappingYears, required String walletAddress, required String bchatId, required String belnetId, required String ethAddress, required String bnsName, required BeldexTransactionPriority tPriority}) async {
     state = CreatingTransaction();
 
     try {
@@ -124,6 +124,7 @@ abstract class SendStoreBase with Store {
           walletAddress: walletAddress,
           bchatId: bchatId,
           belnetId: belnetId,
+          ethAddress: ethAddress,
           bnsName: bnsName,
           priority: tPriority);
 
@@ -139,7 +140,7 @@ abstract class SendStoreBase with Store {
   }
 
   @action
-  Future createBnsUpdateTransaction({required String owner, required String backUpOwner, required String walletAddress, required String bchatId, required String belnetId, required String bnsName, required BeldexTransactionPriority tPriority}) async {
+  Future createBnsUpdateTransaction({required String owner, required String backUpOwner, required String walletAddress, required String bchatId, required String belnetId, required String ethAddress, required String bnsName, required BeldexTransactionPriority tPriority}) async {
     state = CreatingTransaction();
 
     try {
@@ -149,6 +150,7 @@ abstract class SendStoreBase with Store {
           walletAddress: walletAddress,
           bchatId: bchatId,
           belnetId: belnetId,
+          ethAddress: ethAddress,
           bnsName: bnsName,
           priority: tPriority);
 
