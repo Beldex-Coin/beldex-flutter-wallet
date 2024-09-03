@@ -122,6 +122,7 @@ mixin _$SendStore on SendStoreBase, Store {
       required String walletAddress,
       required String bchatId,
       required String belnetId,
+      required String ethAddress,
       required String bnsName,
       required BeldexTransactionPriority tPriority}) {
     return _$createBnsTransactionAsyncAction.run(() => super
@@ -132,6 +133,7 @@ mixin _$SendStore on SendStoreBase, Store {
             walletAddress: walletAddress,
             bchatId: bchatId,
             belnetId: belnetId,
+            ethAddress: ethAddress,
             bnsName: bnsName,
             tPriority: tPriority));
   }
@@ -146,6 +148,7 @@ mixin _$SendStore on SendStoreBase, Store {
       required String walletAddress,
       required String bchatId,
       required String belnetId,
+      required String ethAddress,
       required String bnsName,
       required BeldexTransactionPriority tPriority}) {
     return _$createBnsUpdateTransactionAsyncAction.run(() => super
@@ -155,6 +158,7 @@ mixin _$SendStore on SendStoreBase, Store {
             walletAddress: walletAddress,
             bchatId: bchatId,
             belnetId: belnetId,
+            ethAddress: ethAddress,
             bnsName: bnsName,
             tPriority: tPriority));
   }

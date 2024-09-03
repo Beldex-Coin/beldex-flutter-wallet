@@ -102,13 +102,14 @@ void commitTransaction({required Pointer<PendingTransactionRaw> transactionPoint
 }
 
 PendingTransactionDescription createBnsTransactionSync(
-    {required String owner, required String backUpOwner, required String mappingYears, required String bchatId, required String walletAddress, required String belnetId, required String bnsName, required int priorityRaw, int accountIndex = 0}) {
+    {required String owner, required String backUpOwner, required String mappingYears, required String bchatId, required String walletAddress, required String belnetId, required String ethAddress, required String bnsName, required int priorityRaw, int accountIndex = 0}) {
   final ownerPointer = owner.toNativeUtf8();
   final backUpOwnerPointer = backUpOwner.toNativeUtf8();
   final mappingYearsPointer = mappingYears.toNativeUtf8();
   final bchatIdPointer = bchatId.toNativeUtf8();
   final walletAddressPointer = walletAddress.toNativeUtf8();
   final belnetIdPointer = belnetId.toNativeUtf8();
+  final ethAddressPointer = ethAddress.toNativeUtf8();
   final bnsNamePointer = bnsName.toNativeUtf8();
   final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
   final result = bnsTransactionCreateNative(
@@ -118,6 +119,7 @@ PendingTransactionDescription createBnsTransactionSync(
       bchatIdPointer,
       walletAddressPointer,
       belnetIdPointer,
+      ethAddressPointer,
       bnsNamePointer,
       priorityRaw,
       accountIndex,
@@ -129,6 +131,7 @@ PendingTransactionDescription createBnsTransactionSync(
   calloc.free(bchatIdPointer);
   calloc.free(walletAddressPointer);
   calloc.free(belnetIdPointer);
+  calloc.free(ethAddressPointer);
   calloc.free(bnsNamePointer);
 
   if (result.good)
@@ -143,12 +146,13 @@ PendingTransactionDescription createBnsTransactionSync(
 }
 
 PendingTransactionDescription createBnsUpdateTransactionSync(
-    {required String owner, required String backUpOwner, required String bchatId, required String walletAddress, required String belnetId, required String bnsName, required int priorityRaw, int accountIndex = 0}) {
+    {required String owner, required String backUpOwner, required String bchatId, required String walletAddress, required String belnetId, required String ethAddress, required String bnsName, required int priorityRaw, int accountIndex = 0}) {
   final ownerPointer = owner.toNativeUtf8();
   final backUpOwnerPointer = backUpOwner.toNativeUtf8();
   final bchatIdPointer = bchatId.toNativeUtf8();
   final walletAddressPointer = walletAddress.toNativeUtf8();
   final belnetIdPointer = belnetId.toNativeUtf8();
+  final ethAddressPointer = ethAddress.toNativeUtf8();
   final bnsNamePointer = bnsName.toNativeUtf8();
   final pendingTransactionRawPointer = calloc<PendingTransactionRaw>();
   final result = bnsUpdateTransactionCreateNative(
@@ -157,6 +161,7 @@ PendingTransactionDescription createBnsUpdateTransactionSync(
       bchatIdPointer,
       walletAddressPointer,
       belnetIdPointer,
+      ethAddressPointer,
       bnsNamePointer,
       priorityRaw,
       accountIndex,
@@ -167,6 +172,7 @@ PendingTransactionDescription createBnsUpdateTransactionSync(
   calloc.free(bchatIdPointer);
   calloc.free(walletAddressPointer);
   calloc.free(belnetIdPointer);
+  calloc.free(ethAddressPointer);
   calloc.free(bnsNamePointer);
 
   if (result.good)

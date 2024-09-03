@@ -19,10 +19,14 @@ class BnsUpdateChangeNotifier extends ChangeNotifier{
   bool belnetIdFieldIsValid = false;
   String belnetIdFieldErrorMessage = '';
 
+  bool ethAddressFieldIsValid = false;
+  String ethAddressFieldErrorMessage = '';
+
   List<BnsPurchaseOptions> bnsPurchaseOptions = [
-    BnsPurchaseOptions('Address', true),
+    BnsPurchaseOptions('Wallet Address', true),
     BnsPurchaseOptions('BChat ID', false),
-    BnsPurchaseOptions('Belnet ID', false)
+    BnsPurchaseOptions('Belnet ID', false),
+    BnsPurchaseOptions('ETH Address', false)
   ];
 
   void setOwnerAddressFieldIsValid(bool status) {
@@ -72,6 +76,16 @@ class BnsUpdateChangeNotifier extends ChangeNotifier{
 
   void setBelnetIdFieldErrorMessage(String errorMessage) {
     belnetIdFieldErrorMessage = errorMessage;
+    notifyListeners();
+  }
+
+  void setETHAddressFieldIsValid(bool status) {
+    ethAddressFieldIsValid = status;
+    notifyListeners();
+  }
+
+  void setETHAddressFieldErrorMessage(String errorMessage) {
+    ethAddressFieldErrorMessage = errorMessage;
     notifyListeners();
   }
 
