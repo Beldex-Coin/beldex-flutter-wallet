@@ -123,7 +123,7 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                                     ? Color(0xffffffff)
                                     : Theme.of(context)
                                         .primaryTextTheme
-                                        .headline6!
+                                        .titleLarge!
                                         .color),
                           ),
                           trailing: FutureBuilder(

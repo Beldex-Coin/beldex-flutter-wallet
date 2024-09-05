@@ -6,27 +6,27 @@ class Themes {
   static final ThemeData lightTheme = ThemeData(
     fontFamily: 'OpenSans',
     brightness: Brightness.light,
-    backgroundColor: Palette.lightThemeBackground,
+    dialogBackgroundColor: Palette.lightThemeBackground,
     scaffoldBackgroundColor: Palette.lightThemeBlack,
     hintColor: Colors.grey[500],
     focusColor: Palette.lightGrey, // focused and enabled border color for text fields
     primaryTextTheme: TextTheme(
-      headline6: TextStyle(
+      titleLarge: TextStyle(
         color: BeldexPalette.black
       ),
-      caption: TextStyle(
+      bodySmall: TextStyle(
         color: BeldexPalette.black,
       ),
-      button: TextStyle(
+      labelLarge: TextStyle(
         color: Colors.white,//BeldexPalette.black,
           backgroundColor: BeldexPalette.tealWithOpacity,
           decorationColor: BeldexPalette.teal
       ),
-      headline5: TextStyle(
+      titleMedium: TextStyle(
         color: Palette.darkThemeGrey,
         //color: BeldexPalette.black // account list tile, contact page
       ),
-      subtitle2: TextStyle(
+      /*subtitle2: TextStyle(
         color: Palette.wildDarkBlue, // filters
         backgroundColor:Palette.saveAndCopyButtonColor1
       ),
@@ -35,7 +35,7 @@ class Themes {
       ),
       overline: TextStyle(
         color: PaletteDark.darkThemeCloseButton // standard list row, transaction details
-      )
+      )*/
     ),
     toggleButtonsTheme: ToggleButtonsThemeData(
       selectedColor: BeldexPalette.teal,
@@ -43,37 +43,36 @@ class Themes {
       color: Palette.switchBackground,
       borderColor: Palette.switchBorder
     ),
-    selectedRowColor: Colors.grey,//BeldexPalette.tealWithOpacity,
     dividerColor: Colors.black,//Palette.lightGrey,
     dividerTheme: DividerThemeData(
       color: Colors.grey,//Palette.lightGrey
     ),
     textTheme: TextTheme(
-      headline6: TextStyle(
+      titleLarge: TextStyle(
         color: Palette.backPressButtonColor,
         //color: Colors.grey,
         backgroundColor: Palette.receiveCardBackgroundColor,
         //backgroundColor: Palette.creamyGrey // pin button color
       ),
-      caption: TextStyle(
+      bodySmall: TextStyle(
         color: Palette.wildDarkBlue, // clear button color, exchange page
         backgroundColor: Palette.lightThemeBlack, // button blue background color
         decorationColor: Palette.buttonColor, // button blue border color
       ),
-      button: TextStyle(
+      labelLarge: TextStyle(
         backgroundColor: Colors.transparent, // button indigo background color
         decorationColor: Palette.deepIndigo // button indigo border color
       ),
-      subtitle2: TextStyle(
+      /*subtitle2: TextStyle(
         color: BeldexPalette.black,
         backgroundColor: Palette.lightLavender // send page border color
-      ),
-      headline5: TextStyle(
+      ),*/
+      titleMedium: TextStyle(
         color: Colors.black, // receive page
         backgroundColor: Colors.transparent, // restore button background color
         decorationColor: Palette.dashBoardBorderColor,//Palette.darkGrey, // restore button border color
       ),
-      subtitle1: TextStyle(
+      /*subtitle1: TextStyle(
         color: Palette.lightBlue, // restore button description
         backgroundColor: Palette.lightGrey2 // change language background color
       ),
@@ -81,7 +80,7 @@ class Themes {
         color: Colors.black,//BeldexPalette.blue, // send page text
         backgroundColor: Palette.primaryButtonBackgroundColor,//BeldexPalette.blue, // send page text
         decorationColor: Palette.manatee // send page text
-      )
+      )*/
     ),
     cardColor: Palette.cardBackgroundColor,
     //cardColor: Palette.lavender,
@@ -105,35 +104,35 @@ class Themes {
   static final ThemeData darkTheme = ThemeData(
     fontFamily: 'OpenSans',
     brightness: Brightness.dark,
-    backgroundColor: PaletteDark.darkThemeBackground,
+    dialogBackgroundColor: PaletteDark.darkThemeBackground,
     scaffoldBackgroundColor: PaletteDark.darkThemeBlack,
     hintColor: PaletteDark.darkThemeGrey,
     focusColor: PaletteDark.darkThemeGreyWithOpacity, // focused and enabled border color for text fields
     primaryTextTheme: TextTheme(
-      headline6: TextStyle(
+      titleLarge: TextStyle(
         color: Colors.white
       ),
-      caption: TextStyle(
+      bodySmall: TextStyle(
         color: Colors.white
       ),
-      button: TextStyle(
+      labelLarge: TextStyle(
         color: Colors.white,
         backgroundColor: BeldexPalette.tealWithOpacity, // button indigo background color
         decorationColor: BeldexPalette.tealWithOpacity // button indigo border color
       ),
-      headline5: TextStyle(
+      titleMedium: TextStyle(
         color: PaletteDark.darkThemeGrey // account list tile, contact page
       ),
-      subtitle2: TextStyle(
+      titleSmall: TextStyle(
+          color: Palette.blueGrey // transaction raw, trade raw
+      ),
+      /*subtitle2: TextStyle(
         color: PaletteDark.darkThemeGrey ,// filters
         backgroundColor:PaletteDark.saveAndCopyButtonColor1
       ),
-        subtitle1: TextStyle(
-        color: Palette.blueGrey // transaction raw, trade raw
-      ),
       overline: TextStyle(
         color: PaletteDark.darkThemeGrey // standard list row, transaction details
-      )
+      )*/
     ),
     toggleButtonsTheme: ToggleButtonsThemeData(
       selectedColor: BeldexPalette.teal,
@@ -141,45 +140,44 @@ class Themes {
       color: PaletteDark.switchBackground,
       borderColor: PaletteDark.darkThemeMidGrey
     ),
-    selectedRowColor: Colors.grey,//BeldexPalette.tealWithOpacity,
     dividerColor: Colors.white,//PaletteDark.darkThemeDarkGrey,
     dividerTheme: DividerThemeData(
       color: PaletteDark.darkThemeGreyWithOpacity
     ),
     textTheme: TextTheme(
-      headline6: TextStyle(
+      titleLarge: TextStyle(
         color: PaletteDark.backPressButtonColor,
         //color: PaletteDark.darkThemeTitle,
         backgroundColor:PaletteDark.receiveCardBackgroundColor,
         //backgroundColor: PaletteDark.darkThemePinDigitButton // pin button color
       ),
-      caption: TextStyle(
+      bodySmall: TextStyle(
         color: PaletteDark.darkThemeTitleViolet, // clear button color, exchange page
         backgroundColor: PaletteDark.darkThemeBlueButton, // button blue background color
         decorationColor: PaletteDark.buttonColor, // button blue border color
       ),
-      button: TextStyle(
+      labelLarge: TextStyle(
         backgroundColor: Colors.transparent, // button indigo background color
         decorationColor: PaletteDark.darkThemeIndigoButtonBorder // button indigo border color
       ),
-      subtitle2: TextStyle(
+      /*subtitle2: TextStyle(
         color: PaletteDark.wildDarkBlueWithOpacity,
         backgroundColor: PaletteDark.darkThemeDarkGrey // send page border color
-      ),
-      headline5: TextStyle(
+      ),*/
+      titleMedium: TextStyle(
         color: Colors.white, // receive page
         backgroundColor: Colors.transparent, // restore button background color
         decorationColor: PaletteDark.darkGrey,//PaletteDark.darkThemeDarkGrey, // restore button border color
       ),
-      subtitle1: TextStyle(
+      titleSmall: TextStyle(
         color: Palette.wildDarkBlue, // restore button description
         backgroundColor: PaletteDark.darkThemeMidGrey // change language background color
       ),
-      overline: TextStyle(
+      /*overline: TextStyle(
         color: PaletteDark.darkThemeTitle, // send page text
         backgroundColor: PaletteDark.primaryButtonBackgroundColor,//PaletteDark.darkThemeGrey, // send page text
         decorationColor: PaletteDark.darkThemeTitle // send page text
-      )
+      )*/
     ),
     cardColor: PaletteDark.cardBackgroundColor,
     //cardColor: PaletteDark.darkThemeMidGrey,

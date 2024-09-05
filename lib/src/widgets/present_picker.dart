@@ -27,14 +27,14 @@ Future<T?> presentPicker<T extends Object>(
                               decoration: TextDecoration.none,
                               color: Theme.of(context)
                                   .primaryTextTheme
-                                  .caption!
+                                  .bodySmall!
                                   .color))),
                   Padding(
                     padding: EdgeInsets.only(top: 15, bottom: 30),
                     child: Container(
                       height: 150.0,
                       child: CupertinoPicker(
-                          backgroundColor: Theme.of(context).backgroundColor,
+                          backgroundColor: Theme.of(context).dialogBackgroundColor,
                           itemExtent: 45.0,
                           onSelectedItemChanged: (int index) =>
                               _value = list[index],
@@ -47,7 +47,7 @@ Future<T?> presentPicker<T extends Object>(
                                           backgroundColor: Colors.transparent,
                                           color: Theme.of(context)
                                               .primaryTextTheme
-                                              .caption!
+                                              .bodySmall!
                                               .color),
                                     ),
                                   ))),
@@ -57,11 +57,11 @@ Future<T?> presentPicker<T extends Object>(
                     text: tr(context).ok,
                     color: Theme.of(context)
                         .primaryTextTheme
-                        .button!
+                        .labelLarge!
                         .backgroundColor!,
                     borderColor: Theme.of(context)
                         .primaryTextTheme
-                        .button!
+                        .labelLarge!
                         .decorationColor!,
                     onPressed: () => Navigator.of(context).pop(_value),
                   )

@@ -215,7 +215,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                     backgroundColor: Colors.transparent,
                     fontSize: 19,
                     fontWeight: FontWeight.w600,
-                    color: Theme.of(context).primaryTextTheme.caption?.color)),
+                    color: Theme.of(context).primaryTextTheme.bodySmall?.color)),
             Spacer(flex: 1),
             Container(
               width: 190,
@@ -277,7 +277,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                               fontSize: 17.0,
                               fontWeight: FontWeight.w800,
                               color:
-                              Theme.of(context).primaryTextTheme.caption?.color),
+                              Theme.of(context).primaryTextTheme.bodySmall?.color),
                         ),
                         Icon(Icons.keyboard_arrow_right,
                             color: settingsStore.isDarkTheme
@@ -423,7 +423,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                 onPressed: () => _pop(),
                                 child: SvgPicture.asset('assets/images/new-images/clear.svg', color:Theme.of(context)
                                     .primaryTextTheme
-                                    .caption!
+                                    .bodySmall!
                                     .color)
                               // Icon(Icons.backspace_outlined,
                               //     color: Theme.of(context)
@@ -446,7 +446,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                     backgroundColor: Colors.transparent,
                                     fontSize: 23.0,
                                     fontWeight: FontWeight.w800,
-                                    color: Theme.of(context).primaryTextTheme.caption?.color)),
+                                    color: Theme.of(context).primaryTextTheme.bodySmall?.color)),
                           ),
                         );
                       }),

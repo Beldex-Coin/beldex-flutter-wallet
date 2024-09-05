@@ -167,7 +167,7 @@ class AuthPageState extends State<AuthPage> {
                 backgroundColor: Colors.transparent,
                 fontWeight: FontWeight.w600,
                 fontSize: 22,
-                color: Theme.of(context).primaryTextTheme.caption?.color,
+                color: Theme.of(context).primaryTextTheme.bodySmall?.color,
               ),
             ),
           ),

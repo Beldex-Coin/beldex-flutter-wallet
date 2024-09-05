@@ -11,8 +11,8 @@ class InternetConnectivityChecker extends StatefulWidget {
 }
 
 class _InternetConnectivityCheckerState extends State<InternetConnectivityChecker> {
-ConnectivityResult? _connectivityResult;
-StreamSubscription<ConnectivityResult>? _connectivitySubscription;
+late List<ConnectivityResult>? _connectivityResult;
+StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
 
 @override
   void initState() {
@@ -23,7 +23,7 @@ StreamSubscription<ConnectivityResult>? _connectivitySubscription;
 
 
 Future<void> _checkConnectivity() async {
-    final connectivityResult = await Connectivity().checkConnectivity();
+    final List<ConnectivityResult>? connectivityResult = await Connectivity().checkConnectivity();
     setState(() {
       _connectivityResult = connectivityResult;
     });
@@ -31,13 +31,13 @@ Future<void> _checkConnectivity() async {
 
   int increment = 1;
 
-   void _updateConnectivity(ConnectivityResult connectivityResult) {
+   void _updateConnectivity(List<ConnectivityResult> connectivityResult) {
   
     setState(() {
       _connectivityResult = connectivityResult;
     });
 
-    if (connectivityResult == ConnectivityResult.none) {
+    if (connectivityResult.contains(ConnectivityResult.none)) {
       // _showNetworkSnackbar(true);
       NetworkStat().setNetworkStatus(true);
       _showNetworkSnackbar(true);

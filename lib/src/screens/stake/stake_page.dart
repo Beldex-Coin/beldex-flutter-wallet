@@ -76,8 +76,8 @@ class StakePageBodyState extends State<StakePageBody> {
           }
           final allStakes = snapshot.data!;
           final stakeColor = allStakes.isEmpty
-              ? Theme.of(context).primaryTextTheme.button?.backgroundColor
-              : Theme.of(context).textTheme.caption?.decorationColor;
+              ? Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor
+              : Theme.of(context).textTheme.bodySmall?.decorationColor;
           var totalAmountStaked = 0;
           for (final stake in allStakes) {
             totalAmountStaked += stake.amount;
@@ -240,8 +240,8 @@ class StakePageBodyState extends State<StakePageBody> {
                 height: 400,
                 child: Center(
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryTextTheme.button!.backgroundColor!),
-                    backgroundColor: Theme.of(context).textTheme.caption!.decorationColor,
+                    valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryTextTheme.labelLarge!.backgroundColor!),
+                    backgroundColor: Theme.of(context).textTheme.bodySmall!.decorationColor,
                   ),
                 )),
           );

@@ -65,7 +65,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                 leading: SvgPicture.asset('assets/images/new-images/wallet.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6?.color),
+                    color: Theme.of(context).primaryTextTheme.titleLarge?.color),
                 text: t.wallets,
                 onTap: () {
                   Navigator.of(context).pop();
@@ -77,7 +77,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                     'assets/images/new-images/wallet_settings.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6?.color),
+                    color: Theme.of(context).primaryTextTheme.titleLarge?.color),
                 text: tr(context).walletSettings,
                 onTap: () => Navigator.of(context).pushNamed(Routes.settings)),
 
@@ -107,7 +107,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                     'assets/images/new-images/address_book.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.headline6?.color),
+                    color: Theme.of(context).primaryTextTheme.titleLarge?.color),
                 text: t.address_book,
                 onTap: () =>
                     Navigator.of(context).pushNamed(Routes.addressBook)),
@@ -120,7 +120,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                         'assets/images/new-images/settings_account.svg',
                         width: 25,
                         height: 25,
-                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.headline6?.color : Colors.grey ),
+                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.titleLarge?.color : Colors.grey ),
                     text: t.accounts,
                     onTap: (){
                       if(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus) {
@@ -149,7 +149,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                         'assets/images/new-images/settings_show_keys.svg',
                         width: 25,
                         height: 25,
-                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.headline6?.color : Colors.grey),
+                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.titleLarge?.color : Colors.grey),
                     text: t.show_keys,
                     onTap: () {
                       if(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus) {
@@ -173,7 +173,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                         'assets/images/new-images/settings_show_seed.svg',
                         width: 25,
                         height: 25,
-                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.headline6?.color : Colors.grey),
+                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.titleLarge?.color : Colors.grey),
                     text: t.show_seed,
                     onTap: () {
                       if(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus) {

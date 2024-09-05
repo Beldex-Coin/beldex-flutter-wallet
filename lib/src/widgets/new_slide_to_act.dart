@@ -211,7 +211,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
                                             math.pi / 4)),
                                     border: Border.all(
                                       color: Theme.of(context)
-                                          .backgroundColor, //kHintColor, so this should be changed?
+                                          .colorScheme.background, //kHintColor, so this should be changed?
                                     ),
                                     borderRadius:
                                     BorderRadius.circular(100),
@@ -225,10 +225,10 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
                                       padding: EdgeInsets.all(20),
                                       decoration: BoxDecoration(
                                         color: Theme.of(context)
-                                            .backgroundColor,
+                                            .colorScheme.background,
                                         border: Border.all(
                                             color: Theme.of(context)
-                                                .backgroundColor),
+                                                .colorScheme.background),
                                         borderRadius:
                                         BorderRadius.circular(
                                             100),
@@ -236,7 +236,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
 // this height forces the container to be a circle
                                       child: SvgPicture.asset(
                                         'assets/images/up_arrow_svg.svg',
-                                        color: Theme.of(context).primaryTextTheme.caption!.color,
+                                        color: Theme.of(context).primaryTextTheme.bodySmall!.color,
                                         width: 25,
                                         height: 25,
                                       ),
