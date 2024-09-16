@@ -89,3 +89,7 @@
   changes:
     - BNS names now supports ETH Addresses
     - Minor bug fixes
+-
+  version: 2.0.1
+  changes:
+    - Minor bug fixes

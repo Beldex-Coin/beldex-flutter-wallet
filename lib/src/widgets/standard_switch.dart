@@ -50,8 +50,8 @@ class StandardSwitchState extends State<StandardSwitch> {
             //shape:BoxShape.circle,
               color:widget.icon ? widget.value ? Color(0xff0BA70F) : Color(0xff737373) :
                widget.value
-                   ? Theme.of(context).primaryTextTheme.button?.backgroundColor
-                   : Theme.of(context).textTheme.caption?.decorationColor,
+                   ? Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor
+                   : Theme.of(context).textTheme.bodySmall?.decorationColor,
               borderRadius: BorderRadius.all(Radius.circular(100.0))),
           child:  widget.icon ? widget.value ?
          SvgPicture.asset('assets/images/new-images/moon_image.svg') :  SvgPicture.asset('assets/images/new-images/sun_image.svg') : Container()

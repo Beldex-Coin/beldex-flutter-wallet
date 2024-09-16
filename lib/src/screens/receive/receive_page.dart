@@ -97,11 +97,10 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
 
       await File(filePath).writeAsBytes(imageUint8List!);
 
-      await Share.shareFiles(
-          [filePath],
+      await Share.shareXFiles(
+          [XFile(filePath,mimeType: 'image/jpeg',name: address)],
           text: address,
-          subject: 'Share',
-          mimeTypes: ['image/jpeg']
+          subject: 'Share'
       );
       /*await WcFlutterShare.share(
           text: address,
@@ -1192,7 +1191,7 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
                                           style: TextStyle(
                                             backgroundColor: Colors.transparent,
                                             fontSize: 16.0,
-                                            color: Theme.of(context).primaryTextTheme.caption?.color, //Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+                                            color: Theme.of(context).primaryTextTheme.bodySmall?.color, //Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
                                           ),
                                         ),
                                       ),

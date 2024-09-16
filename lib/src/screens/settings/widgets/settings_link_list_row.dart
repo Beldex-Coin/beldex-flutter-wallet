@@ -38,7 +38,7 @@ class SettingsLinkListRow extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.w800,
-                      color: Theme.of(context).primaryTextTheme.headline6?.color),
+                      color: Theme.of(context).primaryTextTheme.titleLarge?.color),
                 ),
               )
             ],

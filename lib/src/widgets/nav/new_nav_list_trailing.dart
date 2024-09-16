@@ -34,7 +34,7 @@ class NewNavListTrailing extends StatelessWidget {
             title: Text(text!,
                 style: TextStyle(
                     fontSize: size==15?15.0:16.0,
-                    color: isDisable?Colors.grey:Theme.of(context).primaryTextTheme.headline6?.color)),
+                    color: isDisable?Colors.grey:Theme.of(context).primaryTextTheme.titleLarge?.color)),
             trailing: trailing,
             onTap: onTap,
           ),

@@ -120,7 +120,7 @@ class NewStakeFormState extends State<NewStakeForm>
                                 style: TextStyle(
                                     fontSize: 25,
                                     fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).primaryTextTheme.headline6?.color)),
+                                    color: Theme.of(context).primaryTextTheme.titleLarge?.color)),
                             SizedBox(
                               height: 10,
                             ),
@@ -131,7 +131,7 @@ class NewStakeFormState extends State<NewStakeForm>
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 16,
-                                  color: Theme.of(context).textTheme.caption?.decorationColor //Theme.of(context).primaryTextTheme.headline6.color
+                                  color: Theme.of(context).textTheme.bodySmall?.decorationColor //Theme.of(context).primaryTextTheme.headline6.color
                                   ),
                             ),
                           ]);
@@ -151,7 +151,7 @@ class NewStakeFormState extends State<NewStakeForm>
                           children: <Widget>[
                             Text(availableBalance,
                                 style: TextStyle(
-                                  color: Theme.of(context).primaryTextTheme.caption?.color,
+                                  color: Theme.of(context).primaryTextTheme.bodySmall?.color,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 )),
@@ -269,7 +269,7 @@ class NewStakeFormState extends State<NewStakeForm>
                         child: TextFormField(
                             style: TextStyle(
                                 fontSize: 18.0,
-                                color: Theme.of(context).primaryTextTheme.caption?.color),
+                                color: Theme.of(context).primaryTextTheme.bodySmall?.color),
                             controller: _cryptoAmountController,
                             keyboardType: TextInputType.numberWithOptions(
                                 signed: false, decimal: true),
@@ -328,7 +328,7 @@ class NewStakeFormState extends State<NewStakeForm>
         bottomSection: Observer(builder: (_) {
           return NewSlideToAct(
             text: tr(context).stake_beldex,
-            outerColor: Theme.of(context).primaryTextTheme.subtitle2!.color,
+            outerColor: Theme.of(context).primaryTextTheme.titleSmall!.color,
             innerColor: BeldexPalette.teal,
             onFutureSubmit: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                 ? () async {

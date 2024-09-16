@@ -18,12 +18,12 @@ class StandartListRow extends StatelessWidget {
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryTextTheme.caption?.color),
+                    color: Theme.of(context).primaryTextTheme.bodySmall?.color),
                 textAlign: TextAlign.left),
             Padding(
               padding: const EdgeInsets.only(top: 5),
               child: Text(value!,
-                  style: TextStyle(fontSize: 14, color: Theme.of(context).primaryTextTheme.caption?.color)),
+                  style: TextStyle(fontSize: 14, color: Theme.of(context).primaryTextTheme.bodySmall?.color)),
             )
           ]),
     );

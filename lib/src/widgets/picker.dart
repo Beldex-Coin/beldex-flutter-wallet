@@ -37,7 +37,7 @@ class Picker<Item extends Object> extends StatelessWidget {
                       width: double.infinity,
                       height: pickerHeight,
                       decoration: BoxDecoration(
-                          color: Theme.of(context).backgroundColor,
+                          color: Theme.of(context).dialogBackgroundColor,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20))),
@@ -48,7 +48,7 @@ class Picker<Item extends Object> extends StatelessWidget {
                             : Divider(
                                 height: 1,
                                 thickness: 2,
-                                color: Theme.of(context).textTheme.headline5?.decorationColor,//Color.fromRGBO(235, 238, 242, 1.0)
+                                color: Theme.of(context).textTheme.titleMedium?.decorationColor,//Color.fromRGBO(235, 238, 242, 1.0)
                         ),
                         itemBuilder: (_, index) {
                           if (index == 0) {
@@ -64,7 +64,7 @@ class Picker<Item extends Object> extends StatelessWidget {
                                       fontSize: 26,
                                       fontWeight: FontWeight.w600,
                                       decoration: TextDecoration.none,
-                                      color: Theme.of(context).primaryTextTheme.caption?.color),
+                                      color: Theme.of(context).primaryTextTheme.bodySmall?.color),
                                 ),
                               ),
                             );
@@ -94,7 +94,7 @@ class Picker<Item extends Object> extends StatelessWidget {
                                     fontWeight: FontWeight.normal,
                                     color: index == selectedAtIndex
                                         ? Color.fromRGBO(138, 80, 255, 1.0)
-                                        : Theme.of(context).primaryTextTheme.caption?.color),
+                                        : Theme.of(context).primaryTextTheme.bodySmall?.color),
                               )),
                             ),
                           );

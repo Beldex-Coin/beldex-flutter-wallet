@@ -146,7 +146,7 @@ class SettingsFormState extends State<SettingsForm> {
                             fontWeight: FontWeight.w400,
                             fontSize: MediaQuery.of(context).size.height *
                                 0.06 /
-                                3, color: Theme.of(context).primaryTextTheme.headline6?.color),),
+                                3, color: Theme.of(context).primaryTextTheme.titleLarge?.color),),
                     settingsStore.node == null
                         ? Container()
                         : Observer(builder: (_) {
@@ -329,7 +329,7 @@ class SettingsFormState extends State<SettingsForm> {
                                         0.06 /
                                         3,
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context).primaryTextTheme.headline6?.color),
+                                color: Theme.of(context).primaryTextTheme.titleLarge?.color),
                           )),
                 ),
                 //Decimals
@@ -454,7 +454,7 @@ class SettingsFormState extends State<SettingsForm> {
                                         0.06 /
                                         3,
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context).primaryTextTheme.headline6?.color),
+                                color: Theme.of(context).primaryTextTheme.titleLarge?.color),
                           )),
                 ),
                 //Enable fiat currency conversation
@@ -640,7 +640,7 @@ class SettingsFormState extends State<SettingsForm> {
                                         0.06 /
                                         3,
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context).primaryTextTheme.headline6?.color),
+                                color: Theme.of(context).primaryTextTheme.titleLarge?.color),
                           )),
                 ),
                 //Fee priority
@@ -806,7 +806,7 @@ class SettingsFormState extends State<SettingsForm> {
                                         0.06 /
                                         3,
                                 fontWeight: FontWeight.w400,
-                                color: Theme.of(context).primaryTextTheme.headline6?.color),
+                                color: Theme.of(context).primaryTextTheme.titleLarge?.color),
                           )),
                 ),
                 //Save recipient address
@@ -834,7 +834,7 @@ class SettingsFormState extends State<SettingsForm> {
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context)
                                 .primaryTextTheme
-                                .headline6!
+                                .titleLarge!
                                 .color)),
                     trailing: Icon(
                       Icons.arrow_forward_ios_rounded,
@@ -869,7 +869,7 @@ class SettingsFormState extends State<SettingsForm> {
                             fontSize:
                                 MediaQuery.of(context).size.height * 0.06 / 3,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).primaryTextTheme.headline6?.color)),
+                            color: Theme.of(context).primaryTextTheme.titleLarge?.color)),
                     trailing: Icon(
                       Icons.arrow_forward_ios_rounded,
                       size: 20,
@@ -910,7 +910,7 @@ class SettingsFormState extends State<SettingsForm> {
                             fontSize:
                                 MediaQuery.of(context).size.height * 0.06 / 3,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).primaryTextTheme.headline6?.color)),
+                            color: Theme.of(context).primaryTextTheme.titleLarge?.color)),
                     trailing: Icon(
                       Icons.arrow_forward_ios_rounded,
                       size: 20,
@@ -934,7 +934,7 @@ class SettingsFormState extends State<SettingsForm> {
                             fontSize:
                                 MediaQuery.of(context).size.height * 0.06 / 3,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).primaryTextTheme.headline6?.color)),
+                            color: Theme.of(context).primaryTextTheme.titleLarge?.color)),
                     trailing: Icon(
                       Icons.arrow_forward_ios_rounded,
                       size: 20,
@@ -958,7 +958,7 @@ class SettingsFormState extends State<SettingsForm> {
                             fontSize:
                                 MediaQuery.of(context).size.height * 0.06 / 3,
                             fontWeight: FontWeight.w400,
-                            color: Theme.of(context).primaryTextTheme.headline6?.color)),
+                            color: Theme.of(context).primaryTextTheme.titleLarge?.color)),
                     trailing: Icon(
                       Icons.arrow_forward_ios_rounded,
                       size: 20,

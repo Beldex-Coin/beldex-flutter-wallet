@@ -87,7 +87,7 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
                 child: ElevatedButton(
                   onPressed: () => widget.onDismiss!(context),
                   style: ElevatedButton.styleFrom(
-                    primary: settingsStore.isDarkTheme
+                    backgroundColor: settingsStore.isDarkTheme
                         ? Color(0xff383848)
                         : Color(0xffE8E8E8),
                     padding: EdgeInsets.all(15),
@@ -112,7 +112,7 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
                 child: ElevatedButton(
                   onPressed: () => widget.onPressed!(context),
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff0BA70F),
+                    backgroundColor: Color(0xff0BA70F),
                     padding: EdgeInsets.all(15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -179,7 +179,7 @@ class BeldexDialog extends StatelessWidget {
                 Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
+                        color: Theme.of(context).dialogBackgroundColor,
                         borderRadius: BorderRadius.circular(10)),
                     child: body),
               ],
@@ -222,7 +222,7 @@ class SimpleBeldexDialog extends StatelessWidget {
                               decoration: TextDecoration.none,
                               color: Theme.of(context)
                                   .primaryTextTheme
-                                  .caption!
+                                  .bodySmall!
                                   .color))),
               Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 15),
@@ -234,14 +234,14 @@ class SimpleBeldexDialog extends StatelessWidget {
                           decoration: TextDecoration.none,
                           color: Theme.of(context)
                               .primaryTextTheme
-                              .caption!
+                              .bodySmall!
                               .color))),
               Container(
                 width: MediaQuery.of(context).size.width / 3,
                 child: PrimaryButton(
                     text: tr(context).ok,
-                    color: Theme.of(context).primaryTextTheme.button?.backgroundColor,
-                    borderColor: Theme.of(context).primaryTextTheme.button?.backgroundColor,
+                    color: Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor,
+                    borderColor: Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor,
                     onPressed: () {
                       if (onPressed != null) onPressed!(context);
                     }),
@@ -281,7 +281,7 @@ class ConfirmBeldexDialog extends StatelessWidget {
                           decoration: TextDecoration.none,
                           color: Theme.of(context)
                               .primaryTextTheme
-                              .caption!
+                              .bodySmall!
                               .color))),
               Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 15),
@@ -293,7 +293,7 @@ class ConfirmBeldexDialog extends StatelessWidget {
                           decoration: TextDecoration.none,
                           color: Theme.of(context)
                               .primaryTextTheme
-                              .caption!
+                              .bodySmall!
                               .color))),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -304,7 +304,7 @@ class ConfirmBeldexDialog extends StatelessWidget {
                       onPressed: () =>
                           onDismiss != null ? onDismiss!(context) : null,
                       style: ElevatedButton.styleFrom(
-                        primary: settingsStore.isDarkTheme
+                        backgroundColor: settingsStore.isDarkTheme
                             ? Color(0xff383848)
                             : Color(0xffE8E8E8),
                         padding: EdgeInsets.all(15),
@@ -334,7 +334,7 @@ class ConfirmBeldexDialog extends StatelessWidget {
                       onPressed: () =>
                           onConfirm != null ? onConfirm!(context) : null,
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xff0BA70F),
+                        backgroundColor: Color(0xff0BA70F),
                         padding: EdgeInsets.all(15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),

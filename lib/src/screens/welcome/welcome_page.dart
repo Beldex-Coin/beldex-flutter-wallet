@@ -105,7 +105,7 @@ class WelcomePage extends BasePage {
                               borderRadius: BorderRadius.circular(10))),
                       child: Text(
                         tr(context).restore_wallet,
-                        style: TextStyle(backgroundColor: Colors.transparent,color:Theme.of(context).primaryTextTheme.button?.color,fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(backgroundColor: Colors.transparent,color:Theme.of(context).primaryTextTheme.labelLarge?.color,fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(
@@ -124,7 +124,7 @@ class WelcomePage extends BasePage {
                               borderRadius: BorderRadius.circular(10))),
                       child: Text(
                         tr(context).create_new,
-                        style: TextStyle(backgroundColor: Colors.transparent,color:Theme.of(context).primaryTextTheme.button?.color,fontSize: 16, fontWeight: FontWeight.bold),
+                        style: TextStyle(backgroundColor: Colors.transparent,color:Theme.of(context).primaryTextTheme.labelLarge?.color,fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                     ),
                     SizedBox(
