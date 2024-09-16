@@ -11,7 +11,7 @@ class NavListTrailing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Theme.of(context).textTheme.headline5?.backgroundColor,
+      color: Theme.of(context).textTheme.headlineSmall?.backgroundColor,
       child: ListTile(
         contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
         leading: leading,
@@ -19,7 +19,7 @@ class NavListTrailing extends StatelessWidget {
             style: TextStyle(
                 backgroundColor: Colors.transparent,
                 fontSize: 16.0,
-                color: Theme.of(context).primaryTextTheme.headline6?.color)),
+                color: Theme.of(context).primaryTextTheme.titleLarge?.color)),
         trailing: trailing,
         onTap: onTap,
       ),

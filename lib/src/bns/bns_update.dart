@@ -19,6 +19,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:keyboard_detection/keyboard_detection.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -82,6 +83,12 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
   var bchatId = '';
   var belnetId = '';
   var ethAddress = '';
+  final _focusNodeBnsOwner = FocusNode();
+  final _focusNodeWalletAddress = FocusNode();
+  final _focusNodeBchatId = FocusNode();
+  final _focusNodeBelnetId = FocusNode();
+  final _focusNodeEthAddress = FocusNode();
+  late KeyboardDetectionController keyboardDetectionController;
   @override
   void initState() {
     if(widget.bnsDetails.isNotEmpty){
@@ -95,6 +102,17 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
         belnetId = belnetId.substring(0, belnetId.indexOf('.'));
       }
     }
+    keyboardDetectionController = KeyboardDetectionController(
+      onChanged: (value) {
+        if(value == KeyboardState.hidden){
+          _focusNodeBnsOwner.unfocus();
+          _focusNodeWalletAddress.unfocus();
+          _focusNodeBchatId.unfocus();
+          _focusNodeBelnetId.unfocus();
+          _focusNodeEthAddress.unfocus();
+        }
+      },
+    );
     super.initState();
   }
 
@@ -107,17 +125,20 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     final walletStore = Provider.of<WalletStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
     _setEffects(context);
-    return Scaffold(
-      backgroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        color: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
-        child: Consumer<BnsUpdateChangeNotifier>(
-            builder: (context, bnsUpdateChangeNotifier, child) {
-              _bnsUpdateChangeNotifier = bnsUpdateChangeNotifier;
-          return bnsUpdate(settingsStore, sendStore, syncStore,
-              bnsUpdateChangeNotifier, walletStore);
-        }),
+    return KeyboardDetection(
+      controller: keyboardDetectionController,
+      child: Scaffold(
+        backgroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+        body: Container(
+          width: MediaQuery.of(context).size.width,
+          color: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+          child: Consumer<BnsUpdateChangeNotifier>(
+              builder: (context, bnsUpdateChangeNotifier, child) {
+                _bnsUpdateChangeNotifier = bnsUpdateChangeNotifier;
+            return bnsUpdate(settingsStore, sendStore, syncStore,
+                bnsUpdateChangeNotifier, walletStore);
+          }),
+        ),
       ),
     );
   }
@@ -226,6 +247,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                           ),
                           padding: EdgeInsets.only(left: 8, right: 5),
                           child: TextFormField(
+                            focusNode: _focusNodeBnsOwner,
                             controller: _bnsOwnerNameController,
                             style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                             inputFormatters: [
@@ -445,6 +467,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                 padding: EdgeInsets.only(
                                     left: 8, right: 5, bottom: 15),
                                 child: TextFormField(
+                                  focusNode: _focusNodeWalletAddress,
                                   controller: _walletAddressController,
                                   style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                                   inputFormatters: [
@@ -509,6 +532,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                 padding: EdgeInsets.only(
                                     left: 8, right: 5, bottom: 15),
                                 child: TextFormField(
+                                  focusNode: _focusNodeBchatId,
                                   controller: _bChatIdController,
                                   style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                                   maxLength: 66,
@@ -574,6 +598,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                 padding: EdgeInsets.only(
                                     left: 8, right: 5, bottom: 15),
                                 child: TextFormField(
+                                  focusNode: _focusNodeBelnetId,
                                   controller: _belnetIdController,
                                   style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                                   maxLength: 52,
@@ -635,6 +660,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                 padding: EdgeInsets.only(
                                     left: 8, right: 5, bottom: 15),
                                 child: TextFormField(
+                                  focusNode: _focusNodeEthAddress,
                                   controller: _ethAddressController,
                                   style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                                   maxLength: 42,
@@ -1174,6 +1200,11 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     _belnetIdController.dispose();
     _walletAddressController.dispose();
     _ethAddressController.dispose();
+    _focusNodeBnsOwner.dispose();
+    _focusNodeWalletAddress.dispose();
+    _focusNodeBchatId.dispose();
+    _focusNodeBelnetId.dispose();
+    _focusNodeEthAddress.dispose();
     WakelockPlus.disable();
     rDisposer?.call();
     super.dispose();

@@ -118,7 +118,7 @@ class ShowKeysPage extends BasePage {
                               child: Text(value,
                                   style: TextStyle(
                                     fontSize: 13.0,
-                                    color: Theme.of(context).primaryTextTheme.caption?.color,
+                                    color: Theme.of(context).primaryTextTheme.bodySmall?.color,
                                   )),
                             ),
                             Flexible(flex: 1, child: Container())

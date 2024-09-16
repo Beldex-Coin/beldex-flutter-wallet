@@ -1,1 +1,9 @@
+plugins {
+    id "dev.flutter.flutter-plugin-loader" version "1.0.0"
+    id "com.android.application" version "7.1.3" apply false
+    id "org.jetbrains.kotlin.android" version "1.8.0" apply false
+}
+
+include ":app"
+
 rootProject.name = 'beldex_coin'

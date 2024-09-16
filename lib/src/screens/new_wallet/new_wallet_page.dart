@@ -211,7 +211,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                     Icons.clear,
                                     color: Theme.of(context)
                                         .primaryTextTheme
-                                        .caption!
+                                        .bodySmall!
                                         .color,
                                   ),
                                   onPressed: () {

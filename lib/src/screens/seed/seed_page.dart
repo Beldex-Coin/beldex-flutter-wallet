@@ -230,7 +230,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                     : null,
                                                 style: ElevatedButton
                                                     .styleFrom(
-                                                  primary: isCopied
+                                                  backgroundColor: isCopied
                                                       ? settingsStore
                                                               .isDarkTheme
                                                           ? Color(
@@ -302,7 +302,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               },
                                               style:
                                                   ElevatedButton.styleFrom(
-                                                primary: Color(0xff2979FB),
+                                                backgroundColor: Color(0xff2979FB),
                                                 padding: EdgeInsets.all(12),
                                                 shape:
                                                     RoundedRectangleBorder(
@@ -351,7 +351,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               },
                                               style:
                                                   ElevatedButton.styleFrom(
-                                                primary: Color(0xff0BA70F),
+                                                backgroundColor: Color(0xff0BA70F),
                                                 padding: EdgeInsets.all(12),
                                                 shape:
                                                     RoundedRectangleBorder(
@@ -401,7 +401,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               },
                                               style:
                                                   ElevatedButton.styleFrom(
-                                                primary: Color(0xff2979FB),
+                                                backgroundColor: Color(0xff2979FB),
                                                 padding: EdgeInsets.all(12),
                                                 shape:
                                                     RoundedRectangleBorder(
@@ -483,7 +483,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
               child: ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(),
                 style: ElevatedButton.styleFrom(
-                  primary: Color(0xff0BA70F),
+                  backgroundColor: Color(0xff0BA70F),
                   padding: EdgeInsets.all(15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),

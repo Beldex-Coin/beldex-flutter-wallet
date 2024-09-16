@@ -76,7 +76,7 @@ class WalletMenu {
                               backgroundColor: Colors.transparent,
                               fontSize: 18,
                               fontWeight: FontWeight.w800,
-                              color: Theme.of(context).primaryTextTheme.caption?.color,
+                              color: Theme.of(context).primaryTextTheme.bodySmall?.color,
                             ),
                           ),
                           Padding(
@@ -89,7 +89,7 @@ class WalletMenu {
                               style: TextStyle(
                                   backgroundColor: Colors.transparent,
                                   fontSize: 16,
-                                  color: Theme.of(context).primaryTextTheme.caption?.color),
+                                  color: Theme.of(context).primaryTextTheme.bodySmall?.color),
                             ),
                           ),
                           SizedBox(
@@ -105,7 +105,7 @@ class WalletMenu {
                                     onPressed: () =>
                                         Navigator.of(context1).pop(),
                                     style: ElevatedButton.styleFrom(
-                                      primary: settingsStore.isDarkTheme
+                                      backgroundColor: settingsStore.isDarkTheme
                                           ? Color(0xff383848)
                                           : Color(0xffE8E8E8),
                                       padding: EdgeInsets.all(10),
@@ -175,7 +175,7 @@ class WalletMenu {
                                       });
                                     },
                                     style: ElevatedButton.styleFrom(
-                                      primary: Color(0xff0BA70F),
+                                      backgroundColor: Color(0xff0BA70F),
                                       padding: EdgeInsets.all(10),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),

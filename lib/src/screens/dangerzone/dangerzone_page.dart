@@ -55,7 +55,7 @@ class DangerZonePage extends BasePage {
                 style: TextStyle(
                   fontSize: 30.0,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryTextTheme.caption?.color,
+                  color: Theme.of(context).primaryTextTheme.bodySmall?.color,
                 ),
                 textScaleFactor: textScaleFactor,
                 textAlign: TextAlign.center,
@@ -67,7 +67,7 @@ class DangerZonePage extends BasePage {
                   tr(context).never_give_your(item),
                   style: TextStyle(
                     fontSize: 22.0,
-                    color: Theme.of(context).primaryTextTheme.caption?.color,
+                    color: Theme.of(context).primaryTextTheme.bodySmall?.color,
                   ),
                   textScaleFactor: textScaleFactor,
                   textAlign: TextAlign.center,
@@ -79,7 +79,7 @@ class DangerZonePage extends BasePage {
                       item, appStore),
                   style: TextStyle(
                     fontSize: 16.0,
-                    color: Theme.of(context).primaryTextTheme.caption?.color,
+                    color: Theme.of(context).primaryTextTheme.bodySmall?.color,
                   ),
                   textScaleFactor: textScaleFactor,
                   textAlign: TextAlign.center,
@@ -89,7 +89,7 @@ class DangerZonePage extends BasePage {
                 style: TextStyle(
                   fontSize: 13.0,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryTextTheme.caption?.color,
+                  color: Theme.of(context).primaryTextTheme.bodySmall?.color,
                 ),
               )
             )
@@ -101,9 +101,9 @@ class DangerZonePage extends BasePage {
         child: PrimaryButton(
             onPressed: () => Navigator.popAndPushNamed(context, nextPage),
             text: tr(context).yes_im_sure,
-            color: Theme.of(context).primaryTextTheme.button?.backgroundColor,
+            color: Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor,
             borderColor:
-                Theme.of(context).primaryTextTheme.button?.backgroundColor),
+                Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor),
       ),
     ]);
   }

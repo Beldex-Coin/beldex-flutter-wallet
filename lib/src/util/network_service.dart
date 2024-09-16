@@ -12,8 +12,8 @@ class NetworkService{
     });
   }
 
-  NetworkStatus _networkStatus(ConnectivityResult connectivityResult){
-    return connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi ? NetworkStatus.online: NetworkStatus.offline;
+  NetworkStatus _networkStatus(List<ConnectivityResult> connectivityResult){
+    return connectivityResult.contains(ConnectivityResult.mobile) || connectivityResult.contains(ConnectivityResult.wifi) ? NetworkStatus.online: NetworkStatus.offline;
   }
 
 

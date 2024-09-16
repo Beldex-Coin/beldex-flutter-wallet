@@ -67,6 +67,6 @@ class DateSectionRow extends StatelessWidget {
                         color: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED)
                       ),
         child: Text(title,
-            style: TextStyle(fontSize: 18,fontWeight:FontWeight.w700, color: Theme.of(context).primaryTextTheme.caption?.color)));
+            style: TextStyle(fontSize: 18,fontWeight:FontWeight.w700, color: Theme.of(context).primaryTextTheme.bodySmall?.color)));
   }
 }

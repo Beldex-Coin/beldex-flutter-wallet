@@ -126,7 +126,7 @@ class TransactionDetailsListBodyState
                                                     color: Theme.of(
                                                         context)
                                                         .primaryTextTheme
-                                                        .caption!
+                                                        .bodySmall!
                                                         .color))),
                                         PopupMenuItem(
                                             value: 0,
@@ -217,8 +217,6 @@ class TransactionDetailsListBodyState
                                           showCustomDateRangePicker(
                                             context,
                                             dismissible: false,
-                                            startDate: DateTime.now().subtract(Duration(days: 1)),
-                                            endDate: DateTime.now(),
                                             minimumDate: DateTime(2018),
                                             maximumDate: DateTime.now(),
                                             onApplyClick: (DateTime start,DateTime end){
@@ -239,7 +237,7 @@ class TransactionDetailsListBodyState
                                         height: 18,
                                         color: Theme.of(context)
                                             .primaryTextTheme
-                                            .caption!
+                                            .bodySmall!
                                             .color,
                                       )))
                             ]),
@@ -407,7 +405,7 @@ class TransactionDetailsListBodyState
                                     fontWeight: FontWeight.bold,
                                     color: Theme.of(context)
                                         .primaryTextTheme
-                                        .caption!
+                                        .bodySmall!
                                         .color,
                                   ),
                                 ),

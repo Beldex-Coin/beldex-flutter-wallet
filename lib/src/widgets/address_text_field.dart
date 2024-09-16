@@ -95,7 +95,7 @@ class AddressTextField extends StatelessWidget {
                           width: 20,
                           height: 20,
                           color:
-                              Theme.of(context).primaryTextTheme.caption?.color,
+                              Theme.of(context).primaryTextTheme.bodySmall?.color,
                           placeholderBuilder: (context) {
                             return Icon(Icons.image);
                           },
@@ -114,7 +114,7 @@ class AddressTextField extends StatelessWidget {
                           width: 25,
                           height: 25,
                           color:
-                              Theme.of(context).primaryTextTheme.caption?.color,
+                              Theme.of(context).primaryTextTheme.bodySmall?.color,
                           placeholderBuilder: (context) {
                             return Icon(Icons.image);
                           },

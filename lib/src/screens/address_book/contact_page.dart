@@ -303,7 +303,7 @@ class ContactFormState extends State<ContactForm> {
                           }
                         },
                   style: ElevatedButton.styleFrom(
-                    primary: settingsStore.isDarkTheme
+                    backgroundColor: settingsStore.isDarkTheme
                         ? Color(0xff383848)
                         : Color(0xffE8E8E8),
                     padding: EdgeInsets.all(15),
@@ -418,7 +418,7 @@ class ContactFormState extends State<ContactForm> {
                                                         tr(context).ok,
                                                         style: TextStyle(
                                                           backgroundColor: Colors.transparent,
-                                                          color: Theme.of(context).primaryTextTheme.caption?.color,
+                                                          color: Theme.of(context).primaryTextTheme.bodySmall?.color,
                                                         ),
                                                       ),
                                                     ),
@@ -435,7 +435,7 @@ class ContactFormState extends State<ContactForm> {
                           }
                         },
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff0BA70F),
+                    backgroundColor: Color(0xff0BA70F),
                     padding: EdgeInsets.all(15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
