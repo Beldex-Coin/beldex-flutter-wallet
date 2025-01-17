@@ -93,3 +93,7 @@
   version: 2.0.1
   changes:
     - Minor bug fixes
+-
+  version: 2.0.2
+  changes:
+    - Minor bug fixes
