@@ -22,7 +22,6 @@ import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority
 import 'package:beldex_wallet/src/widgets/nav/new_nav_list_header.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends BasePage {
   @override
@@ -49,16 +48,12 @@ class SettingsForm extends StatefulWidget {
 
 class SettingsFormState extends State<SettingsForm> {
 
-  final _emailUrl = 'mailto:support@beldex.io';
+  final _emailId = 'support@beldex.io';
   final _telegramUrl = 'https:t.me/beldexcoin';
   final _twitterUrl = 'https:twitter.com/BeldexCoin';
   final _githubUrl = 'https:github.com/Beldex-Coin';
 
-
-  void _launchUrl(String url) async {
-    print('call _launchURL');
-    if (await canLaunch(url)) await launch(url);
-  }
+  static const methodChannelPlatform = MethodChannel("io.beldex.wallet/beldex_wallet_channel");
 
   TextEditingController searchDecimalController = TextEditingController();
   TextEditingController searchCurrencyController = TextEditingController();
@@ -980,27 +975,41 @@ class SettingsFormState extends State<SettingsForm> {
                   Padding(
                       padding: EdgeInsets.only(right: 10, left: 10),
                       child: GestureDetector(
-                          onTap: () {
-                            _launchUrl(_emailUrl);
+                          onTap: () async {
+                            await methodChannelPlatform.invokeMethod("email",<String, dynamic>{
+                              'email_id': _emailId,
+                            });
                           },
                           child: SvgPicture.asset(
                               'assets/images/new-images/mail.svg'))),
                   Padding(
                     padding: const EdgeInsets.only(right: 10.0, left: 10),
                     child: GestureDetector(
-                        onTap: () => _launchUrl(_githubUrl),
+                        onTap: () async {
+                          await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
+                            'url': _githubUrl,
+                          });
+                        },
                         child: SvgPicture.asset(
                             'assets/images/new-images/github.svg')),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 20.0, left: 10),
                     child: GestureDetector(
-                        onTap: () => _launchUrl(_telegramUrl),
+                        onTap: () async {
+                          await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
+                            'url': _telegramUrl,
+                          });
+                        },
                         child: SvgPicture.asset(
                             'assets/images/new-images/telegram.svg')),
                   ),
                   GestureDetector(
-                      onTap: () => _launchUrl(_twitterUrl),
+                      onTap: () async {
+                        await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
+                          'url': _twitterUrl,
+                        });
+                      },
                       child: SvgPicture.asset(
                           'assets/images/new-images/twitter.svg')),
                 ],
