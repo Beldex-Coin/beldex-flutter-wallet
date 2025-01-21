@@ -9,7 +9,6 @@ import 'package:beldex_wallet/src/screens/transaction_details/standart_list_item
 import 'package:beldex_wallet/src/screens/transaction_details/standart_list_row.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:toast/toast.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
 class TransactionDetailsPage extends BasePage {
@@ -42,6 +41,8 @@ class TransactionDetailsForm extends StatefulWidget {
 
 class TransactionDetailsFormState extends State<TransactionDetailsForm> {
   final _items = <StandartListItem>[];
+
+  static const methodChannelPlatform = MethodChannel("io.beldex.wallet/beldex_wallet_channel");
 
   /*final _dateFormat = widget.settingsStore.getCurrentDateFormat(
         formatUSA: 'yyyy.MM.dd, HH:mm', formatDefault: 'dd.MM.yyyy, HH:mm');*/
@@ -89,10 +90,12 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
             final item = _items[index];
 
             return GestureDetector(
-              onTap: () {
+              onTap: () async {
                 if (index == 0) {
                   final url = 'https://explorer.beldex.io/tx/${item.value}';
-                  _launchUrl(url);
+                  await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
+                    'url': url,
+                  });
                 } else {
                   Clipboard.setData(ClipboardData(text: item.value));
                   Toast.show(
@@ -118,9 +121,5 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
             );
           }),
     );
-  }
-
-  void _launchUrl(String url) async {
-    if (await canLaunch(url)) await launch(url);
   }
 }
