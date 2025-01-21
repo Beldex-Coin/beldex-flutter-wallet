@@ -52,7 +52,9 @@ void main() async {
     Hive.registerAdapter(WalletInfoAdapter());
     Hive.registerAdapter(WalletTypeAdapter());
 
-    final secureStorage = FlutterSecureStorage();
+    final secureStorage = FlutterSecureStorage(aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+    ),);
     final transactionDescriptionsBoxKey = await getEncryptionKey(
         secureStorage: secureStorage,
         forKey: 'transactionDescriptionsBoxKey'); // FIXME: Unnamed constant
