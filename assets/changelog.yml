@@ -97,3 +97,8 @@
   version: 2.0.2
   changes:
     - Minor bug fixes
+-
+  version: 2.0.3
+  changes:
+    - Targeted latest version of android
+    - Minor bug fixes
