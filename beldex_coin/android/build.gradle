@@ -9,12 +9,12 @@ version '1.0-SNAPSHOT'
 rootProject.allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 }
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -45,6 +45,15 @@ android {
           version "3.18.1"
           path "CMakeLists.txt"
         }
+    }
+    namespace 'io.beldex.coin'
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
 
