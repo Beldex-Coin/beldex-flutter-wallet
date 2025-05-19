@@ -590,7 +590,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                         ),
                                       ),
                                       style: ElevatedButton.styleFrom(
-                                        primary: settingsStore.isDarkTheme?Color(0xff24242F):Color(0xffFFFFFF),
+                                        backgroundColor: settingsStore.isDarkTheme?Color(0xff24242F):Color(0xffFFFFFF),
                                         padding: EdgeInsets.all(12),
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(10),

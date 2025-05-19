@@ -614,7 +614,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    primary: settingsStore.isDarkTheme
+                    backgroundColor: settingsStore.isDarkTheme
                         ? Color(0xff242433)
                         : Color(0xffDADADA),
                     padding: EdgeInsets.only(
@@ -665,7 +665,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    primary: settingsStore.isDarkTheme
+                    backgroundColor: settingsStore.isDarkTheme
                         ? Color(0xff242433)
                         : Color(0xffDADADA),
                     padding: EdgeInsets.only(
@@ -719,7 +719,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    primary: settingsStore.isDarkTheme
+                    backgroundColor: settingsStore.isDarkTheme
                         ? Color(0xff32324A)
                         : Color(0xffFFFFFF),
                     padding: EdgeInsets.only(
@@ -745,7 +745,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 child: ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
-                    primary: Color(0xff0BA70F),
+                    backgroundColor: Color(0xff0BA70F),
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -1059,7 +1059,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
           child: ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
-              primary: Color(0xff0BA70F),
+              backgroundColor: Color(0xff0BA70F),
               padding:
                   EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
               shape: RoundedRectangleBorder(

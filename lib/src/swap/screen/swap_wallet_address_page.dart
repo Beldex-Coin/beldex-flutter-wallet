@@ -308,7 +308,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                         fontSize: 14.0,
                         fontWeight: FontWeight.normal,
                         color:
-                            Theme.of(context).primaryTextTheme.caption!.color),
+                            Theme.of(context).primaryTextTheme.bodySmall!.color),
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
                     ],
@@ -446,7 +446,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               style: TextStyle(
                   fontSize: 14.0,
                   fontWeight: FontWeight.normal,
-                  color: Theme.of(context).primaryTextTheme.caption!.color),
+                  color: Theme.of(context).primaryTextTheme.bodySmall!.color),
               controller: _refundWalletAddressController,
               keyboardType:
                   TextInputType.numberWithOptions(signed: false, decimal: true),
@@ -607,7 +607,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                           style: TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.normal,
-                              color: Theme.of(context).primaryTextTheme.caption!.color),
+                              color: Theme.of(context).primaryTextTheme.bodySmall!.color),
                           controller: _destinationTagController,
                           keyboardType:
                           TextInputType.numberWithOptions(signed: false, decimal: true),
@@ -1019,7 +1019,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: isEnabled()
+                  backgroundColor: isEnabled()
                       ? Color(0xff0BA70F)
                       : settingsStore.isDarkTheme
                       ? Color(0xff32324A)

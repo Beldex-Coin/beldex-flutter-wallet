@@ -861,7 +861,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                           fontWeight: FontWeight.normal,
                           color: Theme.of(context)
                               .primaryTextTheme
-                              .caption!
+                              .bodySmall!
                               .color),
                       controller: _sendAmountController,
                       keyboardType: TextInputType.numberWithOptions(
@@ -1115,7 +1115,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                           fontWeight: FontWeight.normal,
                           color: Theme.of(context)
                               .primaryTextTheme
-                              .caption!
+                              .bodySmall!
                               .color),
                       controller: _getAmountController,
                       keyboardType: TextInputType.numberWithOptions(
@@ -1387,7 +1387,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   Navigator.of(context).pushNamed(Routes.swapWalletAddress, arguments: ExchangeData(getCurrenciesFullProvider.getSelectedYouSendCoins().id?.toLowerCase(), getCurrenciesFullProvider.getSelectedYouGetCoins().id?.toLowerCase(), _sendAmountController.text.toString(),getCurrenciesFullProvider.getSelectedYouGetCoins().extraIdName));
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: true
+                  backgroundColor: true
                       ? Color(0xff0BA70F)
                       : settingsStore.isDarkTheme
                           ? Color(0xff32324A)
