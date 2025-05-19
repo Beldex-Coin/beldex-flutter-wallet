@@ -24,8 +24,8 @@ class SubaddressListPage extends BasePage {
     final walletStore = Provider.of<WalletStore>(context);
     final subaddressListStore = Provider.of<SubaddressListStore>(context);
 
-    final currentColor = Theme.of(context).selectedRowColor;
-    final notCurrentColor = Theme.of(context).backgroundColor;
+    final currentColor = Colors.grey;
+    final notCurrentColor = Theme.of(context).dialogBackgroundColor;
 
     return Container(
         padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
@@ -54,7 +54,7 @@ class SubaddressListPage extends BasePage {
                           label,
                           style: TextStyle(
                               fontSize: 16.0,
-                              color: Theme.of(context).primaryTextTheme.headline5?.color),
+                              color: Theme.of(context).primaryTextTheme.headlineSmall?.color),
                         ),
                       )
                     ]),

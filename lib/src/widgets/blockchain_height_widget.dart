@@ -84,7 +84,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                   child: Container(
                     padding: EdgeInsets.only(left: 30,top:5,bottom:5,right:10),
               child: InkWell(
-                  onTap: () => selectDate(context),
+                  onTap: () => selectDate(context,settingsStore),
                   child: IgnorePointer(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -147,9 +147,34 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
     );
   }
 
-  Future selectDate(BuildContext context) async {
+  Future selectDate(BuildContext context, SettingsStore settingsStore) async {
     final now = DateTime.now();
     final date = await showDatePicker(
+        builder: (context, child){
+          return Theme(
+            data: Theme.of(context).copyWith(
+                colorScheme: ColorScheme.dark(
+                  primary: Color(0xff0BA70F),
+                  onPrimary: Colors.white, // titles and
+                  onSurface: settingsStore.isDarkTheme ? Colors.white : Colors.black, // Month days , years
+                ),
+                datePickerTheme: DatePickerThemeData(
+                    backgroundColor: Theme.of(context).dialogBackgroundColor,
+                    cancelButtonStyle: ButtonStyle(
+                      foregroundColor: WidgetStateProperty.all(Color(0xff0BA70F)),
+                    ),
+                    confirmButtonStyle: ButtonStyle(
+                        foregroundColor: WidgetStateProperty.all(Color(0xff0BA70F))
+                    ),
+                    todayForegroundColor: WidgetStateProperty.all(settingsStore.isDarkTheme ? Colors.white : Colors.black),
+                    todayBorder: BorderSide(
+                      color: Color(0xff0BA70F),
+                    )
+                )
+            ),
+            child: child ?? SizedBox(),
+          );
+        },
         initialEntryMode:DatePickerEntryMode.calendarOnly,
         context: context,
         initialDate: now.subtract(Duration(days: 1)),

@@ -53,7 +53,7 @@ class AddSubAddress extends StatelessWidget {
               Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                      color: Theme.of(context).backgroundColor,
+                      color: Theme.of(context).dialogBackgroundColor,
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
                       height: MediaQuery.of(context).size.height * 1 / 3,

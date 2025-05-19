@@ -25,7 +25,7 @@ class SettingsTextListRow extends StatelessWidget {
                 style: TextStyle(
                     fontSize:MediaQuery.of(context).size.height*0.06/3, // 14.0,
                     fontWeight: FontWeight.w400,
-                    color: Theme.of(context).primaryTextTheme.headline6?.color),
+                    color: Theme.of(context).primaryTextTheme.titleLarge?.color),
               ),
             ),
             Flexible(child: widget!)

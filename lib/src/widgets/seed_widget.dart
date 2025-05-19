@@ -259,7 +259,7 @@ class SeedWidgetState extends State<SeedWidget> {
                               },
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
-                                primary: settingsStore.isDarkTheme
+                                backgroundColor: settingsStore.isDarkTheme
                                     ? Color(0xff333343)
                                     : Color(0xffDADADA),
                                 padding: EdgeInsets.only(
@@ -305,7 +305,7 @@ class SeedWidgetState extends State<SeedWidget> {
                                       color: Colors.white)),
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
-                                primary: Color(0xff2979FB),
+                                backgroundColor: Color(0xff2979FB),
                                 padding: EdgeInsets.only(
                                     top: 11, bottom: 11, left: 25, right: 25),
                                 shape: RoundedRectangleBorder(
@@ -366,11 +366,11 @@ class SeedWidgetState extends State<SeedWidget> {
                         text: tr(context).seed_language_next,
                         color: Theme.of(context)
                             .primaryTextTheme
-                            .button!
+                            .labelLarge!
                             .backgroundColor!,
                         borderColor: Theme.of(context)
                             .primaryTextTheme
-                            .button!
+                            .labelLarge!
                             .backgroundColor!)
                   ],
                 )

@@ -38,12 +38,13 @@ Future showBnsConfirmationDialogBox(
     String walletAddress,
     String bchatId,
     String belnetId,
+    String ethAddress,
     WalletStore walletStore,
     {required void Function(BuildContext context) onPressed,
     void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
       builder: (_) => BnsConfirmationDialogBox(bnsName, mappingYearsId,
-          mappingYears, owner, backUpOwner, walletAddress, bchatId, belnetId, walletStore,
+          mappingYears, owner, backUpOwner, walletAddress, bchatId, belnetId, ethAddress, walletStore,
           onDismiss: onDismiss!, onPressed: onPressed),
       context: context);
 }
@@ -56,12 +57,13 @@ Future showBnsUpdateConfirmationDialogBox(
     String walletAddress,
     String bchatId,
     String belnetId,
+    String ethAddress,
     WalletStore walletStore,
     int bnsUpdateOption,
     {required void Function(BuildContext context) onPressed,
       void Function(BuildContext context)? onDismiss}) {
   return showDialog<void>(
-      builder: (_) => BnsUpdateConfirmationDialogBox(bnsName, owner, backUpOwner, walletAddress, bchatId, belnetId, walletStore,bnsUpdateOption,
+      builder: (_) => BnsUpdateConfirmationDialogBox(bnsName, owner, backUpOwner, walletAddress, bchatId, belnetId, ethAddress, walletStore,bnsUpdateOption,
           onDismiss: onDismiss!, onPressed: onPressed),
       context: context);
 }
@@ -851,6 +853,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
     this.walletAddress,
     this.bchatId,
     this.belnetId,
+    this.ethAddress,
     this.walletStore, {
     this.onPressed,
     this.onDismiss,
@@ -864,6 +867,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
   final String walletAddress;
   final String bchatId;
   final String belnetId;
+  final String ethAddress;
   final WalletStore walletStore;
   final void Function(BuildContext context)? onPressed;
   final void Function(BuildContext context)? onDismiss;
@@ -1134,6 +1138,36 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   ),
                                 ],
                               ),
+                              Divider(
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xff444463)
+                                    : Color(0xffc9c9c9),
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'ETH Address',
+                                    style: TextStyle(
+                                        backgroundColor: Colors.transparent,
+                                        fontSize: 13,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222),
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  Text(
+                                    ethAddress.isNotEmpty ? ethAddress : 'None',
+                                    style: TextStyle(
+                                      backgroundColor: Colors.transparent,
+                                      fontSize: 12,
+                                      color: Color(0xff7D7D9c),
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
                           )),
                       Container(
@@ -1214,6 +1248,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
       this.walletAddress,
       this.bchatId,
       this.belnetId,
+      this.ethAddress,
       this.walletStore,
       this.bnsUpdateOption,{
         this.onPressed,
@@ -1226,6 +1261,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
   final String walletAddress;
   final String bchatId;
   final String belnetId;
+  final String ethAddress;
   final WalletStore walletStore;
   final int bnsUpdateOption;
   final void Function(BuildContext context)? onPressed;
@@ -1467,6 +1503,42 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                     ),
                                     Text(
                                       belnetId.isNotEmpty ? belnetId : 'None',
+                                      style: TextStyle(
+                                        backgroundColor: Colors.transparent,
+                                        fontSize: 12,
+                                        color: Color(0xff7D7D9c),
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Visibility(
+                                visible: bnsUpdateOption == 2,
+                                child: Divider(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff444463)
+                                      : Color(0xffc9c9c9),
+                                ),
+                              ),
+                              Visibility(
+                                visible: bnsUpdateOption == 2,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'ETH Address',
+                                      style: TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          fontSize: 13,
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xffFFFFFF)
+                                              : Color(0xff222222),
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                    Text(
+                                      ethAddress.isNotEmpty ? ethAddress : 'None',
                                       style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 12,

@@ -84,3 +84,16 @@
     - Targeted latest android version
     - Updated google play core libraries
     - Minor bug fixes
+-
+  version: 2.0.0
+  changes:
+    - BNS names now supports ETH Addresses
+    - Minor bug fixes
+-
+  version: 2.0.1
+  changes:
+    - Minor bug fixes
+-
+  version: 2.0.2
+  changes:
+    - Minor bug fixes

@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import '../../../l10n.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -30,10 +29,6 @@ class DisclaimerPageBody extends StatefulWidget {
 
 class DisclaimerBodyState extends State<DisclaimerPageBody> {
   String _fileText = '';
-
-  Future<void> launchUrl(String url) async {
-    if (await canLaunch(url)) await launch(url);
-  }
 
   Future getFileLines() async {
     _fileText = await rootBundle.loadString('assets/text/terms_and_cond.txt');

@@ -169,7 +169,7 @@ class AccountListPage extends BasePage {
                       child: Text(
                         tr(context).doYouWantToChangeYournPrimaryAccount,
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 17,color: Theme.of(context).primaryTextTheme.caption?.color),
+                        style: TextStyle(fontSize: 17,color: Theme.of(context).primaryTextTheme.bodySmall?.color),
                       ),
                     ),
                     SizedBox(
@@ -183,7 +183,7 @@ class AccountListPage extends BasePage {
                           child: ElevatedButton(
                             onPressed: () =>Navigator.of(context).pop(false),
                             style: ElevatedButton.styleFrom(
-                              primary: settingsStore.isDarkTheme ? Color(0xff383848): Color(0xffE8E8E8),
+                              backgroundColor: settingsStore.isDarkTheme ? Color(0xff383848): Color(0xffE8E8E8),
                               padding: EdgeInsets.all(10),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -205,7 +205,7 @@ class AccountListPage extends BasePage {
                               Navigator.of(context).pop(true);
                             },
                             style: ElevatedButton.styleFrom(
-                              primary: Color(0xff0BA70F),
+                              backgroundColor: Color(0xff0BA70F),
                               padding: EdgeInsets.all(10),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),

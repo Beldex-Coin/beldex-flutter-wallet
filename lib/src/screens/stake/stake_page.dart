@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
 import 'package:beldex_coin/stake.dart';
@@ -15,7 +16,6 @@ import 'package:beldex_wallet/src/wallet/beldex/beldex_amount_format.dart';
 import 'package:beldex_wallet/src/widgets/nav/nav_list_header.dart';
 import 'package:beldex_wallet/src/widgets/nav/nav_list_trailing.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 extension StakeParsing on StakeRow {
   double get ownedPercentage {
@@ -51,10 +51,8 @@ class StakePageBody extends StatefulWidget {
 }
 
 class StakePageBodyState extends State<StakePageBody> {
-  void _launchUrl(String url) async {
-    print('call _launchURL');
-    if (await canLaunch(url)) await launch(url);
-  }
+
+  static const methodChannelPlatform = MethodChannel("io.beldex.wallet/beldex_wallet_channel");
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +74,8 @@ class StakePageBodyState extends State<StakePageBody> {
           }
           final allStakes = snapshot.data!;
           final stakeColor = allStakes.isEmpty
-              ? Theme.of(context).primaryTextTheme.button?.backgroundColor
-              : Theme.of(context).textTheme.caption?.decorationColor;
+              ? Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor
+              : Theme.of(context).textTheme.bodySmall?.decorationColor;
           var totalAmountStaked = 0;
           for (final stake in allStakes) {
             totalAmountStaked += stake.amount;
@@ -211,10 +209,11 @@ class StakePageBodyState extends State<StakePageBody> {
                                 ],
                               )),
                           child: InkWell(
-                            onTap: () {
-                              final url =
-                                  'https://explorer.beldex.io/mn/$masterNodeKey';
-                              _launchUrl(url);
+                            onTap: () async {
+                              final url = 'https://explorer.beldex.io/mn/$masterNodeKey';
+                              await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
+                                'url': url,
+                              });
                             },
                             child: NavListTrailing(
                               leading: Stack(
@@ -240,8 +239,8 @@ class StakePageBodyState extends State<StakePageBody> {
                 height: 400,
                 child: Center(
                   child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryTextTheme.button!.backgroundColor!),
-                    backgroundColor: Theme.of(context).textTheme.caption!.decorationColor,
+                    valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryTextTheme.labelLarge!.backgroundColor!),
+                    backgroundColor: Theme.of(context).textTheme.bodySmall!.decorationColor,
                   ),
                 )),
           );

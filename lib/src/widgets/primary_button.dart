@@ -27,8 +27,8 @@ class PrimaryButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: isDisabled ? onDisabledPressed : onPressed,
           style: ElevatedButton.styleFrom(
-            primary: isDisabled
-                ? Theme.of(context).primaryTextTheme.button?.backgroundColor
+            backgroundColor: isDisabled
+                ? Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor
                 : color,
             padding: EdgeInsets.all(15),
             shape: RoundedRectangleBorder(
@@ -41,8 +41,8 @@ class PrimaryButton extends StatelessWidget {
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                   color: isDisabled
-                      ? Theme.of(context).primaryTextTheme.button?.color
-                      : Theme.of(context).primaryTextTheme.button?.color //Palette.darkGrey : Theme.of(context).primaryTextTheme.button.color
+                      ? Theme.of(context).primaryTextTheme.labelLarge?.color
+                      : Theme.of(context).primaryTextTheme.labelLarge?.color //Palette.darkGrey : Theme.of(context).primaryTextTheme.button.color
                   )),
         ));
   }
@@ -73,7 +73,7 @@ class PrimaryButtonWelcome extends StatelessWidget {
           onPressed: isDisabled ? onDisabledPressed : onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: isDisabled
-                ? Theme.of(context).primaryTextTheme.button?.backgroundColor
+                ? Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor
                 : color,
             padding: EdgeInsets.only(
                 top: 13, bottom: 13, left: 42, right: 42),
@@ -87,8 +87,8 @@ class PrimaryButtonWelcome extends StatelessWidget {
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                   color: isDisabled
-                      ? Theme.of(context).primaryTextTheme.button?.color
-                      : Theme.of(context).primaryTextTheme.button?.color //Palette.darkGrey : Theme.of(context).primaryTextTheme.button.color
+                      ? Theme.of(context).primaryTextTheme.labelLarge?.color
+                      : Theme.of(context).primaryTextTheme.labelLarge?.color //Palette.darkGrey : Theme.of(context).primaryTextTheme.button.color
               )),
         ));
   }
@@ -118,8 +118,8 @@ class PrimaryButtonNode extends StatelessWidget {
         child: ElevatedButton(
           onPressed: isDisabled ? onDisabledPressed : onPressed,
           style: ElevatedButton.styleFrom(
-            primary: isDisabled
-                ? Theme.of(context).primaryTextTheme.button?.backgroundColor
+            backgroundColor: isDisabled
+                ? Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor
                 : color,
             padding: EdgeInsets.all(15),
             shape: RoundedRectangleBorder(
@@ -131,8 +131,8 @@ class PrimaryButtonNode extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   fontSize: 16.0,
                   color: isDisabled
-                      ? Theme.of(context).primaryTextTheme.caption?.color
-                      : Theme.of(context).primaryTextTheme.caption?.color //Palette.darkGrey : Theme.of(context).primaryTextTheme.button.color
+                      ? Theme.of(context).primaryTextTheme.bodySmall?.color
+                      : Theme.of(context).primaryTextTheme.bodySmall?.color //Palette.darkGrey : Theme.of(context).primaryTextTheme.button.color
                   )),
         ));
   }
@@ -162,7 +162,7 @@ class LoadingPrimaryButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: (isLoading || isDisabled) ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          primary: color,
+          backgroundColor: color,
           padding: EdgeInsets.all(15),
           shape: RoundedRectangleBorder(
               side: BorderSide(color: borderColor),
@@ -175,7 +175,7 @@ class LoadingPrimaryButton extends StatelessWidget {
                     backgroundColor: Colors.transparent,
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryTextTheme.button?.color)),
+                    color: Theme.of(context).primaryTextTheme.labelLarge?.color)),
       ),
     );
   }
@@ -208,7 +208,7 @@ class PrimaryIconButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            primary: color,
+            backgroundColor: color,
             padding: EdgeInsets.all(15),
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: borderColor),
@@ -236,7 +236,7 @@ class PrimaryIconButton extends StatelessWidget {
                           backgroundColor: Colors.transparent,
                           fontSize: 16.0,
                           color:
-                              Theme.of(context).primaryTextTheme.button?.color)),
+                              Theme.of(context).primaryTextTheme.labelLarge?.color)),
                 ),
               )
             ],
@@ -269,7 +269,7 @@ class PrimaryImageButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            primary: color,
+            backgroundColor: color,
             padding: EdgeInsets.all(15),
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: borderColor),
@@ -295,7 +295,7 @@ class PrimaryImageButton extends StatelessWidget {
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 fontSize: 18.0,
-                                color: Theme.of(context).primaryTextTheme.button?.color)),
+                                color: Theme.of(context).primaryTextTheme.labelLarge?.color)),
                       ),
                     )
                   ]))

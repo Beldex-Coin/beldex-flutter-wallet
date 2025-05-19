@@ -215,9 +215,11 @@ extern "C"
        char *encrypted_bchat_value;
        char *encrypted_wallet_value;
        char *encrypted_belnet_value;
+       char *encrypted_eth_addr_value;
        char *value_bchat;
        char *value_wallet;
        char *value_belnet;
+       char *value_eth_addr;
 
        uint64_t update_height;
        uint64_t expiration_height;
@@ -231,9 +233,11 @@ extern "C"
            encrypted_bchat_value{strdup(info.encrypted_bchat_value.c_str())},
            encrypted_wallet_value{strdup(info.encrypted_wallet_value.c_str())},
            encrypted_belnet_value{strdup(info.encrypted_belnet_value.c_str())},
+           encrypted_eth_addr_value{strdup(info.encrypted_eth_addr_value.c_str())},
            value_bchat{strdup(info.value_bchat.c_str())},
            value_wallet{strdup(info.value_wallet.c_str())},
            value_belnet{strdup(info.value_belnet.c_str())},
+           value_eth_addr{strdup(info.value_eth_addr.c_str())},
            update_height{info.update_height},
            expiration_height{info.expiration_height}
            {}
@@ -650,7 +654,7 @@ extern "C"
     }
 
     EXPORT
-    status_and_error bns_buy(char *owner, char *backup_owner, char *mapping_years, char *value_bchat, char *value_wallet, char *value_belnet, char *name, uint8_t priority, uint32_t subaddr_account,
+    status_and_error bns_buy(char *owner, char *backup_owner, char *mapping_years, char *value_bchat, char *value_wallet, char *value_belnet, char *value_eth_addr, char *name, uint8_t priority, uint32_t subaddr_account,
         PendingTransactionRaw &pendingTransaction)
     {
         nice(19);
@@ -662,8 +666,9 @@ extern "C"
         std::string value_bchat_str(value_bchat);
         std::string value_wallet_str(value_wallet);
         std::string value_belnet_str(value_belnet);
+        std::string value_eth_addr_str(value_eth_addr);
         std::string name_str(name);
-        transaction = m_wallet->createBnsTransaction(owner_str, backup_owner_str, mapping_years_str, value_bchat_str, value_wallet_str, value_belnet_str, name_str, priority, subaddr_account);
+        transaction = m_wallet->createBnsTransaction(owner_str, backup_owner_str, mapping_years_str, value_bchat_str, value_wallet_str, value_belnet_str, value_eth_addr_str, name_str, priority, subaddr_account);
 
         int status = transaction->status().first;
 
@@ -697,7 +702,7 @@ extern "C"
     }
 
     EXPORT
-    status_and_error bns_update(char *owner, char *backup_owner, char *value_bchat, char *value_wallet, char *value_belnet, char *name, uint8_t priority, uint32_t subaddr_account,
+    status_and_error bns_update(char *owner, char *backup_owner, char *value_bchat, char *value_wallet, char *value_belnet, char *value_eth_addr, char *name, uint8_t priority, uint32_t subaddr_account,
         PendingTransactionRaw &pendingTransaction)
     {
         nice(19);
@@ -708,8 +713,9 @@ extern "C"
         std::string value_bchat_str(value_bchat);
         std::string value_wallet_str(value_wallet);
         std::string value_belnet_str(value_belnet);
+        std::string value_eth_addr_str(value_eth_addr);
         std::string name_str(name);
-        transaction = m_wallet->bnsUpdateTransaction(owner_str, backup_owner_str, value_bchat_str, value_wallet_str, value_belnet_str, name_str, priority, subaddr_account);
+        transaction = m_wallet->bnsUpdateTransaction(owner_str, backup_owner_str, value_bchat_str, value_wallet_str, value_belnet_str, value_eth_addr_str, name_str, priority, subaddr_account);
 
         int status = transaction->status().first;
 

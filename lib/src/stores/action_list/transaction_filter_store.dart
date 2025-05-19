@@ -46,8 +46,8 @@ abstract class TransactionFilterStoreBase with Store {
         var allowed = true;
 
         if (allowed && startDate != null && endDate != null) {
-          allowed = startDate?.isBefore(item.transaction.date) != null &&
-              endDate?.isAfter(item.transaction.date) != null;
+          allowed = startDate!.isBefore(item.transaction.date) &&
+              endDate!.isAfter(item.transaction.date);
         }
 
         if (allowed && (!displayOutgoing || !displayIncoming)) {

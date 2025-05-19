@@ -4,7 +4,7 @@ import 'package:beldex_wallet/src/wallet/transaction/transaction_creation_creden
 class BeldexBnsTransactionCreationCredentials
     extends TransactionCreationCredentials {
   BeldexBnsTransactionCreationCredentials(
-      {required this.owner, required this.backUpOwner, required this.mappingYears,required this.walletAddress,required this.bchatId,required this.belnetId,required this.bnsName,required this.priority});
+      {required this.owner, required this.backUpOwner, required this.mappingYears,required this.walletAddress,required this.bchatId,required this.belnetId,required this.ethAddress,required this.bnsName,required this.priority});
 
   final String owner;
   final String backUpOwner;
@@ -12,6 +12,7 @@ class BeldexBnsTransactionCreationCredentials
   final String walletAddress;
   final String bchatId;
   final String belnetId;
+  final String ethAddress;
   final String bnsName;
   final BeldexTransactionPriority priority;
 }

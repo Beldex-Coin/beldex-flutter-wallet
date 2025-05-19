@@ -16,6 +16,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:keyboard_detection/keyboard_detection.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
@@ -33,11 +34,20 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
   final _decryptRecordController = TextEditingController();
   StreamController<List<BnsRow>>? _getAllBnsStreamController;
   var isLoading = true;
+  final _focusNodeBnsName = FocusNode();
+  late KeyboardDetectionController keyboardDetectionController;
 
   @override
   void initState() {
     _getAllBnsStreamController = StreamController<List<BnsRow>>();
     callGetAllBns();
+    keyboardDetectionController = KeyboardDetectionController(
+      onChanged: (value) {
+        if(value == KeyboardState.hidden){
+          _focusNodeBnsName.unfocus();
+        }
+      },
+    );
     super.initState();
   }
 
@@ -50,14 +60,17 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
     final walletStore = Provider.of<WalletStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
     ToastContext().init(context);
-    return Container(
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
-      color: settingsStore.isDarkTheme ? Color(0xff171720) : Color(
-          0xffffffff),
-      child: myBns(sendStore, settingsStore, syncStore),
+    return KeyboardDetection(
+      controller: keyboardDetectionController,
+      child: Container(
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
+        color: settingsStore.isDarkTheme ? Color(0xff171720) : Color(
+            0xffffffff),
+        child: myBns(sendStore, settingsStore, syncStore),
+      ),
     );
   }
 
@@ -120,6 +133,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
               ),
               padding: EdgeInsets.only(left: 8, right: 5),
               child: TextFormField(
+                focusNode: _focusNodeBnsName,
                 controller: _decryptRecordController,
                 style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                 maxLength: _decryptRecordController.text.contains('-')
@@ -190,7 +204,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                 Toast.show(
                                   'Successfully decrypted BNS Record for ${_decryptRecordController
                                       .text}.bdx',
-                                  duration: Toast.lengthShort,
+                                  duration: Toast.lengthLong,
                                   gravity: Toast.bottom,
                                   textStyle:TextStyle(color: Colors.white),
                                   backgroundColor: Color(0xff0ba70f),
@@ -201,7 +215,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                               Navigator.of(context).pop();
                               Toast.show(
                                 'The given BNS record doesn\'t exist or does not belong to this wallet.',
-                                duration: Toast.lengthShort,
+                                duration: Toast.lengthLong,
                                 gravity: Toast.bottom,
                                 textStyle:TextStyle(color: Colors.white),
                                 backgroundColor: Colors.red,
@@ -213,7 +227,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                             Toast.show(
                               'Failed to decrypt BNS Record for ${_decryptRecordController
                                   .text}.bdx',
-                              duration: Toast.lengthShort,
+                              duration: Toast.lengthLong,
                               gravity: Toast.bottom,
                               textStyle:TextStyle(color: Colors.white),
                               backgroundColor: Colors.red,
@@ -225,7 +239,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                     }else{
                       Toast.show(
                         'Please wait until we fetch the BNS record from Network',
-                        duration: Toast.lengthShort,
+                        duration: Toast.lengthLong,
                         gravity: Toast.bottom,
                         textStyle:TextStyle(color: Colors.white),
                         backgroundColor: Colors.red,
@@ -539,7 +553,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                             .start,
                                         children: [
                                           Text(
-                                            'Encrypted Address Value',
+                                            'Encrypted Wallet Value',
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
@@ -672,6 +686,56 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                         0xff484856) : Color(0xffDADADA),
                                   ),
                                 ),
+                                //Encrypted ETH Address Value
+                                Visibility(
+                                  visible: bnsDetails.name == '(none)' &&
+                                      bnsDetails.encryptedEthAddrValue !=
+                                          '(none)',
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                            'Encrypted ETH Value',
+                                            style: TextStyle(
+                                                backgroundColor: Colors.transparent,
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffFFFFFF)
+                                                    : Color(0xff222222),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            bnsDetails.encryptedEthAddrValue,
+                                            style: TextStyle(
+                                              backgroundColor: Colors.transparent,
+                                              color: settingsStore.isDarkTheme
+                                                  ? Color(0xffD1D1D3)
+                                                  : Color(0xff77778B),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: bnsDetails.name == '(none)' &&
+                                      bnsDetails.encryptedEthAddrValue !=
+                                          '(none)',
+                                  child: Divider(
+                                    color: settingsStore.isDarkTheme ? Color(
+                                        0xff484856) : Color(0xffDADADA),
+                                  ),
+                                ),
                                 //Address Value
                                 Visibility(
                                   visible: bnsDetails.valueWallet != '(none)',
@@ -687,7 +751,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                             .start,
                                         children: [
                                           Text(
-                                            'Address',
+                                            'Wallet Address',
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
@@ -810,6 +874,52 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                         0xff484856) : Color(0xffDADADA),
                                   ),
                                 ),
+                                //ETH Address Value
+                                Visibility(
+                                  visible: bnsDetails.valueEthAddr != '(none)',
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Container(
+                                      margin: EdgeInsets.only(
+                                          left: 16, right: 16),
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment
+                                            .start,
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .start,
+                                        children: [
+                                          Text(
+                                            'ETH Address',
+                                            style: TextStyle(
+                                                backgroundColor: Colors.transparent,
+                                                color: settingsStore.isDarkTheme
+                                                    ? Color(0xffFFFFFF)
+                                                    : Color(0xff222222),
+                                                fontSize: 13,
+                                                fontWeight: FontWeight.w800),
+                                          ),
+                                          Text(
+                                            bnsDetails.valueEthAddr,
+                                            style: TextStyle(
+                                              backgroundColor: Colors.transparent,
+                                              color: settingsStore.isDarkTheme
+                                                  ? Color(0xffD1D1D3)
+                                                  : Color(0xff77778B),
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Visibility(
+                                  visible: bnsDetails.valueEthAddr != '(none)',
+                                  child: Divider(
+                                    color: settingsStore.isDarkTheme ? Color(
+                                        0xff484856) : Color(0xffDADADA),
+                                  ),
+                                ),
                                 //Update and Renewal
                                Visibility(
                                  visible:bnsDetails.name != '(none)',
@@ -820,7 +930,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                       onPressed:() {
                                       Navigator.of(context,
                                       rootNavigator: true)
-                                          .pushNamed(Routes.bnsUpdate,arguments: {'bnsName':bnsDetails.name,'ownerAddress':bnsDetails.owner,'walletAddress':bnsDetails.valueWallet,'bchatId':bnsDetails.valueBchat,'belnetId':bnsDetails.valueBelnet}).then((value){
+                                          .pushNamed(Routes.bnsUpdate,arguments: {'bnsName':bnsDetails.name,'ownerAddress':bnsDetails.owner,'walletAddress':bnsDetails.valueWallet,'bchatId':bnsDetails.valueBchat,'belnetId':bnsDetails.valueBelnet, 'ethAddress':bnsDetails.valueEthAddr}).then((value){
                                             if(value == true){
                                               Navigator.of(context).pop();
                                             }
@@ -1011,6 +1121,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
   void dispose() {
     _decryptRecordController.dispose();
     _getAllBnsStreamController?.close();
+    _focusNodeBnsName.dispose();
     super.dispose();
   }
 }

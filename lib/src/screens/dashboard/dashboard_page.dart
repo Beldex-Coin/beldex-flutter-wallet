@@ -36,7 +36,7 @@ class DashboardPage extends BasePage {
           child: IconButton(
             icon: SvgPicture.asset(
               'assets/images/new-images/refresh.svg',
-              color: Theme.of(context).primaryTextTheme.caption?.color,
+              color: Theme.of(context).primaryTextTheme.bodySmall?.color,
               width: 23,
               height: 23,
             ),
@@ -64,7 +64,7 @@ class DashboardPage extends BasePage {
               backgroundColor: Colors.transparent,
               fontSize: 24.0 - (12 - 8) * 2.0,
               fontWeight: FontWeight.bold,
-              color: Theme.of(context).primaryTextTheme.headline6?.color),
+              color: Theme.of(context).primaryTextTheme.titleLarge?.color),
         );
       },
     );
@@ -141,7 +141,7 @@ class DashboardPage extends BasePage {
                                     : Colors.black)),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: settingsStore.isDarkTheme
+                        backgroundColor: settingsStore.isDarkTheme
                             ? Color(0xff333343)
                             : Color(0xffD4D4D4),
                         shape: RoundedRectangleBorder(
@@ -171,7 +171,7 @@ class DashboardPage extends BasePage {
                               color: Colors.white,)),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: Color(0xff0BA70F),
+                        backgroundColor: Color(0xff0BA70F),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -341,7 +341,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                         fontSize: 11,
                                         color: Theme.of(context)
                                             .primaryTextTheme
-                                            .caption!
+                                            .bodySmall!
                                             .color,
                                         height: 2.0)): Container(height: 10)
                               ],
@@ -408,7 +408,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                             backgroundColor: Colors.transparent,
                                             color: Theme.of(context)
                                                 .primaryTextTheme
-                                                .caption!
+                                                .bodySmall!
                                                 .color,
                                             fontSize: MediaQuery.of(context)
                                                 .size
@@ -423,7 +423,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           style: TextStyle(
                                             color: Theme.of(context)
                                                 .primaryTextTheme
-                                                .caption!
+                                                .bodySmall!
                                                 .color,
                                             fontSize: 14,
                                             fontWeight: FontWeight.w600,
@@ -521,7 +521,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           ),
                                         ),
                                         style: ElevatedButton.styleFrom(
-                                          primary: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                          backgroundColor: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                               ? Color(0xff0BA70F)
                                               : settingsStore.isDarkTheme
                                               ? Color(0xff333343)
@@ -558,7 +558,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                         ),
                                       ),
                                       style: ElevatedButton.styleFrom(
-                                        primary: Color(0xff2979FB),
+                                        backgroundColor: Color(0xff2979FB),
                                         padding: EdgeInsets.all(12),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10),
@@ -644,7 +644,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
-                              primary: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                              backgroundColor: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                   ? settingsStore.isDarkTheme
                                   ? Color(0xff272733)
                                   : Color(0xffFFFFFF)

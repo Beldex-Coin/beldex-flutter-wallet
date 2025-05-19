@@ -123,7 +123,9 @@ class Router {
               Provider(
               create: (_) => UserStore(
               accountService: UserService(
-                  secureStorage: FlutterSecureStorage(),
+                  secureStorage: FlutterSecureStorage(aOptions: AndroidOptions(
+                    encryptedSharedPreferences: true,
+                  ),),
                   sharedPreferences: sharedPreferences)),),
               Provider(
                 create: (_) => AuthStore(
@@ -168,7 +170,9 @@ class Router {
               Provider(
                 create: (_) => UserStore(
                     accountService: UserService(
-                        secureStorage: FlutterSecureStorage(),
+                        secureStorage: FlutterSecureStorage(aOptions: AndroidOptions(
+                          encryptedSharedPreferences: true,
+                        ),),
                         sharedPreferences: sharedPreferences)),
               ),
               Provider(
@@ -199,7 +203,9 @@ class Router {
               Provider(
               create: (_) => UserStore(
               accountService: UserService(
-                  secureStorage: FlutterSecureStorage(),
+                  secureStorage: FlutterSecureStorage(aOptions: AndroidOptions(
+                    encryptedSharedPreferences: true,
+                  ),),
                   sharedPreferences: sharedPreferences)),),
               Provider(
                 create: (_) => AuthStore(

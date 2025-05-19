@@ -17,7 +17,7 @@ class NavListHeader extends StatelessWidget {
             children: <Widget>[
               Text(
                 title,
-                style: TextStyle(backgroundColor: Colors.transparent,fontSize: 15.0, color: Theme.of(context).primaryTextTheme.caption?.color),
+                style: TextStyle(backgroundColor: Colors.transparent,fontSize: 15.0, color: Theme.of(context).primaryTextTheme.bodySmall?.color),
               )
             ],
           ),
