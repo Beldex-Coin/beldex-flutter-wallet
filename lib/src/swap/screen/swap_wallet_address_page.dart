@@ -12,6 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../palette.dart';
+import '../../../routes.dart';
 import '../api_client/get_exchange_amount_api_client.dart';
 import '../model/get_exchange_amount_model.dart';
 import '../provider/valdiate_extra_id_field_provider.dart';
@@ -1010,11 +1011,13 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     }else {
                       if (acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState) {
                         //Navigate to Payment Screen
+                        Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, _destinationTagController.text, _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain));
                       }
                     }
                   }else{
                     if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState ){
                       //Navigate to Payment Screen
+                      Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, "", _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain));
                     }
                   }
                 },
@@ -1087,4 +1090,16 @@ class Coins {
 
   String? id;
   String? name;
+}
+
+class ExchangeDataWithRecipientAddress {
+  ExchangeDataWithRecipientAddress(this.from, this.to, this.amountFrom, this.extraIdName, this.recipientAddress, this.fromBlockChain, this.toBlockChain);
+
+  String? from;
+  String? to;
+  String? amountFrom;
+  String? extraIdName = "";
+  String? recipientAddress = "";
+  String? fromBlockChain;
+  String? toBlockChain;
 }

@@ -621,7 +621,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         if (enableTo.fullName != null) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             getCurrenciesFullProvider.setSelectedYouGetCoins(
-                Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName));
+                Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName, enableTo.blockchain));
             getCurrenciesFullProvider.setGetCoinsDropDownVisible(
                 !getCurrenciesFullProvider.getGetCoinsDropDownVisible());
             getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
@@ -674,7 +674,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         if (enableFrom.name != null) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             getCurrenciesFullProvider.setSelectedYouSendCoins(
-                Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName));
+                Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName, enableFrom.blockchain));
             getCurrenciesFullProvider.setSendCoinsDropDownVisible(
                 !getCurrenciesFullProvider.getSendCoinsDropDownVisible());
             getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
@@ -1384,7 +1384,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed(Routes.swapWalletAddress, arguments: ExchangeData(getCurrenciesFullProvider.getSelectedYouSendCoins().id?.toLowerCase(), getCurrenciesFullProvider.getSelectedYouGetCoins().id?.toLowerCase(), _sendAmountController.text.toString(),getCurrenciesFullProvider.getSelectedYouGetCoins().extraIdName));
+                  Navigator.of(context).pushNamed(Routes.swapWalletAddress, arguments: ExchangeData(getCurrenciesFullProvider.getSelectedYouSendCoins().id?.toLowerCase(), getCurrenciesFullProvider.getSelectedYouGetCoins().id?.toLowerCase(), _sendAmountController.text.toString(),getCurrenciesFullProvider.getSelectedYouGetCoins().extraIdName, getCurrenciesFullProvider.getSelectedYouSendCoins().bitcoin, getCurrenciesFullProvider.getSelectedYouGetCoins().bitcoin));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: true
@@ -1701,18 +1701,21 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 }
 
 class Coins {
-  Coins(this.id, this.name, this.extraIdName);
+  Coins(this.id, this.name, this.extraIdName, this.bitcoin);
 
   String? id;
   String? name;
   String? extraIdName = "";
+  String? bitcoin;
 }
 
 class ExchangeData {
-  ExchangeData(this.from, this.to, this.amountFrom, this.extraIdName);
+  ExchangeData(this.from, this.to, this.amountFrom, this.extraIdName, this.fromBlockChain, this.toBlockChain);
 
   String? from;
   String? to;
   String? amountFrom;
   String? extraIdName = "";
+  String? fromBlockChain;
+  String? toBlockChain;
 }

@@ -5,6 +5,7 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
 import 'package:beldex_wallet/src/swap/api_client/get_status_api_client.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,7 +19,7 @@ import 'number_stepper.dart';
 class SwapPaymentDetailsPage extends BasePage {
   SwapPaymentDetailsPage({required this.transactionDetails});
 
-  final CreateTransactionModel transactionDetails;
+  final TransactionDetails transactionDetails;
 
   @override
   bool get isModalBackButton => false;
@@ -43,7 +44,7 @@ class SwapPaymentDetailsPage extends BasePage {
 class SwapPaymentDetailsHome extends StatefulWidget {
   SwapPaymentDetailsHome({required this.transactionDetails});
 
-  final CreateTransactionModel transactionDetails;
+  final TransactionDetails transactionDetails;
 
   @override
   State<SwapPaymentDetailsHome> createState() => _SwapPaymentDetailsHomeState();
@@ -74,6 +75,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   }
 
   late CreateTransactionModel createdTransactionDetails;
+  late String _fromBlockChain;
   late Timer timer;
   late GetStatusApiClient getStatusApiClient;
   late StreamController<GetStatusModel> _getStatusStreamController;
@@ -124,7 +126,8 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   @override
   void initState() {
     startAndStopPendingTransactionTimer();
-    createdTransactionDetails = widget.transactionDetails;
+    createdTransactionDetails = widget.transactionDetails.createTransactionModel!;
+    _fromBlockChain = widget.transactionDetails.fromBlockChain!;
     getStatusApiClient = GetStatusApiClient();
     // Create a stream controller and get status to the stream.
     _getStatusStreamController = StreamController<GetStatusModel>();
@@ -307,7 +310,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                                 : Color(0xff222222)),
                       ),
                       Text(
-                        '${createdTransactionDetails?.amountExpectedFrom} ${createdTransactionDetails?.currencyFrom?.toUpperCase()}',
+                        '${createdTransactionDetails?.amountExpectedTo} ${createdTransactionDetails?.currencyTo?.toUpperCase()}',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -577,7 +580,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
             SizedBox(
               height: 5,
             ),
-            Text('blockchain : bitcoin',
+            Text('blockchain : $_fromBlockChain',
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,

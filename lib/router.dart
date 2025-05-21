@@ -653,7 +653,7 @@ class Router {
         });
       case Routes.swapPayment:
         return MaterialPageRoute<void>(builder: (context) {
-          return SwapPaymentPage();
+          return SwapPaymentPage(exchangeDataWithRecipientAddress : settings.arguments as ExchangeDataWithRecipientAddress);
         });
       case Routes.swapPaymentDetails:
         return MaterialPageRoute<void>(builder: (context) {
@@ -661,7 +661,7 @@ class Router {
             providers: [
               ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider())
             ],
-            child: SwapPaymentDetailsPage(transactionDetails : settings.arguments as CreateTransactionModel),
+            child: SwapPaymentDetailsPage(transactionDetails : settings.arguments as TransactionDetails),
           );
         });
       case Routes.swapExchanging:

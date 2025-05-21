@@ -6,6 +6,7 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/api_client/get_exchange_amount_api_client.dart';
 import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
 import 'package:beldex_wallet/src/swap/model/get_exchange_amount_model.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_wallet_address_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +15,10 @@ import '../api_client/create_transaction_api_client.dart';
 import 'number_stepper.dart';
 
 class SwapPaymentPage extends BasePage {
+  SwapPaymentPage({required this.exchangeDataWithRecipientAddress});
+
+  final ExchangeDataWithRecipientAddress exchangeDataWithRecipientAddress;
+
   @override
   bool get isModalBackButton => false;
 
@@ -30,11 +35,15 @@ class SwapPaymentPage extends BasePage {
 
   @override
   Widget body(BuildContext context) {
-    return SwapPaymentHome();
+    return SwapPaymentHome(exchangeDataWithRecipientAddress: exchangeDataWithRecipientAddress,);
   }
 }
 
 class SwapPaymentHome extends StatefulWidget {
+  SwapPaymentHome({required this.exchangeDataWithRecipientAddress});
+
+  final ExchangeDataWithRecipientAddress exchangeDataWithRecipientAddress;
+
   @override
   State<SwapPaymentHome> createState() => _SwapPaymentHomeState();
 }
@@ -68,9 +77,11 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
   late StreamController<GetExchangeAmountModel>
       _getExchangeAmountStreamController;
   late Timer timer;
+  late ExchangeDataWithRecipientAddress _exchangeDataWithRecipientAddress;
 
   @override
   void initState() {
+    _exchangeDataWithRecipientAddress = widget.exchangeDataWithRecipientAddress;
     createTransactionApiClient = CreateTransactionApiClient();
     getExchangeAmountApiClient = GetExchangeAmountApiClient();
     // Create a stream controller and exchange amount to the stream.
@@ -88,7 +99,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
   void callGetExchangeAmountApi(
       GetExchangeAmountApiClient getExchangeAmountApiClient) {
     getExchangeAmountApiClient.getExchangeAmountData(context,
-        {'from': 'btc', "to": 'bdx', "amountFrom": '0.001665'}).then((value) {
+        {'from': _exchangeDataWithRecipientAddress.from, "to": _exchangeDataWithRecipientAddress.to, "amountFrom": _exchangeDataWithRecipientAddress.amountFrom}).then((value) {
       if (value!.result!.isNotEmpty) {
         _getExchangeAmountStreamController.sink.add(value);
       }
@@ -313,7 +324,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                               fontWeight: FontWeight.w500),
                           children: [
                             TextSpan(
-                                text: '---',
+                                text: _exchangeDataWithRecipientAddress.fromBlockChain,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.normal,
@@ -392,7 +403,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                               fontWeight: FontWeight.w500),
                           children: [
                             TextSpan(
-                                text: '---',
+                                text: _exchangeDataWithRecipientAddress.toBlockChain,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.normal,
@@ -499,7 +510,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               height: 5,
             ),
             Text(
-              '---',
+              _exchangeDataWithRecipientAddress.recipientAddress!,
               style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w500,
@@ -609,26 +620,22 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
           alignment: Alignment.center,
           child: ElevatedButton(
             onPressed: () {
-              final extraIdStatus = false;
               showLoaderDialog(context);
-              if (extraIdStatus) {
-                //With extraId
+              if (_exchangeDataWithRecipientAddress.extraIdName!.isNotEmpty) {
                 createTransaction({
-                  "from": "btc",
-                  "to": "bnb",
-                  "address": "bnb165q9dz39mqh789zuuuqwkv22plut6f4nzy9jc9",
-                  "extraId": "Memo",
-                  "amountFrom": "0.21"
-                });
+                  "from": from,
+                  "to": to,
+                  "address": _exchangeDataWithRecipientAddress.recipientAddress!,
+                  "extraId": _exchangeDataWithRecipientAddress.extraIdName!,
+                  "amountFrom": _exchangeDataWithRecipientAddress.amountFrom!
+                }, _exchangeDataWithRecipientAddress.fromBlockChain!);
               } else {
-                //Without extraId
                 createTransaction({
-                  "from": "btc",
-                  "to": "bdx",
-                  "address":
-                      "bxc7SkcJNj3GfahLNkxZqN4KdtBY9m2KWXr9BKYCmWeU1mpxDq1S2rxisYVL71sMmwZkGCz732F3QRLwfw3whBVR2ztUPczSa",
-                  "amountFrom": "0.001665"
-                });
+                  "from": from,
+                  "to": to,
+                  "address": _exchangeDataWithRecipientAddress.recipientAddress!,
+                  "amountFrom": _exchangeDataWithRecipientAddress.amountFrom!
+                }, _exchangeDataWithRecipientAddress.toBlockChain!);
               }
             },
             style: ElevatedButton.styleFrom(
@@ -676,14 +683,14 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     );
   }
 
-  void createTransaction(Map<String, String> params) {
+  void createTransaction(Map<String, String> params, String? fromBlockChain) {
     callCreateTransactionApi(params).then((value) {
       if (value?.result != null) {
         print('Status -> Success');
         Navigator.of(context).pop();
         Navigator.of(context).pop();
         Navigator.of(context)
-            .pushNamed(Routes.swapPaymentDetails, arguments: value);
+            .pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(value, fromBlockChain));
       } else if (value?.error != null) {
         print('Status -> error ${value!.error!.message}');
         Navigator.of(context).pop();
@@ -708,4 +715,11 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     _getExchangeAmountStreamController.close();
     super.dispose();
   }
+}
+
+class TransactionDetails {
+  TransactionDetails(this.createTransactionModel, this.fromBlockChain);
+
+  CreateTransactionModel? createTransactionModel;
+  String? fromBlockChain;
 }
