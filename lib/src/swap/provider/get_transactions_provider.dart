@@ -17,6 +17,14 @@ class GetTransactionsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void getTransactionsListData(context, Map<String, List<String>> params) async {
+    loading = true;
+    data = await services.getSignatureWithIds(params);
+    loading = false;
+
+    notifyListeners();
+  }
+
   @override
   void dispose() {
     _disposed = true;

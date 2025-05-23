@@ -19,6 +19,19 @@ class GetTransactionsApiService {
     }
   }
 
+  Future<GetTransactionsModel?> getSignatureWithIds(Map<String, List<String>> params) async {
+    final signatureResponseBody =
+    await callSignatureApiService(Apis.getTransactions,params: params);
+    if (signatureResponseBody['signature'] as String != null) {
+      final getTransactionsResponseBody =
+      await callGetTransactionsApiService(Apis.getTransactions,
+          signatureResponseBody['signature'] as String,params: params);
+      return getTransactionsResponseBody;
+    } else {
+      return null;
+    }
+  }
+
   Future<Map<String, dynamic>> callSignatureApiService(String method,
       {Map<String, dynamic>? params}) async {
     Map<String, dynamic> resultBody;

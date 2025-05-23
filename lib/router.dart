@@ -6,6 +6,7 @@ import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/valdiate_extra_id_field_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_exchange_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_exchange_transaction_history_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_exchanging_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_payment_details_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_payment_page.dart';
@@ -676,6 +677,15 @@ class Router {
       case Routes.signature:
         return MaterialPageRoute<void>(builder: (context) {
           return SignaturePage();
+        });
+      case Routes.swapTransactionList:
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider())
+            ],
+            child: SwapExchangeTransactionHistoryPage(swapTransactionHistory: settings.arguments as SwapTransactionHistory),
+          );
         });
 
       default:

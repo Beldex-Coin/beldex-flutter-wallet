@@ -86,9 +86,14 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   late GetPairsParamsProvider getPairsParamsProvider;
   late GetExchangeAmountProvider getExchangeAmountProvider;
   Timer? timer;
+  late FlutterSecureStorage secureStorage;
+  late List<String> stored = [];
 
   @override
   void initState() {
+    secureStorage = FlutterSecureStorage(aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+    ));
     searchYouGetCoinsController.addListener(() {
       _searchYouGetCoinsSetState!(() {
         youGetCoinsFilter = searchYouGetCoinsController.text;
@@ -128,24 +133,27 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     final swapExchangePageChangeNotifier = Provider.of<SwapExchangePageChangeNotifier>(context);
-    return Consumer<GetCurrenciesFullProvider>(builder: (context,getCurrenciesFullProvider,child){
-      if(getCurrenciesFullProvider.loading){
-        return Center(
-        child: Container(
-          child: const CircularProgressIndicator(valueColor:
-            AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
-        )));
-      }else {
-        return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
-          return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
-            this.getCurrenciesFullProvider = getCurrenciesFullProvider;
-            this.getPairsParamsProvider = getPairsParamsProvider;
-            this.getExchangeAmountProvider = getExchangeAmountProvider;
-            return body(_screenWidth,_screenHeight,settingsStore,_scrollController,swapExchangePageChangeNotifier,getCurrenciesFullProvider.data,getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider);
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Consumer<GetCurrenciesFullProvider>(builder: (context,getCurrenciesFullProvider,child){
+        if(getCurrenciesFullProvider.loading){
+          return Center(
+          child: Container(
+            child: const CircularProgressIndicator(valueColor:
+              AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
+          )));
+        }else {
+          return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
+            return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
+              this.getCurrenciesFullProvider = getCurrenciesFullProvider;
+              this.getPairsParamsProvider = getPairsParamsProvider;
+              this.getExchangeAmountProvider = getExchangeAmountProvider;
+              return body(_screenWidth,_screenHeight,settingsStore,_scrollController,swapExchangePageChangeNotifier,getCurrenciesFullProvider.data,getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider);
+            });
           });
-        });
-      }
-    });
+        }
+      }),
+    );
   }
 
   @override
@@ -251,28 +259,11 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             //Exchange Screen
-                            Column(
-                              children: [
-                                Visibility(
-                                    visible: !swapExchangePageChangeNotifier
-                                        .transactionHistoryScreenVisible,
-                                    child: exchangeScreen(
-                                        _scrollController,
-                                        settingsStore,
-                                        swapExchangePageChangeNotifier,
-                                        enableFrom,enableTo,getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)),
-                                //Transaction History Screen
-                                Visibility(
-                                  visible: swapExchangePageChangeNotifier
-                                      .transactionHistoryScreenVisible,
-                                  child: transactionHistoryScreen(
-                                      _screenWidth,
-                                      _screenHeight,
-                                      settingsStore,
-                                      swapExchangePageChangeNotifier),
-                                ),
-                              ],
-                            ),
+                            exchangeScreen(
+                            _scrollController,
+                            settingsStore,
+                            swapExchangePageChangeNotifier,
+                            enableFrom,enableTo,getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider),
                           ],
                         ),
                       ),
@@ -298,318 +289,6 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         height: double.infinity,
         child: underMaintenanceScreen(_screenWidth, settingsStore),
       ),
-    );
-  }
-
-  Widget transactionRow(SettingsStore settingsStore) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Theme(
-          data: Theme.of(context).copyWith(
-              colorScheme: ColorScheme.fromSwatch().copyWith(
-                secondary: settingsStore.isDarkTheme
-                    ? Colors.white
-                    : Colors.black, // Your accent color
-              ),
-              dividerColor: Colors.transparent,
-              textSelectionTheme:
-                  TextSelectionThemeData(selectionColor: Colors.green)),
-          child: Container(
-            margin: EdgeInsets.only(top: 10, bottom: 10),
-            width: MediaQuery.of(context).size.width,
-            child: ExpansionTile(
-                title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.max,
-                    children: <Widget>[
-                      SvgPicture.asset(
-                        //'assets/images/swap/swap_waiting.svg',
-                        'assets/images/swap/swap_completed.svg',
-                        width: 18,
-                        height: 18,
-                      ),
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: false
-                            ? Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Flexible(
-                                    flex: 1,
-                                    child: Text('Exchange Amount',
-                                        style: TextStyle(
-                                            backgroundColor: Colors.transparent,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400,
-                                            color: settingsStore.isDarkTheme
-                                                ? Color(0xffAFAFBE)
-                                                : Color(0xff737373))),
-                                  ),
-                                  Flexible(
-                                    flex: 1,
-                                    child: Text('774 BDX',
-                                        style: TextStyle(
-                                            backgroundColor: Colors.transparent,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w900,
-                                            color: settingsStore.isDarkTheme
-                                                ? Color(0xffFFFFFF)
-                                                : Color(0xff222222))),
-                                  ),
-                                ],
-                              )
-                            : Column(
-                                children: <Widget>[
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Text('900 BDX',
-                                            style: TextStyle(
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                fontWeight: FontWeight.w900,
-                                                fontSize: 14,
-                                                color: settingsStore.isDarkTheme
-                                                    ? Color(0xffFFFFFF)
-                                                    : Color(0xff222222))),
-                                        Text('28 Apr 2023',
-                                            style: TextStyle(
-                                                backgroundColor:
-                                                    Colors.transparent,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w400,
-                                                color: settingsStore.isDarkTheme
-                                                    ? Color(0xffD1D1D3)
-                                                    : Color(0xff737373))),
-                                      ]),
-                                  Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Flexible(
-                                          flex: 1,
-                                          child: RichText(
-                                            textAlign: TextAlign.start,
-                                            text: TextSpan(
-                                                text: 'Received ',
-                                                style: TextStyle(
-                                                    backgroundColor:
-                                                        Colors.transparent,
-                                                    fontSize: 12,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: settingsStore
-                                                            .isDarkTheme
-                                                        ? Color(0xffAFAFBE)
-                                                        : Color(0xff737373)),
-                                                children: [
-                                                  TextSpan(
-                                                      text: '- 0.00063271 BTC',
-                                                      style: TextStyle(
-                                                          backgroundColor:
-                                                              Colors
-                                                                  .transparent,
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                          color: true
-                                                              ? Color(
-                                                                  0xff00AD07)
-                                                              : Color(
-                                                                  0xff77778B)))
-                                                ]),
-                                          ),
-                                        ),
-                                        Flexible(
-                                          flex: 1,
-                                          child: Text(
-                                              true ? 'Completed' : 'Waiting',
-                                              style: TextStyle(
-                                                  backgroundColor:
-                                                      Colors.transparent,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: true
-                                                      ? Color(0xff20D030)
-                                                      : settingsStore
-                                                              .isDarkTheme
-                                                          ? Color(0xffAFAFBE)
-                                                          : Color(0xff737373))),
-                                        )
-                                      ]),
-                                ],
-                              ),
-                      )),
-                    ]),
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              flex: 1,
-                              child: Text('Exchange Rate',
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xffAFAFBE)
-                                          : Color(0xff737373))),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: Text('1 BDX = 0.00000116BTC',
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xffD1D1D3)
-                                          : Color(0xff737373))),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              flex: 1,
-                              child: Text('Receiver',
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xffAFAFBE)
-                                          : Color(0xff737373))),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: Text('142...hzy',
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xffD1D1D3)
-                                          : Color(0xff737373))),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              flex: 1,
-                              child: Text('Amount Received',
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xffAFAFBE)
-                                          : Color(0xff737373))),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: Text(true ? '0.00063271 BTC' : '---',
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: true
-                                          ? Color(0xff20D030)
-                                          : settingsStore.isDarkTheme
-                                              ? Color(0xffD1D1D3)
-                                              : Color(0xff737373))),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              flex: 1,
-                              child: Text('Date',
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xffAFAFBE)
-                                          : Color(0xff737373))),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: Text('28 Apr 2023 20:14:15',
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xffD1D1D3)
-                                          : Color(0xff737373))),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              flex: 1,
-                              child: Text('Status',
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xffAFAFBE)
-                                          : Color(0xff737373))),
-                            ),
-                            Flexible(
-                              flex: 1,
-                              child: Text(true ? 'Completed' : 'Waiting',
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: true
-                                          ? Color(0xff20D030)
-                                          : settingsStore.isDarkTheme
-                                              ? Color(0xffD1D1D3)
-                                              : Color(0xff737373))),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ]),
-          ),
-        ),
-        Divider(
-          height: 2,
-        )
-      ],
     );
   }
 
@@ -808,8 +487,10 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 ),
                 InkWell(
                   onTap: () {
-                    swapExchangePageChangeNotifier
-                        .setTransactionHistoryScreenVisibleStatus(true);
+                    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+                    Navigator.of(context).pop();
+                    Navigator.of(context)
+                        .pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
                   },
                   child: SvgPicture.asset(
                     'assets/images/swap/history.svg',
@@ -1622,77 +1303,6 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     );
   }
 
-  Widget transactionHistoryScreen(
-      double _screenWidth,
-      double _screenHeight,
-      SettingsStore settingsStore,
-      SwapExchangePageChangeNotifier swapExchangePageChangeNotifier) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        //Transaction History Back Title
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: () {
-                    swapExchangePageChangeNotifier
-                        .setTransactionHistoryScreenVisibleStatus(false);
-                  },
-                  child: SvgPicture.asset(
-                    'assets/images/swap/swap_back.svg',
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xffffffff)
-                        : Color(0xff16161D),
-                    width: 20,
-                    height: 20,
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Back',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xffFFFFFF)
-                          : Color(0xff060606)),
-                ),
-              ],
-            ),
-            SvgPicture.asset(
-              'assets/images/swap/swap_download.svg',
-              color: settingsStore.isDarkTheme
-                  ? Color(0xffffffff)
-                  : Color(0xff16161D),
-              width: 25,
-              height: 25,
-            )
-          ],
-        ),
-        SizedBox(height: 10),
-        Container(
-          width: _screenWidth,
-          height: _screenHeight,
-          child: ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              key: _listKey,
-              padding: EdgeInsets.only(bottom: 15),
-              itemCount: 4,
-              itemBuilder: (context, index) {
-                return transactionRow(settingsStore);
-              }),
-        ),
-      ],
-    );
-  }
-
   void callGetExchangeAmountApi(String value, GetPairsParamsProvider getPairsParamsProvider){
     if(double.parse(value)>=getPairsParamsProvider.minimumAmount && double.parse(value)<=getPairsParamsProvider.maximumAmount){
       callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider);
@@ -1718,4 +1328,11 @@ class ExchangeData {
   String? extraIdName = "";
   String? fromBlockChain;
   String? toBlockChain;
+}
+
+class SwapTransactionHistory {
+  SwapTransactionHistory(this.transactionIdList, this.secureStorage);
+
+  List<String> transactionIdList;
+  FlutterSecureStorage? secureStorage;
 }

@@ -310,7 +310,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                                 : Color(0xff222222)),
                       ),
                       Text(
-                        '${createdTransactionDetails?.amountExpectedTo} ${createdTransactionDetails?.currencyTo?.toUpperCase()}',
+                        '${createdTransactionDetails?.amountExpectedFrom} ${createdTransactionDetails?.currencyFrom?.toUpperCase()}',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
