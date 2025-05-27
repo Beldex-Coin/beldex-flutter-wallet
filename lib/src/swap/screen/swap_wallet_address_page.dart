@@ -181,8 +181,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
       exchangeRate = getExchangeAmountModel.result![0].rate.toString();
       serviceFee = getExchangeAmountModel.result![0].fee.toString();
       networkFee = getExchangeAmountModel.result![0].networkFee.toString();
-      getAmount = (double.parse(getExchangeAmountModel.result![0].amountTo!) -
-              double.parse(getExchangeAmountModel.result![0].networkFee!)).toString();
+      getAmount = getExchangeAmountModel.result![0].amountTo!.toString();
       from = getExchangeAmountModel.result![0].from.toString();
       to = getExchangeAmountModel.result![0].to.toString();
       minimumAmount = "";
