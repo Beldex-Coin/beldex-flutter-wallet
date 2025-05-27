@@ -10,8 +10,8 @@ class GetCurrenciesFullProvider with ChangeNotifier {
   bool loading = true;
   bool bdxIsEnabled = false;
   bool _disposed = false;
-  Coins selectedYouSendCoins = Coins('BTC', 'Bitcoin', "", 'bitcoin');
-  Coins selectedYouGetCoins = Coins('BDX', 'Beldex', "", 'beldex');
+  Coins selectedYouSendCoins = Coins('BTC', 'Bitcoin', "", 'bitcoin', 'BTC');
+  Coins selectedYouGetCoins = Coins('BDX', 'Beldex', "", 'beldex', 'BDX');
   bool youSendCoinsDropDownVisible = false;
   bool youGetCoinsDropDownVisible = false;
   GetCurrenciesFullApiService services = GetCurrenciesFullApiService();

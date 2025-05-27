@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:beldex_wallet/l10n.dart';
@@ -11,6 +12,7 @@ import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
@@ -94,6 +96,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     secureStorage = FlutterSecureStorage(aOptions: AndroidOptions(
       encryptedSharedPreferences: true,
     ));
+    getTransactionsIds();
     searchYouGetCoinsController.addListener(() {
       _searchYouGetCoinsSetState!(() {
         youGetCoinsFilter = searchYouGetCoinsController.text;
@@ -124,6 +127,25 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         getExchangeAmountProvider.getExchangeAmountData(context, params);
       });
     }
+  }
+
+  Future<void> storeMultipleStrings(List<String> strings) async {
+    final encoded = jsonEncode(strings); // Convert list to JSON string
+    await secureStorage.write(key: 'swap_transaction_list', value: encoded);
+  }
+
+  Future<List<String>> getTransactionsIds() async {
+    // Retrieve the stored array
+    stored = await readMultipleStrings();
+    return stored;
+  }
+
+  Future<List<String>> readMultipleStrings() async {
+    final String? encoded = await secureStorage.read(key: 'swap_transaction_list');
+    if (encoded == null) return [];
+
+    final List<dynamic> decoded = jsonDecode(encoded);
+    return decoded.cast<String>();
   }
 
   @override
@@ -293,19 +315,19 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   InkWell youGetCoinsDropDownListItem(
-      SettingsStore settingsStore, Result enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider) {
+      SettingsStore settingsStore, Result enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
     return InkWell(
       onTap: () async {
         searchYouGetCoinsController.text = '';
         if (enableTo.fullName != null) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             getCurrenciesFullProvider.setSelectedYouGetCoins(
-                Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName, enableTo.blockchain));
+                Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName, enableTo.blockchain, enableTo.protocol));
             getCurrenciesFullProvider.setGetCoinsDropDownVisible(
                 !getCurrenciesFullProvider.getGetCoinsDropDownVisible());
             getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
             //Get Exchange Amount API Call
-            callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider);
+            callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
           });
         } else {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -346,19 +368,19 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   InkWell youSendCoinsDropDownListItem(
-      SettingsStore settingsStore, Result enableFrom, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider) {
+      SettingsStore settingsStore, Result enableFrom, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
     return InkWell(
       onTap: () async {
         searchYouSendCoinsController.text = '';
         if (enableFrom.name != null) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             getCurrenciesFullProvider.setSelectedYouSendCoins(
-                Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName, enableFrom.blockchain));
+                Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName, enableFrom.blockchain, enableFrom.protocol));
             getCurrenciesFullProvider.setSendCoinsDropDownVisible(
                 !getCurrenciesFullProvider.getSendCoinsDropDownVisible());
             getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
             //Get Exchange Amount API Call
-            callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider);
+            callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
           });
         } else {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -575,7 +597,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                               getPairsParamsProvider.setSendAmountValue(double.parse(value));
 
                               //Get Exchange Amount API Call
-                              callGetExchangeAmountApi(value,getPairsParamsProvider);
+                              callGetExchangeAmountApi(value,getPairsParamsProvider,getExchangeAmountProvider);
                             });
                         }else{
                             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -585,7 +607,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                       },
                       validator: (value){
                         if(value!.isNotEmpty){
-                          if(double.parse(value)<getPairsParamsProvider.minimumAmount || double.parse(value)>getPairsParamsProvider.maximumAmount){
+                          if(validateMinimumAmount(double.parse(value), getPairsParamsProvider, getExchangeAmountProvider) || validateMaximumAmount(double.parse(value), getPairsParamsProvider, getExchangeAmountProvider)){
                               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                                 getPairsParamsProvider.setSendFieldErrorState(true);
                                 getPairsParamsProvider.setGetAmountValue(0.0);
@@ -667,7 +689,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Visibility(
-                  visible: sendCoinAmount<getPairsParamsProvider.minimumAmount || sendCoinAmount>getPairsParamsProvider.maximumAmount,
+                  visible: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider) || validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider),
                   child: Container(
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
@@ -675,27 +697,26 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         borderRadius: BorderRadius.all(Radius.circular(8))),
                     child: InkWell(
                       onTap: (){
-                        if(sendCoinAmount<getPairsParamsProvider.minimumAmount){
-                          _sendAmountController.text = getPairsParamsProvider.minimumAmount.toString();
+                        if(validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)){
+                          _sendAmountController.text = minimumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString();
                           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                            getPairsParamsProvider.setSendAmountValue(getPairsParamsProvider.minimumAmount);
+                            getPairsParamsProvider.setSendAmountValue(minimumAmount(getPairsParamsProvider, getExchangeAmountProvider));
                             //Get Exchange Amount API Call
-                            callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider);
+                            validateMinimumAndMaximumAmount(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
                           });
-                        }else if(sendCoinAmount>getPairsParamsProvider.maximumAmount){
-                          _sendAmountController.text = getPairsParamsProvider.maximumAmount.toString();
+                        }else if(validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)){
+                          _sendAmountController.text = maximumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString();
                           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                            getPairsParamsProvider.setSendAmountValue(
-                                getPairsParamsProvider.maximumAmount);
+                            getPairsParamsProvider.setSendAmountValue(maximumAmount(getPairsParamsProvider, getExchangeAmountProvider));
                             //Get Exchange Amount API Call
-                            callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider);
+                            validateMinimumAndMaximumAmount(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
                           });
                         }
                       },
                       child: RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
-                            text: sendCoinAmount<getPairsParamsProvider.minimumAmount?'Minimum amount is ':sendCoinAmount>getPairsParamsProvider.maximumAmount?'Maximum amount is ':'',
+                            text: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'Minimum amount is ':validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'Maximum amount is ':'',
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 color: settingsStore.isDarkTheme
@@ -705,7 +726,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                 fontWeight: FontWeight.normal),
                             children: [
                               TextSpan(
-                                  text: sendCoinAmount<getPairsParamsProvider.minimumAmount?'${getPairsParamsProvider.minimumAmount} ${getCurrenciesFullProvider.getSelectedYouSendCoins().id}':sendCoinAmount>getPairsParamsProvider.maximumAmount?'${getPairsParamsProvider.maximumAmount} ${getCurrenciesFullProvider.getSelectedYouSendCoins().id}':'',
+                                  text: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'${minimumAmount(getPairsParamsProvider, getExchangeAmountProvider)} ${getCurrenciesFullProvider.getSelectedYouSendCoins().id}':validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'${maximumAmount(getPairsParamsProvider, getExchangeAmountProvider)} ${getCurrenciesFullProvider.getSelectedYouSendCoins().id}':'',
                                   style: TextStyle(
                                       backgroundColor: Colors.transparent,
                                       decoration: TextDecoration.underline,
@@ -726,13 +747,14 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         final currentSelectedSendCoin = getCurrenciesFullProvider.getSelectedYouSendCoins();
                         final currentSelectedGetCoin = getCurrenciesFullProvider.getSelectedYouGetCoins();
                         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                          getPairsParamsProvider.setSendAmountValue(0.0);
                           getCurrenciesFullProvider.setSelectedYouSendCoins(
                               currentSelectedGetCoin);
                           getCurrenciesFullProvider.setSelectedYouGetCoins(
                               currentSelectedSendCoin);
                           getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
                           //Get Exchange Amount API Call
-                          callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider);
+                          callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
                         });
                       },
                       child: Container(
@@ -951,7 +973,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   ],
                 )),
             //Fixed Exchange Rate Card
-            Container(
+            /*Container(
                 margin: EdgeInsets.only(bottom: 10),
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -1016,7 +1038,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                       ),
                     ),
                   ],
-                )),
+                )),*/
             //Floating and Fixed Exchange Rate Info
             Container(
                 margin: EdgeInsets.only(bottom: 20),
@@ -1064,11 +1086,29 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               alignment: Alignment.center,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pushNamed(Routes.swapWalletAddress, arguments: ExchangeData(getCurrenciesFullProvider.getSelectedYouSendCoins().id?.toLowerCase(), getCurrenciesFullProvider.getSelectedYouGetCoins().id?.toLowerCase(), _sendAmountController.text.toString(),getCurrenciesFullProvider.getSelectedYouGetCoins().extraIdName, getCurrenciesFullProvider.getSelectedYouSendCoins().bitcoin, getCurrenciesFullProvider.getSelectedYouGetCoins().bitcoin));
+                  if(isNextButtonEnabled(floatingExchangeRate) && !getPairsParamsProvider.getSendFieldErrorState()) {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamed(Routes.swapWalletAddress,
+                        arguments: ExchangeData(getCurrenciesFullProvider
+                            .getSelectedYouSendCoins()
+                            .id
+                            ?.toLowerCase(), getCurrenciesFullProvider
+                            .getSelectedYouGetCoins()
+                            .id
+                            ?.toLowerCase(),
+                            _sendAmountController.text.toString(),
+                            getCurrenciesFullProvider
+                                .getSelectedYouGetCoins()
+                                .extraIdName, getCurrenciesFullProvider
+                                .getSelectedYouSendCoins()
+                                .bitcoin, getCurrenciesFullProvider
+                                .getSelectedYouGetCoins()
+                                .bitcoin,getCurrenciesFullProvider
+                                .getSelectedYouGetCoins().protocol));
+                  }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: true
+                  backgroundColor: isNextButtonEnabled(floatingExchangeRate) && !getPairsParamsProvider.getSendFieldErrorState()
                       ? Color(0xff0BA70F)
                       : settingsStore.isDarkTheme
                           ? Color(0xff32324A)
@@ -1081,7 +1121,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 ),
                 child: Text('Exchange',
                     style: TextStyle(
-                        color: true
+                        color: isNextButtonEnabled(floatingExchangeRate) && !getPairsParamsProvider.getSendFieldErrorState()
                             ? Color(0xffffffff)
                             : settingsStore.isDarkTheme
                                 ? Color(0xff77778B)
@@ -1177,13 +1217,13 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                     return youGetCoinsFilter == null ||
                                             youGetCoinsFilter == ''
                                         ? youGetCoinsDropDownListItem(
-                                            settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider)
+                                            settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
                                         : '${enableTo[index].fullName}'
                                                 .toLowerCase()
                                                 .contains(youGetCoinsFilter!
                                                     .toLowerCase())
                                             ? youGetCoinsDropDownListItem(
-                                                settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider)
+                                                settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
                                             : Container();
                                   }),
                             );
@@ -1280,14 +1320,14 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                     return youSendCoinsFilter == null ||
                                             youSendCoinsFilter == ''
                                         ? youSendCoinsDropDownListItem(
-                                            settingsStore, enableFrom[index],getCurrenciesFullProvider,getPairsParamsProvider)
+                                            settingsStore, enableFrom[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
                                         : '${enableFrom[index].fullName}'
                                                 .toLowerCase()
                                                 .contains(youSendCoinsFilter!
                                                     .toLowerCase())
                                             ? youSendCoinsDropDownListItem(
                                                 settingsStore,
-                                                enableFrom[index],getCurrenciesFullProvider,getPairsParamsProvider)
+                                                enableFrom[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
                                             : Container();
                                   }),
                             );
@@ -1303,24 +1343,83 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     );
   }
 
-  void callGetExchangeAmountApi(String value, GetPairsParamsProvider getPairsParamsProvider){
-    if(double.parse(value)>=getPairsParamsProvider.minimumAmount && double.parse(value)<=getPairsParamsProvider.maximumAmount){
+  void callGetExchangeAmountApi(String value, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
+    if(validateMinimumAmountLessThanEqual(double.parse(value), getPairsParamsProvider, getExchangeAmountProvider) && validateMaximumAmountGreaterThanEqual(double.parse(value), getPairsParamsProvider, getExchangeAmountProvider)){
       callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider);
     }
+  }
+
+  void validateMinimumAndMaximumAmount(String value, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
+    if(validateMinimumAmountLessThanEqual(double.parse(value), getPairsParamsProvider, getExchangeAmountProvider) || validateMaximumAmountGreaterThanEqual(double.parse(value), getPairsParamsProvider, getExchangeAmountProvider)){
+      callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider);
+    }
+  }
+
+   bool validateMinimumAmount(double sendCoinAmount, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
+    if(getExchangeAmountProvider.data!.error != null) {
+      return sendCoinAmount < double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.min!.from!);
+    } else {
+      return sendCoinAmount < getPairsParamsProvider.minimumAmount;
+    }
+  }
+
+  bool validateMinimumAmountLessThanEqual(double sendCoinAmount, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
+    if(getExchangeAmountProvider.data!.error != null) {
+      return sendCoinAmount <= double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.min!.from!);
+    } else {
+      return sendCoinAmount <= getPairsParamsProvider.minimumAmount;
+    }
+  }
+
+  bool validateMaximumAmount(double sendCoinAmount, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
+    if(getExchangeAmountProvider.data!.error != null) {
+      return sendCoinAmount > double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.max!.from!);
+    } else {
+      return sendCoinAmount > getPairsParamsProvider.maximumAmount;
+    }
+  }
+
+  bool validateMaximumAmountGreaterThanEqual(double sendCoinAmount, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
+    if(getExchangeAmountProvider.data!.error != null) {
+      return sendCoinAmount >= double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.max!.from!);
+    } else {
+      return sendCoinAmount >= getPairsParamsProvider.maximumAmount;
+    }
+  }
+
+  double minimumAmount(GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
+    if(getExchangeAmountProvider.data!.error != null) {
+      return double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.min!.from!);
+    } else {
+      return getPairsParamsProvider.minimumAmount;
+    }
+  }
+
+  double maximumAmount(GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
+    if(getExchangeAmountProvider.data!.error != null) {
+      return double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.max!.from!);
+    } else {
+      return getPairsParamsProvider.maximumAmount;
+    }
+  }
+
+  bool isNextButtonEnabled(String status) {
+    return status != "...";
   }
 }
 
 class Coins {
-  Coins(this.id, this.name, this.extraIdName, this.bitcoin);
+  Coins(this.id, this.name, this.extraIdName, this.bitcoin, this.protocol);
 
   String? id;
   String? name;
   String? extraIdName = "";
   String? bitcoin;
+  String? protocol;
 }
 
 class ExchangeData {
-  ExchangeData(this.from, this.to, this.amountFrom, this.extraIdName, this.fromBlockChain, this.toBlockChain);
+  ExchangeData(this.from, this.to, this.amountFrom, this.extraIdName, this.fromBlockChain, this.toBlockChain, this.protocol);
 
   String? from;
   String? to;
@@ -1328,6 +1427,7 @@ class ExchangeData {
   String? extraIdName = "";
   String? fromBlockChain;
   String? toBlockChain;
+  String? protocol;
 }
 
 class SwapTransactionHistory {
