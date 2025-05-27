@@ -87,54 +87,48 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   late Timer timer;
   late ExchangeData _exchangeData;
   late ValidateExtraIdFieldProvider validateExtraIdFieldProvider;
+  var sendAmount;
+  var from;
+  var to;
 
   @override
   void initState() {
     _exchangeData = widget.exchangeData;
+    sendAmount = _exchangeData.amountFrom;
+    from = _exchangeData.from;
+    to = _exchangeData.to;
     getExchangeAmountApiClient = GetExchangeAmountApiClient();
     // Create a stream controller and exchange amount to the stream.
     _getExchangeAmountStreamController = StreamController<GetExchangeAmountModel>();
     Future.delayed(Duration(seconds: 2), () {
-      callGetExchangeAmountApi(getExchangeAmountApiClient);
+      callGetExchangeAmountApi(getExchangeAmountApiClient, _exchangeData.amountFrom);
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
-        callGetExchangeAmountApi(getExchangeAmountApiClient);
+        callGetExchangeAmountApi(getExchangeAmountApiClient, sendAmount);
       }); // Start adding getExchangeAmount api result to the stream.
     });
     super.initState();
   }
 
   void callGetExchangeAmountApi(
-      GetExchangeAmountApiClient getExchangeAmountApiClient) {
-    print("Exchange Amount -> ${_exchangeData.from}, ${_exchangeData.to}, ${_exchangeData.amountFrom}, ${_exchangeData.extraIdName}");
+      GetExchangeAmountApiClient getExchangeAmountApiClient, String? amountFrom) {
     getExchangeAmountApiClient.getExchangeAmountData(context,
-        {'from': _exchangeData.from, "to": _exchangeData.to, "amountFrom": _exchangeData.amountFrom}).then((value) {
-      if (value!.result!.isNotEmpty) {
-        print("Exchange Amount Api Response Value -> ${value.result}");
-        _getExchangeAmountStreamController.sink.add(value);
-      }
+        {'from': _exchangeData.from, "to": _exchangeData.to, "amountFrom": amountFrom}).then((value) {
+      _getExchangeAmountStreamController.sink.add(value!);
     });
   }
 
-  bool isEnabled(){
+  bool isNextButtonEnabled(String minimumAmount, String maximumAmount){
     if(validateExtraIdFieldProvider.showMemo){
       if(_destinationTagController.text.isEmpty){
         return false;
       }else {
-        if (acceptTermsAndConditions &&
+        return acceptTermsAndConditions &&
             !validateAddressProvider.loading &&
             _recipientAddressController.text.isNotEmpty &&
-            validateAddressProvider.successState) {
-          return true;
-        }else {
-          return false;
-        }
+            validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty);
       }
     }else{
-      if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState ){
-        return true;
-      }else {
-        return false;
-      }
+      return acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty);
     }
   }
 
@@ -161,12 +155,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             child: Text('No data available'),
           ); // Display a message when no data is available.
         } else {
-          if (snapshot.data!.result!.isNotEmpty) {
-            return body(_screenWidth, _screenHeight, settingsStore,
-                _scrollController, snapshot.data!);
-          } else {
-            return Container();
-          }
+          return body(_screenWidth, _screenHeight, settingsStore,
+              _scrollController, snapshot.data!);
         }
       },
     );
@@ -180,15 +170,33 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     GetExchangeAmountModel getExchangeAmountModel,
   ) {
     //GetExchangeAmount
-    final sendAmount = getExchangeAmountModel.result![0].amountFrom.toString();
-    final exchangeRate = getExchangeAmountModel.result![0].rate.toString();
-    final serviceFee = getExchangeAmountModel.result![0].fee.toString();
-    final networkFee = getExchangeAmountModel.result![0].networkFee.toString();
-    final getAmount =
-        double.parse(getExchangeAmountModel.result![0].amountTo!) -
-            double.parse(getExchangeAmountModel.result![0].networkFee!);
-    final from = getExchangeAmountModel.result![0].from.toString();
-    final to = getExchangeAmountModel.result![0].to.toString();
+    var exchangeRate = "---";
+    var serviceFee = "---";
+    var networkFee = "---";
+    var getAmount = "---";
+    var minimumAmount = "";
+    var maximumAmount = "";
+    if(getExchangeAmountModel.result!.isNotEmpty){
+      sendAmount = getExchangeAmountModel.result![0].amountFrom.toString();
+      exchangeRate = getExchangeAmountModel.result![0].rate.toString();
+      serviceFee = getExchangeAmountModel.result![0].fee.toString();
+      networkFee = getExchangeAmountModel.result![0].networkFee.toString();
+      getAmount = (double.parse(getExchangeAmountModel.result![0].amountTo!) -
+              double.parse(getExchangeAmountModel.result![0].networkFee!)).toString();
+      from = getExchangeAmountModel.result![0].from.toString();
+      to = getExchangeAmountModel.result![0].to.toString();
+      minimumAmount = "";
+      maximumAmount = "";
+    } else {
+      if(getExchangeAmountModel.error != null){
+        if(double.parse(_exchangeData.amountFrom!) < double.parse(getExchangeAmountModel.error!.data!.limits!.min!.from!)){
+          minimumAmount = getExchangeAmountModel.error!.data!.limits!.min!.from!;
+        }
+        if(double.parse(_exchangeData.amountFrom!) > double.parse(getExchangeAmountModel.error!.data!.limits!.max!.from!)){
+          maximumAmount = getExchangeAmountModel.error!.data!.limits!.max!.from!;
+        }
+      }
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -225,8 +233,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     padding: const EdgeInsets.all(15.0),
                     width: _screenWidth,
                     height: double.infinity,
-                    child: walletAddressScreen(settingsStore, sendAmount,
-                        exchangeRate, serviceFee, networkFee, getAmount,from,to),
+                    child: walletAddressScreen(settingsStore,
+                        exchangeRate, serviceFee, networkFee, getAmount, minimumAmount, maximumAmount),
                   ),
                 ),
               ),
@@ -239,11 +247,10 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
 
   Widget walletAddressScreen(
       SettingsStore settingsStore,
-      String sendAmount,
       String exchangeRate,
       String serviceFee,
       String networkFee,
-      double getAmount, String from, String to) {
+      String getAmount, String minimumAmount, String maximumAmount) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -289,8 +296,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             return Column(
               children: [
                 Container(
-                  padding:
-                      EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
+                  padding: EdgeInsets.only(left: 5, right: 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: settingsStore.isDarkTheme
@@ -313,11 +319,11 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     inputFormatters: [
                       FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
                     ],
+                    textAlignVertical: TextAlignVertical(y: 0.0),
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         prefixIcon: Container(
-                            margin:
-                                EdgeInsets.only(right: 3, top: 3, bottom: 3),
+                            margin: EdgeInsets.only(right: 3, top: 5, bottom: 3,),
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 color: settingsStore.isDarkTheme
@@ -326,11 +332,11 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8))),
                             child: Text(
-                              '---',
-                              textAlign: TextAlign.start,
+                              _exchangeData.protocol ?? "---",
+                              textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 12,
-                                  fontWeight: FontWeight.normal,
+                                  fontWeight: FontWeight.bold,
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xffFFFFFF)
                                       : Color(0xff060606)),
@@ -348,11 +354,10 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                               ))
                             : InkWell(
                                 onTap: () async => _presentQRScanner(
-                                    context, validateAddressProvider,to),
+                                    context, validateAddressProvider,to, ),
                                 child: Container(
-                                  width: 20.0,
-                                  margin: EdgeInsets.only(
-                                      left: 3, top: 3, bottom: 3),
+                                  width: 10,
+                                  margin: EdgeInsets.only(top: 5, bottom: 3),
                                   padding: EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                       color: settingsStore.isDarkTheme
@@ -365,8 +370,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xffA9A9CD)
                                         : Color(0xff222222),
-                                    width: 20,
-                                    height: 20,
+                                    width: 10,
+                                    height: 10,
                                   ),
                                 )),
                         hintStyle: TextStyle(
@@ -375,9 +380,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                             fontWeight: FontWeight.normal,
                             color: Colors.grey.withOpacity(0.6)),
                         hintText: 'Enter your ${to.toUpperCase()} recipient address',
-                        errorStyle: TextStyle(
-                            backgroundColor: Colors.transparent,
-                            color: BeldexPalette.red)),
+                        errorStyle: TextStyle(backgroundColor: Colors.transparent,height: 0.1)),
                     onChanged: (value) {
                       if (value.isNotEmpty) {
                         WidgetsBinding.instance
@@ -386,7 +389,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                           validateAddressProvider.validateAddressData(context, {
                             "currency": "${to}",
                             "address": value,
-                            "extraId": ""
+                            "extraId": _exchangeData.extraIdName!
                           });
                         });
                       } else {
@@ -398,14 +401,17 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     },
                   ),
                 ),
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      validateAddressProvider.getErrorMessage(),
-                      style: TextStyle(
-                          backgroundColor: Colors.transparent,
-                          color: Colors.red),
-                    )),
+                Visibility(
+                  visible: validateAddressProvider.getErrorMessage().trim().isNotEmpty,
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        validateAddressProvider.getErrorMessage(),
+                        style: TextStyle(
+                            backgroundColor: Colors.transparent,
+                            color: Colors.red),
+                      )),
+                ),
                 SizedBox(height: 10)
               ],
             );
@@ -661,6 +667,57 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
           },
         ),
 
+        Visibility(
+          visible: minimumAmount.trim().isNotEmpty || maximumAmount.trim().isNotEmpty,
+          child: Container(
+            margin: EdgeInsets.only(left: 10.0, bottom: 5.0, top: 5.0),
+            decoration: BoxDecoration(
+                color: Color(0xff00AD07).withAlpha(25),
+                borderRadius: BorderRadius.all(Radius.circular(8))),
+            child: InkWell(
+              onTap: (){
+                if(minimumAmount.trim().isNotEmpty) {
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    //Get Exchange Amount API Call
+                    callGetExchangeAmountApi(getExchangeAmountApiClient, minimumAmount);
+                  });
+                } else if(maximumAmount.trim().isNotEmpty) {
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    //Get Exchange Amount API Call
+                    callGetExchangeAmountApi(getExchangeAmountApiClient, maximumAmount);
+                  });
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RichText(
+                  textAlign: TextAlign.start,
+                  text: TextSpan(
+                      text: minimumAmount.trim().isNotEmpty ?'The minimum amount value has changed, The new value is ':maximumAmount.trim().isNotEmpty ?'The maximum amount value has changed, The new value is ':'',
+                      style: TextStyle(
+                          backgroundColor: Colors.transparent,
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xffFFFFFF)
+                              : Color(0xff222222),
+                          fontSize: 13,
+                          fontWeight: FontWeight.normal),
+                      children: [
+                        TextSpan(
+                            text: minimumAmount.trim().isNotEmpty ?'${minimumAmount} ${from}':maximumAmount.trim().isNotEmpty ?'${maximumAmount} ${from}':'',
+                            style: TextStyle(
+                                backgroundColor: Colors.transparent,
+                                decoration: TextDecoration.underline,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xffFFFFFF)
+                                    : Color(0xff222222)))
+                      ]),
+                ),
+              ),
+            ),
+          ),
+        ),
         //Transaction Preview
         Container(
           margin: EdgeInsets.only(left: 10.0, bottom: 10.0, top: 5.0),
@@ -1009,20 +1066,22 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                       validateExtraIdFieldProvider.setShowErrorBorder(true);
                       validateExtraIdFieldProvider.setErrorMessage("Please enter ${_exchangeData.extraIdName}");
                     }else {
-                      if (acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState) {
+                      if (acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty)) {
                         //Navigate to Payment Screen
+                        Navigator.of(context).pop();
                         Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, _destinationTagController.text, _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain));
                       }
                     }
                   }else{
-                    if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState ){
+                    if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty)){
                       //Navigate to Payment Screen
+                      Navigator.of(context).pop();
                       Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, "", _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain));
                     }
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: isEnabled()
+                  backgroundColor: isNextButtonEnabled(minimumAmount, maximumAmount)
                       ? Color(0xff0BA70F)
                       : settingsStore.isDarkTheme
                       ? Color(0xff32324A)
@@ -1035,7 +1094,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                 ),
                 child: Text('Next',
                     style: TextStyle(
-                        color: isEnabled()
+                        color: isNextButtonEnabled(minimumAmount, maximumAmount)
                             ? Color(0xffffffff)
                             : settingsStore.isDarkTheme
                             ? Color(0xff77778B)
@@ -1065,7 +1124,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         validateAddressProvider.validateAddressData(context, {
           "currency": "${to}",
           "address": _recipientAddressController.text.toString(),
-          "extraId": ""
+          "extraId": _exchangeData.extraIdName!
         });
       });
     } catch (e) {
