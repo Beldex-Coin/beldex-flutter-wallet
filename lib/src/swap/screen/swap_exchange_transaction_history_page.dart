@@ -83,9 +83,9 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<GetTransactionsProvider>(context,listen: false).getTransactionsListData(context,{"id":_swapTransactionHistory.transactionIdList});
       timer?.cancel();
-      /*timer = Timer.periodic(Duration(seconds: 30), (timer) {
+      timer = Timer.periodic(Duration(seconds: 30), (timer) {
         Provider.of<GetTransactionsProvider>(context,listen: false).getTransactionsListData(context,{"id":_swapTransactionHistory.transactionIdList});
-      });*/
+      });
     });
     super.initState();
   }
@@ -265,7 +265,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text('${toStringAsFixed(result.amountExpectedTo)} ${result.currencyTo!.toUpperCase()}',
+                                      Text('${toStringAsFixed(result.amountExpectedFrom)} ${result.currencyFrom!.toUpperCase()}',
                                           style: TextStyle(
                                               backgroundColor:
                                               Colors.transparent,
@@ -303,7 +303,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                                     : Color(0xff737373)),
                                             children: [
                                               TextSpan(
-                                                  text: '~ ${toStringAsFixed(result.amountExpectedFrom)} ${result.currencyFrom!.toUpperCase()}',
+                                                  text: '~ ${toStringAsFixed(result.amountExpectedTo)} ${result.currencyTo!.toUpperCase()}',
                                                   style: TextStyle(
                                                       backgroundColor:
                                                       Colors
