@@ -274,7 +274,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                               color: settingsStore.isDarkTheme
                                                   ? Color(0xffFFFFFF)
                                                   : Color(0xff222222))),
-                                      Text(getDate(1747897806),
+                                      Text(getDate(result.createdAt!),
                                           style: TextStyle(
                                               backgroundColor:
                                               Colors.transparent,
@@ -303,7 +303,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                                     : Color(0xff737373)),
                                             children: [
                                               TextSpan(
-                                                  text: '~ ${toStringAsFixed(result.amountExpectedTo)} ${result.currencyFrom!.toUpperCase()}',
+                                                  text: '~ ${toStringAsFixed(result.amountExpectedFrom)} ${result.currencyFrom!.toUpperCase()}',
                                                   style: TextStyle(
                                                       backgroundColor:
                                                       Colors
@@ -426,7 +426,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xffAFAFBE)
                                         : Color(0xff737373))),
-                            Text(getDateAndTime(1747897806),
+                            Text(getDateAndTime(result.createdAt!),
                                 style: TextStyle(
                                     backgroundColor: Colors.transparent,
                                     fontSize: 12,
@@ -546,12 +546,12 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
   }
 
   String getDate(int timeStamp) {
-    final date = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
     return DateFormat('dd MMM yyyy').format(date);
   }
 
   String getDateAndTime(int timeStamp) {
-    final date = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
     return DateFormat('dd MMM yyyy, HH:mm:ss').format(date);
   }
 
@@ -570,7 +570,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
 
   String toStringAsFixed(String? amountExpectedTo) {
     final double d = double.parse(amountExpectedTo!);
-    final String inString = d.toStringAsFixed(2);
+    final String inString = d>=100000.00 ? d.toStringAsFixed(2): d.toStringAsFixed(9);
     return inString;
   }
 
