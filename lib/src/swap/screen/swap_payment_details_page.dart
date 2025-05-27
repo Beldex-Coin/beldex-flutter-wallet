@@ -776,7 +776,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                               padding:
                               const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                               child: Text(
-                                '--- ${transactionDetails.currencyTo?.toUpperCase()}',
+                                '${transactionDetails.networkFee} ${transactionDetails.currencyTo?.toUpperCase()}',
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
