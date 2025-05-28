@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -6,8 +7,8 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/api_client/get_exchange_amount_api_client.dart';
 import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
 import 'package:beldex_wallet/src/swap/model/get_exchange_amount_model.dart';
-import 'package:beldex_wallet/src/swap/screen/swap_wallet_address_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../../../routes.dart';
@@ -79,32 +80,44 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
       _getExchangeAmountStreamController;
   late Timer timer;
   late ExchangeDataWithRecipientAddress _exchangeDataWithRecipientAddress;
+  var sendAmount;
+  var from;
+  var to;
+  late FlutterSecureStorage secureStorage;
 
   @override
   void initState() {
+    secureStorage = FlutterSecureStorage(aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+    ));
     _exchangeDataWithRecipientAddress = widget.exchangeDataWithRecipientAddress;
+    sendAmount = _exchangeDataWithRecipientAddress.amountFrom;
+    from = _exchangeDataWithRecipientAddress.from;
+    to = _exchangeDataWithRecipientAddress.to;
     createTransactionApiClient = CreateTransactionApiClient();
     getExchangeAmountApiClient = GetExchangeAmountApiClient();
     // Create a stream controller and exchange amount to the stream.
     _getExchangeAmountStreamController =
         StreamController<GetExchangeAmountModel>();
     Future.delayed(Duration(seconds: 2), () {
-      callGetExchangeAmountApi(getExchangeAmountApiClient);
+      callGetExchangeAmountApi(getExchangeAmountApiClient, sendAmount);
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
-        callGetExchangeAmountApi(getExchangeAmountApiClient);
+        callGetExchangeAmountApi(getExchangeAmountApiClient, sendAmount);
       }); // Start adding getExchangeAmount api result to the stream.
     });
     super.initState();
   }
 
   void callGetExchangeAmountApi(
-      GetExchangeAmountApiClient getExchangeAmountApiClient) {
+      GetExchangeAmountApiClient getExchangeAmountApiClient, String amountFrom) {
     getExchangeAmountApiClient.getExchangeAmountData(context,
-        {'from': _exchangeDataWithRecipientAddress.from, "to": _exchangeDataWithRecipientAddress.to, "amountFrom": _exchangeDataWithRecipientAddress.amountFrom}).then((value) {
-      if (value!.result!.isNotEmpty) {
-        _getExchangeAmountStreamController.sink.add(value);
-      }
+        {'from': _exchangeDataWithRecipientAddress.from, "to": _exchangeDataWithRecipientAddress.to, "amountFrom": amountFrom}).then((value) {
+      _getExchangeAmountStreamController.sink.add(value!);
     });
+  }
+
+  bool isConfirmationButtonEnabled(String minimumAmount, String maximumAmount) {
+    return (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty);
   }
 
   @override
@@ -130,12 +143,8 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
             child: Text('No data available'),
           ); // Display a message when no data is available.
         } else {
-          if (snapshot.data!.result!.isNotEmpty) {
-            return body(_screenWidth, _screenHeight, settingsStore,
-                _scrollController, snapshot.data!);
-          } else {
-            return Container();
-          }
+          return body(_screenWidth, _screenHeight, settingsStore,
+              _scrollController, snapshot.data!);
         }
       },
     );
@@ -149,15 +158,32 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     GetExchangeAmountModel getExchangeAmountModel,
   ) {
     //GetExchangeAmount
-    final sendAmount = getExchangeAmountModel.result![0].amountFrom.toString();
-    final exchangeRate = getExchangeAmountModel.result![0].rate.toString();
-    final serviceFee = getExchangeAmountModel.result![0].fee.toString();
-    final networkFee = getExchangeAmountModel.result![0].networkFee.toString();
-    final getAmount =
-        double.parse(getExchangeAmountModel.result![0].amountTo!) -
-            double.parse(getExchangeAmountModel.result![0].networkFee!);
-    final from = getExchangeAmountModel.result![0].from.toString();
-    final to = getExchangeAmountModel.result![0].to.toString();
+    var exchangeRate = "---";
+    var serviceFee = "---";
+    var networkFee = "---";
+    var getAmount = "---";
+    var minimumAmount = "";
+    var maximumAmount = "";
+    if(getExchangeAmountModel.result!.isNotEmpty){
+      sendAmount = getExchangeAmountModel.result![0].amountFrom.toString();
+      exchangeRate = getExchangeAmountModel.result![0].rate.toString();
+      serviceFee = getExchangeAmountModel.result![0].fee.toString();
+      networkFee = getExchangeAmountModel.result![0].networkFee.toString();
+      getAmount = getExchangeAmountModel.result![0].amountTo!.toString();
+      from = getExchangeAmountModel.result![0].from.toString();
+      to = getExchangeAmountModel.result![0].to.toString();
+      minimumAmount = "";
+      maximumAmount = "";
+    } else {
+      if(getExchangeAmountModel.error != null){
+        if(double.parse(_exchangeDataWithRecipientAddress.amountFrom!) < double.parse(getExchangeAmountModel.error!.data!.limits!.min!.from!)){
+          minimumAmount = getExchangeAmountModel.error!.data!.limits!.min!.from!;
+        }
+        if(double.parse(_exchangeDataWithRecipientAddress.amountFrom!) > double.parse(getExchangeAmountModel.error!.data!.limits!.max!.from!)){
+          maximumAmount = getExchangeAmountModel.error!.data!.limits!.max!.from!;
+        }
+      }
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -200,14 +226,11 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                         //Payment->Checkout Screen
                         paymentCheckoutScreen(
                             settingsStore,
-                            sendAmount,
                             exchangeRate,
                             serviceFee,
                             networkFee,
                             getAmount,
-                            from,
-                            to,
-                            getExchangeAmountModel),
+                            getExchangeAmountModel, minimumAmount, maximumAmount),
                         //Payment->Send funds to the address below Screen
                       ],
                     ),
@@ -223,13 +246,11 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
 
   Widget paymentCheckoutScreen(
       SettingsStore settingsStore,
-      String sendAmount,
       String exchangeRate,
       String serviceFee,
       String networkFee,
-      double getAmount,
-      String from,
-      String to, GetExchangeAmountModel getExchangeAmountModel,) {
+      String getAmount,
+      GetExchangeAmountModel getExchangeAmountModel, String minimumAmount, String maximumAmount) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -338,6 +359,57 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                 ),
               ],
             )),
+        Visibility(
+          visible: minimumAmount.trim().isNotEmpty || maximumAmount.trim().isNotEmpty,
+          child: Container(
+            margin: EdgeInsets.only(bottom: 10.0),
+            decoration: BoxDecoration(
+                color: Color(0xff00AD07).withAlpha(25),
+                borderRadius: BorderRadius.all(Radius.circular(8))),
+            child: InkWell(
+              onTap: (){
+                if(minimumAmount.trim().isNotEmpty) {
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    //Get Exchange Amount API Call
+                    callGetExchangeAmountApi(getExchangeAmountApiClient, minimumAmount);
+                  });
+                } else if(maximumAmount.trim().isNotEmpty) {
+                  WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                    //Get Exchange Amount API Call
+                    callGetExchangeAmountApi(getExchangeAmountApiClient, maximumAmount);
+                  });
+                }
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RichText(
+                  textAlign: TextAlign.start,
+                  text: TextSpan(
+                      text: minimumAmount.trim().isNotEmpty ?'The minimum amount value has changed, The new value is ':maximumAmount.trim().isNotEmpty ?'The maximum amount value has changed, The new value is ':'',
+                      style: TextStyle(
+                          backgroundColor: Colors.transparent,
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xffFFFFFF)
+                              : Color(0xff222222),
+                          fontSize: 13,
+                          fontWeight: FontWeight.normal),
+                      children: [
+                        TextSpan(
+                            text: minimumAmount.trim().isNotEmpty ?'${minimumAmount} ${from}':maximumAmount.trim().isNotEmpty ?'${maximumAmount} ${from}':'',
+                            style: TextStyle(
+                                backgroundColor: Colors.transparent,
+                                decoration: TextDecoration.underline,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xffFFFFFF)
+                                    : Color(0xff222222)))
+                      ]),
+                ),
+              ),
+            ),
+          ),
+        ),
         //You Get Details
         Container(
             margin: EdgeInsets.only(bottom: 10),
@@ -621,31 +693,34 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
           alignment: Alignment.center,
           child: ElevatedButton(
             onPressed: () {
-              showLoaderDialog(context);
-              if (_exchangeDataWithRecipientAddress.extraIdName!.isNotEmpty) {
-                createTransaction({
-                  "from": from,
-                  "to": to,
-                  "address": _exchangeDataWithRecipientAddress.recipientAddress!,
-                  "extraId": _exchangeDataWithRecipientAddress.extraIdName!,
-                  "amountFrom": _exchangeDataWithRecipientAddress.amountFrom!
-                }, _exchangeDataWithRecipientAddress.fromBlockChain!);
-              } else {
-                createTransaction({
-                  "from": from,
-                  "to": to,
-                  "address": _exchangeDataWithRecipientAddress.recipientAddress!,
-                  "amountFrom": _exchangeDataWithRecipientAddress.amountFrom!
-                }, _exchangeDataWithRecipientAddress.toBlockChain!);
+              if(isConfirmationButtonEnabled(minimumAmount, maximumAmount)) {
+                showLoaderDialog(context);
+                if (_exchangeDataWithRecipientAddress.extraIdName!.isNotEmpty) {
+                  createTransaction({
+                    "from": from,
+                    "to": to,
+                    "address": _exchangeDataWithRecipientAddress
+                        .recipientAddress!,
+                    "extraId": _exchangeDataWithRecipientAddress.extraIdName!,
+                    "amountFrom": sendAmount
+                  }, _exchangeDataWithRecipientAddress.fromBlockChain!);
+                } else {
+                  createTransaction({
+                    "from": from,
+                    "to": to,
+                    "address": _exchangeDataWithRecipientAddress
+                        .recipientAddress!,
+                    "amountFrom": sendAmount
+                  }, _exchangeDataWithRecipientAddress.toBlockChain!);
+                }
               }
             },
             style: ElevatedButton.styleFrom(
-              textStyle: const TextStyle(
-                fontSize: 16,
-                color: Color(0xffffffff),
-                fontWeight: FontWeight.bold
-              ),
-              backgroundColor: Color(0xff0BA70F),
+              backgroundColor: isConfirmationButtonEnabled(minimumAmount, maximumAmount)
+                  ? Color(0xff0BA70F)
+                  : settingsStore.isDarkTheme
+                  ? Color(0xff32324A)
+                  : Color(0xffFFFFFF),
               padding:
                   EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
               shape: RoundedRectangleBorder(
@@ -654,8 +729,11 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
             ),
             child: Text('Confirm & Make Payment',
                 style: TextStyle(
-                    backgroundColor: Colors.transparent,
-                    color: Color(0xffffffff),
+                    color: isConfirmationButtonEnabled(minimumAmount, maximumAmount)
+                        ? Color(0xffffffff)
+                        : settingsStore.isDarkTheme
+                        ? Color(0xff77778B)
+                        : Color(0xffB1B1D1),
                     fontSize: 16,
                     fontWeight: FontWeight.bold)),
           ),
@@ -684,14 +762,39 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     );
   }
 
+  Future<void> storeMultipleStrings(List<String> strings) async {
+    final encoded = jsonEncode(strings); // Convert list to JSON string
+    await secureStorage.write(key: 'swap_transaction_list', value: encoded);
+  }
+
+  Future<List<String>> storeTransactionsIds(String? transactionId) async {
+    // Retrieve the stored array
+    final stored = await readMultipleStrings();
+    stored.add(transactionId!);
+    // Store an array of strings
+    await storeMultipleStrings(stored);
+    return stored;
+  }
+
+  Future<List<String>> readMultipleStrings() async {
+    final String? encoded = await secureStorage.read(key: 'swap_transaction_list');
+    if (encoded == null) return [];
+
+    final List<dynamic> decoded = jsonDecode(encoded);
+    return decoded.cast<String>();
+  }
+
   void createTransaction(Map<String, String> params, String? fromBlockChain) {
     callCreateTransactionApi(params).then((value) {
       if (value?.result != null) {
         print('Status -> Success');
-        Navigator.of(context).pop();
-        Navigator.of(context).pop();
-        Navigator.of(context)
-            .pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(value, fromBlockChain));
+        storeTransactionsIds(value!.result!.id);
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+          Navigator.of(context)
+              .pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(value, fromBlockChain)); // Start adding getExchangeAmount api result to the stream.
+        });
       } else if (value?.error != null) {
         print('Status -> error ${value!.error!.message}');
         Navigator.of(context).pop();
