@@ -5,12 +5,12 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
 import 'package:beldex_wallet/src/swap/api_client/get_status_api_client.dart';
-import 'package:beldex_wallet/src/swap/screen/swap_payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
+import '../../../routes.dart';
 import '../../screens/receive/qr_image.dart';
 import '../model/get_status_model.dart';
 import '../provider/get_transactions_provider.dart';
@@ -153,24 +153,31 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
         switch(value.result){
           case "waiting" :{
             //Swap Payment Details Screen
-            /*Navigator.of(context).pop();
-              Navigator.of(context).pushNamed(Routes.swapExchanging,arguments: createdTransactionDetails);*/
             break;
           }
-          case "confirming" : {
+          case "confirming" :
+          case "exchanging" :
+          case "sending" :{
             //Exchanging Screen
+            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed(Routes.swapExchanging,arguments: createdTransactionDetails);
             break;
           }
-          case "failed" : {
+          case "finished" : {
+            //Completed Screen
+            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed(Routes.swapCompleted,arguments: TransactionStatus(createdTransactionDetails, value.result));
             break;
           }
           case "refunded" : {
             break;
           }
-          case "overdue" : {
-            break;
-          }
+          case "failed" :
+          case "overdue" :
           case "expired" : {
+            //Failed, Overdue and Expired Screen
+            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed(Routes.swapUnPaid,arguments: TransactionStatus(createdTransactionDetails, value.result));
             break;
           }
         }
