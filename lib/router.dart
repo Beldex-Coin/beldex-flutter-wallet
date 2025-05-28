@@ -10,6 +10,7 @@ import 'package:beldex_wallet/src/swap/screen/swap_exchange_transaction_history_
 import 'package:beldex_wallet/src/swap/screen/swap_exchanging_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_payment_details_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_payment_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_un_paid_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_wallet_address_page.dart';
 import 'package:beldex_wallet/src/swap/signature_page.dart';
 import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
@@ -688,6 +689,11 @@ class Router {
             child: SwapExchangeTransactionHistoryPage(swapTransactionHistory: settings.arguments as SwapTransactionHistory),
           );
         });
+      case Routes.swapUnPaid:
+        return MaterialPageRoute<void>(builder: (context) {
+          return SwapUnPaidPage(transactionStatus : settings.arguments as TransactionStatus);
+        });
+
 
       default:
         return MaterialPageRoute<void>(
