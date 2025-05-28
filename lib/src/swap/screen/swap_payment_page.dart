@@ -717,10 +717,3 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     super.dispose();
   }
 }
-
-class TransactionDetails {
-  TransactionDetails(this.createTransactionModel, this.fromBlockChain);
-
-  CreateTransactionModel? createTransactionModel;
-  String? fromBlockChain;
-}

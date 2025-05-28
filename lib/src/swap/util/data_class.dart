@@ -50,3 +50,10 @@ class TransactionStatus {
   CreateTransactionModel transactionModel;
   String? status;
 }
+
+class TransactionDetails {
+  TransactionDetails(this.createTransactionModel, this.fromBlockChain);
+
+  CreateTransactionModel? createTransactionModel;
+  String? fromBlockChain;
+}

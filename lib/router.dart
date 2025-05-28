@@ -97,6 +97,7 @@ import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_descript
 import 'package:beldex_wallet/src/wallet/transaction/transaction_info.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'src/swap/util/data_class.dart';
 
 class Router {
   static Route<dynamic> generateRoute(

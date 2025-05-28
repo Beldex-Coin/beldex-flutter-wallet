@@ -5,14 +5,14 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
-import 'package:beldex_wallet/src/swap/screen/swap_exchange_page.dart';
 import 'package:beldex_wallet/src/util/generate_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../routes.dart';
+import '../util/data_class.dart';
+import '../util/utils.dart';
 import 'number_stepper.dart';
 
 class SwapExchangeTransactionHistoryPage extends BasePage {
@@ -378,7 +378,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xffAFAFBE)
                                         : Color(0xff737373))),
-                            Text(truncateMiddle(result.payinAddress!),
+                            Text(truncateMiddle(result.payoutAddress!),
                                 style: TextStyle(
                                     backgroundColor: Colors.transparent,
                                     fontSize: 12,
@@ -545,33 +545,12 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     );
   }
 
-  String getDate(int timeStamp) {
-    final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
-    return DateFormat('dd MMM yyyy').format(date);
-  }
-
-  String getDateAndTime(int timeStamp) {
-    final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
-    return DateFormat('dd MMM yyyy, HH:mm:ss').format(date);
-  }
-
-  String truncateMiddle(String input, {int start = 3, int end = 3}) {
-    if (input.length <= start + end) return input;
-    return '${input.substring(0, start)}...${input.substring(input.length - end)}';
-  }
-
   Widget showImage(String imageUrl) {
     return SvgPicture.asset(
       imageUrl,
       width: 18,
       height: 18,
     );
-  }
-
-  String toStringAsFixed(String? amountExpectedTo) {
-    final double d = double.parse(amountExpectedTo!);
-    final String inString = d>=100000.00 ? d.toStringAsFixed(2): d.toStringAsFixed(9);
-    return inString;
   }
 
 }
