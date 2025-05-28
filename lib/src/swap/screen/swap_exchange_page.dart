@@ -19,6 +19,7 @@ import 'package:provider/provider.dart';
 import '../../../palette.dart';
 import '../../../routes.dart';
 import '../provider/get_currencies_full_provider.dart';
+import '../util/data_class.dart';
 import 'number_stepper.dart';
 
 class SwapExchangePage extends BasePage {
@@ -1408,31 +1409,3 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 }
 
-class Coins {
-  Coins(this.id, this.name, this.extraIdName, this.bitcoin, this.protocol);
-
-  String? id;
-  String? name;
-  String? extraIdName = "";
-  String? bitcoin;
-  String? protocol;
-}
-
-class ExchangeData {
-  ExchangeData(this.from, this.to, this.amountFrom, this.extraIdName, this.fromBlockChain, this.toBlockChain, this.protocol);
-
-  String? from;
-  String? to;
-  String? amountFrom;
-  String? extraIdName = "";
-  String? fromBlockChain;
-  String? toBlockChain;
-  String? protocol;
-}
-
-class SwapTransactionHistory {
-  SwapTransactionHistory(this.transactionIdList, this.secureStorage);
-
-  List<String> transactionIdList;
-  FlutterSecureStorage? secureStorage;
-}

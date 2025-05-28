@@ -5,7 +5,6 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
-import 'package:beldex_wallet/src/swap/screen/swap_exchange_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,6 +15,7 @@ import '../../../routes.dart';
 import '../api_client/get_exchange_amount_api_client.dart';
 import '../model/get_exchange_amount_model.dart';
 import '../provider/valdiate_extra_id_field_provider.dart';
+import '../util/data_class.dart';
 import 'number_stepper.dart';
 
 class SwapWalletAddressPage extends BasePage {
@@ -1141,23 +1141,4 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     validateAddressProvider.dispose();
     super.dispose();
   }
-}
-
-class Coins {
-  Coins(this.id, this.name);
-
-  String? id;
-  String? name;
-}
-
-class ExchangeDataWithRecipientAddress {
-  ExchangeDataWithRecipientAddress(this.from, this.to, this.amountFrom, this.extraIdName, this.recipientAddress, this.fromBlockChain, this.toBlockChain);
-
-  String? from;
-  String? to;
-  String? amountFrom;
-  String? extraIdName = "";
-  String? recipientAddress = "";
-  String? fromBlockChain;
-  String? toBlockChain;
 }

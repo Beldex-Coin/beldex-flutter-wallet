@@ -14,6 +14,7 @@ import 'package:toast/toast.dart';
 import '../../screens/receive/qr_image.dart';
 import '../model/get_status_model.dart';
 import '../provider/get_transactions_provider.dart';
+import '../util/data_class.dart';
 import 'number_stepper.dart';
 
 class SwapPaymentDetailsPage extends BasePage {

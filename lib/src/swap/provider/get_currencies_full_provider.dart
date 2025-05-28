@@ -1,8 +1,8 @@
 import 'package:beldex_wallet/src/swap/model/get_currencies_full_model.dart';
-import 'package:beldex_wallet/src/swap/screen/swap_exchange_page.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../api_service/get_currencies_full_api_service.dart';
+import '../util/data_class.dart';
 
 class GetCurrenciesFullProvider with ChangeNotifier {
   late GetCurrenciesFullModel? data;

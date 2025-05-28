@@ -12,6 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../../../routes.dart';
 import '../api_client/create_transaction_api_client.dart';
+import '../util/data_class.dart';
 import 'number_stepper.dart';
 
 class SwapPaymentPage extends BasePage {
