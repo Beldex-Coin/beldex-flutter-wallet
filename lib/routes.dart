@@ -56,4 +56,5 @@ class Routes {
   static const signature = '/signature';
   static const swapTransactionList = '/swapTransactionList';
   static const swapUnPaid = '/swapUnPaid';
+  static const swapCompleted = '/swapCompleted';
 }
