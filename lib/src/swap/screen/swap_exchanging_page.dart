@@ -186,27 +186,8 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                     padding: const EdgeInsets.all(15.0),
                     width: _screenWidth,
                     height: double.infinity,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //Exchange->Completed Screen
-                        Visibility(
-                          visible: false,
-                          child: exchangeCompletedScreen(settingsStore),
-                        ),
-                        //Exchange->Not Paid Screen
-                        Visibility(
-                          visible: false,
-                          child: exchangeNotPaidScreen(settingsStore),
-                        ),
-                        //Exchange->Exchanging Screen
-                        Visibility(
-                          visible: currentStep == 4,
-                          child: exchangingScreen(
-                              settingsStore, responseData, transactionDetails),
-                        ),
-                      ],
-                    ),
+                    child: exchangingScreen(
+                        settingsStore, responseData, transactionDetails),
                   ),
                 ),
               ),
@@ -217,879 +198,6 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
     );
   }
 
-  @override
-  void dispose() {
-    timer.cancel();
-    _getStatusStreamController.close();
-    super.dispose();
-  }
-
-  Widget exchangeCompletedScreen(SettingsStore settingsStore) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        //Completed Back Title
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SvgPicture.asset(
-              'assets/images/swap/swap_back.svg',
-              color: settingsStore.isDarkTheme
-                  ? Color(0xffffffff)
-                  : Color(0xff16161D),
-              width: 20,
-              height: 20,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              'Back',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: settingsStore.isDarkTheme
-                      ? Color(0xffFFFFFF)
-                      : Color(0xff060606)),
-            ),
-          ],
-        ),
-        //Completed Details
-        Container(
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(left: 6, right: 6, top: 20, bottom: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //Completed Title
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SvgPicture.asset(
-                    'assets/images/swap/swap_completed.svg',
-                    color: Color(0xff159B24),
-                    width: 20,
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Completed',
-                    style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xff159B24)),
-                  ),
-                ],
-              ),
-              //Transaction ID Details
-              Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: settingsStore.isDarkTheme
-                        ? Colors.transparent
-                        : Color(0xffFFFFFF),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xff484856)
-                          : Color(0xffDADADA),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: Text(
-                          'Transaction ID',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffAFAFBE)
-                                  : Color(0xff737373)),
-                        ),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'bcbf9e4b0703d65',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffEBEBEB)
-                                        : Color(0xff222222)),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Icon(
-                              Icons.copy,
-                              color: Color(0xff20D030),
-                              size: 14,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  )),
-
-              Table(
-                children: [
-                  //Amount from and Amount To Details
-                  TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 10.0,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Amount from',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffAFAFBE)
-                                    : Color(0xff737373)),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '0.1 BTC',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Amount to',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffAFAFBE)
-                                    : Color(0xff737373)),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '1.6112626 ETH',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                          ),
-                        ],
-                      ),
-                    )
-                  ]),
-                  //Received Time and Amount Sent Details
-                  TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 10.0,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Received Time',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffAFAFBE)
-                                    : Color(0xff737373)),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '22 Jul 2023, 18:45:47',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Amount Sent',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffAFAFBE)
-                                    : Color(0xff737373)),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '22 Jul 2023, 18:45:47',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                          ),
-                        ],
-                      ),
-                    )
-                  ]),
-                  //Exchange Rate and Network fee Details
-                  TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 10.0,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Exchange Rate',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffAFAFBE)
-                                    : Color(0xff737373)),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '1 BDX ~ 0.00016151 BNB',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Network fee',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffAFAFBE)
-                                    : Color(0xff737373)),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '0.00068934 BNB',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                          ),
-                        ],
-                      ),
-                    )
-                  ]),
-                ],
-              ),
-              //Recipient Address Details
-              Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(top: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Recipient Address',
-                      style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffAFAFBE)
-                              : Color(0xff737373)),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      '79bf9e4b0703d65223af71f3318711d1bc5462588c901c09bda751447b69a0a1',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffFFFFFF)
-                              : Color(0xff222222)),
-                    ),
-                  ],
-                ),
-              ),
-              //Memo Details
-              Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(top: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Memo',
-                      style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffAFAFBE)
-                              : Color(0xff737373)),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      '400016891',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffFFFFFF)
-                              : Color(0xff222222)),
-                    ),
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-        //Confirm and Make Payment Button
-        Table(
-          children: [
-            //Input Hash and Output Hash
-            TableRow(children: [
-              Container(
-                margin: EdgeInsets.only(right: 5),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: settingsStore.isDarkTheme
-                        ? Color(0xff242433)
-                        : Color(0xffDADADA),
-                    padding: EdgeInsets.only(
-                      top: 10,
-                      bottom: 10,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        side: BorderSide(
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xff41415B)
-                                : Color(0xffF3F3F3))),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: SvgPicture.asset(
-                          'assets/images/swap/swap_input_hash.svg',
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffAFAFBE)
-                              : Color(0xff737373),
-                          width: 18,
-                          height: 18,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Flexible(
-                        flex: 2,
-                        child: Text('Input Hash',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffffffff)
-                                    : Color(0xff222222),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400)),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 5),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: settingsStore.isDarkTheme
-                        ? Color(0xff242433)
-                        : Color(0xffDADADA),
-                    padding: EdgeInsets.only(
-                      top: 10,
-                      bottom: 10,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        side: BorderSide(
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xff41415B)
-                                : Color(0xffF3F3F3))),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: SvgPicture.asset(
-                          'assets/images/swap/swap_output_hash.svg',
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffAFAFBE)
-                              : Color(0xff737373),
-                          width: 18,
-                          height: 18,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Flexible(
-                        flex: 2,
-                        child: Text('Output Hash',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffffffff)
-                                    : Color(0xff222222),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400)),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ]),
-            //Open History and New Transaction
-            TableRow(children: [
-              Container(
-                margin: EdgeInsets.only(right: 5),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: settingsStore.isDarkTheme
-                        ? Color(0xff32324A)
-                        : Color(0xffFFFFFF),
-                    padding: EdgeInsets.only(
-                      top: 10,
-                      bottom: 10,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Text('Open History',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffffffff)
-                              : Color(0xff222222),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400)),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 5),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff0BA70F),
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: SvgPicture.asset(
-                          'assets/images/swap/swap_restart.svg',
-                          color: Color(0xffffffff),
-                          width: 12,
-                          height: 12,
-                        ),
-                      ),
-                      SizedBox(width: 3),
-                      Flexible(
-                        flex: 3,
-                        child: Text('New Transaction',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Color(0xffffffff),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400)),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ])
-          ],
-        )
-      ],
-    );
-  }
-
-  Widget exchangeNotPaidScreen(SettingsStore settingsStore) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        //Completed Back Title
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SvgPicture.asset(
-              'assets/images/swap/swap_back.svg',
-              color: settingsStore.isDarkTheme
-                  ? Color(0xffffffff)
-                  : Color(0xff16161D),
-              width: 20,
-              height: 20,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              'Back',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: settingsStore.isDarkTheme
-                      ? Color(0xffFFFFFF)
-                      : Color(0xff060606)),
-            ),
-          ],
-        ),
-        //Completed Details
-        Container(
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(left: 5, right: 5, top: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              //Completed Title
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  SvgPicture.asset(
-                    'assets/images/swap/swap_waiting.svg',
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xffAFAFBE)
-                        : Color(0xff737373),
-                    width: 20,
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'Not Paid',
-                    style: TextStyle(
-                        fontSize: 21,
-                        fontWeight: FontWeight.w700,
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xffAFAFBE)
-                            : Color(0xff737373)),
-                  ),
-                ],
-              ),
-              //Transaction ID Details
-              Container(
-                  width: MediaQuery.of(context).size.width,
-                  margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: settingsStore.isDarkTheme
-                        ? Colors.transparent
-                        : Color(0xffFFFFFF),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xff484856)
-                          : Color(0xffDADADA),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: Text(
-                          'Transaction ID',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffAFAFBE)
-                                  : Color(0xff737373)),
-                        ),
-                      ),
-                      Flexible(
-                        flex: 1,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'bcbf9e4b0703d65',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffEBEBEB)
-                                        : Color(0xff222222)),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Icon(
-                              Icons.copy,
-                              color: Color(0xff20D030),
-                              size: 14,
-                            )
-                          ],
-                        ),
-                      )
-                    ],
-                  )),
-
-              Table(
-                children: [
-                  //Amount from and Amount To Details
-                  TableRow(children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 10.0,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Amount from',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffAFAFBE)
-                                    : Color(0xff737373)),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '0.1 BTC',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Amount to',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffAFAFBE)
-                                    : Color(0xff737373)),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            '1.6112626 ETH',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)),
-                          ),
-                        ],
-                      ),
-                    )
-                  ]),
-                ],
-              ),
-              //Recipient Address Details
-              Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.only(top: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Recipient Address',
-                      style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffAFAFBE)
-                              : Color(0xff737373)),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      '79bf9e4b0703d65223af71f3318711d1bc5462588c901c09bda751447b69a0a1',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffFFFFFF)
-                              : Color(0xff222222)),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        //Not Paid Warning Info
-        Container(
-            margin: EdgeInsets.only(top: 20, bottom: 20),
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: Color(0xff00AD07).withAlpha(25),
-              border: Border.all(
-                color: Color(0xff00AD07).withAlpha(25),
-              ),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 3.0),
-                  child: Icon(Icons.info_outline,
-                      size: 15,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xffD1D1DB)
-                          : Color(0xff77778B)),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Expanded(
-                  child: Text(
-                    'The floating rate can change at any point due to market conditions, so you might receive more or less crypto than expected.',
-                    //'With the fixed rate, you will receive the exact amount of crypto you see on this screen',
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xffAFAFBE)
-                            : Color(0xff77778B)),
-                  ),
-                ),
-              ],
-            )),
-        //Confirm and Make Payment Button
-        Align(
-          alignment: Alignment.center,
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xff0BA70F),
-              padding:
-                  EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SvgPicture.asset(
-                  'assets/images/swap/swap_restart.svg',
-                  color: Color(0xffffffff),
-                  width: 12,
-                  height: 12,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text('Start Over',
-                    style: TextStyle(
-                        color: Color(0xffffffff),
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-        )
-      ],
-    );
-  }
 
   Widget exchangingScreen(SettingsStore settingsStore,
       GetStatusModel? responseData, CreateTransactionModel transactionDetails) {
@@ -1115,7 +223,9 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 ? Color(0xff32324A)
                 : Color(0xffFFFFFF),
             valueColor: AlwaysStoppedAnimation<Color>(BeldexPalette.belgreen),
-            value: 0.5,
+            value: responseData!.result!.isNotEmpty &&
+                responseData.result == "confirming" ? 0.3 : responseData.result == "exchanging"
+            ? 0.6 : responseData.result == "sending" ? 0.9 : responseData.result == "finished" ? 1.0 : 0.0,
           ),
         ),
         Container(
@@ -1127,19 +237,23 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                   Padding(
                     padding: const EdgeInsets.only(top: 5.0),
                     child: responseData!.result!.isNotEmpty &&
-                            responseData.result == "confirming"
+                        responseData.result == "confirming"
                         ? SizedBox(
-                            width: 15,
-                            height: 15,
-                            child: CircularProgressIndicator(
-                                valueColor:
-                                AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
-                            ))
+                        width: 15,
+                        height: 15,
+                        child: CircularProgressIndicator(
+                            valueColor:
+                            AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
+                        ))
                         : SvgPicture.asset(
-                            'assets/images/swap/swap_loading.svg',
-                            width: 15,
-                            height: 15,
-                          ),
+                      'assets/images/swap/swap_loading.svg',
+                      color: responseData.result!.isNotEmpty &&
+    (responseData.result == "exchanging" || responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                          ? Color(0xffAFAFBE)
+                          : Color(0xff737373),
+                      width: 15,
+                      height: 15,
+                    ),
                   ),
                   SizedBox(width: 10),
                   Flexible(
@@ -1211,26 +325,27 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 5.0),
-                    child: Transform.rotate(
-                      angle: 90 * pi / 180,
-                      child: responseData.result!.isNotEmpty &&
-                              responseData.result == "exchanging"
-                          ? SizedBox(
-                              width: 15,
-                              height: 15,
-                              child: CircularProgressIndicator(
-                                  valueColor:
-                                  AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
-                              ))
-                          : SvgPicture.asset(
-                              'assets/images/swap/swap.svg',
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffAFAFBE)
-                                  : Color(0xff737373),
-                              width: 15,
-                              height: 15,
-                            ),
-                    ),
+                    child: responseData.result!.isNotEmpty &&
+                        responseData.result == "exchanging"
+                        ? SizedBox(
+                        width: 15,
+                        height: 15,
+                        child: CircularProgressIndicator(
+                            valueColor:
+                            AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
+                        ))
+                        : Transform.rotate(
+                          angle: 90 * pi / 180,
+                          child: SvgPicture.asset(
+                                                  'assets/images/swap/swap.svg',
+                                                  color: responseData.result!.isNotEmpty &&
+    (responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                            ? Color(0xffAFAFBE)
+                            : Color(0xff737373),
+                                                  width: 15,
+                                                  height: 15,
+                                                ),
+                        ),
                   ),
                   SizedBox(width: 10),
                   Flexible(
@@ -1274,22 +389,23 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                   Padding(
                     padding: const EdgeInsets.only(top: 5.0),
                     child: responseData.result!.isNotEmpty &&
-                            responseData.result == "sending"
+                        responseData.result == "sending"
                         ? SizedBox(
-                            width: 15,
-                            height: 15,
-                            child: CircularProgressIndicator(
-                                valueColor:
-                                AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
-                            ))
+                        width: 15,
+                        height: 15,
+                        child: CircularProgressIndicator(
+                            valueColor:
+                            AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
+                        ))
                         : SvgPicture.asset(
-                            'assets/images/swap/swap_wallet.svg',
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xffAFAFBE)
-                                : Color(0xff737373),
-                            width: 15,
-                            height: 15,
-                          ),
+                      'assets/images/swap/swap_wallet.svg',
+                      color: responseData.result!.isNotEmpty &&
+    responseData.result == "finished" ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                          ? Color(0xffAFAFBE)
+                          : Color(0xff737373),
+                      width: 15,
+                      height: 15,
+                    ),
                   ),
                   SizedBox(width: 10),
                   Flexible(
@@ -1350,7 +466,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
               RichText(
                 text: TextSpan(
                     text:
-                        'You can initiate a new transaction.You can always check the status of this transaction in transaction ',
+                    'You can initiate a new transaction.You can always check the status of this transaction in transaction ',
                     style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
@@ -1387,291 +503,287 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
         ),
         Consumer<GetTransactionsProvider>(
             builder: (context, getTransactionsProvider, child) {
-          if (getTransactionsProvider.loading) {
-            return Center(
-                child: CircularProgressIndicator(
-                valueColor:
-                AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
-            ));
-          } else {
-            if (getTransactionsProvider.loading == false &&
-                getTransactionsProvider.data!.result!.isNotEmpty) {
-              final transactionDetails =
-                  getTransactionsProvider.data?.result![0];
-              final expectedAmount = double.parse(
-                      transactionDetails!.amountExpectedTo.toString()) -
-                  double.parse(transactionDetails!.networkFee.toString());
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Table(
-                    border: TableBorder(
-                      top: BorderSide(
-                          width: 1,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xff484856)
-                              : Color(0xffDADADA),
-                          style: BorderStyle.solid),
-                      left: BorderSide(
-                          width: 1,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xff484856)
-                              : Color(0xffDADADA),
-                          style: BorderStyle.solid),
-                      right: BorderSide(
-                          width: 1,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xff484856)
-                              : Color(0xffDADADA),
-                          style: BorderStyle.solid),
-                      verticalInside: BorderSide(
-                          width: 1,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xff484856)
-                              : Color(0xffDADADA),
-                          style: BorderStyle.solid),
-                    ),
+              if (getTransactionsProvider.loading) {
+                return Center(
+                    child: CircularProgressIndicator(
+                        valueColor:
+                        AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
+                    ));
+              } else {
+                if (getTransactionsProvider.loading == false &&
+                    getTransactionsProvider.data!.result!.isNotEmpty) {
+                  final transactionDetails = getTransactionsProvider.data?.result![0];
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TableRow(children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 15, right: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Transaction ID',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffAFAFBE)
-                                        : Color(0xff737373)),
-                              ),
-                              Text(
-                                '${transactionDetails.id}',
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffEBEBEB)
-                                        : Color(0xff222222)),
-                              ),
-                            ],
-                          ),
+                      Table(
+                        border: TableBorder(
+                          top: BorderSide(
+                              width: 1,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff484856)
+                                  : Color(0xffDADADA),
+                              style: BorderStyle.solid),
+                          left: BorderSide(
+                              width: 1,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff484856)
+                                  : Color(0xffDADADA),
+                              style: BorderStyle.solid),
+                          right: BorderSide(
+                              width: 1,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff484856)
+                                  : Color(0xffDADADA),
+                              style: BorderStyle.solid),
+                          verticalInside: BorderSide(
+                              width: 1,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff484856)
+                                  : Color(0xffDADADA),
+                              style: BorderStyle.solid),
                         ),
-                      ]),
-                      TableRow(children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 15, right: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'You sent',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffAFAFBE)
-                                        : Color(0xff737373)),
+                        children: [
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 15, left: 15, right: 15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Transaction ID',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffAFAFBE)
+                                            : Color(0xff737373)),
+                                  ),
+                                  Text(
+                                    '${transactionDetails?.id}',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffEBEBEB)
+                                            : Color(0xff222222)),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                '${transactionDetails?.amountExpectedFrom} ${transactionDetails?.currencyFrom?.toUpperCase()}',
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffEBEBEB)
-                                        : Color(0xff222222)),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 15, left: 15, right: 15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'You sent',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffAFAFBE)
+                                            : Color(0xff737373)),
+                                  ),
+                                  Text(
+                                    '${transactionDetails?.amountExpectedFrom} ${transactionDetails?.currencyFrom?.toUpperCase()}',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffEBEBEB)
+                                            : Color(0xff222222)),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 15, left: 15, right: 15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Exchange Rate',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffAFAFBE)
+                                            : Color(0xff737373)),
+                                  ),
+                                  Text(
+                                    '1 ${transactionDetails?.currencyFrom?.toUpperCase()} ~ ${transactionDetails?.rate} ${transactionDetails?.currencyTo?.toUpperCase()}',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffEBEBEB)
+                                            : Color(0xff222222)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 15, left: 15, right: 15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Changelly address (${transactionDetails?.currencyFrom?.toUpperCase()})',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffAFAFBE)
+                                            : Color(0xff737373)),
+                                  ),
+                                  Text(
+                                    '${transactionDetails?.payinAddress}',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffEBEBEB)
+                                            : Color(0xff222222)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 15, left: 15, right: 15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Recipient address (${transactionDetails?.currencyTo?.toUpperCase()})',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffAFAFBE)
+                                            : Color(0xff737373)),
+                                  ),
+                                  Text(
+                                    '${transactionDetails?.payoutAddress}',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffEBEBEB)
+                                            : Color(0xff222222)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]),
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    transactionDetails?.payinExtraIdName ?? '---',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffAFAFBE)
+                                            : Color(0xff737373)),
+                                  ),
+                                  Text(
+                                    transactionDetails?.payinExtraId ?? '---',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffEBEBEB)
+                                            : Color(0xff222222)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ]),
+                        ],
+                      ),
+                      Table(
+                        border: TableBorder.symmetric(
+                          outside: BorderSide(
+                              width: 1,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff484856)
+                                  : Color(0xffDADADA),
+                              style: BorderStyle.solid),
+                          inside: BorderSide(
+                              width: 1,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff484856)
+                                  : Color(0xffDADADA),
+                              style: BorderStyle.solid),
                         ),
-                      ]),
-                      TableRow(children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 15, right: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Exchange Rate',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffAFAFBE)
-                                        : Color(0xff737373)),
+                        children: [
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'You Get',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffAFAFBE)
+                                            : Color(0xff737373)),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    '~ ${transactionDetails?.amountExpectedTo} ${transactionDetails?.currencyTo?.toUpperCase()}',
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffEBEBEB)
+                                            : Color(0xff222222)),
+                                  ),
+                                ],
                               ),
-                              Text(
-                                '1 ${transactionDetails?.currencyFrom?.toUpperCase()} ~ ${transactionDetails?.rate} ${transactionDetails?.currencyTo?.toUpperCase()}',
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffEBEBEB)
-                                        : Color(0xff222222)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]),
-                      TableRow(children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 15, right: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Changelly address (${transactionDetails?.currencyFrom?.toUpperCase()})',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffAFAFBE)
-                                        : Color(0xff737373)),
-                              ),
-                              Text(
-                                '${transactionDetails?.payinAddress}',
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffEBEBEB)
-                                        : Color(0xff222222)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]),
-                      TableRow(children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 15, left: 15, right: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Recipient address (${transactionDetails?.currencyTo?.toUpperCase()})',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffAFAFBE)
-                                        : Color(0xff737373)),
-                              ),
-                              Text(
-                                '${transactionDetails?.payoutAddress}',
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffEBEBEB)
-                                        : Color(0xff222222)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]),
-                      TableRow(children: [
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Memo',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffAFAFBE)
-                                        : Color(0xff737373)),
-                              ),
-                              Text(
-                                '---',
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffEBEBEB)
-                                        : Color(0xff222222)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]),
+                            ),
+                          ]),
+                        ],
+                      ),
                     ],
-                  ),
-                  Table(
-                    border: TableBorder.symmetric(
-                      outside: BorderSide(
-                          width: 1,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xff484856)
-                              : Color(0xffDADADA),
-                          style: BorderStyle.solid),
-                      inside: BorderSide(
-                          width: 1,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xff484856)
-                              : Color(0xffDADADA),
-                          style: BorderStyle.solid),
-                    ),
-                    children: [
-                      TableRow(children: [
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'You Get',
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffAFAFBE)
-                                        : Color(0xff737373)),
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                '~ ${expectedAmount} ${transactionDetails.currencyTo?.toUpperCase()}',
-                                style: TextStyle(
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffEBEBEB)
-                                        : Color(0xff222222)),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ]),
-                    ],
-                  ),
-                ],
-              );
-            } else {
-              return Container();
-            }
-          }
-        }),
+                  );
+                } else {
+                  return Container();
+                }
+              }
+            }),
         SizedBox(
           height: 30,
         )
       ],
     );
   }
-}
 
-class Coins {
-  Coins(this.id, this.name);
-
-  String? id;
-  String? name;
+  @override
+  void dispose() {
+    timer.cancel();
+    _getStatusStreamController.close();
+    super.dispose();
+  }
 }
