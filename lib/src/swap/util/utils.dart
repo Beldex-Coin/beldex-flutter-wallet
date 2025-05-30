@@ -16,6 +16,16 @@ String getDateAndTime(int timeStamp) {
   return DateFormat('dd MMM yyyy, HH:mm:ss').format(date);
 }
 
+String getTransactionDate(int timeStamp) {
+  final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+  return DateFormat('dd MMM yyyy').format(date);
+}
+
+String getTransactionTime(int timeStamp) {
+  final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+  return DateFormat('HH:mm:ss').format(date);
+}
+
 String truncateMiddle(String input, {int start = 3, int end = 3}) {
   if (input.length <= start + end) return input;
   return '${input.substring(0, start)}...${input.substring(input.length - end)}';
