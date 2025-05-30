@@ -11,8 +11,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 import '../../../palette.dart';
+import '../../../routes.dart';
 import '../model/create_transaction_model.dart';
 import '../api_client/get_status_api_client.dart';
+import '../util/data_class.dart';
 import 'number_stepper.dart';
 
 class SwapExchangingPage extends BasePage {
@@ -99,10 +101,39 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
   }
 
   void callGetStatusApi(Result? result, GetStatusApiClient getStatusApiClient) {
-    getStatusApiClient
-        .getStatusData(context, {"id": "${result?.id}"}).then((value) {
+    getStatusApiClient.getStatusData(context, {"id": "${result?.id}"}).then((value) {
       if (value!.result!.isNotEmpty) {
         _getStatusStreamController.sink.add(value);
+        switch (value.result) {
+          case "finished" :
+            {
+              //Completed Screen
+              Future.delayed(Duration(seconds: 3), () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed(Routes.swapCompleted,
+                    arguments: TransactionStatus(
+                        transactionDetails, value.result));
+              });
+              break;
+            }
+          case "refunded" :
+            {
+              break;
+            }
+          case "failed" :
+          case "overdue" :
+          case "expired" :
+            {
+              //Failed, Overdue and Expired Screen
+              Future.delayed(Duration(seconds: 3), () {
+                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed(Routes.swapUnPaid,
+                    arguments: TransactionStatus(
+                        transactionDetails, value.result));
+              });
+              break;
+            }
+        }
       }
     });
   }
@@ -246,7 +277,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                             AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
                         ))
                         : SvgPicture.asset(
-                      'assets/images/swap/swap_loading.svg',
+                      'assets/images/swap/swap_confirmed.svg',
                       color: responseData.result!.isNotEmpty &&
     (responseData.result == "exchanging" || responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
                           ? Color(0xffAFAFBE)
@@ -262,14 +293,29 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Confirming in progress',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffEBEBEB)
-                                  : Color(0xff222222)),
+                        Row(
+                          mainAxisAlignment : MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              (responseData.result == "exchanging" || responseData.result == "sending" || responseData.result == "finished") ? 'Confirmed' :'Confirming in progress',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xffEBEBEB)
+                                      : Color(0xff222222)),
+                            ),
+                            SizedBox(width: 5,),
+                            (responseData.result == "exchanging" || responseData.result == "sending" || responseData.result == "finished") ? SvgPicture.asset(
+                              'assets/images/swap/swap_done.svg',
+                              color: responseData.result!.isNotEmpty &&
+                                  (responseData.result == "exchanging" || responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                                  ? Color(0xffAFAFBE)
+                                  : Color(0xff737373),
+                              width: 12,
+                              height: 12,
+                            ) : Container(),
+                          ],
                         ),
                         SizedBox(height: 5),
                         Text(
@@ -337,17 +383,45 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                         : Transform.rotate(
                           angle: 90 * pi / 180,
                           child: SvgPicture.asset(
-                                                  'assets/images/swap/swap.svg',
-                                                  color: responseData.result!.isNotEmpty &&
-    (responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                            'assets/images/swap/swap.svg',
+                            color: responseData.result!.isNotEmpty &&
+                            (responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
                             ? Color(0xffAFAFBE)
                             : Color(0xff737373),
-                                                  width: 15,
-                                                  height: 15,
-                                                ),
+                            width: 15,
+                            height: 15,
+                          ),
                         ),
                   ),
                   SizedBox(width: 10),
+                  (responseData.result == "sending" || responseData.result == "finished") ?
+                  Flexible(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Done Exchanging ${transactionDetails.result!.currencyFrom?.toUpperCase()} to ${transactionDetails.result!.currencyTo?.toUpperCase()}',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffEBEBEB)
+                                  : Color(0xff222222)),
+                        ),
+                        SizedBox(height: 5),
+                        (responseData.result == "sending" || responseData.result == "finished") ? SvgPicture.asset(
+                          'assets/images/swap/swap_done.svg',
+                          color: responseData.result!.isNotEmpty &&
+                              (responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                              ? Color(0xffAFAFBE)
+                              : Color(0xff737373),
+                          width: 12,
+                          height: 12,
+                        ) : Container(),
+                      ],
+                    ),
+                  ) :
                   Flexible(
                     flex: 1,
                     child: Column(
@@ -408,6 +482,35 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                     ),
                   ),
                   SizedBox(width: 10),
+                  (responseData.result == "finished") ?
+                  Flexible(
+                    flex: 1,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Funds send to your wallet',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffEBEBEB)
+                                  : Color(0xff222222)),
+                        ),
+                        SizedBox(height: 5),
+                        (responseData.result == "finished") ? SvgPicture.asset(
+                          'assets/images/swap/swap_done.svg',
+                          color: responseData.result!.isNotEmpty &&
+                              (responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                              ? Color(0xffAFAFBE)
+                              : Color(0xff737373),
+                          width: 12,
+                          height: 12,
+                        ) : Container(),
+                      ],
+                    ),
+                  ) :
                   Flexible(
                     flex: 1,
                     child: Column(
