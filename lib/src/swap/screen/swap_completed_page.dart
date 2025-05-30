@@ -7,13 +7,13 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
-import 'package:beldex_wallet/src/swap/screen/swap_payment_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../../../routes.dart';
 import '../api_client/get_status_api_client.dart';
+import '../dialog/input_output_hash_dialog.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
 import 'number_stepper.dart';
@@ -557,7 +557,9 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
               Container(
                 margin: EdgeInsets.only(right: 5),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showAlertDialog(context, transactionModel.result![0].payinHash!, transactionModel.result![0].payoutHash!);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: settingsStore.isDarkTheme
                         ? Color(0xff242433)
@@ -592,58 +594,7 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                       ),
                       Flexible(
                         flex: 2,
-                        child: Text('Input Hash',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffffffff)
-                                    : Color(0xff222222),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400)),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 5),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: settingsStore.isDarkTheme
-                        ? Color(0xff242433)
-                        : Color(0xffDADADA),
-                    padding: EdgeInsets.only(
-                      top: 10,
-                      bottom: 10,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        side: BorderSide(
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xff41415B)
-                                : Color(0xffF3F3F3))),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: SvgPicture.asset(
-                          'assets/images/swap/swap_output_hash.svg',
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffAFAFBE)
-                              : Color(0xff737373),
-                          width: 18,
-                          height: 18,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Flexible(
-                        flex: 2,
-                        child: Text('Output Hash',
+                        child: Text('Input/Output Hash',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: settingsStore.isDarkTheme
@@ -736,6 +687,13 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
           ],
         )
       ],
+    );
+  }
+
+  Future showAlertDialog(BuildContext context, String inputHash, String outputHash) async {
+    await showInputOutputDialog(context, inputHash,
+      outputHash,
+      onDismiss: (context) => Navigator.of(context).pop(true),
     );
   }
 
