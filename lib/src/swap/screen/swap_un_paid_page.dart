@@ -164,7 +164,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
                 children: [
                   isFailed() ?
                   SvgPicture.asset(
-                    'assets/images/swap/swap_waiting.svg',
+                    'assets/images/swap/swap_failed.svg',
                     color: Colors.red,
                     width: 20,
                     height: 20,
