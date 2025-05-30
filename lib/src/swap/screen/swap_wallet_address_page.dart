@@ -669,7 +669,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         Visibility(
           visible: minimumAmount.trim().isNotEmpty || maximumAmount.trim().isNotEmpty,
           child: Container(
-            margin: EdgeInsets.only(left: 10.0, bottom: 5.0, top: 5.0),
+            margin: EdgeInsets.only(bottom: 5.0, top: 5.0),
             decoration: BoxDecoration(
                 color: Color(0xff00AD07).withAlpha(25),
                 borderRadius: BorderRadius.all(Radius.circular(8))),
