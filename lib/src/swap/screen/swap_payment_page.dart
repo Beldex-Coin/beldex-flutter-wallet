@@ -255,30 +255,14 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         //Checkout Title
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SvgPicture.asset(
-              'assets/images/swap/swap_back.svg',
+        Text(
+          'Checkout',
+          style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w700,
               color: settingsStore.isDarkTheme
-                  ? Color(0xffffffff)
-                  : Color(0xff16161D),
-              width: 20,
-              height: 20,
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            Text(
-              'Checkout',
-              style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: settingsStore.isDarkTheme
-                      ? Color(0xffFFFFFF)
-                      : Color(0xff060606)),
-            ),
-          ],
+                  ? Color(0xffFFFFFF)
+                  : Color(0xff060606)),
         ),
         //You Send Details
         Container(
