@@ -515,8 +515,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
               children: [
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
+                    Navigator.of(context).pop(true);
                   },
                   child: SvgPicture.asset(
                     'assets/images/swap/swap_back.svg',

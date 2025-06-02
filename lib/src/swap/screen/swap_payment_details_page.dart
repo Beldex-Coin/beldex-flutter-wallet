@@ -159,13 +159,13 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
           case "exchanging" :
           case "sending" :{
             //Exchanging Screen
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(true);
             Navigator.of(context).pushNamed(Routes.swapExchanging,arguments: createdTransactionDetails);
             break;
           }
           case "finished" : {
             //Completed Screen
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(true);
             Navigator.of(context).pushNamed(Routes.swapCompleted,arguments: TransactionStatus(createdTransactionDetails, value.result));
             break;
           }
@@ -176,7 +176,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
           case "overdue" :
           case "expired" : {
             //Failed, Overdue and Expired Screen
-            Navigator.of(context).pop();
+            Navigator.of(context).pop(true);
             Navigator.of(context).pushNamed(Routes.swapUnPaid,arguments: TransactionStatus(createdTransactionDetails, value.result));
             break;
           }

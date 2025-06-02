@@ -109,7 +109,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
             {
               //Completed Screen
               Future.delayed(Duration(seconds: 3), () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(true);
                 Navigator.of(context).pushNamed(Routes.swapCompleted,
                     arguments: TransactionStatus(
                         transactionDetails, value.result));
@@ -126,7 +126,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
             {
               //Failed, Overdue and Expired Screen
               Future.delayed(Duration(seconds: 3), () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pop(true);
                 Navigator.of(context).pushNamed(Routes.swapUnPaid,
                     arguments: TransactionStatus(
                         transactionDetails, value.result));

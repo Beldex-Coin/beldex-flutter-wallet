@@ -511,9 +511,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 InkWell(
                   onTap: () {
                     final FlutterSecureStorage secureStorage = FlutterSecureStorage();
-                    Navigator.of(context).pop();
-                    Navigator.of(context)
-                        .pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
+                    Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
                   },
                   child: SvgPicture.asset(
                     'assets/images/swap/history.svg',
@@ -1088,7 +1086,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               child: ElevatedButton(
                 onPressed: () {
                   if(isNextButtonEnabled(floatingExchangeRate) && !getPairsParamsProvider.getSendFieldErrorState()) {
-                    Navigator.of(context).pop();
+                    Navigator.of(context).pop(true);
                     Navigator.of(context).pushNamed(Routes.swapWalletAddress,
                         arguments: ExchangeData(getCurrenciesFullProvider
                             .getSelectedYouSendCoins()
