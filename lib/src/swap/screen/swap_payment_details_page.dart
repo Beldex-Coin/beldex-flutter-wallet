@@ -84,7 +84,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   ValueNotifier<String> pendingTransactionTimeRemaining = ValueNotifier("");
   Timer? pendingTransactionTimer;
   bool timeIsExpire = false;
-  String status = "waiting";
+  String status = "overdue";
   //var createdTxnDetails = {'type': 'float', 'payTill': DateTime.now().toString()};
 
   void startAndStopPendingTransactionTimer(int? createdAt) {
