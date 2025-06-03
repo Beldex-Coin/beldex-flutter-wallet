@@ -71,7 +71,6 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
   }
 
   late TransactionStatus transactionStatus;
-  late Timer timer;
   late GetStatusApiClient getStatusApiClient;
   late StreamController<GetStatusModel> _getStatusStreamController;
 
@@ -436,7 +435,6 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
 
   @override
   void dispose() {
-    timer.cancel();
     _getStatusStreamController.close();
     super.dispose();
   }
