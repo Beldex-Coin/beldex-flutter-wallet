@@ -89,6 +89,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
     final _screenHeight = MediaQuery.of(context).size.height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
+    ToastContext().init(context);
     return body(
         _screenWidth,
         _screenHeight,

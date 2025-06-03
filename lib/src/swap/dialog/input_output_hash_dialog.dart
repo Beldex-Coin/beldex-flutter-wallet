@@ -29,6 +29,7 @@ class InputOutputDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
+    ToastContext().init(context);
     return Container(
       color: Colors.transparent,
       child: BackdropFilter(

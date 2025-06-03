@@ -98,6 +98,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     final _screenHeight = MediaQuery.of(context).size.height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
+    ToastContext().init(context);
     return WillPopScope(
       onWillPop: () async => false,
       child: Consumer<GetTransactionsProvider>(builder: (context,getTransactionsProvider,child){
