@@ -84,23 +84,14 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   ValueNotifier<String> pendingTransactionTimeRemaining = ValueNotifier("");
   Timer? pendingTransactionTimer;
   bool timeIsExpire = false;
+  String status = "waiting";
   //var createdTxnDetails = {'type': 'float', 'payTill': DateTime.now().toString()};
 
-  void startAndStopPendingTransactionTimer() {
+  void startAndStopPendingTransactionTimer(int? createdAt) {
     pendingTransactionTimer?.cancel();
-    DateTime today;
-    DateTime addTime;
-    /*if (createdTxnDetails['type'] == 'float') {
-      today = DateTime.now();
-      addTime = today.add(Duration(hours: 3));
-    } else {
-      today = DateTime.parse(createdTxnDetails['payTill']!);
-      addTime = today;
-    }*/
-    today = DateTime.now();
-    addTime = today.add(Duration(hours: 3));
-
-    final countDownDate = addTime.millisecondsSinceEpoch;
+    final start = DateTime.fromMicrosecondsSinceEpoch(createdAt!);
+    final newTime = start.add(Duration(hours: 3));
+    final countDownDate = newTime.millisecondsSinceEpoch;
 
     pendingTransactionTimer = Timer.periodic(Duration(seconds: 1), (Timer t) {
       final now = DateTime.now().millisecondsSinceEpoch;
@@ -116,6 +107,9 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
         pendingTransactionTimeRemaining.value = '00:00:00';
         timeIsExpire = true;
         clearIntervals();
+        Future.delayed(Duration(seconds: 2), () {
+          callUnPaidScreen(createdTransactionDetails, status);
+        });
       }
     });
   }
@@ -131,8 +125,8 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
 
   @override
   void initState() {
-    startAndStopPendingTransactionTimer();
     createdTransactionDetails = widget.transactionDetails.createTransactionModel!;
+    startAndStopPendingTransactionTimer(createdTransactionDetails.result?.createdAt);
     _fromBlockChain = widget.transactionDetails.fromBlockChain!;
     getStatusApiClient = GetStatusApiClient();
     // Create a stream controller and get status to the stream.
@@ -155,6 +149,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     getStatusApiClient.getStatusData(context, {"id":"${result?.id}"}).then((value){
       if(value!.result!.isNotEmpty){
         _getStatusStreamController.sink.add(value);
+        status = value.result!;
         switch(value.result){
           case "waiting" :{
             //Swap Payment Details Screen
@@ -680,11 +675,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
               } else {
                 if (getTransactionsProvider.loading == false &&
                     getTransactionsProvider.data!.result!.isNotEmpty) {
-                  final transactionDetails =
-                  getTransactionsProvider.data?.result![0];
-                  final expectedAmount = double.parse(
-                      transactionDetails!.amountExpectedTo.toString()) -
-                      double.parse(transactionDetails!.networkFee.toString());
+                  final transactionDetails = getTransactionsProvider.data?.result![0];
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -761,7 +752,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                               padding:
                               const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                               child: Text(
-                                '1 ${transactionDetails.currencyFrom?.toUpperCase()} ~ ${transactionDetails.rate} ${transactionDetails.currencyTo?.toUpperCase()}',
+                                '1 ${transactionDetails!.currencyFrom?.toUpperCase()} ~ ${transactionDetails.rate} ${transactionDetails.currencyTo?.toUpperCase()}',
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -925,7 +916,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                             Padding(
                               padding: const EdgeInsets.all(10.0),
                               child: Text(
-                                '~ ${expectedAmount} ${transactionDetails.currencyTo?.toUpperCase()}',
+                                '~ ${transactionDetails.amountExpectedTo} ${transactionDetails.currencyTo?.toUpperCase()}',
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
