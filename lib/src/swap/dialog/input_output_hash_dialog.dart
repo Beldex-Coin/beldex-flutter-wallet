@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 import '../../../l10n.dart';
 import '../../stores/settings/settings_store.dart';
@@ -77,11 +79,26 @@ class InputOutputDialog extends StatelessWidget {
                                                   fontSize: 15,
                                                   decoration: TextDecoration.none,
                                                   color: settingsStore.isDarkTheme ? Color(0xFFAFAFBE) : Color(0xFF77778B))),
-                                          SvgPicture.asset(
-                                            'assets/images/swap/copy.svg',
-                                            color: Colors.green,
-                                            width: 13,
-                                            height: 13,
+                                          InkWell(
+                                            onTap: () {
+                                              Clipboard.setData(ClipboardData(
+                                                  text: inputHash));
+                                              Toast.show(
+                                                tr(context).copied,
+                                                duration: Toast
+                                                    .lengthShort, // Toast duration (short or long)
+                                                gravity: Toast
+                                                    .bottom,
+                                                textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
+                                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                                              );
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/images/swap/copy.svg',
+                                              color: Colors.green,
+                                              width: 13,
+                                              height: 13,
+                                            ),
                                           )
                                         ],
                                       ),
@@ -112,11 +129,26 @@ class InputOutputDialog extends StatelessWidget {
                                                   fontSize: 15,
                                                   decoration: TextDecoration.none,
                                                   color: settingsStore.isDarkTheme ? Color(0xFFAFAFBE) : Color(0xFF77778B))),
-                                          SvgPicture.asset(
-                                            'assets/images/swap/copy.svg',
-                                            color: Colors.green,
-                                            width: 13,
-                                            height: 13,
+                                          InkWell(
+                                            onTap: () {
+                                              Clipboard.setData(ClipboardData(
+                                                  text: outputHash));
+                                              Toast.show(
+                                                tr(context).copied,
+                                                duration: Toast
+                                                    .lengthShort, // Toast duration (short or long)
+                                                gravity: Toast
+                                                    .bottom,
+                                                textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
+                                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                                              );
+                                            },
+                                            child: SvgPicture.asset(
+                                              'assets/images/swap/copy.svg',
+                                              color: Colors.green,
+                                              width: 13,
+                                              height: 13,
+                                            ),
                                           )
                                         ],
                                       ),
