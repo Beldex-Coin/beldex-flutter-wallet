@@ -423,54 +423,57 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 
   Widget underMaintenanceScreen(
       double _screenWidth, SettingsStore settingsStore) {
-    return Expanded(
-      child: Container(
-        width: _screenWidth,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(
-              'assets/images/swap/under_maintenance.svg',
-              color: settingsStore.isDarkTheme
-                  ? Color(0xff65656E)
-                  : Color(0xffDADADA),
-              width: 112,
-              height: 112,
-            ),
-            RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                  text: 'BDX',
+    Future.delayed(Duration(seconds: 2), () {
+      return Expanded(
+        child: Container(
+          width: _screenWidth,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/images/swap/under_maintenance.svg',
+                color: settingsStore.isDarkTheme
+                    ? Color(0xff65656E)
+                    : Color(0xffDADADA),
+                width: 112,
+                height: 112,
+              ),
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                    text: 'BDX',
+                    style: TextStyle(
+                        backgroundColor: Colors.transparent,
+                        color: Color(0xff20D030),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700),
+                    children: [
+                      TextSpan(
+                          text: ' Swap is temporarily\nunder maintenance.',
+                          style: TextStyle(
+                              backgroundColor: Colors.transparent,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffFFFFFF)
+                                  : Color(0xff222222)))
+                    ]),
+              ),
+              Text('Please try again after some times.',
                   style: TextStyle(
                       backgroundColor: Colors.transparent,
-                      color: Color(0xff20D030),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700),
-                  children: [
-                    TextSpan(
-                        text: ' Swap is temporarily\nunder maintenance.',
-                        style: TextStyle(
-                            backgroundColor: Colors.transparent,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xffFFFFFF)
-                                : Color(0xff222222)))
-                  ]),
-            ),
-            Text('Please try again after some times.',
-                style: TextStyle(
-                    backgroundColor: Colors.transparent,
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xff82828D)
-                        : Color(0xff737373),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400)),
-          ],
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff82828D)
+                          : Color(0xff737373),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400)),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
+    return Container();
   }
 
   Widget exchangeScreen(
