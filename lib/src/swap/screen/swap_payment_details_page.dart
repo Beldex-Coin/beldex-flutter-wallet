@@ -980,6 +980,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   void dispose() {
     timer.cancel();
     clearIntervals();
+    _getStatusStreamController.close();
     super.dispose();
   }
 }
