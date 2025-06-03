@@ -397,7 +397,10 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
         Align(
           alignment: Alignment.center,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pop(true);
+              Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xff0BA70F),
               padding:

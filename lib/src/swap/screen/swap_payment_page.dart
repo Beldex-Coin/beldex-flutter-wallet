@@ -774,15 +774,15 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
         print('Status -> Success');
         storeTransactionsIds(value!.result!.id);
         Future.delayed(Duration(seconds: 2), () {
-          Navigator.of(context).pop(true);
+          Navigator.of(context).pop();
           Navigator.of(context).pop(true);
           Navigator.of(context).pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(value, fromBlockChain)); // Start adding getExchangeAmount api result to the stream.
         });
       } else if (value?.error != null) {
         print('Status -> error ${value!.error!.message}');
-        Navigator.of(context).pop(true);
+        Navigator.of(context).pop();
       } else {
-        Navigator.of(context).pop(true);
+        Navigator.of(context).pop();
       }
     });
   }

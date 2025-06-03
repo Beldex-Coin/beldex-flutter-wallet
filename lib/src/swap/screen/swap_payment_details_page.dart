@@ -124,6 +124,11 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     pendingTransactionTimer?.cancel();
   }
 
+  void callUnPaidScreen(CreateTransactionModel createdTransactionDetails, String? status) {
+    Navigator.of(context).pop(true);
+    Navigator.of(context).pushNamed(Routes.swapUnPaid,arguments: TransactionStatus(createdTransactionDetails, status));
+  }
+
   @override
   void initState() {
     startAndStopPendingTransactionTimer();
@@ -176,8 +181,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
           case "overdue" :
           case "expired" : {
             //Failed, Overdue and Expired Screen
-            Navigator.of(context).pop(true);
-            Navigator.of(context).pushNamed(Routes.swapUnPaid,arguments: TransactionStatus(createdTransactionDetails, value.result));
+            callUnPaidScreen(createdTransactionDetails, value.result);
             break;
           }
         }
