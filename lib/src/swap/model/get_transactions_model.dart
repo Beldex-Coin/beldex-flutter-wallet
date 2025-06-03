@@ -11,28 +11,52 @@ String getTransactionsModelToJson(GetTransactionsModel data) => json.encode(data
 class GetTransactionsModel {
   String? jsonrpc;
   String? id;
-  List<Result>? result;
+  List<GetTransactionResult>? result;
+  Error? error;
 
   GetTransactionsModel({
     this.jsonrpc,
     this.id,
     this.result,
+    this.error,
   });
 
   factory GetTransactionsModel.fromJson(Map<String, dynamic> json) => GetTransactionsModel(
     jsonrpc: json["jsonrpc"],
     id: json["id"],
-    result: json["result"] == null ? [] : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
+    result: json["result"] == null ? [] : List<GetTransactionResult>.from(json["result"]!.map((x) => GetTransactionResult.fromJson(x))),
+    error: json["error"] == null ? null : Error.fromJson(json["error"]),
   );
 
   Map<String, dynamic> toJson() => {
     "jsonrpc": jsonrpc,
     "id": id,
     "result": result == null ? [] : List<dynamic>.from(result!.map((x) => x.toJson())),
+    "error": error?.toJson(),
   };
 }
 
-class Result {
+class Error {
+  int? code;
+  String? message;
+
+  Error({
+    this.code,
+    this.message,
+  });
+
+  factory Error.fromJson(Map<String, dynamic> json) => Error(
+    code: json["code"],
+    message: json["message"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "code": code,
+    "message": message,
+  };
+}
+
+class GetTransactionResult {
   String? id;
   String? trackUrl;
   int? createdAt;
@@ -69,7 +93,7 @@ class Result {
   bool? canRefund;
   DateTime? payTill;
 
-  Result({
+  GetTransactionResult({
     this.id,
     this.trackUrl,
     this.createdAt,
@@ -107,7 +131,7 @@ class Result {
     this.payTill,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory GetTransactionResult.fromJson(Map<String, dynamic> json) => GetTransactionResult(
     id: json["id"],
     trackUrl: json["trackUrl"],
     createdAt: json["createdAt"],

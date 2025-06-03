@@ -1,4 +1,5 @@
 
+import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../model/create_transaction_model.dart';
@@ -56,4 +57,11 @@ class TransactionDetails {
 
   CreateTransactionModel? createTransactionModel;
   String? fromBlockChain;
+}
+
+class GetTransactionStatus {
+  GetTransactionStatus(this.transactionModel, this.status);
+
+  GetTransactionResult? transactionModel;
+  String? status;
 }

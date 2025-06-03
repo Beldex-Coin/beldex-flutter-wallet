@@ -1,4 +1,5 @@
 import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
+import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_currencies_full_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_exchange_amount_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_pairs_params_provider.dart';
@@ -12,6 +13,10 @@ import 'package:beldex_wallet/src/swap/screen/swap_exchange_transaction_history_
 import 'package:beldex_wallet/src/swap/screen/swap_exchanging_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_payment_details_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_payment_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_transaction_completed_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_transaction_exchanging_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_transaction_payment_details_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_transaction_un_paid_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_un_paid_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_wallet_address_page.dart';
 import 'package:beldex_wallet/src/swap/signature_page.dart';
@@ -704,6 +709,22 @@ class Router {
             ],
             child: SwapCompletedPage(transactionStatus: settings.arguments as TransactionStatus),
           );
+        });
+      case Routes.swapTransactionCompleted:
+        return MaterialPageRoute<void>(builder: (context) {
+          return SwapTransactionCompletedPage(transactionStatus: settings.arguments as GetTransactionStatus);
+        });
+      case Routes.swapTransactionUnPaid:
+        return MaterialPageRoute<void>(builder: (context) {
+          return SwapTransactionUnPaidPage(transactionStatus: settings.arguments as GetTransactionStatus);
+        });
+      case Routes.swapTransactionExchanging:
+        return MaterialPageRoute<void>(builder: (context) {
+          return SwapTransactionExchangingPage(transactionDetails : settings.arguments as GetTransactionResult);
+        });
+      case Routes.swapTransactionPaymentDetails:
+        return MaterialPageRoute<void>(builder: (context) {
+          return SwapTransactionPaymentDetailsPage(transactionDetails : settings.arguments as GetTransactionResult);
         });
       default:
         return MaterialPageRoute<void>(

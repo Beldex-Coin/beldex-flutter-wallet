@@ -205,14 +205,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                   child: ExpansionTile(
                       initiallyExpanded: isExpanded,
                       onExpansionChanged: (test) {
-                        swapTransactionExpansionStatusChangeNotifier
-                            .toggle(index, test);
-                        if(swapTransactionExpansionStatusChangeNotifier.getStatus(index) != null) {
-                          print("getStatus if -> ${swapTransactionExpansionStatusChangeNotifier.getStatus(index)}");
-                        }
-                        else {
-                          print("getStatus else ->");
-                        }
+                        swapTransactionExpansionStatusChangeNotifier.toggle(index, test);
                       },
                       trailing: swapTransactionExpansionStatusChangeNotifier.getStatus(index) != null ?
                       swapTransactionExpansionStatusChangeNotifier.getStatus(index)! ? trailingIcon(90, settingsStore) : trailingIcon(270, settingsStore) : trailingIcon(270, settingsStore),
@@ -243,6 +236,10 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                             ),
                             Visibility(
                               visible: result.status == "overdue",
+                              child:showImage('assets/images/swap/swap_waiting.svg'),
+                            ),
+                            Visibility(
+                              visible: result.status == "expired",
                               child:showImage('assets/images/swap/swap_waiting.svg'),
                             ),
                             Expanded(
@@ -294,7 +291,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                                 style: TextStyle(
                                                     backgroundColor:
                                                     Colors.transparent,
-                                                    fontWeight: FontWeight.w900,
+                                                    fontWeight: FontWeight.w800,
                                                     fontSize: 14,
                                                     color: settingsStore.isDarkTheme
                                                         ? Color(0xffFFFFFF)
@@ -456,7 +453,39 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                               : Color(0xff737373))),
                                   InkWell(
                                     onTap: () {
-
+                                      switch (result.status) {
+                                        case "waiting" :
+                                          {
+                                            Navigator.of(context).pushNamed(Routes.swapTransactionPaymentDetails, arguments: result);
+                                            break;
+                                          }
+                                        case "confirming" :
+                                        case "exchanging" :
+                                        case "sending" :
+                                          {
+                                            Navigator.of(context).pushNamed(Routes.swapTransactionExchanging,arguments: result);
+                                            break;
+                                          }
+                                        case "finished" :
+                                          {
+                                            //Completed Screen
+                                            Navigator.of(context).pushNamed(Routes.swapTransactionCompleted,
+                                                arguments: GetTransactionStatus(result, result.status));
+                                            break;
+                                          }
+                                        case "refunded" :
+                                          {
+                                            break;
+                                          }
+                                        case "failed" :
+                                        case "overdue" :
+                                        case "expired" :
+                                          {
+                                            Navigator.of(context).pushNamed(Routes.swapTransactionUnPaid,
+                                                arguments: GetTransactionStatus(result, result.status));
+                                            break;
+                                          }
+                                      }
                                     },
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
@@ -576,7 +605,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     );
   }
 
-  Widget expansionTile(Result result, SettingsStore settingsStore) {
+  Widget expansionTile(GetTransactionResult result, SettingsStore settingsStore) {
     return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
@@ -599,6 +628,10 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
           ),
           Visibility(
             visible: result.status == "overdue",
+            child:showImage('assets/images/swap/swap_waiting.svg'),
+          ),
+          Visibility(
+            visible: result.status == "expired",
             child:showImage('assets/images/swap/swap_waiting.svg'),
           ),
           Expanded(
@@ -645,7 +678,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                               style: TextStyle(
                                   backgroundColor:
                                   Colors.transparent,
-                                  fontWeight: FontWeight.w900,
+                                  fontWeight: FontWeight.w800,
                                   fontSize: 14,
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xffFFFFFF)
