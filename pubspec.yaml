@@ -102,6 +102,9 @@ dependencies:
   blurrycontainer: ^2.1.0
   connectivity_plus: ^6.0.5
   keyboard_detection: ^0.7.3
+  csv: ^6.0.0
+  permission_handler: ^11.3.1
+  device_info_plus: ^11.4.0
   #flutter_windowmanager:
   font_awesome_flutter:
   upgrader:

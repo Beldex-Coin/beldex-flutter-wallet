@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:beldex_wallet/l10n.dart';
@@ -8,14 +10,20 @@ import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/swap_transaction_expansion_status_change_notifier.dart';
 import 'package:beldex_wallet/src/util/generate_name.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:toast/toast.dart';
 import '../../../routes.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
 import 'number_stepper.dart';
+import 'package:csv/csv.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SwapExchangeTransactionHistoryPage extends BasePage {
   SwapExchangeTransactionHistoryPage({required this.swapTransactionHistory});
@@ -180,6 +188,70 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
         ),
       ],
     );
+  }
+
+  List<List<dynamic>> rows = [];
+
+  var addHeader = false;
+
+  // Test CSV created just for demo.
+  String get csv => const ListToCsvConverter().convert(rows);
+
+  Future<void> requestStoragePermission() async {
+    var status = await Permission.storage.status;
+
+    if (!status.isGranted) {
+      if (Platform.isAndroid) {
+        final deviceInfo = DeviceInfoPlugin();
+        final androidInfo = await deviceInfo.androidInfo;
+        final androidVersion = int.tryParse(androidInfo.version.release ?? '11') ?? 11;
+        if (androidVersion >= 11) {
+          status = await Permission.manageExternalStorage.request();
+        } else {
+          status = await Permission.storage.request();
+        }
+      } else {
+        status = await Permission.manageExternalStorage.request();
+      }
+
+      if (status.isGranted) {
+        await downloadCSV(csv);
+      } else if (status.isDenied) {
+        Toast.show(
+          'Storage permission denied',
+          duration: Toast.lengthLong,
+          gravity: Toast.bottom,
+          textStyle:TextStyle(color: Colors.white),
+          backgroundColor: Color(0xff0ba70f),
+        );
+      } else if (status.isPermanentlyDenied) {
+        await openAppSettings(); // Takes user to settings to enable manually
+      }
+    } else {
+      await downloadCSV(csv);
+    }
+  }
+
+  // Download and save CSV to your Device
+  Future<void> downloadCSV(String csv) async {
+    final Uint8List bytes = Uint8List.fromList(utf8.encode(csv));
+    final directory = await getExternalStorageDirectories(type: StorageDirectory.downloads); // Internal storage
+    final path = '${directory?.first.path}/Transaction_report.csv';
+    // Convert your CSV string to a Uint8List for downloading.
+    final file = File(path);
+    //await file.writeAsBytes(bytes);
+    await file.writeAsBytes(bytes).whenComplete(() {
+      print("path $path");
+      final file = File(path);
+      Share.shareXFiles([XFile(file.path)]);
+      Toast.show(
+        'Downloaded Successfully',
+        duration: Toast.lengthLong,
+        gravity: Toast.bottom,
+        textStyle:TextStyle(color: Colors.white),
+        backgroundColor: Color(0xff0ba70f),
+      );
+    });
   }
 
   Widget transactionRow(SettingsStore settingsStore, GetTransactionsModel getTransactionsModel, int index) {
@@ -533,6 +605,8 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
       double _screenHeight,
       SettingsStore settingsStore,
       GetTransactionsModel getTransactionsModel) {
+    rows.clear();
+    addHeader = true;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -570,13 +644,18 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                 ),
               ],
             ),
-            SvgPicture.asset(
-              'assets/images/swap/swap_download.svg',
-              color: settingsStore.isDarkTheme
-                  ? Color(0xffffffff)
-                  : Color(0xff16161D),
-              width: 25,
-              height: 25,
+            InkWell(
+              onTap: () async {
+                await requestStoragePermission();
+              },
+              child: SvgPicture.asset(
+                'assets/images/swap/swap_download.svg',
+                color: settingsStore.isDarkTheme
+                    ? Color(0xffffffff)
+                    : Color(0xff16161D),
+                width: 25,
+                height: 25,
+              ),
             )
           ],
         ),
@@ -591,6 +670,14 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
               padding: EdgeInsets.only(bottom: 15),
               itemCount: getTransactionsModel.result!.length,
               itemBuilder: (context, index) {
+                if(rows.length-1 != getTransactionsModel.result!.length) {
+                  if(addHeader){
+                    addHeader = false;
+                    rows.add(["Status", "Date", "Exchange_Amount_From", "Exchange_Rate", "Receiver", "Amount_Received"]);
+                  }
+                  final result = getTransactionsModel.result![index];
+                  rows.add([result.status, getDate(result.createdAt!), toStringAsFixed(result.amountExpectedFrom), toStringAsFixed(result.rate), result.payinAddress, toStringAsFixed(result.amountExpectedTo)]);
+                }
                 return transactionRow(settingsStore, getTransactionsModel, index);
               }),
         ),
