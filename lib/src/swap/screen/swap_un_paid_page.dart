@@ -5,8 +5,11 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
+import '../../../routes.dart';
 import '../api_client/get_status_api_client.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
@@ -241,10 +244,25 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
                             SizedBox(
                               width: 5,
                             ),
-                            Icon(
-                              Icons.copy,
-                              color: Color(0xff20D030),
-                              size: 14,
+                            InkWell(
+                              onTap: () {
+                                Clipboard.setData(ClipboardData(
+                                    text: transactionStatus.transactionModel.id!));
+                                Toast.show(
+                                  tr(context).copied,
+                                  duration: Toast
+                                      .lengthShort, // Toast duration (short or long)
+                                  gravity: Toast
+                                      .bottom,
+                                  textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
+                                  backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                                );
+                              },
+                              child: Icon(
+                                Icons.copy,
+                                color: Color(0xff20D030),
+                                size: 14,
+                              ),
                             )
                           ],
                         ),
