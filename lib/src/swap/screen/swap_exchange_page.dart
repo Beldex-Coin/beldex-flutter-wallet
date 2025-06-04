@@ -191,8 +191,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 
   Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, GetCurrenciesFullModel? getCurrenciesFullData, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
     //GetCurrenciesFull
-    final List<Result> enableFrom = [];
-    final List<Result> enableTo = [];
+    final List<GetCurrenciesResult> enableFrom = [];
+    final List<GetCurrenciesResult> enableTo = [];
     for (int i = 0; i < getCurrenciesFullData!.result!.length; i++) {
       if (getCurrenciesFullData.result![i].enabledFrom == true) {
         enableFrom.add(getCurrenciesFullData.result![i]);
@@ -317,7 +317,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   InkWell youGetCoinsDropDownListItem(
-      SettingsStore settingsStore, Result enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
+      SettingsStore settingsStore, GetCurrenciesResult enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
     return InkWell(
       onTap: () async {
         searchYouGetCoinsController.text = '';
@@ -413,7 +413,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   InkWell youSendCoinsDropDownListItem(
-      SettingsStore settingsStore, Result enableFrom, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
+      SettingsStore settingsStore, GetCurrenciesResult enableFrom, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
     return InkWell(
       onTap: () async {
         searchYouSendCoinsController.text = '';
@@ -566,7 +566,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   Widget exchangeScreen(
       ScrollController _scrollController,
       SettingsStore settingsStore,
-      SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, List<Result> enableFrom,List<Result> enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
+      SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, List<GetCurrenciesResult> enableFrom,List<GetCurrenciesResult> enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
     final sendCoinAmount = getPairsParamsProvider.getSendAmountValue();
     if(getPairsParamsProvider.getSendFieldErrorState()){
       _getAmountController.text = getPairsParamsProvider.getGetAmountValue().toString();

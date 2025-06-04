@@ -1,3 +1,4 @@
+import 'package:flutter/src/services/platform_channel.dart';
 import 'package:intl/intl.dart';
 
 String toStringAsFixed(String? amount) {
@@ -30,3 +31,16 @@ String truncateMiddle(String input, {int start = 3, int end = 3}) {
   if (input.length <= start + end) return input;
   return '${input.substring(0, start)}...${input.substring(input.length - end)}';
 }
+
+String processUrl(String? url, String? hash) {
+  if (url == null || !url.contains('/') || hash == null) return "";
+
+  final int index = url.lastIndexOf('/');
+  final String trimmed = url.substring(0, index + 1);
+
+  return '$trimmed$hash';
+}
+
+Future<void> openUrl(String? url, MethodChannel methodChannelPlatform) async => await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
+  'url': url,
+});

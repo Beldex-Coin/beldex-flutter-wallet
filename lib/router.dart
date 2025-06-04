@@ -678,7 +678,8 @@ class Router {
         return MaterialPageRoute<void>(builder: (context) {
           return MultiProvider(
             providers: [
-              ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider())
+              ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider()),
+              ChangeNotifierProvider<GetCurrenciesFullProvider>(create: (_) => GetCurrenciesFullProvider())
             ],
             child: SwapExchangingPage(transactionDetails : settings.arguments as CreateTransactionModel),
           );
@@ -720,7 +721,12 @@ class Router {
         });
       case Routes.swapTransactionExchanging:
         return MaterialPageRoute<void>(builder: (context) {
-          return SwapTransactionExchangingPage(transactionDetails : settings.arguments as GetTransactionResult);
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<GetCurrenciesFullProvider>(create: (_) => GetCurrenciesFullProvider())
+            ],
+            child: SwapTransactionExchangingPage(transactionDetails : settings.arguments as GetTransactionResult),
+          );
         });
       case Routes.swapTransactionPaymentDetails:
         return MaterialPageRoute<void>(builder: (context) {

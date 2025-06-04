@@ -10,7 +10,7 @@ String getCurrenciesFullModelToJson(GetCurrenciesFullModel data) => json.encode(
 
 class GetCurrenciesFullModel {
   String? jsonrpc;
-  List<Result>? result;
+  List<GetCurrenciesResult>? result;
   String? id;
 
   GetCurrenciesFullModel({
@@ -21,7 +21,7 @@ class GetCurrenciesFullModel {
 
   factory GetCurrenciesFullModel.fromJson(Map<String, dynamic> json) => GetCurrenciesFullModel(
     jsonrpc: json["jsonrpc"],
-    result: json["result"] == null ? [] : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
+    result: json["result"] == null ? [] : List<GetCurrenciesResult>.from(json["result"]!.map((x) => GetCurrenciesResult.fromJson(x))),
     id: json["id"],
   );
 
@@ -32,7 +32,7 @@ class GetCurrenciesFullModel {
   };
 }
 
-class Result {
+class GetCurrenciesResult {
   String? name;
   String? ticker;
   String? fullName;
@@ -51,7 +51,7 @@ class Result {
   String? contractAddress;
   String? extraIdName;
 
-  Result({
+  GetCurrenciesResult({
     this.name,
     this.ticker,
     this.fullName,
@@ -71,7 +71,7 @@ class Result {
     this.extraIdName,
   });
 
-  factory Result.fromJson(Map<String, dynamic> json) => Result(
+  factory GetCurrenciesResult.fromJson(Map<String, dynamic> json) => GetCurrenciesResult(
     name: json["name"],
     ticker: json["ticker"],
     fullName: json["fullName"],

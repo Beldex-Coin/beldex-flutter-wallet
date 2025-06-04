@@ -8,6 +8,7 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,9 @@ import '../../../palette.dart';
 import '../../../routes.dart';
 import '../model/create_transaction_model.dart';
 import '../api_client/get_status_api_client.dart';
+import '../provider/get_currencies_full_provider.dart';
 import '../util/data_class.dart';
+import '../util/utils.dart';
 import 'number_stepper.dart';
 
 class SwapExchangingPage extends BasePage {
@@ -83,6 +86,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
   late StreamController<GetStatusModel> _getStatusStreamController;
   late FlutterSecureStorage secureStorage;
   late List<String> stored = [];
+  static const methodChannelPlatform = MethodChannel("io.beldex.wallet/beldex_wallet_channel");
 
   @override
   void initState() {
@@ -100,9 +104,8 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
         callGetStatusApi(transactionDetails.result, getStatusApiClient);
       }); // Start adding getStatus api result to the stream.
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Provider.of<GetTransactionsProvider>(context, listen: false)
-            .getTransactionsData(
-                context, {"id": "${transactionDetails.result?.id}"});
+        Provider.of<GetTransactionsProvider>(context, listen: false).getTransactionsData(context, {"id": "${transactionDetails.result?.id}"});
+        Provider.of<GetCurrenciesFullProvider>(context, listen: false).getCurrenciesFullData(context);
       });
     });
     super.initState();
@@ -289,7 +292,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 5.0),
-                    child: responseData!.result!.isNotEmpty &&
+                    child: responseData.result!.isNotEmpty &&
                         responseData.result == "confirming"
                         ? SizedBox(
                         width: 15,
@@ -350,34 +353,45 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                                   : Color(0xff737373)),
                         ),
                         SizedBox(height: 5),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Flexible(
-                                flex: 2,
-                                child: Text(
-                                  'See input hash in explorer',
-                                  style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500,
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xffEBEBEB)
-                                          : Color(0xff222222)),
-                                ),
-                              ),
-                              SizedBox(width: 5),
-                              Flexible(
-                                flex: 1,
-                                child: Icon(Icons.info_outline,
-                                    size: 12,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffD1D1DB)
-                                        : Color(0xff77778B)),
-                              ),
-                            ]),
+                        Consumer<GetCurrenciesFullProvider>(
+                            builder: (context, getCurrenciesFullProvider, child) {
+                              if (getCurrenciesFullProvider.loading) {
+                                return Center(
+                                    child: CircularProgressIndicator(
+                                        valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
+                                      strokeWidth: 1.0,
+                                    ));
+                              } else {
+                                if (getCurrenciesFullProvider.data!.result!.isNotEmpty &&
+                                    getCurrenciesFullProvider.loading == false) {
+                                  final currencyDetails = getCurrenciesFullProvider.data;
+                                  return InkWell(
+                                    onTap: (){
+                                      currencyDetails!.result!.forEach((item){
+                                        if(item.ticker == transactionDetails.result!.currencyFrom) {
+                                          final url = processUrl(item.transactionUrl, transactionDetails.result?.payinAddress);
+                                          if(url.trim().isNotEmpty){
+                                            openUrl(url, methodChannelPlatform);
+                                          }
+                                        }
+                                      });
+                                    },
+                                    child: Text(
+                                      'See input hash in explorer',
+                                      style: TextStyle(
+                                          decoration: TextDecoration.underline,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xffEBEBEB)
+                                              : Color(0xff222222)),
+                                    ),
+                                  );
+                                } else {
+                                  return Container();
+                                }
+                              }
+                            })
                       ],
                     ),
                   )
