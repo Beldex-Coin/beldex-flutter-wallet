@@ -529,6 +529,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                       switch (result.status) {
                                         case "waiting" :
                                           {
+                                            Navigator.of(context).pop(true);
                                             Navigator.of(context).pushNamed(Routes.swapTransactionPaymentDetails, arguments: result);
                                             break;
                                           }
@@ -536,12 +537,14 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                         case "exchanging" :
                                         case "sending" :
                                           {
+                                            Navigator.of(context).pop(true);
                                             Navigator.of(context).pushNamed(Routes.swapTransactionExchanging,arguments: result);
                                             break;
                                           }
                                         case "finished" :
                                           {
                                             //Completed Screen
+                                            Navigator.of(context).pop(true);
                                             Navigator.of(context).pushNamed(Routes.swapTransactionCompleted,
                                                 arguments: GetTransactionStatus(result, result.status));
                                             break;
@@ -554,6 +557,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                         case "overdue" :
                                         case "expired" :
                                           {
+                                            Navigator.of(context).pop(true);
                                             Navigator.of(context).pushNamed(Routes.swapTransactionUnPaid,
                                                 arguments: GetTransactionStatus(result, result.status));
                                             break;

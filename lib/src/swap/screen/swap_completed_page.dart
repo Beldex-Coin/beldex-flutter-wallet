@@ -633,6 +633,7 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                 child: ElevatedButton(
                   onPressed: () {
                     final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+                    Navigator.of(context).pop(true);
                     Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
                   },
                   style: ElevatedButton.styleFrom(

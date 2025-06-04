@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:beldex_wallet/l10n.dart';
@@ -7,6 +8,7 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
@@ -79,10 +81,16 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
   late Timer timer;
   late GetStatusApiClient getStatusApiClient;
   late StreamController<GetStatusModel> _getStatusStreamController;
+  late FlutterSecureStorage secureStorage;
+  late List<String> stored = [];
 
   @override
   void initState() {
     transactionDetails = widget.transactionDetails;
+    secureStorage = FlutterSecureStorage(aOptions: AndroidOptions(
+      encryptedSharedPreferences: true,
+    ));
+    getTransactionsIds();
     getStatusApiClient = GetStatusApiClient();
     // Create a stream controller and get status to the stream.
     _getStatusStreamController = StreamController<GetStatusModel>();
@@ -98,6 +106,20 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
       });
     });
     super.initState();
+  }
+
+  Future<List<String>> getTransactionsIds() async {
+    // Retrieve the stored array
+    stored = await readMultipleStrings();
+    return stored;
+  }
+
+  Future<List<String>> readMultipleStrings() async {
+    final String? encoded = await secureStorage.read(key: 'swap_transaction_list');
+    if (encoded == null) return [];
+
+    final List<dynamic> decoded = jsonDecode(encoded);
+    return decoded.cast<String>();
   }
 
   void callGetStatusApi(Result? result, GetStatusApiClient getStatusApiClient) {
@@ -577,15 +599,22 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                             ? Color(0xffAFAFBE)
                             : Color(0xff737373)),
                     children: [
-                      TextSpan(
-                          text: 'history',
-                          style: TextStyle(
-                              decoration: TextDecoration.underline,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffFFFFFF)
-                                  : Color(0xff222222))),
+                      WidgetSpan(child: InkWell(
+                        onTap: () {
+                          final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+                          Navigator.of(context).pop(true);
+                          Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
+                        },
+                        child: Text(
+                            'history',
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w400,
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xffFFFFFF)
+                                    : Color(0xff222222))),
+                      ),)
                     ]),
               ),
             ],

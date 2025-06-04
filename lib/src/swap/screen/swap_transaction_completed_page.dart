@@ -616,8 +616,9 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                 margin: EdgeInsets.only(right: 5),
                 child: ElevatedButton(
                   onPressed: () {
-                   /* final FlutterSecureStorage secureStorage = FlutterSecureStorage();
-                    Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));*/
+                    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+                    Navigator.of(context).pop(true);
+                    Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: settingsStore.isDarkTheme
@@ -645,8 +646,8 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                 margin: EdgeInsets.only(left: 5),
                 child: ElevatedButton(
                   onPressed: () {
-                    /*Navigator.of(context).pop(true);
-                    Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);*/
+                    Navigator.of(context).pop(true);
+                    Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff0BA70F),

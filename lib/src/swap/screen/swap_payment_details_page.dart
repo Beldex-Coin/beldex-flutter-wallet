@@ -11,7 +11,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
+import '../../node/sync_status.dart';
 import '../../screens/receive/qr_image.dart';
+import '../../stores/sync/sync_store.dart';
 import '../model/get_status_model.dart';
 import '../provider/get_transactions_provider.dart';
 import '../util/data_class.dart';
@@ -176,6 +178,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
           case "overdue" :
           case "expired" : {
             //Failed, Overdue and Expired Screen
+            Navigator.of(context).pop(true);
             callUnPaidScreen(createdTransactionDetails, value.result);
             break;
           }
@@ -188,6 +191,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   Widget build(BuildContext context) {
     final _screenWidth = MediaQuery.of(context).size.width;
     final _screenHeight = MediaQuery.of(context).size.height;
+    final syncStore = Provider.of<SyncStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     ToastContext().init(context);
@@ -213,13 +217,14 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
               _screenHeight,
               settingsStore,
               _scrollController,
-              createdTransactionDetails.result);
+              createdTransactionDetails.result,
+              syncStore);
         }
       },
     );
   }
 
-  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, Result? createdTransactionDetails){
+  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, Result? createdTransactionDetails, SyncStore syncStore){
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -258,7 +263,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                         padding: const EdgeInsets.all(15.0),
                         width: _screenWidth,
                         height: double.infinity,
-                        child: paymentSendFundsToTheAddressBelowScreen(settingsStore,createdTransactionDetails),
+                        child: paymentSendFundsToTheAddressBelowScreen(settingsStore,createdTransactionDetails, syncStore),
                       ),
                     ),
                   ),
@@ -269,7 +274,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     );
   }
 
-  Widget paymentSendFundsToTheAddressBelowScreen(SettingsStore settingsStore, Result? createdTransactionDetails,) {
+  Widget paymentSendFundsToTheAddressBelowScreen(SettingsStore settingsStore, Result? createdTransactionDetails, SyncStore syncStore,) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -328,39 +333,48 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                 ),
                 Flexible(
                   flex: 1,
-                  child: Container(
-                    padding: EdgeInsets.only(
-                        top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Color(0xff20D030),
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        settingsStore.isDarkTheme
-                            ? SvgPicture.asset(
-                          'assets/images/swap/swap_wallet_dark.svg',
-                          width: 25,
-                          height: 25,
-                        )
-                            : SvgPicture.asset(
-                          'assets/images/swap/swap_wallet_light.svg',
-                          width: 25,
-                          height: 25,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text('Wallet',
-                            style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.normal,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222)))
-                      ],
+                  child: InkWell(
+                    onTap: () {
+                      syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                          ? () {
+                        Navigator.of(context).pop(true);
+                        Navigator.of(context, rootNavigator: true).pushNamed(Routes.send,arguments: {'flash': false, 'address': createdTransactionDetails?.payinAddress, 'amount': createdTransactionDetails?.amountExpectedFrom});
+                      } : null ;
+                    },
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Color(0xff20D030),
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          settingsStore.isDarkTheme
+                              ? SvgPicture.asset(
+                            'assets/images/swap/swap_wallet_dark.svg',
+                            width: 25,
+                            height: 25,
+                          )
+                              : SvgPicture.asset(
+                            'assets/images/swap/swap_wallet_light.svg',
+                            width: 25,
+                            height: 25,
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text('Wallet',
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.normal,
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xffFFFFFF)
+                                      : Color(0xff222222)))
+                        ],
+                      ),
                     ),
                   ),
                 ),

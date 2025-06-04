@@ -16,7 +16,6 @@ import '../../node/sync_status.dart';
 import '../../screens/receive/qr_image.dart';
 import '../../stores/sync/sync_store.dart';
 import '../model/get_status_model.dart';
-import '../provider/get_transactions_provider.dart';
 import '../util/data_class.dart';
 import 'number_stepper.dart';
 
