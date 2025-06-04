@@ -613,7 +613,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                       : Color(0xff222222)),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10.0),
+              margin: EdgeInsets.only(top: 10.0, bottom: 30),
               height: 1,
               color: settingsStore.isDarkTheme
                   ? Color(0xff4F4F70)
@@ -622,54 +622,57 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
           ],
         ),
         //Estimated Time
-        Container(
-          margin: EdgeInsets.only(top: 10, bottom: 30),
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              color: settingsStore.isDarkTheme
-                  ? Colors.transparent
-                  : Color(0xffFFFFFF),
-              border: Border.all(
+        Visibility(
+          visible: false,
+          child: Container(
+            margin: EdgeInsets.only(top: 10, bottom: 30),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
                 color: settingsStore.isDarkTheme
-                    ? Color(0xff4F4F70)
-                    : Color(0xffDADADA),
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(8))),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.timer_outlined,
-                size: 12,
-                color: settingsStore.isDarkTheme
-                    ? Color(0xffAFAFBE)
-                    : Color(0xff737373),
-              ),
-              SizedBox(
-                width: 5,
-              ),
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                    text: 'Estimated Time ',
-                    style: TextStyle(
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xffAFAFBE)
-                            : Color(0xff737373),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400),
-                    children: [
-                      TextSpan(
-                          text: '5-30 mins',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffFFFFFF)
-                                  : Color(0xff222222)))
-                    ]),
-              ),
-            ],
+                    ? Colors.transparent
+                    : Color(0xffFFFFFF),
+                border: Border.all(
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xff4F4F70)
+                      : Color(0xffDADADA),
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(8))),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.timer_outlined,
+                  size: 12,
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xffAFAFBE)
+                      : Color(0xff737373),
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(
+                      text: 'Estimated Time ',
+                      style: TextStyle(
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xffAFAFBE)
+                              : Color(0xff737373),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400),
+                      children: [
+                        TextSpan(
+                            text: '5-30 mins',
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xffFFFFFF)
+                                    : Color(0xff222222)))
+                      ]),
+                ),
+              ],
+            ),
           ),
         ),
         //Confirm and Make Payment Button
