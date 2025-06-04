@@ -91,7 +91,9 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
     secureStorage = FlutterSecureStorage(aOptions: AndroidOptions(
       encryptedSharedPreferences: true,
     ));
-    getTransactionsIds();
+    getTransactionsIds(secureStorage, transactionIds: (ids) {
+      stored = ids;
+    });
     Future.delayed(Duration(seconds: 2), () {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Provider.of<GetTransactionsProvider>(context, listen: false)
@@ -100,20 +102,6 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
       });
     });
     super.initState();
-  }
-
-  Future<List<String>> getTransactionsIds() async {
-    // Retrieve the stored array
-    stored = await readMultipleStrings();
-    return stored;
-  }
-
-  Future<List<String>> readMultipleStrings() async {
-    final String? encoded = await secureStorage.read(key: 'swap_transaction_list');
-    if (encoded == null) return [];
-
-    final List<dynamic> decoded = jsonDecode(encoded);
-    return decoded.cast<String>();
   }
 
   @override

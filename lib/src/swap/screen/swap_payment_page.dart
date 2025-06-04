@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import '../../../routes.dart';
 import '../api_client/create_transaction_api_client.dart';
 import '../util/data_class.dart';
+import '../util/utils.dart';
 import 'number_stepper.dart';
 
 class SwapPaymentPage extends BasePage {
@@ -749,33 +750,11 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     );
   }
 
-  Future<void> storeMultipleStrings(List<String> strings) async {
-    final encoded = jsonEncode(strings); // Convert list to JSON string
-    await secureStorage.write(key: 'swap_transaction_list', value: encoded);
-  }
-
-  Future<List<String>> storeTransactionsIds(String? transactionId) async {
-    // Retrieve the stored array
-    final stored = await readMultipleStrings();
-    stored.add(transactionId!);
-    // Store an array of strings
-    await storeMultipleStrings(stored);
-    return stored;
-  }
-
-  Future<List<String>> readMultipleStrings() async {
-    final String? encoded = await secureStorage.read(key: 'swap_transaction_list');
-    if (encoded == null) return [];
-
-    final List<dynamic> decoded = jsonDecode(encoded);
-    return decoded.cast<String>();
-  }
-
   void createTransaction(Map<String, String> params, String? fromBlockChain) {
     callCreateTransactionApi(params).then((value) {
       if (value?.result != null) {
         print('Status -> Success');
-        storeTransactionsIds(value!.result!.id);
+        storeTransactionsIds(value!.result!.id,secureStorage);
         Future.delayed(Duration(seconds: 2), () {
           Navigator.of(context).pop();
           Navigator.of(context).pop(true);

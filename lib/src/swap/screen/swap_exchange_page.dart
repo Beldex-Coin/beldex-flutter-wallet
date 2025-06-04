@@ -21,6 +21,7 @@ import '../../../palette.dart';
 import '../../../routes.dart';
 import '../provider/get_currencies_full_provider.dart';
 import '../util/data_class.dart';
+import '../util/utils.dart';
 import 'number_stepper.dart';
 
 class SwapExchangePage extends BasePage {
@@ -98,7 +99,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     secureStorage = FlutterSecureStorage(aOptions: AndroidOptions(
       encryptedSharedPreferences: true,
     ));
-    getTransactionsIds();
+    getTransactionsIds(secureStorage, transactionIds: (ids) {
+      stored = ids;
+    });
     searchYouGetCoinsController.addListener(() {
       _searchYouGetCoinsSetState!(() {
         youGetCoinsFilter = searchYouGetCoinsController.text;
@@ -129,25 +132,6 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         getExchangeAmountProvider.getExchangeAmountData(context, params);
       });
     }
-  }
-
-  Future<void> storeMultipleStrings(List<String> strings) async {
-    final encoded = jsonEncode(strings); // Convert list to JSON string
-    await secureStorage.write(key: 'swap_transaction_list', value: encoded);
-  }
-
-  Future<List<String>> getTransactionsIds() async {
-    // Retrieve the stored array
-    stored = await readMultipleStrings();
-    return stored;
-  }
-
-  Future<List<String>> readMultipleStrings() async {
-    final String? encoded = await secureStorage.read(key: 'swap_transaction_list');
-    if (encoded == null) return [];
-
-    final List<dynamic> decoded = jsonDecode(encoded);
-    return decoded.cast<String>();
   }
 
   @override

@@ -1,5 +1,11 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:flutter/src/services/platform_channel.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
+
+const swapTransactionsListKey = "swap_transaction_list";
 
 String toStringAsFixed(String? amount) {
   final double d = double.parse(amount!);
@@ -44,3 +50,30 @@ String processUrl(String? url, String? hash) {
 Future<void> openUrl(String? url, MethodChannel methodChannelPlatform) async => await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
   'url': url,
 });
+
+Future<void> getTransactionsIds(FlutterSecureStorage secureStorage, {void Function(List<String>)? transactionIds}) async {
+  // Retrieve the stored array
+  transactionIds!(await readMultipleStrings(secureStorage));
+}
+
+Future<List<String>> readMultipleStrings(FlutterSecureStorage secureStorage) async {
+  final String? encoded = await secureStorage.read(key: swapTransactionsListKey);
+  if (encoded == null) return [];
+
+  final List<dynamic> decoded = jsonDecode(encoded);
+  return decoded.cast<String>();
+}
+
+Future<void> storeMultipleStrings(List<String> strings, FlutterSecureStorage secureStorage) async {
+  final encoded = jsonEncode(strings); // Convert list to JSON string
+  await secureStorage.write(key: swapTransactionsListKey, value: encoded);
+}
+
+Future<List<String>> storeTransactionsIds(String? transactionId, FlutterSecureStorage secureStorage) async {
+  // Retrieve the stored array
+  final stored = await readMultipleStrings(secureStorage);
+  stored.add(transactionId!);
+  // Store an array of strings
+  await storeMultipleStrings(stored, secureStorage);
+  return stored;
+}

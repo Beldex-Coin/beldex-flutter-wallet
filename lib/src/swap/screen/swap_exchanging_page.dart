@@ -94,7 +94,9 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
     secureStorage = FlutterSecureStorage(aOptions: AndroidOptions(
       encryptedSharedPreferences: true,
     ));
-    getTransactionsIds();
+    getTransactionsIds(secureStorage, transactionIds: (ids) {
+      stored = ids;
+    });
     getStatusApiClient = GetStatusApiClient();
     // Create a stream controller and get status to the stream.
     _getStatusStreamController = StreamController<GetStatusModel>();
@@ -109,20 +111,6 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
       });
     });
     super.initState();
-  }
-
-  Future<List<String>> getTransactionsIds() async {
-    // Retrieve the stored array
-    stored = await readMultipleStrings();
-    return stored;
-  }
-
-  Future<List<String>> readMultipleStrings() async {
-    final String? encoded = await secureStorage.read(key: 'swap_transaction_list');
-    if (encoded == null) return [];
-
-    final List<dynamic> decoded = jsonDecode(encoded);
-    return decoded.cast<String>();
   }
 
   void callGetStatusApi(Result? result, GetStatusApiClient getStatusApiClient) {
