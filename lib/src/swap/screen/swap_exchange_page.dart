@@ -9,6 +9,7 @@ import 'package:beldex_wallet/src/swap/provider/get_exchange_amount_provider.dar
 import 'package:beldex_wallet/src/swap/provider/get_pairs_params_provider.dart';
 import 'package:beldex_wallet/src/swap/model/get_currencies_full_model.dart';
 import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -343,25 +344,68 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.only(top: 5, bottom: 5),
             child: Observer(
-              builder: (_) => RichText(
-                text: TextSpan(
-                    text: enableTo.name,
-                    style: TextStyle(
-                        backgroundColor: Colors.transparent,
-                        fontSize: 12,
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xffffffff)
-                            : Color(0xff222222),
-                        fontWeight: FontWeight.bold),
-                    children: [
-                      TextSpan(
-                          text: ' - ${enableTo.fullName}',
+              builder: (_) => Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: enableTo.image!,
+                    placeholder: (context, url) => new CircularProgressIndicator(
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff737373)
+                          : Color(0xffA9A9CD),
+                      strokeWidth: 1.0,
+                    ),
+                    errorWidget: (context, url, error) => new Icon(Icons.error),
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xff737373)
+                        : Color(0xffA9A9CD),
+                    width: 15,
+                    height: 15,
+                  ),
+                  SizedBox(width: 10,),
+                  Flexible(
+                    flex: 1,
+                    child: RichText(
+                      text: TextSpan(
+                          text: enableTo.name,
                           style: TextStyle(
                               backgroundColor: Colors.transparent,
                               fontSize: 12,
-                              color: Color(0xff77778B),
-                              fontWeight: FontWeight.w400))
-                    ]),
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffffffff)
+                                  : Color(0xff222222),
+                              fontWeight: FontWeight.bold),
+                          children: [
+                            TextSpan(
+                                text: ' - ${enableTo.fullName}',
+                                style: TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    fontSize: 12,
+                                    color: Color(0xff77778B),
+                                    fontWeight: FontWeight.w400)),
+                            WidgetSpan(
+                              child: SizedBox(width: 3),
+                            ),
+                            WidgetSpan(
+                              child: Container(
+                                padding: EdgeInsets.only(left:2, right: 2),
+                                decoration: BoxDecoration(
+                                  color: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Text(
+                                    '${enableTo.protocol}',
+                                    style: TextStyle(
+                                        backgroundColor: Colors.transparent,
+                                        fontSize: 12,
+                                        color: Color(0xff77778B),
+                                        fontWeight: FontWeight.w400)),
+                              ),
+                            ),
+                          ]),
+                    ),
+                  ),
+                ],
               ),
             )),
       ),
@@ -391,30 +435,73 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         }
       },
       child: Padding(
-        padding: EdgeInsets.only(left: 20.0, right: 20.0),
+        padding: EdgeInsets.only(left: 10.0, right: 10.0),
         child: Container(
             width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.only(top: 5, bottom: 5),
             child: Observer(
-              builder: (_) => RichText(
-                text: TextSpan(
-                    text: enableFrom.name,
-                    style: TextStyle(
-                        backgroundColor: Colors.transparent,
-                        fontSize: 12,
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xffffffff)
-                            : Color(0xff222222),
-                        fontWeight: FontWeight.bold),
-                    children: [
-                      TextSpan(
-                          text: ' - ${enableFrom.fullName}',
+              builder: (_) => Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  CachedNetworkImage(
+                    imageUrl: enableFrom.image!,
+                    placeholder: (context, url) => new CircularProgressIndicator(
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff737373)
+                          : Color(0xffA9A9CD),
+                      strokeWidth: 1.0,
+                    ),
+                    errorWidget: (context, url, error) => new Icon(Icons.error),
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xff737373)
+                        : Color(0xffA9A9CD),
+                    width: 15,
+                    height: 15,
+                  ),
+                  SizedBox(width: 10,),
+                  Flexible(
+                    flex: 1,
+                    child: RichText(
+                      text: TextSpan(
+                          text: enableFrom.name,
                           style: TextStyle(
                               backgroundColor: Colors.transparent,
                               fontSize: 12,
-                              color: Color(0xff77778B),
-                              fontWeight: FontWeight.w400))
-                    ]),
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffffffff)
+                                  : Color(0xff222222),
+                              fontWeight: FontWeight.bold),
+                          children: [
+                            TextSpan(
+                                text: ' - ${enableFrom.fullName}',
+                                style: TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    fontSize: 12,
+                                    color: Color(0xff77778B),
+                                    fontWeight: FontWeight.w400)),
+                            WidgetSpan(
+                              child: SizedBox(width: 3),
+                            ),
+                            WidgetSpan(
+                              child: Container(
+                                padding: EdgeInsets.only(left:2, right: 2),
+                                decoration: BoxDecoration(
+                                  color: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Text(
+                                    '${enableFrom.protocol}',
+                                    style: TextStyle(
+                                        backgroundColor: Colors.transparent,
+                                        fontSize: 12,
+                                        color: Color(0xff77778B),
+                                        fontWeight: FontWeight.w400)),
+                              ),
+                            ),
+                          ]),
+                    ),
+                  ),
+                ],
               ),
             )),
       ),
@@ -1223,7 +1310,10 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                         : '${enableTo[index].fullName}'
                                                 .toLowerCase()
                                                 .contains(youGetCoinsFilter!
-                                                    .toLowerCase())
+                                                    .toLowerCase()) || '${enableTo[index].name}'
+                                        .toLowerCase()
+                                        .contains(youGetCoinsFilter!
+                                        .toLowerCase())
                                             ? youGetCoinsDropDownListItem(
                                                 settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
                                             : Container();
@@ -1326,7 +1416,10 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                         : '${enableFrom[index].fullName}'
                                                 .toLowerCase()
                                                 .contains(youSendCoinsFilter!
-                                                    .toLowerCase())
+                                                    .toLowerCase()) || '${enableFrom[index].name}'
+                                        .toLowerCase()
+                                        .contains(youSendCoinsFilter!
+                                        .toLowerCase())
                                             ? youSendCoinsDropDownListItem(
                                                 settingsStore,
                                                 enableFrom[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)

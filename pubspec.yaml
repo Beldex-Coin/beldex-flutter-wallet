@@ -104,7 +104,8 @@ dependencies:
   keyboard_detection: ^0.7.3
   csv: ^6.0.0
   permission_handler: ^11.3.1
-  device_info_plus: ^11.4.0
+  device_info_plus: ^10.1.2
+  cached_network_image: ^3.4.1
   #flutter_windowmanager:
   font_awesome_flutter:
   upgrader:
