@@ -585,6 +585,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 InkWell(
                   onTap: () {
                     final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+                    Navigator.of(context).pop(true);
                     Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
                   },
                   child: SvgPicture.asset(
