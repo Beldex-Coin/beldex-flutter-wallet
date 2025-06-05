@@ -597,9 +597,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       ),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor:  isOnline(context)
-                                            ? settingsStore.isDarkTheme
-                                            ? Color(0xff272733)
-                                            : Color(0xffFFFFFF)
+                                            ? settingsStore.isDarkTheme? Color(0xff24242F) : Color(0xffFFFFFF)
                                             : settingsStore.isDarkTheme
                                             ? Color(0xff333343)
                                             : Color(0xffE8E8E8),
