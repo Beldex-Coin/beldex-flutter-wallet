@@ -581,7 +581,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                         SizedBox(width: 5,),
                                         SvgPicture.asset(
                                           'assets/images/swap/swap_view.svg',
-                                          color: Colors.green,
+                                          colorFilter: ColorFilter.mode(Colors.green, BlendMode.srcIn),
                                           width: 13,
                                           height: 13,
                                         )
@@ -627,9 +627,9 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                   },
                   child: SvgPicture.asset(
                     'assets/images/swap/swap_back.svg',
-                    color: settingsStore.isDarkTheme
+                    colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                         ? Color(0xffffffff)
-                        : Color(0xff16161D),
+                        : Color(0xff16161D), BlendMode.srcIn),
                     width: 20,
                     height: 20,
                   ),
