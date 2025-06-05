@@ -1,9 +1,13 @@
 import 'dart:convert';
 
+import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/services/platform_channel.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import '../../util/network_service.dart';
 
 const swapTransactionsListKey = "swap_transaction_list";
 
@@ -76,4 +80,13 @@ Future<List<String>> storeTransactionsIds(String? transactionId, FlutterSecureSt
   // Store an array of strings
   await storeMultipleStrings(stored, secureStorage);
   return stored;
+}
+
+bool isOnline(BuildContext context) {
+  final networkStatus = Provider.of<NetworkStatus>(context, listen: false);
+  return networkStatus == NetworkStatus.online;
+}
+
+bool syncStatus(SyncStatus status) {
+  return status is SyncedSyncStatus || status.blocksLeft == 0;
 }

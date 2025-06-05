@@ -3,6 +3,7 @@ import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/dashboard_rescan_dialog.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_exchange_page.dart';
+import 'package:beldex_wallet/src/swap/util/utils.dart';
 import 'package:beldex_wallet/src/util/network_service.dart';
 import 'package:beldex_wallet/src/util/screen_sizer.dart';
 import 'package:beldex_wallet/src/widgets/standard_switch.dart';
@@ -316,7 +317,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                 ? BeldexPalette.red
                                                 : BeldexPalette.belgreen
                                         )),
-                                    /*syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                    /*syncStatus(syncStore.status)
                                              ? GestureDetector(
                                                  onTap: () async {
                                                    await showDialog<void>(
@@ -494,13 +495,13 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       child: ElevatedButton.icon(
                                         icon: SvgPicture.asset(
                                           'assets/images/new-images/send.svg',
-                                          color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                          color: syncStatus(syncStore.status)
                                               ? Colors.white
                                               : settingsStore.isDarkTheme
                                               ? Color(0xff6C6C78)
                                               : Color(0xffB2B2B6),
                                         ),
-                                        onPressed: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                        onPressed: syncStatus(syncStore.status)
                                             ? () {
                                           Navigator.of(context,
                                               rootNavigator: true)
@@ -512,7 +513,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                             tr(context).send,
                                             style: TextStyle(
                                               backgroundColor: Colors.transparent,
-                                              color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                              color: syncStatus(syncStore.status)
                                                   ? Colors.white
                                                   : settingsStore.isDarkTheme
                                                   ? Color(0xff6C6C78)
@@ -521,7 +522,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           ),
                                         ),
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                          backgroundColor: syncStatus(syncStore.status)
                                               ? Color(0xff0BA70F)
                                               : settingsStore.isDarkTheme
                                               ? Color(0xff333343)
@@ -576,24 +577,38 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                     height: MediaQuery.of(context).size.height*0.17/3,
                                     child: ElevatedButton.icon(
                                       icon: SvgPicture.asset(
-                                        'assets/images/swap/swap.svg',colorFilter:ColorFilter.mode(Color(0xff0BA70F), BlendMode.srcIn),),
-                                      onPressed: () =>
-                                          Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange),
+                                        'assets/images/swap/swap.svg',colorFilter:ColorFilter.mode(isOnline(context)? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                                          ? Color(0xff6C6C78)
+                                          : Color(0xffB2B2B6), BlendMode.srcIn),),
+                                      onPressed: isOnline(context) ? () {
+                                          Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
+                                      } : null,
                                       label: Flexible(
                                         child: Text(
                                           'Swap',
                                           style: TextStyle(
-                                            backgroundColor: Colors.transparent,
-                                            color: Color(0xff0BA70F),
+                                            color: isOnline(context)
+                                                ? Color(0xff0BA70F)
+                                                : settingsStore.isDarkTheme
+                                                ? Color(0xff6C6C78)
+                                                : Color(0xffB2B2B6),
                                             fontWeight: FontWeight.bold,),
                                         ),
                                       ),
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor: settingsStore.isDarkTheme?Color(0xff24242F):Color(0xffFFFFFF),
+                                        backgroundColor:  isOnline(context)
+                                            ? settingsStore.isDarkTheme
+                                            ? Color(0xff272733)
+                                            : Color(0xffFFFFFF)
+                                            : settingsStore.isDarkTheme
+                                            ? Color(0xff333343)
+                                            : Color(0xffE8E8E8),
                                         padding: EdgeInsets.all(12),
                                         shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(10),
-                                            side:BorderSide(color:  Color(0xff0BA70F))
+                                            side:BorderSide(color:  isOnline(context) ? Color(0xff0BA70F):settingsStore.isDarkTheme
+                                                ? Color(0xff333343)
+                                                : Color(0xffE8E8E8))
                                         ),
                                       ),
                                     ),
@@ -612,7 +627,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         return SizedBox(
                           height: MediaQuery.of(context).size.height*0.17/3,
                           child: ElevatedButton.icon(
-                            icon: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 ? SvgPicture.asset(
+                            icon: syncStatus(syncStore.status) ? SvgPicture.asset(
                               settingsStore.isDarkTheme?'assets/images/new-images/ic_bns_dark.svg':'assets/images/new-images/ic_bns_light.svg',
                             ) : SvgPicture.asset(
                               'assets/images/new-images/ic_bns_dark.svg',
@@ -620,7 +635,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                   ? Color(0xff6C6C78)
                                   : Color(0xffB2B2B6),
                             ),
-                            onPressed: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                            onPressed: syncStatus(syncStore.status)
                                 ? () {
                               Navigator.of(context,
                                   rootNavigator: true)
@@ -632,7 +647,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                 tr(context).buyBns,
                                 style: TextStyle(
                                   backgroundColor: Colors.transparent,
-                                  color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                  color: syncStatus(syncStore.status)
                                       ? settingsStore.isDarkTheme
                                       ? Colors.white
                                       : Colors.black
@@ -643,7 +658,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                              backgroundColor: syncStatus(syncStore.status)
                                   ? settingsStore.isDarkTheme
                                   ? Color(0xff272733)
                                   : Color(0xffFFFFFF)
@@ -653,7 +668,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                               padding: EdgeInsets.all(12),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  side: BorderSide(color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 ? Color(0xff2979FB):settingsStore.isDarkTheme
+                                  side: BorderSide(color: syncStatus(syncStore.status) ? Color(0xff2979FB):settingsStore.isDarkTheme
                                       ? Color(0xff333343)
                                       : Color(0xffE8E8E8))
                               ),
@@ -688,7 +703,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                   Observer(
                     builder: (_) {
                       return GestureDetector(
-                        onTap: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                        onTap: syncStatus(syncStore.status)
                             ? () {
                           _presentQRScanner(context);
                         }
@@ -708,7 +723,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                               ),
                               child: SvgPicture.asset(
                                 'assets/images/new-images/flashqr.svg',
-                                color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                                color: syncStatus(syncStore.status)
                                     ? Color(0xff222222)
                                     : Color(0xffD9D9D9),
                               )),
