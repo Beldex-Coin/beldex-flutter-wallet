@@ -504,9 +504,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             children: [
               SvgPicture.asset(
                 'assets/images/swap/under_maintenance.svg',
-                color: settingsStore.isDarkTheme
+                colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                     ? Color(0xff65656E)
-                    : Color(0xffDADADA),
+                    : Color(0xffDADADA), BlendMode.srcIn),
                 width: 112,
                 height: 112,
               ),
@@ -590,9 +590,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   },
                   child: SvgPicture.asset(
                     'assets/images/swap/history.svg',
-                    color: settingsStore.isDarkTheme
+                    colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                         ? Color(0xffffffff)
-                        : Color(0xff16161D),
+                        : Color(0xff16161D), BlendMode.srcIn),
                     width: 25,
                     height: 25,
                   ),
@@ -842,9 +842,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                           angle: 90 * pi / 180,
                           child: SvgPicture.asset(
                             'assets/images/swap/swap.svg',
-                            color: settingsStore.isDarkTheme
+                            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                                 ? Color(0xffA9A9CD)
-                                : Color(0xff222222),
+                                : Color(0xff222222), BlendMode.srcIn),
                             width: 20,
                             height: 20,
                           ),
@@ -1006,9 +1006,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                   : Color(0xffF3F3F3)),
                           child: SvgPicture.asset(
                             'assets/images/swap/floating_exchange_rate.svg',
-                            color: settingsStore.isDarkTheme
+                            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                                 ? Color(0xffA9A9CD)
-                                : Color(0xff77778B),
+                                : Color(0xff77778B), BlendMode.srcIn),
                             width: 20,
                             height: 20,
                           ),
@@ -1075,9 +1075,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                   : Color(0xffF3F3F3)),
                           child: SvgPicture.asset(
                             'assets/images/swap/fixed_exchange_rate.svg',
-                            color: settingsStore.isDarkTheme
+                            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                                 ? Color(0xffA9A9CD)
-                                : Color(0xff77778B),
+                                : Color(0xff77778B), BlendMode.srcIn),
                             width: 20,
                             height: 20,
                           ),

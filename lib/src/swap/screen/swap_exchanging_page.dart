@@ -291,10 +291,10 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                         ))
                         : SvgPicture.asset(
                       'assets/images/swap/swap_confirmed.svg',
-                      color: responseData.result!.isNotEmpty &&
-    (responseData.result == "exchanging" || responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                      colorFilter: ColorFilter.mode(responseData.result!.isNotEmpty &&
+                          (responseData.result == "exchanging" || responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
                           ? Color(0xffAFAFBE)
-                          : Color(0xff737373),
+                          : Color(0xff737373), BlendMode.srcIn),
                       width: 15,
                       height: 15,
                     ),
@@ -321,10 +321,10 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                             SizedBox(width: 5,),
                             (responseData.result == "exchanging" || responseData.result == "sending" || responseData.result == "finished") ? SvgPicture.asset(
                               'assets/images/swap/swap_done.svg',
-                              color: responseData.result!.isNotEmpty &&
+                              colorFilter: ColorFilter.mode(responseData.result!.isNotEmpty &&
                                   (responseData.result == "exchanging" || responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
                                   ? Color(0xffAFAFBE)
-                                  : Color(0xff737373),
+                                  : Color(0xff737373), BlendMode.srcIn),
                               width: 12,
                               height: 12,
                             ) : Container(),
@@ -408,10 +408,10 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                           angle: 90 * pi / 180,
                           child: SvgPicture.asset(
                             'assets/images/swap/swap.svg',
-                            color: responseData.result!.isNotEmpty &&
-                            (responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
-                            ? Color(0xffAFAFBE)
-                            : Color(0xff737373),
+                            colorFilter: ColorFilter.mode(responseData.result!.isNotEmpty &&
+                                (responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                                ? Color(0xffAFAFBE)
+                                : Color(0xff737373), BlendMode.srcIn),
                             width: 15,
                             height: 15,
                           ),
@@ -436,10 +436,10 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                         SizedBox(height: 5),
                         (responseData.result == "sending" || responseData.result == "finished") ? SvgPicture.asset(
                           'assets/images/swap/swap_done.svg',
-                          color: responseData.result!.isNotEmpty &&
+                          colorFilter: ColorFilter.mode(responseData.result!.isNotEmpty &&
                               (responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
                               ? Color(0xffAFAFBE)
-                              : Color(0xff737373),
+                              : Color(0xff737373), BlendMode.srcIn),
                           width: 12,
                           height: 12,
                         ) : Container(),
@@ -497,10 +497,10 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                         ))
                         : SvgPicture.asset(
                       'assets/images/swap/swap_wallet.svg',
-                      color: responseData.result!.isNotEmpty &&
-    responseData.result == "finished" ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                      colorFilter: ColorFilter.mode(responseData.result!.isNotEmpty &&
+                          responseData.result == "finished" ? Color(0xff0BA70F) : settingsStore.isDarkTheme
                           ? Color(0xffAFAFBE)
-                          : Color(0xff737373),
+                          : Color(0xff737373), BlendMode.srcIn),
                       width: 15,
                       height: 15,
                     ),
@@ -525,10 +525,10 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                         SizedBox(height: 5),
                         (responseData.result == "finished") ? SvgPicture.asset(
                           'assets/images/swap/swap_done.svg',
-                          color: responseData.result!.isNotEmpty &&
+                          colorFilter: ColorFilter.mode( responseData.result!.isNotEmpty &&
                               (responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
                               ? Color(0xffAFAFBE)
-                              : Color(0xff737373),
+                              : Color(0xff737373), BlendMode.srcIn),
                           width: 12,
                           height: 12,
                         ) : Container(),

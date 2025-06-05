@@ -587,9 +587,9 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                               BorderRadius.all(Radius.circular(5))),
                           child: SvgPicture.asset(
                             'assets/images/swap/scan_qr.svg',
-                            color: settingsStore.isDarkTheme
+                            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                                 ? Color(0xffFFFFFF)
-                                : Color(0xff222222),
+                                : Color(0xff222222), BlendMode.srcIn),
                             width: 20,
                             height: 20,
                           ),

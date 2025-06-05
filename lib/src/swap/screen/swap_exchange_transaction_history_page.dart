@@ -648,19 +648,6 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                 ),
               ],
             ),
-            InkWell(
-              onTap: () async {
-                await requestStoragePermission();
-              },
-              child: SvgPicture.asset(
-                'assets/images/swap/swap_download.svg',
-                color: settingsStore.isDarkTheme
-                    ? Color(0xffffffff)
-                    : Color(0xff16161D),
-                width: 25,
-                height: 25,
-              ),
-            )
           ],
         ),
         SizedBox(height: 10),

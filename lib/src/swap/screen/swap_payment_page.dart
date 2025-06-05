@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -9,7 +8,6 @@ import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
 import 'package:beldex_wallet/src/swap/model/get_exchange_amount_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import '../../../routes.dart';
 import '../api_client/create_transaction_api_client.dart';

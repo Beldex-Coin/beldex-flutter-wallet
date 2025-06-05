@@ -204,7 +204,7 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                 children: [
                   SvgPicture.asset(
                     'assets/images/swap/swap_completed.svg',
-                    color: Color(0xff159B24),
+                    colorFilter: ColorFilter.mode(Color(0xff159B24), BlendMode.srcIn),
                     width: 20,
                     height: 20,
                   ),
@@ -588,9 +588,9 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                         flex: 1,
                         child: SvgPicture.asset(
                           'assets/images/swap/swap_input_hash.svg',
-                          color: settingsStore.isDarkTheme
+                          colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                               ? Color(0xffAFAFBE)
-                              : Color(0xff737373),
+                              : Color(0xff737373), BlendMode.srcIn),
                           width: 18,
                           height: 18,
                         ),
@@ -669,7 +669,7 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                         flex: 1,
                         child: SvgPicture.asset(
                           'assets/images/swap/swap_restart.svg',
-                          color: Color(0xffffffff),
+                          colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
                           width: 12,
                           height: 12,
                         ),

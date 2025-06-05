@@ -366,9 +366,9 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                                           BorderRadius.all(Radius.circular(8))),
                                   child: SvgPicture.asset(
                                     'assets/images/swap/scan_qr.svg',
-                                    color: settingsStore.isDarkTheme
+                                    colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                                         ? Color(0xffA9A9CD)
-                                        : Color(0xff222222),
+                                        : Color(0xff222222), BlendMode.srcIn),
                                     width: 10,
                                     height: 10,
                                   ),
@@ -486,9 +486,9 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                             borderRadius: BorderRadius.all(Radius.circular(8))),
                         child: SvgPicture.asset(
                           'assets/images/swap/scan_qr.svg',
-                          color: settingsStore.isDarkTheme
+                          colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                               ? Color(0xffA9A9CD)
-                              : Color(0xff222222),
+                              : Color(0xff222222), BlendMode.srcIn),
                           width: 20,
                           height: 20,
                         ),
