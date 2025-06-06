@@ -8,6 +8,7 @@ class SwapTransactionExpansionStatusChangeNotifier extends ChangeNotifier{
 
   void toggle(int index, bool isExpanded) {
     _expandedStatus[index] = isExpanded;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -17,8 +18,12 @@ class SwapTransactionExpansionStatusChangeNotifier extends ChangeNotifier{
 
   @override
   void dispose() {
-    _disposed = true;
-    super.dispose();
+    try {
+      this._disposed = true;
+      super.dispose();
+    } catch(ex) {
+      print("Exception-> $ex");
+    }
   }
 
   @override
@@ -27,10 +32,4 @@ class SwapTransactionExpansionStatusChangeNotifier extends ChangeNotifier{
       super.notifyListeners();
     }
   }
-}
-
-class test{
-  test(this.id, this.status);
-  int id ;
-  bool status ;
 }

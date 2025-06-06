@@ -20,13 +20,14 @@ class GetPairsParamsProvider with ChangeNotifier {
     loading = true;
     data = await services.getSignature(params);
     loading = false;
-
+    if(_disposed) return ;
     notifyListeners();
   }
 
   void setSendValueMinimumAmountAndSendValueMaximumAmount(minimumAmount,maximumAmount){
     this.minimumAmount = minimumAmount;
     this.maximumAmount = maximumAmount;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -40,6 +41,7 @@ class GetPairsParamsProvider with ChangeNotifier {
 
   void setSendAmountValue(value){
     this.sendAmountValue = value;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -49,6 +51,7 @@ class GetPairsParamsProvider with ChangeNotifier {
 
   void setGetAmountValue(value){
     this.getAmountValue = value;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -58,6 +61,7 @@ class GetPairsParamsProvider with ChangeNotifier {
 
   void setSendFieldErrorState(state){
     this.errorState = state;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -67,6 +71,7 @@ class GetPairsParamsProvider with ChangeNotifier {
 
   void setSendCoinAvailableOnGetCoinStatus(status){
     this.sendCoinAvailableOnGetCoinStatus = status;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -76,6 +81,7 @@ class GetPairsParamsProvider with ChangeNotifier {
 
   void setGetCoinAvailableOnSendCoinStatus(status){
     this.getCoinAvailableOnSendCoinStatus = status;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -85,8 +91,12 @@ class GetPairsParamsProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    _disposed = true;
-    super.dispose();
+    try {
+      this._disposed = true;
+      super.dispose();
+    } catch(ex) {
+      print("Exception-> $ex");
+    }
   }
 
   @override

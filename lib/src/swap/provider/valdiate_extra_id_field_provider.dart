@@ -8,6 +8,7 @@ class ValidateExtraIdFieldProvider with ChangeNotifier {
 
   void setErrorMessage(message){
     this.errorMessage = message;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -17,6 +18,7 @@ class ValidateExtraIdFieldProvider with ChangeNotifier {
 
   void setShowMemo(showMemo){
     this.showMemo = showMemo;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -26,6 +28,7 @@ class ValidateExtraIdFieldProvider with ChangeNotifier {
 
   void setShowErrorBorder(show){
     this.showErrorBorder = show;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -35,8 +38,12 @@ class ValidateExtraIdFieldProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    _disposed = true;
-    super.dispose();
+    try {
+      this._disposed = true;
+      super.dispose();
+    } catch(ex) {
+      print("Exception-> $ex");
+    }
   }
 
   @override

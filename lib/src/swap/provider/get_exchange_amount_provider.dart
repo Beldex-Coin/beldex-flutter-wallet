@@ -10,21 +10,23 @@ class GetExchangeAmountProvider with ChangeNotifier {
   GetExchangeAmountApiService services = GetExchangeAmountApiService();
   bool transactionStatus = false;
 
-  void getExchangeAmountData(context, Map<String, String> params) async {
+  void getExchangeAmountData(Map<String, String> params) async {
     loading = true;
     data = await services.getSignature(params);
     loading = false;
-
+    if(_disposed) return ;
     notifyListeners();
   }
 
   void updateLoadingStatus(value){
     this.loading = value;
+    if(_disposed) return ;
     notifyListeners();
   }
 
   void setTransactionStatus(status){
     this.transactionStatus = status;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -34,8 +36,12 @@ class GetExchangeAmountProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    _disposed = true;
-    super.dispose();
+    try {
+      this._disposed = true;
+      super.dispose();
+    } catch(ex) {
+      print("Exception-> $ex");
+    }
   }
 
   @override

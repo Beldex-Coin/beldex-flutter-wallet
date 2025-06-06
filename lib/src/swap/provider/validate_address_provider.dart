@@ -16,12 +16,13 @@ class ValidateAddressProvider with ChangeNotifier {
     loading = true;
     data = await services.getSignature(params);
     loading = false;
-
+    if(_disposed) return ;
     notifyListeners();
   }
 
   void setRecipientAddress(address){
     this.recipientAddress = address;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -31,6 +32,7 @@ class ValidateAddressProvider with ChangeNotifier {
 
   void setSuccessState(state){
     this.successState = state;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -40,6 +42,7 @@ class ValidateAddressProvider with ChangeNotifier {
 
   void setErrorMessage(message){
     this.errorMessage = message;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -49,8 +52,12 @@ class ValidateAddressProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    _disposed = true;
-    super.dispose();
+    try {
+      this._disposed = true;
+      super.dispose();
+    } catch(ex) {
+      print("Exception-> $ex");
+    }
   }
 
   @override

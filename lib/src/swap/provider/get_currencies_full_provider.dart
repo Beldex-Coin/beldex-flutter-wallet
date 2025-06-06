@@ -20,12 +20,13 @@ class GetCurrenciesFullProvider with ChangeNotifier {
     loading = true;
     data = await services.getSignature();
     loading = false;
-
+    if(_disposed) return ;
     notifyListeners();
   }
 
   void setBdxIsEnabled(status){
     this.bdxIsEnabled = status;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -35,6 +36,7 @@ class GetCurrenciesFullProvider with ChangeNotifier {
 
   void setSelectedYouGetCoins(youGetCoins){
     this.selectedYouGetCoins = youGetCoins;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -44,6 +46,7 @@ class GetCurrenciesFullProvider with ChangeNotifier {
 
   void setSelectedYouSendCoins(youSendCoins){
     this.selectedYouSendCoins = youSendCoins;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -53,6 +56,7 @@ class GetCurrenciesFullProvider with ChangeNotifier {
 
   void setSendCoinsDropDownVisible(status){
     this.youSendCoinsDropDownVisible = status;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -62,6 +66,7 @@ class GetCurrenciesFullProvider with ChangeNotifier {
 
   void setGetCoinsDropDownVisible(status){
     this.youGetCoinsDropDownVisible = status;
+    if(_disposed) return ;
     notifyListeners();
   }
 
@@ -71,8 +76,12 @@ class GetCurrenciesFullProvider with ChangeNotifier {
 
   @override
   void dispose() {
-    _disposed = true;
-    super.dispose();
+    try {
+      this._disposed = true;
+      super.dispose();
+    } catch(ex) {
+      print("Exception-> $ex");
+    }
   }
 
   @override
