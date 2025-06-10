@@ -21,7 +21,6 @@ import 'package:toast/toast.dart';
 import '../../../routes.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
-import 'number_stepper.dart';
 import 'package:csv/csv.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -132,62 +131,43 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
   }
 
   Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, GetTransactionsModel getTransactionsModel){
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: NumberStepper(
-            totalSteps: stepLength,
-            width: MediaQuery.of(context).size.width,
-            curStep: currentStep,
-            stepCompleteColor: Colors.blue,
-            currentStepColor: Color(0xff20D030),
-            inactiveColor: Color(0xffbababa),
-            lineWidth: 2,
-          ),
-        ),
-        Expanded(
-          child: LayoutBuilder(builder:
-              (BuildContext context, BoxConstraints constraints) {
-            return SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints:
-                  BoxConstraints(minHeight: constraints.maxHeight),
-                  child: IntrinsicHeight(
-                    child: Card(
-                      margin: EdgeInsets.only(
-                          top: 15, left: 10, right: 10, bottom: 15),
-                      elevation: 0,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xff24242f)
-                          : Color(0xfff3f3f3),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Container(
-                        padding: const EdgeInsets.all(15.0),
-                        width: _screenWidth,
-                        height: double.infinity,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //Transaction History Screen
-                            transactionHistoryScreen(
-                                _screenWidth,
-                                _screenHeight,
-                                settingsStore,
-                                getTransactionsModel),
-                          ],
-                        ),
-                      ),
-                    ),
+    return LayoutBuilder(builder:
+        (BuildContext context, BoxConstraints constraints) {
+      return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints:
+            BoxConstraints(minHeight: constraints.maxHeight),
+            child: IntrinsicHeight(
+              child: Card(
+                margin: EdgeInsets.only(
+                    top: 15, left: 10, right: 10, bottom: 15),
+                elevation: 0,
+                color: settingsStore.isDarkTheme
+                    ? Color(0xff24242f)
+                    : Color(0xfff3f3f3),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Container(
+                  padding: const EdgeInsets.all(15.0),
+                  width: _screenWidth,
+                  height: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //Transaction History Screen
+                      transactionHistoryScreen(
+                          _screenWidth,
+                          _screenHeight,
+                          settingsStore,
+                          getTransactionsModel),
+                    ],
                   ),
-                ));
-          }),
-        ),
-      ],
-    );
+                ),
+              ),
+            ),
+          ));
+    });
   }
 
   List<List<dynamic>> rows = [];
@@ -618,35 +598,30 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.of(context).pop(true);
-                  },
-                  child: SvgPicture.asset(
-                    'assets/images/swap/swap_back.svg',
-                    colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
-                        ? Color(0xffffffff)
-                        : Color(0xff16161D), BlendMode.srcIn),
-                    width: 20,
-                    height: 20,
-                  ),
+            Text(
+              'Transactions',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xffFFFFFF)
+                      : Color(0xff060606)),
+            ),
+            Visibility(
+              visible: _swapTransactionHistory.transactionIdList.isNotEmpty,
+              child: InkWell(
+                onTap: () async {
+                  await requestStoragePermission();
+                },
+                child: SvgPicture.asset(
+                  'assets/images/swap/swap_download.svg',
+                  colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
+                      ? Color(0xffffffff)
+                      : Color(0xff16161D), BlendMode.srcIn),
+                  width: 25,
+                  height: 25,
                 ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'Back',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xffFFFFFF)
-                          : Color(0xff060606)),
-                ),
-              ],
+              ),
             ),
           ],
         ),
@@ -654,7 +629,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
         Container(
           width: _screenWidth,
           height: _screenHeight,
-          child: ListView.builder(
+          child: _swapTransactionHistory.transactionIdList.isNotEmpty ? ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               key: _listKey,
@@ -670,9 +645,50 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                   rows.add([result.status, getDate(result.createdAt!), toStringAsFixed(result.amountExpectedFrom), toStringAsFixed(result.rate), result.payinAddress, toStringAsFixed(result.amountExpectedTo)]);
                 }
                 return transactionRow(settingsStore, getTransactionsModel, index);
-              }),
+              }) : noTransactionsYet(settingsStore),
         ),
       ],
+    );
+  }
+
+  Widget noTransactionsYet(SettingsStore settingsStore) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            "assets/images/swap/no_transactions_yet.svg",
+            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Color(0xff65656E) : Color(0xffDADADA), BlendMode.srcIn),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+              "No Transactions Yet!",
+              style: TextStyle(
+                  backgroundColor: Colors.transparent,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: settingsStore
+                      .isDarkTheme
+                      ? Color(0xffffffff)
+                      : Color(0xff222222))),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+              "There are no Transactions or\nexchanges made to show..",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  backgroundColor: Colors.transparent,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  color: settingsStore
+                      .isDarkTheme
+                      ? Color(0xff82828D)
+                      : Color(0xff626262))),
+        ],
+      ),
     );
   }
 
