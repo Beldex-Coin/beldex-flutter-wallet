@@ -194,7 +194,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
         status = await Permission.manageExternalStorage.request();
       }
 
-      if (status.isGranted) {
+      if (status.isGranted && csv.isNotEmpty) {
         await downloadCSV(csv);
       } else if (status.isDenied) {
         Toast.show(
@@ -208,7 +208,9 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
         await openAppSettings(); // Takes user to settings to enable manually
       }
     } else {
-      await downloadCSV(csv);
+      if(csv.isNotEmpty) {
+        await downloadCSV(csv);
+      }
     }
   }
 
