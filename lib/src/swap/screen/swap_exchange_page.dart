@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:beldex_wallet/l10n.dart';
@@ -21,6 +20,7 @@ import '../../../palette.dart';
 import '../../../routes.dart';
 import '../provider/get_currencies_full_provider.dart';
 import '../util/data_class.dart';
+import '../../widgets/no_internet.dart';
 import '../util/utils.dart';
 import 'number_stepper.dart';
 
@@ -93,6 +93,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   Timer? timer;
   late FlutterSecureStorage secureStorage;
   late List<String> stored = [];
+  bool _isInitialized = false;
 
   @override
   void initState() {
@@ -113,12 +114,15 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      final provider = Provider.of<GetExchangeAmountProvider>(context, listen: false);
+      if (!mounted) return;
       Provider.of<GetCurrenciesFullProvider>(context, listen: false).getCurrenciesFullData(context);
       Provider.of<GetPairsParamsProvider>(context, listen: false).getPairsParamsData(context,[{'from':'btc','to':'bdx'},{'from':'bdx','to':'btc'}]);
-      Provider.of<GetExchangeAmountProvider>(context,listen: false).getExchangeAmountData(context,{'from':'btc',"to":'bdx',"amountFrom":_sendAmountController.text.toString()});
+      provider.getExchangeAmountData({'from':'btc',"to":'bdx',"amountFrom":_sendAmountController.text.toString()});
       timer?.cancel();
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
-        Provider.of<GetExchangeAmountProvider>(context,listen: false).getExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()});
+        if (!mounted && !isOnline(context)) return;
+        provider.getExchangeAmountData({"from": getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(), "to": getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(), "amountFrom": getPairsParamsProvider.getSendAmountValue().toString()});
       });
     });
     super.initState();
@@ -126,10 +130,11 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 
   void callGetExchangeAmountData(BuildContext context, Map<String, String> params, GetExchangeAmountProvider getExchangeAmountProvider){
     if(getExchangeAmountProvider.loading==false){
-      getExchangeAmountProvider.getExchangeAmountData(context, params);
+      getExchangeAmountProvider.getExchangeAmountData(params);
       timer?.cancel();
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
-        getExchangeAmountProvider.getExchangeAmountData(context, params);
+        if (!mounted && !isOnline(context)) return;
+        getExchangeAmountProvider.getExchangeAmountData(params);
       });
     }
   }
@@ -150,25 +155,53 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             child: const CircularProgressIndicator(valueColor:
               AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
           )));
-        }else {
+        }
+
+        if(getCurrenciesFullProvider.error != null || !isOnline(context)) {
+          return noInternet(settingsStore, _screenWidth);
+        }
+
+        if(getCurrenciesFullProvider.data != null){
           return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
             return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
-              this.getCurrenciesFullProvider = getCurrenciesFullProvider;
-              this.getPairsParamsProvider = getPairsParamsProvider;
-              this.getExchangeAmountProvider = getExchangeAmountProvider;
-              return body(_screenWidth,_screenHeight,settingsStore,_scrollController,swapExchangePageChangeNotifier,getCurrenciesFullProvider.data,getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider);
+              if(getPairsParamsProvider.error != null || getExchangeAmountProvider.error != null || !isOnline(context)) {
+                return noInternet(settingsStore, _screenWidth);
+              }
+
+              if(getPairsParamsProvider.data != null || getExchangeAmountProvider.data != null) {
+                this.getCurrenciesFullProvider = getCurrenciesFullProvider;
+                this.getPairsParamsProvider = getPairsParamsProvider;
+                this.getExchangeAmountProvider = getExchangeAmountProvider;
+                _isInitialized = true;
+                return body(
+                    _screenWidth,
+                    _screenHeight,
+                    settingsStore,
+                    _scrollController,
+                    swapExchangePageChangeNotifier,
+                    getCurrenciesFullProvider.data,
+                    getCurrenciesFullProvider,
+                    getPairsParamsProvider,
+                    getExchangeAmountProvider) ;
+              }
+
+              return SizedBox();
             });
           });
         }
+
+        return SizedBox();
       }),
     );
   }
 
   @override
   void dispose() {
-    getCurrenciesFullProvider.dispose();
-    getPairsParamsProvider.dispose();
-    getExchangeAmountProvider.dispose();
+    if(_isInitialized) {
+      getCurrenciesFullProvider.dispose();
+      getPairsParamsProvider.dispose();
+      getExchangeAmountProvider.dispose();
+    }
     timer?.cancel();
     super.dispose();
   }
@@ -226,7 +259,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         _getAmountController.text = getExchangeAmountProvider.data!.result![0].amountTo.toString();
       }
     }
-    return getCurrenciesFullProvider.getBdxIsEnabled() ? Column(
+    return getCurrenciesFullProvider.getBdxIsEnabled == null ? Container() : getCurrenciesFullProvider.getBdxIsEnabled == true ? Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
@@ -281,7 +314,11 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
           }),
         ),
       ],
-    ):Card(
+    ): underMaintenance(settingsStore, _screenWidth);
+  }
+  
+  Widget underMaintenance(SettingsStore settingsStore, double _screenWidth) {
+    return Card(
       margin: EdgeInsets.only(
           top: 15, left: 10, right: 10, bottom: 15),
       elevation: 0,
@@ -303,7 +340,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   InkWell youGetCoinsDropDownListItem(
       SettingsStore settingsStore, GetCurrenciesResult enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
     return InkWell(
-      onTap: () async {
+      onTap: isOnline(context) ? () async {
         searchYouGetCoinsController.text = '';
         if (enableTo.fullName != null) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -321,7 +358,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 !getCurrenciesFullProvider.getGetCoinsDropDownVisible());
           });
         }
-      },
+      } : null,
       child: Padding(
         padding: EdgeInsets.only(left: 20.0, right: 20.0),
         child: Container(
@@ -399,7 +436,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   InkWell youSendCoinsDropDownListItem(
       SettingsStore settingsStore, GetCurrenciesResult enableFrom, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
     return InkWell(
-      onTap: () async {
+      onTap: isOnline(context) ? () async {
         searchYouSendCoinsController.text = '';
         if (enableFrom.name != null) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -417,7 +454,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 !getCurrenciesFullProvider.getSendCoinsDropDownVisible());
           });
         }
-      },
+      } : null,
       child: Padding(
         padding: EdgeInsets.only(left: 10.0, right: 10.0),
         child: Container(
@@ -494,57 +531,52 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 
   Widget underMaintenanceScreen(
       double _screenWidth, SettingsStore settingsStore) {
-    Future.delayed(Duration(seconds: 2), () {
-      return Expanded(
-        child: Container(
-          width: _screenWidth,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                'assets/images/swap/under_maintenance.svg',
-                colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
-                    ? Color(0xff65656E)
-                    : Color(0xffDADADA), BlendMode.srcIn),
-                width: 112,
-                height: 112,
-              ),
-              RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                    text: 'BDX',
-                    style: TextStyle(
-                        backgroundColor: Colors.transparent,
-                        color: Color(0xff20D030),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700),
-                    children: [
-                      TextSpan(
-                          text: ' Swap is temporarily\nunder maintenance.',
-                          style: TextStyle(
-                              backgroundColor: Colors.transparent,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffFFFFFF)
-                                  : Color(0xff222222)))
-                    ]),
-              ),
-              Text('Please try again after some times.',
-                  style: TextStyle(
-                      backgroundColor: Colors.transparent,
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xff82828D)
-                          : Color(0xff737373),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400)),
-            ],
+    return Container(
+      width: _screenWidth,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            'assets/images/swap/under_maintenance.svg',
+            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
+                ? Color(0xff65656E)
+                : Color(0xffDADADA), BlendMode.srcIn),
+            width: 112,
+            height: 112,
           ),
-        ),
-      );
-    });
-    return Container();
+          RichText(
+            textAlign: TextAlign.center,
+            text: TextSpan(
+                text: 'BDX',
+                style: TextStyle(
+                    backgroundColor: Colors.transparent,
+                    color: Color(0xff20D030),
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700),
+                children: [
+                  TextSpan(
+                      text: ' Swap is temporarily\nunder maintenance.',
+                      style: TextStyle(
+                          backgroundColor: Colors.transparent,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w400,
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xffFFFFFF)
+                              : Color(0xff222222)))
+                ]),
+          ),
+          Text('Please try again after some times.',
+              style: TextStyle(
+                  backgroundColor: Colors.transparent,
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xff82828D)
+                      : Color(0xff737373),
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400)),
+        ],
+      ),
+    );
   }
 
   Widget exchangeScreen(
@@ -666,7 +698,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         errorStyle: TextStyle(color: BeldexPalette.red),
                       ),
                       onChanged: (value){
-                        if(value.isNotEmpty){
+                        if(value.isNotEmpty && isOnline(context)){
                             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                               getPairsParamsProvider.setSendAmountValue(double.parse(value));
 
@@ -770,7 +802,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         color: Color(0xff00AD07).withAlpha(25),
                         borderRadius: BorderRadius.all(Radius.circular(8))),
                     child: InkWell(
-                      onTap: (){
+                      onTap: isOnline(context) ? () {
                         if(validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)){
                           _sendAmountController.text = minimumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString();
                           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -786,7 +818,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                             validateMinimumAndMaximumAmount(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
                           });
                         }
-                      },
+                      } : null,
                       child: RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
@@ -817,7 +849,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 Visibility(
                   visible: getPairsParamsProvider.getSendCoinAvailableOnGetCoinStatus() && getPairsParamsProvider.getGetCoinAvailableOnSendCoinStatus(),
                   child: InkWell(
-                      onTap: () {
+                      onTap: isOnline(context) ? () {
                         final currentSelectedSendCoin = getCurrenciesFullProvider.getSelectedYouSendCoins();
                         final currentSelectedGetCoin = getCurrenciesFullProvider.getSelectedYouGetCoins();
                         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -830,7 +862,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                           //Get Exchange Amount API Call
                           callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
                         });
-                      },
+                      } : null,
                       child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -1160,7 +1192,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               alignment: Alignment.center,
               child: ElevatedButton(
                 onPressed: () {
-                  if(isNextButtonEnabled(floatingExchangeRate) && !getPairsParamsProvider.getSendFieldErrorState()) {
+                  if(isNextButtonEnabled(floatingExchangeRate, !getPairsParamsProvider.getSendFieldErrorState(), sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)) {
                     Navigator.of(context).pop(true);
                     Navigator.of(context).pushNamed(Routes.swapWalletAddress,
                         arguments: ExchangeData(getCurrenciesFullProvider
@@ -1182,7 +1214,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: isNextButtonEnabled(floatingExchangeRate) && !getPairsParamsProvider.getSendFieldErrorState()
+                  backgroundColor: isNextButtonEnabled(floatingExchangeRate, !getPairsParamsProvider.getSendFieldErrorState(), sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)
                       ? Color(0xff0BA70F)
                       : settingsStore.isDarkTheme
                           ? Color(0xff32324A)
@@ -1195,7 +1227,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 ),
                 child: Text('Exchange',
                     style: TextStyle(
-                        color: isNextButtonEnabled(floatingExchangeRate) && !getPairsParamsProvider.getSendFieldErrorState()
+                        color: isNextButtonEnabled(floatingExchangeRate, !getPairsParamsProvider.getSendFieldErrorState(), sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)
                             ? Color(0xffffffff)
                             : settingsStore.isDarkTheme
                                 ? Color(0xff77778B)
@@ -1483,8 +1515,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     }
   }
 
-  bool isNextButtonEnabled(String status) {
-    return status != "...";
+  bool isNextButtonEnabled(String status, bool sendFieldErrorState, double sendCoinAmount, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
+    return (!validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider) || !validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)) && status != "..." && sendFieldErrorState;
   }
 }
 

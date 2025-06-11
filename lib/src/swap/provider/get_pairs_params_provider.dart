@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:beldex_wallet/src/swap/api_service/get_pairs_params_api_service.dart';
 import 'package:beldex_wallet/src/swap/model/get_pairs_params_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,13 +17,30 @@ class GetPairsParamsProvider with ChangeNotifier {
   bool sendCoinAvailableOnGetCoinStatus = false;
   bool getCoinAvailableOnSendCoinStatus = false;
   GetPairsParamsApiService services = GetPairsParamsApiService();
+  String? _error;
+  String? get error => _error;
 
   void getPairsParamsData(context, List<Map<String, String>> params) async {
     loading = true;
-    data = await services.getSignature(params);
-    loading = false;
-    if(_disposed) return ;
-    notifyListeners();
+    _error = null;
+    try {
+      final response = await services.getSignature(params);
+      if (response != null) {
+        data = response;
+      } else {
+        _error = "Failed to fetch data.";
+      }
+    } on SocketException catch (e) {
+      print('get exchange amount api SocketException: Failed to connect: $e');
+      _error = "No internet connection.";
+    } catch (e) {
+      print('get exchange amount api Unexpected error: $e');
+      _error = "Unexpected error: ${e.toString()}";
+    } finally {
+      loading = false;
+      if(_disposed) return;
+      notifyListeners();
+    }
   }
 
   void setSendValueMinimumAmountAndSendValueMaximumAmount(minimumAmount,maximumAmount){

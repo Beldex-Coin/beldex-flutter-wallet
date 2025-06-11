@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:beldex_wallet/src/swap/model/get_currencies_full_model.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -8,20 +10,38 @@ class GetCurrenciesFullProvider with ChangeNotifier {
   late GetCurrenciesFullModel? data;
 
   bool loading = true;
-  bool bdxIsEnabled = false;
+  bool? bdxIsEnabled;
   bool _disposed = false;
   Coins selectedYouSendCoins = Coins('BTC', 'Bitcoin', "", 'bitcoin', 'BTC');
   Coins selectedYouGetCoins = Coins('BDX', 'Beldex', "", 'beldex', 'BDX');
   bool youSendCoinsDropDownVisible = false;
   bool youGetCoinsDropDownVisible = false;
   GetCurrenciesFullApiService services = GetCurrenciesFullApiService();
+  String? _error;
+  String? get error => _error;
 
   void getCurrenciesFullData(context) async {
+    bdxIsEnabled = null;
     loading = true;
-    data = await services.getSignature();
-    loading = false;
-    if(_disposed) return ;
-    notifyListeners();
+    _error = null;
+    try {
+      final response = await services.getSignature();
+      if (response != null) {
+        data = response;
+      } else {
+        _error = "Failed to fetch data.";
+      }
+    } on SocketException catch (e) {
+      print('get currencies full api SocketException: Failed to connect: $e');
+      _error = "No internet connection.";
+    } catch (e) {
+      print('get currencies full api Unexpected error: $e');
+      _error = "Unexpected error: ${e.toString()}";
+    } finally {
+      loading = false;
+      if(_disposed) return;
+      notifyListeners();
+    }
   }
 
   void setBdxIsEnabled(status){
@@ -30,9 +50,7 @@ class GetCurrenciesFullProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool getBdxIsEnabled(){
-    return this.bdxIsEnabled;
-  }
+  bool? get getBdxIsEnabled => this.bdxIsEnabled;
 
   void setSelectedYouGetCoins(youGetCoins){
     this.selectedYouGetCoins = youGetCoins;

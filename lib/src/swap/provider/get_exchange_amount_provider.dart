@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:beldex_wallet/src/swap/api_service/get_exchange_amount_api_service.dart';
 import 'package:flutter/cupertino.dart';
 import '../model/get_exchange_amount_model.dart';
@@ -9,13 +11,30 @@ class GetExchangeAmountProvider with ChangeNotifier {
   bool _disposed = false;
   GetExchangeAmountApiService services = GetExchangeAmountApiService();
   bool transactionStatus = false;
+  String? _error;
+  String? get error => _error;
 
   void getExchangeAmountData(Map<String, String> params) async {
     loading = true;
-    data = await services.getSignature(params);
-    loading = false;
-    if(_disposed) return ;
-    notifyListeners();
+    _error = null;
+    try {
+      final response = await services.getSignature(params);
+      if (response != null) {
+        data = response;
+      } else {
+        _error = "Failed to fetch data.";
+      }
+    } on SocketException catch (e) {
+      print('get pairs params api SocketException: Failed to connect: $e');
+      _error = "No internet connection.";
+    } catch (e) {
+      print('get pairs params api Unexpected error: $e');
+      _error = "Unexpected error: ${e.toString()}";
+    } finally {
+      loading = false;
+      if(_disposed) return;
+      notifyListeners();
+    }
   }
 
   void updateLoadingStatus(value){
