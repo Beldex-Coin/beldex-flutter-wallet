@@ -9,6 +9,7 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/swap_transaction_expansion_status_change_notifier.dart';
+import 'package:beldex_wallet/src/widgets/no_internet.dart';
 import 'package:beldex_wallet/src/util/generate_name.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
+import '../../widgets/no_transactions_yet.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
 import 'package:csv/csv.dart';
@@ -85,15 +87,18 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
   late GetTransactionsProvider getTransactionsProvider;
   Timer? timer;
   late SwapTransactionHistory _swapTransactionHistory;
+  bool _isInitialized = false;
 
   @override
   void initState() {
     _swapTransactionHistory = widget.swapTransactionHistory;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      Provider.of<GetTransactionsProvider>(context,listen: false).getTransactionsListData(context,{"id":_swapTransactionHistory.transactionIdList});
+      final provider = Provider.of<GetTransactionsProvider>(context,listen: false);
+      provider.getTransactionsListData(context,{"id":_swapTransactionHistory.transactionIdList});
       timer?.cancel();
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
-        Provider.of<GetTransactionsProvider>(context,listen: false).getTransactionsListData(context,{"id":_swapTransactionHistory.transactionIdList});
+        if (!mounted && !isOnline(context)) return;
+        provider.getTransactionsListData(context,{"id":_swapTransactionHistory.transactionIdList});
       });
     });
     super.initState();
@@ -102,7 +107,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
   @override
   Widget build(BuildContext context) {
     final _screenWidth = MediaQuery.of(context).size.width;
-    final _screenHeight = MediaQuery.of(context).size.height;
+    final _screenHeight = MediaQuery.of(context).size.height/2;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     ToastContext().init(context);
@@ -115,23 +120,34 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                   child: const CircularProgressIndicator(valueColor:
                   AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
                   )));
-        }else {
+        }
+
+        if(getTransactionsProvider.error != null) {
+          return noInternet(settingsStore, _screenWidth);
+        }
+
+        if(getTransactionsProvider.data != null) {
           this.getTransactionsProvider = getTransactionsProvider;
+          _isInitialized = true;
           return body(_screenWidth,_screenHeight,settingsStore,_scrollController, getTransactionsProvider.data!);
         }
+
+        return SizedBox();
       }),
     );
   }
 
   @override
   void dispose() {
-    getTransactionsProvider.dispose();
+    if(_isInitialized) {
+      getTransactionsProvider.dispose();
+    }
     timer?.cancel();
     super.dispose();
   }
 
   Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, GetTransactionsModel getTransactionsModel){
-    return LayoutBuilder(builder:
+    return  _swapTransactionHistory.transactionIdList.isNotEmpty ? LayoutBuilder(builder:
         (BuildContext context, BoxConstraints constraints) {
       return SingleChildScrollView(
           child: ConstrainedBox(
@@ -167,7 +183,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
               ),
             ),
           ));
-    });
+    }) : noTransactionsYet(settingsStore, _screenWidth);
   }
 
   List<List<dynamic>> rows = [];
@@ -609,20 +625,17 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                       ? Color(0xffFFFFFF)
                       : Color(0xff060606)),
             ),
-            Visibility(
-              visible: _swapTransactionHistory.transactionIdList.isNotEmpty,
-              child: InkWell(
-                onTap: () async {
-                  await requestStoragePermission();
-                },
-                child: SvgPicture.asset(
-                  'assets/images/swap/swap_download.svg',
-                  colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
-                      ? Color(0xffffffff)
-                      : Color(0xff16161D), BlendMode.srcIn),
-                  width: 25,
-                  height: 25,
-                ),
+            InkWell(
+              onTap: () async {
+                await requestStoragePermission();
+              },
+              child: SvgPicture.asset(
+                'assets/images/swap/swap_download.svg',
+                colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
+                    ? Color(0xffffffff)
+                    : Color(0xff16161D), BlendMode.srcIn),
+                width: 25,
+                height: 25,
               ),
             ),
           ],
@@ -631,7 +644,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
         Container(
           width: _screenWidth,
           height: _screenHeight,
-          child: _swapTransactionHistory.transactionIdList.isNotEmpty ? ListView.builder(
+          child: ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               key: _listKey,
@@ -647,50 +660,9 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                   rows.add([result.status, getDate(result.createdAt!), toStringAsFixed(result.amountExpectedFrom), toStringAsFixed(result.rate), result.payinAddress, toStringAsFixed(result.amountExpectedTo)]);
                 }
                 return transactionRow(settingsStore, getTransactionsModel, index);
-              }) : noTransactionsYet(settingsStore),
+              }),
         ),
       ],
-    );
-  }
-
-  Widget noTransactionsYet(SettingsStore settingsStore) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            "assets/images/swap/no_transactions_yet.svg",
-            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Color(0xff65656E) : Color(0xffDADADA), BlendMode.srcIn),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-              "No Transactions Yet!",
-              style: TextStyle(
-                  backgroundColor: Colors.transparent,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: settingsStore
-                      .isDarkTheme
-                      ? Color(0xffffffff)
-                      : Color(0xff222222))),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-              "There are no Transactions or\nexchanges made to show..",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  backgroundColor: Colors.transparent,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  color: settingsStore
-                      .isDarkTheme
-                      ? Color(0xff82828D)
-                      : Color(0xff626262))),
-        ],
-      ),
     );
   }
 
