@@ -5,10 +5,12 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
+import 'package:beldex_wallet/src/widgets/no_internet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 import '../../../palette.dart';
 import '../../../routes.dart';
@@ -16,6 +18,7 @@ import '../api_client/get_exchange_amount_api_client.dart';
 import '../model/get_exchange_amount_model.dart';
 import '../provider/valdiate_extra_id_field_provider.dart';
 import '../util/data_class.dart';
+import '../util/utils.dart';
 import 'number_stepper.dart';
 
 class SwapWalletAddressPage extends BasePage {
@@ -90,6 +93,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   var sendAmount;
   var from;
   var to;
+  bool _isInitialized = false;
 
   @override
   void initState() {
@@ -102,7 +106,9 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     _getExchangeAmountStreamController = StreamController<GetExchangeAmountModel>();
     Future.delayed(Duration(seconds: 2), () {
       callGetExchangeAmountApi(getExchangeAmountApiClient, _exchangeData.amountFrom);
+      if (!mounted) return;
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
+        if (!mounted && !isOnline(context)) return;
         callGetExchangeAmountApi(getExchangeAmountApiClient, sendAmount);
       }); // Start adding getExchangeAmount api result to the stream.
     });
@@ -117,7 +123,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     });
   }
 
-  bool isNextButtonEnabled(String minimumAmount, String maximumAmount){
+  bool isNextButtonEnabled(String minimumAmount, String maximumAmount, BuildContext context){
     if(validateExtraIdFieldProvider.showMemo){
       if(_destinationTagController.text.isEmpty){
         return false;
@@ -125,10 +131,10 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         return acceptTermsAndConditions &&
             !validateAddressProvider.loading &&
             _recipientAddressController.text.isNotEmpty &&
-            validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty);
+            validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && isOnline(context);
       }
     }else{
-      return acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty);
+      return acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && isOnline(context);
     }
   }
 
@@ -138,6 +144,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     final _screenHeight = MediaQuery.of(context).size.height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
+    ToastContext().init(context);
     return StreamBuilder<GetExchangeAmountModel>(
       stream: _getExchangeAmountStreamController.stream,
       builder: (context, snapshot) {
@@ -146,14 +153,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Color(
                       0xff0BA70F)))); // Display a loading indicator when waiting for data.
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          ); // Display an error message if an error occurs.
-        } else if (!snapshot.hasData) {
-          return Center(
-            child: Text('No data available'),
-          ); // Display a message when no data is available.
+        } else if (snapshot.hasError || !snapshot.hasData || !isOnline(context)) {
+          return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
         } else {
           return body(_screenWidth, _screenHeight, settingsStore,
               _scrollController, snapshot.data!);
@@ -282,6 +283,16 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         Consumer<ValidateAddressProvider>(
           builder: (context, validateAddressProvider, child) {
             this.validateAddressProvider = validateAddressProvider;
+            _isInitialized = true;
+            if(validateAddressProvider.error != null) {
+              Toast.show(
+                'Network Error! Please check internet connection.',
+                duration: Toast.lengthShort,
+                gravity: Toast.bottom,
+                textStyle:TextStyle(color: Colors.white),
+                backgroundColor: Color(0xff8B1C1C),
+              );
+            }
             if (validateAddressProvider.loading == false) {
               if (validateAddressProvider.data != null) {
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -674,7 +685,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                 color: Color(0xff00AD07).withAlpha(25),
                 borderRadius: BorderRadius.all(Radius.circular(8))),
             child: InkWell(
-              onTap: (){
+              onTap: isOnline (context) ? () {
                 if(minimumAmount.trim().isNotEmpty) {
                   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                     //Get Exchange Amount API Call
@@ -686,7 +697,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     callGetExchangeAmountApi(getExchangeAmountApiClient, maximumAmount);
                   });
                 }
-              },
+              } : null,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: RichText(
@@ -1065,14 +1076,14 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                       validateExtraIdFieldProvider.setShowErrorBorder(true);
                       validateExtraIdFieldProvider.setErrorMessage("Please enter ${_exchangeData.extraIdName}");
                     }else {
-                      if (acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty)) {
+                      if (acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && isOnline(context)) {
                         //Navigate to Payment Screen
                         Navigator.of(context).pop(true);
                         Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, _destinationTagController.text, _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain));
                       }
                     }
                   }else{
-                    if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty)){
+                    if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && isOnline(context)){
                       //Navigate to Payment Screen
                       Navigator.of(context).pop(true);
                       Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, "", _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain));
@@ -1080,7 +1091,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: isNextButtonEnabled(minimumAmount, maximumAmount)
+                  backgroundColor: isNextButtonEnabled(minimumAmount, maximumAmount, context)
                       ? Color(0xff0BA70F)
                       : settingsStore.isDarkTheme
                       ? Color(0xff32324A)
@@ -1093,7 +1104,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                 ),
                 child: Text('Next',
                     style: TextStyle(
-                        color: isNextButtonEnabled(minimumAmount, maximumAmount)
+                        color: isNextButtonEnabled(minimumAmount, maximumAmount, context)
                             ? Color(0xffffffff)
                             : settingsStore.isDarkTheme
                             ? Color(0xff77778B)
@@ -1138,7 +1149,9 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     _refundWalletAddressController.dispose();
     _getExchangeAmountStreamController.close();
     timer.cancel();
-    validateAddressProvider.dispose();
+    if(_isInitialized) {
+      validateAddressProvider.dispose();
+    }
     super.dispose();
   }
 }
