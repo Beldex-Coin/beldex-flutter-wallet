@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
-import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -93,13 +91,6 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
     ));
     getTransactionsIds(secureStorage, transactionIds: (ids) {
       stored = ids;
-    });
-    Future.delayed(Duration(seconds: 2), () {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Provider.of<GetTransactionsProvider>(context, listen: false)
-            .getTransactionsData(
-            context, {"id": "${transactionStatus.transactionModel!.id}"});
-      });
     });
     super.initState();
   }
@@ -604,9 +595,19 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                 margin: EdgeInsets.only(right: 5),
                 child: ElevatedButton(
                   onPressed: () {
-                    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
-                    Navigator.of(context).pop(true);
-                    Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
+                    if(isOnline(context)) {
+                      final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+                      Navigator.of(context).pop(true);
+                      Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
+                    } else {
+                      Toast.show(
+                        'Network Error! Please check internet connection.',
+                        duration: Toast.lengthShort,
+                        gravity: Toast.bottom,
+                        textStyle:TextStyle(color: Colors.white),
+                        backgroundColor: Color(0xff8B1C1C),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: settingsStore.isDarkTheme
@@ -634,8 +635,19 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                 margin: EdgeInsets.only(left: 5),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(true);
-                    Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
+                    if(isOnline(context)) {
+                      Navigator.of(context).pop(true);
+                      Navigator.of(context, rootNavigator: true).pushNamed(
+                          Routes.swapExchange);
+                    } else {
+                      Toast.show(
+                        'Network Error! Please check internet connection.',
+                        duration: Toast.lengthShort,
+                        gravity: Toast.bottom,
+                        textStyle:TextStyle(color: Colors.white),
+                        backgroundColor: Color(0xff8B1C1C),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff0BA70F),

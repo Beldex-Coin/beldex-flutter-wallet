@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -14,6 +13,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
+import '../../widgets/no_internet.dart';
 import '../api_client/get_status_api_client.dart';
 import '../dialog/input_output_hash_dialog.dart';
 import '../util/data_class.dart';
@@ -84,6 +84,8 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
   late StreamController<GetStatusModel> _getStatusStreamController;
   late FlutterSecureStorage secureStorage;
   late List<String> stored = [];
+  late GetTransactionsProvider getTransactionsProvider;
+  bool _isInitialized = false;
 
   @override
   void initState() {
@@ -113,24 +115,29 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
     ToastContext().init(context);
     return Consumer<GetTransactionsProvider>(
         builder: (context, getTransactionsProvider, child) {
+          this.getTransactionsProvider = getTransactionsProvider;
+          _isInitialized = true;
           if (getTransactionsProvider.loading) {
             return Center(
                 child: CircularProgressIndicator(
                     valueColor:
                     AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
                 ));
-          } else {
-            if (getTransactionsProvider.loading == false &&
-                getTransactionsProvider.data!.result!.isNotEmpty) {
-              return body(
-                  _screenWidth,
-                  _screenHeight,
-                  settingsStore,
-                  _scrollController,getTransactionsProvider.data);
-            } else {
-              return Container();
-            }
           }
+
+          if(getTransactionsProvider.error != null || !isOnline(context)) {
+            return noInternet(settingsStore, _screenWidth);
+          }
+
+          if (getTransactionsProvider.loading == false && getTransactionsProvider.data!.result!.isNotEmpty) {
+            return body(
+                _screenWidth,
+                _screenHeight,
+                settingsStore,
+                _scrollController,getTransactionsProvider.data);
+          }
+
+          return SizedBox();
         });
   }
 
@@ -620,9 +627,19 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                 margin: EdgeInsets.only(right: 5),
                 child: ElevatedButton(
                   onPressed: () {
-                    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
-                    Navigator.of(context).pop(true);
-                    Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
+                    if(isOnline(context)) {
+                      final FlutterSecureStorage secureStorage = FlutterSecureStorage();
+                      Navigator.of(context).pop(true);
+                      Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
+                    } else {
+                      Toast.show(
+                        'Network Error! Please check internet connection.',
+                        duration: Toast.lengthShort,
+                        gravity: Toast.bottom,
+                        textStyle:TextStyle(color: Colors.white),
+                        backgroundColor: Color(0xff8B1C1C),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: settingsStore.isDarkTheme
@@ -650,8 +667,19 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                 margin: EdgeInsets.only(left: 5),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop(true);
-                    Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
+                    if(isOnline(context)) {
+                      Navigator.of(context).pop(true);
+                      Navigator.of(context, rootNavigator: true).pushNamed(
+                          Routes.swapExchange);
+                    } else {
+                      Toast.show(
+                        'Network Error! Please check internet connection.',
+                        duration: Toast.lengthShort,
+                        gravity: Toast.bottom,
+                        textStyle:TextStyle(color: Colors.white),
+                        backgroundColor: Color(0xff8B1C1C),
+                      );
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff0BA70F),
@@ -706,6 +734,9 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
   void dispose() {
     timer.cancel();
     _getStatusStreamController.close();
+    if(_isInitialized) {
+      getTransactionsProvider.dispose();
+    }
     super.dispose();
   }
 }
