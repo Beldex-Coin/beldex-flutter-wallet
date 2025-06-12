@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import '../../../routes.dart';
+import '../../widgets/no_internet.dart';
 import '../api_client/create_transaction_api_client.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
@@ -100,7 +101,9 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
         StreamController<GetExchangeAmountModel>();
     Future.delayed(Duration(seconds: 2), () {
       callGetExchangeAmountApi(getExchangeAmountApiClient, sendAmount);
+      if (!mounted) return;
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
+        if (!mounted && !isOnline(context)) return;
         callGetExchangeAmountApi(getExchangeAmountApiClient, sendAmount);
       }); // Start adding getExchangeAmount api result to the stream.
     });
@@ -115,8 +118,8 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     });
   }
 
-  bool isConfirmationButtonEnabled(String minimumAmount, String maximumAmount) {
-    return (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty);
+  bool isConfirmationButtonEnabled(String minimumAmount, String maximumAmount, BuildContext context) {
+    return (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && isOnline(context);
   }
 
   @override
@@ -133,14 +136,8 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               child: CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Color(
                       0xff0BA70F)))); // Display a loading indicator when waiting for data.
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          ); // Display an error message if an error occurs.
-        } else if (!snapshot.hasData) {
-          return Center(
-            child: Text('No data available'),
-          ); // Display a message when no data is available.
+        } else if (snapshot.hasError || !snapshot.hasData || !isOnline(context)) {
+          return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
         } else {
           return body(_screenWidth, _screenHeight, settingsStore,
               _scrollController, snapshot.data!);
@@ -350,7 +347,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                 color: Color(0xff00AD07).withAlpha(25),
                 borderRadius: BorderRadius.all(Radius.circular(8))),
             child: InkWell(
-              onTap: (){
+              onTap: isOnline (context) ? () {
                 if(minimumAmount.trim().isNotEmpty) {
                   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                     //Get Exchange Amount API Call
@@ -362,7 +359,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                     callGetExchangeAmountApi(getExchangeAmountApiClient, maximumAmount);
                   });
                 }
-              },
+              } : null,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: RichText(
@@ -679,7 +676,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
           alignment: Alignment.center,
           child: ElevatedButton(
             onPressed: () {
-              if(isConfirmationButtonEnabled(minimumAmount, maximumAmount)) {
+              if(isConfirmationButtonEnabled(minimumAmount, maximumAmount, context)) {
                 showLoaderDialog(context);
                 if (_exchangeDataWithRecipientAddress.extraIdName!.isNotEmpty) {
                   createTransaction({
@@ -702,7 +699,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               }
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: isConfirmationButtonEnabled(minimumAmount, maximumAmount)
+              backgroundColor: isConfirmationButtonEnabled(minimumAmount, maximumAmount, context)
                   ? Color(0xff0BA70F)
                   : settingsStore.isDarkTheme
                   ? Color(0xff32324A)
@@ -715,7 +712,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
             ),
             child: Text('Confirm & Make Payment',
                 style: TextStyle(
-                    color: isConfirmationButtonEnabled(minimumAmount, maximumAmount)
+                    color: isConfirmationButtonEnabled(minimumAmount, maximumAmount, context)
                         ? Color(0xffffffff)
                         : settingsStore.isDarkTheme
                         ? Color(0xff77778B)
