@@ -32,8 +32,7 @@ class GetExchangeAmountProvider with ChangeNotifier {
       _error = "Unexpected error: ${e.toString()}";
     } finally {
       loading = false;
-      if(_disposed) return;
-      notifyListeners();
+      if(!_disposed) notifyListeners();
     }
   }
 
