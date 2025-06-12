@@ -415,9 +415,20 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
         Align(
           alignment: Alignment.center,
           child: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).pop(true);
-              Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
+            onPressed:() {
+              if(isOnline(context)) {
+                Navigator.of(context).pop(true);
+                Navigator.of(context, rootNavigator: true).pushNamed(
+                    Routes.swapExchange);
+              } else {
+                Toast.show(
+                  'Network Error! Please check internet connection.',
+                  duration: Toast.lengthShort,
+                  gravity: Toast.bottom,
+                  textStyle:TextStyle(color: Colors.white),
+                  backgroundColor: Color(0xff8B1C1C),
+                );
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xff0BA70F),

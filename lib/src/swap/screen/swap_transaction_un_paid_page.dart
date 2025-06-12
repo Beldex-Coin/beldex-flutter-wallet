@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
+import '../../../routes.dart';
 import '../api_client/get_status_api_client.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
@@ -414,7 +415,21 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
         Align(
           alignment: Alignment.center,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              if(isOnline(context)) {
+                Navigator.of(context).pop(true);
+                Navigator.of(context, rootNavigator: true).pushNamed(
+                    Routes.swapExchange);
+              } else {
+                Toast.show(
+                  'Network Error! Please check internet connection.',
+                  duration: Toast.lengthShort,
+                  gravity: Toast.bottom,
+                  textStyle:TextStyle(color: Colors.white),
+                  backgroundColor: Color(0xff8B1C1C),
+                );
+              }
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xff0BA70F),
               padding:
