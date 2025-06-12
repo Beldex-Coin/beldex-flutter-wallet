@@ -5,6 +5,7 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
+import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
 import 'package:beldex_wallet/src/widgets/no_internet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -149,10 +150,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
       stream: _getExchangeAmountStreamController.stream,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Color(
-                      0xff0BA70F)))); // Display a loading indicator when waiting for data.
+          return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
         } else if (snapshot.hasError || !snapshot.hasData || !isOnline(context)) {
           return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
         } else {
@@ -354,14 +352,11 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                         suffixIcon: validateAddressProvider.loading &&
                                 _recipientAddressController.text.isNotEmpty
                             ? Container(
-                                width: 10.0,
-                                margin: EdgeInsets.all(6),
+                                width: 15.0,
+                                height: 15.0,
+                                margin: EdgeInsets.all(10),
                                 padding: EdgeInsets.all(0),
-                                child: CircularProgressIndicator(
-            valueColor:
-            AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)
-                                ),
-                              ))
+                                child: circularProgressBar(Color(0xff0BA70F), 2.0))
                             : InkWell(
                                 onTap: () async => _presentQRScanner(
                                     context, validateAddressProvider,to, ),

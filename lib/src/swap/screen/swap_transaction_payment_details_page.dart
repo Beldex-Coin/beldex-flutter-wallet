@@ -16,6 +16,7 @@ import '../../screens/receive/qr_image.dart';
 import '../../stores/sync/sync_store.dart';
 import '../../widgets/no_internet.dart';
 import '../model/get_status_model.dart';
+import '../util/circular_progress_bar.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
 import 'number_stepper.dart';
@@ -196,10 +197,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
       stream: _getStatusStreamController.stream,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child:
-              CircularProgressIndicator(valueColor:
-              AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)))); // Display a loading indicator when waiting for data.
+          return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
         } else if (snapshot.hasError || !snapshot.hasData || !isOnline(context)) {
           return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
         } else {

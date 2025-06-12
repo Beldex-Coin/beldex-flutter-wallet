@@ -6,6 +6,7 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
+import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -118,11 +119,7 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
           this.getTransactionsProvider = getTransactionsProvider;
           _isInitialized = true;
           if (getTransactionsProvider.loading) {
-            return Center(
-                child: CircularProgressIndicator(
-                    valueColor:
-                    AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
-                ));
+            return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0));
           }
 
           if(getTransactionsProvider.error != null || !isOnline(context)) {

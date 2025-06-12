@@ -18,6 +18,7 @@ import '../../../routes.dart';
 import '../../widgets/no_internet.dart';
 import '../api_client/get_status_api_client.dart';
 import '../provider/get_currencies_full_provider.dart';
+import '../util/circular_progress_bar.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
 import 'number_stepper.dart';
@@ -165,10 +166,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
       stream: _getStatusStreamController.stream,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child:
-              CircularProgressIndicator(valueColor:
-              AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)))); // Display a loading indicator when waiting for data.
+          return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
         } else if (snapshot.hasError || !snapshot.hasData || !isOnline(context)) {
           return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
         } else {
@@ -283,10 +281,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                         ? SizedBox(
                         width: 15,
                         height: 15,
-                        child: CircularProgressIndicator(
-                            valueColor:
-                            AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
-                        ))
+                        child: circularProgressBar(Color(0xff0BA70F), 2.0))
                         : SvgPicture.asset(
                       'assets/images/swap/swap_confirmed.svg',
                       colorFilter: ColorFilter.mode(responseData.result!.isNotEmpty &&
@@ -353,11 +348,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                                 );
                               }
                               if (getCurrenciesFullProvider.loading) {
-                                return Center(
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
-                                      strokeWidth: 1.0,
-                                    ));
+                                return Center(child: circularProgressBar(Color(0xff0BA70F), 1.0));
                               } else {
                                 if (getCurrenciesFullProvider.data!.result!.isNotEmpty &&
                                     getCurrenciesFullProvider.loading == false) {
@@ -409,10 +400,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                         ? SizedBox(
                         width: 15,
                         height: 15,
-                        child: CircularProgressIndicator(
-                            valueColor:
-                            AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
-                        ))
+                        child: circularProgressBar(Color(0xff0BA70F), 2.0))
                         : Transform.rotate(
                       angle: 90 * pi / 180,
                       child: SvgPicture.asset(
@@ -500,10 +488,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                         ? SizedBox(
                         width: 15,
                         height: 15,
-                        child: CircularProgressIndicator(
-                            valueColor:
-                            AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))
-                        ))
+                        child: circularProgressBar(Color(0xff0BA70F), 2.0))
                         : SvgPicture.asset(
                       'assets/images/swap/swap_wallet.svg',
                       colorFilter: ColorFilter.mode(responseData.result!.isNotEmpty &&

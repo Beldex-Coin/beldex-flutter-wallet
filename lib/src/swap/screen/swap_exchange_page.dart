@@ -7,6 +7,7 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/provider/get_exchange_amount_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_pairs_params_provider.dart';
 import 'package:beldex_wallet/src/swap/model/get_currencies_full_model.dart';
+import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
 import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -151,10 +152,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       child: Consumer<GetCurrenciesFullProvider>(builder: (context,getCurrenciesFullProvider,child){
         if(getCurrenciesFullProvider.loading){
           return Center(
-          child: Container(
-            child: const CircularProgressIndicator(valueColor:
-              AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
-          )));
+          child: circularProgressBar(Color(0xff0BA70F), 4.0));
         }
 
         if(getCurrenciesFullProvider.error != null || !isOnline(context)) {
@@ -370,12 +368,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 children: [
                   CachedNetworkImage(
                     imageUrl: enableTo.image!,
-                    placeholder: (context, url) => new CircularProgressIndicator(
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xff737373)
-                          : Color(0xffA9A9CD),
-                      strokeWidth: 1.0,
-                    ),
+                    placeholder: (context, url) => circularProgressBar(settingsStore.isDarkTheme
+                        ? Color(0xff737373)
+                        : Color(0xffA9A9CD), 1.0),
                     errorWidget: (context, url, error) => new Icon(Icons.error),
                     color: settingsStore.isDarkTheme
                         ? Color(0xff737373)
@@ -466,12 +461,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 children: [
                   CachedNetworkImage(
                     imageUrl: enableFrom.image!,
-                    placeholder: (context, url) => new CircularProgressIndicator(
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xff737373)
-                          : Color(0xffA9A9CD),
-                      strokeWidth: 1.0,
-                    ),
+                    placeholder: (context, url) => circularProgressBar(settingsStore.isDarkTheme
+                        ? Color(0xff737373)
+                        : Color(0xffA9A9CD), 1.0),
                     errorWidget: (context, url, error) => new Icon(Icons.error),
                     color: settingsStore.isDarkTheme
                         ? Color(0xff737373)

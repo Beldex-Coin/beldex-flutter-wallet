@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../../../routes.dart';
 import '../../widgets/no_internet.dart';
 import '../api_client/create_transaction_api_client.dart';
+import '../util/circular_progress_bar.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
 import 'number_stepper.dart';
@@ -133,9 +134,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(
-              child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Color(
-                      0xff0BA70F)))); // Display a loading indicator when waiting for data.
+              child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
         } else if (snapshot.hasError || !snapshot.hasData || !isOnline(context)) {
           return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
         } else {
@@ -729,8 +728,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     final AlertDialog alert = AlertDialog(
       content: new Row(
         children: [
-          CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F))),
+          circularProgressBar(Color(0xff0BA70F), 4.0),
           Container(
               margin: EdgeInsets.only(left: 7), child: Text("Loading...")),
         ],

@@ -9,6 +9,7 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/swap_transaction_expansion_status_change_notifier.dart';
+import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
 import 'package:beldex_wallet/src/widgets/no_internet.dart';
 import 'package:beldex_wallet/src/util/generate_name.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -115,11 +116,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
       onWillPop: () async => false,
       child: Consumer<GetTransactionsProvider>(builder: (context,getTransactionsProvider,child){
         if(getTransactionsProvider.loading){
-          return Center(
-              child: Container(
-                  child: const CircularProgressIndicator(valueColor:
-                  AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
-                  )));
+          return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0));
         }
 
         if(getTransactionsProvider.error != null) {
