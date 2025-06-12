@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:beldex_wallet/l10n.dart';
@@ -12,9 +11,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 import '../../../palette.dart';
 import '../../../routes.dart';
+import '../../widgets/no_internet.dart';
 import '../api_client/get_status_api_client.dart';
 import '../provider/get_currencies_full_provider.dart';
 import '../util/data_class.dart';
@@ -86,6 +87,8 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
   late FlutterSecureStorage secureStorage;
   late List<String> stored = [];
   static const methodChannelPlatform = MethodChannel("io.beldex.wallet/beldex_wallet_channel");
+  late GetCurrenciesFullProvider getCurrenciesFullProvider;
+  bool _isInitialized = false;
 
   @override
   void initState() {
@@ -101,7 +104,9 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
     _getStatusStreamController = StreamController<GetStatusModel>();
     Future.delayed(Duration(seconds: 2), () {
       callGetStatusApi(transactionDetails, getStatusApiClient);
+      if (!mounted) return;
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
+        if (!mounted && !isOnline(context)) return;
         callGetStatusApi(transactionDetails, getStatusApiClient);
       });
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -155,6 +160,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
     final _screenHeight = MediaQuery.of(context).size.height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
+    ToastContext().init(context);
     return StreamBuilder<GetStatusModel>(
       stream: _getStatusStreamController.stream,
       builder: (context, snapshot) {
@@ -163,14 +169,8 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
               child:
               CircularProgressIndicator(valueColor:
               AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)))); // Display a loading indicator when waiting for data.
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          ); // Display an error message if an error occurs.
-        } else if (!snapshot.hasData) {
-          return Center(
-            child: Text('No data available'),
-          ); // Display a message when no data is available.
+        } else if (snapshot.hasError || !snapshot.hasData || !isOnline(context)) {
+          return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
         } else {
           return body(
               _screenWidth,
@@ -341,6 +341,17 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                         SizedBox(height: 5),
                         Consumer<GetCurrenciesFullProvider>(
                             builder: (context, getCurrenciesFullProvider, child) {
+                              this.getCurrenciesFullProvider = getCurrenciesFullProvider;
+                              _isInitialized = true;
+                              if(getCurrenciesFullProvider.error != null) {
+                                Toast.show(
+                                  'Network Error! Please check internet connection.',
+                                  duration: Toast.lengthShort,
+                                  gravity: Toast.bottom,
+                                  textStyle:TextStyle(color: Colors.white),
+                                  backgroundColor: Color(0xff8B1C1C),
+                                );
+                              }
                               if (getCurrenciesFullProvider.loading) {
                                 return Center(
                                     child: CircularProgressIndicator(
@@ -600,11 +611,11 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                             : Color(0xff737373)),
                     children: [
                       WidgetSpan(child: InkWell(
-                        onTap: () {
+                        onTap: isOnline(context) ? () {
                           final FlutterSecureStorage secureStorage = FlutterSecureStorage();
                           Navigator.of(context).pop(true);
                           Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
-                        },
+                        } : null,
                         child: Text(
                             'history',
                             style: TextStyle(
@@ -899,6 +910,9 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
   void dispose() {
     timer.cancel();
     _getStatusStreamController.close();
+    if(_isInitialized) {
+      getCurrenciesFullProvider.dispose();
+    }
     super.dispose();
   }
 }
