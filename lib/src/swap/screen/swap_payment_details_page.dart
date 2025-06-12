@@ -11,12 +11,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
-import '../../node/sync_status.dart';
 import '../../screens/receive/qr_image.dart';
 import '../../stores/sync/sync_store.dart';
+import '../../widgets/no_internet.dart';
 import '../model/get_status_model.dart';
 import '../provider/get_transactions_provider.dart';
 import '../util/data_class.dart';
+import '../util/utils.dart';
 import 'number_stepper.dart';
 
 class SwapPaymentDetailsPage extends BasePage {
@@ -88,6 +89,8 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   bool timeIsExpire = false;
   String status = "overdue";
   //var createdTxnDetails = {'type': 'float', 'payTill': DateTime.now().toString()};
+  late GetTransactionsProvider getTransactionsProvider;
+  bool _isInitialized = false;
 
   void startAndStopPendingTransactionTimer(int? createdAt) {
     pendingTransactionTimer?.cancel();
@@ -135,13 +138,13 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     _getStatusStreamController = StreamController<GetStatusModel>();
     Future.delayed(Duration(seconds: 2), () {
       callGetStatusApi(createdTransactionDetails.result, getStatusApiClient);
+      if (!mounted) return;
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
+        if (!mounted && !isOnline(context)) return;
         callGetStatusApi(createdTransactionDetails.result, getStatusApiClient);
       }); // Start adding getStatus api result to the stream.
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Provider.of<GetTransactionsProvider>(context, listen: false)
-            .getTransactionsData(
-            context, {"id": "${createdTransactionDetails.result?.id}"});
+        Provider.of<GetTransactionsProvider>(context, listen: false).getTransactionsData(context, {"id": "${createdTransactionDetails.result?.id}"});
       });
     });
     super.initState();
@@ -203,14 +206,8 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
               child:
               CircularProgressIndicator(valueColor:
               AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)))); // Display a loading indicator when waiting for data.
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          ); // Display an error message if an error occurs.
-        } else if (!snapshot.hasData) {
-          return Center(
-            child: Text('No data available'),
-          ); // Display a message when no data is available.
+        } else if (snapshot.hasError || !snapshot.hasData || !isOnline(context)) {
+          return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
         } else {
           return body(
               _screenWidth,
@@ -335,7 +332,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                   flex: 1,
                   child: InkWell(
                     onTap: () {
-                      syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
+                      syncStatus(syncStore.status) && isOnline(context)
                           ? () {
                         Navigator.of(context).pop(true);
                         Navigator.of(context, rootNavigator: true).pushNamed(Routes.send,arguments: {'flash': false, 'address': createdTransactionDetails?.payinAddress, 'amount': createdTransactionDetails?.amountExpectedFrom});
@@ -680,6 +677,17 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
         ),
         Consumer<GetTransactionsProvider>(
             builder: (context, getTransactionsProvider, child) {
+              this.getTransactionsProvider = getTransactionsProvider;
+              _isInitialized = true;
+              if(getTransactionsProvider.error != null) {
+                Toast.show(
+                  'Network Error! Please check internet connection.',
+                  duration: Toast.lengthShort,
+                  gravity: Toast.bottom,
+                  textStyle:TextStyle(color: Colors.white),
+                  backgroundColor: Color(0xff8B1C1C),
+                );
+              }
               if (getTransactionsProvider.loading) {
                 return Center(
                     child: CircularProgressIndicator(
@@ -995,6 +1003,9 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     timer.cancel();
     clearIntervals();
     _getStatusStreamController.close();
+    if(_isInitialized) {
+      getTransactionsProvider.dispose();
+    }
     super.dispose();
   }
 }
