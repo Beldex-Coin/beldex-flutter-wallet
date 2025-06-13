@@ -432,5 +432,6 @@
   "buyBns": "Acheter des BNS",
   "bns": "BNS",
   "bnsUpdate": "Mise à jour du BNS",
-  "bnsRenewal": "Renouvellement du BNS"
+  "bnsRenewal": "Renouvellement du BNS",
+  "swap": "Échanger"
 }

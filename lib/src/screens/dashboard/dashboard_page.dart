@@ -132,15 +132,13 @@ class DashboardPage extends BasePage {
                       ),
                       onPressed: () =>
                           Navigator.of(context).pushNamed(Routes.addressBook),
-                      label: Flexible(
-                        child: Text(tr(context).address_book,
-                            style: TextStyle(
-                                backgroundColor: Colors.transparent,
-                                fontWeight: FontWeight.bold,
-                                color: settingsStore.isDarkTheme
-                                    ? Colors.white
-                                    : Colors.black)),
-                      ),
+                      label: Text(tr(context).address_book,
+                          style: TextStyle(
+                              backgroundColor: Colors.transparent,
+                              fontWeight: FontWeight.bold,
+                              color: settingsStore.isDarkTheme
+                                  ? Colors.white
+                                  : Colors.black)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: settingsStore.isDarkTheme
                             ? Color(0xff333343)
@@ -164,13 +162,11 @@ class DashboardPage extends BasePage {
                           'assets/images/new-images/transactions.svg'),
                       onPressed: () =>
                           Navigator.of(context).pushNamed(Routes.transactionlist),
-                      label: Flexible(
-                        child: Text(tr(context).transactions,
-                            style: TextStyle(
-                              backgroundColor: Colors.transparent,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,)),
-                      ),
+                      label: Text(tr(context).transactions,
+                          style: TextStyle(
+                            backgroundColor: Colors.transparent,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,)),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xff0BA70F),
                         shape: RoundedRectangleBorder(
@@ -508,18 +504,16 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                               .pushNamed(Routes.send,arguments: {'flash': false, 'address': "", 'amount': ""});
                                         }
                                             : null,
-                                        label: Flexible(
-                                          child: Text(
-                                            tr(context).send,
-                                            style: TextStyle(
-                                              backgroundColor: Colors.transparent,
-                                              color: syncStatus(syncStore.status)
-                                                  ? Colors.white
-                                                  : settingsStore.isDarkTheme
-                                                  ? Color(0xff6C6C78)
-                                                  : Color(0xffB2B2B6),
-                                              fontWeight: FontWeight.bold,),
-                                          ),
+                                        label: Text(
+                                          tr(context).send,
+                                          style: TextStyle(
+                                            backgroundColor: Colors.transparent,
+                                            color: syncStatus(syncStore.status)
+                                                ? Colors.white
+                                                : settingsStore.isDarkTheme
+                                                ? Color(0xff6C6C78)
+                                                : Color(0xffB2B2B6),
+                                            fontWeight: FontWeight.bold,),
                                         ),
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: syncStatus(syncStore.status)
@@ -549,14 +543,12 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       onPressed: () =>
                                           Navigator.of(context, rootNavigator: true)
                                               .pushNamed(Routes.receive),
-                                      label: Flexible(
-                                        child: Text(
-                                          tr(context).receive,
-                                          style: TextStyle(
-                                            backgroundColor: Colors.transparent,
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,),
-                                        ),
+                                      label: Text(
+                                        tr(context).receive,
+                                        style: TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,),
                                       ),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Color(0xff2979FB),
@@ -583,17 +575,15 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       onPressed: isOnline(context) ? () {
                                           Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
                                       } : null,
-                                      label: Flexible(
-                                        child: Text(
-                                          'Swap',
-                                          style: TextStyle(
-                                            color: isOnline(context)
-                                                ? Color(0xff0BA70F)
-                                                : settingsStore.isDarkTheme
-                                                ? Color(0xff6C6C78)
-                                                : Color(0xffB2B2B6),
-                                            fontWeight: FontWeight.bold,),
-                                        ),
+                                      label: Text(
+                                        tr(context).swap,
+                                        style: TextStyle(
+                                          color: isOnline(context)
+                                              ? Color(0xff0BA70F)
+                                              : settingsStore.isDarkTheme
+                                              ? Color(0xff6C6C78)
+                                              : Color(0xffB2B2B6),
+                                          fontWeight: FontWeight.bold,),
                                       ),
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor:  isOnline(context)
@@ -640,20 +630,18 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                   .pushNamed(Routes.bns);
                             }
                                 : null,
-                            label: Flexible(
-                              child: Text(
-                                tr(context).buyBns,
-                                style: TextStyle(
-                                  backgroundColor: Colors.transparent,
-                                  color: syncStatus(syncStore.status)
-                                      ? settingsStore.isDarkTheme
-                                      ? Colors.white
-                                      : Colors.black
-                                      : settingsStore.isDarkTheme
-                                      ? Color(0xff6C6C78)
-                                      : Color(0xffB2B2B6),
-                                  fontWeight: FontWeight.bold,),
-                              ),
+                            label: Text(
+                              tr(context).buyBns,
+                              style: TextStyle(
+                                backgroundColor: Colors.transparent,
+                                color: syncStatus(syncStore.status)
+                                    ? settingsStore.isDarkTheme
+                                    ? Colors.white
+                                    : Colors.black
+                                    : settingsStore.isDarkTheme
+                                    ? Color(0xff6C6C78)
+                                    : Color(0xffB2B2B6),
+                                fontWeight: FontWeight.bold,),
                             ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: syncStatus(syncStore.status)

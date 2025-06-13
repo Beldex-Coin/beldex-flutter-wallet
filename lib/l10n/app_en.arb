@@ -432,5 +432,6 @@
   "buyBns": "Buy BNS",
   "bns": "BNS",
   "bnsUpdate": "BNS Update",
-  "bnsRenewal": "BNS Renewal"
+  "bnsRenewal": "BNS Renewal",
+  "swap": "Swap"
 }
