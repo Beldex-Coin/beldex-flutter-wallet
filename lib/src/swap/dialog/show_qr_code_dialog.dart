@@ -8,7 +8,7 @@ Future showQRCodeDialog(BuildContext context, SettingsStore settingsStore, Strin
   final AlertDialog alert = AlertDialog(
     backgroundColor: settingsStore.isDarkTheme
         ? Color(0xff272733)
-        : Color(0xffEDEDED),
+        : Color(0xffffffff),
     content: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -26,7 +26,7 @@ Future showQRCodeDialog(BuildContext context, SettingsStore settingsStore, Strin
             borderRadius: BorderRadius.circular(10),
             color: settingsStore.isDarkTheme
                 ? Color(0xff1B1B23)
-                : Color(0xffEDEDED),
+                : Color(0xfff3f3f3),
           ),
           margin: EdgeInsets.only(top: 10, bottom: 10),
           padding: EdgeInsets.all(20),
