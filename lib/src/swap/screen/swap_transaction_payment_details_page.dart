@@ -341,54 +341,57 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     ],
                   ),
                 ),
-                Flexible(
-                  flex: 1,
-                  child: Observer(
-                    builder: (context) {
-                      return InkWell(
-                        onTap: () {
-                          syncStatus(syncStore.status) && isOnline(context)
-                              ? () {
-                            Navigator.of(context, rootNavigator: true).pushNamed(Routes.send,arguments: {'flash': false, 'address': createdTransactionDetails?.payinAddress, 'amount': createdTransactionDetails?.amountExpectedFrom});
-                          } : null ;
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(
-                              top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Color(0xff20D030),
-                              ),
-                              borderRadius: BorderRadius.all(Radius.circular(8))),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              settingsStore.isDarkTheme
-                                  ? SvgPicture.asset(
-                                'assets/images/swap/swap_wallet_dark.svg',
-                                width: 25,
-                                height: 25,
-                              )
-                                  : SvgPicture.asset(
-                                'assets/images/swap/swap_wallet_light.svg',
-                                width: 25,
-                                height: 25,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text('Wallet',
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.normal,
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xffFFFFFF)
-                                          : Color(0xff222222)))
-                            ],
+                Visibility(
+                  visible: createdTransactionDetails?.currencyFrom == "bdx",
+                  child: Flexible(
+                    flex: 1,
+                    child: Observer(
+                      builder: (context) {
+                        return InkWell(
+                          onTap: () {
+                            syncStatus(syncStore.status) && isOnline(context)
+                                ? () {
+                              Navigator.of(context, rootNavigator: true).pushNamed(Routes.send,arguments: {'flash': false, 'address': createdTransactionDetails?.payinAddress, 'amount': createdTransactionDetails?.amountExpectedFrom});
+                            } : null ;
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Color(0xff20D030),
+                                ),
+                                borderRadius: BorderRadius.all(Radius.circular(8))),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                settingsStore.isDarkTheme
+                                    ? SvgPicture.asset(
+                                  'assets/images/swap/swap_wallet_dark.svg',
+                                  width: 25,
+                                  height: 25,
+                                )
+                                    : SvgPicture.asset(
+                                  'assets/images/swap/swap_wallet_light.svg',
+                                  width: 25,
+                                  height: 25,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text('Wallet',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222)))
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    }
+                        );
+                      }
+                    ),
                   ),
                 ),
               ],
