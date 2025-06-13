@@ -12,9 +12,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
-import '../../screens/receive/qr_image.dart';
 import '../../stores/sync/sync_store.dart';
 import '../../widgets/no_internet.dart';
+import '../dialog/show_qr_code_dialog.dart';
 import '../model/get_status_model.dart';
 import '../provider/get_transactions_provider.dart';
 import '../util/circular_progress_bar.dart';
@@ -155,7 +155,9 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   void callGetStatusApi(Result? result, GetStatusApiClient getStatusApiClient){
     getStatusApiClient.getStatusData(context, {"id":"${result?.id}"}).then((value){
       if(value!.result!.isNotEmpty){
-        _getStatusStreamController.sink.add(value);
+        if (!_getStatusStreamController.isClosed) {
+          _getStatusStreamController.sink.add(value);
+        }
         status = value.result!;
         switch(value.result){
           case "waiting" :{
@@ -166,14 +168,24 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
           case "exchanging" :
           case "sending" :{
             //Exchanging Screen
-            Navigator.of(context).pop(true);
-            Navigator.of(context).pushNamed(Routes.swapExchanging,arguments: createdTransactionDetails);
+            if(getStatusApiClient.isVisibleQRCodeDialog) {
+              Navigator.of(context).pop(true);
+            }
+            Future.delayed(Duration(seconds: 2), () {
+              Navigator.of(context).pop(true);
+              Navigator.of(context).pushNamed(Routes.swapExchanging,arguments: createdTransactionDetails);
+            });
             break;
           }
           case "finished" : {
             //Completed Screen
-            Navigator.of(context).pop(true);
-            Navigator.of(context).pushNamed(Routes.swapCompleted,arguments: TransactionStatus(createdTransactionDetails, value.result));
+            if(getStatusApiClient.isVisibleQRCodeDialog) {
+              Navigator.of(context).pop(true);
+            }
+            Future.delayed(Duration(seconds: 2), () {
+              Navigator.of(context).pop(true);
+              Navigator.of(context).pushNamed(Routes.swapCompleted,arguments: TransactionStatus(createdTransactionDetails, value.result));
+            });
             break;
           }
           case "refunded" : {
@@ -183,8 +195,16 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
           case "overdue" :
           case "expired" : {
             //Failed, Overdue and Expired Screen
-            Navigator.of(context).pop(true);
-            callUnPaidScreen(createdTransactionDetails, value.result);
+            if(getStatusApiClient.isVisibleQRCodeDialog) {
+              Navigator.of(context).pop(true);
+            }
+            Future.delayed(Duration(seconds: 2), () {
+              Navigator.of(context).pop(true);
+              callUnPaidScreen(createdTransactionDetails, value.result);
+            });
+            break;
+          }
+          default: {
             break;
           }
         }
@@ -574,7 +594,11 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                         )),
                     InkWell(
                         onTap: () {
-                            showQRCodeDialog(context, settingsStore,createdTransactionDetails?.payinAddress);
+                          getStatusApiClient.setQRCodeDialogVisibility(true);
+                          showQRCodeDialog(context, settingsStore,createdTransactionDetails?.payinAddress, onDismiss: (buildContext){
+                            getStatusApiClient.setQRCodeDialogVisibility(false);
+                            Navigator.of(buildContext).pop(true);
+                          });
                         },
                         child: Container(
                           width: 30.0,
@@ -960,40 +984,6 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
           height: 20,
         )
       ],
-    );
-  }
-
-  Future showQRCodeDialog(BuildContext context, SettingsStore settingsStore, String? payInAddress) {
-    final AlertDialog alert = AlertDialog(
-      content: Container(
-        height:
-        MediaQuery.of(context).size.height * 0.60 / 2,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: settingsStore.isDarkTheme
-              ? Color(0xff1F1F28)
-              : Color(0xffEDEDED),
-        ),
-        padding: EdgeInsets.all(10),
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10)),
-          padding: EdgeInsets.all(10),
-          child: QrImage(
-            data: payInAddress.toString(),
-            backgroundColor: Colors.white,
-          ),
-        ),
-      ),
-    );
-    return showDialog(
-      barrierDismissible: true,
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
     );
   }
 
