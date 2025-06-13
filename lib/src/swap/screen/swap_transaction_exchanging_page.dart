@@ -120,7 +120,9 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
   void callGetStatusApi(GetTransactionResult? result, GetStatusApiClient getStatusApiClient) {
     getStatusApiClient.getStatusData(context, {"id": "${result?.id}"}).then((value) {
       if (value!.result!.isNotEmpty) {
-        _getStatusStreamController.sink.add(value);
+        if (!_getStatusStreamController.isClosed) {
+          _getStatusStreamController.sink.add(value);
+        }
         switch (value.result) {
           case "finished" :
             {
@@ -150,6 +152,9 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
               });
               break;
             }
+          default: {
+            break;
+          }
         }
       }
     });
