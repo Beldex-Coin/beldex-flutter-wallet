@@ -738,7 +738,10 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
       barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return alert;
+        return PopScope(
+            canPop: false,
+            child: alert
+        );
       },
     );
   }
