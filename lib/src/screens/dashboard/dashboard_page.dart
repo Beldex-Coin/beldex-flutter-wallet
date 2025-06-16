@@ -507,6 +507,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                         label: Text(
                                           tr(context).send,
                                           style: TextStyle(
+                                            fontSize: 13,
                                             backgroundColor: Colors.transparent,
                                             color: syncStatus(syncStore.status)
                                                 ? Colors.white
@@ -546,6 +547,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       label: Text(
                                         tr(context).receive,
                                         style: TextStyle(
+                                          fontSize: 13,
                                           backgroundColor: Colors.transparent,
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,),
@@ -578,6 +580,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       label: Text(
                                         tr(context).swap,
                                         style: TextStyle(
+                                          fontSize: 13,
                                           color: isOnline(context)
                                               ? Color(0xff0BA70F)
                                               : settingsStore.isDarkTheme
