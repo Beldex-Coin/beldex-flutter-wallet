@@ -197,4 +197,29 @@ abstract class BasePage extends StatelessWidget {
         bottomNavigationBar: bottomNavigationBar(context),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
+
+  Widget? leadingIcon(BuildContext context) {
+    if (ModalRoute.of(context)?.isFirst ?? false) {
+      return null;
+    }
+    final settingsStore = Provider.of<SettingsStore>(context);
+    final _backButton = SvgPicture.asset(
+      'assets/images/new-images/back_arrow.svg',
+      colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
+      fit: BoxFit.fill,
+      height: 15,
+      width: 15,
+    );
+    return Container(
+      color: Colors.transparent,
+      padding: EdgeInsets.only(top: 4),
+      alignment: Alignment.centerLeft,
+      child: ButtonTheme(
+        buttonColor: Colors.transparent,
+        minWidth: double.minPositive,
+        child: TextButton(
+            onPressed: () => onClose(context), child: _backButton),
+      ),
+    );
+  }
 }

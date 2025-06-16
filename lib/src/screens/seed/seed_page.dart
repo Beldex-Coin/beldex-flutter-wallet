@@ -29,7 +29,7 @@ class SeedPage extends BasePage {
 
   @override
   Widget? leading(BuildContext context) {
-    return !showSeed ? Offstage() : super.leading(context);
+    return !showSeed ? Offstage() : leadingIcon(context);
   }
 
   @override

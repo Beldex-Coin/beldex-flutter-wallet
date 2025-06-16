@@ -133,29 +133,22 @@ class AuthPageState extends State<AuthPage> {
           centerTitle: true,
           leading: widget.closable
               ? Container(
-                  width: 60,
-                  padding: EdgeInsets.only(left: 15, top: 20, bottom: 5),
-                  alignment: Alignment.centerLeft,
-                  child: SizedBox(
-                    height: 30,
-                    width: 40,
-                    child: ButtonTheme(
-                      buttonColor: Colors.transparent,
-                      minWidth: double.minPositive,
-                      child: TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: SvgPicture.asset(
-                            'assets/images/new-images/back_arrow.svg',
-                            color: settingsStore.isDarkTheme
-                                ? Colors.white
-                                : Colors.black,
-                            height: 80,
-                            width: 50,
-                            fit: BoxFit.fill,
-                          )),
-                    ),
-                  ),
-                )
+            color: Colors.transparent,
+            padding: EdgeInsets.only(top: 15),
+            alignment: Alignment.centerLeft,
+            child: ButtonTheme(
+              buttonColor: Colors.transparent,
+              minWidth: double.minPositive,
+              child: TextButton(
+                  onPressed: () => Navigator.pop(context), child: SvgPicture.asset(
+                'assets/images/new-images/back_arrow.svg',
+                colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
+                fit: BoxFit.fill,
+                height: 15,
+                width: 15,
+              )),
+            ),
+          )
               : SizedBox(
                   width: 0,
                 ),

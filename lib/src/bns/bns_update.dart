@@ -43,6 +43,11 @@ class BnsUpdatePage extends BasePage {
   }
 
   @override
+  Widget? leading(BuildContext context) {
+    return leadingIcon(context);
+  }
+
+  @override
   Color get textColor => Colors.white;
 
   @override

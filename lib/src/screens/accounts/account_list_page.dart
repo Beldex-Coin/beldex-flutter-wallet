@@ -32,6 +32,11 @@ class AccountListPage extends BasePage {
     );
   }
 
+  @override
+  Widget? leading(BuildContext context) {
+    return leadingIcon(context);
+  }
+
 
   @override
   Widget body(BuildContext context) {

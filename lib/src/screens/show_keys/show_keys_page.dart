@@ -23,6 +23,11 @@ class ShowKeysPage extends BasePage {
     return Container();
   }
 
+  @override
+  Widget? leading(BuildContext context) {
+    return leadingIcon(context);
+  }
+
 // void setPageSecure()async{
 //    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
 // }
