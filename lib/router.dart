@@ -19,7 +19,6 @@ import 'package:beldex_wallet/src/swap/screen/swap_transaction_payment_details_p
 import 'package:beldex_wallet/src/swap/screen/swap_transaction_un_paid_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_un_paid_page.dart';
 import 'package:beldex_wallet/src/swap/screen/swap_wallet_address_page.dart';
-import 'package:beldex_wallet/src/swap/signature_page.dart';
 import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
 import 'package:beldex_wallet/src/bns/bns_page.dart';
 import 'package:beldex_wallet/src/bns/bns_renewal.dart';
@@ -684,10 +683,6 @@ class Router {
             ],
             child: SwapExchangingPage(transactionDetails : settings.arguments as CreateTransactionModel),
           );
-        });
-      case Routes.signature:
-        return MaterialPageRoute<void>(builder: (context) {
-          return SignaturePage();
         });
       case Routes.swapTransactionList:
         return MaterialPageRoute<void>(builder: (context) {
