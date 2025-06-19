@@ -399,7 +399,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                           validateAddressProvider.validateAddressData(context, {
                             "currency": "${to}",
                             "address": value,
-                            "extraId": _exchangeData.extraIdName!
+                            "extraId": _exchangeData.extraIdName ?? ""
                           });
                         });
                       } else {
@@ -515,7 +515,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               children: [
                 //Extra Id Name Info
                 Visibility(
-                  visible: _exchangeData.extraIdName!.isNotEmpty,
+                  visible: _exchangeData.extraIdName != null && _exchangeData.extraIdName!.isNotEmpty,
                   child: Container(
                       margin: EdgeInsets.only(bottom: 20),
                       padding: EdgeInsets.all(10),
