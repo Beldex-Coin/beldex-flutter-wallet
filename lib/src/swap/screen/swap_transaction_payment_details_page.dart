@@ -351,14 +351,14 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                   child: Flexible(
                     flex: 1,
                     child: Observer(
-                      builder: (context) {
+                      builder: (_) {
                         return InkWell(
-                          onTap: () {
-                            syncStatus(syncStore.status) && isOnline(context)
-                                ? () {
-                              Navigator.of(context, rootNavigator: true).pushNamed(Routes.send,arguments: {'flash': false, 'address': createdTransactionDetails?.payinAddress, 'amount': createdTransactionDetails?.amountExpectedFrom});
-                            } : null ;
-                          },
+                          onTap: syncStatus(syncStore.status) && isOnline(context)
+                                ? () async {
+                            Navigator.of(context).pop();
+                            await Navigator.pushNamed(context, Routes.send,
+                                arguments: {'flash': true, 'address': createdTransactionDetails?.payinAddress, 'amount': createdTransactionDetails?.amountExpectedFrom});
+                            } : null ,
                           child: Container(
                             padding: EdgeInsets.only(
                                 top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
