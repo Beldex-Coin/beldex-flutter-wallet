@@ -793,56 +793,59 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               children: [
                 Visibility(
                   visible: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider) || validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider),
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        color: Color(0xff00AD07).withAlpha(25),
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: InkWell(
-                      onTap: isOnline(context) ? () {
-                        if(validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)){
-                          _sendAmountController.text = minimumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString();
-                          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                            getPairsParamsProvider.setSendAmountValue(minimumAmount(getPairsParamsProvider, getExchangeAmountProvider));
-                            //Get Exchange Amount API Call
-                            validateMinimumAndMaximumAmount(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
-                          });
-                        }else if(validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)){
-                          _sendAmountController.text = maximumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString();
-                          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                            getPairsParamsProvider.setSendAmountValue(maximumAmount(getPairsParamsProvider, getExchangeAmountProvider));
-                            //Get Exchange Amount API Call
-                            validateMinimumAndMaximumAmount(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
-                          });
-                        }
-                      } : null,
-                      child: RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                            text: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'Minimum amount is ':validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'Maximum amount is ':'',
-                            style: TextStyle(
-                                backgroundColor: Colors.transparent,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222),
-                                fontSize: 13,
-                                fontWeight: FontWeight.normal),
-                            children: [
-                              TextSpan(
-                                  text: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'${minimumAmount(getPairsParamsProvider, getExchangeAmountProvider)} ${getCurrenciesFullProvider.getSelectedYouSendCoins().id}':validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'${maximumAmount(getPairsParamsProvider, getExchangeAmountProvider)} ${getCurrenciesFullProvider.getSelectedYouSendCoins().id}':'',
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      decoration: TextDecoration.underline,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xffFFFFFF)
-                                          : Color(0xff222222)))
-                            ]),
+                  child: Flexible(
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Color(0xff00AD07).withAlpha(25),
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
+                      child: InkWell(
+                        onTap: isOnline(context) ? () {
+                          if(validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)){
+                            _sendAmountController.text = minimumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString();
+                            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                              getPairsParamsProvider.setSendAmountValue(minimumAmount(getPairsParamsProvider, getExchangeAmountProvider));
+                              //Get Exchange Amount API Call
+                              validateMinimumAndMaximumAmount(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
+                            });
+                          }else if(validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)){
+                            _sendAmountController.text = maximumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString();
+                            WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                              getPairsParamsProvider.setSendAmountValue(maximumAmount(getPairsParamsProvider, getExchangeAmountProvider));
+                              //Get Exchange Amount API Call
+                              validateMinimumAndMaximumAmount(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
+                            });
+                          }
+                        } : null,
+                        child: RichText(
+                          textAlign: TextAlign.start,
+                          text: TextSpan(
+                              text: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'Minimum amount is ':validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'Maximum amount is ':'',
+                              style: TextStyle(
+                                  backgroundColor: Colors.transparent,
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xffFFFFFF)
+                                      : Color(0xff222222),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.normal),
+                              children: [
+                                TextSpan(
+                                    text: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider) ?'${toStringAsFixed(minimumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString())} ${getCurrenciesFullProvider.getSelectedYouSendCoins().id}':validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'${toStringAsFixed(maximumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString())} ${getCurrenciesFullProvider.getSelectedYouSendCoins().id}':'',
+                                    style: TextStyle(
+                                        backgroundColor: Colors.transparent,
+                                        decoration: TextDecoration.underline,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff222222)))
+                              ]),
+                        ),
                       ),
                     ),
                   ),
                 ),
+                SizedBox(width: 5,),
                 Visibility(
                   visible: getPairsParamsProvider.getSendCoinAvailableOnGetCoinStatus() && getPairsParamsProvider.getGetCoinAvailableOnSendCoinStatus(),
                   child: InkWell(
@@ -1321,13 +1324,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                             youGetCoinsFilter == ''
                                         ? youGetCoinsDropDownListItem(
                                             settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
-                                        : '${enableTo[index].fullName}'
-                                                .toLowerCase()
-                                                .contains(youGetCoinsFilter!
-                                                    .toLowerCase()) || '${enableTo[index].name}'
-                                        .toLowerCase()
-                                        .contains(youGetCoinsFilter!
-                                        .toLowerCase())
+                                        : '${enableTo[index].fullName}'.toLowerCase().contains(youGetCoinsFilter!.toLowerCase()) || '${enableTo[index].name}'.toLowerCase().contains(youGetCoinsFilter!.toLowerCase())
                                             ? youGetCoinsDropDownListItem(
                                                 settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
                                             : Container();
