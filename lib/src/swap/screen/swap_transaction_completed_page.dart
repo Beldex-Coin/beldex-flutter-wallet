@@ -428,7 +428,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             height: 5,
                           ),
                           Text(
-                            '1 ${transactionModel.currencyFrom?.toUpperCase()} ~ ${transactionModel.rate} ${transactionModel.currencyTo?.toUpperCase()}',
+                            '1 ${transactionModel.currencyFrom?.toUpperCase()} ~ ${toStringAsFixed(transactionModel.rate)} ${transactionModel.currencyTo?.toUpperCase()}',
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -457,7 +457,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             height: 5,
                           ),
                           Text(
-                            '${transactionModel.networkFee} ${transactionModel.currencyTo?.toUpperCase()}',
+                            '${toStringAsFixed(transactionModel.networkFee)} ${transactionModel.currencyTo?.toUpperCase()}',
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,

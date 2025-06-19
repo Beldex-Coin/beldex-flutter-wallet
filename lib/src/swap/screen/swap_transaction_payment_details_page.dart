@@ -337,7 +337,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                                 : Color(0xff222222)),
                       ),
                       Text(
-                        '${createdTransactionDetails?.amountExpectedFrom} ${createdTransactionDetails?.currencyFrom?.toUpperCase()}',
+                        '${toStringAsFixed(createdTransactionDetails?.amountExpectedFrom)} ${createdTransactionDetails?.currencyFrom?.toUpperCase()}',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -489,7 +489,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Time left to send ${createdTransactionDetails?.amountExpectedFrom} ${createdTransactionDetails?.currencyFrom?.toUpperCase()}',
+                  'Time left to send ${toStringAsFixed(createdTransactionDetails?.amountExpectedFrom)} ${createdTransactionDetails?.currencyFrom?.toUpperCase()}',
                   style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
@@ -752,7 +752,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     padding:
                     const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                     child: Text(
-                      '${createdTransactionDetails!.amountExpectedFrom} ${createdTransactionDetails.currencyFrom?.toUpperCase()}',
+                      '${toStringAsFixed(createdTransactionDetails!.amountExpectedFrom)} ${createdTransactionDetails.currencyFrom?.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -779,7 +779,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     padding:
                     const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                     child: Text(
-                      '1 ${createdTransactionDetails!.currencyFrom?.toUpperCase()} ~ ${createdTransactionDetails.rate} ${createdTransactionDetails.currencyTo?.toUpperCase()}',
+                      '1 ${createdTransactionDetails!.currencyFrom?.toUpperCase()} ~ ${toStringAsFixed(createdTransactionDetails.rate)} ${createdTransactionDetails.currencyTo?.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -806,7 +806,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     padding:
                     const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                     child: Text(
-                      '${createdTransactionDetails.networkFee} ${createdTransactionDetails.currencyTo?.toUpperCase()}',
+                      '${toStringAsFixed(createdTransactionDetails.networkFee)} ${createdTransactionDetails.currencyTo?.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -832,7 +832,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      '${createdTransactionDetails.networkFee} ${createdTransactionDetails.currencyTo?.toUpperCase()}',
+                      '${toStringAsFixed(createdTransactionDetails.networkFee)} ${createdTransactionDetails.currencyTo?.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -943,7 +943,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      '~ ${createdTransactionDetails.amountExpectedTo} ${createdTransactionDetails.currencyTo?.toUpperCase()}',
+                      '~ ${toStringAsFixed(createdTransactionDetails.amountExpectedTo)} ${createdTransactionDetails.currencyTo?.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,

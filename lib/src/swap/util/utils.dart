@@ -12,9 +12,16 @@ import '../../util/network_service.dart';
 const swapTransactionsListKey = "swap_transaction_list";
 
 String toStringAsFixed(String? amount) {
-  final double d = double.parse(amount!);
-  final String inString = d>=1.00 ? d.toStringAsFixed(4): d.toStringAsFixed(8);
-  return inString;
+  if (amount == null || amount.trim().isEmpty) {
+    return "0.0";
+  }
+
+  try {
+    final double d = double.parse(amount);
+    return d >= 1.00 ? d.toStringAsFixed(4) : d.toStringAsFixed(8);
+  } catch (e) {
+    return "0.0";
+  }
 }
 
 String getDate(int timeStamp) {

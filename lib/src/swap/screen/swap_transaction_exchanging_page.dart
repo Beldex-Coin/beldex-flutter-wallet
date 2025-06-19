@@ -716,7 +716,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                                   : Color(0xff737373)),
                         ),
                         Text(
-                          '${transactionDetails.amountExpectedFrom} ${transactionDetails.currencyFrom?.toUpperCase()}',
+                          '${toStringAsFixed(transactionDetails.amountExpectedFrom)} ${transactionDetails.currencyFrom?.toUpperCase()}',
                           style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -745,7 +745,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                                   : Color(0xff737373)),
                         ),
                         Text(
-                          '1 ${transactionDetails.currencyFrom?.toUpperCase()} ~ ${transactionDetails.rate} ${transactionDetails.currencyTo?.toUpperCase()}',
+                          '1 ${transactionDetails.currencyFrom?.toUpperCase()} ~ ${toStringAsFixed(transactionDetails.rate)} ${transactionDetails.currencyTo?.toUpperCase()}',
                           style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -878,7 +878,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                         ),
                         SizedBox(width: 10),
                         Text(
-                          '~ ${transactionDetails.amountExpectedTo} ${transactionDetails.currencyTo?.toUpperCase()}',
+                          '~ ${toStringAsFixed(transactionDetails.amountExpectedTo)} ${transactionDetails.currencyTo?.toUpperCase()}',
                           style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,

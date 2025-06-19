@@ -181,17 +181,17 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     var minimumAmount = "";
     var maximumAmount = "";
     if(getExchangeAmountModel.result!.isNotEmpty){
-      sendAmount = getExchangeAmountModel.result![0].amountFrom.toString();
-      exchangeRate = getExchangeAmountModel.result![0].rate.toString();
-      serviceFee = getExchangeAmountModel.result![0].fee.toString();
-      networkFee = getExchangeAmountModel.result![0].networkFee.toString();
-      getAmount = getExchangeAmountModel.result![0].amountTo!.toString();
+      sendAmount = toStringAsFixed(getExchangeAmountModel.result![0].amountFrom.toString());
+      exchangeRate = toStringAsFixed(getExchangeAmountModel.result![0].rate.toString());
+      serviceFee = toStringAsFixed(getExchangeAmountModel.result![0].fee.toString());
+      networkFee = toStringAsFixed(getExchangeAmountModel.result![0].networkFee.toString());
+      getAmount = toStringAsFixed(getExchangeAmountModel.result![0].amountTo!.toString());
       from = getExchangeAmountModel.result![0].from.toString();
       to = getExchangeAmountModel.result![0].to.toString();
       minimumAmount = "";
       maximumAmount = "";
     } else {
-      if(getExchangeAmountModel.error != null){
+      if(getExchangeAmountModel.error != null && getExchangeAmountModel.error!.data != null){
         if(double.parse(_exchangeData.amountFrom!) < double.parse(getExchangeAmountModel.error!.data!.limits!.min!.from!)){
           minimumAmount = getExchangeAmountModel.error!.data!.limits!.min!.from!;
         }
@@ -713,7 +713,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                           fontWeight: FontWeight.normal),
                       children: [
                         TextSpan(
-                            text: minimumAmount.trim().isNotEmpty ?'${minimumAmount} ${from}':maximumAmount.trim().isNotEmpty ?'${maximumAmount} ${from}':'',
+                            text: minimumAmount.trim().isNotEmpty ?'${toStringAsFixed(minimumAmount)} ${from}':maximumAmount.trim().isNotEmpty ?'${toStringAsFixed(maximumAmount)} ${from}':'',
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 decoration: TextDecoration.underline,
