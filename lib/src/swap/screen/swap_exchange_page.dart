@@ -81,7 +81,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   final _sendAmountController = TextEditingController(text: '0.1');
-  final _getAmountController = TextEditingController(text: '0');
+  final _getAmountController = TextEditingController(text: '0.0');
   var showPrefixIcon = false;
   var showMemo = false;
   var acceptTermsAndConditions = false;
