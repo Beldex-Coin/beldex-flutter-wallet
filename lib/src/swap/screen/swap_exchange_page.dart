@@ -1462,7 +1462,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
    bool validateMinimumAmount(double sendCoinAmount, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
-    if(getExchangeAmountProvider.data!.error != null) {
+    if(getExchangeAmountProvider.data?.error != null && getExchangeAmountProvider.data?.error!.data != null) {
       return sendCoinAmount < double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.min!.from!);
     } else {
       return sendCoinAmount < getPairsParamsProvider.minimumAmount;
@@ -1470,7 +1470,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   bool validateMinimumAmountLessThanEqual(double sendCoinAmount, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
-    if(getExchangeAmountProvider.data!.error != null) {
+    if(getExchangeAmountProvider.data?.error != null && getExchangeAmountProvider.data?.error!.data != null) {
       return sendCoinAmount <= double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.min!.from!);
     } else {
       return sendCoinAmount <= getPairsParamsProvider.minimumAmount;
@@ -1478,7 +1478,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   bool validateMaximumAmount(double sendCoinAmount, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
-    if(getExchangeAmountProvider.data!.error != null) {
+    if(getExchangeAmountProvider.data?.error != null && getExchangeAmountProvider.data?.error!.data != null) {
       return sendCoinAmount > double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.max!.from!);
     } else {
       return sendCoinAmount > getPairsParamsProvider.maximumAmount;
@@ -1486,7 +1486,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   bool validateMaximumAmountGreaterThanEqual(double sendCoinAmount, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
-    if(getExchangeAmountProvider.data!.error != null) {
+    if(getExchangeAmountProvider.data?.error != null && getExchangeAmountProvider.data?.error!.data != null) {
       return sendCoinAmount >= double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.max!.from!);
     } else {
       return sendCoinAmount >= getPairsParamsProvider.maximumAmount;
@@ -1494,7 +1494,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   double minimumAmount(GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
-    if(getExchangeAmountProvider.data!.error != null) {
+    if(getExchangeAmountProvider.data?.error != null && getExchangeAmountProvider.data?.error!.data != null) {
       return double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.min!.from!);
     } else {
       return getPairsParamsProvider.minimumAmount;
@@ -1502,7 +1502,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   double maximumAmount(GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
-    if(getExchangeAmountProvider.data!.error != null) {
+    if(getExchangeAmountProvider.data?.error != null && getExchangeAmountProvider.data?.error!.data != null) {
       return double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.max!.from!);
     } else {
       return getPairsParamsProvider.maximumAmount;
