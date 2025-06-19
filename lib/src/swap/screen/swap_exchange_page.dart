@@ -259,7 +259,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     //GetExchangeAmount
     if(getExchangeAmountProvider.loading == false){
       if(getExchangeAmountProvider.data!.result!.isNotEmpty) {
-        _getAmountController.text = getExchangeAmountProvider.data!.result![0].amountTo.toString();
+        _getAmountController.text = toStringAsFixed(getExchangeAmountProvider.data!.result![0].amountTo.toString());
       }
     }
     return getCurrenciesFullProvider.getBdxIsEnabled == null ? Container() : getCurrenciesFullProvider.getBdxIsEnabled == true ? Column(
@@ -582,12 +582,12 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, List<GetCurrenciesResult> enableFrom,List<GetCurrenciesResult> enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
     final sendCoinAmount = getPairsParamsProvider.getSendAmountValue();
     if(getPairsParamsProvider.getSendFieldErrorState()){
-      _getAmountController.text = getPairsParamsProvider.getGetAmountValue().toString();
+      _getAmountController.text = toStringAsFixed(getPairsParamsProvider.getGetAmountValue().toString());
     }
     var floatingExchangeRate = '...';
     if(getExchangeAmountProvider.loading==false){
        if(getExchangeAmountProvider.data!.result != null && getExchangeAmountProvider.data!.result!.isNotEmpty) {
-         floatingExchangeRate = '~${getExchangeAmountProvider.data!.result![0].rate}';
+         floatingExchangeRate = '${getExchangeAmountProvider.data!.result![0].rate}';
        }else{
          floatingExchangeRate = '...';
        }
@@ -1062,7 +1062,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                     ),
                     Expanded(
                       child: Text(
-                        floatingExchangeRate,
+                        floatingExchangeRate == "..." ? floatingExchangeRate : "~ ${toStringAsFixed(floatingExchangeRate)}",
                         textAlign: TextAlign.end,
                         style: TextStyle(
                             backgroundColor: Colors.transparent,
