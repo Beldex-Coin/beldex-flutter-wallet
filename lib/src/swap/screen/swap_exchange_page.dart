@@ -343,20 +343,18 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   InkWell youGetCoinsDropDownListItem(
       SettingsStore settingsStore, GetCurrenciesResult enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
     return InkWell(
-      onTap: isOnline(context) ? () async {
+      onTap: isOnline(context) ? () {
         searchYouGetCoinsController.text = '';
         if (enableTo.fullName != null) {
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            getCurrenciesFullProvider.setSelectedYouGetCoins(
-                Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName, enableTo.blockchain, enableTo.protocol));
-            getCurrenciesFullProvider.setGetCoinsDropDownVisible(
-                !getCurrenciesFullProvider.getGetCoinsDropDownVisible());
-            getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
-            //Get Exchange Amount API Call
-            callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
-          });
+          getCurrenciesFullProvider.setSelectedYouGetCoins(
+              Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName, enableTo.blockchain, enableTo.protocol));
+          getCurrenciesFullProvider.setGetCoinsDropDownVisible(
+              !getCurrenciesFullProvider.getGetCoinsDropDownVisible());
+          getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
+          //Get Exchange Amount API Call
+          callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
         } else {
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
             getCurrenciesFullProvider.setGetCoinsDropDownVisible(
                 !getCurrenciesFullProvider.getGetCoinsDropDownVisible());
           });
@@ -436,18 +434,16 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   InkWell youSendCoinsDropDownListItem(
       SettingsStore settingsStore, GetCurrenciesResult enableFrom, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
     return InkWell(
-      onTap: isOnline(context) ? () async {
+      onTap: isOnline(context) ? () {
         searchYouSendCoinsController.text = '';
         if (enableFrom.name != null) {
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            getCurrenciesFullProvider.setSelectedYouSendCoins(
-                Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName, enableFrom.blockchain, enableFrom.protocol));
-            getCurrenciesFullProvider.setSendCoinsDropDownVisible(
-                !getCurrenciesFullProvider.getSendCoinsDropDownVisible());
-            getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
-            //Get Exchange Amount API Call
-            callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
-          });
+          getCurrenciesFullProvider.setSelectedYouSendCoins(
+              Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName, enableFrom.blockchain, enableFrom.protocol));
+          getCurrenciesFullProvider.setSendCoinsDropDownVisible(
+              !getCurrenciesFullProvider.getSendCoinsDropDownVisible());
+          getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
+          //Get Exchange Amount API Call
+          callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
         } else {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             getCurrenciesFullProvider.setSendCoinsDropDownVisible(
@@ -1449,10 +1445,14 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     );
   }
 
-  void callGetExchangeAmountApi(String value, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
+ /* void callGetExchangeAmountApi(String value, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
     if(validateMinimumAmountLessThanEqual(double.parse(value), getPairsParamsProvider, getExchangeAmountProvider) && validateMaximumAmountGreaterThanEqual(double.parse(value), getPairsParamsProvider, getExchangeAmountProvider)){
       callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider);
     }
+  }*/
+
+  void callGetExchangeAmountApi(String value, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
+    callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider);
   }
 
   void validateMinimumAndMaximumAmount(String value, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
