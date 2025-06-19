@@ -363,7 +363,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
                       height: 5,
                     ),
                     Text(
-                      transactionStatus.transactionModel.result!.payoutAddress!,
+                      transactionStatus.transactionModel.result!.payinAddress!,
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,

@@ -491,7 +491,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       height: 5,
                     ),
                     Text(
-                      transactionModel.payoutAddress!,
+                      transactionModel.payinAddress!,
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,

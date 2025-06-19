@@ -520,7 +520,7 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                       height: 5,
                     ),
                     Text(
-                      transactionModel.result![0].payoutAddress!,
+                      transactionModel.result![0].payinAddress!,
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
