@@ -13,7 +13,7 @@ const swapTransactionsListKey = "swap_transaction_list";
 
 String toStringAsFixed(String? amount) {
   final double d = double.parse(amount!);
-  final String inString = d>=1.00 ? d.toStringAsFixed(4): d.toStringAsFixed(9);
+  final String inString = d>=1.00 ? d.toStringAsFixed(4): d.toStringAsFixed(8);
   return inString;
 }
 
