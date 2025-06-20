@@ -1320,7 +1320,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                             youGetCoinsFilter == ''
                                         ? youGetCoinsDropDownListItem(
                                             settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
-                                        : '${enableTo[index].fullName}'.toLowerCase().contains(youGetCoinsFilter!.toLowerCase()) || '${enableTo[index].name}'.toLowerCase().contains(youGetCoinsFilter!.toLowerCase())
+                                        : '${enableTo[index].name}'.toLowerCase().contains(youGetCoinsFilter!.toLowerCase()) || '${enableTo[index].fullName}'.toLowerCase().contains(youGetCoinsFilter!.toLowerCase())
                                             ? youGetCoinsDropDownListItem(
                                                 settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
                                             : Container();
@@ -1420,13 +1420,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                             youSendCoinsFilter == ''
                                         ? youSendCoinsDropDownListItem(
                                             settingsStore, enableFrom[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
-                                        : '${enableFrom[index].fullName}'
-                                                .toLowerCase()
-                                                .contains(youSendCoinsFilter!
-                                                    .toLowerCase()) || '${enableFrom[index].name}'
-                                        .toLowerCase()
-                                        .contains(youSendCoinsFilter!
-                                        .toLowerCase())
+                                        : '${enableFrom[index].name}'.toLowerCase().contains(youSendCoinsFilter!.toLowerCase()) || '${enableFrom[index].fullName}'.toLowerCase().contains(youSendCoinsFilter!.toLowerCase())
                                             ? youSendCoinsDropDownListItem(
                                                 settingsStore,
                                                 enableFrom[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
