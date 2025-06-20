@@ -166,6 +166,10 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 
         if(getCurrenciesFullProvider.data != null){
           return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
+            if(getPairsParamsProvider.loading){
+              return Center(
+                  child: circularProgressBar(Color(0xff0BA70F), 4.0));
+            }
             return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
               if(getPairsParamsProvider.error != null || getExchangeAmountProvider.error != null || !isOnline(context)) {
                 return noInternet(settingsStore, _screenWidth);
@@ -346,10 +350,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       onTap: isOnline(context) ? () {
         searchYouGetCoinsController.text = '';
         if (enableTo.fullName != null) {
-          getCurrenciesFullProvider.setSelectedYouGetCoins(
-              Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName, enableTo.blockchain, enableTo.protocol));
-          getCurrenciesFullProvider.setGetCoinsDropDownVisible(
-              !getCurrenciesFullProvider.getGetCoinsDropDownVisible());
+          getCurrenciesFullProvider.setGetCoinsDropDownVisible(!getCurrenciesFullProvider.getGetCoinsDropDownVisible());
+          getCurrenciesFullProvider.setSelectedYouGetCoins(Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName, enableTo.blockchain, enableTo.protocol));
           getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
           //Get Exchange Amount API Call
           callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
@@ -437,10 +439,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       onTap: isOnline(context) ? () {
         searchYouSendCoinsController.text = '';
         if (enableFrom.name != null) {
-          getCurrenciesFullProvider.setSelectedYouSendCoins(
-              Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName, enableFrom.blockchain, enableFrom.protocol));
-          getCurrenciesFullProvider.setSendCoinsDropDownVisible(
-              !getCurrenciesFullProvider.getSendCoinsDropDownVisible());
+          getCurrenciesFullProvider.setSendCoinsDropDownVisible(!getCurrenciesFullProvider.getSendCoinsDropDownVisible());
+          getCurrenciesFullProvider.setSelectedYouSendCoins(Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName, enableFrom.blockchain, enableFrom.protocol));
           getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
           //Get Exchange Amount API Call
           callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
