@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../util/network_service.dart';
+import 'data_class.dart';
 
 const swapTransactionsListKey = "swap_transaction_list";
 
@@ -97,3 +98,6 @@ bool isOnline(BuildContext context) {
 bool syncStatus(SyncStatus status) {
   return status is SyncedSyncStatus || status.blocksLeft == 0;
 }
+
+Coins btcCoin = Coins('BTC', 'Bitcoin', "", 'bitcoin', 'BTC');
+Coins bdxCoin = Coins('BDX', 'Beldex', "", 'beldex', 'BDX');

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:beldex_wallet/src/swap/model/get_currencies_full_model.dart';
+import 'package:beldex_wallet/src/swap/util/utils.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../api_service/get_currencies_full_api_service.dart';
@@ -12,8 +13,8 @@ class GetCurrenciesFullProvider with ChangeNotifier {
   bool loading = true;
   bool? bdxIsEnabled;
   bool _disposed = false;
-  Coins selectedYouSendCoins = Coins('BTC', 'Bitcoin', "", 'bitcoin', 'BTC');
-  Coins selectedYouGetCoins = Coins('BDX', 'Beldex', "", 'beldex', 'BDX');
+  Coins selectedYouSendCoins = btcCoin;
+  Coins selectedYouGetCoins = bdxCoin;
   bool youSendCoinsDropDownVisible = false;
   bool youGetCoinsDropDownVisible = false;
   GetCurrenciesFullApiService services = GetCurrenciesFullApiService();

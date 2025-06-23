@@ -349,9 +349,22 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     return InkWell(
       onTap: isOnline(context) ? () {
         searchYouGetCoinsController.text = '';
+        final currentSelectedSendCoin = getCurrenciesFullProvider.getSelectedYouSendCoins();
         if (enableTo.fullName != null) {
           getCurrenciesFullProvider.setGetCoinsDropDownVisible(!getCurrenciesFullProvider.getGetCoinsDropDownVisible());
-          getCurrenciesFullProvider.setSelectedYouGetCoins(Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName, enableTo.blockchain, enableTo.protocol));
+          if(currentSelectedSendCoin.id!.toLowerCase() == enableTo.name!.toLowerCase()) {
+            getPairsParamsProvider.setSendAmountValue(0.0);
+            if(currentSelectedSendCoin.id!.toLowerCase() == "bdx" && enableTo.name!.toLowerCase() == "bdx") {
+              getCurrenciesFullProvider.setSelectedYouSendCoins(btcCoin);
+            } else if (currentSelectedSendCoin.id!.toLowerCase() == "btc" && enableTo.name!.toLowerCase() == "btc") {
+              getCurrenciesFullProvider.setSelectedYouSendCoins(bdxCoin);
+            } else {
+              getCurrenciesFullProvider.setSelectedYouSendCoins(btcCoin);
+            }
+            getCurrenciesFullProvider.setSelectedYouGetCoins(currentSelectedSendCoin);
+          } else {
+            getCurrenciesFullProvider.setSelectedYouGetCoins(Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName, enableTo.blockchain, enableTo.protocol));
+          }
           getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
           //Get Exchange Amount API Call
           callGetExchangeAmountApi(getPairsParamsProvider,getExchangeAmountProvider);
@@ -438,12 +451,25 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     return InkWell(
       onTap: isOnline(context) ? () {
         searchYouSendCoinsController.text = '';
+        final currentSelectedGetCoin = getCurrenciesFullProvider.getSelectedYouGetCoins();
         if (enableFrom.name != null) {
           getCurrenciesFullProvider.setSendCoinsDropDownVisible(!getCurrenciesFullProvider.getSendCoinsDropDownVisible());
-          getCurrenciesFullProvider.setSelectedYouSendCoins(Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName, enableFrom.blockchain, enableFrom.protocol));
-          getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
+          if(currentSelectedGetCoin.id!.toLowerCase() == enableFrom.name!.toLowerCase()) {
+              getPairsParamsProvider.setSendAmountValue(0.0);
+              getCurrenciesFullProvider.setSelectedYouSendCoins(currentSelectedGetCoin);
+              if(currentSelectedGetCoin.id!.toLowerCase() == "bdx" && enableFrom.name!.toLowerCase() == "bdx") {
+                getCurrenciesFullProvider.setSelectedYouGetCoins(btcCoin);
+              } else if (currentSelectedGetCoin.id!.toLowerCase() == "btc" && enableFrom.name!.toLowerCase() == "btc") {
+                getCurrenciesFullProvider.setSelectedYouGetCoins(bdxCoin);
+              } else {
+                getCurrenciesFullProvider.setSelectedYouGetCoins(btcCoin);
+              }
+          } else {
+            getCurrenciesFullProvider.setSelectedYouSendCoins(Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName, enableFrom.blockchain, enableFrom.protocol));
+          }
+          getPairsParamsProvider.getPairsParamsData(context, [{'from': getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(), 'to': getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()}, {'from': getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(), 'to': getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
           //Get Exchange Amount API Call
-          callGetExchangeAmountApi(getPairsParamsProvider,getExchangeAmountProvider);
+          callGetExchangeAmountApi(getPairsParamsProvider, getExchangeAmountProvider);
         } else {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             getCurrenciesFullProvider.setSendCoinsDropDownVisible(
