@@ -354,7 +354,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
           getCurrenciesFullProvider.setSelectedYouGetCoins(Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName, enableTo.blockchain, enableTo.protocol));
           getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
           //Get Exchange Amount API Call
-          callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
+          callGetExchangeAmountApi(getPairsParamsProvider,getExchangeAmountProvider);
         } else {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             getCurrenciesFullProvider.setGetCoinsDropDownVisible(
@@ -443,7 +443,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
           getCurrenciesFullProvider.setSelectedYouSendCoins(Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName, enableFrom.blockchain, enableFrom.protocol));
           getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
           //Get Exchange Amount API Call
-          callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
+          callGetExchangeAmountApi(getPairsParamsProvider,getExchangeAmountProvider);
         } else {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             getCurrenciesFullProvider.setSendCoinsDropDownVisible(
@@ -696,7 +696,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                               getPairsParamsProvider.setSendAmountValue(double.parse(value));
 
                               //Get Exchange Amount API Call
-                              callGetExchangeAmountApi(value,getPairsParamsProvider,getExchangeAmountProvider);
+                              callGetExchangeAmountApi(getPairsParamsProvider,getExchangeAmountProvider);
                             });
                         }else{
                             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -856,7 +856,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                               currentSelectedSendCoin);
                           getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
                           //Get Exchange Amount API Call
-                          callGetExchangeAmountApi(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
+                          callGetExchangeAmountApi(getPairsParamsProvider,getExchangeAmountProvider);
                         });
                       } : null,
                       child: Container(
@@ -1445,7 +1445,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     }
   }*/
 
-  void callGetExchangeAmountApi(String value, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
+  void callGetExchangeAmountApi(GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
     callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider);
   }
 
