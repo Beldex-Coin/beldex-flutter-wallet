@@ -84,7 +84,6 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
   late GetTransactionStatus transactionStatus;
   late Timer timer;
   late GetStatusApiClient getStatusApiClient;
-  late StreamController<GetStatusModel> _getStatusStreamController;
   late FlutterSecureStorage secureStorage;
   late List<String> stored = [];
 
@@ -706,7 +705,6 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
   @override
   void dispose() {
     timer.cancel();
-    _getStatusStreamController.close();
     super.dispose();
   }
 }

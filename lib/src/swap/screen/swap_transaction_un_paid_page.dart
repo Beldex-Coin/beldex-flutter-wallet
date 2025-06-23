@@ -80,7 +80,6 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
 
   late GetTransactionStatus transactionStatus;
   late GetStatusApiClient getStatusApiClient;
-  late StreamController<GetStatusModel> _getStatusStreamController;
 
   @override
   void initState() {
@@ -470,7 +469,6 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
 
   @override
   void dispose() {
-    _getStatusStreamController.close();
     super.dispose();
   }
 
