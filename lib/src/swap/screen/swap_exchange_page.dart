@@ -128,7 +128,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       timer?.cancel();
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
         if (!mounted && !isOnline(context)) return;
-        provider.getExchangeAmountData({"from": getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(), "to": getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(), "amountFrom": getPairsParamsProvider.getSendAmountValue().toString()});
+        provider.getExchangeAmountData({"from": getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(), "to": getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(), "amountFrom": getPairsParamsProvider.getSendAmountValue().toString()});
       });
     });
     super.initState();
@@ -231,13 +231,13 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       }
 
       //Swap icon function
-      if(getCurrenciesFullData.result![i].name == getCurrenciesFullProvider.getSelectedYouSendCoins().id && getCurrenciesFullData.result![i].enabledTo == true){
+      if(getCurrenciesFullData.result![i].name == getCurrenciesFullProvider.getSelectedYouSendCoins().name && getCurrenciesFullData.result![i].enabledTo == true){
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           getPairsParamsProvider.setSendCoinAvailableOnGetCoinStatus(true);
         });
       }
 
-      if(getCurrenciesFullData.result![i].name == getCurrenciesFullProvider.getSelectedYouGetCoins().id && getCurrenciesFullData.result![i].enabledFrom == true){
+      if(getCurrenciesFullData.result![i].name == getCurrenciesFullProvider.getSelectedYouGetCoins().name && getCurrenciesFullData.result![i].enabledFrom == true){
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           getPairsParamsProvider.setGetCoinAvailableOnSendCoinStatus(true);
         });
@@ -247,7 +247,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     //GetPairsParams
     if(getPairsParamsProvider.loading == false) {
       for (int i = 0; i < getPairsParamsProvider.data!.result!.length; i++) {
-        if (getPairsParamsProvider.data!.result?[i].from == getCurrenciesFullProvider.getSelectedYouSendCoins().id?.toLowerCase() && getPairsParamsProvider.data!.result?[i].to == getCurrenciesFullProvider.getSelectedYouGetCoins().id?.toLowerCase()) {
+        if (getPairsParamsProvider.data!.result?[i].from == getCurrenciesFullProvider.getSelectedYouSendCoins().name?.toLowerCase() && getPairsParamsProvider.data!.result?[i].to == getCurrenciesFullProvider.getSelectedYouGetCoins().name?.toLowerCase()) {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             getPairsParamsProvider
                 .setSendValueMinimumAmountAndSendValueMaximumAmount(
@@ -352,11 +352,11 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         final currentSelectedSendCoin = getCurrenciesFullProvider.getSelectedYouSendCoins();
         if (enableTo.fullName != null) {
           getCurrenciesFullProvider.setGetCoinsDropDownVisible(!getCurrenciesFullProvider.getGetCoinsDropDownVisible());
-          if(currentSelectedSendCoin.id!.toLowerCase() == enableTo.name!.toLowerCase()) {
+          if(currentSelectedSendCoin.name!.toLowerCase() == enableTo.name!.toLowerCase()) {
             getPairsParamsProvider.setSendAmountValue(0.0);
-            if(currentSelectedSendCoin.id!.toLowerCase() == "bdx" && enableTo.name!.toLowerCase() == "bdx") {
+            if(currentSelectedSendCoin.name!.toLowerCase() == "bdx" && enableTo.name!.toLowerCase() == "bdx") {
               getCurrenciesFullProvider.setSelectedYouSendCoins(btcCoin);
-            } else if (currentSelectedSendCoin.id!.toLowerCase() == "btc" && enableTo.name!.toLowerCase() == "btc") {
+            } else if (currentSelectedSendCoin.name!.toLowerCase() == "btc" && enableTo.name!.toLowerCase() == "btc") {
               getCurrenciesFullProvider.setSelectedYouSendCoins(bdxCoin);
             } else {
               getCurrenciesFullProvider.setSelectedYouSendCoins(btcCoin);
@@ -365,7 +365,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
           } else {
             getCurrenciesFullProvider.setSelectedYouGetCoins(Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName, enableTo.blockchain, enableTo.protocol));
           }
-          getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
+          getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase()}]);
           //Get Exchange Amount API Call
           callGetExchangeAmountApi(getPairsParamsProvider,getExchangeAmountProvider);
         } else {
@@ -454,12 +454,12 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         final currentSelectedGetCoin = getCurrenciesFullProvider.getSelectedYouGetCoins();
         if (enableFrom.name != null) {
           getCurrenciesFullProvider.setSendCoinsDropDownVisible(!getCurrenciesFullProvider.getSendCoinsDropDownVisible());
-          if(currentSelectedGetCoin.id!.toLowerCase() == enableFrom.name!.toLowerCase()) {
+          if(currentSelectedGetCoin.name!.toLowerCase() == enableFrom.name!.toLowerCase()) {
               getPairsParamsProvider.setSendAmountValue(0.0);
               getCurrenciesFullProvider.setSelectedYouSendCoins(currentSelectedGetCoin);
-              if(currentSelectedGetCoin.id!.toLowerCase() == "bdx" && enableFrom.name!.toLowerCase() == "bdx") {
+              if(currentSelectedGetCoin.name!.toLowerCase() == "bdx" && enableFrom.name!.toLowerCase() == "bdx") {
                 getCurrenciesFullProvider.setSelectedYouGetCoins(btcCoin);
-              } else if (currentSelectedGetCoin.id!.toLowerCase() == "btc" && enableFrom.name!.toLowerCase() == "btc") {
+              } else if (currentSelectedGetCoin.name!.toLowerCase() == "btc" && enableFrom.name!.toLowerCase() == "btc") {
                 getCurrenciesFullProvider.setSelectedYouGetCoins(bdxCoin);
               } else {
                 getCurrenciesFullProvider.setSelectedYouGetCoins(btcCoin);
@@ -467,7 +467,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
           } else {
             getCurrenciesFullProvider.setSelectedYouSendCoins(Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName, enableFrom.blockchain, enableFrom.protocol));
           }
-          getPairsParamsProvider.getPairsParamsData(context, [{'from': getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(), 'to': getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()}, {'from': getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(), 'to': getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
+          getPairsParamsProvider.getPairsParamsData(context, [{'from': getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(), 'to': getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase()}, {'from': getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(), 'to': getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase()}]);
           //Get Exchange Amount API Call
           callGetExchangeAmountApi(getPairsParamsProvider, getExchangeAmountProvider);
         } else {
@@ -777,7 +777,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                               child: RichText(
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
-                                    text: getCurrenciesFullProvider.getSelectedYouSendCoins().id,
+                                    text: getCurrenciesFullProvider.getSelectedYouSendCoins().name,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         color: settingsStore.isDarkTheme
@@ -788,7 +788,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                     children: [
                                       TextSpan(
                                           text:
-                                              ' - ${getCurrenciesFullProvider.getSelectedYouSendCoins().name}',
+                                              ' - ${getCurrenciesFullProvider.getSelectedYouSendCoins().fullName}',
                                           style: TextStyle(
                                               backgroundColor:
                                                   Colors.transparent,
@@ -852,7 +852,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                   fontWeight: FontWeight.normal),
                               children: [
                                 TextSpan(
-                                    text: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider) ?'${toStringAsFixed(minimumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString())} ${getCurrenciesFullProvider.getSelectedYouSendCoins().id}':validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'${toStringAsFixed(maximumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString())} ${getCurrenciesFullProvider.getSelectedYouSendCoins().id}':'',
+                                    text: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider) ?'${toStringAsFixed(minimumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString())} ${getCurrenciesFullProvider.getSelectedYouSendCoins().name}':validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'${toStringAsFixed(maximumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString())} ${getCurrenciesFullProvider.getSelectedYouSendCoins().name}':'',
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         decoration: TextDecoration.underline,
@@ -880,7 +880,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                               currentSelectedGetCoin);
                           getCurrenciesFullProvider.setSelectedYouGetCoins(
                               currentSelectedSendCoin);
-                          getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase()}]);
+                          getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase()}]);
                           //Get Exchange Amount API Call
                           callGetExchangeAmountApi(getPairsParamsProvider,getExchangeAmountProvider);
                         });
@@ -999,7 +999,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                               child: RichText(
                                 textAlign: TextAlign.center,
                                 text: TextSpan(
-                                    text: getCurrenciesFullProvider.getSelectedYouGetCoins().id,
+                                    text: getCurrenciesFullProvider.getSelectedYouGetCoins().name,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         color: settingsStore.isDarkTheme
@@ -1010,7 +1010,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                     children: [
                                       TextSpan(
                                           text:
-                                              ' - ${getCurrenciesFullProvider.getSelectedYouGetCoins().name}',
+                                              ' - ${getCurrenciesFullProvider.getSelectedYouGetCoins().fullName}',
                                           style: TextStyle(
                                               backgroundColor:
                                                   Colors.transparent,
@@ -1219,19 +1219,19 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                     Navigator.of(context).pushNamed(Routes.swapWalletAddress,
                         arguments: ExchangeData(getCurrenciesFullProvider
                             .getSelectedYouSendCoins()
-                            .id
+                            .name
                             ?.toLowerCase(), getCurrenciesFullProvider
                             .getSelectedYouGetCoins()
-                            .id
+                            .name
                             ?.toLowerCase(),
                             _sendAmountController.text.toString(),
                             getCurrenciesFullProvider
                                 .getSelectedYouGetCoins()
                                 .extraIdName, getCurrenciesFullProvider
                                 .getSelectedYouSendCoins()
-                                .bitcoin, getCurrenciesFullProvider
+                                .blockchain, getCurrenciesFullProvider
                                 .getSelectedYouGetCoins()
-                                .bitcoin,getCurrenciesFullProvider
+                                .blockchain,getCurrenciesFullProvider
                                 .getSelectedYouGetCoins().protocol));
                   }
                 },
@@ -1467,17 +1467,17 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 
  /* void callGetExchangeAmountApi(String value, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
     if(validateMinimumAmountLessThanEqual(double.parse(value), getPairsParamsProvider, getExchangeAmountProvider) && validateMaximumAmountGreaterThanEqual(double.parse(value), getPairsParamsProvider, getExchangeAmountProvider)){
-      callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider);
+      callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider);
     }
   }*/
 
   void callGetExchangeAmountApi(GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
-    callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider);
+    callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider);
   }
 
   void validateMinimumAndMaximumAmount(String value, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
     if(validateMinimumAmountLessThanEqual(double.parse(value), getPairsParamsProvider, getExchangeAmountProvider) || validateMaximumAmountGreaterThanEqual(double.parse(value), getPairsParamsProvider, getExchangeAmountProvider)){
-      callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().id!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().id!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider);
+      callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider);
     }
   }
 

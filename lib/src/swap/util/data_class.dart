@@ -5,12 +5,12 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../model/create_transaction_model.dart';
 
 class Coins {
-  Coins(this.id, this.name, this.extraIdName, this.bitcoin, this.protocol);
+  Coins(this.name, this.fullName, this.extraIdName, this.blockchain, this.protocol);
 
-  String? id;
   String? name;
+  String? fullName;
   String? extraIdName = "";
-  String? bitcoin;
+  String? blockchain;
   String? protocol;
 }
 
