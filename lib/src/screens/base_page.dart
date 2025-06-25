@@ -194,7 +194,10 @@ abstract class BasePage extends StatelessWidget {
             ),
         body: SafeArea(child: body(context)),
         floatingActionButton: floatingActionButton(context),
-        bottomNavigationBar: bottomNavigationBar(context),
+        bottomNavigationBar: Padding(
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom),
+            child: bottomNavigationBar(context)
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
   }
 
