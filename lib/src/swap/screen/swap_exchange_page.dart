@@ -1045,58 +1045,57 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   ),
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Row(
+                    Container(
+                      width: 30,
+                      height: 30,
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xff40405E)
+                              : Color(0xffF3F3F3)),
+                      child: SvgPicture.asset(
+                        'assets/images/swap/floating_exchange_rate.svg',
+                        colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
+                            ? Color(0xffA9A9CD)
+                            : Color(0xff77778B), BlendMode.srcIn),
+                        width: 20,
+                        height: 20,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
-                          width: 30,
-                          height: 30,
-                          padding: EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xff40405E)
-                                  : Color(0xffF3F3F3)),
-                          child: SvgPicture.asset(
-                            'assets/images/swap/floating_exchange_rate.svg',
-                            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
-                                ? Color(0xffA9A9CD)
-                                : Color(0xff77778B), BlendMode.srcIn),
-                            width: 20,
-                            height: 20,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
                         Text(
                           'Floating Exchange Rate',
                           style: TextStyle(
                               backgroundColor: Colors.transparent,
-                              fontSize: 14,
+                              fontSize: 13,
                               fontWeight: FontWeight.w600,
                               color: settingsStore.isDarkTheme
                                   ? Color(0xff77778B)
                                   : Color(0xff737373)),
                         ),
                         SizedBox(
-                          width: 5,
+                          height: 5,
+                        ),
+                        Text(
+                          floatingExchangeRate == "..." ? "1 ${getCurrenciesFullProvider.getSelectedYouSendCoins().name.toString().toUpperCase()} ~ $floatingExchangeRate" : "1 ${getCurrenciesFullProvider.getSelectedYouSendCoins().name.toString().toUpperCase()} ~ ${toStringAsFixed(floatingExchangeRate)} ${getCurrenciesFullProvider.getSelectedYouGetCoins().name.toString().toUpperCase()}",
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              backgroundColor: Colors.transparent,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffFFFFFF)
+                                  : Color(0xff060606)),
                         ),
                       ],
-                    ),
-                    Expanded(
-                      child: Text(
-                        floatingExchangeRate == "..." ? floatingExchangeRate : "~ ${toStringAsFixed(floatingExchangeRate)}",
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                            backgroundColor: Colors.transparent,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xffFFFFFF)
-                                : Color(0xff060606)),
-                      ),
                     ),
                   ],
                 )),
