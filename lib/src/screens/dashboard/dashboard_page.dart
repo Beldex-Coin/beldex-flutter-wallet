@@ -135,10 +135,11 @@ class DashboardPage extends BasePage {
                                 ? Colors.white
                                 : Colors.black)),
                     style: ElevatedButton.styleFrom(
+                      fixedSize: Size.fromHeight(ScreenSize.screenHeight025),
                       backgroundColor: settingsStore.isDarkTheme
                           ? Color(0xff333343)
                           : Color(0xffD4D4D4),
-                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -160,8 +161,9 @@ class DashboardPage extends BasePage {
                           fontWeight: FontWeight.bold,
                           color: Colors.white,)),
                     style: ElevatedButton.styleFrom(
+                      fixedSize: Size.fromHeight(ScreenSize.screenHeight025),
                       backgroundColor: Color(0xff0BA70F),
-                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -506,12 +508,13 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           fontWeight: FontWeight.bold,),
                                       ),
                                       style: ElevatedButton.styleFrom(
+                                        fixedSize: Size.fromHeight(ScreenSize.buttonHeight017),
                                         backgroundColor: syncStatus(syncStore.status)
                                             ? Color(0xff0BA70F)
                                             : settingsStore.isDarkTheme
                                             ? Color(0xff333343)
                                             : Color(0xffE8E8E8),
-                                        padding: const EdgeInsets.symmetric(vertical: 12),
+                                        padding: EdgeInsets.zero,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10),
                                         ),
@@ -538,8 +541,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                         fontWeight: FontWeight.bold,),
                                     ),
                                     style: ElevatedButton.styleFrom(
+                                      fixedSize: Size.fromHeight(ScreenSize.buttonHeight017),
                                       backgroundColor: Color(0xff2979FB),
-                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                      padding: EdgeInsets.zero,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -570,12 +574,13 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                         fontWeight: FontWeight.bold,),
                                     ),
                                     style: ElevatedButton.styleFrom(
+                                      fixedSize: Size.fromHeight(ScreenSize.buttonHeight017),
                                       backgroundColor:  isOnline(context)
                                           ? settingsStore.isDarkTheme? Color(0xff24242F) : Color(0xffFFFFFF)
                                           : settingsStore.isDarkTheme
                                           ? Color(0xff333343)
                                           : Color(0xffE8E8E8),
-                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                      padding: EdgeInsets.zero,
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10),
                                           side:BorderSide(color:  isOnline(context) ? Color(0xff0BA70F):settingsStore.isDarkTheme
