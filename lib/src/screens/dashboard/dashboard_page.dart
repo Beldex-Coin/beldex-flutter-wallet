@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/dashboard_rescan_dialog.dart';
-import 'package:beldex_wallet/src/swap/screen/swap_exchange_page.dart';
 import 'package:beldex_wallet/src/swap/util/utils.dart';
 import 'package:beldex_wallet/src/util/network_service.dart';
 import 'package:beldex_wallet/src/util/screen_sizer.dart';
@@ -10,7 +9,6 @@ import 'package:beldex_wallet/src/widgets/standard_switch.dart';
 import 'package:beldex_wallet/theme_changer.dart';
 import 'package:beldex_wallet/themes.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -121,31 +119,28 @@ class DashboardPage extends BasePage {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  flex: 1,
-                  child: SizedBox(
-                    height:ScreenSize.screenHeight025, // MediaQuery.of(context).size.height*0.25/3,
-                    child: ElevatedButton.icon(
-                      icon: SvgPicture.asset(
-                        'assets/images/new-images/address_book.svg',
-                        color:
-                        settingsStore.isDarkTheme ? Colors.white : Colors.black,
-                      ),
-                      onPressed: () =>
-                          Navigator.of(context).pushNamed(Routes.addressBook),
-                      label: Text(tr(context).address_book,
-                          style: TextStyle(
-                              backgroundColor: Colors.transparent,
-                              fontWeight: FontWeight.bold,
-                              color: settingsStore.isDarkTheme
-                                  ? Colors.white
-                                  : Colors.black)),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: settingsStore.isDarkTheme
-                            ? Color(0xff333343)
-                            : Color(0xffD4D4D4),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                  child: ElevatedButton.icon(
+                    icon: SvgPicture.asset(
+                      'assets/images/new-images/address_book.svg',
+                      color:
+                      settingsStore.isDarkTheme ? Colors.white : Colors.black,
+                    ),
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed(Routes.addressBook),
+                    label: Text(tr(context).address_book,
+                        style: TextStyle(
+                            backgroundColor: Colors.transparent,
+                            fontWeight: FontWeight.bold,
+                            color: settingsStore.isDarkTheme
+                                ? Colors.white
+                                : Colors.black)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: settingsStore.isDarkTheme
+                          ? Color(0xff333343)
+                          : Color(0xffD4D4D4),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
@@ -154,24 +149,21 @@ class DashboardPage extends BasePage {
                   width: 10,
                 ),
                 Expanded(
-                  flex: 1,
-                  child: SizedBox(
-                    height:ScreenSize.screenHeight025, //MediaQuery.of(context).size.height*0.25/3,
-                    child: ElevatedButton.icon(
-                      icon: SvgPicture.asset(
-                          'assets/images/new-images/transactions.svg'),
-                      onPressed: () =>
-                          Navigator.of(context).pushNamed(Routes.transactionlist),
-                      label: Text(tr(context).transactions,
-                          style: TextStyle(
-                            backgroundColor: Colors.transparent,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,)),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xff0BA70F),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                  child: ElevatedButton.icon(
+                    icon: SvgPicture.asset(
+                        'assets/images/new-images/transactions.svg'),
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed(Routes.transactionlist),
+                    label: Text(tr(context).transactions,
+                        style: TextStyle(
+                          backgroundColor: Colors.transparent,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xff0BA70F),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
@@ -484,48 +476,44 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
-                                  flex: 1,
                                   child: Observer(builder: (_) {
-                                    return SizedBox(
-                                      height: MediaQuery.of(context).size.height*0.17/3,
-                                      child: ElevatedButton.icon(
-                                        icon: SvgPicture.asset(
-                                          'assets/images/new-images/send.svg',
+                                    return ElevatedButton.icon(
+                                      icon: SvgPicture.asset(
+                                        'assets/images/new-images/send.svg',
+                                        color: syncStatus(syncStore.status)
+                                            ? Colors.white
+                                            : settingsStore.isDarkTheme
+                                            ? Color(0xff6C6C78)
+                                            : Color(0xffB2B2B6),
+                                      ),
+                                      onPressed: syncStatus(syncStore.status)
+                                          ? () {
+                                        Navigator.of(context,
+                                            rootNavigator: true)
+                                            .pushNamed(Routes.send,arguments: {'flash': false, 'address': "", 'amount': ""});
+                                      }
+                                          : null,
+                                      label: Text(
+                                        tr(context).send,
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          backgroundColor: Colors.transparent,
                                           color: syncStatus(syncStore.status)
                                               ? Colors.white
                                               : settingsStore.isDarkTheme
                                               ? Color(0xff6C6C78)
                                               : Color(0xffB2B2B6),
-                                        ),
-                                        onPressed: syncStatus(syncStore.status)
-                                            ? () {
-                                          Navigator.of(context,
-                                              rootNavigator: true)
-                                              .pushNamed(Routes.send,arguments: {'flash': false, 'address': "", 'amount': ""});
-                                        }
-                                            : null,
-                                        label: Text(
-                                          tr(context).send,
-                                          style: TextStyle(
-                                            fontSize: 13,
-                                            backgroundColor: Colors.transparent,
-                                            color: syncStatus(syncStore.status)
-                                                ? Colors.white
-                                                : settingsStore.isDarkTheme
-                                                ? Color(0xff6C6C78)
-                                                : Color(0xffB2B2B6),
-                                            fontWeight: FontWeight.bold,),
-                                        ),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: syncStatus(syncStore.status)
-                                              ? Color(0xff0BA70F)
-                                              : settingsStore.isDarkTheme
-                                              ? Color(0xff333343)
-                                              : Color(0xffE8E8E8),
-                                          padding: EdgeInsets.all(12),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
+                                          fontWeight: FontWeight.bold,),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: syncStatus(syncStore.status)
+                                            ? Color(0xff0BA70F)
+                                            : settingsStore.isDarkTheme
+                                            ? Color(0xff333343)
+                                            : Color(0xffE8E8E8),
+                                        padding: const EdgeInsets.symmetric(vertical: 12),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
                                         ),
                                       ),
                                     );
@@ -535,29 +523,25 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                   width: 5,
                                 ),
                                 Expanded(
-                                  flex: 1,
-                                  child: SizedBox(
-                                    height: MediaQuery.of(context).size.height*0.17/3,
-                                    child: ElevatedButton.icon(
-                                      icon: SvgPicture.asset(
-                                          'assets/images/new-images/receive.svg'),
-                                      onPressed: () =>
-                                          Navigator.of(context, rootNavigator: true)
-                                              .pushNamed(Routes.receive),
-                                      label: Text(
-                                        tr(context).receive,
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          backgroundColor: Colors.transparent,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,),
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color(0xff2979FB),
-                                        padding: EdgeInsets.all(12),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
+                                  child: ElevatedButton.icon(
+                                    icon: SvgPicture.asset(
+                                        'assets/images/new-images/receive.svg'),
+                                    onPressed: () =>
+                                        Navigator.of(context, rootNavigator: true)
+                                            .pushNamed(Routes.receive),
+                                    label: Text(
+                                      tr(context).receive,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        backgroundColor: Colors.transparent,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Color(0xff2979FB),
+                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
                                   ),
@@ -566,41 +550,37 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                   width: 5,
                                 ),
                                 Expanded(
-                                  flex: 1,
-                                  child: SizedBox(
-                                    height: MediaQuery.of(context).size.height*0.17/3,
-                                    child: ElevatedButton.icon(
-                                      icon: SvgPicture.asset(
-                                        'assets/images/swap/swap.svg',colorFilter:ColorFilter.mode(isOnline(context)? Color(0xff0BA70F) : settingsStore.isDarkTheme
-                                          ? Color(0xff6C6C78)
-                                          : Color(0xffB2B2B6), BlendMode.srcIn),),
-                                      onPressed: isOnline(context) ? () {
-                                          Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
-                                      } : null,
-                                      label: Text(
-                                        tr(context).swap,
-                                        style: TextStyle(
-                                          fontSize: 13,
-                                          color: isOnline(context)
-                                              ? Color(0xff0BA70F)
-                                              : settingsStore.isDarkTheme
-                                              ? Color(0xff6C6C78)
-                                              : Color(0xffB2B2B6),
-                                          fontWeight: FontWeight.bold,),
-                                      ),
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:  isOnline(context)
-                                            ? settingsStore.isDarkTheme? Color(0xff24242F) : Color(0xffFFFFFF)
+                                  child: ElevatedButton.icon(
+                                    icon: SvgPicture.asset(
+                                      'assets/images/swap/swap.svg',colorFilter:ColorFilter.mode(isOnline(context)? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                                        ? Color(0xff6C6C78)
+                                        : Color(0xffB2B2B6), BlendMode.srcIn),),
+                                    onPressed: isOnline(context) ? () {
+                                        Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
+                                    } : null,
+                                    label: Text(
+                                      tr(context).swap,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: isOnline(context)
+                                            ? Color(0xff0BA70F)
                                             : settingsStore.isDarkTheme
-                                            ? Color(0xff333343)
-                                            : Color(0xffE8E8E8),
-                                        padding: EdgeInsets.all(12),
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                            side:BorderSide(color:  isOnline(context) ? Color(0xff0BA70F):settingsStore.isDarkTheme
-                                                ? Color(0xff333343)
-                                                : Color(0xffE8E8E8))
-                                        ),
+                                            ? Color(0xff6C6C78)
+                                            : Color(0xffB2B2B6),
+                                        fontWeight: FontWeight.bold,),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:  isOnline(context)
+                                          ? settingsStore.isDarkTheme? Color(0xff24242F) : Color(0xffFFFFFF)
+                                          : settingsStore.isDarkTheme
+                                          ? Color(0xff333343)
+                                          : Color(0xffE8E8E8),
+                                      padding: const EdgeInsets.symmetric(vertical: 12),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                          side:BorderSide(color:  isOnline(context) ? Color(0xff0BA70F):settingsStore.isDarkTheme
+                                              ? Color(0xff333343)
+                                              : Color(0xffE8E8E8))
                                       ),
                                     ),
                                   ),
