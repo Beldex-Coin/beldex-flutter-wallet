@@ -167,8 +167,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         if(getCurrenciesFullProvider.data != null){
           return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
             if(getPairsParamsProvider.loading){
-              return Center(
-                  child: circularProgressBar(Color(0xff0BA70F), 4.0));
+              return defaultBody(_screenWidth, _screenHeight, settingsStore);
             }
             return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
               if(getPairsParamsProvider.error != null || getExchangeAmountProvider.error != null || !isOnline(context)) {
@@ -323,7 +322,101 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       ],
     ): underMaintenance(settingsStore, _screenWidth);
   }
-  
+
+  Widget defaultBody(double _screenWidth, double _screenHeight, SettingsStore settingsStore){
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: NumberStepper(
+            totalSteps: stepLength,
+            width: MediaQuery.of(context).size.width,
+            curStep: currentStep,
+            stepCompleteColor: Colors.blue,
+            currentStepColor: Color(0xff20D030),
+            inactiveColor: Color(0xffbababa),
+            lineWidth: 2,
+          ),
+        ),
+        Expanded(
+          child: LayoutBuilder(builder:
+              (BuildContext context, BoxConstraints constraints) {
+            return Stack(
+              children: [
+                SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints:
+                      BoxConstraints(minHeight: constraints.maxHeight),
+                      child: IntrinsicHeight(
+                        child: Card(
+                          margin: EdgeInsets.only(
+                              top: 15, left: 10, right: 10, bottom: 15),
+                          elevation: 0,
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xff24242f)
+                              : Color(0xfff3f3f3),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.all(15.0),
+                            width: _screenWidth,
+                            height: double.infinity,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                //Exchange Screen
+                                defaultExchangeScreen(settingsStore),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    )),
+                SingleChildScrollView(
+                    child: ConstrainedBox(
+                      constraints:
+                      BoxConstraints(minHeight: constraints.maxHeight),
+                      child: IntrinsicHeight(
+                        child: Card(
+                          margin: EdgeInsets.only(
+                              top: 15, left: 10, right: 10, bottom: 15),
+                          elevation: 0,
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xFF24242F).withOpacity(0.7)
+                              : Color(0xfff3f3f3).withOpacity(0.7),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Container(
+                            padding: const EdgeInsets.all(15.0),
+                            width: _screenWidth,
+                            height: double.infinity,
+                            child: SizedBox(
+                              height: 70,
+                              child: Center(
+                                child: Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: settingsStore.isDarkTheme ? Color(0xff30303F) : Color(0xfff3f3f3)
+                                    ),
+                                    child: circularProgressBar(Color(0xff0BA70F), 4.0)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    )),
+              ],
+            );
+          }),
+        ),
+      ],
+    );
+  }
+
   Widget underMaintenance(SettingsStore settingsStore, double _screenWidth) {
     return Card(
       margin: EdgeInsets.only(
@@ -1460,6 +1553,438 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             );
           }),
         )
+      ],
+    );
+  }
+
+  Widget defaultExchangeScreen(SettingsStore settingsStore) {
+    return Stack(
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            //Exchange Title
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Exchange',
+                  style: TextStyle(
+                      backgroundColor: Colors.transparent,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xffFFFFFF)
+                          : Color(0xff060606)),
+                ),
+                SvgPicture.asset(
+                  'assets/images/swap/history.svg',
+                  colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
+                      ? Color(0xffffffff)
+                      : Color(0xff16161D), BlendMode.srcIn),
+                  width: 25,
+                  height: 25,
+                )
+              ],
+            ),
+            //You send title
+            Container(
+              margin: EdgeInsets.only(top: 20, left: 10, bottom: 10),
+              child: Text(
+                'You send',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    backgroundColor: Colors.transparent,
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xffFFFFFF)
+                        : Color(0xff060606)),
+              ),
+            ),
+            //You send TextFormField
+            Container(
+              margin: EdgeInsets.only(bottom: 10),
+              padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: settingsStore.isDarkTheme
+                    ? Color(0xff24242f)
+                    : Color(0xfff3f3f3),
+                border: Border.all(
+                  color: getPairsParamsProvider.getSendFieldErrorState()?Colors.red:Color(0xff333343),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: TextFormField(
+                      style: TextStyle(
+                          backgroundColor: Colors.transparent,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.normal,
+                          color: Theme.of(context)
+                              .primaryTextTheme
+                              .bodySmall!
+                              .color),
+                      controller: _sendAmountController,
+                      keyboardType: TextInputType.numberWithOptions(
+                          signed: false, decimal: true),
+                      inputFormatters: [
+                        TextInputFormatter.withFunction((oldValue, newValue) {
+                          final regEx = RegExp(r'^\d*\.?\d*');
+                          final newString =
+                              regEx.stringMatch(newValue.text) ?? '';
+                          return newString == newValue.text
+                              ? newValue
+                              : oldValue;
+                        }),
+                        FilteringTextInputFormatter.deny(RegExp('[-, ]'))
+                      ],
+                      textInputAction: TextInputAction.done,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey.withOpacity(0.6)),
+                        hintText: tr(context).enterAmount,
+                        errorStyle: TextStyle(color: BeldexPalette.red),
+                      ),
+                      onChanged: (value){
+                      },
+                    ),
+                  ),
+                  Container(
+                    width: 125.0,
+                    height: 40,
+                    margin: EdgeInsets.only(left: 3),
+                    padding: EdgeInsets.only(left: 5, right: 5),
+                    decoration: BoxDecoration(
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xff333343)
+                            : Color(0xffEBEBEB),
+                        borderRadius: BorderRadius.all(Radius.circular(8))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                                text: getCurrenciesFullProvider.getSelectedYouSendCoins().name,
+                                style: TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffFFFFFF)
+                                        : Color(0xff222222),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500),
+                                children: [
+                                  TextSpan(
+                                      text:
+                                      ' - ${getCurrenciesFullProvider.getSelectedYouSendCoins().fullName}',
+                                      style: TextStyle(
+                                          backgroundColor:
+                                          Colors.transparent,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.normal,
+                                          color: Color(0xff77778B)))
+                                ]),
+                          ),
+                        ),
+                        Icon(Icons.keyboard_arrow_down,
+                            size: 20,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff060606))
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            //Swap coin button
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(),
+                SizedBox(width: 5,),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff333343)
+                          : Color(0xffFFFFFF),
+                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                  child: Transform.rotate(
+                    angle: 90 * pi / 180,
+                    child: SvgPicture.asset(
+                      'assets/images/swap/swap.svg',
+                      colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
+                          ? Color(0xffA9A9CD)
+                          : Color(0xff222222), BlendMode.srcIn),
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
+                )
+              ],
+            ),
+            //You get title
+            Container(
+              margin: EdgeInsets.only(top: 10, left: 10, bottom: 10),
+              child: Text(
+                'You get',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                    backgroundColor: Colors.transparent,
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xffFFFFFF)
+                        : Color(0xff060606)),
+              ),
+            ),
+            //You get TextFormField
+            Container(
+              margin: EdgeInsets.only(bottom: 10),
+              padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: settingsStore.isDarkTheme
+                    ? Color(0xff24242f)
+                    : Color(0xfff3f3f3),
+                border: Border.all(
+                  color: Color(0xff333343),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: TextFormField(
+                      style: TextStyle(
+                          backgroundColor: Colors.transparent,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.normal,
+                          color: Theme.of(context)
+                              .primaryTextTheme
+                              .bodySmall!
+                              .color),
+                      controller: _getAmountController,
+                      keyboardType: TextInputType.numberWithOptions(
+                          signed: false, decimal: true),
+                      inputFormatters: [
+                        TextInputFormatter.withFunction((oldValue, newValue) {
+                          final regEx = RegExp(r'^\d*\.?\d*');
+                          final newString =
+                              regEx.stringMatch(newValue.text) ?? '';
+                          return newString == newValue.text
+                              ? newValue
+                              : oldValue;
+                        }),
+                        FilteringTextInputFormatter.deny(RegExp('[-, ]'))
+                      ],
+                      textInputAction: TextInputAction.done,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.grey.withOpacity(0.6)),
+                        hintText: '...',
+                        errorStyle: TextStyle(color: BeldexPalette.red),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 125.0,
+                    height: 40,
+                    margin: EdgeInsets.only(left: 3),
+                    padding: EdgeInsets.only(left: 5, right: 5),
+                    decoration: BoxDecoration(
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xff333343)
+                            : Color(0xffEBEBEB),
+                        borderRadius: BorderRadius.all(Radius.circular(8))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                                text: getCurrenciesFullProvider.getSelectedYouGetCoins().name,
+                                style: TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffFFFFFF)
+                                        : Color(0xff222222),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500),
+                                children: [
+                                  TextSpan(
+                                      text:
+                                      ' - ${getCurrenciesFullProvider.getSelectedYouGetCoins().fullName}',
+                                      style: TextStyle(
+                                          backgroundColor:
+                                          Colors.transparent,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.normal,
+                                          color: Color(0xff77778B)))
+                                ]),
+                          ),
+                        ),
+                        Icon(Icons.keyboard_arrow_down,
+                            size: 20,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff060606))
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            //Floating Exchange Rate Card
+            Container(
+                margin: EdgeInsets.only(bottom: 10),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xff32324A)
+                      : Color(0xffFFFFFF),
+                  border: Border.all(
+                    color: Color(0xff00Ad07),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: 30,
+                      height: 30,
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xff40405E)
+                              : Color(0xffF3F3F3)),
+                      child: SvgPicture.asset(
+                        'assets/images/swap/floating_exchange_rate.svg',
+                        colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
+                            ? Color(0xffA9A9CD)
+                            : Color(0xff77778B), BlendMode.srcIn),
+                        width: 20,
+                        height: 20,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Floating Exchange Rate',
+                          style: TextStyle(
+                              backgroundColor: Colors.transparent,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff77778B)
+                                  : Color(0xff737373)),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "...",
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                              backgroundColor: Colors.transparent,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xffFFFFFF)
+                                  : Color(0xff060606)),
+                        ),
+                      ],
+                    ),
+                  ],
+                )),
+            //Floating and Fixed Exchange Rate Info
+            Container(
+                margin: EdgeInsets.only(bottom: 20),
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                  color: Colors.transparent,
+                  border: Border.all(
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xff41415B)
+                        : Color(0xFFDADADA),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 3.0),
+                      child: Icon(Icons.info_outline,
+                          size: 15,
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xffD1D1DB)
+                              : Color(0xff77778B)),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                      child: Text(
+                        'The floating rate can change at any point due to market conditions, so you might receive more or less crypto than expected.',
+                        //'With the fixed rate, you will receive the exact amount of crypto you see on this screen',
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffAFAFBE)
+                                : Color(0xff77778B)),
+                      ),
+                    ),
+                  ],
+                )),
+            //Exchange Button
+            Align(
+              alignment: Alignment.center,
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: settingsStore.isDarkTheme
+                      ? Color(0xff32324A)
+                      : Color(0xffFFFFFF),
+                  padding:
+                  EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: Text('Exchange',
+                    style: TextStyle(
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xff77778B)
+                            : Color(0xffB1B1D1),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold)),
+              ),
+            )
+          ],
+        ),
       ],
     );
   }
