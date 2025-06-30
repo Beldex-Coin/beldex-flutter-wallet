@@ -1072,54 +1072,58 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
           ),
         ),
         //Exchange Button
-        Consumer<ValidateExtraIdFieldProvider>(
-          builder: (context, validateExtraIdFieldProvider, child) {
-            this.validateExtraIdFieldProvider = validateExtraIdFieldProvider;
-            return Align(
-              alignment: Alignment.center,
-              child: ElevatedButton(
-                onPressed: () {
-                  if(validateExtraIdFieldProvider.showMemo){
-                    if(_destinationTagController.text.isEmpty){
-                      validateExtraIdFieldProvider.setShowErrorBorder(true);
-                      validateExtraIdFieldProvider.setErrorMessage("Please enter ${_exchangeData.extraIdName}");
-                    }else {
-                      if (acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && isOnline(context)) {
-                        //Navigate to Payment Screen
-                        Navigator.of(context).pop(true);
-                        Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, _destinationTagController.text, _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain));
+        Consumer<ValidateAddressProvider>(
+          builder: (context, validateAddressProvider, child) {
+            return Consumer<ValidateExtraIdFieldProvider>(
+              builder: (context, validateExtraIdFieldProvider, child) {
+                this.validateExtraIdFieldProvider = validateExtraIdFieldProvider;
+                return Align(
+                  alignment: Alignment.center,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if(validateExtraIdFieldProvider.showMemo){
+                        if(_destinationTagController.text.isEmpty){
+                          validateExtraIdFieldProvider.setShowErrorBorder(true);
+                          validateExtraIdFieldProvider.setErrorMessage("Please enter ${_exchangeData.extraIdName}");
+                        }else {
+                          if (acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && isOnline(context)) {
+                            //Navigate to Payment Screen
+                            Navigator.of(context).pop(true);
+                            Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, _destinationTagController.text, _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain));
+                          }
+                        }
+                      }else{
+                        if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && isOnline(context)){
+                          //Navigate to Payment Screen
+                          Navigator.of(context).pop(true);
+                          Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, "", _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain));
+                        }
                       }
-                    }
-                  }else{
-                    if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && isOnline(context)){
-                      //Navigate to Payment Screen
-                      Navigator.of(context).pop(true);
-                      Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, "", _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain));
-                    }
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: isNextButtonEnabled(minimumAmount, maximumAmount, context)
-                      ? Color(0xff0BA70F)
-                      : settingsStore.isDarkTheme
-                      ? Color(0xff32324A)
-                      : Color(0xffFFFFFF),
-                  padding:
-                  EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isNextButtonEnabled(minimumAmount, maximumAmount, context)
+                          ? Color(0xff0BA70F)
+                          : settingsStore.isDarkTheme
+                          ? Color(0xff32324A)
+                          : Color(0xffFFFFFF),
+                      padding:
+                      EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text('Next',
+                        style: TextStyle(
+                            color: isNextButtonEnabled(minimumAmount, maximumAmount, context)
+                                ? Color(0xffffffff)
+                                : settingsStore.isDarkTheme
+                                ? Color(0xff77778B)
+                                : Color(0xffB1B1D1),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold)),
                   ),
-                ),
-                child: Text('Next',
-                    style: TextStyle(
-                        color: isNextButtonEnabled(minimumAmount, maximumAmount, context)
-                            ? Color(0xffffffff)
-                            : settingsStore.isDarkTheme
-                            ? Color(0xff77778B)
-                            : Color(0xffB1B1D1),
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold)),
-              ),
+                );
+              },
             );
           },
         ),
