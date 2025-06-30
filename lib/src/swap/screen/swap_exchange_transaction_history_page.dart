@@ -151,38 +151,26 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
   Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, GetTransactionsModel getTransactionsModel){
     return  _swapTransactionHistory.transactionIdList.isNotEmpty ? LayoutBuilder(builder:
         (BuildContext context, BoxConstraints constraints) {
-      return SingleChildScrollView(
-        child: ConstrainedBox(
-          constraints:
-          BoxConstraints(minHeight: constraints.maxHeight),
-          child: IntrinsicHeight(
-            child: Card(
-              margin: EdgeInsets.only(
-                  top: 15, left: 10, right: 10, bottom: 15),
-              elevation: 0,
-              color: settingsStore.isDarkTheme
-                  ? Color(0xff24242f)
-                  : Color(0xfff3f3f3),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Container(
-                padding: const EdgeInsets.all(15.0),
-                width: _screenWidth,
-                height: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //Transaction History Screen
-                    transactionHistoryScreen(
-                        _screenWidth,
-                        _screenHeight,
-                        settingsStore,
-                        getTransactionsModel),
-                  ],
-                ),
-              ),
-            ),
+      return ConstrainedBox(
+        constraints: BoxConstraints(minHeight: constraints.maxHeight),
+        child: Card(
+          margin: EdgeInsets.only(
+              top: 15, left: 10, right: 10, bottom: 15),
+          elevation: 0,
+          color: settingsStore.isDarkTheme
+              ? Color(0xff24242f)
+              : Color(0xfff3f3f3),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(15.0),
+            width: _screenWidth,
+            child: transactionHistoryScreen(
+                _screenWidth,
+                _screenHeight,
+                settingsStore,
+                getTransactionsModel),
           ),
         ),
       );
@@ -647,12 +635,8 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
           ],
         ),
         SizedBox(height: 10),
-        Container(
-          width: _screenWidth,
-          height: _screenHeight,
+        Expanded(
           child: ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
               key: _listKey,
               padding: EdgeInsets.only(bottom: 15),
               itemCount: getTransactionsModel.result!.length,
