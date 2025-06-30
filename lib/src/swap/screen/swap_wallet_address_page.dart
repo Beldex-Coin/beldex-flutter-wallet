@@ -369,7 +369,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                                     context, validateAddressProvider,to, ),
                                 child: Container(
                                   width: 10,
-                                  margin: EdgeInsets.only(top: 5, bottom: 3),
+                                  margin: EdgeInsets.only(top: 5, bottom: 3, left: 3),
                                   padding: EdgeInsets.all(10),
                                   decoration: BoxDecoration(
                                       color: settingsStore.isDarkTheme
