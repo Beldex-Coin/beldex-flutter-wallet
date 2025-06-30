@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 import '../../../routes.dart';
 import '../../widgets/no_internet.dart';
 import '../api_client/create_transaction_api_client.dart';
+import '../dialog/showSwapInitiatingTransactionDialog.dart';
 import '../util/circular_progress_bar.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
@@ -681,7 +682,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
           child: ElevatedButton(
             onPressed: () {
               if(isConfirmationButtonEnabled(minimumAmount, maximumAmount, context)) {
-                showLoaderDialog(context);
+                showSwapInitiatingTransactionDialog(context, settingsStore);
                 if (_exchangeDataWithRecipientAddress.extraIdName!.isNotEmpty) {
                   createTransaction({
                     "from": from,
@@ -726,28 +727,6 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
           ),
         )
       ],
-    );
-  }
-
-  Future showLoaderDialog(BuildContext context) {
-    final AlertDialog alert = AlertDialog(
-      content: new Row(
-        children: [
-          circularProgressBar(Color(0xff0BA70F), 4.0),
-          Container(
-              margin: EdgeInsets.only(left: 7), child: Text("Loading...")),
-        ],
-      ),
-    );
-    return showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return PopScope(
-            canPop: false,
-            child: alert
-        );
-      },
     );
   }
 
