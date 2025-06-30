@@ -541,6 +541,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 
   InkWell youSendCoinsDropDownListItem(
       SettingsStore settingsStore, GetCurrenciesResult enableFrom, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
+    if(getCurrenciesFullProvider.getGetCoinsDropDownVisible()) {
+      getCurrenciesFullProvider.setGetCoinsDropDownVisible(false);
+    }
     return InkWell(
       onTap: isOnline(context) ? () {
         searchYouSendCoinsController.text = '';
