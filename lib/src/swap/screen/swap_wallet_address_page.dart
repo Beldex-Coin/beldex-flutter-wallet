@@ -998,7 +998,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0, bottom: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               InkWell(
                 onTap: () {
@@ -1010,7 +1010,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     acceptTermsAndConditions
                         ? Icons.check_box_outlined
                         : Icons.check_box_outline_blank,
-                    size: 15,
+                    size: 20,
                     color: acceptTermsAndConditions
                         ? Color(0xff20D030)
                         : settingsStore.isDarkTheme
