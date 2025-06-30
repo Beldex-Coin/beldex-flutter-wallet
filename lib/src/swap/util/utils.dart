@@ -59,7 +59,7 @@ String processUrl(String? url, String? hash) {
   return '$trimmed$hash';
 }
 
-Future<void> openUrl(String? url, MethodChannel methodChannelPlatform) async => await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
+Future<void> openUrl({required MethodChannel methodChannelPlatform, required String? url}) async => await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
   'url': url,
 });
 

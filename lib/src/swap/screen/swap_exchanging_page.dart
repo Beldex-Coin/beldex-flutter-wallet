@@ -373,7 +373,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                                         if(item.ticker == transactionDetails.result!.currencyFrom) {
                                           final url = processUrl(item.transactionUrl, transactionDetails.result?.payinAddress);
                                           if(url.trim().isNotEmpty){
-                                            openUrl(url, methodChannelPlatform);
+                                            openUrl(methodChannelPlatform: methodChannelPlatform, url: url);
                                           }
                                         }
                                       });

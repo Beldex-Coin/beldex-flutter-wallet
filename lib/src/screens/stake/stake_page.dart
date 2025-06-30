@@ -17,6 +17,8 @@ import 'package:beldex_wallet/src/widgets/nav/nav_list_header.dart';
 import 'package:beldex_wallet/src/widgets/nav/nav_list_trailing.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 
+import '../../swap/util/utils.dart';
+
 extension StakeParsing on StakeRow {
   double get ownedPercentage {
     final percentage = belDexAmountToDouble(amount) / 10000;
@@ -210,10 +212,7 @@ class StakePageBodyState extends State<StakePageBody> {
                               )),
                           child: InkWell(
                             onTap: () async {
-                              final url = 'https://explorer.beldex.io/mn/$masterNodeKey';
-                              await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
-                                'url': url,
-                              });
+                              await openUrl(methodChannelPlatform: methodChannelPlatform, url: 'https://explorer.beldex.io/mn/$masterNodeKey');
                             },
                             child: NavListTrailing(
                               leading: Stack(

@@ -7,6 +7,7 @@ import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
 import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
 import 'package:beldex_wallet/src/widgets/no_internet.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -62,6 +63,7 @@ class SwapWalletAddressHome extends StatefulWidget {
 }
 
 class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
+  static const methodChannelPlatform = MethodChannel("io.beldex.wallet/beldex_wallet_channel");
   int currentStep = 2;
   int stepLength = 4;
   bool complete = false;
@@ -1021,7 +1023,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               Expanded(
                 child: RichText(
                     text: TextSpan(
-                        text: 'I agree with Terms of Use, ',
+                        text: 'I agree with ',
                         style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -1030,7 +1032,10 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                                 : Color(0xff222222)),
                         children: [
                       TextSpan(
-                        text: 'Privacy Policy',
+                        text: 'Terms of Use',
+                        recognizer: TapGestureRecognizer()..onTap =() async {
+                          await openUrl(methodChannelPlatform: methodChannelPlatform, url: 'https://changelly.com/terms-of-use');
+                        },
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             fontSize: 12,
@@ -1049,7 +1054,10 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                                 : Color(0xff222222)),
                       ),
                       TextSpan(
-                        text: 'AML/KYC',
+                        text: 'Privacy Policy',
+                        recognizer: TapGestureRecognizer()..onTap =() async {
+                          await openUrl(methodChannelPlatform: methodChannelPlatform, url: 'https://changelly.com/privacy-policy');
+                        },
                         style: TextStyle(
                             decoration: TextDecoration.underline,
                             fontSize: 12,
