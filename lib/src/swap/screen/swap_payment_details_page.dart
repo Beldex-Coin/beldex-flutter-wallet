@@ -361,7 +361,6 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                         return InkWell(
                         onTap: syncStatus(syncStore.status) && isOnline(context)
                             ? () async {
-                          Navigator.of(context).pop();
                           await Navigator.pushNamed(context, Routes.send,
                               arguments: {'flash': true, 'address': createdTransactionDetails?.payinAddress, 'amount': createdTransactionDetails?.amountExpectedFrom});
                         } : null ,
