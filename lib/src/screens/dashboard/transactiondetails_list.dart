@@ -247,10 +247,9 @@ class TransactionDetailsListBodyState
                               : Color(0xffEDEDED),
                 borderRadius: BorderRadius.circular(10)
               ),
-                margin: EdgeInsets.all(10),
+              margin: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: MediaQuery.of(context).viewPadding.bottom),
               child: ListView.builder(
                   key: _listKey,
-                  padding: EdgeInsets.only(bottom: 15),
                   itemCount: itemsCount,
                   itemBuilder: (context, index) {
                     if (index == 0) {
