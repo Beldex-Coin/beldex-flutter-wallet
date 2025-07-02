@@ -29,7 +29,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 34
+    compileSdkVersion 35
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -42,7 +42,7 @@ android {
     defaultConfig {
         applicationId "io.beldex.wallet"
         minSdkVersion 23
-        targetSdkVersion 34
+        targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
 
@@ -67,21 +67,27 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
-            //signingConfig signingConfigs.release //important
+            signingConfig signingConfigs.release
 
             minifyEnabled true
-            /*useProguard true
+            shrinkResources true
 
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'*/
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_11
-        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_17
     }
-    ndkVersion '21.4.7075529'
-    buildToolsVersion '34.0.0'
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    namespace 'io.beldex.wallet'
+
+    ndkVersion '27.0.12077973'
+    buildToolsVersion '35.0.0'
 }
 
 flutter {
