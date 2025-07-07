@@ -136,24 +136,29 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                       margin: EdgeInsets.only(top: 8.0),
                       child: Container(
                         padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                        child: TextFormField(
-                          style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
-                          controller: _nameController,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(
-                                backgroundColor:Colors.transparent,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xff77778B)
-                                    : Color(0xff77778B)),
-                            hintText: tr(context).enterWalletName_,
-                            errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
-                          ),
-                          validator: (value) {
-                            walletRestorationStore.validateWalletName(value!,tr(context));
-                            return walletRestorationStore.errorMessage;
-                          },
+                        child: Observer(
+                          builder: (context) {
+                            return TextFormField(
+                              enabled: !(walletRestorationStore.state is WalletIsRestoring),
+                              style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
+                              controller: _nameController,
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(
+                                    backgroundColor:Colors.transparent,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff77778B)
+                                        : Color(0xff77778B)),
+                                hintText: tr(context).enterWalletName_,
+                                errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
+                              ),
+                              validator: (value) {
+                                walletRestorationStore.validateWalletName(value!,tr(context));
+                                return walletRestorationStore.errorMessage;
+                              },
+                            );
+                          }
                         ),
                       ),
                     ))
@@ -172,26 +177,31 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                       margin: EdgeInsets.only(top: 8.0),
                       child: Container(
                         padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                        child: TextFormField(
-                          style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
-                          controller: _addressController,
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(
-                                backgroundColor:Colors.transparent,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xff77778B)
-                                    : Color(0xff77778B)),
-                            hintText: tr(context).restore_address,
-                            errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
-                          ),
-                          validator: (value) {
-                            walletRestorationStore.validateAddress(value!,t:tr(context));
-                            return walletRestorationStore.errorMessage;
-                          },
+                        child: Observer(
+                            builder: (context) {
+                            return TextFormField(
+                              enabled: !(walletRestorationStore.state is WalletIsRestoring),
+                              style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
+                              controller: _addressController,
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(
+                                    backgroundColor:Colors.transparent,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff77778B)
+                                        : Color(0xff77778B)),
+                                hintText: tr(context).restore_address,
+                                errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
+                              ),
+                              validator: (value) {
+                                walletRestorationStore.validateAddress(value!,t:tr(context));
+                                return walletRestorationStore.errorMessage;
+                              },
+                            );
+                          }
                         ),
                       ),
                     ))
@@ -210,24 +220,29 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                       margin: EdgeInsets.only(top: 8.0),
                       child: Container(
                         padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                        child: TextFormField(
-                          style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
-                          controller: _viewKeyController,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(
-                                backgroundColor:Colors.transparent,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xff77778B)
-                                    : Color(0xff77778B)),
-                            hintText: tr(context).restore_view_key_private,
-                            errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
-                          ),
-                          validator: (value) {
-                            walletRestorationStore.validateKeys(value!,tr(context));
-                            return walletRestorationStore.errorMessage;
-                          },
+                        child: Observer(
+                            builder: (context) {
+                            return TextFormField(
+                              enabled: !(walletRestorationStore.state is WalletIsRestoring),
+                              style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
+                              controller: _viewKeyController,
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(
+                                    backgroundColor:Colors.transparent,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff77778B)
+                                        : Color(0xff77778B)),
+                                hintText: tr(context).restore_view_key_private,
+                                errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
+                              ),
+                              validator: (value) {
+                                walletRestorationStore.validateKeys(value!,tr(context));
+                                return walletRestorationStore.errorMessage;
+                              },
+                            );
+                          }
                         ),
                       ),
                     ))
@@ -246,24 +261,29 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                       margin: EdgeInsets.only(top: 8.0),
                       child: Container(
                         padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                        child: TextFormField(
-                          style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
-                          controller: _spendKeyController,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(
-                                backgroundColor:Colors.transparent,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xff77778B)
-                                    : Color(0xff77778B)),
-                            hintText: tr(context).restore_spend_key_private,
-                            errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
-                          ),
-                          validator: (value) {
-                            walletRestorationStore.validateKeys(value!,tr(context));
-                            return walletRestorationStore.errorMessage;
-                          },
+                        child: Observer(
+                            builder: (context) {
+                            return TextFormField(
+                              enabled: !(walletRestorationStore.state is WalletIsRestoring),
+                              style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
+                              controller: _spendKeyController,
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(
+                                    backgroundColor:Colors.transparent,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff77778B)
+                                        : Color(0xff77778B)),
+                                hintText: tr(context).restore_spend_key_private,
+                                errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
+                              ),
+                              validator: (value) {
+                                walletRestorationStore.validateKeys(value!,tr(context));
+                                return walletRestorationStore.errorMessage;
+                              },
+                            );
+                          }
                         ),
                       ),
                     ))
@@ -279,7 +299,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                         : Color(0xffEDEDED),
                   ),
                 ),
-                BlockHeightSwappingWidget(key: _blockchainHeightKey),
+                BlockHeightSwappingWidget(key: _blockchainHeightKey, walletRestorationStore: walletRestorationStore),
               ]),
             ],
           ),
@@ -327,16 +347,18 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
 ///// block height selection widget
 ///
 class BlockHeightSwappingWidget extends StatefulWidget {
-  const BlockHeightSwappingWidget({Key? key}) : super(key: key);
-
+  const BlockHeightSwappingWidget({Key? key, required this.walletRestorationStore}) : super(key: key);
+  final WalletRestorationStore walletRestorationStore;
   @override
   State<BlockHeightSwappingWidget> createState() =>
       _BlockHeightSwappingWidgetState();
 }
 
 class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
+  late final WalletRestorationStore walletRestorationStore;
   @override
   void initState() {
+    walletRestorationStore = widget.walletRestorationStore;
     restoreHeightController.addListener(() => _height =
     restoreHeightController.text.isNotEmpty
             ? int.parse(restoreHeightController.text)
@@ -371,33 +393,38 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                       margin: EdgeInsets.only(top: 20.0),
                       child: Container(
                         padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                        child: TextFormField(
-                          textInputAction: TextInputAction.done,
-                          style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
-                          controller: restoreHeightController,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly,NoSpaceFormatter(),FilteringTextInputFormatter.deny(RegExp('[-,. ]'))],
-                          keyboardType: TextInputType.numberWithOptions(
-                              decimal:true),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(
-                                backgroundColor:Colors.transparent,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xff77778B)
-                                    : Color(0xff77778B)),
-                            hintText:
-                                tr(context).widgets_restore_from_blockheight,
-                            errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
-                          ),
-                          validator: (value) {
-                            final pattern = RegExp(r'^(?!.*\s)\d+$');
-                            if (!pattern.hasMatch(value!)) {
-                              return tr(context).enterValidHeightWithoutSpace;
-                            }else {
-                              return null;
-                            }
-                          },
+                        child: Observer(
+                            builder: (context) {
+                            return TextFormField(
+                              enabled: !(walletRestorationStore.state is WalletIsRestoring),
+                              textInputAction: TextInputAction.done,
+                              style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
+                              controller: restoreHeightController,
+                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                              inputFormatters: [FilteringTextInputFormatter.digitsOnly,NoSpaceFormatter(),FilteringTextInputFormatter.deny(RegExp('[-,. ]'))],
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal:true),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(
+                                    backgroundColor:Colors.transparent,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff77778B)
+                                        : Color(0xff77778B)),
+                                hintText:
+                                    tr(context).widgets_restore_from_blockheight,
+                                errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
+                              ),
+                              validator: (value) {
+                                final pattern = RegExp(r'^(?!.*\s)\d+$');
+                                if (!pattern.hasMatch(value!)) {
+                                  return tr(context).enterValidHeightWithoutSpace;
+                                }else {
+                                  return null;
+                                }
+                              },
+                            );
+                          }
                         ),
                       ),
                     ))
@@ -416,37 +443,46 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                         padding: EdgeInsets.only(
                             left: 30, top: 5, bottom: 5, right: 10),
                         child: InkWell(
-                          onTap: () => selectDate(context,settingsStore),
+                          onTap: () {
+                            if(!(walletRestorationStore.state is WalletIsRestoring)) {
+                              selectDate(context,settingsStore);
+                            }
+                          },
                           child: IgnorePointer(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
                                   width: 130,
-                                  child: TextFormField(
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                          backgroundColor:Colors.transparent,
-                                          color: settingsStore.isDarkTheme
-                                              ? Color(0xff77778B)
-                                              : Color(0xff77778B)),
-                                      hintText:tr(context)
-                                          .widgets_restore_from_date,
-                                      errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
-                                    ),
-                                    controller: dateController,
-                                    validator: (value) {
-                                      if (value?.isEmpty ?? false) {
-                                        return tr(context)
-                                            .dateShouldNotBeEmpty;
-                                      } else {
-                                        return null;
-                                      }
-                                    },
+                                  child: Observer(
+                                      builder: (context) {
+                                      return TextFormField(
+                                        enabled: !(walletRestorationStore.state is WalletIsRestoring),
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
+                                        decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintStyle: TextStyle(
+                                              backgroundColor:Colors.transparent,
+                                              color: settingsStore.isDarkTheme
+                                                  ? Color(0xff77778B)
+                                                  : Color(0xff77778B)),
+                                          hintText:tr(context)
+                                              .widgets_restore_from_date,
+                                          errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
+                                        ),
+                                        controller: dateController,
+                                        validator: (value) {
+                                          if (value?.isEmpty ?? false) {
+                                            return tr(context)
+                                                .dateShouldNotBeEmpty;
+                                          } else {
+                                            return null;
+                                          }
+                                        },
+                                      );
+                                    }
                                   ),
                                 ),
                                 Icon(Icons.calendar_today,
