@@ -166,8 +166,7 @@ abstract class SettingsStoreBase with Store {
   Future saveDarkTheme({required bool isDarkTheme}) async {
     this.isDarkTheme = isDarkTheme;
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: isDarkTheme ? Colors.black : Color.fromARGB(
-            255, 201, 201, 201)));
+        statusBarColor: isDarkTheme ? Color(0xff171720) : Color(0xffffffff), systemNavigationBarColor: isDarkTheme ? Color(0xff171720) : Color(0xffffffff), systemNavigationBarDividerColor: isDarkTheme ? Color(0xff24242F) : Color(0xffEDEDED), systemNavigationBarIconBrightness: isDarkTheme ?  Brightness.light : Brightness.dark));
     await _sharedPreferences.setBool(currentDarkTheme, isDarkTheme);
   }
 

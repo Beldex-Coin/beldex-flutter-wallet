@@ -274,6 +274,8 @@ class MaterialAppWithTheme extends StatelessWidget {
     final theme = Provider.of<ThemeChanger>(context);
     final statusBarColor =
         settingsStore.isDarkTheme ?  Color(0xff171720) : Color(0xffffffff);
+    final systemNavigationBarDividerColor =
+    settingsStore.isDarkTheme ?  Color(0xff24242F) : Color(0xffEDEDED);
     final languageNotifier = Provider.of<LanguageNotifier>(context);
     final contacts = Provider.of<Box<Contact>>(context);
     final nodes = Provider.of<Box<Node>>(context);
@@ -281,7 +283,7 @@ class MaterialAppWithTheme extends StatelessWidget {
         Provider.of<Box<TransactionDescription>>(context);
  
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: statusBarColor));
+        SystemUiOverlayStyle(statusBarColor: statusBarColor, systemNavigationBarColor: statusBarColor, systemNavigationBarDividerColor: systemNavigationBarDividerColor, systemNavigationBarIconBrightness: settingsStore.isDarkTheme ?  Brightness.light : Brightness.dark));
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,
