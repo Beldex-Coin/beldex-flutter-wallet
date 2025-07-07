@@ -349,7 +349,7 @@
   "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate": "Make sure to take backup of your\nrecovery Seed, wallet address\nand private keys",
   "blockRemaining": "{status} Block Remaining",
   "flashTransaction": "Flash Transaction",
-  "transferYourBdxMoreFasternWithFlashTransaction": "Transfer your BDX more faster\n with Flash Transaction!",
+  "transferYourBdxMoreFasternWithFlashTransaction": "Transfer your BDX more faster with\n Flash Transaction!",
   "enterYourPin": "Enter Your PIN",
   "walletSettings": "Wallet Settings",
   "recoverySeed": "Recovery Seed",
