@@ -90,7 +90,7 @@ class DashboardPage extends BasePage {
           icon: SvgPicture.asset(
             'assets/images/new-images/setting.svg',
             fit: BoxFit.cover,
-            color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
             width: 23,
             height: 23,
           ),
@@ -111,8 +111,8 @@ class DashboardPage extends BasePage {
         width:ScreenSize.screenWidth, //MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
             color: settingsStore.isDarkTheme
-                ? Color(0xff24242F)
-                : Color(0xffEDEDED)),
+                ? Color(0xff171720)
+                : Color(0xffffffff)),
         child: Container(
             margin:EdgeInsets.only(left:15,right:15),
             child:Row(
@@ -122,26 +122,26 @@ class DashboardPage extends BasePage {
                   child: ElevatedButton.icon(
                     icon: SvgPicture.asset(
                       'assets/images/new-images/address_book.svg',
-                      color:
-                      settingsStore.isDarkTheme ? Colors.white : Colors.black,
+                      colorFilter: ColorFilter.mode(Color(0xFF1BB71F), BlendMode.srcIn),
                     ),
                     onPressed: () =>
                         Navigator.of(context).pushNamed(Routes.addressBook),
                     label: Text(tr(context).address_book,
                         style: TextStyle(
                             backgroundColor: Colors.transparent,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w800,
                             color: settingsStore.isDarkTheme
                                 ? Colors.white
                                 : Colors.black)),
                     style: ElevatedButton.styleFrom(
+                      elevation: 0,
                       fixedSize: Size.fromHeight(ScreenSize.screenHeight025),
                       backgroundColor: settingsStore.isDarkTheme
-                          ? Color(0xff333343)
-                          : Color(0xffD4D4D4),
+                          ? Color(0xff24242F)
+                          : Color(0xffEDEDED),
                       padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                   ),
@@ -152,20 +152,26 @@ class DashboardPage extends BasePage {
                 Expanded(
                   child: ElevatedButton.icon(
                     icon: SvgPicture.asset(
-                        'assets/images/new-images/transactions.svg'),
+                        'assets/images/new-images/transactions.svg',
+                      colorFilter: ColorFilter.mode(Color(0xFF2979FB), BlendMode.srcIn),),
                     onPressed: () =>
                         Navigator.of(context).pushNamed(Routes.transactionlist),
                     label: Text(tr(context).transactions,
                         style: TextStyle(
                           backgroundColor: Colors.transparent,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,)),
+                          fontWeight: FontWeight.w800,
+                          color: settingsStore.isDarkTheme
+                              ? Colors.white
+                              : Colors.black,)),
                     style: ElevatedButton.styleFrom(
+                      elevation: 0,
                       fixedSize: Size.fromHeight(ScreenSize.screenHeight025),
-                      backgroundColor: Color(0xff0BA70F),
+                      backgroundColor: settingsStore.isDarkTheme
+                          ? Color(0xff24242F)
+                          : Color(0xffEDEDED),
                       padding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                   ),
@@ -341,7 +347,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         }),
                     // SizedBox(height:10),
                     Container(
-                      height:_height * 0.71 / 3,
+                      height:_height * 0.65 / 3,
                       width:_width,
                       margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
                       decoration: BoxDecoration(
@@ -354,7 +360,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         children: [
                           Container(
                             margin: EdgeInsets.only(
-                                left: 15, right: 15, top: 15, bottom: 8),
+                                left: 15, right: 15, top: 15,),
                             child: Observer(
                                 key: _connectionStatusObserverKey,
                                 builder: (_) {
@@ -406,7 +412,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                 .height *
                                                 0.12 /
                                                 3,
-                                            fontWeight: FontWeight.bold,
+                                            fontWeight: FontWeight.w500,
                                           ),
                                         ),
                                         Text(
@@ -417,7 +423,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                 .bodySmall!
                                                 .color,
                                             fontSize: 14,
-                                            fontWeight: FontWeight.w600,
+                                            fontWeight: FontWeight.w500,
                                           ),
                                         ),
                                       ],
@@ -466,7 +472,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           color: Color(0xff0BA70F),
                                           fontSize:
                                           MediaQuery.of(context).size.height *
-                                              0.07 /
+                                              0.06 /
                                               3));
                                 }),
                           ),
@@ -480,13 +486,14 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                 Expanded(
                                   child: Observer(builder: (_) {
                                     return ElevatedButton.icon(
+                                      iconAlignment: IconAlignment.end,
                                       icon: SvgPicture.asset(
                                         'assets/images/new-images/send.svg',
-                                        color: syncStatus(syncStore.status)
+                                        colorFilter: ColorFilter.mode(syncStatus(syncStore.status)
                                             ? Colors.white
                                             : settingsStore.isDarkTheme
                                             ? Color(0xff6C6C78)
-                                            : Color(0xffB2B2B6),
+                                            : Color(0xffB2B2B6), BlendMode.srcIn),
                                       ),
                                       onPressed: syncStatus(syncStore.status)
                                           ? () {
@@ -498,17 +505,18 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       label: Text(
                                         tr(context).send,
                                         style: TextStyle(
-                                          fontSize: 13,
+                                          fontSize: 14,
                                           backgroundColor: Colors.transparent,
                                           color: syncStatus(syncStore.status)
                                               ? Colors.white
                                               : settingsStore.isDarkTheme
                                               ? Color(0xff6C6C78)
                                               : Color(0xffB2B2B6),
-                                          fontWeight: FontWeight.bold,),
+                                          fontWeight: FontWeight.w800,),
                                       ),
                                       style: ElevatedButton.styleFrom(
-                                        fixedSize: Size.fromHeight(ScreenSize.buttonHeight017),
+                                        elevation: 0,
+                                        fixedSize: Size.fromHeight(ScreenSize.buttonHeight020),
                                         backgroundColor: syncStatus(syncStore.status)
                                             ? Color(0xff0BA70F)
                                             : settingsStore.isDarkTheme
@@ -516,7 +524,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                             : Color(0xffE8E8E8),
                                         padding: EdgeInsets.zero,
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(16),
                                         ),
                                       ),
                                     );
@@ -527,6 +535,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                 ),
                                 Expanded(
                                   child: ElevatedButton.icon(
+                                    iconAlignment: IconAlignment.end,
                                     icon: SvgPicture.asset(
                                         'assets/images/new-images/receive.svg'),
                                     onPressed: () =>
@@ -535,57 +544,18 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                     label: Text(
                                       tr(context).receive,
                                       style: TextStyle(
-                                        fontSize: 13,
+                                        fontSize: 14,
                                         backgroundColor: Colors.transparent,
                                         color: Colors.white,
-                                        fontWeight: FontWeight.bold,),
+                                        fontWeight: FontWeight.w800,),
                                     ),
                                     style: ElevatedButton.styleFrom(
-                                      fixedSize: Size.fromHeight(ScreenSize.buttonHeight017),
+                                      elevation: 0,
+                                      fixedSize: Size.fromHeight(ScreenSize.buttonHeight020),
                                       backgroundColor: Color(0xff2979FB),
                                       padding: EdgeInsets.zero,
                                       shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Expanded(
-                                  child: ElevatedButton.icon(
-                                    icon: SvgPicture.asset(
-                                      'assets/images/swap/swap.svg',colorFilter:ColorFilter.mode(isOnline(context)? Color(0xff0BA70F) : settingsStore.isDarkTheme
-                                        ? Color(0xff6C6C78)
-                                        : Color(0xffB2B2B6), BlendMode.srcIn),),
-                                    onPressed: isOnline(context) ? () {
-                                        Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
-                                    } : null,
-                                    label: Text(
-                                      tr(context).swap,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: isOnline(context)
-                                            ? Color(0xff0BA70F)
-                                            : settingsStore.isDarkTheme
-                                            ? Color(0xff6C6C78)
-                                            : Color(0xffB2B2B6),
-                                        fontWeight: FontWeight.bold,),
-                                    ),
-                                    style: ElevatedButton.styleFrom(
-                                      fixedSize: Size.fromHeight(ScreenSize.buttonHeight017),
-                                      backgroundColor:  isOnline(context)
-                                          ? settingsStore.isDarkTheme? Color(0xff24242F) : Color(0xffFFFFFF)
-                                          : settingsStore.isDarkTheme
-                                          ? Color(0xff333343)
-                                          : Color(0xffE8E8E8),
-                                      padding: EdgeInsets.zero,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
-                                          side:BorderSide(color:  isOnline(context) ? Color(0xff0BA70F):settingsStore.isDarkTheme
-                                              ? Color(0xff333343)
-                                              : Color(0xffE8E8E8))
+                                        borderRadius: BorderRadius.circular(16),
                                       ),
                                     ),
                                   ),
@@ -597,59 +567,101 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                       ),
                     ),
                     Container(
-                      width: _width,
-                      margin: EdgeInsets.only(left:15.0,right: 15.0),
-                      child: Observer(builder: (_) {
-                        return SizedBox(
-                          height: MediaQuery.of(context).size.height*0.17/3,
-                          child: ElevatedButton.icon(
-                            icon: syncStatus(syncStore.status) ? SvgPicture.asset(
-                              settingsStore.isDarkTheme?'assets/images/new-images/ic_bns_dark.svg':'assets/images/new-images/ic_bns_light.svg',
-                            ) : SvgPicture.asset(
-                              'assets/images/new-images/ic_bns_dark.svg',
-                              color: settingsStore.isDarkTheme
+                      margin: EdgeInsets.only(left: 15.0, right: 15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              iconAlignment: IconAlignment.end,
+                              icon: SvgPicture.asset(
+                                'assets/images/swap/ic_swap.svg',colorFilter:ColorFilter.mode(isOnline(context)? Color(0xff0BA70F) : settingsStore.isDarkTheme
                                   ? Color(0xff6C6C78)
-                                  : Color(0xffB2B2B6),
-                            ),
-                            onPressed: syncStatus(syncStore.status)
-                                ? () {
-                              Navigator.of(context,
-                                  rootNavigator: true)
-                                  .pushNamed(Routes.bns);
-                            }
-                                : null,
-                            label: Text(
-                              tr(context).buyBns,
-                              style: TextStyle(
-                                backgroundColor: Colors.transparent,
-                                color: syncStatus(syncStore.status)
-                                    ? settingsStore.isDarkTheme
-                                    ? Colors.white
-                                    : Colors.black
+                                  : Color(0xffB2B2B6), BlendMode.srcIn),),
+                              onPressed: isOnline(context) ? () {
+                                Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
+                              } : null,
+                              label: Text(
+                                tr(context).swap,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: isOnline(context)
+                                      ? settingsStore.isDarkTheme
+                                      ? Color(0xffFFFFFF)
+                                      : Color(0xff333333)
+                                      : settingsStore.isDarkTheme
+                                      ? Color(0xff6C6C78)
+                                      : Color(0xffB2B2B6),
+                                  fontWeight: FontWeight.w800,),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                fixedSize: Size.fromHeight(ScreenSize.screenHeight025),
+                                backgroundColor:  isOnline(context)
+                                    ? settingsStore.isDarkTheme? Color(0xff272733) : Color(0xffEDEDED)
                                     : settingsStore.isDarkTheme
-                                    ? Color(0xff6C6C78)
-                                    : Color(0xffB2B2B6),
-                                fontWeight: FontWeight.bold,),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: syncStatus(syncStore.status)
-                                  ? settingsStore.isDarkTheme
-                                  ? Color(0xff272733)
-                                  : Color(0xffFFFFFF)
-                                  : settingsStore.isDarkTheme
-                                  ? Color(0xff333343)
-                                  : Color(0xffE8E8E8),
-                              padding: EdgeInsets.all(12),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  side: BorderSide(color: syncStatus(syncStore.status) ? Color(0xff2979FB):settingsStore.isDarkTheme
-                                      ? Color(0xff333343)
-                                      : Color(0xffE8E8E8))
+                                    ? Color(0xff333343)
+                                    : Color(0xffE8E8E8),
+                                padding: EdgeInsets.zero,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                ),
                               ),
                             ),
                           ),
-                        );
-                      }),
+                          SizedBox(width: 5,),
+                          Expanded(
+                            child: Observer(builder: (_) {
+                              return ElevatedButton.icon(
+                                iconAlignment: IconAlignment.end,
+                                icon: syncStatus(syncStore.status) ? SvgPicture.asset('assets/images/new-images/ic_buy_bns.svg',
+                                ) : SvgPicture.asset(
+                                  'assets/images/new-images/ic_buy_bns.svg',
+                                    colorFilter:ColorFilter.mode(settingsStore.isDarkTheme
+                                        ? Color(0xff6C6C78)
+                                        : Color(0xffB2B2B6), BlendMode.srcIn),
+                                ),
+                                onPressed: syncStatus(syncStore.status)
+                                    ? () {
+                                  Navigator.of(context,
+                                      rootNavigator: true)
+                                      .pushNamed(Routes.bns);
+                                }
+                                    : null,
+                                label: Text(
+                                  tr(context).buyBns,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    backgroundColor: Colors.transparent,
+                                    color: syncStatus(syncStore.status)
+                                        ? settingsStore.isDarkTheme
+                                        ? Color(0xffFFFFFF)
+                                        : Color(0xff333333)
+                                        : settingsStore.isDarkTheme
+                                        ? Color(0xff6C6C78)
+                                        : Color(0xffB2B2B6),
+                                    fontWeight: FontWeight.w800,),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  fixedSize: Size.fromHeight(ScreenSize.screenHeight025),
+                                  backgroundColor: syncStatus(syncStore.status)
+                                      ? settingsStore.isDarkTheme
+                                      ? Color(0xff24242F)
+                                      : Color(0xffEDEDED)
+                                      : settingsStore.isDarkTheme
+                                      ? Color(0xff333343)
+                                      : Color(0xffE8E8E8),
+                                  padding: EdgeInsets.zero,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
+                              );
+                            }),
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),
@@ -662,7 +674,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
               width: double.infinity,
               decoration: BoxDecoration(
                   color: settingsStore.isDarkTheme
-                      ? Color(0xff272733)
+                      ? Color(0xff24242F)
                       : Color(0xffEDEDED),
                   borderRadius: BorderRadius.circular(10.0)),
               child: Column(
@@ -683,24 +695,26 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         }
                             : null,
                         child: Container(
-                          padding: EdgeInsets.all(15),
+                          padding: EdgeInsets.only(top: 15, bottom: 15, left: 20, right: 20),
                           decoration: BoxDecoration(
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xffD9D9D9)
-                                : Color(0xffE2E2E2),
+                            color: syncStatus(syncStore.status) ? settingsStore.isDarkTheme
+                                ? Color(0xff24242F)
+                                : Color(0xffF7F7F7) : settingsStore.isDarkTheme
+                                ? Color(0xff333343)
+                                : Color(0xffE8E8E8),
                             borderRadius: BorderRadius.circular(10),
+                            border: Border.fromBorderSide(BorderSide(color: syncStatus(syncStore.status) ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                                ? Color(0xff6C6C78)
+                                : Color(0xffB2B2B6), width: 2.67)),
                           ),
-                          child: Container(
-                              decoration: BoxDecoration(
-                                color: Color(0xffFFFFFF),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: SvgPicture.asset(
-                                'assets/images/new-images/flashqr.svg',
-                                color: syncStatus(syncStore.status)
-                                    ? Color(0xff222222)
-                                    : Color(0xffD9D9D9),
-                              )),
+                          child: syncStatus(syncStore.status) ? SvgPicture.asset(
+                            'assets/images/new-images/flashqr.svg',
+                          ) : SvgPicture.asset(
+                            'assets/images/new-images/flashqr.svg',
+                            colorFilter:ColorFilter.mode(settingsStore.isDarkTheme
+                                ? Color(0xff6C6C78)
+                                : Color(0xffB2B2B6), BlendMode.srcIn),
+                          ),
                         ),
                       );
                     },

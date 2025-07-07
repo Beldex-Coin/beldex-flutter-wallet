@@ -12,7 +12,7 @@ class ScreenSize {
   static double screenHeight025 = 0;
   static double screenHeight071 = 0;
   static double screenHeight070 = 0;
-  static double buttonHeight017 = 0;
+  static double buttonHeight020 = 0;
   static void init(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     screenWidth = mediaQuery.size.width;
@@ -26,6 +26,6 @@ class ScreenSize {
     screenHeight025 = mediaQuery.size.height * 0.25 / 3;
     screenHeight071 = mediaQuery.size.height * 0.71 / 3;
     screenHeight070 = mediaQuery.size.height * 0.70/3;
-    buttonHeight017 = mediaQuery.size.height * 0.17 / 3;
+    buttonHeight020 = mediaQuery.size.height * 0.20 / 3;
   }
 }
