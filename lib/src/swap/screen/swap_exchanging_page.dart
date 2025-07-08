@@ -371,7 +371,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                                     onTap: (){
                                       currencyDetails!.result!.forEach((item){
                                         if(item.ticker == transactionDetails.result!.currencyFrom) {
-                                          final url = processUrl(item.transactionUrl, transactionDetails.result?.payinAddress);
+                                          final url = processUrl(item.transactionUrl, transactionDetails.result?.payinHash);
                                           if(url.trim().isNotEmpty){
                                             openUrl(methodChannelPlatform: methodChannelPlatform, url: url);
                                           }
