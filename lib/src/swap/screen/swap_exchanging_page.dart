@@ -710,15 +710,43 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                                             ? Color(0xffAFAFBE)
                                             : Color(0xff737373)),
                                   ),
-                                  Text(
-                                    '${transactionDetails?.id}',
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        color: settingsStore.isDarkTheme
-                                            ? Color(0xffEBEBEB)
-                                            : Color(0xff222222)),
-                                  ),
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text(
+                                        '${transactionDetails?.id}',
+                                        style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w500,
+                                            color: settingsStore.isDarkTheme
+                                                ? Color(0xffEBEBEB)
+                                                : Color(0xff222222)),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      InkWell(
+                                        onTap: (){
+                                          Clipboard.setData(ClipboardData(
+                                              text: transactionDetails!.id.toString()));
+                                          Toast.show(
+                                            tr(context).copied,
+                                            duration: Toast
+                                                .lengthShort, // Toast duration (short or long)
+                                            gravity: Toast
+                                                .bottom,
+                                            textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
+                                            backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                                          );
+                                        },
+                                        child: Icon(
+                                          Icons.copy,
+                                          color: Color(0xff20D030),
+                                          size: 14,
+                                        ),
+                                      )
+                                    ],
+                                  )
                                 ],
                               ),
                             ),
