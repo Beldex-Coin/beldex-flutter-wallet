@@ -17,3 +17,4 @@ include_directories( ${EXTERNAL_LIBS_DIR}/beldex/include )
 
 target_link_libraries( beldex_coin PRIVATE wallet_api )
 target_include_directories( beldex_coin PRIVATE wallet_api )
+target_link_options(beldex_coin PRIVATE "-Wl,-z,max-page-size=16384")
