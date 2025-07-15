@@ -1,15 +1,18 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../../l10n.dart';
 import 'package:beldex_wallet/src/domain/common/contact.dart';
 import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/address_book/address_book_store.dart';
-import 'package:beldex_wallet/src/widgets/address_text_field.dart';
-import 'package:beldex_wallet/src/widgets/beldex_text_field.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:provider/provider.dart';
+
+import '../../../palette.dart';
+import '../../domain/common/qr_scanner.dart';
 
 class ContactPage extends BasePage {
   ContactPage({required this.contact});
@@ -48,8 +51,6 @@ class ContactFormState extends State<ContactForm> {
   final _contactNameController = TextEditingController();
   final _currencyTypeController = TextEditingController();
   final _addressController = TextEditingController();
-  bool coinVisibility = false;
-  final ScrollController _scrollController = ScrollController();
   List<String> addNameList = [];
   CryptoCurrency _selectedCrypto = CryptoCurrency.bdx;
 
@@ -73,18 +74,6 @@ class ContactFormState extends State<ContactForm> {
     _currencyTypeController.dispose();
     _addressController.dispose();
     super.dispose();
-  }
-
-  Future<void> _setCurrencyType(BuildContext context) async {
-    if (coinVisibility == false) {
-      setState(() {
-        coinVisibility = true;
-      });
-    } else {
-      setState(() {
-        coinVisibility = false;
-      });
-    }
   }
 
   bool validateInput(String input) {
@@ -120,169 +109,103 @@ class ContactFormState extends State<ContactForm> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               SizedBox(height: 14.0),
-              BeldexTextField(
-                enabled: !coinVisibility,
-                hintText: tr(context).enterName,
-                controller: _contactNameController,
-                autoValidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) {
-                  if (value == null || value == '') {
-                    return tr(context).nameShouldNotBeEmpty;
-                  } else if (!validateInput(value)) {
-                    return tr(context).enterAValidName;
-                  }
-                  if (_checkName(value)) {
-                    return tr(context).thisNameAlreadyExist;
-                  }
-                  addressBookStore.validateContactName(value,tr(context));
-                  if(addressBookStore.errorMessage?.isNotEmpty ?? false) {
-                    return addressBookStore.errorMessage;
-                  }else{
-                    return null;
-                  }
-                },
-              ),
-              SizedBox(height: 14.0),
-              Visibility(
-                visible: false,
-                child: Stack(
-                  children: [
-                    Container(
-                      child: InkWell(
-                        onTap: () => _setCurrencyType(context),
-                        child: IgnorePointer(
-                          child: BeldexTextField(
-                            controller: _currencyTypeController,
-                          ),
-                        ),
-                      ),
-                    ),
-                    /*Visibility(
-                      visible: coinVisibility,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 175,
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                  blurRadius: 1,
-                                  spreadRadius: 1,
-                                  offset: Offset(0.0, 2.0))
-                            ],
-                            border: Border.all(color: Colors.white),
-                            color: Color.fromARGB(255, 31, 32, 39),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: DraggableScrollbar.rrect(
-                          padding: EdgeInsets.only(
-                              left: 5, right: 5, top: 10, bottom: 10),
-                          controller: _scrollController,
-                          heightScrollThumb: 25,
-                          alwaysVisibleScrollThumb: true,
-                          backgroundColor: Theme.of(context)
-                              .primaryTextTheme
-                              .button
-                              .backgroundColor,
-                          child: ListView.builder(
-                              itemCount: CryptoCurrency.all.length,
-                              shrinkWrap: true,
-                              controller: _scrollController,
-                              itemBuilder: (BuildContext context, int index) {
-                                return InkWell(
-                                  onTap: () async {
-                                    var currencyType =
-                                        CryptoCurrency.all[0].toString();
-                                    var selectedCurrency =
-                                        CryptoCurrency.all[0];
-                                    selectedCurrency =
-                                        CryptoCurrency.all[index];
-                                    currencyType =
-                                        CryptoCurrency.all[index].toString();
-                                    if (coinVisibility == false) {
-                                      setState(() {
-                                        coinVisibility = true;
-                                      });
-                                    } else {
-                                      setState(() {
-                                        coinVisibility = false;
-                                      });
-                                    }
-                                    _selectedCrypto = selectedCurrency;
-                                    _currencyTypeController.text = currencyType;
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 20.0, right: 20.0),
-                                    child: Card(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      elevation: _selectedCrypto ==
-                                              CryptoCurrency.all[index]
-                                          ? 2.0
-                                          : 0.0,
-                                      color: _selectedCrypto ==
-                                              CryptoCurrency.all[index]
-                                          ? Theme.of(context).backgroundColor
-                                          : Color.fromARGB(255, 31, 32, 39),
-                                      child: Container(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        padding: EdgeInsets.only(
-                                            top: 15, bottom: 15),
-                                        child: Text(
-                                          CryptoCurrency.all[index].toString(),
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              backgroundColor: Colors.transparent,
-                                              fontSize: 16,
-                                              color: _selectedCrypto !=
-                                                      CryptoCurrency.all[index]
-                                                  ? Colors.grey.withOpacity(0.6)
-                                                  : Theme.of(context)
-                                                      .primaryTextTheme
-                                                      .headline6
-                                                      .color,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }),
-                        ),
-                      ),
-                    ),*/
-                  ],
+              Card(
+                elevation:0,
+                color: Theme.of(context).cardColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left:25.0),
+                  child:TextFormField(
+                    controller: _contactNameController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if (value == null || value == '') {
+                        return tr(context).nameShouldNotBeEmpty;
+                      } else if (!validateInput(value)) {
+                        return tr(context).enterAValidName;
+                      }
+                      if (_checkName(value)) {
+                        return tr(context).thisNameAlreadyExist;
+                      }
+                      addressBookStore.validateContactName(value,tr(context));
+                      if(addressBookStore.errorMessage?.isNotEmpty ?? false) {
+                        return addressBookStore.errorMessage;
+                      }else{
+                        return null;
+                      }
+                    },
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle:
+                        TextStyle(backgroundColor:Colors.transparent,fontSize: 16.0, color: Colors.grey.withOpacity(0.6),fontWeight: FontWeight.bold),
+                        hintText: tr(context).enterName,
+                        errorStyle: TextStyle(backgroundColor:Colors.transparent,color: BeldexPalette.red)),
+                  ),
                 ),
               ),
               SizedBox(height: 14.0),
-              AddressTextField(
-                controller: _addressController,
-                options: [AddressTextFieldOption.qrCode],
-                autoValidateMode: AutovalidateMode.onUserInteraction,
-                validator: (value) {
-                  if(value?.isEmpty ?? false || value == ''){
-                    return 'Address should not be empty';
-                  }else
-                  {
-                    if(widget.contact.name.isEmpty && widget.contact.address.isEmpty){
-                  for (var items in addressBookStore.contactList) {
-                    if (items.address.contains(value!)) {
-                      return tr(context).theAddressAlreadyExist;
-                    }
-                  }
-                  }
-                    addressBookStore.validateAddress(value!, cryptoCurrency: _selectedCrypto,t:tr(context));
-                    if(addressBookStore.errorMessage?.isNotEmpty ?? false) {
-                      return addressBookStore.errorMessage;
-                    }else{
-                      return null;
-                    }
-                  }
-                },
-                onChanged: (context){},
-                onTap: (){},
-              )
+              Card(
+                elevation:0,
+                color: Theme.of(context).cardColor,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left:25.0),
+                  child:TextFormField(
+                    controller: _addressController,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9.-]')),
+                    ],
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) {
+                      if(value?.isEmpty ?? false || value == ''){
+                        return 'Address should not be empty';
+                      }else
+                      {
+                        if(widget.contact.name.isEmpty && widget.contact.address.isEmpty){
+                          for (var items in addressBookStore.contactList) {
+                            if (items.address.contains(value!)) {
+                              return tr(context).theAddressAlreadyExist;
+                            }
+                          }
+                        }
+                        addressBookStore.validateAddress(value!, cryptoCurrency: _selectedCrypto,t:tr(context));
+                        if(addressBookStore.errorMessage?.isNotEmpty ?? false) {
+                          return addressBookStore.errorMessage;
+                        }else{
+                          return null;
+                        }
+                      }
+                    },
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        suffixIcon: Container(
+                            width: 20.0,
+                            height: 20.0,
+                            padding: EdgeInsets.all(10),
+                            child: InkWell(
+                              onTap: () async => _presentQRScanner(context,_addressController),
+                              child: SvgPicture.asset(
+                                'assets/images/qr_code_svg.svg',
+                                width: 20,
+                                height: 20,
+                                color:
+                                Theme.of(context).primaryTextTheme.bodySmall?.color,
+                                placeholderBuilder: (context) {
+                                  return Icon(Icons.image);
+                                },
+                              ),
+                            )),
+                        hintStyle:
+                        TextStyle(backgroundColor:Colors.transparent,fontSize: 16.0, color: Colors.grey.withOpacity(0.6),fontWeight: FontWeight.bold),
+                        hintText: tr(context).enterAddress,
+                        errorStyle: TextStyle(backgroundColor:Colors.transparent,color: BeldexPalette.red)),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -294,19 +217,15 @@ class ContactFormState extends State<ContactForm> {
               Expanded(
                 flex: 1,
                 child: ElevatedButton(
-                  onPressed: coinVisibility
-                      ? null
-                      : () {
-                          if (!coinVisibility) {
-                            setState(() {
-                              _selectedCrypto = CryptoCurrency.xmr;
-                              _contactNameController.text = '';
-                              _currencyTypeController.text =
-                                  _selectedCrypto.toString();
-                              _addressController.text = '';
-                            });
-                          }
-                        },
+                  onPressed: () {
+                    setState(() {
+                      _selectedCrypto = CryptoCurrency.xmr;
+                      _contactNameController.text = '';
+                      _currencyTypeController.text =
+                          _selectedCrypto.toString();
+                      _addressController.text = '';
+                    });
+                    },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: settingsStore.isDarkTheme
                         ? Color(0xff383848)
@@ -335,9 +254,7 @@ class ContactFormState extends State<ContactForm> {
               Expanded(
                 flex: 1,
                 child: ElevatedButton(
-                  onPressed: coinVisibility
-                      ? null
-                      : () async {
+                  onPressed: () async {
                           if (!(_formKey.currentState?.validate() ?? false)) {
                             return;
                           }
@@ -460,5 +377,23 @@ class ContactFormState extends State<ContactForm> {
             ],
           ),
         ));
+  }
+
+  Future<void> _presentQRScanner(BuildContext context, TextEditingController controller) async {
+    try {
+      final code = await presentQRScanner();
+      final uri = Uri.parse(code!);
+      var address = '';
+
+      if (uri == null) {
+        controller?.text = code;
+        return;
+      }
+
+      address = uri.path;
+      controller?.text = address;
+    } catch (e) {
+      print('Error $e');
+    }
   }
 }
