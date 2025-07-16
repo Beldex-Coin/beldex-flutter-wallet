@@ -1621,7 +1621,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                     ? Color(0xff24242f)
                     : Color(0xfff3f3f3),
                 border: Border.all(
-                  color: getPairsParamsProvider.getSendFieldErrorState()?Colors.red:Color(0xff333343),
+                  color: Color(0xff333343),
                 ),
               ),
               child: Row(
