@@ -10,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
+import '../../util/network_provider.dart';
 import '../api_client/get_status_api_client.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
@@ -80,6 +81,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
 
   late GetTransactionStatus transactionStatus;
   late GetStatusApiClient getStatusApiClient;
+  late NetworkProvider networkProvider;
 
   @override
   void initState() {
@@ -94,18 +96,23 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     ToastContext().init(context);
-    return body(
-        _screenWidth,
-        _screenHeight,
-        settingsStore,
-        _scrollController);
+    return Consumer<NetworkProvider>(
+        builder: (context, networkProvider, child) {
+          this.networkProvider = networkProvider;
+        return body(
+            _screenWidth,
+            _screenHeight,
+            settingsStore,
+            _scrollController,networkProvider);
+      }
+    );
   }
 
   Widget body(
       double _screenWidth,
       double _screenHeight,
       SettingsStore settingsStore,
-      ScrollController _scrollController
+      ScrollController _scrollController, NetworkProvider networkProvider
       ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -143,7 +150,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                             padding: const EdgeInsets.all(15.0),
                             width: _screenWidth,
                             height: double.infinity,
-                            child: exchangeNotPaidScreen(settingsStore),
+                            child: exchangeNotPaidScreen(settingsStore,networkProvider),
                           ),
                         ),
                       ),
@@ -154,7 +161,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
     );
   }
 
-  Widget exchangeNotPaidScreen(SettingsStore settingsStore) {
+  Widget exchangeNotPaidScreen(SettingsStore settingsStore, NetworkProvider networkProvider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -420,7 +427,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
           alignment: Alignment.center,
           child: ElevatedButton(
             onPressed: () {
-              if(isOnline(context)) {
+              if(networkProvider.isConnected) {
                 Navigator.of(context).pop(true);
                 Navigator.of(context, rootNavigator: true).pushNamed(
                     Routes.swapExchange);

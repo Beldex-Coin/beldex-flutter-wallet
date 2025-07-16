@@ -15,6 +15,7 @@ import 'package:toast/toast.dart';
 
 import '../../../palette.dart';
 import '../../../routes.dart';
+import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
 import '../api_client/get_status_api_client.dart';
 import '../provider/get_currencies_full_provider.dart';
@@ -94,6 +95,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
   late List<String> stored = [];
   static const methodChannelPlatform = MethodChannel("io.beldex.wallet/beldex_wallet_channel");
   late GetCurrenciesFullProvider getCurrenciesFullProvider;
+  late NetworkProvider networkProvider;
   bool _isInitialized = false;
 
   @override
@@ -112,7 +114,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
       callGetStatusApi(transactionDetails, getStatusApiClient);
       if (!mounted) return;
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
-        if (!mounted && !isOnline(context)) return;
+        if (!mounted && !networkProvider.isConnected) return;
         callGetStatusApi(transactionDetails, getStatusApiClient);
       });
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -172,23 +174,28 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     ToastContext().init(context);
-    return StreamBuilder<GetStatusModel>(
-      stream: _getStatusStreamController.stream,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
-        } else if (snapshot.hasError || !snapshot.hasData || !isOnline(context)) {
-          return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
-        } else {
-          return body(
-              _screenWidth,
-              _screenHeight,
-              settingsStore,
-              _scrollController,
-              snapshot.data,
-              transactionDetails);
-        }
-      },
+    return Consumer<NetworkProvider>(
+        builder: (context, networkProvider, child) {
+          this.networkProvider = networkProvider;
+        return StreamBuilder<GetStatusModel>(
+          stream: _getStatusStreamController.stream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
+            } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
+              return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
+            } else {
+              return body(
+                  _screenWidth,
+                  _screenHeight,
+                  settingsStore,
+                  _scrollController,
+                  snapshot.data,
+                  transactionDetails,networkProvider);
+            }
+          },
+        );
+      }
     );
   }
 
@@ -198,7 +205,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
       SettingsStore settingsStore,
       ScrollController _scrollController,
       GetStatusModel? responseData,
-      GetTransactionResult transactionDetails,
+      GetTransactionResult transactionDetails, NetworkProvider networkProvider,
       ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -237,7 +244,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                             width: _screenWidth,
                             height: double.infinity,
                             child: exchangingScreen(
-                                settingsStore, responseData, transactionDetails),
+                                settingsStore, responseData, transactionDetails, networkProvider),
                           ),
                         ),
                       ),
@@ -250,7 +257,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
 
 
   Widget exchangingScreen(SettingsStore settingsStore,
-      GetStatusModel? responseData, GetTransactionResult transactionDetails) {
+      GetStatusModel? responseData, GetTransactionResult transactionDetails, NetworkProvider networkProvider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -606,7 +613,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                             : Color(0xff737373)),
                     children: [
                       WidgetSpan(child: InkWell(
-                        onTap: isOnline(context) ? () {
+                        onTap: networkProvider.isConnected ? () {
                           final FlutterSecureStorage secureStorage = FlutterSecureStorage();
                           Navigator.of(context).pop(true);
                           Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));

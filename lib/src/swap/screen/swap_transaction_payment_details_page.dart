@@ -13,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
 import '../../stores/sync/sync_store.dart';
+import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
 import '../dialog/show_qr_code_dialog.dart';
 import '../model/get_status_model.dart';
@@ -89,6 +90,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
   late Timer timer;
   late GetStatusApiClient getStatusApiClient;
   late StreamController<GetStatusModel> _getStatusStreamController;
+  late NetworkProvider networkProvider;
 
   ValueNotifier<String> pendingTransactionTimeRemaining = ValueNotifier("");
   Timer? pendingTransactionTimer;
@@ -144,7 +146,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
       callGetStatusApi(createdTransactionDetails, getStatusApiClient);
       if (!mounted) return;
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
-        if (!mounted && !isOnline(context)) return;
+        if (!mounted && !networkProvider.isConnected) return;
         callGetStatusApi(createdTransactionDetails, getStatusApiClient);
       }); // Start adding getStatus api result to the stream.
     });
@@ -219,27 +221,32 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     ToastContext().init(context);
-    return StreamBuilder<GetStatusModel>(
-      stream: _getStatusStreamController.stream,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
-        } else if (snapshot.hasError || !snapshot.hasData || !isOnline(context)) {
-          return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
-        } else {
-          return body(
-              _screenWidth,
-              _screenHeight,
-              settingsStore,
-              _scrollController,
-              createdTransactionDetails,
-          syncStore);
-        }
-      },
+    return Consumer<NetworkProvider>(
+        builder: (context, networkProvider, child) {
+          this.networkProvider = networkProvider;
+        return StreamBuilder<GetStatusModel>(
+          stream: _getStatusStreamController.stream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
+            } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
+              return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
+            } else {
+              return body(
+                  _screenWidth,
+                  _screenHeight,
+                  settingsStore,
+                  _scrollController,
+                  createdTransactionDetails,
+              syncStore,networkProvider);
+            }
+          },
+        );
+      }
     );
   }
 
-  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, GetTransactionResult? createdTransactionDetails, SyncStore syncStore){
+  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, GetTransactionResult? createdTransactionDetails, SyncStore syncStore, NetworkProvider networkProvider){
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -278,7 +285,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                         padding: const EdgeInsets.all(15.0),
                         width: _screenWidth,
                         height: double.infinity,
-                        child: paymentSendFundsToTheAddressBelowScreen(settingsStore,createdTransactionDetails, syncStore),
+                        child: paymentSendFundsToTheAddressBelowScreen(settingsStore,createdTransactionDetails, syncStore, networkProvider),
                       ),
                     ),
                   ),
@@ -289,7 +296,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
     );
   }
 
-  Widget paymentSendFundsToTheAddressBelowScreen(SettingsStore settingsStore, GetTransactionResult? createdTransactionDetails, SyncStore syncStore,) {
+  Widget paymentSendFundsToTheAddressBelowScreen(SettingsStore settingsStore, GetTransactionResult? createdTransactionDetails, SyncStore syncStore, NetworkProvider networkProvider,) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -353,7 +360,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     child: Observer(
                       builder: (_) {
                         return InkWell(
-                          onTap: syncStatus(syncStore.status) && isOnline(context)
+                          onTap: syncStatus(syncStore.status) && networkProvider.isConnected
                                 ? () async {
                             await Navigator.pushNamed(context, Routes.send,
                                 arguments: {'flash': true, 'address': createdTransactionDetails?.payinAddress, 'amount': createdTransactionDetails?.amountExpectedFrom});

@@ -21,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
+import '../../util/network_provider.dart';
 import '../../widgets/no_transactions_yet.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
@@ -94,6 +95,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
   Timer? timer;
   late SwapTransactionHistory _swapTransactionHistory;
   bool _isInitialized = false;
+  late NetworkProvider networkProvider;
 
   @override
   void initState() {
@@ -103,7 +105,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
       provider.getTransactionsListData(context,{"id":_swapTransactionHistory.transactionIdList});
       timer?.cancel();
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
-        if (!mounted && !isOnline(context)) return;
+        if (!mounted && !networkProvider.isConnected) return;
         provider.getTransactionsListData(context,{"id":_swapTransactionHistory.transactionIdList});
       });
     });
@@ -119,23 +121,28 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     ToastContext().init(context);
     return WillPopScope(
       onWillPop: () async => false,
-      child: Consumer<GetTransactionsProvider>(builder: (context,getTransactionsProvider,child){
-        if(getTransactionsProvider.loading){
-          return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0));
-        }
+      child: Consumer<NetworkProvider>(
+          builder: (context, networkProvider, child) {
+            this.networkProvider = networkProvider;
+          return Consumer<GetTransactionsProvider>(builder: (context,getTransactionsProvider,child){
+            if(getTransactionsProvider.loading){
+              return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0));
+            }
 
-        if(getTransactionsProvider.error != null) {
-          return noInternet(settingsStore, _screenWidth);
-        }
+            if(getTransactionsProvider.error != null) {
+              return noInternet(settingsStore, _screenWidth);
+            }
 
-        if(getTransactionsProvider.data != null) {
-          this.getTransactionsProvider = getTransactionsProvider;
-          _isInitialized = true;
-          return body(_screenWidth,_screenHeight,settingsStore,_scrollController, getTransactionsProvider.data!);
-        }
+            if(getTransactionsProvider.data != null) {
+              this.getTransactionsProvider = getTransactionsProvider;
+              _isInitialized = true;
+              return body(_screenWidth,_screenHeight,settingsStore,_scrollController, getTransactionsProvider.data!);
+            }
 
-        return SizedBox();
-      }),
+            return SizedBox();
+          });
+        }
+      ),
     );
   }
 

@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/services/platform_channel.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-
-import '../../util/network_service.dart';
 import 'data_class.dart';
 
 const swapTransactionsListKey = "swap_transaction_list";
@@ -88,11 +85,6 @@ Future<List<String>> storeTransactionsIds(String? transactionId, FlutterSecureSt
   // Store an array of strings
   await storeMultipleStrings(stored, secureStorage);
   return stored;
-}
-
-bool isOnline(BuildContext context) {
-  final networkStatus = Provider.of<NetworkStatus>(context, listen: false);
-  return networkStatus == NetworkStatus.online;
 }
 
 bool syncStatus(SyncStatus status) {

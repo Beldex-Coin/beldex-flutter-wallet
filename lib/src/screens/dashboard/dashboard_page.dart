@@ -3,12 +3,10 @@ import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/dashboard_rescan_dialog.dart';
 import 'package:beldex_wallet/src/swap/util/utils.dart';
-import 'package:beldex_wallet/src/util/network_service.dart';
 import 'package:beldex_wallet/src/util/screen_sizer.dart';
 import 'package:beldex_wallet/src/widgets/standard_switch.dart';
 import 'package:beldex_wallet/theme_changer.dart';
 import 'package:beldex_wallet/themes.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -23,6 +21,7 @@ import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:provider/provider.dart';
 
 import '../../../palette.dart';
+import '../../util/network_provider.dart';
 
 class DashboardPage extends BasePage {
   final _bodyKey = GlobalKey();
@@ -196,9 +195,6 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
   final _balanceObserverKey = GlobalKey();
   final _syncingObserverKey = GlobalKey();
   final _listKey = GlobalKey();
-
-  Connectivity? connectivity;
-  StreamSubscription<ConnectivityResult>? subscription;
   //var reconnect = false;
 
 
@@ -227,8 +223,6 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
   @override
   void dispose() {
-    // if(subscription.)
-    subscription?.cancel();
     super.dispose();
   }
 
@@ -238,12 +232,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
     final balanceStore = Provider.of<BalanceStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    final networkStatus = Provider.of<NetworkStatus>(context);
+    final networkStatus = Provider.of<NetworkProvider>(context);
     final _height = MediaQuery.of(context).size.height;
     final _width = MediaQuery.of(context).size.width;
-    if (networkStatus == NetworkStatus.offline) {
-      walletStore.reconnect();
-    }
     return WillPopScope(
       onWillPop: onBackPressed,
       child: ListView.builder(
@@ -566,102 +557,108 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         ],
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 15.0, right: 15.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              iconAlignment: IconAlignment.end,
-                              icon: SvgPicture.asset(
-                                'assets/images/swap/ic_swap.svg',colorFilter:ColorFilter.mode(isOnline(context)? Color(0xff0BA70F) : settingsStore.isDarkTheme
-                                  ? Color(0xff6C6C78)
-                                  : Color(0xffB2B2B6), BlendMode.srcIn),),
-                              onPressed: isOnline(context) ? () {
-                                Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
-                              } : null,
-                              label: Text(
-                                tr(context).swap,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: isOnline(context)
-                                      ? settingsStore.isDarkTheme
-                                      ? Color(0xffFFFFFF)
-                                      : Color(0xff333333)
-                                      : settingsStore.isDarkTheme
+                    Consumer<NetworkProvider>(builder: (context,networkProvider,child){
+                      if (!networkProvider.isConnected) {
+                        walletStore.reconnect();
+                      }
+                        return Container(
+                          margin: EdgeInsets.only(left: 15.0, right: 15.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  iconAlignment: IconAlignment.end,
+                                  icon: SvgPicture.asset(
+                                    'assets/images/swap/ic_swap.svg',colorFilter:ColorFilter.mode(networkProvider.isConnected ? Color(0xff0BA70F) : settingsStore.isDarkTheme
                                       ? Color(0xff6C6C78)
-                                      : Color(0xffB2B2B6),
-                                  fontWeight: FontWeight.w800,),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                fixedSize: Size.fromHeight(ScreenSize.screenHeight025),
-                                backgroundColor:  isOnline(context)
-                                    ? settingsStore.isDarkTheme? Color(0xff272733) : Color(0xffEDEDED)
-                                    : settingsStore.isDarkTheme
-                                    ? Color(0xff333343)
-                                    : Color(0xffE8E8E8),
-                                padding: EdgeInsets.zero,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 5,),
-                          Expanded(
-                            child: Observer(builder: (_) {
-                              return ElevatedButton.icon(
-                                iconAlignment: IconAlignment.end,
-                                icon: syncStatus(syncStore.status) ? SvgPicture.asset('assets/images/new-images/ic_buy_bns.svg',
-                                ) : SvgPicture.asset(
-                                  'assets/images/new-images/ic_buy_bns.svg',
-                                    colorFilter:ColorFilter.mode(settingsStore.isDarkTheme
-                                        ? Color(0xff6C6C78)
-                                        : Color(0xffB2B2B6), BlendMode.srcIn),
-                                ),
-                                onPressed: syncStatus(syncStore.status)
-                                    ? () {
-                                  Navigator.of(context,
-                                      rootNavigator: true)
-                                      .pushNamed(Routes.bns);
-                                }
-                                    : null,
-                                label: Text(
-                                  tr(context).buyBns,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    backgroundColor: Colors.transparent,
-                                    color: syncStatus(syncStore.status)
-                                        ? settingsStore.isDarkTheme
-                                        ? Color(0xffFFFFFF)
-                                        : Color(0xff333333)
+                                      : Color(0xffB2B2B6), BlendMode.srcIn),),
+                                  onPressed: networkProvider.isConnected ? () {
+                                    Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
+                                  } : null,
+                                  label: Text(
+                                    tr(context).swap,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: networkProvider.isConnected
+                                          ? settingsStore.isDarkTheme
+                                          ? Color(0xffFFFFFF)
+                                          : Color(0xff333333)
+                                          : settingsStore.isDarkTheme
+                                          ? Color(0xff6C6C78)
+                                          : Color(0xffB2B2B6),
+                                      fontWeight: FontWeight.w800,),
+                                  ),
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 0,
+                                    fixedSize: Size.fromHeight(ScreenSize.screenHeight025),
+                                    backgroundColor:  networkProvider.isConnected
+                                        ? settingsStore.isDarkTheme? Color(0xff272733) : Color(0xffEDEDED)
                                         : settingsStore.isDarkTheme
-                                        ? Color(0xff6C6C78)
-                                        : Color(0xffB2B2B6),
-                                    fontWeight: FontWeight.w800,),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  elevation: 0,
-                                  fixedSize: Size.fromHeight(ScreenSize.screenHeight025),
-                                  backgroundColor: syncStatus(syncStore.status)
-                                      ? settingsStore.isDarkTheme
-                                      ? Color(0xff24242F)
-                                      : Color(0xffEDEDED)
-                                      : settingsStore.isDarkTheme
-                                      ? Color(0xff333343)
-                                      : Color(0xffE8E8E8),
-                                  padding: EdgeInsets.zero,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
+                                        ? Color(0xff333343)
+                                        : Color(0xffE8E8E8),
+                                    padding: EdgeInsets.zero,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                    ),
                                   ),
                                 ),
-                              );
-                            }),
+                              ),
+                              SizedBox(width: 5,),
+                              Expanded(
+                                child: Observer(builder: (_) {
+                                  return ElevatedButton.icon(
+                                    iconAlignment: IconAlignment.end,
+                                    icon: syncStatus(syncStore.status) ? SvgPicture.asset('assets/images/new-images/ic_buy_bns.svg',
+                                    ) : SvgPicture.asset(
+                                      'assets/images/new-images/ic_buy_bns.svg',
+                                        colorFilter:ColorFilter.mode(settingsStore.isDarkTheme
+                                            ? Color(0xff6C6C78)
+                                            : Color(0xffB2B2B6), BlendMode.srcIn),
+                                    ),
+                                    onPressed: syncStatus(syncStore.status)
+                                        ? () {
+                                      Navigator.of(context,
+                                          rootNavigator: true)
+                                          .pushNamed(Routes.bns);
+                                    }
+                                        : null,
+                                    label: Text(
+                                      tr(context).buyBns,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        backgroundColor: Colors.transparent,
+                                        color: syncStatus(syncStore.status)
+                                            ? settingsStore.isDarkTheme
+                                            ? Color(0xffFFFFFF)
+                                            : Color(0xff333333)
+                                            : settingsStore.isDarkTheme
+                                            ? Color(0xff6C6C78)
+                                            : Color(0xffB2B2B6),
+                                        fontWeight: FontWeight.w800,),
+                                    ),
+                                    style: ElevatedButton.styleFrom(
+                                      elevation: 0,
+                                      fixedSize: Size.fromHeight(ScreenSize.screenHeight025),
+                                      backgroundColor: syncStatus(syncStore.status)
+                                          ? settingsStore.isDarkTheme
+                                          ? Color(0xff24242F)
+                                          : Color(0xffEDEDED)
+                                          : settingsStore.isDarkTheme
+                                          ? Color(0xff333343)
+                                          : Color(0xffE8E8E8),
+                                      padding: EdgeInsets.zero,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        );
+                      }
                     )
                   ],
                 ),

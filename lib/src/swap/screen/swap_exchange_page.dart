@@ -9,6 +9,7 @@ import 'package:beldex_wallet/src/swap/provider/get_pairs_params_provider.dart';
 import 'package:beldex_wallet/src/swap/model/get_currencies_full_model.dart';
 import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
 import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
+import 'package:beldex_wallet/src/util/network_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -96,6 +97,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   late GetCurrenciesFullProvider getCurrenciesFullProvider;
   late GetPairsParamsProvider getPairsParamsProvider;
   late GetExchangeAmountProvider getExchangeAmountProvider;
+  late NetworkProvider networkProvider;
   Timer? timer;
   late FlutterSecureStorage secureStorage;
   late List<String> stored = [];
@@ -127,19 +129,19 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       provider.getExchangeAmountData({'from':'btc',"to":'bdx',"amountFrom":_sendAmountController.text.toString()});
       timer?.cancel();
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
-        if (!mounted && !isOnline(context)) return;
+        if (!mounted && !networkProvider.isConnected) return;
         provider.getExchangeAmountData({"from": getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(), "to": getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(), "amountFrom": getPairsParamsProvider.getSendAmountValue().toString()});
       });
     });
     super.initState();
   }
 
-  void callGetExchangeAmountData(BuildContext context, Map<String, String> params, GetExchangeAmountProvider getExchangeAmountProvider){
+  void callGetExchangeAmountData(BuildContext context, Map<String, String> params, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider){
     if(getExchangeAmountProvider.loading==false){
       getExchangeAmountProvider.getExchangeAmountData(params);
       timer?.cancel();
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
-        if (!mounted && !isOnline(context)) return;
+        if (!mounted && !networkProvider.isConnected) return;
         getExchangeAmountProvider.getExchangeAmountData(params);
       });
     }
@@ -154,50 +156,54 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     final swapExchangePageChangeNotifier = Provider.of<SwapExchangePageChangeNotifier>(context);
     return WillPopScope(
       onWillPop: () async => false,
-      child: Consumer<GetCurrenciesFullProvider>(builder: (context,getCurrenciesFullProvider,child){
-        if(getCurrenciesFullProvider.loading){
-          return Center(
-          child: circularProgressBar(Color(0xff0BA70F), 4.0));
-        }
-
-        if(getCurrenciesFullProvider.error != null || !isOnline(context)) {
-          return noInternet(settingsStore, _screenWidth);
-        }
-
-        if(getCurrenciesFullProvider.data != null){
-          return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
-            if(getPairsParamsProvider.loading){
-              return defaultBody(_screenWidth, _screenHeight, settingsStore);
+      child: Consumer<NetworkProvider>(builder: (context,networkProvider,child){
+          return Consumer<GetCurrenciesFullProvider>(builder: (context,getCurrenciesFullProvider,child){
+            if(getCurrenciesFullProvider.loading){
+              return Center(
+              child: circularProgressBar(Color(0xff0BA70F), 4.0));
             }
-            return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
-              if(getPairsParamsProvider.error != null || getExchangeAmountProvider.error != null || !isOnline(context)) {
-                return noInternet(settingsStore, _screenWidth);
-              }
 
-              if(getPairsParamsProvider.data != null || getExchangeAmountProvider.data != null) {
-                this.getCurrenciesFullProvider = getCurrenciesFullProvider;
-                this.getPairsParamsProvider = getPairsParamsProvider;
-                this.getExchangeAmountProvider = getExchangeAmountProvider;
-                _isInitialized = true;
-                return body(
-                    _screenWidth,
-                    _screenHeight,
-                    settingsStore,
-                    _scrollController,
-                    swapExchangePageChangeNotifier,
-                    getCurrenciesFullProvider.data,
-                    getCurrenciesFullProvider,
-                    getPairsParamsProvider,
-                    getExchangeAmountProvider) ;
-              }
+            if(getCurrenciesFullProvider.error != null || !networkProvider.isConnected) {
+              return noInternet(settingsStore, _screenWidth);
+            }
 
-              return SizedBox();
-            });
+            if(getCurrenciesFullProvider.data != null){
+              return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
+                if(getPairsParamsProvider.loading){
+                  return defaultBody(_screenWidth, _screenHeight, settingsStore);
+                }
+                return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
+                  if(getPairsParamsProvider.error != null || getExchangeAmountProvider.error != null || !networkProvider.isConnected) {
+                    return noInternet(settingsStore, _screenWidth);
+                  }
+
+                  if(getPairsParamsProvider.data != null || getExchangeAmountProvider.data != null) {
+                    this.networkProvider = networkProvider;
+                    this.getCurrenciesFullProvider = getCurrenciesFullProvider;
+                    this.getPairsParamsProvider = getPairsParamsProvider;
+                    this.getExchangeAmountProvider = getExchangeAmountProvider;
+                    _isInitialized = true;
+                    return body(
+                        _screenWidth,
+                        _screenHeight,
+                        settingsStore,
+                        _scrollController,
+                        swapExchangePageChangeNotifier,
+                        getCurrenciesFullProvider.data,
+                        getCurrenciesFullProvider,
+                        getPairsParamsProvider,
+                        getExchangeAmountProvider, networkProvider) ;
+                  }
+
+                  return SizedBox();
+                });
+              });
+            }
+
+            return SizedBox();
           });
         }
-
-        return SizedBox();
-      }),
+      ),
     );
   }
 
@@ -212,7 +218,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     super.dispose();
   }
 
-  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, GetCurrenciesFullModel? getCurrenciesFullData, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
+  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, GetCurrenciesFullModel? getCurrenciesFullData, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider){
     //GetCurrenciesFull
     final List<GetCurrenciesResult> enableFrom = [];
     final List<GetCurrenciesResult> enableTo = [];
@@ -310,7 +316,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                             _scrollController,
                             settingsStore,
                             swapExchangePageChangeNotifier,
-                            enableFrom,enableTo,getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider),
+                            enableFrom,enableTo,getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider, networkProvider),
                           ],
                         ),
                       ),
@@ -438,9 +444,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   InkWell youGetCoinsDropDownListItem(
-      SettingsStore settingsStore, GetCurrenciesResult enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
+      SettingsStore settingsStore, GetCurrenciesResult enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider) {
     return InkWell(
-      onTap: isOnline(context) ? () {
+      onTap: networkProvider.isConnected ? () {
         searchYouGetCoinsController.text = '';
         final currentSelectedSendCoin = getCurrenciesFullProvider.getSelectedYouSendCoins();
         if (enableTo.fullName != null) {
@@ -460,7 +466,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
           }
           getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase()}]);
           //Get Exchange Amount API Call
-          callGetExchangeAmountApi(getPairsParamsProvider,getExchangeAmountProvider);
+          callGetExchangeAmountApi(getPairsParamsProvider,getExchangeAmountProvider,networkProvider);
         } else {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             getCurrenciesFullProvider.setGetCoinsDropDownVisible(
@@ -540,12 +546,12 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   InkWell youSendCoinsDropDownListItem(
-      SettingsStore settingsStore, GetCurrenciesResult enableFrom, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
+      SettingsStore settingsStore, GetCurrenciesResult enableFrom, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider) {
     if(getCurrenciesFullProvider.getGetCoinsDropDownVisible()) {
       getCurrenciesFullProvider.setGetCoinsDropDownVisible(false);
     }
     return InkWell(
-      onTap: isOnline(context) ? () {
+      onTap: networkProvider.isConnected ? () {
         searchYouSendCoinsController.text = '';
         final currentSelectedGetCoin = getCurrenciesFullProvider.getSelectedYouGetCoins();
         if (enableFrom.name != null) {
@@ -565,7 +571,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
           }
           getPairsParamsProvider.getPairsParamsData(context, [{'from': getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(), 'to': getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase()}, {'from': getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(), 'to': getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase()}]);
           //Get Exchange Amount API Call
-          callGetExchangeAmountApi(getPairsParamsProvider, getExchangeAmountProvider);
+          callGetExchangeAmountApi(getPairsParamsProvider, getExchangeAmountProvider,networkProvider);
         } else {
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             getCurrenciesFullProvider.setSendCoinsDropDownVisible(
@@ -697,7 +703,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   Widget exchangeScreen(
       ScrollController _scrollController,
       SettingsStore settingsStore,
-      SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, List<GetCurrenciesResult> enableFrom,List<GetCurrenciesResult> enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
+      SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, List<GetCurrenciesResult> enableFrom,List<GetCurrenciesResult> enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider) {
     final sendCoinAmount = getPairsParamsProvider.getSendAmountValue();
     if(getPairsParamsProvider.getSendFieldErrorState()){
       _getAmountController.text = toStringAsFixed(getPairsParamsProvider.getGetAmountValue().toString());
@@ -813,12 +819,12 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         errorStyle: TextStyle(color: BeldexPalette.red),
                       ),
                       onChanged: (value){
-                        if(value.isNotEmpty && isOnline(context)){
+                        if(value.isNotEmpty && networkProvider.isConnected){
                             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                               getPairsParamsProvider.setSendAmountValue(double.parse(value));
 
                               //Get Exchange Amount API Call
-                              callGetExchangeAmountApi(getPairsParamsProvider,getExchangeAmountProvider);
+                              callGetExchangeAmountApi(getPairsParamsProvider,getExchangeAmountProvider,networkProvider);
                             });
                         }else{
                             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -918,20 +924,20 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                           color: Color(0xff00AD07).withAlpha(25),
                           borderRadius: BorderRadius.all(Radius.circular(8))),
                       child: InkWell(
-                        onTap: isOnline(context) ? () {
+                        onTap: networkProvider.isConnected ? () {
                           if(validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)){
                             _sendAmountController.text = minimumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString();
                             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                               getPairsParamsProvider.setSendAmountValue(minimumAmount(getPairsParamsProvider, getExchangeAmountProvider));
                               //Get Exchange Amount API Call
-                              validateMinimumAndMaximumAmount(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
+                              validateMinimumAndMaximumAmount(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider,networkProvider);
                             });
                           }else if(validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)){
                             _sendAmountController.text = maximumAmount(getPairsParamsProvider, getExchangeAmountProvider).toString();
                             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                               getPairsParamsProvider.setSendAmountValue(maximumAmount(getPairsParamsProvider, getExchangeAmountProvider));
                               //Get Exchange Amount API Call
-                              validateMinimumAndMaximumAmount(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider);
+                              validateMinimumAndMaximumAmount(_sendAmountController.text,getPairsParamsProvider,getExchangeAmountProvider,networkProvider);
                             });
                           }
                         } : null,
@@ -967,7 +973,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 Visibility(
                   visible: getPairsParamsProvider.getSendCoinAvailableOnGetCoinStatus() && getPairsParamsProvider.getGetCoinAvailableOnSendCoinStatus(),
                   child: InkWell(
-                      onTap: isOnline(context) ? () {
+                      onTap: networkProvider.isConnected ? () {
                         final currentSelectedSendCoin = getCurrenciesFullProvider.getSelectedYouSendCoins();
                         final currentSelectedGetCoin = getCurrenciesFullProvider.getSelectedYouGetCoins();
                         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -978,7 +984,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                               currentSelectedSendCoin);
                           getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase()}]);
                           //Get Exchange Amount API Call
-                          callGetExchangeAmountApi(getPairsParamsProvider,getExchangeAmountProvider);
+                          callGetExchangeAmountApi(getPairsParamsProvider,getExchangeAmountProvider,networkProvider);
                         });
                       } : null,
                       child: Container(
@@ -1440,10 +1446,10 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                     return youGetCoinsFilter == null ||
                                             youGetCoinsFilter == ''
                                         ? youGetCoinsDropDownListItem(
-                                            settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
+                                            settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider,networkProvider)
                                         : '${enableTo[index].name}'.toLowerCase().contains(youGetCoinsFilter!.toLowerCase()) || '${enableTo[index].fullName}'.toLowerCase().contains(youGetCoinsFilter!.toLowerCase())
                                             ? youGetCoinsDropDownListItem(
-                                                settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
+                                                settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider,networkProvider)
                                             : Container();
                                   }),
                             );
@@ -1540,11 +1546,11 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                     return youSendCoinsFilter == null ||
                                             youSendCoinsFilter == ''
                                         ? youSendCoinsDropDownListItem(
-                                            settingsStore, enableFrom[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
+                                            settingsStore, enableFrom[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider,networkProvider)
                                         : '${enableFrom[index].name}'.toLowerCase().contains(youSendCoinsFilter!.toLowerCase()) || '${enableFrom[index].fullName}'.toLowerCase().contains(youSendCoinsFilter!.toLowerCase())
                                             ? youSendCoinsDropDownListItem(
                                                 settingsStore,
-                                                enableFrom[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider)
+                                                enableFrom[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider,networkProvider)
                                             : Container();
                                   }),
                             );
@@ -1998,13 +2004,13 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     }
   }*/
 
-  void callGetExchangeAmountApi(GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
-    callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider);
+  void callGetExchangeAmountApi(GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider){
+    callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider,networkProvider);
   }
 
-  void validateMinimumAndMaximumAmount(String value, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider){
+  void validateMinimumAndMaximumAmount(String value, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider){
     if(validateMinimumAmountLessThanEqual(double.parse(value), getPairsParamsProvider, getExchangeAmountProvider) || validateMaximumAmountGreaterThanEqual(double.parse(value), getPairsParamsProvider, getExchangeAmountProvider)){
-      callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider);
+      callGetExchangeAmountData(context,{"from":getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()},getExchangeAmountProvider,networkProvider);
     }
   }
 

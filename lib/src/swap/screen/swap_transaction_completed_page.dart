@@ -12,6 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
+import '../../util/network_provider.dart';
 import '../api_client/get_status_api_client.dart';
 import '../dialog/input_output_hash_dialog.dart';
 import '../util/data_class.dart';
@@ -86,6 +87,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
   late GetStatusApiClient getStatusApiClient;
   late FlutterSecureStorage secureStorage;
   late List<String> stored = [];
+  late NetworkProvider networkProvider;
 
   @override
   void initState() {
@@ -106,18 +108,23 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     ToastContext().init(context);
-    return body(
-        _screenWidth,
-        _screenHeight,
-        settingsStore,
-        _scrollController, transactionStatus.transactionModel);
+    return Consumer<NetworkProvider>(
+        builder: (context, networkProvider, child) {
+          this.networkProvider = networkProvider;
+        return body(
+            _screenWidth,
+            _screenHeight,
+            settingsStore,
+            _scrollController, transactionStatus.transactionModel, networkProvider);
+      }
+    );
   }
 
   Widget body(
       double _screenWidth,
       double _screenHeight,
       SettingsStore settingsStore,
-      ScrollController _scrollController, GetTransactionResult? transactionModel,
+      ScrollController _scrollController, GetTransactionResult? transactionModel, NetworkProvider networkProvider,
       ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -155,7 +162,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             padding: const EdgeInsets.all(15.0),
                             width: _screenWidth,
                             height: double.infinity,
-                            child: exchangeCompletedScreen(settingsStore, transactionModel),
+                            child: exchangeCompletedScreen(settingsStore, transactionModel, networkProvider),
                           ),
                         ),
                       ),
@@ -166,7 +173,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
     );
   }
 
-  Widget exchangeCompletedScreen(SettingsStore settingsStore, GetTransactionResult? transactionModel) {
+  Widget exchangeCompletedScreen(SettingsStore settingsStore, GetTransactionResult? transactionModel, NetworkProvider networkProvider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -599,7 +606,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                 margin: EdgeInsets.only(right: 5),
                 child: ElevatedButton(
                   onPressed: () {
-                    if(isOnline(context)) {
+                    if(networkProvider.isConnected) {
                       final FlutterSecureStorage secureStorage = FlutterSecureStorage();
                       Navigator.of(context).pop(true);
                       Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
@@ -639,7 +646,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                 margin: EdgeInsets.only(left: 5),
                 child: ElevatedButton(
                   onPressed: () {
-                    if(isOnline(context)) {
+                    if(networkProvider.isConnected) {
                       Navigator.of(context).pop(true);
                       Navigator.of(context, rootNavigator: true).pushNamed(
                           Routes.swapExchange);

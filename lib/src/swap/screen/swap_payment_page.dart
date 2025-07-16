@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import '../../../routes.dart';
+import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
 import '../api_client/create_transaction_api_client.dart';
 import '../dialog/showSwapInitiatingTransactionDialog.dart';
@@ -91,6 +92,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
   var from;
   var to;
   late FlutterSecureStorage secureStorage;
+  late NetworkProvider networkProvider;
 
   @override
   void initState() {
@@ -110,7 +112,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
       callGetExchangeAmountApi(getExchangeAmountApiClient, sendAmount);
       if (!mounted) return;
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
-        if (!mounted && !isOnline(context)) return;
+        if (!mounted && !networkProvider.isConnected) return;
         callGetExchangeAmountApi(getExchangeAmountApiClient, sendAmount);
       }); // Start adding getExchangeAmount api result to the stream.
     });
@@ -125,8 +127,8 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     });
   }
 
-  bool isConfirmationButtonEnabled(String minimumAmount, String maximumAmount, BuildContext context) {
-    return (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && isOnline(context);
+  bool isConfirmationButtonEnabled(String minimumAmount, String maximumAmount, BuildContext context, NetworkProvider networkProvider) {
+    return (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected;
   }
 
   @override
@@ -135,19 +137,24 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     final _screenHeight = MediaQuery.of(context).size.height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
-    return StreamBuilder<GetExchangeAmountModel>(
-      stream: _getExchangeAmountStreamController.stream,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-              child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
-        } else if (snapshot.hasError || !snapshot.hasData || !isOnline(context)) {
-          return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
-        } else {
-          return body(_screenWidth, _screenHeight, settingsStore,
-              _scrollController, snapshot.data!);
-        }
-      },
+    return Consumer<NetworkProvider>(
+        builder: (context, networkProvider, child) {
+          this.networkProvider = networkProvider;
+        return StreamBuilder<GetExchangeAmountModel>(
+          stream: _getExchangeAmountStreamController.stream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                  child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
+            } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
+              return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
+            } else {
+              return body(_screenWidth, _screenHeight, settingsStore,
+                  _scrollController, snapshot.data!, networkProvider);
+            }
+          },
+        );
+      }
     );
   }
 
@@ -156,7 +163,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     double _screenHeight,
     SettingsStore settingsStore,
     ScrollController _scrollController,
-    GetExchangeAmountModel getExchangeAmountModel,
+    GetExchangeAmountModel getExchangeAmountModel, NetworkProvider networkProvider,
   ) {
     //GetExchangeAmount
     var exchangeRate = "---";
@@ -231,7 +238,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                             serviceFee,
                             networkFee,
                             getAmount,
-                            getExchangeAmountModel, minimumAmount, maximumAmount),
+                            getExchangeAmountModel, minimumAmount, maximumAmount, networkProvider),
                         //Payment->Send funds to the address below Screen
                       ],
                     ),
@@ -251,7 +258,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
       String serviceFee,
       String networkFee,
       String getAmount,
-      GetExchangeAmountModel getExchangeAmountModel, String minimumAmount, String maximumAmount) {
+      GetExchangeAmountModel getExchangeAmountModel, String minimumAmount, String maximumAmount, NetworkProvider networkProvider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -352,7 +359,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                 color: Color(0xff00AD07).withAlpha(25),
                 borderRadius: BorderRadius.all(Radius.circular(8))),
             child: InkWell(
-              onTap: isOnline (context) ? () {
+              onTap: networkProvider.isConnected ? () {
                 if(minimumAmount.trim().isNotEmpty) {
                   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                     //Get Exchange Amount API Call
@@ -681,7 +688,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
           alignment: Alignment.center,
           child: ElevatedButton(
             onPressed: () {
-              if(isConfirmationButtonEnabled(minimumAmount, maximumAmount, context)) {
+              if(isConfirmationButtonEnabled(minimumAmount, maximumAmount, context, networkProvider)) {
                 showSwapInitiatingTransactionDialog(context, settingsStore);
                 if (_exchangeDataWithRecipientAddress.extraIdName!.isNotEmpty) {
                   createTransaction({
@@ -704,7 +711,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               }
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: isConfirmationButtonEnabled(minimumAmount, maximumAmount, context)
+              backgroundColor: isConfirmationButtonEnabled(minimumAmount, maximumAmount, context, networkProvider)
                   ? Color(0xff0BA70F)
                   : settingsStore.isDarkTheme
                   ? Color(0xff32324A)
@@ -717,7 +724,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
             ),
             child: Text('Confirm & Make Payment',
                 style: TextStyle(
-                    color: isConfirmationButtonEnabled(minimumAmount, maximumAmount, context)
+                    color: isConfirmationButtonEnabled(minimumAmount, maximumAmount, context, networkProvider)
                         ? Color(0xffffffff)
                         : settingsStore.isDarkTheme
                         ? Color(0xff77778B)

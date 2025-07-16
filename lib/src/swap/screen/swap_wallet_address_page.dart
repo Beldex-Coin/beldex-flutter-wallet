@@ -6,6 +6,7 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
 import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
+import 'package:beldex_wallet/src/util/network_provider.dart';
 import 'package:beldex_wallet/src/widgets/no_internet.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -94,6 +95,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   var acceptTermsAndConditions = false;
   late ValidateAddressProvider validateAddressProvider;
   late GetExchangeAmountApiClient getExchangeAmountApiClient;
+  late NetworkProvider networkProvider;
   late StreamController<GetExchangeAmountModel> _getExchangeAmountStreamController;
   late Timer timer;
   late ExchangeData _exchangeData;
@@ -116,7 +118,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
       callGetExchangeAmountApi(getExchangeAmountApiClient, _exchangeData.amountFrom);
       if (!mounted) return;
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
-        if (!mounted && !isOnline(context)) return;
+        if (!mounted && !networkProvider.isConnected) return;
         callGetExchangeAmountApi(getExchangeAmountApiClient, sendAmount);
       }); // Start adding getExchangeAmount api result to the stream.
     });
@@ -131,7 +133,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     });
   }
 
-  bool isNextButtonEnabled(String minimumAmount, String maximumAmount, BuildContext context){
+  bool isNextButtonEnabled(String minimumAmount, String maximumAmount, BuildContext context, NetworkProvider networkProvider){
     if(validateExtraIdFieldProvider.showMemo){
       if(_destinationTagController.text.isEmpty){
         return false;
@@ -139,10 +141,10 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         return acceptTermsAndConditions &&
             !validateAddressProvider.loading &&
             _recipientAddressController.text.isNotEmpty &&
-            validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && isOnline(context);
+            validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected;
       }
     }else{
-      return acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && isOnline(context);
+      return acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected;
     }
   }
 
@@ -153,18 +155,22 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     ToastContext().init(context);
-    return StreamBuilder<GetExchangeAmountModel>(
-      stream: _getExchangeAmountStreamController.stream,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
-        } else if (snapshot.hasError || !snapshot.hasData || !isOnline(context)) {
-          return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
-        } else {
-          return body(_screenWidth, _screenHeight, settingsStore,
-              _scrollController, snapshot.data!);
-        }
-      },
+    return Consumer<NetworkProvider>(builder: (context,networkProvider,child){
+      this.networkProvider = networkProvider;
+        return StreamBuilder<GetExchangeAmountModel>(
+          stream: _getExchangeAmountStreamController.stream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
+            } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
+              return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
+            } else {
+              return body(_screenWidth, _screenHeight, settingsStore,
+                  _scrollController, snapshot.data!, networkProvider);
+            }
+          },
+        );
+      }
     );
   }
 
@@ -173,7 +179,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     double _screenHeight,
     SettingsStore settingsStore,
     ScrollController _scrollController,
-    GetExchangeAmountModel getExchangeAmountModel,
+    GetExchangeAmountModel getExchangeAmountModel, NetworkProvider networkProvider,
   ) {
     //GetExchangeAmount
     var exchangeRate = "---";
@@ -239,7 +245,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     width: _screenWidth,
                     height: double.infinity,
                     child: walletAddressScreen(settingsStore,
-                        exchangeRate, serviceFee, networkFee, getAmount, minimumAmount, maximumAmount),
+                        exchangeRate, serviceFee, networkFee, getAmount, minimumAmount, maximumAmount, networkProvider),
                   ),
                 ),
               ),
@@ -255,7 +261,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
       String exchangeRate,
       String serviceFee,
       String networkFee,
-      String getAmount, String minimumAmount, String maximumAmount) {
+      String getAmount, String minimumAmount, String maximumAmount, NetworkProvider networkProvider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -687,7 +693,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                 color: Color(0xff00AD07).withAlpha(25),
                 borderRadius: BorderRadius.all(Radius.circular(8))),
             child: InkWell(
-              onTap: isOnline (context) ? () {
+              onTap: networkProvider.isConnected ? () {
                 if(minimumAmount.trim().isNotEmpty) {
                   WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                     //Get Exchange Amount API Call
@@ -1086,14 +1092,14 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                           validateExtraIdFieldProvider.setShowErrorBorder(true);
                           validateExtraIdFieldProvider.setErrorMessage("Please enter ${_exchangeData.extraIdName}");
                         }else {
-                          if (acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && isOnline(context)) {
+                          if (acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected) {
                             //Navigate to Payment Screen
                             Navigator.of(context).pop(true);
                             Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, _destinationTagController.text, _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain));
                           }
                         }
                       }else{
-                        if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && isOnline(context)){
+                        if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected){
                           //Navigate to Payment Screen
                           Navigator.of(context).pop(true);
                           Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, "", _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain));
@@ -1101,7 +1107,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: isNextButtonEnabled(minimumAmount, maximumAmount, context)
+                      backgroundColor: isNextButtonEnabled(minimumAmount, maximumAmount, context, networkProvider)
                           ? Color(0xff0BA70F)
                           : settingsStore.isDarkTheme
                           ? Color(0xff32324A)
@@ -1114,7 +1120,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     ),
                     child: Text('Next',
                         style: TextStyle(
-                            color: isNextButtonEnabled(minimumAmount, maximumAmount, context)
+                            color: isNextButtonEnabled(minimumAmount, maximumAmount, context, networkProvider)
                                 ? Color(0xffffffff)
                                 : settingsStore.isDarkTheme
                                 ? Color(0xff77778B)
