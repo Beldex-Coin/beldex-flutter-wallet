@@ -25,10 +25,10 @@ class GetExchangeAmountProvider with ChangeNotifier {
         _error = "Failed to fetch data.";
       }
     } on SocketException catch (e) {
-      print('get pairs params api SocketException: Failed to connect: $e');
+      print('get exchange amount api SocketException: Failed to connect: $e');
       _error = "No internet connection.";
     } catch (e) {
-      print('get pairs params api Unexpected error: $e');
+      print('get exchange amount api Unexpected error: $e');
       _error = "Unexpected error: ${e.toString()}";
     } finally {
       loading = false;
