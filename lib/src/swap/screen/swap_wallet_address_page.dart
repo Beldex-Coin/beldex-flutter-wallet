@@ -12,6 +12,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:keyboard_detection/keyboard_detection.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
@@ -104,6 +105,9 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   var from;
   var to;
   bool _isInitialized = false;
+  final _focusWalletAddress = FocusNode();
+  final _focusDestinationTag = FocusNode();
+  late KeyboardDetectionController keyboardDetectionController;
 
   @override
   void initState() {
@@ -122,6 +126,14 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         callGetExchangeAmountApi(getExchangeAmountApiClient, sendAmount);
       }); // Start adding getExchangeAmount api result to the stream.
     });
+    keyboardDetectionController = KeyboardDetectionController(
+      onChanged: (value) {
+        if(value == KeyboardState.hidden){
+          _focusWalletAddress.unfocus();
+          _focusDestinationTag.unfocus();
+        }
+      },
+    );
     super.initState();
   }
 
@@ -155,22 +167,31 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     ToastContext().init(context);
-    return Consumer<NetworkProvider>(builder: (context,networkProvider,child){
-      this.networkProvider = networkProvider;
-        return StreamBuilder<GetExchangeAmountModel>(
-          stream: _getExchangeAmountStreamController.stream,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
-            } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
-              return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
-            } else {
-              return body(_screenWidth, _screenHeight, settingsStore,
-                  _scrollController, snapshot.data!, networkProvider);
-            }
-          },
-        );
-      }
+    return KeyboardDetection(
+      controller: keyboardDetectionController,
+      child: GestureDetector(
+        onTap: () {
+          _focusWalletAddress.unfocus();
+          _focusDestinationTag.unfocus();
+        },
+        child: Consumer<NetworkProvider>(builder: (context,networkProvider,child){
+          this.networkProvider = networkProvider;
+          return StreamBuilder<GetExchangeAmountModel>(
+            stream: _getExchangeAmountStreamController.stream,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
+              } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
+                return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
+              } else {
+                return body(_screenWidth, _screenHeight, settingsStore,
+                    _scrollController, snapshot.data!, networkProvider);
+              }
+            },
+          );
+        }
+        ),
+      ),
     );
   }
 
@@ -330,6 +351,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     ),
                   ),
                   child: TextFormField(
+                    focusNode: _focusWalletAddress,
                     controller: _recipientAddressController,
                     style: TextStyle(
                         backgroundColor: Colors.transparent,
@@ -629,6 +651,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                           ),
                         ),
                         child: TextFormField(
+                          focusNode: _focusDestinationTag,
                           style: TextStyle(
                               fontSize: 14.0,
                               fontWeight: FontWeight.normal,
@@ -1170,6 +1193,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     if(_isInitialized) {
       validateAddressProvider.dispose();
     }
+    _focusWalletAddress.dispose();
+    _focusDestinationTag.dispose();
     super.dispose();
   }
 }

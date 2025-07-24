@@ -16,6 +16,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:keyboard_detection/keyboard_detection.dart';
 import 'package:provider/provider.dart';
 
 import '../../../palette.dart';
@@ -102,6 +103,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   late FlutterSecureStorage secureStorage;
   late List<String> stored = [];
   bool _isInitialized = false;
+  final _focusSendCoin = FocusNode();
+  final _focusGetCoin = FocusNode();
+  late KeyboardDetectionController keyboardDetectionController;
 
   @override
   void initState() {
@@ -133,6 +137,14 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         provider.getExchangeAmountData({"from": getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(), "to": getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(), "amountFrom": getPairsParamsProvider.getSendAmountValue().toString()});
       });
     });
+    keyboardDetectionController = KeyboardDetectionController(
+      onChanged: (value) {
+        if(value == KeyboardState.hidden){
+          _focusSendCoin.unfocus();
+          _focusGetCoin.unfocus();
+        }
+      },
+    );
     super.initState();
   }
 
@@ -154,55 +166,64 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     final swapExchangePageChangeNotifier = Provider.of<SwapExchangePageChangeNotifier>(context);
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Consumer<NetworkProvider>(builder: (context,networkProvider,child){
-          return Consumer<GetCurrenciesFullProvider>(builder: (context,getCurrenciesFullProvider,child){
-            if(getCurrenciesFullProvider.loading){
-              return Center(
-              child: circularProgressBar(Color(0xff0BA70F), 4.0));
-            }
+    return  KeyboardDetection(
+      controller: keyboardDetectionController,
+      child: GestureDetector(
+        onTap: () {
+          _focusSendCoin.unfocus();
+          _focusGetCoin.unfocus();
+        },
+        child: WillPopScope(
+          onWillPop: () async => false,
+          child: Consumer<NetworkProvider>(builder: (context,networkProvider,child){
+            return Consumer<GetCurrenciesFullProvider>(builder: (context,getCurrenciesFullProvider,child){
+              if(getCurrenciesFullProvider.loading){
+                return Center(
+                    child: circularProgressBar(Color(0xff0BA70F), 4.0));
+              }
 
-            if(getCurrenciesFullProvider.error != null || !networkProvider.isConnected) {
-              return noInternet(settingsStore, _screenWidth);
-            }
+              if(getCurrenciesFullProvider.error != null || !networkProvider.isConnected) {
+                return noInternet(settingsStore, _screenWidth);
+              }
 
-            if(getCurrenciesFullProvider.data != null){
-              return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
-                if(getPairsParamsProvider.loading){
-                  return defaultBody(_screenWidth, _screenHeight, settingsStore);
-                }
-                return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
-                  if(getPairsParamsProvider.error != null || getExchangeAmountProvider.error != null || !networkProvider.isConnected) {
-                    return noInternet(settingsStore, _screenWidth);
+              if(getCurrenciesFullProvider.data != null){
+                return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
+                  if(getPairsParamsProvider.loading){
+                    return defaultBody(_screenWidth, _screenHeight, settingsStore);
                   }
+                  return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
+                    if(getPairsParamsProvider.error != null || getExchangeAmountProvider.error != null || !networkProvider.isConnected) {
+                      return noInternet(settingsStore, _screenWidth);
+                    }
 
-                  if(getPairsParamsProvider.data != null || getExchangeAmountProvider.data != null) {
-                    this.networkProvider = networkProvider;
-                    this.getCurrenciesFullProvider = getCurrenciesFullProvider;
-                    this.getPairsParamsProvider = getPairsParamsProvider;
-                    this.getExchangeAmountProvider = getExchangeAmountProvider;
-                    _isInitialized = true;
-                    return body(
-                        _screenWidth,
-                        _screenHeight,
-                        settingsStore,
-                        _scrollController,
-                        swapExchangePageChangeNotifier,
-                        getCurrenciesFullProvider.data,
-                        getCurrenciesFullProvider,
-                        getPairsParamsProvider,
-                        getExchangeAmountProvider, networkProvider) ;
-                  }
+                    if(getPairsParamsProvider.data != null || getExchangeAmountProvider.data != null) {
+                      this.networkProvider = networkProvider;
+                      this.getCurrenciesFullProvider = getCurrenciesFullProvider;
+                      this.getPairsParamsProvider = getPairsParamsProvider;
+                      this.getExchangeAmountProvider = getExchangeAmountProvider;
+                      _isInitialized = true;
+                      return body(
+                          _screenWidth,
+                          _screenHeight,
+                          settingsStore,
+                          _scrollController,
+                          swapExchangePageChangeNotifier,
+                          getCurrenciesFullProvider.data,
+                          getCurrenciesFullProvider,
+                          getPairsParamsProvider,
+                          getExchangeAmountProvider, networkProvider) ;
+                    }
 
-                  return SizedBox();
+                    return SizedBox();
+                  });
                 });
-              });
-            }
+              }
 
-            return SizedBox();
-          });
-        }
+              return SizedBox();
+            });
+          }
+          ),
+        ),
       ),
     );
   }
@@ -215,6 +236,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       getExchangeAmountProvider.dispose();
     }
     timer?.cancel();
+    _focusSendCoin.dispose();
+    _focusGetCoin.dispose();
     super.dispose();
   }
 
@@ -785,6 +808,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   Flexible(
                     flex: 1,
                     child: TextFormField(
+                      focusNode: _focusSendCoin,
                       style: TextStyle(
                           backgroundColor: Colors.transparent,
                           fontSize: 14.0,
@@ -1042,6 +1066,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   Flexible(
                     flex: 1,
                     child: TextFormField(
+                      enabled: false,
+                      focusNode: _focusGetCoin,
                       style: TextStyle(
                           backgroundColor: Colors.transparent,
                           fontSize: 14.0,
