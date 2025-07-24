@@ -913,9 +913,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                       },
                       child: Container(
                         width: 125.0,
-                        height: 40,
                         margin: EdgeInsets.only(left: 3),
-                        padding: EdgeInsets.only(left: 5, right: 5),
+                        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
                         decoration: BoxDecoration(
                             color: settingsStore.isDarkTheme
                                 ? Color(0xff333343)
@@ -1137,9 +1136,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                       },
                       child: Container(
                         width: 125.0,
-                        height: 40,
                         margin: EdgeInsets.only(left: 3),
-                        padding: EdgeInsets.only(left: 5, right: 5),
+                        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
                         decoration: BoxDecoration(
                             color: settingsStore.isDarkTheme
                                 ? Color(0xff333343)
