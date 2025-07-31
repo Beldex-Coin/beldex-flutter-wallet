@@ -191,38 +191,41 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
   // Test CSV created just for demo.
   String get csv => const ListToCsvConverter().convert(rows);
 
-  Future<void> requestStoragePermission() async {
-    var status = await Permission.storage.status;
+  void requestStoragePermission() async {
+    if(Platform.isAndroid) {
+      final plugin = DeviceInfoPlugin();
+      final android = await plugin.androidInfo;
 
-    if (!status.isGranted) {
-      if (Platform.isAndroid) {
-        final deviceInfo = DeviceInfoPlugin();
-        final androidInfo = await deviceInfo.androidInfo;
-        final androidVersion = int.tryParse(androidInfo.version.release ?? '11') ?? 11;
-        if (androidVersion >= 11) {
-          status = await Permission.manageExternalStorage.request();
-        } else {
-          status = await Permission.storage.request();
-        }
-      } else {
-        status = await Permission.manageExternalStorage.request();
-      }
+      final storageStatus = android.version.sdkInt < 33
+          ? await Permission.storage.request()
+          : PermissionStatus.granted;
 
-      if (status.isGranted && csv.isNotEmpty) {
-        await downloadCSV(csv);
-      } else if (status.isDenied) {
-        Toast.show(
-          'Storage permission denied',
-          duration: Toast.lengthLong,
-          gravity: Toast.bottom,
-          textStyle:TextStyle(color: Colors.white),
-          backgroundColor: Color(0xff0ba70f),
-        );
-      } else if (status.isPermanentlyDenied) {
-        await openAppSettings(); // Takes user to settings to enable manually
+      switch (storageStatus) {
+        case PermissionStatus.granted when csv.isNotEmpty:
+          print("Permission granted");
+          await downloadCSV(csv);
+          break;
+
+        case PermissionStatus.denied:
+          print("Permission denied");
+          Toast.show(
+            'Storage permission denied',
+            duration: Toast.lengthLong,
+            gravity: Toast.bottom,
+            textStyle: TextStyle(color: Colors.white),
+            backgroundColor: Color(0xff0ba70f),
+          );
+          break;
+
+        case PermissionStatus.permanentlyDenied:
+          await openAppSettings();
+          break;
+
+        default:
+          break;
       }
     } else {
-      if(csv.isNotEmpty) {
+      if (csv.isNotEmpty) {
         await downloadCSV(csv);
       }
     }
@@ -232,21 +235,13 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
   Future<void> downloadCSV(String csv) async {
     final Uint8List bytes = Uint8List.fromList(utf8.encode(csv));
     final directory = await getExternalStorageDirectories(type: StorageDirectory.downloads); // Internal storage
-    final path = '${directory?.first.path}/Transaction_report.csv';
+    final path = '${directory?.first.path}/Transaction_Report.csv';
     // Convert your CSV string to a Uint8List for downloading.
     final file = File(path);
-    //await file.writeAsBytes(bytes);
     await file.writeAsBytes(bytes).whenComplete(() {
       print("path $path");
       final file = File(path);
       Share.shareXFiles([XFile(file.path)]);
-      Toast.show(
-        'Downloaded Successfully',
-        duration: Toast.lengthLong,
-        gravity: Toast.bottom,
-        textStyle:TextStyle(color: Colors.white),
-        backgroundColor: Color(0xff0ba70f),
-      );
     });
   }
 
@@ -628,7 +623,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
             ),
             InkWell(
               onTap: () async {
-                await requestStoragePermission();
+                requestStoragePermission();
               },
               child: SvgPicture.asset(
                 'assets/images/swap/swap_download.svg',
