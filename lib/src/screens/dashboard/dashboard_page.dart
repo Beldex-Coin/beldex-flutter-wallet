@@ -745,90 +745,84 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0)),
             surfaceTintColor: Colors.transparent,
-            child: Container(
-              height: 170,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      tr(context).are_you_sure,
-                      textAlign: TextAlign.center,
-                      style:
-                      TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    tr(context).are_you_sure,
+                    textAlign: TextAlign.center,
+                    style:
+                    TextStyle(fontSize: 17, fontWeight: FontWeight.w800),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    tr(context).doYouWantToExitTheWallet,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        backgroundColor: Colors.transparent,
+                        fontSize: 17, fontWeight: FontWeight.w800),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildDialogButton(
+                          context,
+                          label: tr(context).no,
+                          onPressed: () => Navigator.of(context).pop(false),
+                          backgroundColor: settingsStore.isDarkTheme ? Color(0xff383848) : Color(0xffE8E8E8),
+                          textColor: settingsStore.isDarkTheme ? Color(0xff93939B) : Color(0xff222222),
+                        ),
+                        _buildDialogButton(
+                          context,
+                          label: tr(context).yes,
+                          onPressed: () => Navigator.of(context).pop(true),
+                          backgroundColor: Color(0xff0BA70F),
+                          textColor: Colors.white,
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        tr(context).doYouWantToExitTheWallet,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            backgroundColor: Colors.transparent,
-                            fontSize: 17, fontWeight: FontWeight.w800),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SizedBox(
-                            width: 80,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  backgroundColor: settingsStore.isDarkTheme
-                                      ? Color(0xff383848)
-                                      : Color(0xffE8E8E8)),
-                              onPressed: () {
-                                Navigator.of(context).pop(false);
-                              },
-                              child: Text(
-                                tr(context).no,
-                                style: TextStyle(
-                                    backgroundColor: Colors.transparent,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xff93939B)
-                                        : Color(0xff222222),
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 80,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  backgroundColor: Color(0xff0BA70F)),
-                              onPressed: () {
-                                Navigator.of(context).pop(true);
-                              },
-                              child: Text(
-                                tr(context).yes,
-                                style: TextStyle(
-                                    backgroundColor: Colors.transparent,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
           );
         });
     return result ?? false;
   }
+}
+
+Widget _buildDialogButton(
+    BuildContext context, {
+      required String label,
+      required VoidCallback onPressed,
+      required Color backgroundColor,
+      required Color textColor,
+    }) {
+  return SizedBox(
+    width: 80,
+    child: TextButton(
+      onPressed: onPressed,
+      style: TextButton.styleFrom(
+        backgroundColor: backgroundColor,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: textColor,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+  );
 }
 
 class Item {
