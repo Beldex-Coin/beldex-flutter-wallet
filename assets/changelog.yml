@@ -102,3 +102,8 @@
   changes:
     - Targeted latest version of android
     - Minor bug fixes
+-
+  version: 2.0.4
+  changes:
+    - Added support for 16 KB size pages
+    - Minor bug fixes
