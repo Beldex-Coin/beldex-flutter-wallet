@@ -119,30 +119,27 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     ToastContext().init(context);
-    return WillPopScope(
-      onWillPop: () async => false,
-      child: Consumer<NetworkProvider>(
-          builder: (context, networkProvider, child) {
-            this.networkProvider = networkProvider;
-          return Consumer<GetTransactionsProvider>(builder: (context,getTransactionsProvider,child){
-            if(getTransactionsProvider.loading){
-              return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0));
-            }
+    return Consumer<NetworkProvider>(
+        builder: (context, networkProvider, child) {
+          this.networkProvider = networkProvider;
+        return Consumer<GetTransactionsProvider>(builder: (context,getTransactionsProvider,child){
+          if(getTransactionsProvider.loading){
+            return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0));
+          }
 
-            if(getTransactionsProvider.error != null) {
-              return noInternet(settingsStore, _screenWidth);
-            }
+          if(getTransactionsProvider.error != null) {
+            return noInternet(settingsStore, _screenWidth);
+          }
 
-            if(getTransactionsProvider.data != null) {
-              this.getTransactionsProvider = getTransactionsProvider;
-              _isInitialized = true;
-              return body(_screenWidth,_screenHeight,settingsStore,_scrollController, getTransactionsProvider.data!);
-            }
+          if(getTransactionsProvider.data != null) {
+            this.getTransactionsProvider = getTransactionsProvider;
+            _isInitialized = true;
+            return body(_screenWidth,_screenHeight,settingsStore,_scrollController, getTransactionsProvider.data!);
+          }
 
-            return SizedBox();
-          });
-        }
-      ),
+          return SizedBox();
+        });
+      }
     );
   }
 

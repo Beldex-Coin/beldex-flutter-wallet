@@ -173,56 +173,53 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
           _focusSendCoin.unfocus();
           _focusGetCoin.unfocus();
         },
-        child: WillPopScope(
-          onWillPop: () async => false,
-          child: Consumer<NetworkProvider>(builder: (context,networkProvider,child){
-            return Consumer<GetCurrenciesFullProvider>(builder: (context,getCurrenciesFullProvider,child){
-              if(getCurrenciesFullProvider.loading){
-                return Center(
-                    child: circularProgressBar(Color(0xff0BA70F), 4.0));
-              }
+        child: Consumer<NetworkProvider>(builder: (context,networkProvider,child){
+          return Consumer<GetCurrenciesFullProvider>(builder: (context,getCurrenciesFullProvider,child){
+            if(getCurrenciesFullProvider.loading){
+              return Center(
+                  child: circularProgressBar(Color(0xff0BA70F), 4.0));
+            }
 
-              if(getCurrenciesFullProvider.error != null || !networkProvider.isConnected) {
-                return noInternet(settingsStore, _screenWidth);
-              }
+            if(getCurrenciesFullProvider.error != null || !networkProvider.isConnected) {
+              return noInternet(settingsStore, _screenWidth);
+            }
 
-              if(getCurrenciesFullProvider.data != null){
-                return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
-                  if(getPairsParamsProvider.loading){
-                    return defaultBody(_screenWidth, _screenHeight, settingsStore);
+            if(getCurrenciesFullProvider.data != null){
+              return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
+                if(getPairsParamsProvider.loading){
+                  return defaultBody(_screenWidth, _screenHeight, settingsStore);
+                }
+                return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
+                  if(getPairsParamsProvider.error != null || getExchangeAmountProvider.error != null || !networkProvider.isConnected) {
+                    return noInternet(settingsStore, _screenWidth);
                   }
-                  return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
-                    if(getPairsParamsProvider.error != null || getExchangeAmountProvider.error != null || !networkProvider.isConnected) {
-                      return noInternet(settingsStore, _screenWidth);
-                    }
 
-                    if(getPairsParamsProvider.data != null || getExchangeAmountProvider.data != null) {
-                      this.networkProvider = networkProvider;
-                      this.getCurrenciesFullProvider = getCurrenciesFullProvider;
-                      this.getPairsParamsProvider = getPairsParamsProvider;
-                      this.getExchangeAmountProvider = getExchangeAmountProvider;
-                      _isInitialized = true;
-                      return body(
-                          _screenWidth,
-                          _screenHeight,
-                          settingsStore,
-                          _scrollController,
-                          swapExchangePageChangeNotifier,
-                          getCurrenciesFullProvider.data,
-                          getCurrenciesFullProvider,
-                          getPairsParamsProvider,
-                          getExchangeAmountProvider, networkProvider) ;
-                    }
+                  if(getPairsParamsProvider.data != null || getExchangeAmountProvider.data != null) {
+                    this.networkProvider = networkProvider;
+                    this.getCurrenciesFullProvider = getCurrenciesFullProvider;
+                    this.getPairsParamsProvider = getPairsParamsProvider;
+                    this.getExchangeAmountProvider = getExchangeAmountProvider;
+                    _isInitialized = true;
+                    return body(
+                        _screenWidth,
+                        _screenHeight,
+                        settingsStore,
+                        _scrollController,
+                        swapExchangePageChangeNotifier,
+                        getCurrenciesFullProvider.data,
+                        getCurrenciesFullProvider,
+                        getPairsParamsProvider,
+                        getExchangeAmountProvider, networkProvider) ;
+                  }
 
-                    return SizedBox();
-                  });
+                  return SizedBox();
                 });
-              }
+              });
+            }
 
-              return SizedBox();
-            });
-          }
-          ),
+            return SizedBox();
+          });
+        }
         ),
       ),
     );
