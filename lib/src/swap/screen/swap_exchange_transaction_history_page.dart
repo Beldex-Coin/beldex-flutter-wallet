@@ -231,15 +231,31 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
   // Download and save CSV to your Device
   Future<void> downloadCSV(String csv) async {
     final Uint8List bytes = Uint8List.fromList(utf8.encode(csv));
-    final directory = await getExternalStorageDirectories(type: StorageDirectory.downloads); // Internal storage
-    final path = '${directory?.first.path}/Transaction_Report.csv';
-    // Convert your CSV string to a Uint8List for downloading.
-    final file = File(path);
-    await file.writeAsBytes(bytes).whenComplete(() {
-      print("path $path");
+    if(Platform.isAndroid) {
+      final directory = await getExternalStorageDirectories(
+          type: StorageDirectory.downloads); // Internal storage
+      final path = '${directory?.first.path}/Transaction_Report.csv';
+      // Convert your CSV string to a Uint8List for downloading.
       final file = File(path);
-      Share.shareXFiles([XFile(file.path)]);
-    });
+      await file.writeAsBytes(bytes).whenComplete(() {
+        print("path $path");
+        final file = File(path);
+        Share.shareXFiles([XFile(file.path)]);
+      });
+    }
+    if(Platform.isIOS) {
+      // Use application documents directory for cross-platform compatibility
+      final directory = await getApplicationDocumentsDirectory();
+      final path = '${directory.path}/Transaction_Report.csv';
+
+      final file = File(path);
+      await file.writeAsBytes(bytes);
+
+      print("File saved at $path");
+
+      // Share the file
+      await Share.shareXFiles([XFile(file.path)], text: 'Transaction Report');
+    }
   }
 
   Widget transactionRow(SettingsStore settingsStore, GetTransactionsModel getTransactionsModel, int index) {
