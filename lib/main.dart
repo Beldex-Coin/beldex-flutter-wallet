@@ -271,18 +271,24 @@ class MaterialAppWithTheme extends StatelessWidget {
     final syncStore = Provider.of<SyncStore>(context);
     final balanceStore = Provider.of<BalanceStore>(context);
     final theme = Provider.of<ThemeChanger>(context);
-    final statusBarColor =
-        settingsStore.isDarkTheme ?  Color(0xff171720) : Color(0xffffffff);
-    final systemNavigationBarDividerColor =
-    settingsStore.isDarkTheme ?  Color(0xff24242F) : Color(0xffEDEDED);
     final languageNotifier = Provider.of<LanguageNotifier>(context);
     final contacts = Provider.of<Box<Contact>>(context);
     final nodes = Provider.of<Box<Node>>(context);
     final transactionDescriptions =
         Provider.of<Box<TransactionDescription>>(context);
- 
+
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: statusBarColor, systemNavigationBarColor: statusBarColor, systemNavigationBarDividerColor: systemNavigationBarDividerColor, systemNavigationBarIconBrightness: settingsStore.isDarkTheme ?  Brightness.light : Brightness.dark));
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarDividerColor: Colors.transparent,
+        statusBarIconBrightness:
+        settingsStore.isDarkTheme ? Brightness.light : Brightness.dark,
+        systemNavigationBarIconBrightness:
+        settingsStore.isDarkTheme ? Brightness.light : Brightness.dark,
+      ),
+    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,

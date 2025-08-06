@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -165,8 +167,18 @@ abstract class SettingsStoreBase with Store {
   @action
   Future saveDarkTheme({required bool isDarkTheme}) async {
     this.isDarkTheme = isDarkTheme;
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-        statusBarColor: isDarkTheme ? Color(0xff171720) : Color(0xffffffff), systemNavigationBarColor: isDarkTheme ? Color(0xff171720) : Color(0xffffffff), systemNavigationBarDividerColor: isDarkTheme ? Color(0xff24242F) : Color(0xffEDEDED), systemNavigationBarIconBrightness: isDarkTheme ?  Brightness.light : Brightness.dark));
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarDividerColor: Colors.transparent,
+        statusBarIconBrightness:
+        isDarkTheme ? Brightness.light : Brightness.dark,
+        systemNavigationBarIconBrightness:
+        isDarkTheme ? Brightness.light : Brightness.dark,
+      ),
+    );
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     await _sharedPreferences.setBool(currentDarkTheme, isDarkTheme);
   }
 

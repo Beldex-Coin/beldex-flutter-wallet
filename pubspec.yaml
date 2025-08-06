@@ -42,7 +42,7 @@ version: 2.0.4+28
 # keytool -genkey -v -keystore c:\Users\konst\key.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias key
 
 environment:
-  sdk: ">=2.12.0 <4.0.0"
+  sdk: ">=2.15.0 <4.0.0"
   flutter: ">=1.22.6"
 
 dependencies:
