@@ -25,6 +25,16 @@ mixin _$RescanWalletStore on RescanWalletStoreBase, Store {
     });
   }
 
+  late final _$rescanCurrentWalletAsyncAction = AsyncAction(
+      'RescanWalletStoreBase.rescanCurrentWallet',
+      context: context);
+
+  @override
+  Future<dynamic> rescanCurrentWallet({required int restoreHeight}) {
+    return _$rescanCurrentWalletAsyncAction
+        .run(() => super.rescanCurrentWallet(restoreHeight: restoreHeight));
+  }
+
   @override
   String toString() {
     return '''

@@ -12,10 +12,15 @@ class ChangelogPage extends BasePage {
   @override
   String getTitle(AppLocalizations t) => t.changelog;
 
-@override
-Widget trailing(BuildContext context){
-  return Icon(Icons.settings,color:Colors.transparent);
-}
+  @override
+  Widget trailing(BuildContext context){
+    return Icon(Icons.settings,color:Colors.transparent);
+  }
+
+  @override
+  Widget? leading(BuildContext context) {
+    return leadingIcon(context);
+  }
 
 
 

@@ -25,6 +25,22 @@ mixin _$WalletCreationStore on WalletCreationStoreBase, Store {
     });
   }
 
+  late final _$errorMessageAtom =
+      Atom(name: 'WalletCreationStoreBase.errorMessage', context: context);
+
+  @override
+  String? get errorMessage {
+    _$errorMessageAtom.reportRead();
+    return super.errorMessage;
+  }
+
+  @override
+  set errorMessage(String? value) {
+    _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
+      super.errorMessage = value;
+    });
+  }
+
   late final _$createAsyncAction =
       AsyncAction('WalletCreationStoreBase.create', context: context);
 
@@ -37,7 +53,8 @@ mixin _$WalletCreationStore on WalletCreationStoreBase, Store {
   @override
   String toString() {
     return '''
-state: ${state}
+state: ${state},
+errorMessage: ${errorMessage}
     ''';
   }
 }

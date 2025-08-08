@@ -258,6 +258,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
                   bottom: 0,
                   child: Text(widget.text!,
                       style: TextStyle(
+                        backgroundColor: Colors.transparent,
                         fontSize: 17,
                         fontWeight: FontWeight.w600,
                         color: Colors

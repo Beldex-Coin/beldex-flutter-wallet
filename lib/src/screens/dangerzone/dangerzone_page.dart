@@ -23,6 +23,11 @@ class DangerZonePage extends BasePage {
   }
 
   @override
+  Widget? leading(BuildContext context) {
+    return leadingIcon(context);
+  }
+
+  @override
   Widget body(BuildContext context) {
     final _baseWidth = 411.43;
     final _screenWidth = MediaQuery.of(context).size.width;

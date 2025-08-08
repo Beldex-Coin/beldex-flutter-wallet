@@ -29,20 +29,14 @@ class RestoreWalletFromSeedPage extends BasePage {
   @override
   String getTitle(AppLocalizations t) => t.restore_title_from_seed;
 
-  // @override
-  // Widget leading(BuildContext context) {
-  //   return Container(
-  //       padding: const EdgeInsets.only(top: 12.0, left: 10),
-  //       decoration: BoxDecoration(
-  //         //borderRadius: BorderRadius.circular(10),
-  //         //color: Colors.black,
-  //       ),
-  //       child: SvgPicture.asset('assets/images/beldex_logo_foreground1.svg'));
-  // }
-
   @override
   Widget trailing(BuildContext context) {
     return Container();
+  }
+
+  @override
+  Widget? leading(BuildContext context) {
+    return leadingIcon(context);
   }
 
   @override

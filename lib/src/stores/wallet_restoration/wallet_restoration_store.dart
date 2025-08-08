@@ -5,6 +5,7 @@ import 'package:beldex_wallet/src/wallet/mnemotic_item.dart';
 import 'package:beldex_wallet/src/stores/wallet_restoration/wallet_restoration_state.dart';
 import 'package:beldex_wallet/src/stores/authentication/authentication_store.dart';
 import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
+
 import '../../../l10n.dart';
 
 part 'wallet_restoration_store.g.dart';
@@ -15,10 +16,10 @@ class WalletRestorationStore = WalletRestorationStoreBase
 abstract class WalletRestorationStoreBase with Store {
   WalletRestorationStoreBase(
       {this.seed,
-        required this.authStore,
-        required this.walletListService,
-        required this.sharedPreferences});
-/*state = WalletRestorationStateInitial();
+      required this.authStore,
+      required this.walletListService,
+      required this.sharedPreferences});
+    /*state = WalletRestorationStateInitial();
   }*/
 
   final AuthenticationStore authStore;
@@ -55,11 +56,11 @@ abstract class WalletRestorationStoreBase with Store {
   @action
   Future restoreFromKeys(
       {required String name,
-        required String language,
-        required String address,
-        required String viewKey,
-        required String spendKey,
-        required int restoreHeight}) async {
+      required String language,
+      required String address,
+      required String viewKey,
+      required String spendKey,
+      required int restoreHeight}) async {
     state = WalletRestorationStateInitial();
 
     try {
@@ -91,9 +92,6 @@ abstract class WalletRestorationStoreBase with Store {
     if(_seed == null || _seed.length != 25){
       errorMessage = l10n.wallet_restoration_store_incorrect_seed_length;
       return ;
-      errorMessage = l10n.wallet_restoration_store_incorrect_seed_length;
-      this.isValid = isValid;
-      return;
     }
 
     for (final item in _seed) {

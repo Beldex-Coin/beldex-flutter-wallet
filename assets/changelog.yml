@@ -107,3 +107,8 @@
   changes:
     - Added support for 16 KB size pages
     - Minor bug fixes
+-
+  version: 2.1.0
+  changes:
+    - Introducing Swap feature
+    - Minor bug fixes

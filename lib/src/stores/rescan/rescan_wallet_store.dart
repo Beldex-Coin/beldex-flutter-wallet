@@ -18,6 +18,7 @@ abstract class RescanWalletStoreBase with Store {
 
   WalletService _walletService;
 
+  @action
   Future rescanCurrentWallet({required int restoreHeight}) async {
     state = RescanWalletState.rescaning;
     await _walletService.rescan(restoreHeight: restoreHeight);

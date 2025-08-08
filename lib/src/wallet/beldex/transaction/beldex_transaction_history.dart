@@ -31,8 +31,11 @@ class BeldexTransactionHistory extends TransactionHistory {
 
     try {
       _isUpdating = true;
+      print("RangeError-> 1");
       await refresh();
+      print("RangeError-> 5");
       _transactions.value = await getAll(force: true);
+      print("RangeError-> 6");
       _isUpdating = false;
 
       if (!_needToCheckForRefresh) {
@@ -41,6 +44,7 @@ class BeldexTransactionHistory extends TransactionHistory {
     } catch (e) {
       _isUpdating = false;
       print(e);
+      print("RangeError-> 7 $e");
       rethrow;
     }
   }
@@ -60,11 +64,14 @@ class BeldexTransactionHistory extends TransactionHistory {
 
     try {
       _isRefreshing = true;
+      print("RangeError-> 2");
       beldex_transaction_history.refreshTransactions();
+      print("RangeError-> 3");
       _isRefreshing = false;
     } on PlatformException catch (e) {
       _isRefreshing = false;
       print(e);
+      print("RangeError-> 4 $e");
       rethrow;
     }
   }

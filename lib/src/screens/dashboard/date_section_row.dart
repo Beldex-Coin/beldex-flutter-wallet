@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:provider/provider.dart';
 import '../../../l10n.dart';
-
 extension RelativeDateHelpers on DateTime {
   bool isToday([DateTime? now]) {
     now ??= DateTime.now();
@@ -60,12 +59,12 @@ class DateSectionRow extends StatelessWidget {
     }
 
     return Container(
-       padding: const EdgeInsets.only(top: 15, bottom: 0,left:10),
-      margin: EdgeInsets.only(left:18,right:18),
-       decoration: BoxDecoration(
-                        borderRadius: index == 0 ? BorderRadius.only(topLeft: Radius.circular(8.0,),topRight: Radius.circular(8.0,)) : BorderRadius.circular(0),
-                        color: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED)
-                      ),
+        padding: const EdgeInsets.only(top: 15, bottom: 0,left:10),
+        margin: EdgeInsets.only(left:18,right:18),
+        decoration: BoxDecoration(
+            borderRadius: index == 0 ? BorderRadius.only(topLeft: Radius.circular(8.0,),topRight: Radius.circular(8.0,)) : BorderRadius.circular(0),
+            color: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED)
+        ),
         child: Text(title,
             style: TextStyle(fontSize: 18,fontWeight:FontWeight.w700, color: Theme.of(context).primaryTextTheme.bodySmall?.color)));
   }

@@ -34,6 +34,11 @@ class NewWalletPage extends BasePage {
   }
 
   @override
+  Widget? leading(BuildContext context) {
+    return leadingIcon(context);
+  }
+
+  @override
   Widget body(BuildContext context) => WalletNameForm();
 }
 
@@ -170,54 +175,63 @@ class _WalletNameFormState extends State<WalletNameForm> {
                   child: Stack(
                     alignment: Alignment.centerRight,
                     children: [
-                      TextFormField(
-                        style: TextStyle(
-                          backgroundColor: Colors.transparent,
-                          fontSize: 16.0,
-                          color: settingsStore.isDarkTheme
-                              ? Colors.white
-                              : Colors
-                                .black, //Theme.of(context).textTheme.subtitle2.color
-                        ),
-                        controller: nameController,
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(
+                      Observer(
+                        builder: (context) {
+                          return TextFormField(
+                            enabled: !(walletCreationStore.state is WalletIsCreating),
+                            style: TextStyle(
                               backgroundColor: Colors.transparent,
                               fontSize: 16.0,
                               color: settingsStore.isDarkTheme
-                                  ? Color(0xff747474)
-                                  : Color(0xff6F6F6F)),
-                          hintText: tr(context).enterWalletName_,
-                          errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 1),
-                        ),
-                        validator: (value) {
-                          final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
-                          if (!pattern.hasMatch(value!)) {
-                            return tr(context).enterValidNameUpto15Characters;
-                          } else {
-                            walletCreationStore.validateWalletName(value,tr(context));
-                            return walletCreationStore.errorMessage;
-                          }
-                        },
+                                  ? Colors.white
+                                  : Colors
+                                    .black, //Theme.of(context).textTheme.subtitle2.color
+                            ),
+                            controller: nameController,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            decoration: InputDecoration(
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(
+                                  backgroundColor: Colors.transparent,
+                                  fontSize: 16.0,
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff747474)
+                                      : Color(0xff6F6F6F)),
+                              hintText: tr(context).enterWalletName_,
+                              errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 1),
+                            ),
+                            validator: (value) {
+                              final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
+                              if (!pattern.hasMatch(value!)) {
+                                return tr(context).enterValidNameUpto15Characters;
+                              } else {
+                                walletCreationStore.validateWalletName(value,tr(context));
+                                return walletCreationStore.errorMessage;
+                              }
+                            },
+                          );
+                        }
                       ),
                       ValueListenableBuilder<bool>(
                         valueListenable: _isTextFieldNotEmpty,
                         builder: (context, isNotEmpty, child) {
                           return isNotEmpty
-                              ? IconButton(
-                                  icon: Icon(
-                                    Icons.clear,
-                                    color: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodySmall!
-                                        .color,
-                                  ),
-                                  onPressed: () {
-                                    nameController.clear();
-                                  },
-                                )
+                              ? Observer(
+                                builder: (context) {
+                                  return IconButton(
+                                      icon: Icon(
+                                        Icons.clear,
+                                        color: Theme.of(context)
+                                            .primaryTextTheme
+                                            .bodySmall!
+                                            .color,
+                                      ),
+                                      onPressed: !(walletCreationStore.state is WalletIsCreating) ? () {
+                                        nameController.clear();
+                                      } : null,
+                                    );
+                                }
+                              )
                               : Container();
                         },
                       ),

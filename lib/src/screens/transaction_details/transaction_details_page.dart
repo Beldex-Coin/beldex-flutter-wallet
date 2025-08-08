@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/src/swap/util/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -92,10 +93,7 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
             return GestureDetector(
               onTap: () async {
                 if (index == 0) {
-                  final url = 'https://explorer.beldex.io/tx/${item.value}';
-                  await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
-                    'url': url,
-                  });
+                  await openUrl(methodChannelPlatform: methodChannelPlatform, url: 'https://explorer.beldex.io/tx/${item.value}');
                 } else {
                   Clipboard.setData(ClipboardData(text: item.value));
                   Toast.show(

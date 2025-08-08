@@ -1,3 +1,25 @@
+import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
+import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
+import 'package:beldex_wallet/src/swap/provider/get_currencies_full_provider.dart';
+import 'package:beldex_wallet/src/swap/provider/get_exchange_amount_provider.dart';
+import 'package:beldex_wallet/src/swap/provider/get_pairs_params_provider.dart';
+import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
+import 'package:beldex_wallet/src/swap/provider/swap_transaction_expansion_status_change_notifier.dart';
+import 'package:beldex_wallet/src/swap/provider/valdiate_extra_id_field_provider.dart';
+import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_completed_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_exchange_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_exchange_transaction_history_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_exchanging_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_payment_details_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_payment_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_transaction_completed_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_transaction_exchanging_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_transaction_payment_details_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_transaction_un_paid_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_un_paid_page.dart';
+import 'package:beldex_wallet/src/swap/screen/swap_wallet_address_page.dart';
+import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
 import 'package:beldex_wallet/src/bns/bns_page.dart';
 import 'package:beldex_wallet/src/bns/bns_renewal.dart';
 import 'package:beldex_wallet/src/bns/bns_renewal_change_notifier.dart';
@@ -82,6 +104,7 @@ import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_descript
 import 'package:beldex_wallet/src/wallet/transaction/transaction_info.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'src/swap/util/data_class.dart';
 
 class Router {
   static Route<dynamic> generateRoute(
@@ -615,7 +638,101 @@ class Router {
                   ],
                   child: BnsRenewalPage(bnsName: settings.arguments as String));
             });
-
+      case Routes.swapExchange:
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<SwapExchangePageChangeNotifier>(create: (_) => SwapExchangePageChangeNotifier()),
+              ChangeNotifierProvider<GetCurrenciesFullProvider>(create: (_) => GetCurrenciesFullProvider()),
+              ChangeNotifierProvider<GetPairsParamsProvider>(create: (_) => GetPairsParamsProvider()),
+              ChangeNotifierProvider<GetExchangeAmountProvider>(create: (_) => GetExchangeAmountProvider())
+            ],
+            child: SwapExchangePage(walletAddress: settings.arguments as String),
+          );
+        });
+      case Routes.swapWalletAddress:
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<ValidateAddressProvider>(create: (_) => ValidateAddressProvider()),
+              ChangeNotifierProvider<ValidateExtraIdFieldProvider>(create: (_) => ValidateExtraIdFieldProvider())
+            ],
+            child: SwapWalletAddressPage(exchangeData : settings.arguments as ExchangeData),
+          );
+        });
+      case Routes.swapPayment:
+        return MaterialPageRoute<void>(builder: (context) {
+          return SwapPaymentPage(exchangeDataWithRecipientAddress : settings.arguments as ExchangeDataWithRecipientAddress);
+        });
+      case Routes.swapPaymentDetails:
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              Provider(create: (_) => SyncStore(walletService: walletService),),
+              ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider())
+            ],
+            child: SwapPaymentDetailsPage(transactionDetails : settings.arguments as TransactionDetails),
+          );
+        });
+      case Routes.swapExchanging:
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider()),
+              ChangeNotifierProvider<GetCurrenciesFullProvider>(create: (_) => GetCurrenciesFullProvider())
+            ],
+            child: SwapExchangingPage(transactionDetails : settings.arguments as TransactionDataWithWalletAddress),
+          );
+        });
+      case Routes.swapTransactionList:
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider()),
+              ChangeNotifierProvider<SwapTransactionExpansionStatusChangeNotifier>(create: (_) => SwapTransactionExpansionStatusChangeNotifier())
+            ],
+            child: SwapExchangeTransactionHistoryPage(swapTransactionHistory: settings.arguments as SwapTransactionHistory),
+          );
+        });
+      case Routes.swapUnPaid:
+        return MaterialPageRoute<void>(builder: (context) {
+          return SwapUnPaidPage(transactionStatus : settings.arguments as TransactionStatus);
+        });
+      case Routes.swapCompleted:
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider())
+            ],
+            child: SwapCompletedPage(transactionStatus: settings.arguments as TransactionStatus),
+          );
+        });
+      case Routes.swapTransactionCompleted:
+        return MaterialPageRoute<void>(builder: (context) {
+          return SwapTransactionCompletedPage(transactionStatus: settings.arguments as GetTransactionStatus);
+        });
+      case Routes.swapTransactionUnPaid:
+        return MaterialPageRoute<void>(builder: (context) {
+          return SwapTransactionUnPaidPage(transactionStatus: settings.arguments as GetTransactionStatus);
+        });
+      case Routes.swapTransactionExchanging:
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<GetCurrenciesFullProvider>(create: (_) => GetCurrenciesFullProvider())
+            ],
+            child: SwapTransactionExchangingPage(transactionStatus : settings.arguments as GetTransactionStatusWithWalletAddress),
+          );
+        });
+      case Routes.swapTransactionPaymentDetails:
+        return MaterialPageRoute<void>(builder: (context) {
+          return MultiProvider(
+            providers: [
+              Provider(create: (_) => SyncStore(walletService: walletService),),
+            ],
+            child: SwapTransactionPaymentDetailsPage(transactionDetails : settings.arguments as GetTransactionStatusWithWalletAddress),
+          );
+        });
       default:
         return MaterialPageRoute<void>(
             builder: (context) {

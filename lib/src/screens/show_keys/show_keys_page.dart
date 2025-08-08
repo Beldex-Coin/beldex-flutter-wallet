@@ -9,6 +9,8 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:toast/toast.dart';
 import '../../../l10n.dart';
 
+import '../../../l10n.dart';
+
 class ShowKeysPage extends BasePage {
   @override
   bool get isModalBackButton => true;
@@ -19,6 +21,11 @@ class ShowKeysPage extends BasePage {
   @override
   Widget trailing(BuildContext context) {
     return Container();
+  }
+
+  @override
+  Widget? leading(BuildContext context) {
+    return leadingIcon(context);
   }
 
 // void setPageSecure()async{

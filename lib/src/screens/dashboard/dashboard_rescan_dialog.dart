@@ -3,7 +3,7 @@ import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/screens/dashboard/wallet_menu.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
-import 'package:beldex_wallet/src/util/network_service.dart';
+import 'package:beldex_wallet/src/util/network_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -24,8 +24,8 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
     final settingsStore = Provider.of<SettingsStore>(context);
     final walletMenu = WalletMenu(context);
     final syncStore = Provider.of<SyncStore>(context);
-    final networkStatus = Provider.of<NetworkStatus>(context);
-    if (networkStatus == NetworkStatus.offline) {
+    final networkStatus = Provider.of<NetworkProvider>(context);
+    if (!networkStatus.isConnected) {
       setState(() {
         canRescan = false;
       });

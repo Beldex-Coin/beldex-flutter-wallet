@@ -1,4 +1,5 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/swap/util/utils.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_info.dart';
 import 'package:flutter/material.dart';
 import '../../../l10n.dart';
@@ -184,10 +185,7 @@ class TransactionRow extends StatelessWidget {
                                     Expanded(
                                         child: GestureDetector(
                                           onTap: () async {
-                                            final url = 'https://explorer.beldex.io/tx/${transaction.id}'; //testnet.beldex.dev/tx/  //explorer.beldex.io
-                                            await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
-                                              'url': url,
-                                            });
+                                            await openUrl(methodChannelPlatform: methodChannelPlatform, url: 'https://explorer.beldex.io/tx/${transaction.id}'); //testnet.beldex.dev/tx/  //explorer.beldex.io
                                       },
                                       child: Text(
                                         transaction.id,
