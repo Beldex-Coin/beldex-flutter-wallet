@@ -48,4 +48,16 @@ class Routes {
   static const bns = '/bns';
   static const bnsUpdate = '/bns_update';
   static const bnsRenewal = '/bns_renewal';
+  static const swapExchange = '/swapExchange';
+  static const swapWalletAddress = '/swapWalletAddress';
+  static const swapPayment = '/swapPayment';
+  static const swapPaymentDetails = '/swapPaymentDetails';
+  static const swapExchanging = '/swapExchanging';
+  static const swapTransactionList = '/swapTransactionList';
+  static const swapUnPaid = '/swapUnPaid';
+  static const swapCompleted = '/swapCompleted';
+  static const swapTransactionCompleted = '/swapTransactionCompleted';
+  static const swapTransactionUnPaid = '/swapTransactionUnPaid';
+  static const swapTransactionExchanging = '/swapTransactionExchanging';
+  static const swapTransactionPaymentDetails = '/swapTransactionPaymentDetails';
 }

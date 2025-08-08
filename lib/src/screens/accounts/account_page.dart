@@ -22,6 +22,11 @@ class AccountPage extends BasePage {
   }
 
   @override
+  Widget? leading(BuildContext context) {
+    return leadingIcon(context);
+  }
+
+  @override
   String getTitle(AppLocalizations t) => t.account;
 
   @override

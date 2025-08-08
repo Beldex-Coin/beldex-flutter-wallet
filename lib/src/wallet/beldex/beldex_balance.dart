@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:beldex_wallet/src/wallet/balance.dart';
 
 class BelDexBalance extends Balance {

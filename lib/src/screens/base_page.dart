@@ -9,6 +9,8 @@ import 'package:beldex_wallet/themes.dart';
 import 'package:beldex_wallet/theme_changer.dart';
 import 'package:beldex_wallet/l10n.dart';
 
+import '../../l10n.dart';
+
 enum AppBarStyle { regular, withShadow }
 
 abstract class BasePage extends StatelessWidget {
@@ -192,7 +194,35 @@ abstract class BasePage extends StatelessWidget {
             ),
         body: SafeArea(child: body(context)),
         floatingActionButton: floatingActionButton(context),
-        bottomNavigationBar: bottomNavigationBar(context),
+        bottomNavigationBar: Padding(
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom),
+            child: bottomNavigationBar(context)
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
+  }
+
+  Widget? leadingIcon(BuildContext context) {
+    if (ModalRoute.of(context)?.isFirst ?? false) {
+      return null;
+    }
+    final settingsStore = Provider.of<SettingsStore>(context);
+    final _backButton = SvgPicture.asset(
+      'assets/images/new-images/back_arrow.svg',
+      colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
+      fit: BoxFit.fill,
+      height: 15,
+      width: 15,
+    );
+    return Container(
+      color: Colors.transparent,
+      padding: EdgeInsets.only(top: 4),
+      alignment: Alignment.centerLeft,
+      child: ButtonTheme(
+        buttonColor: Colors.transparent,
+        minWidth: double.minPositive,
+        child: TextButton(
+            onPressed: () => onClose(context), child: _backButton),
+      ),
+    );
   }
 }

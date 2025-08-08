@@ -196,5 +196,4 @@ class Themes {
       foregroundColor: PaletteDark.saveAndCopyButtonColor,//PaletteDark.darkThemeIndigoButtonBorder
     )
   );
-
 }

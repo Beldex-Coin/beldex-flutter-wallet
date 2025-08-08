@@ -349,7 +349,7 @@
   "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate": "Assurez-vous de faire une sauvegarde de votre\ngraine de récupération, adresse du portefeuille\net clés privées",
   "blockRemaining": "{status} Bloc restant",
   "flashTransaction": "Transaction flash",
-  "transferYourBdxMoreFasternWithFlashTransaction": "Transférez votre BDX plus rapidement\n  avec Transaction Flash!",
+  "transferYourBdxMoreFasternWithFlashTransaction": "Transférez votre BDX plus rapidement avec\n Transaction Flash!",
   "enterYourPin": "Entrez votre code PIN",
   "walletSettings": "Paramètres du portefeuille",
   "recoverySeed": "Semence de récupération",
@@ -432,5 +432,6 @@
   "buyBns": "Acheter des BNS",
   "bns": "BNS",
   "bnsUpdate": "Mise à jour du BNS",
-  "bnsRenewal": "Renouvellement du BNS"
+  "bnsRenewal": "Renouvellement du BNS",
+  "swap": "Échanger"
 }

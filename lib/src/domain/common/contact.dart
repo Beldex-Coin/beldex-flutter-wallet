@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
-import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 
 part 'contact.g.dart';
 

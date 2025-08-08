@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 import 'package:beldex_wallet/src/domain/common/fiat_currency.dart';
 import 'package:http/http.dart' as http;
 

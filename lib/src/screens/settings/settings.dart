@@ -23,6 +23,8 @@ import 'package:beldex_wallet/src/widgets/nav/new_nav_list_header.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 
+import '../../swap/util/utils.dart';
+
 class SettingsPage extends BasePage {
   @override
   String getTitle(AppLocalizations t) => t.walletSettings;
@@ -33,6 +35,11 @@ class SettingsPage extends BasePage {
   @override
   Widget trailing(BuildContext context) {
     return Container();
+  }
+
+  @override
+  Widget? leading(BuildContext context) {
+    return leadingIcon(context);
   }
 
   @override
@@ -986,9 +993,7 @@ class SettingsFormState extends State<SettingsForm> {
                     padding: const EdgeInsets.only(right: 10.0, left: 10),
                     child: GestureDetector(
                         onTap: () async {
-                          await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
-                            'url': _githubUrl,
-                          });
+                          await openUrl(methodChannelPlatform: methodChannelPlatform, url: _githubUrl);
                         },
                         child: SvgPicture.asset(
                             'assets/images/new-images/github.svg')),
@@ -997,18 +1002,14 @@ class SettingsFormState extends State<SettingsForm> {
                     padding: const EdgeInsets.only(right: 20.0, left: 10),
                     child: GestureDetector(
                         onTap: () async {
-                          await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
-                            'url': _telegramUrl,
-                          });
+                          await openUrl(methodChannelPlatform: methodChannelPlatform, url: _telegramUrl);
                         },
                         child: SvgPicture.asset(
                             'assets/images/new-images/telegram.svg')),
                   ),
                   GestureDetector(
                       onTap: () async {
-                        await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
-                          'url': _twitterUrl,
-                        });
+                        await openUrl(methodChannelPlatform: methodChannelPlatform, url: _twitterUrl);
                       },
                       child: SvgPicture.asset(
                           'assets/images/new-images/twitter.svg')),

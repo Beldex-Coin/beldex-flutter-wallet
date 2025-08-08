@@ -1,0 +1,147 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:beldex_wallet/src/node/sync_status.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/services/platform_channel.dart';
+import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'data_class.dart';
+import 'package:path/path.dart' as p;
+
+const swapTransactionsListKey = "swap_transaction_list";
+
+String toStringAsFixed(String? amount) {
+  if (amount == null || amount.trim().isEmpty) {
+    return "0.0";
+  }
+
+  try {
+    final double d = double.parse(amount);
+    return d >= 1.00 ? d.toStringAsFixed(4) : d.toStringAsFixed(8);
+  } catch (e) {
+    return "0.0";
+  }
+}
+
+String getDate(int timeStamp) {
+  final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+  return DateFormat('dd MMM yyyy').format(date);
+}
+
+String getDateAndTime(int timeStamp) {
+  final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+  return DateFormat('dd MMM yyyy, HH:mm:ss').format(date);
+}
+
+String getTransactionDate(int timeStamp) {
+  final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+  return DateFormat('dd MMM yyyy').format(date);
+}
+
+String getTransactionTime(int timeStamp) {
+  final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+  return DateFormat('HH:mm:ss').format(date);
+}
+
+String truncateMiddle(String input, {int start = 3, int end = 3}) {
+  if (input.length <= start + end) return input;
+  return '${input.substring(0, start)}...${input.substring(input.length - end)}';
+}
+
+String processUrl(String? url, String? hash) {
+  if (url == null || !url.contains('/') || hash == null) return "";
+
+  final int index = url.lastIndexOf('/');
+  final String trimmed = url.substring(0, index + 1);
+
+  return '$trimmed$hash';
+}
+
+Future<void> openUrl({required MethodChannel methodChannelPlatform, required String? url}) async => await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
+  'url': url,
+});
+
+Future<void> storeTransactionIds(String fileName, String key, dynamic transactionId) async {
+  try {
+    // Get the documents directory
+    final dir = await getApplicationDocumentsDirectory();
+    final filePath = p.join(dir.path, fileName);
+    final file = File(filePath);
+
+    // Ensure the directory exists
+    if (!(await dir.exists())) {
+      await dir.create(recursive: true);
+    }
+
+    Map<String, dynamic> data = {};
+
+    // Check if the file exists
+    if (await file.exists()) {
+      final jsonString = await file.readAsString();
+      if (jsonString.trim().isNotEmpty) {
+        try {
+          data = jsonDecode(jsonString);
+        } catch (e) {
+          print('Failed to parse JSON, initializing empty structure.');
+        }
+      }
+    } else {
+      await file.create();
+    }
+
+    // Add value to the array at the specified key
+    if (data.containsKey(key) && data[key] is List) {
+      data[key].add(transactionId);
+    } else {
+      data[key] = [transactionId];
+    }
+    // Encode the updated data back to JSON
+    final updatedJsonString = jsonEncode(data);
+    print(updatedJsonString);
+    // Write back to file
+    await file.writeAsString(updatedJsonString);
+    print('Transaction id added successfully to "$key" in $fileName');
+  } catch (e) {
+    print('Error adding value to JSON: $e');
+  }
+}
+
+Future<List<String>> getTransactionIds(String fileName, String key) async {
+  try {
+    final dir = await getApplicationDocumentsDirectory();
+    final filePath = p.join(dir.path, fileName);
+    final file = File(filePath);
+
+    // Ensure the directory exists
+    if (!(await dir.exists())) {
+      await dir.create(recursive: true);
+    }
+
+    if (!(await file.exists())) {
+      print("File does not exist.");
+      return [];
+    }
+
+    final jsonString = await file.readAsString();
+    final Map<String, dynamic> data = jsonDecode(jsonString);
+
+    if (data.containsKey(key) && data[key] is List) {
+      final List<String> array = (data[key] as List).cast<String>();
+      return array;
+    } else {
+      print("Key '$key' not found or is not a list.");
+      return [];
+    }
+  } catch (e) {
+    print("Error reading JSON: $e");
+    return [];
+  }
+}
+
+bool syncStatus(SyncStatus status) {
+  return status is SyncedSyncStatus || status.blocksLeft == 0;
+}
+
+Coins btcCoin = Coins('BTC', 'Bitcoin', "", 'bitcoin', 'BTC');
+Coins bdxCoin = Coins('BDX', 'Beldex', "", 'beldex', 'BDX');

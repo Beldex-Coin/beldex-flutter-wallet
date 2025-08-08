@@ -40,6 +40,11 @@ class AddressBookPage extends BasePage {
   }
 
   @override
+  Widget? leading(BuildContext context) {
+    return leadingIcon(context);
+  }
+
+  @override
   Widget body(BuildContext context) {
     final addressBookStore = Provider.of<AddressBookStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);

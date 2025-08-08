@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
-import 'package:beldex_wallet/src/util/network_service.dart';
+import 'package:beldex_wallet/src/util/network_provider.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -103,7 +103,6 @@ void main() async {
         sharedPreferences: sharedPreferences, walletsService: walletListService);
     final seedLanguageStore = SeedLanguageStore();
     final sendStore = SendStore(walletService: walletService, settingsStore: settingsStore, priceStore: priceStore,);
-    final networkService = NetworkService().controller.stream;
 
     setReactions(
         settingsStore: settingsStore,
@@ -131,7 +130,7 @@ void main() async {
       Provider(create: (_) => nodes),
       Provider(create: (_) => transactionDescriptions),
       Provider(create: (_) => seedLanguageStore),
-      StreamProvider(create: (_) => networkService, initialData: NetworkStatus.online),
+      ChangeNotifierProvider(create: (_) => NetworkProvider()),
       Provider(create: (_) => sendStore),
       ChangeNotifierProvider(create:(_)=> ButtonClickNotifier())
     ], child: BeldexWalletApp()));
@@ -272,16 +271,24 @@ class MaterialAppWithTheme extends StatelessWidget {
     final syncStore = Provider.of<SyncStore>(context);
     final balanceStore = Provider.of<BalanceStore>(context);
     final theme = Provider.of<ThemeChanger>(context);
-    final statusBarColor =
-        settingsStore.isDarkTheme ?  Color(0xff171720) : Color(0xffffffff);
     final languageNotifier = Provider.of<LanguageNotifier>(context);
     final contacts = Provider.of<Box<Contact>>(context);
     final nodes = Provider.of<Box<Node>>(context);
     final transactionDescriptions =
         Provider.of<Box<TransactionDescription>>(context);
- 
+
     SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(statusBarColor: statusBarColor));
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        systemNavigationBarColor: Colors.transparent,
+        systemNavigationBarDividerColor: Colors.transparent,
+        statusBarIconBrightness:
+        settingsStore.isDarkTheme ? Brightness.light : Brightness.dark,
+        systemNavigationBarIconBrightness:
+        settingsStore.isDarkTheme ? Brightness.light : Brightness.dark,
+      ),
+    );
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,

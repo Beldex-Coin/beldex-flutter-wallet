@@ -61,27 +61,20 @@ class TransactionDetailsListBodyState
                   ? Color(0xff171720)
                   : Color(0xffffffff),
               leading: Container(
-                width: 60,
-                padding: EdgeInsets.only(left: 15, top: 20, bottom: 5),
+                color: Colors.transparent,
+                padding: EdgeInsets.only(top: 10),
                 alignment: Alignment.centerLeft,
-                child: SizedBox(
-                  height: 30,
-                  width: 40,
-                  child: ButtonTheme(
-                    buttonColor: Colors.transparent,
-                    minWidth: double.minPositive,
-                    child: TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: SvgPicture.asset(
-                          'assets/images/new-images/back_arrow.svg',
-                          color: settingsStore.isDarkTheme
-                              ? Colors.white
-                              : Colors.black,
-                          height: 80,
-                          width: 50,
-                          fit: BoxFit.fill,
-                        )),
-                  ),
+                child: ButtonTheme(
+                  buttonColor: Colors.transparent,
+                  minWidth: double.minPositive,
+                  child: TextButton(
+                      onPressed: () => Navigator.pop(context), child: SvgPicture.asset(
+                    'assets/images/new-images/back_arrow.svg',
+                    colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
+                    fit: BoxFit.fill,
+                    height: 15,
+                    width: 15,
+                  )),
                 ),
               ),
               centerTitle: true,
@@ -254,10 +247,9 @@ class TransactionDetailsListBodyState
                               : Color(0xffEDEDED),
                 borderRadius: BorderRadius.circular(10)
               ),
-                margin: EdgeInsets.all(10),
+              margin: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: MediaQuery.of(context).viewPadding.bottom),
               child: ListView.builder(
                   key: _listKey,
-                  padding: EdgeInsets.only(bottom: 15),
                   itemCount: itemsCount,
                   itemBuilder: (context, index) {
                     if (index == 0) {
