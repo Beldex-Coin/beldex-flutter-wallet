@@ -430,7 +430,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
               if(networkProvider.isConnected) {
                 Navigator.of(context).pop(true);
                 Navigator.of(context, rootNavigator: true).pushNamed(
-                    Routes.swapExchange);
+                    Routes.swapExchange, arguments: transactionStatus.walletAddress);
               } else {
                 Toast.show(
                   'Network Error! Please check internet connection.',

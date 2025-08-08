@@ -88,6 +88,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
 
   late CreateTransactionModel createdTransactionDetails;
   late String _fromBlockChain;
+  String _walletAddress = "";
   late Timer timer;
   late GetStatusApiClient getStatusApiClient;
   late StreamController<GetStatusModel> _getStatusStreamController;
@@ -134,7 +135,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
 
   void callUnPaidScreen(CreateTransactionModel createdTransactionDetails, String? status) {
     Navigator.of(context).pop(true);
-    Navigator.of(context).pushNamed(Routes.swapUnPaid,arguments: TransactionStatus(createdTransactionDetails, status));
+    Navigator.of(context).pushNamed(Routes.swapUnPaid,arguments: TransactionStatus(createdTransactionDetails, status, _walletAddress));
   }
 
   @override
@@ -142,6 +143,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     createdTransactionDetails = widget.transactionDetails.createTransactionModel!;
     startAndStopPendingTransactionTimer(createdTransactionDetails.result?.createdAt);
     _fromBlockChain = widget.transactionDetails.fromBlockChain!;
+    _walletAddress = widget.transactionDetails.walletAddress;
     getStatusApiClient = GetStatusApiClient();
     // Create a stream controller and get status to the stream.
     _getStatusStreamController = StreamController<GetStatusModel>();
@@ -180,7 +182,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
             }
             Future.delayed(Duration(seconds: 2), () {
               Navigator.of(context).pop(true);
-              Navigator.of(context).pushNamed(Routes.swapExchanging,arguments: createdTransactionDetails);
+              Navigator.of(context).pushNamed(Routes.swapExchanging,arguments: TransactionDataWithWalletAddress(createdTransactionDetails, _walletAddress));
             });
             break;
           }
@@ -191,7 +193,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
             }
             Future.delayed(Duration(seconds: 2), () {
               Navigator.of(context).pop(true);
-              Navigator.of(context).pushNamed(Routes.swapCompleted,arguments: TransactionStatus(createdTransactionDetails, value.result));
+              Navigator.of(context).pushNamed(Routes.swapCompleted,arguments: TransactionStatus(createdTransactionDetails, value.result, _walletAddress));
             });
             break;
           }

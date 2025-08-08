@@ -8,13 +8,13 @@ import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 import '../../../palette.dart';
 import '../../../routes.dart';
+import '../../util/constants.dart';
 import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
 import '../api_client/get_status_api_client.dart';
@@ -25,9 +25,9 @@ import '../util/utils.dart';
 import 'number_stepper.dart';
 
 class SwapTransactionExchangingPage extends BasePage {
-  SwapTransactionExchangingPage({required this.transactionDetails});
+  SwapTransactionExchangingPage({required this.transactionStatus});
 
-  final GetTransactionResult transactionDetails;
+  final GetTransactionStatusWithWalletAddress transactionStatus;
 
   @override
   bool get isModalBackButton => false;
@@ -50,14 +50,14 @@ class SwapTransactionExchangingPage extends BasePage {
 
   @override
   Widget body(BuildContext context) {
-    return SwapTransactionExchangingHome(transactionDetails: transactionDetails);
+    return SwapTransactionExchangingHome(transactionStatus: transactionStatus);
   }
 }
 
 class SwapTransactionExchangingHome extends StatefulWidget {
-  SwapTransactionExchangingHome({required this.transactionDetails});
+  SwapTransactionExchangingHome({required this.transactionStatus});
 
-  final GetTransactionResult transactionDetails;
+  final GetTransactionStatusWithWalletAddress transactionStatus;
 
   @override
   State<SwapTransactionExchangingHome> createState() => _SwapTransactionExchangingHomeState();
@@ -88,10 +88,10 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
   }
 
   late GetTransactionResult transactionDetails;
+  String _walletAddress = "";
   late Timer timer;
   late GetStatusApiClient getStatusApiClient;
   late StreamController<GetStatusModel> _getStatusStreamController;
-  late FlutterSecureStorage secureStorage;
   late List<String> stored = [];
   static const methodChannelPlatform = MethodChannel("io.beldex.wallet/beldex_wallet_channel");
   late GetCurrenciesFullProvider getCurrenciesFullProvider;
@@ -100,11 +100,9 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
 
   @override
   void initState() {
-    transactionDetails = widget.transactionDetails;
-    secureStorage = FlutterSecureStorage(aOptions: AndroidOptions(
-      encryptedSharedPreferences: true,
-    ));
-    getTransactionsIds(secureStorage, transactionIds: (ids) {
+    transactionDetails = widget.transactionStatus.transactionModel;
+    _walletAddress = widget.transactionStatus.walletAddress;
+    getTransactionIds(swapTransactionHistoryFileName, _walletAddress).then((List<String> ids) {
       stored = ids;
     });
     getStatusApiClient = GetStatusApiClient();
@@ -138,7 +136,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                 Navigator.of(context).pop(true);
                 Navigator.of(context).pushNamed(Routes.swapTransactionCompleted,
                     arguments: GetTransactionStatus(
-                        transactionDetails, value.result));
+                        transactionDetails, value.result, _walletAddress));
               });
               break;
             }
@@ -155,7 +153,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                 Navigator.of(context).pop(true);
                 Navigator.of(context).pushNamed(Routes.swapTransactionUnPaid,
                     arguments: GetTransactionStatus(
-                        transactionDetails, value.result));
+                        transactionDetails, value.result, _walletAddress));
               });
               break;
             }
@@ -614,9 +612,8 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                     children: [
                       WidgetSpan(child: InkWell(
                         onTap: networkProvider.isConnected ? () {
-                          final FlutterSecureStorage secureStorage = FlutterSecureStorage();
                           Navigator.of(context).pop(true);
-                          Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
+                          Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored));
                         } : null,
                         child: Text(
                             'history',

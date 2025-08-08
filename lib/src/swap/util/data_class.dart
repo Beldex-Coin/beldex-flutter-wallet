@@ -1,4 +1,5 @@
 
+import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -27,10 +28,9 @@ class ExchangeData {
 }
 
 class SwapTransactionHistory {
-  SwapTransactionHistory(this.transactionIdList, this.secureStorage);
+  SwapTransactionHistory(this.transactionIdList);
 
   List<String> transactionIdList;
-  FlutterSecureStorage? secureStorage;
 }
 
 class ExchangeDataWithRecipientAddress {
@@ -46,22 +46,39 @@ class ExchangeDataWithRecipientAddress {
 }
 
 class TransactionStatus {
-  TransactionStatus(this.transactionModel, this.status);
+  TransactionStatus(this.transactionModel, this.status, this.walletAddress);
 
   CreateTransactionModel transactionModel;
   String? status;
+  String walletAddress;
 }
 
 class TransactionDetails {
-  TransactionDetails(this.createTransactionModel, this.fromBlockChain);
+  TransactionDetails(this.createTransactionModel, this.fromBlockChain, this.walletAddress);
 
   CreateTransactionModel? createTransactionModel;
   String? fromBlockChain;
+  String walletAddress;
 }
 
 class GetTransactionStatus {
-  GetTransactionStatus(this.transactionModel, this.status);
+  GetTransactionStatus(this.transactionModel, this.status, this.walletAddress);
 
   GetTransactionResult? transactionModel;
   String? status;
+  String walletAddress;
+}
+
+class TransactionDataWithWalletAddress {
+  TransactionDataWithWalletAddress(this.transactionModel, this.walletAddress);
+
+  CreateTransactionModel transactionModel;
+  String walletAddress;
+}
+
+class GetTransactionStatusWithWalletAddress {
+  GetTransactionStatusWithWalletAddress(this.transactionModel, this.walletAddress);
+
+  GetTransactionResult transactionModel;
+  String walletAddress;
 }

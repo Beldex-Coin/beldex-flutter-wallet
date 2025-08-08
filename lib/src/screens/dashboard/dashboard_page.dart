@@ -574,7 +574,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       ? Color(0xff6C6C78)
                                       : Color(0xffB2B2B6), BlendMode.srcIn),),
                                   onPressed: networkProvider.isConnected ? () {
-                                    Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange);
+                                    Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapExchange, arguments: walletStore.subaddress.address);
                                   } : null,
                                   label: Text(
                                     tr(context).swap,

@@ -8,13 +8,13 @@ import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 import '../../../palette.dart';
 import '../../../routes.dart';
+import '../../util/constants.dart';
 import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
 import '../model/create_transaction_model.dart';
@@ -28,7 +28,7 @@ import 'number_stepper.dart';
 class SwapExchangingPage extends BasePage {
   SwapExchangingPage({required this.transactionDetails});
 
-  final CreateTransactionModel transactionDetails;
+  final TransactionDataWithWalletAddress transactionDetails;
 
   @override
   bool get isModalBackButton => false;
@@ -58,7 +58,7 @@ class SwapExchangingPage extends BasePage {
 class SwapExchangingHome extends StatefulWidget {
   SwapExchangingHome({required this.transactionDetails});
 
-  final CreateTransactionModel transactionDetails;
+  final TransactionDataWithWalletAddress transactionDetails;
 
   @override
   State<SwapExchangingHome> createState() => _SwapExchangingHomeState();
@@ -89,10 +89,10 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
   }
 
   late CreateTransactionModel transactionDetails;
+  String _walletAddress = "";
   late Timer timer;
   late GetStatusApiClient getStatusApiClient;
   late StreamController<GetStatusModel> _getStatusStreamController;
-  late FlutterSecureStorage secureStorage;
   late List<String> stored = [];
   static const methodChannelPlatform = MethodChannel("io.beldex.wallet/beldex_wallet_channel");
   late GetCurrenciesFullProvider getCurrenciesFullProvider;
@@ -103,11 +103,9 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
 
   @override
   void initState() {
-    transactionDetails = widget.transactionDetails;
-    secureStorage = FlutterSecureStorage(aOptions: AndroidOptions(
-      encryptedSharedPreferences: true,
-    ));
-    getTransactionsIds(secureStorage, transactionIds: (ids) {
+    transactionDetails = widget.transactionDetails.transactionModel;
+    _walletAddress = widget.transactionDetails.walletAddress;
+    getTransactionIds(swapTransactionHistoryFileName, _walletAddress).then((List<String> ids) {
       stored = ids;
     });
     getStatusApiClient = GetStatusApiClient();
@@ -142,7 +140,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 Navigator.of(context).pop(true);
                 Navigator.of(context).pushNamed(Routes.swapCompleted,
                     arguments: TransactionStatus(
-                        transactionDetails, value.result));
+                        transactionDetails, value.result, _walletAddress));
               });
               break;
             }
@@ -159,7 +157,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 Navigator.of(context).pop(true);
                 Navigator.of(context).pushNamed(Routes.swapUnPaid,
                     arguments: TransactionStatus(
-                        transactionDetails, value.result));
+                        transactionDetails, value.result, _walletAddress));
               });
               break;
             }
@@ -618,9 +616,8 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                     children: [
                       WidgetSpan(child: InkWell(
                         onTap: networkProvider.isConnected ? () {
-                          final FlutterSecureStorage secureStorage = FlutterSecureStorage();
                           Navigator.of(context).pop(true);
-                          Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
+                          Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored));
                         } : null,
                         child: Text(
                             'history',

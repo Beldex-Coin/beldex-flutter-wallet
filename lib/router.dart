@@ -647,7 +647,7 @@ class Router {
               ChangeNotifierProvider<GetPairsParamsProvider>(create: (_) => GetPairsParamsProvider()),
               ChangeNotifierProvider<GetExchangeAmountProvider>(create: (_) => GetExchangeAmountProvider())
             ],
-            child: SwapExchangePage(),
+            child: SwapExchangePage(walletAddress: settings.arguments as String),
           );
         });
       case Routes.swapWalletAddress:
@@ -681,7 +681,7 @@ class Router {
               ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider()),
               ChangeNotifierProvider<GetCurrenciesFullProvider>(create: (_) => GetCurrenciesFullProvider())
             ],
-            child: SwapExchangingPage(transactionDetails : settings.arguments as CreateTransactionModel),
+            child: SwapExchangingPage(transactionDetails : settings.arguments as TransactionDataWithWalletAddress),
           );
         });
       case Routes.swapTransactionList:
@@ -721,7 +721,7 @@ class Router {
             providers: [
               ChangeNotifierProvider<GetCurrenciesFullProvider>(create: (_) => GetCurrenciesFullProvider())
             ],
-            child: SwapTransactionExchangingPage(transactionDetails : settings.arguments as GetTransactionResult),
+            child: SwapTransactionExchangingPage(transactionStatus : settings.arguments as GetTransactionStatusWithWalletAddress),
           );
         });
       case Routes.swapTransactionPaymentDetails:
@@ -730,7 +730,7 @@ class Router {
             providers: [
               Provider(create: (_) => SyncStore(walletService: walletService),),
             ],
-            child: SwapTransactionPaymentDetailsPage(transactionDetails : settings.arguments as GetTransactionResult),
+            child: SwapTransactionPaymentDetailsPage(transactionDetails : settings.arguments as GetTransactionStatusWithWalletAddress),
           );
         });
       default:

@@ -1,11 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/services/platform_channel.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import 'data_class.dart';
+import 'package:path/path.dart' as p;
 
 const swapTransactionsListKey = "swap_transaction_list";
 
@@ -60,31 +62,81 @@ Future<void> openUrl({required MethodChannel methodChannelPlatform, required Str
   'url': url,
 });
 
-Future<void> getTransactionsIds(FlutterSecureStorage secureStorage, {void Function(List<String>)? transactionIds}) async {
-  // Retrieve the stored array
-  transactionIds!(await readMultipleStrings(secureStorage));
+Future<void> storeTransactionIds(String fileName, String key, dynamic transactionId) async {
+  try {
+    // Get the documents directory
+    final dir = await getApplicationDocumentsDirectory();
+    final filePath = p.join(dir.path, fileName);
+    final file = File(filePath);
+
+    // Ensure the directory exists
+    if (!(await dir.exists())) {
+      await dir.create(recursive: true);
+    }
+
+    Map<String, dynamic> data = {};
+
+    // Check if the file exists
+    if (await file.exists()) {
+      final jsonString = await file.readAsString();
+      if (jsonString.trim().isNotEmpty) {
+        try {
+          data = jsonDecode(jsonString);
+        } catch (e) {
+          print('Failed to parse JSON, initializing empty structure.');
+        }
+      }
+    } else {
+      await file.create();
+    }
+
+    // Add value to the array at the specified key
+    if (data.containsKey(key) && data[key] is List) {
+      data[key].add(transactionId);
+    } else {
+      data[key] = [transactionId];
+    }
+    // Encode the updated data back to JSON
+    final updatedJsonString = jsonEncode(data);
+    print(updatedJsonString);
+    // Write back to file
+    await file.writeAsString(updatedJsonString);
+    print('Transaction id added successfully to "$key" in $fileName');
+  } catch (e) {
+    print('Error adding value to JSON: $e');
+  }
 }
 
-Future<List<String>> readMultipleStrings(FlutterSecureStorage secureStorage) async {
-  final String? encoded = await secureStorage.read(key: swapTransactionsListKey);
-  if (encoded == null) return [];
+Future<List<String>> getTransactionIds(String fileName, String key) async {
+  try {
+    final dir = await getApplicationDocumentsDirectory();
+    final filePath = p.join(dir.path, fileName);
+    final file = File(filePath);
 
-  final List<dynamic> decoded = jsonDecode(encoded);
-  return decoded.cast<String>();
-}
+    // Ensure the directory exists
+    if (!(await dir.exists())) {
+      await dir.create(recursive: true);
+    }
 
-Future<void> storeMultipleStrings(List<String> strings, FlutterSecureStorage secureStorage) async {
-  final encoded = jsonEncode(strings); // Convert list to JSON string
-  await secureStorage.write(key: swapTransactionsListKey, value: encoded);
-}
+    if (!(await file.exists())) {
+      print("File does not exist.");
+      return [];
+    }
 
-Future<List<String>> storeTransactionsIds(String? transactionId, FlutterSecureStorage secureStorage) async {
-  // Retrieve the stored array
-  final stored = await readMultipleStrings(secureStorage);
-  stored.add(transactionId!);
-  // Store an array of strings
-  await storeMultipleStrings(stored, secureStorage);
-  return stored;
+    final jsonString = await file.readAsString();
+    final Map<String, dynamic> data = jsonDecode(jsonString);
+
+    if (data.containsKey(key) && data[key] is List) {
+      final List<String> array = (data[key] as List).cast<String>();
+      return array;
+    } else {
+      print("Key '$key' not found or is not a list.");
+      return [];
+    }
+  } catch (e) {
+    print("Error reading JSON: $e");
+    return [];
+  }
 }
 
 bool syncStatus(SyncStatus status) {

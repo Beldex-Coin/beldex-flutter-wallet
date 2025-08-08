@@ -7,11 +7,11 @@ import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
+import '../../util/constants.dart';
 import '../../util/network_provider.dart';
 import '../api_client/get_status_api_client.dart';
 import '../dialog/input_output_hash_dialog.dart';
@@ -85,17 +85,13 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
   late GetTransactionStatus transactionStatus;
   late Timer timer;
   late GetStatusApiClient getStatusApiClient;
-  late FlutterSecureStorage secureStorage;
   late List<String> stored = [];
   late NetworkProvider networkProvider;
 
   @override
   void initState() {
     transactionStatus = widget.transactionStatus;
-    secureStorage = FlutterSecureStorage(aOptions: AndroidOptions(
-      encryptedSharedPreferences: true,
-    ));
-    getTransactionsIds(secureStorage, transactionIds: (ids) {
+    getTransactionIds(swapTransactionHistoryFileName, transactionStatus.walletAddress).then((List<String> ids) {
       stored = ids;
     });
     super.initState();
@@ -607,9 +603,8 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                 child: ElevatedButton(
                   onPressed: () {
                     if(networkProvider.isConnected) {
-                      final FlutterSecureStorage secureStorage = FlutterSecureStorage();
                       Navigator.of(context).pop(true);
-                      Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
+                      Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored));
                     } else {
                       Toast.show(
                         'Network Error! Please check internet connection.',
@@ -649,7 +644,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                     if(networkProvider.isConnected) {
                       Navigator.of(context).pop(true);
                       Navigator.of(context, rootNavigator: true).pushNamed(
-                          Routes.swapExchange);
+                          Routes.swapExchange, arguments: transactionStatus.walletAddress);
                     } else {
                       Toast.show(
                         'Network Error! Please check internet connection.',

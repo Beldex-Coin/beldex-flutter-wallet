@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:beldex_wallet/src/swap/api_client/get_exchange_amount_api_client.dart';
 import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
 import 'package:beldex_wallet/src/swap/model/get_exchange_amount_model.dart';
@@ -10,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import '../../../routes.dart';
+import '../../util/constants.dart';
 import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
 import '../api_client/create_transaction_api_client.dart';
@@ -137,6 +139,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     final _screenHeight = MediaQuery.of(context).size.height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
+    final walletStore = Provider.of<WalletStore>(context);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
@@ -150,7 +153,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
             } else {
               return body(_screenWidth, _screenHeight, settingsStore,
-                  _scrollController, snapshot.data!, networkProvider);
+                  _scrollController, snapshot.data!, networkProvider, walletStore.subaddress.address);
             }
           },
         );
@@ -163,7 +166,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     double _screenHeight,
     SettingsStore settingsStore,
     ScrollController _scrollController,
-    GetExchangeAmountModel getExchangeAmountModel, NetworkProvider networkProvider,
+    GetExchangeAmountModel getExchangeAmountModel, NetworkProvider networkProvider, String walletAddress,
   ) {
     //GetExchangeAmount
     var exchangeRate = "---";
@@ -238,7 +241,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                             serviceFee,
                             networkFee,
                             getAmount,
-                            getExchangeAmountModel, minimumAmount, maximumAmount, networkProvider),
+                            getExchangeAmountModel, minimumAmount, maximumAmount, networkProvider, walletAddress),
                         //Payment->Send funds to the address below Screen
                       ],
                     ),
@@ -258,7 +261,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
       String serviceFee,
       String networkFee,
       String getAmount,
-      GetExchangeAmountModel getExchangeAmountModel, String minimumAmount, String maximumAmount, NetworkProvider networkProvider) {
+      GetExchangeAmountModel getExchangeAmountModel, String minimumAmount, String maximumAmount, NetworkProvider networkProvider, String walletAddress) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -698,7 +701,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                         .recipientAddress!,
                     "extraId": _exchangeDataWithRecipientAddress.extraIdName!,
                     "amountFrom": sendAmount
-                  }, _exchangeDataWithRecipientAddress.fromBlockChain!);
+                  }, _exchangeDataWithRecipientAddress.fromBlockChain!, walletAddress);
                 } else {
                   createTransaction({
                     "from": from,
@@ -706,7 +709,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                     "address": _exchangeDataWithRecipientAddress
                         .recipientAddress!,
                     "amountFrom": sendAmount
-                  }, _exchangeDataWithRecipientAddress.toBlockChain!);
+                  }, _exchangeDataWithRecipientAddress.toBlockChain!, walletAddress);
                 }
               }
             },
@@ -737,15 +740,15 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     );
   }
 
-  void createTransaction(Map<String, String> params, String? fromBlockChain) {
+  void createTransaction(Map<String, String> params, String? fromBlockChain, String walletAddress) {
     callCreateTransactionApi(params).then((value) {
       if (value?.result != null) {
         print('Status -> Success');
-        storeTransactionsIds(value!.result!.id,secureStorage);
+        storeTransactionIds(swapTransactionHistoryFileName, walletAddress, value!.result!.id);
         Future.delayed(Duration(seconds: 2), () {
           Navigator.of(context).pop();
           Navigator.of(context).pop(true);
-          Navigator.of(context).pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(value, fromBlockChain)); // Start adding getExchangeAmount api result to the stream.
+          Navigator.of(context).pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(value, fromBlockChain, walletAddress)); // Start adding getExchangeAmount api result to the stream.
         });
       } else if (value?.error != null) {
         print('Status -> error ${value!.error!.message}');

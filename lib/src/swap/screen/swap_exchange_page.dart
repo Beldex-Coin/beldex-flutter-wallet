@@ -14,13 +14,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keyboard_detection/keyboard_detection.dart';
 import 'package:provider/provider.dart';
 
 import '../../../palette.dart';
 import '../../../routes.dart';
+import '../../util/constants.dart';
 import '../provider/get_currencies_full_provider.dart';
 import '../util/data_class.dart';
 import '../../widgets/no_internet.dart';
@@ -28,6 +28,8 @@ import '../util/utils.dart';
 import 'number_stepper.dart';
 
 class SwapExchangePage extends BasePage {
+  SwapExchangePage({required this.walletAddress});
+  final String walletAddress;
   @override
   bool get isModalBackButton => false;
 
@@ -49,11 +51,15 @@ class SwapExchangePage extends BasePage {
 
   @override
   Widget body(BuildContext context) {
-    return SwapExchangeHome();
+    return SwapExchangeHome(walletAddress: walletAddress);
   }
 }
 
 class SwapExchangeHome extends StatefulWidget {
+  SwapExchangeHome({required this.walletAddress});
+
+  final String walletAddress;
+
   @override
   State<SwapExchangeHome> createState() => _SwapExchangeHomeState();
 }
@@ -100,19 +106,17 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   late GetExchangeAmountProvider getExchangeAmountProvider;
   late NetworkProvider networkProvider;
   Timer? timer;
-  late FlutterSecureStorage secureStorage;
   late List<String> stored = [];
   bool _isInitialized = false;
   final _focusSendCoin = FocusNode();
   final _focusGetCoin = FocusNode();
   late KeyboardDetectionController keyboardDetectionController;
+  String _walletAddress = "";
 
   @override
   void initState() {
-    secureStorage = FlutterSecureStorage(aOptions: AndroidOptions(
-      encryptedSharedPreferences: true,
-    ));
-    getTransactionsIds(secureStorage, transactionIds: (ids) {
+    _walletAddress = widget.walletAddress;
+    getTransactionIds(swapTransactionHistoryFileName, _walletAddress).then((List<String> ids) {
       stored = ids;
     });
     searchYouGetCoinsController.addListener(() {
@@ -757,9 +761,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 ),
                 InkWell(
                   onTap: () {
-                    final FlutterSecureStorage secureStorage = FlutterSecureStorage();
                     Navigator.of(context).pop(true);
-                    Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored, secureStorage));
+                    Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored));
                   },
                   child: SvgPicture.asset(
                     'assets/images/swap/history.svg',

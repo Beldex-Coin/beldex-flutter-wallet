@@ -21,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
+import '../../stores/wallet/wallet_store.dart';
 import '../../util/network_provider.dart';
 import '../../widgets/no_transactions_yet.dart';
 import '../util/data_class.dart';
@@ -118,6 +119,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     final _screenHeight = MediaQuery.of(context).size.height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
+    final walletStore = Provider.of<WalletStore>(context);
     ToastContext().init(context);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
@@ -134,7 +136,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
           if(getTransactionsProvider.data != null) {
             this.getTransactionsProvider = getTransactionsProvider;
             _isInitialized = true;
-            return body(_screenWidth,_screenHeight,settingsStore,_scrollController, getTransactionsProvider.data!);
+            return body(_screenWidth,_screenHeight,settingsStore,_scrollController, getTransactionsProvider.data!, walletStore);
           }
 
           return SizedBox();
@@ -152,7 +154,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     super.dispose();
   }
 
-  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, GetTransactionsModel getTransactionsModel){
+  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, GetTransactionsModel getTransactionsModel, WalletStore walletStore){
     return  _swapTransactionHistory.transactionIdList.isNotEmpty ? LayoutBuilder(builder:
         (BuildContext context, BoxConstraints constraints) {
       return ConstrainedBox(
@@ -174,7 +176,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                 _screenWidth,
                 _screenHeight,
                 settingsStore,
-                getTransactionsModel),
+                getTransactionsModel, walletStore),
           ),
         ),
       );
@@ -258,7 +260,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     }
   }
 
-  Widget transactionRow(SettingsStore settingsStore, GetTransactionsModel getTransactionsModel, int index) {
+  Widget transactionRow(SettingsStore settingsStore, GetTransactionsModel getTransactionsModel, int index, WalletStore walletStore) {
     final result = getTransactionsModel.result![index];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -534,7 +536,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                         case "waiting" :
                                           {
                                             Navigator.of(context).pop(true);
-                                            Navigator.of(context).pushNamed(Routes.swapTransactionPaymentDetails, arguments: result);
+                                            Navigator.of(context).pushNamed(Routes.swapTransactionPaymentDetails, arguments: GetTransactionStatusWithWalletAddress(result, walletStore.subaddress.address));
                                             break;
                                           }
                                         case "confirming" :
@@ -542,7 +544,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                         case "sending" :
                                           {
                                             Navigator.of(context).pop(true);
-                                            Navigator.of(context).pushNamed(Routes.swapTransactionExchanging,arguments: result);
+                                            Navigator.of(context).pushNamed(Routes.swapTransactionExchanging,arguments: GetTransactionStatusWithWalletAddress(result, walletStore.subaddress.address));
                                             break;
                                           }
                                         case "finished" :
@@ -550,7 +552,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                             //Completed Screen
                                             Navigator.of(context).pop(true);
                                             Navigator.of(context).pushNamed(Routes.swapTransactionCompleted,
-                                                arguments: GetTransactionStatus(result, result.status));
+                                                arguments: GetTransactionStatus(result, result.status, walletStore.subaddress.address));
                                             break;
                                           }
                                         case "refunded" :
@@ -563,7 +565,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                           {
                                             Navigator.of(context).pop(true);
                                             Navigator.of(context).pushNamed(Routes.swapTransactionUnPaid,
-                                                arguments: GetTransactionStatus(result, result.status));
+                                                arguments: GetTransactionStatus(result, result.status, walletStore.subaddress.address));
                                             break;
                                           }
                                         default: {
@@ -615,7 +617,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
       double _screenWidth,
       double _screenHeight,
       SettingsStore settingsStore,
-      GetTransactionsModel getTransactionsModel) {
+      GetTransactionsModel getTransactionsModel, WalletStore walletStore) {
     rows.clear();
     addHeader = true;
     return Column(
@@ -664,7 +666,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                   final result = getTransactionsModel.result![index];
                   rows.add([result.status, getDate(result.createdAt!), toStringAsFixed(result.amountExpectedFrom), toStringAsFixed(result.rate), result.payinAddress, toStringAsFixed(result.amountExpectedTo)]);
                 }
-                return transactionRow(settingsStore, getTransactionsModel, index);
+                return transactionRow(settingsStore, getTransactionsModel, index, walletStore);
               }),
         ),
       ],

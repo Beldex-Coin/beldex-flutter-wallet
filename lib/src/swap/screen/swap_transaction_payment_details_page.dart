@@ -25,7 +25,7 @@ import 'number_stepper.dart';
 class SwapTransactionPaymentDetailsPage extends BasePage {
   SwapTransactionPaymentDetailsPage({required this.transactionDetails});
 
-  final GetTransactionResult transactionDetails;
+  final GetTransactionStatusWithWalletAddress transactionDetails;
 
   @override
   bool get isModalBackButton => false;
@@ -55,7 +55,7 @@ class SwapTransactionPaymentDetailsPage extends BasePage {
 class SwapTransactionPaymentDetailsHome extends StatefulWidget {
   SwapTransactionPaymentDetailsHome({required this.transactionDetails});
 
-  final GetTransactionResult transactionDetails;
+  final GetTransactionStatusWithWalletAddress transactionDetails;
 
   @override
   State<SwapTransactionPaymentDetailsHome> createState() => _SwapTransactionPaymentDetailsHomeState();
@@ -86,6 +86,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
   }
 
   late GetTransactionResult createdTransactionDetails;
+  String _walletAddress = "";
   late String _fromBlockChain;
   late Timer timer;
   late GetStatusApiClient getStatusApiClient;
@@ -131,12 +132,13 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
 
   void callUnPaidScreen(GetTransactionResult createdTransactionDetails, String? status) {
     Navigator.of(context).pop(true);
-    Navigator.of(context).pushNamed(Routes.swapTransactionUnPaid,arguments: GetTransactionStatus(createdTransactionDetails, status));
+    Navigator.of(context).pushNamed(Routes.swapTransactionUnPaid,arguments: GetTransactionStatus(createdTransactionDetails, status, _walletAddress));
   }
 
   @override
   void initState() {
-    createdTransactionDetails = widget.transactionDetails;
+    createdTransactionDetails = widget.transactionDetails.transactionModel;
+    _walletAddress = widget.transactionDetails.walletAddress;
     startAndStopPendingTransactionTimer(createdTransactionDetails.createdAt);
     _fromBlockChain = '---';
     getStatusApiClient = GetStatusApiClient();
@@ -174,7 +176,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
             }
             Future.delayed(Duration(seconds: 2), () {
               Navigator.of(context).pop(true);
-              Navigator.of(context).pushNamed(Routes.swapTransactionExchanging,arguments: createdTransactionDetails);
+              Navigator.of(context).pushNamed(Routes.swapTransactionExchanging,arguments: GetTransactionStatusWithWalletAddress(createdTransactionDetails, _walletAddress));
             });
             break;
           }
@@ -185,7 +187,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
             }
             Future.delayed(Duration(seconds: 2), () {
               Navigator.of(context).pop(true);
-              Navigator.of(context).pushNamed(Routes.swapTransactionCompleted,arguments: GetTransactionStatus(createdTransactionDetails, value.result));
+              Navigator.of(context).pushNamed(Routes.swapTransactionCompleted,arguments: GetTransactionStatus(createdTransactionDetails, value.result, _walletAddress));
             });
             break;
           }
