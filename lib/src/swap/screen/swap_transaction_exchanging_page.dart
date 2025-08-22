@@ -259,6 +259,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        PairsWidget(settingsStore: settingsStore, from: transactionDetails.currencyFrom, to: transactionDetails.currencyTo),
         //Exchanging Title
         Text(
           'Exchanging',

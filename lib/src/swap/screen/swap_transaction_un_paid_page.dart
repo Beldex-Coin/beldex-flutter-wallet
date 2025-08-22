@@ -165,10 +165,11 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        PairsWidget(settingsStore: settingsStore, from: transactionStatus.transactionModel!.currencyFrom, to: transactionStatus.transactionModel!.currencyTo),
         //Not Paid Details
         Container(
           width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(left: 5, right: 5, top: 20),
+          margin: EdgeInsets.only(left: 5, right: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

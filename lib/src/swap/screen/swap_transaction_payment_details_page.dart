@@ -311,6 +311,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        PairsWidget(settingsStore: settingsStore, from: createdTransactionDetails?.currencyFrom, to: createdTransactionDetails?.currencyTo),
         //Send funds to the address below Title
         Text(
           'Send funds to the address below',

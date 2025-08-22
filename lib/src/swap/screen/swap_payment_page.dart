@@ -265,6 +265,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        PairsWidget(settingsStore: settingsStore, from: from, to: to),
         //Checkout Title
         Text(
           'Checkout',

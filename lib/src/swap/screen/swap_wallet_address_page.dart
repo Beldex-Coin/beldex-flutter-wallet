@@ -286,6 +286,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        PairsWidget(settingsStore: settingsStore, from: from, to: to),
         //Wallet Address Title
         Text(
           'Wallet Address',
