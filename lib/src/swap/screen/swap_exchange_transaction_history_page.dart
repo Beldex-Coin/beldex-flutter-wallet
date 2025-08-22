@@ -19,7 +19,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:toast/toast.dart';
 import '../../../routes.dart';
 import '../../stores/wallet/wallet_store.dart';
 import '../../util/network_provider.dart';
@@ -120,7 +119,6 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     final walletStore = Provider.of<WalletStore>(context);
-    ToastContext().init(context);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
@@ -207,13 +205,6 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
 
         case PermissionStatus.denied:
           print("Permission denied");
-          Toast.show(
-            'Storage permission denied',
-            duration: Toast.lengthLong,
-            gravity: Toast.bottom,
-            textStyle: TextStyle(color: Colors.white),
-            backgroundColor: Color(0xff0ba70f),
-          );
           break;
 
         case PermissionStatus.permanentlyDenied:

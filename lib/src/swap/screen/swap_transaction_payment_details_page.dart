@@ -4,6 +4,7 @@ import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/api_client/get_status_api_client.dart';
+import 'package:beldex_wallet/src/swap/model/get_currencies_full_model.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +18,7 @@ import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
 import '../dialog/show_qr_code_dialog.dart';
 import '../model/get_status_model.dart';
+import '../provider/get_currencies_full_provider.dart';
 import '../util/circular_progress_bar.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
@@ -87,7 +89,6 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
 
   late GetTransactionResult createdTransactionDetails;
   String _walletAddress = "";
-  late String _fromBlockChain;
   late Timer timer;
   late GetStatusApiClient getStatusApiClient;
   late StreamController<GetStatusModel> _getStatusStreamController;
@@ -140,7 +141,6 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
     createdTransactionDetails = widget.transactionDetails.transactionModel;
     _walletAddress = widget.transactionDetails.walletAddress;
     startAndStopPendingTransactionTimer(createdTransactionDetails.createdAt);
-    _fromBlockChain = '---';
     getStatusApiClient = GetStatusApiClient();
     // Create a stream controller and get status to the stream.
     _getStatusStreamController = StreamController<GetStatusModel>();
@@ -150,7 +150,8 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
         if (!mounted && !networkProvider.isConnected) return;
         callGetStatusApi(createdTransactionDetails, getStatusApiClient);
-      }); // Start adding getStatus api result to the stream.
+      });
+      Provider.of<GetCurrenciesFullProvider>(context, listen: false).getCurrenciesFullData(context);// Start adding getStatus api result to the stream.
     });
     super.initState();
   }
@@ -213,6 +214,14 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
         }
       }
     });
+  }
+
+  Widget networkWidget(String? toBlockChain) {
+    return Text('NETWORK: $toBlockChain',
+        style: TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: Color(0xff00AD07)));
   }
 
   @override
@@ -634,11 +643,30 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
             SizedBox(
               height: 5,
             ),
-            Text('blockchain : $_fromBlockChain',
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xff00AD07))),
+            Consumer<GetCurrenciesFullProvider>(
+                builder: (context, getCurrenciesFullProvider, child) {
+                  if(getCurrenciesFullProvider.error != null) {
+                    return networkWidget("...");
+                  }
+                  if (getCurrenciesFullProvider.loading) {
+                    return networkWidget("...");
+                  } else {
+                    if (getCurrenciesFullProvider.loading == false &&
+                        getCurrenciesFullProvider.data!.result!.isNotEmpty) {
+                      final matchingItem = getCurrenciesFullProvider.data!.result!.firstWhere(
+                            (item) => item.ticker == createdTransactionDetails?.currencyTo,
+                        orElse: () => GetCurrenciesResult(), // create an "empty" object
+                      );
+                      if (matchingItem.ticker == createdTransactionDetails?.currencyTo) {
+                        return networkWidget("${matchingItem.blockchain != null ? matchingItem.blockchain?.toUpperCase() : "..."}");
+                      } else {
+                        return networkWidget("...");
+                      }
+                    } else {
+                      return networkWidget("...");
+                    }
+                  }
+                }),
           ],
         ),
         //Time Remaining Details

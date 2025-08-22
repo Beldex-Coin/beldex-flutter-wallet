@@ -701,7 +701,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                         .recipientAddress!,
                     "extraId": _exchangeDataWithRecipientAddress.extraIdName!,
                     "amountFrom": sendAmount
-                  }, _exchangeDataWithRecipientAddress.fromBlockChain!, walletAddress);
+                  }, _exchangeDataWithRecipientAddress.toBlockChain!, walletAddress);
                 } else {
                   createTransaction({
                     "from": from,
@@ -740,7 +740,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     );
   }
 
-  void createTransaction(Map<String, String> params, String? fromBlockChain, String walletAddress) {
+  void createTransaction(Map<String, String> params, String? toBlockChain, String walletAddress) {
     callCreateTransactionApi(params).then((value) {
       if (value?.result != null) {
         print('Status -> Success');
@@ -748,7 +748,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
         Future.delayed(Duration(seconds: 2), () {
           Navigator.of(context).pop();
           Navigator.of(context).pop(true);
-          Navigator.of(context).pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(value, fromBlockChain, walletAddress)); // Start adding getExchangeAmount api result to the stream.
+          Navigator.of(context).pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(value, toBlockChain, walletAddress)); // Start adding getExchangeAmount api result to the stream.
         });
       } else if (value?.error != null) {
         print('Status -> error ${value!.error!.message}');

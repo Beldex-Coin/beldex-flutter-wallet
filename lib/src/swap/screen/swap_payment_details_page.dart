@@ -87,7 +87,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   }
 
   late CreateTransactionModel createdTransactionDetails;
-  late String _fromBlockChain;
+  late String _toBlockChain;
   String _walletAddress = "";
   late Timer timer;
   late GetStatusApiClient getStatusApiClient;
@@ -142,7 +142,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   void initState() {
     createdTransactionDetails = widget.transactionDetails.createTransactionModel!;
     startAndStopPendingTransactionTimer(createdTransactionDetails.result?.createdAt);
-    _fromBlockChain = widget.transactionDetails.fromBlockChain!;
+    _toBlockChain = widget.transactionDetails.toBlockChain != null ? widget.transactionDetails.toBlockChain!.toUpperCase() : "---";
     _walletAddress = widget.transactionDetails.walletAddress;
     getStatusApiClient = GetStatusApiClient();
     // Create a stream controller and get status to the stream.
@@ -640,7 +640,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
             SizedBox(
               height: 5,
             ),
-            Text('blockchain : $_fromBlockChain',
+            Text('NETWORK: $_toBlockChain',
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
