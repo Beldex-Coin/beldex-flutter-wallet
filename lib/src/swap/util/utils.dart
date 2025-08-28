@@ -193,3 +193,55 @@ Widget PairsWidget({required SettingsStore settingsStore, required String? from,
     ),
   );
 }
+
+String networkWithUppercase(String? blockChain) {
+  return (blockChain?.isNotEmpty ?? false)
+      ? blockChain!.replaceAll("_", " ").toUpperCase()
+      : "...";
+}
+
+Widget networkWidget(SettingsStore settingsStore, String? blockChain) {
+  return Flexible(
+    flex: 1,
+    child: Container(
+      margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
+      padding: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: settingsStore.isDarkTheme
+                ? Color(0xff4F4F70)
+                : Color(0xffDADADA),
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(8))),
+      child: RichText(
+        textAlign: TextAlign.center,
+        text: TextSpan(
+            text: 'NETWORK: ',
+            style: TextStyle(
+                color: settingsStore.isDarkTheme
+                    ? Color(0xffAFAFBE)
+                    : Color(0xff737373),
+                fontSize: 14,
+                fontWeight: FontWeight.w500),
+            children: [
+              TextSpan(
+                  text: networkWithUppercase(blockChain),
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.normal,
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xffFFFFFF)
+                          : Color(0xff222222)))
+            ]),
+      ),
+    ),
+  );
+}
+
+Widget networkTextWidget(String? toBlockChain) {
+  return Text('NETWORK: $toBlockChain',
+      style: TextStyle(
+          fontSize: 12,
+          fontWeight: FontWeight.w600,
+          color: Color(0xff00AD07)));
+}

@@ -216,14 +216,6 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
     });
   }
 
-  Widget networkWidget(String? toBlockChain) {
-    return Text('NETWORK: $toBlockChain',
-        style: TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: Color(0xff00AD07)));
-  }
-
   @override
   Widget build(BuildContext context) {
     final _screenWidth = MediaQuery.of(context).size.width;
@@ -647,10 +639,10 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
             Consumer<GetCurrenciesFullProvider>(
                 builder: (context, getCurrenciesFullProvider, child) {
                   if(getCurrenciesFullProvider.error != null) {
-                    return networkWidget("...");
+                    return networkTextWidget("...");
                   }
                   if (getCurrenciesFullProvider.loading) {
-                    return networkWidget("...");
+                    return networkTextWidget("...");
                   } else {
                     if (getCurrenciesFullProvider.loading == false &&
                         getCurrenciesFullProvider.data!.result!.isNotEmpty) {
@@ -659,12 +651,12 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                         orElse: () => GetCurrenciesResult(), // create an "empty" object
                       );
                       if (matchingItem.ticker == createdTransactionDetails?.currencyTo) {
-                        return networkWidget("${matchingItem.blockchain != null ? matchingItem.blockchain?.toUpperCase() : "..."}");
+                        return networkTextWidget(networkWithUppercase(matchingItem.blockchain));
                       } else {
-                        return networkWidget("...");
+                        return networkTextWidget("...");
                       }
                     } else {
-                      return networkWidget("...");
+                      return networkTextWidget("...");
                     }
                   }
                 }),

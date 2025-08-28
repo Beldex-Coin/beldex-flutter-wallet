@@ -318,41 +318,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                     ],
                   ),
                 ),
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xff4F4F70)
-                              : Color(0xffDADADA),
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                          text: 'Blockchain:',
-                          style: TextStyle(
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffAFAFBE)
-                                  : Color(0xff737373),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                          children: [
-                            TextSpan(
-                                text: _exchangeDataWithRecipientAddress.fromBlockChain,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffFFFFFF)
-                                        : Color(0xff222222)))
-                          ]),
-                    ),
-                  ),
-                ),
+                networkWidget(settingsStore, _exchangeDataWithRecipientAddress.fromBlockChain)
               ],
             )),
         Visibility(
@@ -448,41 +414,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                     ],
                   ),
                 ),
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xff4F4F70)
-                              : Color(0xffDADADA),
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                          text: 'Blockchain:',
-                          style: TextStyle(
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffAFAFBE)
-                                  : Color(0xff737373),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                          children: [
-                            TextSpan(
-                                text: _exchangeDataWithRecipientAddress.toBlockChain,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffFFFFFF)
-                                        : Color(0xff222222)))
-                          ]),
-                    ),
-                  ),
-                ),
+                networkWidget(settingsStore, _exchangeDataWithRecipientAddress.toBlockChain)
               ],
             )),
         //Exchange Fee 0.25 % Details

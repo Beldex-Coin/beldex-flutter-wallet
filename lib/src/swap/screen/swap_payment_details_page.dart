@@ -142,7 +142,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   void initState() {
     createdTransactionDetails = widget.transactionDetails.createTransactionModel!;
     startAndStopPendingTransactionTimer(createdTransactionDetails.result?.createdAt);
-    _toBlockChain = widget.transactionDetails.toBlockChain != null ? widget.transactionDetails.toBlockChain!.toUpperCase() : "---";
+    _toBlockChain = networkWithUppercase(widget.transactionDetails.toBlockChain);
     _walletAddress = widget.transactionDetails.walletAddress;
     getStatusApiClient = GetStatusApiClient();
     // Create a stream controller and get status to the stream.
@@ -641,11 +641,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
             SizedBox(
               height: 5,
             ),
-            Text('NETWORK: $_toBlockChain',
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xff00AD07))),
+            networkTextWidget(_toBlockChain)
           ],
         ),
         //Time Remaining Details
