@@ -10,6 +10,7 @@ import 'package:beldex_wallet/src/swap/model/get_exchange_amount_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 import '../../../routes.dart';
 import '../../util/constants.dart';
 import '../../util/network_provider.dart';
@@ -140,6 +141,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     final walletStore = Provider.of<WalletStore>(context);
+    ToastContext().init(context);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
@@ -686,6 +688,16 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
       } else if (value?.error != null) {
         print('Status -> error ${value!.error!.message}');
         Navigator.of(context).pop();
+        final status = value.error?.message ?? "";
+        if(status.isNotEmpty) {
+          Toast.show(
+            value.error!.message.toString(),
+            duration: Toast.lengthLong,
+            gravity: Toast.bottom,
+            textStyle: TextStyle(color: Colors.white),
+            backgroundColor: Color(0xff0ba70f),
+          );
+        }
       } else {
         Navigator.of(context).pop();
       }
