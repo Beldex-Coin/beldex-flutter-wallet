@@ -112,3 +112,8 @@
   changes:
     - Introducing Swap feature
     - Minor bug fixes
+-
+  version: 2.1.1
+  changes:
+    - Improved Swap UX
+    - Minor bug fixes
