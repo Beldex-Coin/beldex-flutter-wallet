@@ -245,3 +245,9 @@ Widget networkTextWidget(String? toBlockChain) {
           fontWeight: FontWeight.w600,
           color: Color(0xff00AD07)));
 }
+
+String networkWithLowercase(String? blockChain) {
+  return (blockChain?.isNotEmpty ?? false)
+      ? blockChain!.replaceAll("_", " ").toLowerCase()
+      : "...";
+}

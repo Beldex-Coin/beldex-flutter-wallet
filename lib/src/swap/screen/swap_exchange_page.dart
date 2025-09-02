@@ -253,12 +253,11 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       if (getCurrenciesFullData.result![i].enabledTo == true) {
         enableTo.add(getCurrenciesFullData.result![i]);
       }
-      if (getCurrenciesFullData.result![i].name == "BDX" && getCurrenciesFullData.result![i].enabled == true) {
+      if (getCurrenciesFullData.result![i].name == "BDX") {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          getCurrenciesFullProvider.setBdxIsEnabled(true);
+          getCurrenciesFullProvider.setBdxIsEnabled(getCurrenciesFullData.result![i].enabled);
         });
       }
-
       //Swap icon function
       if(getCurrenciesFullData.result![i].name == getCurrenciesFullProvider.getSelectedYouSendCoins().name && getCurrenciesFullData.result![i].enabledTo == true){
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
