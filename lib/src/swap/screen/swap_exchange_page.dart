@@ -700,7 +700,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                     fontWeight: FontWeight.w700),
                 children: [
                   TextSpan(
-                      text: ' Swap is temporarily\nunder maintenance.',
+                      text: ' Swap is not available\nat the moment',
                       style: TextStyle(
                           backgroundColor: Colors.transparent,
                           fontSize: 16,
