@@ -173,6 +173,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        PairsWidget(settingsStore: settingsStore, from: transactionModel?.currencyFrom, to: transactionModel?.currencyFrom),
         //Completed Details
         Container(
           width: MediaQuery.of(context).size.width,

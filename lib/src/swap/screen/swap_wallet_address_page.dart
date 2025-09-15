@@ -8,6 +8,7 @@ import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
 import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
 import 'package:beldex_wallet/src/util/network_provider.dart';
 import 'package:beldex_wallet/src/widgets/no_internet.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -286,6 +287,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        PairsWidget(settingsStore: settingsStore, from: from, to: to),
         //Wallet Address Title
         Text(
           'Wallet Address',
@@ -298,17 +300,53 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         ),
         //Recipient Address Title / Destination wallet Address Title
         Container(
-          margin: EdgeInsets.only(top: 20, left: 10, bottom: 10),
+          margin: EdgeInsets.only(top: 15, bottom: 10),
           child: Text(
             'Recipient Address',
             //'Destination wallet Address',
             textAlign: TextAlign.start,
             style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.normal,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
                 color: settingsStore.isDarkTheme
                     ? Color(0xffFFFFFF)
                     : Color(0xff060606)),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(bottom: 10,),
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              border: Border.all(
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xff484856)
+                      : Color(0xffDADADA)),
+              borderRadius: BorderRadius.circular(10)),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 3.0),
+                child: Icon(Icons.info_outline, size: 15, color: settingsStore.isDarkTheme
+                    ? Color(0xffD1D1D3)
+                    : Color(0xff737373)),
+              ),
+              SizedBox(width: 8,),
+              Expanded(
+                child: Text(
+                  "Please make sure to enter the correct address for the selected chain - (${networkWithLowercase(_exchangeData.toBlockChain)}). Otherwise you will lose your funds.",
+                  softWrap: true,
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.normal,
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xffAFAFBE)
+                          : Color(0xff333333)
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         //Recipient Address TextFormField / Destination wallet Address TextFormField
@@ -570,20 +608,20 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                                     size: 15,
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xffD1D1DB)
-                                        : Color(0xff77778B)),
+                                        : Color(0xff737373)),
                               ),
                               SizedBox(
-                                width: 5,
+                                width: 8,
                               ),
                               Expanded(
                                 child: Text(
                                   'Please specify the ${_exchangeData.extraIdName} for your ${to.toUpperCase()} receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a ${_exchangeData.extraIdName}, remove the tick.',
                                   style: TextStyle(
                                       fontSize: 12,
-                                      fontWeight: FontWeight.w400,
+                                      fontWeight: FontWeight.normal,
                                       color: settingsStore.isDarkTheme
                                           ? Color(0xffAFAFBE)
-                                          : Color(0xff77778B)),
+                                          : Color(0xff737373)),
                                 ),
                               ),
                             ],
@@ -614,7 +652,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                                         : Color(0xff222222)),
                               ),
                               SizedBox(
-                                width: 5,
+                                width: 8,
                               ),
                               Expanded(
                                 child: Text(

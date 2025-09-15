@@ -87,7 +87,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   }
 
   late CreateTransactionModel createdTransactionDetails;
-  late String _fromBlockChain;
+  late String _toBlockChain;
   String _walletAddress = "";
   late Timer timer;
   late GetStatusApiClient getStatusApiClient;
@@ -142,7 +142,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   void initState() {
     createdTransactionDetails = widget.transactionDetails.createTransactionModel!;
     startAndStopPendingTransactionTimer(createdTransactionDetails.result?.createdAt);
-    _fromBlockChain = widget.transactionDetails.fromBlockChain!;
+    _toBlockChain = networkWithUppercase(widget.transactionDetails.toBlockChain);
     _walletAddress = widget.transactionDetails.walletAddress;
     getStatusApiClient = GetStatusApiClient();
     // Create a stream controller and get status to the stream.
@@ -308,6 +308,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        PairsWidget(settingsStore: settingsStore, from: createdTransactionDetails?.currencyFrom, to: createdTransactionDetails?.currencyTo),
         //Send funds to the address below Title
         Text(
           'Send funds to the address below',
@@ -640,11 +641,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
             SizedBox(
               height: 5,
             ),
-            Text('blockchain : $_fromBlockChain',
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xff00AD07))),
+            networkTextWidget(_toBlockChain)
           ],
         ),
         //Time Remaining Details
