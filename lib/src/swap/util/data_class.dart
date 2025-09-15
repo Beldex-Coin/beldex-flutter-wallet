@@ -54,10 +54,10 @@ class TransactionStatus {
 }
 
 class TransactionDetails {
-  TransactionDetails(this.createTransactionModel, this.fromBlockChain, this.walletAddress);
+  TransactionDetails(this.createTransactionModel, this.toBlockChain, this.walletAddress);
 
   CreateTransactionModel? createTransactionModel;
-  String? fromBlockChain;
+  String? toBlockChain;
   String walletAddress;
 }
 

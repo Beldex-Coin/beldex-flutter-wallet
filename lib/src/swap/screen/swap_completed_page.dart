@@ -202,10 +202,11 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        PairsWidget(settingsStore: settingsStore, from: transactionModel?.result![0].currencyFrom, to: transactionModel?.result![0].currencyTo),
         //Completed Details
         Container(
           width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.only(left: 6, right: 6, top: 20, bottom: 20),
+          margin: EdgeInsets.only(left: 6, right: 6, bottom: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

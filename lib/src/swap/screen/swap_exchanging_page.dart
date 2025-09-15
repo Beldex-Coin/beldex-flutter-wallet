@@ -263,6 +263,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        PairsWidget(settingsStore: settingsStore, from: transactionDetails.result?.currencyFrom, to: transactionDetails.result?.currencyTo),
         //Exchanging Title
         Text(
           'Exchanging',

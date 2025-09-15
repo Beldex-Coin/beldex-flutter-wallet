@@ -10,6 +10,7 @@ import 'package:beldex_wallet/src/swap/model/get_exchange_amount_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 import '../../../routes.dart';
 import '../../util/constants.dart';
 import '../../util/network_provider.dart';
@@ -140,6 +141,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     final walletStore = Provider.of<WalletStore>(context);
+    ToastContext().init(context);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
@@ -265,6 +267,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        PairsWidget(settingsStore: settingsStore, from: from, to: to),
         //Checkout Title
         Text(
           'Checkout',
@@ -317,41 +320,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                     ],
                   ),
                 ),
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xff4F4F70)
-                              : Color(0xffDADADA),
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                          text: 'Blockchain:',
-                          style: TextStyle(
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffAFAFBE)
-                                  : Color(0xff737373),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                          children: [
-                            TextSpan(
-                                text: _exchangeDataWithRecipientAddress.fromBlockChain,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffFFFFFF)
-                                        : Color(0xff222222)))
-                          ]),
-                    ),
-                  ),
-                ),
+                networkWidget(settingsStore, _exchangeDataWithRecipientAddress.fromBlockChain)
               ],
             )),
         Visibility(
@@ -447,41 +416,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                     ],
                   ),
                 ),
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
-                    padding: EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xff4F4F70)
-                              : Color(0xffDADADA),
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(8))),
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                          text: 'Blockchain:',
-                          style: TextStyle(
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffAFAFBE)
-                                  : Color(0xff737373),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                          children: [
-                            TextSpan(
-                                text: _exchangeDataWithRecipientAddress.toBlockChain,
-                                style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.normal,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffFFFFFF)
-                                        : Color(0xff222222)))
-                          ]),
-                    ),
-                  ),
-                ),
+                networkWidget(settingsStore, _exchangeDataWithRecipientAddress.toBlockChain)
               ],
             )),
         //Exchange Fee 0.25 % Details
@@ -701,7 +636,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                         .recipientAddress!,
                     "extraId": _exchangeDataWithRecipientAddress.extraIdName!,
                     "amountFrom": sendAmount
-                  }, _exchangeDataWithRecipientAddress.fromBlockChain!, walletAddress);
+                  }, _exchangeDataWithRecipientAddress.toBlockChain!, walletAddress);
                 } else {
                   createTransaction({
                     "from": from,
@@ -740,7 +675,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     );
   }
 
-  void createTransaction(Map<String, String> params, String? fromBlockChain, String walletAddress) {
+  void createTransaction(Map<String, String> params, String? toBlockChain, String walletAddress) {
     callCreateTransactionApi(params).then((value) {
       if (value?.result != null) {
         print('Status -> Success');
@@ -748,11 +683,21 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
         Future.delayed(Duration(seconds: 2), () {
           Navigator.of(context).pop();
           Navigator.of(context).pop(true);
-          Navigator.of(context).pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(value, fromBlockChain, walletAddress)); // Start adding getExchangeAmount api result to the stream.
+          Navigator.of(context).pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(value, toBlockChain, walletAddress)); // Start adding getExchangeAmount api result to the stream.
         });
       } else if (value?.error != null) {
         print('Status -> error ${value!.error!.message}');
         Navigator.of(context).pop();
+        final status = value.error?.message ?? "";
+        if(status.isNotEmpty) {
+          Toast.show(
+            value.error!.message.toString(),
+            duration: Toast.lengthLong,
+            gravity: Toast.bottom,
+            textStyle: TextStyle(color: Colors.white),
+            backgroundColor: Color(0xff0ba70f),
+          );
+        }
       } else {
         Navigator.of(context).pop();
       }

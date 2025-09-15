@@ -729,6 +729,7 @@ class Router {
           return MultiProvider(
             providers: [
               Provider(create: (_) => SyncStore(walletService: walletService),),
+              ChangeNotifierProvider<GetCurrenciesFullProvider>(create: (_) => GetCurrenciesFullProvider()),
             ],
             child: SwapTransactionPaymentDetailsPage(transactionDetails : settings.arguments as GetTransactionStatusWithWalletAddress),
           );
