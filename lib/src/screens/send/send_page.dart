@@ -675,7 +675,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
             ),
             bottomSection: Observer(builder: (_) {
               return Container(
-                margin: EdgeInsets.only(left: 15, right: 15, top: 30),
+                margin: EdgeInsets.only(left: 15, right: 15, top: 22),
                 child: InkWell(
                   onTap: syncStore.status is SyncedSyncStatus ||
                       syncStore.status.blocksLeft == 0
@@ -687,7 +687,6 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                     }
                     if (_formKey.currentState?.validate() ?? false) {
                       if (!addressValidation && !amountValidation) {
-                        var isSuccessful = false;
       
                         await Navigator.of(context).pushNamed(Routes.auth,
                             arguments: (bool isAuthenticatedSuccessfully,
