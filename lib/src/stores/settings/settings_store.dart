@@ -169,16 +169,12 @@ abstract class SettingsStoreBase with Store {
     this.isDarkTheme = isDarkTheme;
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        systemNavigationBarColor: Colors.transparent,
-        systemNavigationBarDividerColor: Colors.transparent,
         statusBarIconBrightness:
         isDarkTheme ? Brightness.light : Brightness.dark,
         systemNavigationBarIconBrightness:
         isDarkTheme ? Brightness.light : Brightness.dark,
       ),
     );
-    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     await _sharedPreferences.setBool(currentDarkTheme, isDarkTheme);
   }
 
