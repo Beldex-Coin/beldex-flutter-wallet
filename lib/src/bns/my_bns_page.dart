@@ -175,11 +175,11 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                 onTap: syncStore.status is SyncedSyncStatus ||
                     syncStore.status.blocksLeft == 0
                     ? () async {
-                  final currentFocus = FocusScope.of(context);
+                  // robust unfocus
+                  FocusManager.instance.primaryFocus?.unfocus();
 
-                  if (!currentFocus.hasPrimaryFocus) {
-                    currentFocus.unfocus();
-                  }
+                  // short pause so keyboard hides before dialog appears
+                  await Future.delayed(Duration(milliseconds: 50));
                   if (_decryptRecordController.text.isNotEmpty) {
                     if(!isLoading) {
                       FetchingBnsRecordDialogBox().showFetchingBnsRecordDialog(

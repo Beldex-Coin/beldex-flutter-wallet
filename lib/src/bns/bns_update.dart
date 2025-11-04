@@ -755,24 +755,27 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                 onTap: validateAllFields(
                         syncStore, bnsUpdateChangeNotifier, settingsStore)
                     ? () async {
-                        final currentFocus = FocusScope.of(context);
+                        // robust unfocus
+                        FocusManager.instance.primaryFocus?.unfocus();
 
-                        if (!currentFocus.hasPrimaryFocus) {
-                          currentFocus.unfocus();
-                        }
-                        final bnsUpdateOption = bnsUpdateChangeNotifier.selectedBnsUpdateOption;
-                        if(bnsUpdateOption == 1){
+                        // short pause so keyboard hides before dialog appears
+                        await Future.delayed(Duration(milliseconds: 50));
+                        final bnsUpdateOption =
+                            bnsUpdateChangeNotifier.selectedBnsUpdateOption;
+                        if (bnsUpdateOption == 1) {
                           bnsUpdateConfirmationDialogBox(
                               sendStore,
                               bnsName,
                               _bnsOwnerNameController.text,
-                              '',//_bnsBackUpOwnerNameController.text,
+                              '',
+                              //_bnsBackUpOwnerNameController.text,
                               '',
                               '',
                               '',
                               '',
-                              walletStore,bnsUpdateOption);
-                        }else{
+                              walletStore,
+                              bnsUpdateOption);
+                        } else {
                           bnsUpdateConfirmationDialogBox(
                               sendStore,
                               bnsName,
@@ -784,7 +787,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                   ? '${_belnetIdController.text}.bdx'
                                   : _belnetIdController.text,
                               _ethAddressController.text,
-                              walletStore,bnsUpdateOption);
+                              walletStore,
+                              bnsUpdateOption);
                         }
                       }
                     : null,
@@ -804,19 +808,19 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                         child: SvgPicture.asset(
                           'assets/images/new-images/bns_update.svg',
                           color: Color(0xffffffff),
-                        width: 19,height: 19,),
+                          width: 19,
+                          height: 19,
+                        ),
                       ),
                       Align(
                           alignment: Alignment.center,
-                          child: Text(
-                              'Update',
+                          child: Text('Update',
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   backgroundColor: Colors.transparent,
                                   fontSize: 17,
                                   color: Color(0xffffffff),
-                                  fontWeight: FontWeight.bold))
-                      )
+                                  fontWeight: FontWeight.bold)))
                     ],
                   ),
                 ),

@@ -355,11 +355,11 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
               onTap: validateAllFields(
                   syncStore, bnsRenewalChangeNotifier, settingsStore)
                   ? () async {
-                final currentFocus = FocusScope.of(context);
+                // robust unfocus
+                FocusManager.instance.primaryFocus?.unfocus();
 
-                if (!currentFocus.hasPrimaryFocus) {
-                  currentFocus.unfocus();
-                }
+                // short pause so keyboard hides before dialog appears
+                await Future.delayed(Duration(milliseconds: 50));
                 bnsRenewalConfirmationDialogBox(
                     sendStore,
                     '${_bnsNameController.text}.bdx',
