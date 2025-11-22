@@ -117,3 +117,8 @@
   changes:
     - Improved Swap UX
     - Minor bug fixes
+-
+  version: 2.2.0
+  changes:
+    - Update for Hardfork 20
+    - Minor bug fixes
