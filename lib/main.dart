@@ -279,16 +279,12 @@ class MaterialAppWithTheme extends StatelessWidget {
 
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        systemNavigationBarColor: Colors.transparent,
-        systemNavigationBarDividerColor: Colors.transparent,
         statusBarIconBrightness:
         settingsStore.isDarkTheme ? Brightness.light : Brightness.dark,
         systemNavigationBarIconBrightness:
         settingsStore.isDarkTheme ? Brightness.light : Brightness.dark,
       ),
     );
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,

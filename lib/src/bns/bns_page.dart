@@ -840,11 +840,11 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                 onTap: validateAllFields(
                         syncStore, buyBnsChangeNotifier, settingsStore)
                     ? () async {
-                        final currentFocus = FocusScope.of(context);
+                        // robust unfocus
+                        FocusManager.instance.primaryFocus?.unfocus();
 
-                        if (!currentFocus.hasPrimaryFocus) {
-                          currentFocus.unfocus();
-                        }
+                        // short pause so keyboard hides before dialog appears
+                        await Future.delayed(Duration(milliseconds: 50));
                         bnsConfirmationDialogBox(
                             sendStore,
                             '${_bnsNameController.text}.bdx',
@@ -855,14 +855,15 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                                     buyBnsChangeNotifier.selectedBnsPriceIndex]
                                 .detailYears,
                             _bnsOwnerNameController.text,
-                            '',//_bnsBackUpOwnerNameController.text,
+                            '',
+                            //_bnsBackUpOwnerNameController.text,
                             _walletAddressController.text,
                             _bChatIdController.text,
                             _belnetIdController.text.isNotEmpty
                                 ? '${_belnetIdController.text}.bdx'
                                 : _belnetIdController.text,
                             _ethAddressController.text,
-                        walletStore);
+                            walletStore);
                       }
                     : null,
                 child: Container(
@@ -1293,7 +1294,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
               _walletAddressController.clear();
               _bChatIdController.clear();
               _belnetIdController.clear();
-              _bnsNameController.clear();
+              _ethAddressController.clear();
               Navigator.of(context).pop();
               }, onDismiss: (BuildContext context) {  });
       }

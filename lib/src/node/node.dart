@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
@@ -27,37 +28,52 @@ class Node extends HiveObject {
 
   Future<bool> isOnline() async {
     final resBody = await sendRPCRequest('get_info');
-    return !(resBody['result']['offline'] as bool);
+    return resBody!=null ? true : false;
   }
 
-  Future<Map<String, dynamic>> sendRPCRequest(String method,
+  Future<Map<String, dynamic>?> sendRPCRequest(String method,
       {Map? params}) async {
-    Map<String, dynamic> resultBody;
+    try {
+      final requestBody = {
+        'jsonrpc': '2.0',
+        'id': '0',
+        'method': method,
+        if (params != null) 'params': params,
+      };
 
-    final requestBody = params != null
-        ? {'jsonrpc': '2.0', 'id': '0', 'method': method, 'params': params}
-        : {'jsonrpc': '2.0', 'id': '0', 'method': method};
-
-    /*if (login != null && password != null && login.isNotEmpty && password.isNotEmpty) {
-      final digestRequest = DigestRequest();
-      final response = await digestRequest.request(
-          uri: uri, login: login, password: password, requestBody: requestBody);
-      resultBody = response.data as Map<String, dynamic>;
-    } else {
       final url = Uri.http(uri, '/json_rpc');
-      final headers = {'Content-type': 'application/json'};
-      final body = json.encode(requestBody);
-      final response =
-          await http.post(url, headers: headers, body: body);
-      resultBody = json.decode(response.body) as Map<String, dynamic>;
-    }*/
-    final url = Uri.http(uri, '/json_rpc');
-    final headers = {'Content-type': 'application/json'};
-    final body = json.encode(requestBody);
-    final response = await http.post(url, headers: headers, body: body);
-    resultBody = json.decode(response.body) as Map<String, dynamic>;
+      final headers = {'Content-Type': 'application/json'};
 
-    print('node data from json --> for the node $uri --> $resultBody');
-    return resultBody;
+      final response = await http
+          .post(url, headers: headers, body: json.encode(requestBody));
+
+      if (response.statusCode != 200) {
+        print('node data from json --> HTTP ${response.statusCode} from node $uri');
+        return null;
+      }
+
+      // Attempt to decode JSON safely
+      final dynamic decoded = json.decode(response.body);
+      if (decoded is! Map<String, dynamic>) {
+        print('node data from json --> Unexpected response format from node $uri: ${response.body}');
+        return null;
+      }
+
+      print('node data from json --> $uri: $decoded');
+      return decoded;
+
+    } on SocketException catch (e) {
+      print('node data from json --> Network error when contacting node $uri: $e');
+      return null;
+    } on http.ClientException catch (e) {
+      print('node data from json --> Client exception for node $uri: $e');
+      return null;
+    } on FormatException catch (e) {
+      print('node data from json --> Invalid JSON response from node $uri: $e');
+      return null;
+    } catch (e) {
+      print('node data from json --> Unexpected error when calling node $uri: $e');
+      return null;
+    }
   }
 }
