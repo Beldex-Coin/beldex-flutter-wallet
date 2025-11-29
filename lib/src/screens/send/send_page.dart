@@ -675,19 +675,18 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
             ),
             bottomSection: Observer(builder: (_) {
               return Container(
-                margin: EdgeInsets.only(left: 15, right: 15, top: 30),
+                margin: EdgeInsets.only(left: 15, right: 15, top: 22),
                 child: InkWell(
                   onTap: syncStore.status is SyncedSyncStatus ||
                       syncStore.status.blocksLeft == 0
                       ? () async {
-                    final currentFocus = FocusScope.of(context);
-      
-                    if (!currentFocus.hasPrimaryFocus) {
-                      currentFocus.unfocus();
-                    }
+                    // robust unfocus
+                    FocusManager.instance.primaryFocus?.unfocus();
+
+                    // short pause so keyboard hides before dialog appears
+                    await Future.delayed(Duration(milliseconds: 50));
                     if (_formKey.currentState?.validate() ?? false) {
                       if (!addressValidation && !amountValidation) {
-                        var isSuccessful = false;
       
                         await Navigator.of(context).pushNamed(Routes.auth,
                             arguments: (bool isAuthenticatedSuccessfully,
@@ -774,11 +773,15 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     rdisposer3 = reaction((_) => sendStore.state, (SendingState state) {
       if (state is SendingFailed) {
         //WidgetsBinding.instance.addPostFrameCallback((_) {
-         WakelockPlus.disable();
-          Navigator.of(context).pop();
-          showSimpleBeldexDialog(
-              context, tr(context).alert, state.error,
-              onPressed: (_) => Navigator.of(context).pop(),onDismiss: (_) => Navigator.of(context).pop());
+        WakelockPlus.disable();
+        Navigator.of(context).pop();
+        var errorMessage = state.error;
+        if (state.error.contains('Failed to get output distribution')) {
+          errorMessage = 'Failed to get output distribution';
+        }
+        showSimpleBeldexDialog(context, tr(context).alert, errorMessage,
+            onPressed: (_) => Navigator.of(context).pop(),
+            onDismiss: (_) => Navigator.of(context).pop());
         //});
       }
 
