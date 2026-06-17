@@ -20,6 +20,7 @@ class GetCurrenciesFullProvider with ChangeNotifier {
   GetCurrenciesFullApiService services = GetCurrenciesFullApiService();
   String? _error;
   String? get error => _error;
+  bool privacySwapApiInfoCardVisible = false;
 
   void getCurrenciesFullData(context) async {
     bdxIsEnabled = null;
@@ -80,6 +81,16 @@ class GetCurrenciesFullProvider with ChangeNotifier {
 
   bool getSendCoinsDropDownVisible(){
     return this.youSendCoinsDropDownVisible;
+  }
+
+  void setPrivacySwapApiInfoCardVisible(status){
+    this.privacySwapApiInfoCardVisible = status;
+    if(_disposed) return ;
+    notifyListeners();
+  }
+
+  bool getPrivacySwapApiInfoCardVisible(){
+    return this.privacySwapApiInfoCardVisible;
   }
 
   void setGetCoinsDropDownVisible(status){

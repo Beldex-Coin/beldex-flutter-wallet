@@ -1,18 +1,28 @@
 import 'package:beldex_wallet/src/swap/apis.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+import '../apiKeys.dart';
 import '../model/get_pairs_params_model.dart';
 
 class GetPairsParamsApiService {
+  Future<SharedPreferences> get _prefs => SharedPreferences.getInstance();
+
   Future<GetPairsParamsModel?> getSignature(List<Map<String, String>> params) async {
+
+    final prefs = await _prefs;
+    final privacySwapApiEnable = prefs.getBool('privacySwap') ?? false;
+
     print('url --> 1');
-    final signatureResponseBody = await callSignatureApiService(Apis.getPairsParams,params: params);
+    final signatureResponseBody = await callSignatureApiService(Apis.getPairsParams,params: params, privacySwapApiEnable: privacySwapApiEnable);
     print('url --> 4');
-    if (signatureResponseBody['signature'] as String != null) {
+
+    final signature = signatureResponseBody['signature'] as String?;
+    if (signature != null) {
       final getPairsParamsResponseBody =
       await callGetPairsParamsApiService(Apis.getPairsParams,
-          signatureResponseBody['signature'] as String,params: params);
+          signatureResponseBody['signature'] as String,params: params, privacySwapApiEnable: privacySwapApiEnable);
       return getPairsParamsResponseBody;
     } else {
       return null;
@@ -20,16 +30,22 @@ class GetPairsParamsApiService {
   }
 
   Future<Map<String, dynamic>> callSignatureApiService(String method,
-      {List<Map<String, dynamic>>? params}) async {
+      {List<Map<String, dynamic>>? params, required bool privacySwapApiEnable}) async {
     Map<String, dynamic> resultBody;
 
     final requestBody = params!.isNotEmpty
         ? Signature(jsonrpc: '2.0', id: 'test', method: method, params: params)
         : Signature(jsonrpc: '2.0', id: 'test', method: method, params: []);
 
-    final url = Uri.parse(Apis.signatureUrl);
+    final url = Uri.parse(privacySwapApiEnable
+        ? Apis.privacySignatureUrl
+        : Apis.swapSignatureUrl);
     print('url --> $url');
-    final headers = {'Content-type': 'application/json'};
+    final headers = {
+      'Content-type': 'application/json',
+      'X-Api-Key': ApiKeys.signatureXApiKey
+    };
+    print('json headers --> $headers');
     final body = json.encode(requestBody);
     print('json body --> $body');
     final response = await http.post(url, headers: headers, body: body);
@@ -41,7 +57,7 @@ class GetPairsParamsApiService {
 
   Future<GetPairsParamsModel> callGetPairsParamsApiService(
       String method, String signature,
-      {List<Map<String, dynamic>>? params}) async {
+      {List<Map<String, dynamic>>? params, required bool privacySwapApiEnable}) async {
     late GetPairsParamsModel data;
     try {
       final requestBody = params!.isNotEmpty
@@ -51,10 +67,14 @@ class GetPairsParamsApiService {
       print('url --> $url');
       final headers = {
         'Content-type': 'application/json',
-        'X-Api-Key': '+kLt3F2TMo8W2LbQSjs6IDaBG4O/VLZsRH+qnNX5FyU=',
+        'X-Api-Key': privacySwapApiEnable
+            ? ApiKeys.privacyMainXApiKey
+            : ApiKeys.swapMainXApiKey,
         'X-Api-Signature': signature
       };
+      print('changelly api json headers --> $headers');
       final body = json.encode(requestBody);
+      print('changelly api json body --> $body');
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
         final resultBody = json.decode(response.body);

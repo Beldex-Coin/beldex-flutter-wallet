@@ -6,11 +6,17 @@ import 'package:provider/provider.dart';
 class StandardSwitch extends StatefulWidget {
   
 
-   StandardSwitch({required this.value, required this.onTaped,required this.icon});
+   StandardSwitch({this.boxWidth = 50.0, this.boxHeight = 20.0, this.iconWidth = 22.0, this.iconHeight = 22.0, this.enableGradient = true, this.backgroundColor, required this.value, required this.onTaped,required this.icon});
 
   final bool value;
   final VoidCallback onTaped;
   bool icon=false;
+  double boxWidth;
+  double boxHeight;
+  double iconWidth;
+  double iconHeight;
+  final bool enableGradient;
+  final backgroundColor;
   @override
   StandardSwitchState createState() => StandardSwitchState();
 }
@@ -25,11 +31,11 @@ class StandardSwitchState extends State<StandardSwitch> {
         padding: EdgeInsets.only(left: 0.0, right: 0.0),
         alignment: widget.value ? Alignment.centerRight : Alignment.centerLeft,
         duration: Duration(milliseconds: 250),
-        width: 50.0,
-        height: 20.0,
+        width: widget.boxWidth,
+        height: widget.boxHeight,
         decoration: BoxDecoration(
-            color:settingsStore.isDarkTheme ? Color(0xff333343): Color(0xffEDEDED),  //Theme.of(context).toggleButtonsTheme.color,
-            gradient: LinearGradient(
+            color:widget.enableGradient ? settingsStore.isDarkTheme ? Color(0xff333343): Color(0xffEDEDED) : widget.backgroundColor,  //Theme.of(context).toggleButtonsTheme.color,
+            gradient: widget.enableGradient ?LinearGradient(
               colors: [
                 settingsStore.isDarkTheme?Color.fromARGB(255, 31, 32, 39):Color.fromARGB(
                     255, 235, 235, 235),//Colors.black,
@@ -38,13 +44,13 @@ class StandardSwitchState extends State<StandardSwitch> {
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
-            ),
+            ) : null,
             // border: Border.all(
             //     color: Colors.grey,width: 1.0),
             borderRadius: BorderRadius.all(Radius.circular(100.0))),
         child: Container(
-          width: 22.0,
-          height: 22.0,
+          width: widget.iconWidth,
+          height: widget.iconHeight,
           padding: EdgeInsets.all(4),
           decoration: BoxDecoration(
             //shape:BoxShape.circle,
