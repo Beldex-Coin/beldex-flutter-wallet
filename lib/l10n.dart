@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-export 'package:flutter_gen/gen_l10n/app_localizations.dart' show AppLocalizations;
+import 'l10n/app_localizations.dart';
+export 'l10n/app_localizations.dart' show AppLocalizations;
 
 AppLocalizations tr(BuildContext ctx) {
   return AppLocalizations.of(ctx) ?? lookupAppLocalizations(Locale('en', ''));

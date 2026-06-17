@@ -99,7 +99,7 @@ import 'package:beldex_wallet/src/stores/wallet_list/wallet_list_store.dart';
 import 'package:beldex_wallet/src/stores/wallet_restoration/wallet_restoration_store.dart';
 import 'package:beldex_wallet/src/wallet/mnemotic_item.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
-import 'package:beldex_wallet/src/wallet/beldex/subaddress.dart';
+import 'package:beldex_wallet/src/wallet/beldex/subAddress.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_description.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_info.dart';
 import 'package:provider/provider.dart';

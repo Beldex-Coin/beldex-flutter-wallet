@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:beldex_wallet/src/wallet/wallet.dart';
 import 'package:beldex_wallet/src/wallet/beldex/beldex_wallet.dart';
-import 'package:beldex_wallet/src/wallet/beldex/subaddress.dart';
+import 'package:beldex_wallet/src/wallet/beldex/subAddress.dart';
 import 'package:beldex_wallet/src/wallet/beldex/subaddress_list.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';

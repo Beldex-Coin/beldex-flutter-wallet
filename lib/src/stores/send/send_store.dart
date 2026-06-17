@@ -6,7 +6,6 @@ import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
-import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 import 'package:beldex_wallet/src/domain/common/openalias_record.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
@@ -17,6 +16,7 @@ import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_stake_transac
 import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_description.dart';
 import 'package:beldex_wallet/src/wallet/transaction/pending_transaction.dart';
+import '../../../l10n/app_localizations.dart';
 
 part 'send_store.g.dart';
 

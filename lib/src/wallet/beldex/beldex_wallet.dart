@@ -14,7 +14,7 @@ import 'package:beldex_wallet/src/wallet/balance.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account_list.dart';
 import 'package:beldex_wallet/src/wallet/beldex/beldex_balance.dart';
-import 'package:beldex_wallet/src/wallet/beldex/subaddress.dart';
+import 'package:beldex_wallet/src/wallet/beldex/subAddress.dart';
 import 'package:beldex_wallet/src/wallet/beldex/subaddress_list.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_stake_transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_transaction_creation_credentials.dart';
