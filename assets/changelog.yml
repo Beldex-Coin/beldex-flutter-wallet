@@ -122,3 +122,7 @@
   changes:
     - Update for Hardfork 20
     - Minor bug fixes
+-
+  version: 2.2.1
+  changes:
+    - Minor bug fixes
