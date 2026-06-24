@@ -17,6 +17,8 @@ class Node extends HiveObject {
 
   static const boxName = 'Nodes';
 
+  static const boxNameV2 = 'Nodes_V2';
+
   @HiveField(0)
   String uri;
 
@@ -55,11 +57,11 @@ class Node extends HiveObject {
       // Attempt to decode JSON safely
       final dynamic decoded = json.decode(response.body);
       if (decoded is! Map<String, dynamic>) {
-        print('node data from json --> Unexpected response format from node $uri: ${response.body}');
+        print('node data from json --> Unexpected response format from node $uri');
         return null;
       }
 
-      print('node data from json --> $uri: $decoded');
+      print('node data from json --> $uri');
       return decoded;
 
     } on SocketException catch (e) {

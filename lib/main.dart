@@ -52,22 +52,61 @@ void main() async {
     Hive.registerAdapter(WalletInfoAdapter());
     Hive.registerAdapter(WalletTypeAdapter());
 
-    final secureStorage = FlutterSecureStorage(aOptions: AndroidOptions(
-      encryptedSharedPreferences: true,
-    ),);
+    final secureStorage = FlutterSecureStorage(
+      aOptions: AndroidOptions(
+        encryptedSharedPreferences: true,
+      ),
+    );
     final transactionDescriptionsBoxKey = await getEncryptionKey(
-        secureStorage: secureStorage,
-        forKey: 'transactionDescriptionsBoxKey'); // FIXME: Unnamed constant
+        secureStorage: secureStorage, forKey: 'transactionDescriptionsBoxKey');
 
-    final contacts = await Hive.openBox<Contact>(Contact.boxName);
-    final nodes = await Hive.openBox<Node>
-    (Node.boxName);
+    final contactsBoxKey = await getEncryptionKey(
+      secureStorage: secureStorage,
+      forKey: 'contactsBoxKey',
+    );
+
+    final nodesBoxKey = await getEncryptionKey(
+      secureStorage: secureStorage,
+      forKey: 'nodesBoxKey',
+    );
+
+    final walletInfoBoxKey = await getEncryptionKey(
+      secureStorage: secureStorage,
+      forKey: 'walletInfoBoxKey',
+    );
+
+    final sharedPreferences = await SharedPreferences.getInstance();
+
+    final migrated =
+        sharedPreferences.getBool('encrypted_hive_migration_v1') ?? false;
+
+    if (!migrated) {
+      await migrateContactsBox(contactsBoxKey);
+      await migrateNodesBox(nodesBoxKey);
+      await migrateWalletInfoBox(walletInfoBoxKey);
+
+      await sharedPreferences.setBool(
+        'encrypted_hive_migration_v1',
+        true,
+      );
+    }
+
+    final contacts = await Hive.openBox<Contact>(
+      Contact.boxNameV2,
+      encryptionCipher: HiveAesCipher(contactsBoxKey),
+    );
+    final nodes = await Hive.openBox<Node>(
+      Node.boxNameV2,
+      encryptionCipher: HiveAesCipher(nodesBoxKey),
+    );
     final transactionDescriptions = await Hive.openBox<TransactionDescription>(
         TransactionDescription.boxName,
         encryptionCipher: HiveAesCipher(transactionDescriptionsBoxKey));
-    final walletInfoSource = await Hive.openBox<WalletInfo>(WalletInfo.boxName);
+    final walletInfoSource = await Hive.openBox<WalletInfo>(
+      WalletInfo.boxNameV2,
+      encryptionCipher: HiveAesCipher(walletInfoBoxKey),
+    );
 
-    final sharedPreferences = await SharedPreferences.getInstance();
     final walletService = WalletService();
     final walletListService = WalletListService(
         secureStorage: secureStorage,
@@ -100,9 +139,14 @@ void main() async {
         settingsStore: settingsStore,
         priceStore: priceStore);
     final loginStore = LoginStore(
-        sharedPreferences: sharedPreferences, walletsService: walletListService);
+        sharedPreferences: sharedPreferences,
+        walletsService: walletListService);
     final seedLanguageStore = SeedLanguageStore();
-    final sendStore = SendStore(walletService: walletService, settingsStore: settingsStore, priceStore: priceStore,);
+    final sendStore = SendStore(
+      walletService: walletService,
+      settingsStore: settingsStore,
+      priceStore: priceStore,
+    );
 
     setReactions(
         settingsStore: settingsStore,
@@ -132,7 +176,7 @@ void main() async {
       Provider(create: (_) => seedLanguageStore),
       ChangeNotifierProvider(create: (_) => NetworkProvider()),
       Provider(create: (_) => sendStore),
-      ChangeNotifierProvider(create:(_)=> ButtonClickNotifier())
+      ChangeNotifierProvider(create: (_) => ButtonClickNotifier())
     ], child: BeldexWalletApp()));
   } catch (e) {
     runApp(MaterialApp(
@@ -154,6 +198,94 @@ void main() async {
                   ))),
         )));
   }
+}
+
+Future<void> migrateContactsBox(List<int> encryptionKey) async {
+  final oldBox = await Hive.openBox<Contact>(Contact.boxName);
+
+  final newBox = await Hive.openBox<Contact>(
+    Contact.boxNameV2,
+    encryptionCipher: HiveAesCipher(encryptionKey),
+  );
+
+  if (newBox.isEmpty && oldBox.isNotEmpty) {
+    for (final key in oldBox.keys) {
+      final oldContact = oldBox.get(key);
+
+      if (oldContact != null) {
+        await newBox.put(
+          key,
+          Contact(
+            name: oldContact.name,
+            address: oldContact.address,
+            raw: oldContact.raw,
+          ),
+        );
+      }
+    }
+  }
+
+  await oldBox.close();
+}
+
+Future<void> migrateNodesBox(List<int> encryptionKey) async {
+  final oldBox = await Hive.openBox<Node>(Node.boxName);
+
+  final newBox = await Hive.openBox<Node>(
+    Node.boxNameV2,
+    encryptionCipher: HiveAesCipher(encryptionKey),
+  );
+
+  if (newBox.isEmpty && oldBox.isNotEmpty) {
+    for (final key in oldBox.keys) {
+      final oldNode = oldBox.get(key);
+
+      if (oldNode != null) {
+        await newBox.put(
+          key,
+          Node(
+            uri: oldNode.uri,
+            login: oldNode.login,
+            password: oldNode.password,
+          ),
+        );
+      }
+    }
+  }
+
+  await oldBox.close();
+}
+
+Future<void> migrateWalletInfoBox(List<int> encryptionKey) async {
+  final oldBox = await Hive.openBox<WalletInfo>(WalletInfo.boxName);
+
+  final newBox = await Hive.openBox<WalletInfo>(
+    WalletInfo.boxNameV2,
+    encryptionCipher: HiveAesCipher(encryptionKey),
+  );
+
+  if (newBox.isEmpty && oldBox.isNotEmpty) {
+    for (final key in oldBox.keys) {
+      final oldNode = oldBox.get(key);
+
+      if (oldNode != null) {
+        await newBox.put(
+          key,
+          WalletInfo(
+            id: oldNode.id,
+            name: oldNode.name,
+            type: oldNode.type,
+            isRecovery: oldNode.isRecovery,
+            restoreHeight: oldNode.restoreHeight,
+            timestamp: oldNode.timestamp,
+            hasTestnet: oldNode.hasTestnet
+          ),
+        );
+      }
+    }
+  }
+
+  await oldBox.close();
 }
 
 Future<void> initialSetup(
@@ -213,7 +345,7 @@ class _BeldexWalletAppState extends State<BeldexWalletApp> {
             iOSCloseButtonLabel: 'Exit',
             iOSAlertTitle: 'Mandatory Update',
         );
-      }*//* else if (serverLatestVersion > localVersion) {
+      }*/ /* else if (serverLatestVersion > localVersion) {
         NativeUpdater.displayUpdateAlert(
           context,
           forceUpdate: true,
@@ -222,7 +354,7 @@ class _BeldexWalletAppState extends State<BeldexWalletApp> {
           iOSDescription: 'Your App requires that you update to the latest version. You cannot use this app until it is updated.',
           iOSUpdateButtonLabel: 'Upgrade',
           iOSCloseButtonLabel: 'Exit',
-        );*//*
+        );*/ /*
     });
   }*/
 
@@ -231,12 +363,12 @@ class _BeldexWalletAppState extends State<BeldexWalletApp> {
     final settingsStore = Provider.of<SettingsStore>(context);
 
     return ChangeNotifierProvider(
-        create: (_) => ThemeChanger(settingsStore.isDarkTheme ? Themes.darkTheme : Themes.lightTheme),
+        create: (_) => ThemeChanger(
+            settingsStore.isDarkTheme ? Themes.darkTheme : Themes.lightTheme),
         builder: (context, child) => ChangeNotifierProvider(
-          create: (_) => LanguageNotifier(),
-          builder: (context, child) => MaterialAppWithTheme(),
-        )
-    );
+              create: (_) => LanguageNotifier(),
+              builder: (context, child) => MaterialAppWithTheme(),
+            ));
   }
 }
 
@@ -280,42 +412,46 @@ class MaterialAppWithTheme extends StatelessWidget {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarIconBrightness:
-        settingsStore.isDarkTheme ? Brightness.light : Brightness.dark,
+            settingsStore.isDarkTheme ? Brightness.light : Brightness.dark,
         systemNavigationBarIconBrightness:
-        settingsStore.isDarkTheme ? Brightness.light : Brightness.dark,
+            settingsStore.isDarkTheme ? Brightness.light : Brightness.dark,
       ),
     );
 
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: theme.getTheme(),
-        localeListResolutionCallback: (List<Locale>? userLocales, Iterable<Locale> supported) {
-          for (var userLocale in userLocales ?? <Locale>[]) {
-            for (var locale in supported) {
-              if (locale.languageCode == userLocale.languageCode &&
-                  (locale.countryCode == null || locale.countryCode! == userLocale.countryCode))
-                return userLocale;
-            }
+      debugShowCheckedModeBanner: false,
+      theme: theme.getTheme(),
+      localeListResolutionCallback:
+          (List<Locale>? userLocales, Iterable<Locale> supported) {
+        for (var userLocale in userLocales ?? <Locale>[]) {
+          for (var locale in supported) {
+            if (locale.languageCode == userLocale.languageCode &&
+                (locale.countryCode == null ||
+                    locale.countryCode! == userLocale.countryCode))
+              return userLocale;
           }
-          return Locale('en');
-        },
-        supportedLocales: AppLocalizations.supportedLocales,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        locale: settingsStore.languageOverride != null ? Locale(settingsStore.languageOverride!) : null,
-        onGenerateRoute: (settings) => beldexroute.Router.generateRoute(
-            sharedPreferences: sharedPreferences,
-            walletListService: walletListService,
-            walletService: walletService,
-            userService: userService,
-            settings: settings,
-            priceStore: priceStore,
-            walletStore: walletStore,
-            syncStore: syncStore,
-            balanceStore: balanceStore,
-            settingsStore: settingsStore,
-            contacts: contacts,
-            nodes: nodes,
-            transactionDescriptions: transactionDescriptions),
+        }
+        return Locale('en');
+      },
+      supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      locale: settingsStore.languageOverride != null
+          ? Locale(settingsStore.languageOverride!)
+          : null,
+      onGenerateRoute: (settings) => beldexroute.Router.generateRoute(
+          sharedPreferences: sharedPreferences,
+          walletListService: walletListService,
+          walletService: walletService,
+          userService: userService,
+          settings: settings,
+          priceStore: priceStore,
+          walletStore: walletStore,
+          syncStore: syncStore,
+          balanceStore: balanceStore,
+          settingsStore: settingsStore,
+          contacts: contacts,
+          nodes: nodes,
+          transactionDescriptions: transactionDescriptions),
       home: UpgradeAlert(
           showLater: false,
           showIgnore: false,
