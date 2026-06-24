@@ -157,9 +157,7 @@ class BelDexWallet extends Wallet {
     final subaddresses = subaddressList.getAll();
     _subaddress.value = subaddresses.first;
     print('sub address');
-    print('sub address value ${_subaddress.value.address}, ${_subaddress.value.id}, ${_subaddress.value.label}');
     _address.value = await getAddress();
-    print('address value ${_address.value}');
     setListeners();
   }
 

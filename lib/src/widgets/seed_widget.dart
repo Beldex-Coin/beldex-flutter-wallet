@@ -331,23 +331,18 @@ class SeedWidgetState extends State<SeedWidget> {
                         height: MediaQuery.of(context).size.height * 0.70 / 3),
                     PrimaryButton(
                         onPressed: () {
-                          print('inside the function---> $_seedController');
                           if (wordCount == maxWordCount) {
                             replaceText(_seedController.text);
                             if(isSeedValid()) {
-                              print('inside first if--->');
                               setState(() {
                                 _errorMessage1 = '';
                               });
                               if (widget.onFinish != null) {
-                                print('inside second if--->');
                                 return widget.onFinish();
                               } else {
-                                print('inside first else--->');
                                 return null;
                               }
                             }else {
-                              print('inside second else --->');
                               setState(() {
                                 _errorMessage1 =
                                     tr(context).pleaseEnterAValidSeed;
@@ -355,7 +350,6 @@ class SeedWidgetState extends State<SeedWidget> {
                               return null;
                             }
                           } else {
-                            print('inside second else --->');
                             setState(() {
                               _errorMessage1 =
                                   tr(context).pleaseEnterAValidSeed;

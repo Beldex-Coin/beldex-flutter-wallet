@@ -231,7 +231,6 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
       // Convert your CSV string to a Uint8List for downloading.
       final file = File(path);
       await file.writeAsBytes(bytes).whenComplete(() {
-        print("path $path");
         final file = File(path);
         Share.shareXFiles([XFile(file.path)]);
       });
@@ -243,8 +242,6 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
 
       final file = File(path);
       await file.writeAsBytes(bytes);
-
-      print("File saved at $path");
 
       // Share the file
       await Share.shareXFiles([XFile(file.path)], text: 'Transaction Report');

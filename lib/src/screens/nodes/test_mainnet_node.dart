@@ -42,24 +42,6 @@ class TestMainNetNode extends HiveObject {
         ? {'jsonrpc': '2.0', 'id': '0', 'method': method, 'params': params}
         : {'jsonrpc': '2.0', 'id': '0', 'method': method};
 
-    /*if (login != null && password != null && login.isNotEmpty && password.isNotEmpty) {
-      final digestRequest = DigestRequest();
-      final response = await digestRequest.request(
-          uri: uri, login: login, password: password, requestBody: requestBody);
-      resultBody = response.data as Map<String, dynamic>;
-    } else {
-      final url = Uri.http(uri, '/json_rpc');
-      final headers = {'Content-type': 'application/json'};
-      final body = json.encode(requestBody);
-      final response = await http.post(url, headers: headers, body: body).timeout(
-        const Duration(seconds: 1),
-        onTimeout: () {
-          // Time has run out, do what you wanted to do.
-          return http.Response('Error', 408); // Request Timeout response status code
-        },
-      );
-      resultBody = json.decode(response.body) as Map<String, dynamic>;
-    }*/
     final url = Uri.http(uri, '/json_rpc');
     final headers = {'Content-type': 'application/json'};
     final body = json.encode(requestBody);

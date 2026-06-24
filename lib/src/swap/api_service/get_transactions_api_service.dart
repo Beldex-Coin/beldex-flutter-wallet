@@ -44,11 +44,11 @@ class GetTransactionsApiService {
     print('url --> $url');
     final headers = {'Content-type': 'application/json'};
     final body = json.encode(requestBody);
-    print('json body --> $body');
+    //print('json body --> $body');
     final response = await http.post(url, headers: headers, body: body);
     resultBody = json.decode(response.body) as Map<String, dynamic>;
 
-    print('signature data from json --> $resultBody');
+    //print('signature data from json --> $resultBody');
     return resultBody;
   }
 
@@ -73,7 +73,7 @@ class GetTransactionsApiService {
         final resultBody = json.decode(response.body);
         data = GetTransactionsModel.fromJson(resultBody);
 
-        print('get transactions data from json --> $resultBody');
+        //print('get transactions data from json --> $resultBody');
       } else {
         print('Error Occurred');
       }
