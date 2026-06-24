@@ -18,7 +18,7 @@ Future<dynamic> getPriceForGivenFiat({required CryptoCurrency crypto, required F
    final uri = Uri.parse('https://$fiatApiAuthority/$apiString${fiat.toString()}');
    
    final response = await http.get(uri);
-   print('responsejson ---> $response');
+   //print('responsejson ---> $response');
    final responseJSON = json.decode(response.body) as Map<String, dynamic>;
    var d = responseJSON['beldex'] as Map<String,dynamic>;
   // var priceV = d['usd'] as double;

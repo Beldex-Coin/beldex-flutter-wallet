@@ -60,7 +60,7 @@ class GetCurrenciesFullApiService {
         final resultBody = json.decode(response.body);
         data = GetCurrenciesFullModel.fromJson(resultBody);
 
-        print('get currencies data from json --> $resultBody');
+        //print('get currencies data from json --> $resultBody');
       } else {
         print('Error Occurred');
       }

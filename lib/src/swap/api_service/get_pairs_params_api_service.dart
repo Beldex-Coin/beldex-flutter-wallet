@@ -60,7 +60,7 @@ class GetPairsParamsApiService {
         final resultBody = json.decode(response.body);
         data = GetPairsParamsModel.fromJson(resultBody);
 
-        print('get pairs params data from json --> $resultBody');
+        //print('get pairs params data from json --> $resultBody');
       } else {
         print('Error Occurred');
       }
