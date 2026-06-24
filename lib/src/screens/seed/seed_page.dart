@@ -1,5 +1,6 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
+import 'package:flutter_windowmanager_plus/flutter_windowmanager_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
@@ -64,11 +65,19 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FlutterWindowManagerPlus.addFlags(
+        FlutterWindowManagerPlus.FLAG_SECURE,
+      );
+    });
   }
 
   @override
   void dispose() {
     isCopied = false;
+    FlutterWindowManagerPlus.clearFlags(
+      FlutterWindowManagerPlus.FLAG_SECURE,
+    );
     super.dispose();
   }
 

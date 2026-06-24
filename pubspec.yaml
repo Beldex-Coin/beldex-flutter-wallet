@@ -113,7 +113,7 @@ dependencies:
   permission_handler: ^11.3.1
   device_info_plus: ^10.1.2
   cached_network_image: ^3.4.1
-  #flutter_windowmanager:
+  flutter_windowmanager_plus: ^1.0.1
   font_awesome_flutter:
   upgrader:
 dev_dependencies:
