@@ -47,6 +47,15 @@ class UserService {
     }
     final decodedPin = decodedPinCode(pin: encodedPin);
 
-    return decodedPin == pin;
+    final isValid = decodedPin.value == pin;
+
+    if (isValid && decodedPin.needsMigration) {
+      await secureStorage.write(
+        key: key,
+        value: encodedPinCode(pin: decodedPin.value),
+      );
+    }
+
+    return isValid;
   }
 }

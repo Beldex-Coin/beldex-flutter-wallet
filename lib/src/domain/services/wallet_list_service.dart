@@ -171,7 +171,24 @@ class WalletListService {
         key: SecretStoreKey.moneroWalletPassword, walletName: walletName);
     final encodedPassword = await secureStorage.read(key: key);
 
-    return decodeWalletPassword(password: encodedPassword!);
+    if (encodedPassword == null) {
+      throw Exception('Wallet password not found');
+    }
+
+    final decodePassword = decodeWalletPassword(
+      password: encodedPassword,
+    );
+
+    if (decodePassword.needsMigration) {
+      await secureStorage.write(
+        key: key,
+        value: encodeWalletPassword(
+          password: decodePassword.value,
+        ),
+      );
+    }
+
+    return decodePassword.value;
   }
 
   Future saveWalletPassword({required String walletName, required String password}) async {
