@@ -11,6 +11,8 @@ import 'package:beldex_wallet/src/stores/wallet_seed/wallet_seed_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:toast/toast.dart';
 
+import '../../util/clipboard_helper.dart';
+
 class SeedPage extends BasePage {
   SeedPage({required this.onCloseCallback,required this.showSeed});
 
@@ -204,16 +206,11 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                             flex: 2,
                                             child: ElevatedButton(
                                                 onPressed: !isCopied
-                                                    ? () {
+                                                    ? () async {
                                                         setState(() {
                                                           isCopied = true;
                                                         });
-                                                        print(
-                                                            ' copied value $isCopied');
-                                                        Clipboard.setData(
-                                                            ClipboardData(
-                                                                text:
-                                                                    _seed));
+                                                        await ClipboardHelper.copyWithAutoClear(_seed);
                                                         Toast.show(
                                                           tr(context)
                                                               .copied,
@@ -328,16 +325,11 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                           Expanded(
                                             flex: 2,
                                             child: ElevatedButton(
-                                              onPressed: () {
+                                              onPressed: () async {
                                                 setState(() {
                                                   isCopied = true;
                                                 });
-
-                                                print(
-                                                    ' copied value $isCopied');
-                                                Clipboard.setData(
-                                                    ClipboardData(
-                                                        text: _seed));
+                                                await ClipboardHelper.copyWithAutoClear(_seed);
                                                 Toast.show(
                                                   tr(context).copied,
                                                   duration:

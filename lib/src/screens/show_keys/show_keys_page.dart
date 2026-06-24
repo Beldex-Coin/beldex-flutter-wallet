@@ -8,8 +8,7 @@ import 'package:beldex_wallet/src/stores/wallet/wallet_keys_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:toast/toast.dart';
 import '../../../l10n.dart';
-
-import '../../../l10n.dart';
+import '../../util/clipboard_helper.dart';
 
 class ShowKeysPage extends BasePage {
   @override
@@ -63,9 +62,8 @@ class ShowKeysPage extends BasePage {
                   return ListTile(
                       contentPadding: EdgeInsets.only(
                           top: 10, bottom: 10, left: 10, right: 10),
-                      // onTap: () {
-                      //   Clipboard.setData(ClipboardData(
-                      //       text: keysMap.values.elementAt(index)));
+                      // onTap: () async {
+                      //   await ClipboardHelper.copyWithAutoClear(keysMap.values.elementAt(index));
                       //   Scaffold.of(context).showSnackBar(SnackBar(
                       //     content: Text(
                       //       S.of(context).copied_key_to_clipboard(key),
@@ -83,9 +81,8 @@ class ShowKeysPage extends BasePage {
                               style: TextStyle(
                                   fontSize: 18.0, fontWeight: FontWeight.w800)),
                           InkWell(
-                            onTap: () {
-                              Clipboard.setData(ClipboardData(
-                                  text: keysMap.values.elementAt(index)));
+                            onTap: () async {
+                              await ClipboardHelper.copyWithAutoClear(keysMap.values.elementAt(index));
                               Toast.show(
                                 tr(context).copied,
                                 duration: Toast
