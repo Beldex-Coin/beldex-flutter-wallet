@@ -114,8 +114,10 @@ void main() async {
         walletService: walletService,
         sharedPreferences: sharedPreferences);
     final userService = UserService(
-        sharedPreferences: sharedPreferences, secureStorage: secureStorage);
+        sharedPreferences: sharedPreferences, secureStorage: secureStorage, walletInfoSource: walletInfoSource);
     final authenticationStore = AuthenticationStore(userService: userService);
+
+    await userService.migrateSecretsToV2();
 
     await initialSetup(
         sharedPreferences: sharedPreferences,
@@ -173,6 +175,9 @@ void main() async {
       Provider(create: (_) => contacts),
       Provider(create: (_) => nodes),
       Provider(create: (_) => transactionDescriptions),
+      Provider<Box<WalletInfo>>(
+        create: (_) => walletInfoSource,
+      ),
       Provider(create: (_) => seedLanguageStore),
       ChangeNotifierProvider(create: (_) => NetworkProvider()),
       Provider(create: (_) => sendStore),
@@ -408,6 +413,7 @@ class MaterialAppWithTheme extends StatelessWidget {
     final nodes = Provider.of<Box<Node>>(context);
     final transactionDescriptions =
         Provider.of<Box<TransactionDescription>>(context);
+    final walletInfoSource = Provider.of<Box<WalletInfo>>(context);
 
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
@@ -451,7 +457,8 @@ class MaterialAppWithTheme extends StatelessWidget {
           settingsStore: settingsStore,
           contacts: contacts,
           nodes: nodes,
-          transactionDescriptions: transactionDescriptions),
+          transactionDescriptions: transactionDescriptions,
+          walletInfoSource: walletInfoSource),
       home: UpgradeAlert(
           showLater: false,
           showIgnore: false,

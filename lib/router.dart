@@ -26,6 +26,7 @@ import 'package:beldex_wallet/src/bns/bns_renewal_change_notifier.dart';
 import 'package:beldex_wallet/src/bns/bns_update.dart';
 import 'package:beldex_wallet/src/bns/bns_update_change_notifier.dart';
 import 'package:beldex_wallet/src/bns/buy_bns_change_notifier.dart';
+import 'package:beldex_wallet/src/wallet/wallet_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -120,7 +121,8 @@ class Router {
       required SettingsStore settingsStore,
       required Box<Contact> contacts,
       required Box<Node> nodes,
-      required Box<TransactionDescription> transactionDescriptions}) {
+      required Box<TransactionDescription> transactionDescriptions,
+      required Box<WalletInfo> walletInfoSource}) {
     switch (settings.name) {
       case Routes.welcome:
         return MaterialPageRoute<void>(builder: (_) => WelcomePage());
@@ -135,7 +137,8 @@ class Router {
                   secureStorage: FlutterSecureStorage(aOptions: AndroidOptions(
                     encryptedSharedPreferences: true,
                   ),),
-                  sharedPreferences: sharedPreferences)),),
+                  sharedPreferences: sharedPreferences,
+                  walletInfoSource: walletInfoSource)),),
               Provider(
                 create: (_) => AuthStore(
                     sharedPreferences: sharedPreferences,
@@ -182,7 +185,8 @@ class Router {
                         secureStorage: FlutterSecureStorage(aOptions: AndroidOptions(
                           encryptedSharedPreferences: true,
                         ),),
-                        sharedPreferences: sharedPreferences)),
+                        sharedPreferences: sharedPreferences,
+                        walletInfoSource: walletInfoSource)),
               ),
               Provider(
                 create: (_) => AuthStore(
@@ -215,7 +219,8 @@ class Router {
                   secureStorage: FlutterSecureStorage(aOptions: AndroidOptions(
                     encryptedSharedPreferences: true,
                   ),),
-                  sharedPreferences: sharedPreferences)),),
+                  sharedPreferences: sharedPreferences,
+                  walletInfoSource: walletInfoSource)),),
               Provider(
                 create: (_) => AuthStore(
                     sharedPreferences: sharedPreferences,
