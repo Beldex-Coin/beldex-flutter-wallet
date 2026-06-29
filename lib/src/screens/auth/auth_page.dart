@@ -35,22 +35,127 @@ class AuthPageState extends State<AuthPage> {
 
   void close() => Navigator.of(_key.currentContext!).pop();
 
-  //
   void refresh() {
     setState(() {});
   }
 
-  bool isBiometric = false;
+  ReactionDisposer? _authReaction;
+
+  bool _biometricStarted = false;
 
   @override
   void initState() {
     super.initState();
+    _setupAuthReaction();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _authenticateBiometric();
+    });
   }
-
 
   @override
   void dispose() {
+    _authReaction?.call();
     super.dispose();
+  }
+
+  Future<void> _authenticateBiometric() async {
+    if (_biometricStarted) return;
+
+    _biometricStarted = true;
+
+    final settingsStore = Provider.of<SettingsStore>(context, listen: false);
+
+    final authStore = Provider.of<AuthStore>(context, listen: false);
+
+    if (!Platform.isAndroid ||
+        !settingsStore.allowBiometricAuthentication) {
+      return;
+    }
+
+    try {
+      final biometricAuth = BiometricAuth();
+
+      final isAuth = await biometricAuth.isAuthenticated(tr(context));
+
+      if (!mounted) return;
+
+      if (isAuth) {
+        authStore.biometricAuth(tr(context));
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(tr(context).authenticated),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      print('Biometric authentication error: $e');
+    }
+  }
+
+  void _setupAuthReaction() {
+    final authStore = Provider.of<AuthStore>(context, listen: false);
+
+    _authReaction = reaction<AuthState>(
+          (_) => authStore.state,
+          (state) {
+        if (!mounted) return;
+
+        if (state is AuthenticatedSuccessfully) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) return;
+
+            if (widget.onAuthenticationFinished != null) {
+              widget.onAuthenticationFinished!(true, this);
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(tr(context).authenticated),
+                  backgroundColor: Colors.green,
+                ),
+              );
+            }
+          });
+        } else if (state is AuthenticationFailure) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) return;
+
+            _pinCodeKey.currentState?.clear();
+
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content:
+                Text(tr(context).failed_authentication(state.error)),
+                backgroundColor: Colors.red,
+              ),
+            );
+
+            widget.onAuthenticationFinished?.call(false, this);
+          });
+        } else if (state is AuthenticationBanned) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) return;
+
+            _pinCodeKey.currentState?.clear();
+
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content:
+                Text(tr(context).failed_authentication(state.error)),
+                backgroundColor: Colors.red,
+              ),
+            );
+
+            widget.onAuthenticationFinished?.call(false, this);
+          });
+        }
+      },
+    );
   }
 
 
@@ -58,72 +163,6 @@ class AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     final authStore = Provider.of<AuthStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-
-    if(Platform.isAndroid) {
-      if (settingsStore.allowBiometricAuthentication) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          final biometricAuth = BiometricAuth();
-          biometricAuth.isAuthenticated(tr(context)).then((isAuth) {
-            if (isAuth) {
-              authStore.biometricAuth(tr(context));
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(tr(context)
-                      .authenticated),
-                  backgroundColor: Colors.green,
-                ),
-              );
-            }
-          });
-        });
-      }
-    }
-    reaction((_) => authStore.state, (AuthState state) {
-      if (state is AuthenticatedSuccessfully) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (widget.onAuthenticationFinished != null) {
-            widget.onAuthenticationFinished!(true, this);
-          } else {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(tr(context).authenticated),
-                backgroundColor: Colors.green,
-              ),
-            );
-          }
-        });
-      }else if (state is AuthenticationFailure) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _pinCodeKey.currentState?.clear();
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(tr(context).failed_authentication(state.error)),
-              backgroundColor: Colors.red,
-            ),
-          );
-
-          if (widget.onAuthenticationFinished != null) {
-            widget.onAuthenticationFinished!(false, this);
-          }
-        });
-      } else if (state is AuthenticationBanned) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          _pinCodeKey.currentState?.clear();
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(tr(context).failed_authentication(state.error)),
-              backgroundColor: Colors.red,
-            ),
-          );
-
-          if (widget.onAuthenticationFinished != null) {
-            widget.onAuthenticationFinished!(false, this);
-          }
-        });
-      }
-    });
 
     return Scaffold(
         key: _key,
@@ -150,8 +189,8 @@ class AuthPageState extends State<AuthPage> {
             ),
           )
               : SizedBox(
-                  width: 0,
-                ),
+            width: 0,
+          ),
           title: Padding(
             padding: EdgeInsets.only(top: 20, bottom: 5),
             child: Text(

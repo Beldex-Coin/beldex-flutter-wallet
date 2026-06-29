@@ -80,9 +80,10 @@ android/app/.cxx/
 android/app/.externalNativeBuild/
 
 # Generated dart files
-#**/*.g.dart
+**/*.g.dart
 
 android/key.properties
 
 **/tool/.secrets-prod.json
-#**/lib/.secrets.g.dart
+**/lib/.secrets.g.dart
+**/lib/src/swap/apiKeys.dart

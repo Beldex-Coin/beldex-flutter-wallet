@@ -31,11 +31,11 @@ class GetCurrenciesFullApiService {
     print('url --> $url');
     final headers = {'Content-type': 'application/json'};
     final body = json.encode(requestBody);
-    print('json body --> $body');
+    //print('json body --> $body');
     final response = await http.post(url, headers: headers, body: body);
     resultBody = json.decode(response.body) as Map<String, dynamic>;
 
-    print('signature data from json --> $resultBody');
+    //print('signature data from json --> $resultBody');
     return resultBody;
   }
 
@@ -60,7 +60,7 @@ class GetCurrenciesFullApiService {
         final resultBody = json.decode(response.body);
         data = GetCurrenciesFullModel.fromJson(resultBody);
 
-        print('get currencies data from json --> $resultBody');
+        //print('get currencies data from json --> $resultBody');
       } else {
         print('Error Occurred');
       }

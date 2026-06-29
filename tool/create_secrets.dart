@@ -13,7 +13,7 @@ Future<void> main() async {
       : secretsTestPath;
 
   const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-  final _rnd = Random();
+  final _rnd = Random.secure();
 
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
@@ -21,10 +21,10 @@ Future<void> main() async {
   await File(inputPath).writeAsString(
       jsonEncode(
           {
-            'salt': getRandomString(32),
-            'key': getRandomString(32),
-            'walletSalt': getRandomString(8),
-            'shortKey': getRandomString(24)
+            'salt_v2': getRandomString(32),
+            'key_v2': getRandomString(32),
+            'walletSalt_v2': getRandomString(8),
+            'shortKey_v2': getRandomString(24)
           }
       )
   );

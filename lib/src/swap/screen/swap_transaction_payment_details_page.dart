@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
 import '../../stores/sync/sync_store.dart';
+import '../../util/clipboard_helper.dart';
 import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
 import '../dialog/show_qr_code_dialog.dart';
@@ -455,9 +456,8 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                       width: 5,
                     ),
                     InkWell(
-                      onTap: (){
-                        Clipboard.setData(ClipboardData(
-                            text: createdTransactionDetails!.id.toString()));
+                      onTap: () async {
+                        await ClipboardHelper.copyWithAutoClear(createdTransactionDetails!.id.toString());
                         Toast.show(
                           tr(context).copied,
                           duration: Toast
@@ -576,9 +576,8 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     InkWell(
-                        onTap: () {
-                          Clipboard.setData(ClipboardData(
-                              text: createdTransactionDetails!.payinAddress.toString()));
+                        onTap: () async {
+                          await ClipboardHelper.copyWithAutoClear(createdTransactionDetails!.payinAddress.toString());
                           Toast.show(
                             tr(context).copied,
                             duration: Toast

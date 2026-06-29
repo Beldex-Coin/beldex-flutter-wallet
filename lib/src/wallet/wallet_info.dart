@@ -16,6 +16,8 @@ class WalletInfo extends HiveObject {
 
   static const boxName = 'WalletInfo';
 
+  static const boxNameV2 = "WalletInfo_V2";
+
   @HiveField(0)
   String id;
 

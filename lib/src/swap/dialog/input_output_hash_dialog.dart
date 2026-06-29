@@ -8,6 +8,7 @@ import 'package:toast/toast.dart';
 
 import '../../../l10n.dart';
 import '../../stores/settings/settings_store.dart';
+import '../../util/clipboard_helper.dart';
 import '../../widgets/primary_button.dart';
 
 Future showInputOutputDialog(BuildContext context, String inputHash, String outputHash,
@@ -81,9 +82,8 @@ class InputOutputDialog extends StatelessWidget {
                                                   decoration: TextDecoration.none,
                                                   color: settingsStore.isDarkTheme ? Color(0xFFAFAFBE) : Color(0xFF77778B))),
                                           InkWell(
-                                            onTap: () {
-                                              Clipboard.setData(ClipboardData(
-                                                  text: inputHash));
+                                            onTap: () async {
+                                              await ClipboardHelper.copyWithAutoClear(inputHash);
                                               Toast.show(
                                                 tr(context).copied,
                                                 duration: Toast
@@ -131,9 +131,8 @@ class InputOutputDialog extends StatelessWidget {
                                                   decoration: TextDecoration.none,
                                                   color: settingsStore.isDarkTheme ? Color(0xFFAFAFBE) : Color(0xFF77778B))),
                                           InkWell(
-                                            onTap: () {
-                                              Clipboard.setData(ClipboardData(
-                                                  text: outputHash));
+                                            onTap: () async {
+                                              await ClipboardHelper.copyWithAutoClear(outputHash);
                                               Toast.show(
                                                 tr(context).copied,
                                                 duration: Toast

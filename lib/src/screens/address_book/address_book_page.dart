@@ -14,6 +14,7 @@ import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import '../../domain/common/contact.dart';
+import '../../util/clipboard_helper.dart';
 
 class AddressBookPage extends BasePage {
   AddressBookPage({this.isEditable = true});
@@ -247,9 +248,8 @@ class AddressBookPage extends BasePage {
                                                 color: settingsStore.isDarkTheme
                                                     ? Color(0xffffffff)
                                                     : Color(0xff16161D)),
-                                            onPressed: () {
-                                              Clipboard.setData(ClipboardData(
-                                                  text: contact.address));
+                                            onPressed: () async {
+                                              await ClipboardHelper.copyWithAutoClear(contact.address);
                                               Toast.show(
                                                 'Address ${tr(context).copied}',
                                                 duration: Toast.lengthShort,

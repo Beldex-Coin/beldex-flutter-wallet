@@ -110,7 +110,7 @@ class WalletListService {
 
   Future openWallet(String name) async {
     if (walletService.currentWallet != null) {
-      print('if it is current wallet ${walletService.currentWallet}');
+      //print('if it is current wallet ${walletService.currentWallet}');
       //await walletService.currentWallet.close();
       await walletService.close();
       print('after close the wallet service of current wallet');
@@ -142,9 +142,9 @@ class WalletListService {
       //if(walletService.currentWallet == null){
         print('inside onWalletChange ---->');
         walletService.currentWallet = wallet;
-        print('the current wallet is ${walletService.currentWallet}');
+        //print('the current wallet is ${walletService.currentWallet}');
         final walletName = await wallet.getName();
-        print('the name of wallet is $walletName');
+        //print('the name of wallet is $walletName');
         if(walletName!=null) {
           await sharedPreferences.setString('current_wallet_name', walletName);
         }
@@ -155,7 +155,6 @@ class WalletListService {
           await sharedPreferences.setString('currentSubAddress', subAddresses[0].label ?? '');
           await sharedPreferences.setString('currentAddress', subAddresses[0].address ?? '');
         }
-        print('-------');
       //}
 
     }catch(e){
@@ -172,7 +171,24 @@ class WalletListService {
         key: SecretStoreKey.moneroWalletPassword, walletName: walletName);
     final encodedPassword = await secureStorage.read(key: key);
 
-    return decodeWalletPassword(password: encodedPassword!);
+    if (encodedPassword == null) {
+      throw Exception('Wallet password not found');
+    }
+
+    final decodePassword = decodeWalletPassword(
+      password: encodedPassword,
+    );
+
+    if (decodePassword.needsMigration) {
+      await secureStorage.write(
+        key: key,
+        value: encodeWalletPassword(
+          password: decodePassword.value,
+        ),
+      );
+    }
+
+    return decodePassword.value;
   }
 
   Future saveWalletPassword({required String walletName, required String password}) async {

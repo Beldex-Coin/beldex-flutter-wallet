@@ -1,7 +1,7 @@
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:beldex_coin/subaddress_list.dart' as subaddress_list;
-import 'package:beldex_wallet/src/wallet/beldex/subaddress.dart';
+import 'package:beldex_wallet/src/wallet/beldex/subAddress.dart';
 
 class SubaddressList {
   SubaddressList() :

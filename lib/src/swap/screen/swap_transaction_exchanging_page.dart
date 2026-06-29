@@ -14,6 +14,7 @@ import 'package:toast/toast.dart';
 
 import '../../../palette.dart';
 import '../../../routes.dart';
+import '../../util/clipboard_helper.dart';
 import '../../util/constants.dart';
 import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
@@ -707,9 +708,8 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                               width: 5,
                             ),
                             InkWell(
-                              onTap: (){
-                                Clipboard.setData(ClipboardData(
-                                    text: transactionDetails.id.toString()));
+                              onTap: () async {
+                                await ClipboardHelper.copyWithAutoClear(transactionDetails.id.toString());
                                 Toast.show(
                                   tr(context).copied,
                                   duration: Toast

@@ -15,6 +15,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
+import '../../util/clipboard_helper.dart';
 import '../../widgets/no_internet.dart';
 import '../api_client/get_status_api_client.dart';
 import '../dialog/input_output_hash_dialog.dart';
@@ -285,9 +286,8 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                               width: 5,
                             ),
                             InkWell(
-                              onTap: () {
-                                Clipboard.setData(ClipboardData(
-                                    text: transactionModel.result![0].id!));
+                              onTap: () async {
+                                await ClipboardHelper.copyWithAutoClear(transactionModel.result![0].id!);
                                 Toast.show(
                                   tr(context).copied,
                                   duration: Toast

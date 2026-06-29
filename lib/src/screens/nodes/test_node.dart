@@ -26,7 +26,7 @@ class NodeForTest {
       final headers = {'Content-type': 'application/json'};
       final body = json.encode(requestBody);
 
-      final response = await http.post(url, body: body).timeout(
+      final response = await http.post(url, headers: headers, body: body).timeout(
         const Duration(seconds: 1),
         onTimeout: () {
           // Time has run out, do what you wanted to do.
