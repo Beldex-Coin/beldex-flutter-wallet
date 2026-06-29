@@ -6,7 +6,6 @@ import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority
 import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
-import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 import 'package:beldex_wallet/src/domain/common/openalias_record.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
@@ -17,6 +16,7 @@ import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_stake_transac
 import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_description.dart';
 import 'package:beldex_wallet/src/wallet/transaction/pending_transaction.dart';
+import '../../../l10n/app_localizations.dart';
 
 part 'send_store.g.dart';
 
@@ -95,17 +95,10 @@ abstract class SendStoreBase with Store {
           amount: _amount!,
           priority: tPriority ?? settingsStore.transactionPriority);
 
-      print('createTransaction address--> $address');
-      print('createTransaction amount--> $_amount');
-      print('createTransaction priority --> ${settingsStore.transactionPriority}');
-      print('createTransaction --> ${credentials.address}, ${credentials.amount}, ${credentials.priority}');
-
       _pendingTransaction = await walletService.createTransaction(credentials);
-      print('createTransaction _pendingTransaction --> ${_pendingTransaction?.amount}, ${_pendingTransaction?.fee}');
       state = TransactionCreatedSuccessfully();
       print('createTransaction state try --> $state');
       _lastRecipientAddress = address;
-      print('createTransaction _lastRecipientAddress $_lastRecipientAddress');
     } catch (e) {
       state = SendingFailed(error: e.toString());
       print('createTransaction state catch --> $state');
@@ -132,7 +125,6 @@ abstract class SendStoreBase with Store {
       state = TransactionCreatedSuccessfully();
       print('createBnsTransaction state try --> $state');
       _lastRecipientAddress = bnsName;
-      print('createBnsTransaction _lastRecipientAddress $_lastRecipientAddress');
     } catch (e) {
       state = SendingFailed(error: e.toString());
       print('createBnsTransaction state catch --> $state');
@@ -158,7 +150,6 @@ abstract class SendStoreBase with Store {
       state = TransactionCreatedSuccessfully();
       print('createBnsUpdateTransaction state try --> $state');
       _lastRecipientAddress = bnsName;
-      print('createBnsUpdateTransaction _lastRecipientAddress $_lastRecipientAddress');
     } catch (e) {
       state = SendingFailed(error: e.toString());
       print('createBnsUpdateTransaction state catch --> $state');
@@ -179,7 +170,6 @@ abstract class SendStoreBase with Store {
       state = TransactionCreatedSuccessfully();
       print('createBnsRenewalTransaction state try --> $state');
       _lastRecipientAddress = bnsName;
-      print('createBnsRenewalTransaction _lastRecipientAddress $_lastRecipientAddress');
     } catch (e) {
       state = SendingFailed(error: e.toString());
       print('createBnsRenewalTransaction state catch --> $state');

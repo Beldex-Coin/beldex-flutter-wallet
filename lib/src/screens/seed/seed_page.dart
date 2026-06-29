@@ -1,5 +1,6 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
+import 'package:flutter_windowmanager_plus/flutter_windowmanager_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet_seed/wallet_seed_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:toast/toast.dart';
+
+import '../../util/clipboard_helper.dart';
 
 class SeedPage extends BasePage {
   SeedPage({required this.onCloseCallback,required this.showSeed});
@@ -62,11 +65,19 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FlutterWindowManagerPlus.addFlags(
+        FlutterWindowManagerPlus.FLAG_SECURE,
+      );
+    });
   }
 
   @override
   void dispose() {
     isCopied = false;
+    FlutterWindowManagerPlus.clearFlags(
+      FlutterWindowManagerPlus.FLAG_SECURE,
+    );
     super.dispose();
   }
 
@@ -204,16 +215,11 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                             flex: 2,
                                             child: ElevatedButton(
                                                 onPressed: !isCopied
-                                                    ? () {
+                                                    ? () async {
                                                         setState(() {
                                                           isCopied = true;
                                                         });
-                                                        print(
-                                                            ' copied value $isCopied');
-                                                        Clipboard.setData(
-                                                            ClipboardData(
-                                                                text:
-                                                                    _seed));
+                                                        await ClipboardHelper.copyWithAutoClear(_seed);
                                                         Toast.show(
                                                           tr(context)
                                                               .copied,
@@ -328,16 +334,11 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                           Expanded(
                                             flex: 2,
                                             child: ElevatedButton(
-                                              onPressed: () {
+                                              onPressed: () async {
                                                 setState(() {
                                                   isCopied = true;
                                                 });
-
-                                                print(
-                                                    ' copied value $isCopied');
-                                                Clipboard.setData(
-                                                    ClipboardData(
-                                                        text: _seed));
+                                                await ClipboardHelper.copyWithAutoClear(_seed);
                                                 Toast.show(
                                                   tr(context).copied,
                                                   duration:

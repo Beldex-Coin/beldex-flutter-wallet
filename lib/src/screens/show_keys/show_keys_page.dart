@@ -1,4 +1,5 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:flutter_windowmanager_plus/flutter_windowmanager_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,8 +9,7 @@ import 'package:beldex_wallet/src/stores/wallet/wallet_keys_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:toast/toast.dart';
 import '../../../l10n.dart';
-
-import '../../../l10n.dart';
+import '../../util/clipboard_helper.dart';
 
 class ShowKeysPage extends BasePage {
   @override
@@ -28,15 +28,43 @@ class ShowKeysPage extends BasePage {
     return leadingIcon(context);
   }
 
-// void setPageSecure()async{
-//    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
-// }
-
   @override
   Widget body(BuildContext context) {
+    return KeysDisplayWidget();
+  }
+}
+
+class KeysDisplayWidget extends StatefulWidget {
+  KeysDisplayWidget({Key? key}) : super(key: key);
+
+  @override
+  State<KeysDisplayWidget> createState() => _KeysDisplayWidgetState();
+}
+
+class _KeysDisplayWidgetState extends State<KeysDisplayWidget> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FlutterWindowManagerPlus.addFlags(
+        FlutterWindowManagerPlus.FLAG_SECURE,
+      );
+    });
+  }
+
+  @override
+  void dispose() {
+    FlutterWindowManagerPlus.clearFlags(
+      FlutterWindowManagerPlus.FLAG_SECURE,
+    );
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final walletKeysStore = Provider.of<WalletKeysStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    //setPageSecure();
     ToastContext().init(context);
     return Container(
         padding: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 5, right: 5),
@@ -63,9 +91,8 @@ class ShowKeysPage extends BasePage {
                   return ListTile(
                       contentPadding: EdgeInsets.only(
                           top: 10, bottom: 10, left: 10, right: 10),
-                      // onTap: () {
-                      //   Clipboard.setData(ClipboardData(
-                      //       text: keysMap.values.elementAt(index)));
+                      // onTap: () async {
+                      //   await ClipboardHelper.copyWithAutoClear(keysMap.values.elementAt(index));
                       //   Scaffold.of(context).showSnackBar(SnackBar(
                       //     content: Text(
                       //       S.of(context).copied_key_to_clipboard(key),
@@ -83,9 +110,8 @@ class ShowKeysPage extends BasePage {
                               style: TextStyle(
                                   fontSize: 18.0, fontWeight: FontWeight.w800)),
                           InkWell(
-                            onTap: () {
-                              Clipboard.setData(ClipboardData(
-                                  text: keysMap.values.elementAt(index)));
+                            onTap: () async {
+                              await ClipboardHelper.copyWithAutoClear(keysMap.values.elementAt(index));
                               Toast.show(
                                 tr(context).copied,
                                 duration: Toast

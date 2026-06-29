@@ -84,7 +84,7 @@ class Themes {
     ),
     cardColor: Palette.cardBackgroundColor,
     //cardColor: Palette.lavender,
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: Palette.cardColor,
       shadowColor: Palette.cardButtonColor,
       //color: Palette.cadetBlue
@@ -181,7 +181,7 @@ class Themes {
     ),
     cardColor: PaletteDark.cardBackgroundColor,
     //cardColor: PaletteDark.darkThemeMidGrey,
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: PaletteDark.cardColor,
       shadowColor: PaletteDark.cardButtonColor,
       //color: PaletteDark.darkThemeGrey

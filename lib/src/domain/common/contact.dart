@@ -8,6 +8,8 @@ class Contact extends HiveObject {
 
   static const boxName = 'Contacts';
 
+  static const boxNameV2 = 'Contacts_V2';
+
   @HiveField(0)
   String name;
 

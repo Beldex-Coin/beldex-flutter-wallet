@@ -24,6 +24,8 @@ import 'dart:ui' as ui;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../util/clipboard_helper.dart';
+
 String currentSubAddress = '';
 
 class ReceivePage extends BasePage {
@@ -215,9 +217,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () {
-                                    Clipboard.setData(ClipboardData(
-                                        text: walletStore.subaddress.address));
+                                  onTap: () async {
+                                    await ClipboardHelper.copyWithAutoClear(walletStore.subaddress.address);
                                     Toast.show(
                                       tr(context).copied,
                                       duration: Toast.lengthShort,
@@ -523,9 +524,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () {
-                                  Clipboard.setData(ClipboardData(
-                                      text: receivePageChangeNotifier.currentAddress));
+                                onTap: () async {
+                                  await ClipboardHelper.copyWithAutoClear(receivePageChangeNotifier.currentAddress);
                                   Toast.show(
                                     tr(context).copied,
                                     duration: Toast.lengthShort,

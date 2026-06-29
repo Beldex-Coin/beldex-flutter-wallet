@@ -9,6 +9,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
+import '../../util/clipboard_helper.dart';
+
 class TransactionRow extends StatelessWidget {
   TransactionRow({
     required this.direction,
@@ -195,9 +197,8 @@ class TransactionRow extends StatelessWidget {
                                       ),
                                     )),
                                     InkWell(
-                                      onTap: () {
-                                        Clipboard.setData(ClipboardData(
-                                            text: transaction.id));
+                                      onTap: () async {
+                                        await ClipboardHelper.copyWithAutoClear(transaction.id);
                                         Toast.show(
                                           tr(context).copied,
                                           duration: Toast
@@ -261,9 +262,8 @@ class TransactionRow extends StatelessWidget {
                                             ),
                                           )),
                                       InkWell(
-                                        onTap: () {
-                                          Clipboard.setData(ClipboardData(
-                                              text: paymentId));
+                                        onTap: () async {
+                                          await ClipboardHelper.copyWithAutoClear(paymentId);
                                           Toast.show(
                                             tr(context).copied,
                                             duration: Toast
@@ -419,10 +419,8 @@ class TransactionRow extends StatelessWidget {
                                             ),
                                           )),
                                           InkWell(
-                                            onTap: () {
-                                              Clipboard.setData(ClipboardData(
-                                                  text: transaction
-                                                      .recipientAddress!));
+                                            onTap: () async {
+                                              await ClipboardHelper.copyWithAutoClear(transaction.recipientAddress!);
                                               Toast.show(
                                                 tr(context).copied,
                                                 duration: Toast

@@ -10,6 +10,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
+import '../../util/clipboard_helper.dart';
 import '../../util/network_provider.dart';
 import '../api_client/get_status_api_client.dart';
 import '../util/data_class.dart';
@@ -258,9 +259,8 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                               width: 5,
                             ),
                             InkWell(
-                              onTap: () {
-                                Clipboard.setData(ClipboardData(
-                                    text: transactionStatus.transactionModel!.id!));
+                              onTap: () async {
+                                await ClipboardHelper.copyWithAutoClear(transactionStatus.transactionModel!.id!);
                                 Toast.show(
                                   tr(context).copied,
                                   duration: Toast

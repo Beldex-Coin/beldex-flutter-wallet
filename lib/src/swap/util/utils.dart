@@ -100,10 +100,9 @@ Future<void> storeTransactionIds(String fileName, String key, dynamic transactio
     }
     // Encode the updated data back to JSON
     final updatedJsonString = jsonEncode(data);
-    print(updatedJsonString);
     // Write back to file
     await file.writeAsString(updatedJsonString);
-    print('Transaction id added successfully to "$key" in $fileName');
+    print('Transaction id added successfully');
   } catch (e) {
     print('Error adding value to JSON: $e');
   }
@@ -132,7 +131,7 @@ Future<List<String>> getTransactionIds(String fileName, String key) async {
       final List<String> array = (data[key] as List).cast<String>();
       return array;
     } else {
-      print("Key '$key' not found or is not a list.");
+      print("Key not found or is not a list.");
       return [];
     }
   } catch (e) {

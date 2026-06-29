@@ -12,6 +12,8 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:toast/toast.dart';
 import 'package:intl/intl.dart';
 
+import '../../util/clipboard_helper.dart';
+
 class TransactionDetailsPage extends BasePage {
   TransactionDetailsPage({required this.transactionInfo});
 
@@ -95,7 +97,7 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
                 if (index == 0) {
                   await openUrl(methodChannelPlatform: methodChannelPlatform, url: 'https://explorer.beldex.io/tx/${item.value}');
                 } else {
-                  Clipboard.setData(ClipboardData(text: item.value));
+                  await ClipboardHelper.copyWithAutoClear(item.value);
                   Toast.show(
                     tr(context).transaction_details_copied(item.title),
                     duration: Toast.lengthShort,
