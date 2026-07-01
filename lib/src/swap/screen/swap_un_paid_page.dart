@@ -260,7 +260,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
                             ),
                             InkWell(
                               onTap: () async {
-                                await ClipboardHelper.copyWithAutoClear(transactionStatus.transactionModel.id!);
+                                await ClipboardHelper.copyWithAutoClear(transactionStatus.transactionModel.result!.id!);
                                 Toast.show(
                                   tr(context).copied,
                                   duration: Toast

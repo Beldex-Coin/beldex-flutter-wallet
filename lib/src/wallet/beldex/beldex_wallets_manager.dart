@@ -19,10 +19,7 @@ Future<String> pathForWallet({required String name}) async {
   final dir = Directory(pathDir);
 
   if (!await dir.exists()) {
-    print('Wallet Directory --> $pathDir');
-    print('Wallet Directory --> ${dir.path}, ${dir.uri}');
     await dir.create();
-
   }
 
   return pathDir + '/$name';
@@ -125,7 +122,7 @@ class BeldexWalletsManager extends WalletsManager {
 
   @override
   Future<Wallet> openWallet(String name, String password) async {
-    print('opening a Wallet with nettype $nettype');
+    debugPrint('opening a Wallet with nettype $nettype');
     try {
       final path = await pathForWallet(name: name);
       beldex_wallet_manager.openWallet(path: path, password: password, nettype: nettype);
@@ -159,8 +156,6 @@ class BeldexWalletsManager extends WalletsManager {
     final walletFile = File(walletFilePath);
     final keyFile = File(keyPath);
     final addressFile = File(addressFilePath);
-     print('dir on remove ----> ${dir.path} ---> dir $dir');
-    print('walletFilePath on remove ----> $walletFilePath');
     if (await walletFile.exists()) {
       await walletFile.delete();
       print('wallet file deleted ');
