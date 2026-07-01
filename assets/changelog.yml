@@ -131,3 +131,7 @@
   changes:
     - Hardfork support
     - Minor bug fixes
+-
+  version: 2.3.1
+  changes:
+    - Minor bug fixes
