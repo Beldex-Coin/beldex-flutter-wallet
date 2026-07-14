@@ -61,7 +61,6 @@ class Node extends HiveObject {
         return null;
       }
 
-      print('node data from json --> $uri');
       return decoded;
 
     } on SocketException catch (e) {
