@@ -198,4 +198,49 @@ class WalletListService {
 
     await secureStorage.write(key: key, value: encodedPassword);
   }
+
+  Future<void> removeCorruptedWallets() async {
+    final wallets = walletInfoSource.values.toList();
+
+    for (final info in wallets) {
+      try {
+        await getWalletPassword(walletName: info.name);
+      } catch (e) {
+        if (e.toString().contains('Wallet password not found')) {
+          debugPrint("Removing wallet ${info.name}");
+          await _deleteCorruptedWallet(info);
+        } else {
+          debugPrint(
+            "Unexpected error checking ${info.name}: $e",
+          );
+        }
+      }
+    }
+  }
+
+  Future<void> _deleteCorruptedWallet(WalletInfo info) async {
+    try {
+      await walletsManager?.remove(
+        WalletDescription(
+          name: info.name,
+          type: info.type,
+        ),
+      );
+    } catch (e) {
+      debugPrint("walletManager.remove failed: $e");
+    }
+
+    // Always remove Hive record
+    if (info.isInBox) {
+      await info.delete();
+    }
+
+    // Remove password
+    final key = generateStoreKeyFor(
+      key: SecretStoreKey.moneroWalletPassword,
+      walletName: info.name,
+    );
+
+    await secureStorage.delete(key: key);
+  }
 }

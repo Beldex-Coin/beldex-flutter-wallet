@@ -23,6 +23,7 @@ class UserService {
       await secureStorage.write(key: key, value: encodedPassword);
     } catch (e) {
       debugPrint('Failed to save PIN: $e');
+      rethrow;
     }
   }
 

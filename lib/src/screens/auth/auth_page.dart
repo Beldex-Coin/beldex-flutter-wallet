@@ -89,8 +89,8 @@ class AuthPageState extends State<AuthPage> {
           ),
         );
       }
-    } catch (e) {
-      print('Biometric authentication error: $e');
+    } catch (_) {
+      // User can still authenticate with PIN; avoid logging auth-flow details.
     }
   }
 

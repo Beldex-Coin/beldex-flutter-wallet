@@ -80,6 +80,14 @@ void main() async {
     final migrated =
         sharedPreferences.getBool('encrypted_hive_migration_v1') ?? false;
 
+    final cleanupDone =
+        sharedPreferences.getBool('encrypted_hive_cleanup_v1') ?? false;
+
+    const walletCleanupVersion = 1;
+
+    final cleanedVersion =
+        sharedPreferences.getInt('wallet_cleanup_version') ?? 0;
+
     if (!migrated) {
       await migrateContactsBox(contactsBoxKey);
       await migrateNodesBox(nodesBoxKey);
@@ -89,6 +97,50 @@ void main() async {
         'encrypted_hive_migration_v1',
         true,
       );
+    }
+
+    if (!cleanupDone) {
+      final contactsDeleted = await deleteOldBox<Contact>(
+        oldBoxName: Contact.boxName,
+        newBoxName: Contact.boxNameV2,
+        encryptionKey: contactsBoxKey,
+        areEqual: (oldValue, newValue) {
+          return oldValue.name == newValue.name &&
+              oldValue.address == newValue.address &&
+              oldValue.raw == newValue.raw;
+        },
+      );
+      final nodesDeleted = await deleteOldBox<Node>(
+        oldBoxName: Node.boxName,
+        newBoxName: Node.boxNameV2,
+        encryptionKey: nodesBoxKey,
+        areEqual: (oldValue, newValue) {
+          return oldValue.uri == newValue.uri &&
+              oldValue.login == newValue.login &&
+              oldValue.password == newValue.password;
+        },
+      );
+      final walletsDeleted = await deleteOldBox<WalletInfo>(
+        oldBoxName: WalletInfo.boxName,
+        newBoxName: WalletInfo.boxNameV2,
+        encryptionKey: walletInfoBoxKey,
+        areEqual: (oldValue, newValue) {
+          return oldValue.id == newValue.id &&
+              oldValue.name == newValue.name &&
+              oldValue.type == newValue.type &&
+              oldValue.isRecovery == newValue.isRecovery &&
+              oldValue.restoreHeight == newValue.restoreHeight &&
+              oldValue.timestamp == newValue.timestamp &&
+              oldValue.hasTestnet == newValue.hasTestnet;
+        },
+      );
+
+      if (contactsDeleted && nodesDeleted && walletsDeleted) {
+        await sharedPreferences.setBool(
+          'encrypted_hive_cleanup_v1',
+          true,
+        );
+      }
     }
 
     final contacts = await Hive.openBox<Contact>(
@@ -113,8 +165,23 @@ void main() async {
         walletInfoSource: walletInfoSource,
         walletService: walletService,
         sharedPreferences: sharedPreferences);
+
+    if (cleanedVersion < walletCleanupVersion) {
+      try {
+        await walletListService.removeCorruptedWallets();
+        await sharedPreferences.setInt(
+          'wallet_cleanup_version',
+          walletCleanupVersion,
+        );
+      } catch (e) {
+        debugPrint("Wallet cleanup failed: $e");
+      }
+    }
+
     final userService = UserService(
-        sharedPreferences: sharedPreferences, secureStorage: secureStorage, walletInfoSource: walletInfoSource);
+        sharedPreferences: sharedPreferences,
+        secureStorage: secureStorage,
+        walletInfoSource: walletInfoSource);
     final authenticationStore = AuthenticationStore(userService: userService);
 
     await userService.migrateSecretsToV2();
@@ -213,8 +280,8 @@ Future<void> migrateContactsBox(List<int> encryptionKey) async {
     encryptionCipher: HiveAesCipher(encryptionKey),
   );
 
-  if (newBox.isEmpty && oldBox.isNotEmpty) {
-    for (final key in oldBox.keys) {
+  for (final key in oldBox.keys) {
+    if (!newBox.containsKey(key)) {
       final oldContact = oldBox.get(key);
 
       if (oldContact != null) {
@@ -230,7 +297,9 @@ Future<void> migrateContactsBox(List<int> encryptionKey) async {
     }
   }
 
+  await newBox.flush();
   await oldBox.close();
+  await newBox.close();
 }
 
 Future<void> migrateNodesBox(List<int> encryptionKey) async {
@@ -241,8 +310,8 @@ Future<void> migrateNodesBox(List<int> encryptionKey) async {
     encryptionCipher: HiveAesCipher(encryptionKey),
   );
 
-  if (newBox.isEmpty && oldBox.isNotEmpty) {
-    for (final key in oldBox.keys) {
+  for (final key in oldBox.keys) {
+    if (!newBox.containsKey(key)) {
       final oldNode = oldBox.get(key);
 
       if (oldNode != null) {
@@ -258,7 +327,9 @@ Future<void> migrateNodesBox(List<int> encryptionKey) async {
     }
   }
 
+  await newBox.flush();
   await oldBox.close();
+  await newBox.close();
 }
 
 Future<void> migrateWalletInfoBox(List<int> encryptionKey) async {
@@ -269,28 +340,69 @@ Future<void> migrateWalletInfoBox(List<int> encryptionKey) async {
     encryptionCipher: HiveAesCipher(encryptionKey),
   );
 
-  if (newBox.isEmpty && oldBox.isNotEmpty) {
-    for (final key in oldBox.keys) {
+  for (final key in oldBox.keys) {
+    if (!newBox.containsKey(key)) {
       final oldNode = oldBox.get(key);
 
       if (oldNode != null) {
         await newBox.put(
           key,
           WalletInfo(
-            id: oldNode.id,
-            name: oldNode.name,
-            type: oldNode.type,
-            isRecovery: oldNode.isRecovery,
-            restoreHeight: oldNode.restoreHeight,
-            timestamp: oldNode.timestamp,
-            hasTestnet: oldNode.hasTestnet
-          ),
+              id: oldNode.id,
+              name: oldNode.name,
+              type: oldNode.type,
+              isRecovery: oldNode.isRecovery,
+              restoreHeight: oldNode.restoreHeight,
+              timestamp: oldNode.timestamp,
+              hasTestnet: oldNode.hasTestnet),
         );
       }
     }
   }
 
+  await newBox.flush();
   await oldBox.close();
+  await newBox.close();
+}
+
+Future<bool> deleteOldBox<T>({
+  required String oldBoxName,
+  required String newBoxName,
+  required List<int> encryptionKey,
+  required bool Function(T oldValue, T newValue) areEqual,
+}) async {
+  final oldBox = await Hive.openBox<T>(oldBoxName);
+
+  final newBox = await Hive.openBox<T>(
+    newBoxName,
+    encryptionCipher: HiveAesCipher(encryptionKey),
+  );
+
+  bool shouldDelete = oldBox.isEmpty;
+
+  if (!shouldDelete && oldBox.length == newBox.length) {
+    shouldDelete = true;
+    for (final key in oldBox.keys) {
+      final oldValue = oldBox.get(key);
+      final newValue = newBox.get(key);
+
+      if (oldValue == null ||
+          newValue == null ||
+          !areEqual(oldValue, newValue)) {
+        shouldDelete = false;
+        break;
+      }
+    }
+  }
+
+  await oldBox.close();
+  await newBox.close();
+
+  if (shouldDelete) {
+    await Hive.deleteBoxFromDisk(oldBoxName);
+  }
+
+  return shouldDelete;
 }
 
 Future<void> initialSetup(
