@@ -15,7 +15,7 @@ class CommitTransactionLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     WakelockPlus.enable();
     Future.delayed(const Duration(seconds: 1), () {
       sendStore.commitTransaction();

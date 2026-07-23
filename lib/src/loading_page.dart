@@ -18,7 +18,7 @@ class LoadingPage extends StatelessWidget{
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     ScreenSize.init(context);
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     WakelockPlus.enable();
     Future.delayed(const Duration(seconds: 1), () async {
       await walletListStore.loadWallet(wallet);

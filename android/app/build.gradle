@@ -29,20 +29,20 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 35
+    compileSdkVersion 36
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
-    lintOptions {
+    lint {
         disable 'InvalidPackage'
     }
 
     defaultConfig {
         applicationId "io.beldex.wallet"
-        minSdkVersion 23
-        targetSdkVersion 35
+        minSdkVersion 24
+        targetSdkVersion 36
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
 
@@ -87,7 +87,7 @@ android {
     namespace 'io.beldex.wallet'
 
     ndkVersion '27.0.12077973'
-    buildToolsVersion '35.0.0'
+    buildToolsVersion '36.0.0'
 }
 
 flutter {

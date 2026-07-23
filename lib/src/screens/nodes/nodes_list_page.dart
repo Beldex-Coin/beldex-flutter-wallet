@@ -28,7 +28,7 @@ class NodeListPage extends BasePage {
           icon: SvgPicture.asset(
             'assets/images/new-images/refresh.svg',
             fit: BoxFit.cover,
-            color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
             width: 20,
             height: 20,
           ),

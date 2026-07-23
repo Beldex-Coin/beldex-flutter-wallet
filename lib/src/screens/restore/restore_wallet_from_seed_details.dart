@@ -120,7 +120,7 @@ class _RestoreFromSeedDetailsFormState
                         style: TextStyle(
                             backgroundColor: Colors.transparent,
                             fontSize:
-                                MediaQuery.of(context).size.height * 0.07 / 3,
+                                MediaQuery.sizeOf(context).height * 0.07 / 3,
                             color: settingsStore.isDarkTheme
                                 ? Color(0xffEBEBEB)
                                 : Color(0xff373737),
@@ -300,7 +300,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  width: 150,
+                                  width: 180,
                                   child: Observer(
                                     builder: (context) {
                                       return TextFormField(
@@ -399,7 +399,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                   onSurface: settingsStore.isDarkTheme ? Colors.white : Colors.black, // Month days , years
                 ),
                 datePickerTheme: DatePickerThemeData(
-                    backgroundColor: Theme.of(context).dialogBackgroundColor,
+                    backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
                     cancelButtonStyle: ButtonStyle(
                       foregroundColor: WidgetStateProperty.all(Color(0xff0BA70F)),
                     ),

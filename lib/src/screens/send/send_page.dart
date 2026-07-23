@@ -224,7 +224,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                               : Color(0xffDADADA))),
                   child: Container(
                     color: Colors.transparent,
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery.sizeOf(context).width,
                     padding:
                     EdgeInsets.only(top: 15, left: 25, right: 25, bottom: 10),
                     child: Column(
@@ -337,9 +337,9 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           },
                           child: SvgPicture.asset(
                               'assets/images/new-images/address_book.svg',
-                              color: settingsStore.isDarkTheme
+                              colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                                   ? Color(0xffffffff)
-                                  : Color(0xff16161D),
+                                  : Color(0xff16161D), BlendMode.srcIn),
                           width: 25,height: 25,))
                     ],
                   ),
@@ -500,7 +500,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                     hintStyle: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.w700,
-                                        color: Colors.grey.withOpacity(0.6)),
+                                        color: Colors.grey.withValues(alpha: 0.6)),
                                     hintText: tr(context).enterAmount,
                                     errorStyle:
                                     TextStyle(color: BeldexPalette.red),
@@ -578,7 +578,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                               width: 120,
                                               padding: EdgeInsets.only(
                                                 left: 8,
-                                                right: 10,
+                                                right: 8,
                                               ),
                                               child: TextField(
                                                 readOnly: true,
@@ -840,7 +840,7 @@ class CommitTransactionLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     WakelockPlus.enable();
     Future.delayed(const Duration(seconds: 1), () {
       sendStore.commitTransaction();

@@ -236,7 +236,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
 // this height forces the container to be a circle
                                       child: SvgPicture.asset(
                                         'assets/images/up_arrow_svg.svg',
-                                        color: Theme.of(context).primaryTextTheme.bodySmall!.color,
+                                        colorFilter: ColorFilter.mode(Theme.of(context).primaryTextTheme.bodySmall!.color!, BlendMode.srcIn),
                                         width: 25,
                                         height: 25,
                                       ),

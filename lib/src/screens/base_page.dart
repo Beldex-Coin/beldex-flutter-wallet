@@ -38,7 +38,7 @@ abstract class BasePage extends StatelessWidget {
         width: 48,
         child: SvgPicture.asset(
           'assets/images/new-images/back_arrow.svg',
-          color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+          colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
           height: 48,
           width: 48,
           fit: BoxFit.fill,
@@ -125,8 +125,8 @@ abstract class BasePage extends StatelessWidget {
             middle: middle(context)!,
             trailing: trailing(context)!,
             backgroundColor: _isDarkTheme
-                ? Theme.of(context).dialogBackgroundColor
-                : Theme.of(context).dialogBackgroundColor);
+                ? Theme.of(context).dialogTheme.backgroundColor
+                : Theme.of(context).dialogTheme.backgroundColor);
 
       case AppBarStyle.withShadow:
         return NavBar.withShadow(
@@ -135,8 +135,8 @@ abstract class BasePage extends StatelessWidget {
             middle: middle(context)!,
             trailing: trailing(context)!,
             backgroundColor: _isDarkTheme
-                ? Theme.of(context).dialogBackgroundColor
-                : Theme.of(context).dialogBackgroundColor);
+                ? Theme.of(context).dialogTheme.backgroundColor
+                : Theme.of(context).dialogTheme.backgroundColor);
 
       default:
         return NavBar(
@@ -145,8 +145,8 @@ abstract class BasePage extends StatelessWidget {
             middle: middle(context)!,
             trailing: trailing(context)!,
             backgroundColor: _isDarkTheme
-                ? Theme.of(context).dialogBackgroundColor
-                : Theme.of(context).dialogBackgroundColor);
+                ? Theme.of(context).dialogTheme.backgroundColor
+                : Theme.of(context).dialogTheme.backgroundColor);
     }
   }
 

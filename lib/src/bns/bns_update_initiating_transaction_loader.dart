@@ -27,7 +27,7 @@ class BnsUpdateInitiatingTransactionLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    final height = MediaQuery.of(context).size.height;
+    final height = MediaQuery.sizeOf(context).height;
     WakelockPlus.enable();
     Future.delayed(const Duration(seconds: 1), () {
       sendStore.createBnsUpdateTransaction(owner:owner, backUpOwner:backUpOwner, walletAddress:walletAddress, bchatId:bchatId,  belnetId:belnetId, ethAddress:ethAddress, bnsName:bnsName, tPriority: BeldexTransactionPriority.slow);

@@ -78,7 +78,7 @@ class _AlertReconnectConfirmDialogState
         backgroundColor: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffFFFFFF),
         surfaceTintColor: Colors.transparent,
         child: Container(
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery.sizeOf(context).width,
           margin: EdgeInsets.all(20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -105,8 +105,8 @@ class _AlertReconnectConfirmDialogState
                     color: settingsStore.isDarkTheme
                         ? Color(0xff383848)
                         : Color(0xffE8E8E8),
-                    height: MediaQuery.of(context).size.height * 0.18 / 3,
-                    minWidth: MediaQuery.of(context).size.width * 0.89 / 3,
+                    height: MediaQuery.sizeOf(context).height * 0.18 / 3,
+                    minWidth: MediaQuery.sizeOf(context).width * 0.89 / 3,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     child: Text(
@@ -124,8 +124,8 @@ class _AlertReconnectConfirmDialogState
                     onPressed: () => widget.onPressed(context),
                     elevation: 0,
                     color: Color(0xff0BA70F),
-                    height: MediaQuery.of(context).size.height * 0.18 / 3,
-                    minWidth: MediaQuery.of(context).size.width * 0.89 / 3,
+                    height: MediaQuery.sizeOf(context).height * 0.18 / 3,
+                    minWidth: MediaQuery.sizeOf(context).width * 0.89 / 3,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     child: Text(

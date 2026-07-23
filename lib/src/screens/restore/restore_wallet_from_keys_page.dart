@@ -20,7 +20,7 @@ import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/src/widgets/blockchain_height_widget.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:beldex_wallet/src/stores/seed_language/seed_language_store.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 ///block height widget's property
 final dateController = TextEditingController();
 final restoreHeightController = TextEditingController();
@@ -109,7 +109,6 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
       }
     });
 
-    ToastContext().init(context);
     return GestureDetector(
       onTap: (){
         FocusScope.of(context).unfocus();
@@ -291,7 +290,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 20),
-                  width: MediaQuery.of(context).size.width * 1.5 / 3,
+                  width: MediaQuery.sizeOf(context).width * 1.5 / 3,
                   child: Divider(
                     height: 3,
                     color: settingsStore.isDarkTheme
@@ -333,11 +332,11 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
     await prefs.setInt('currentHeight', height);
     canShowPopup = prefs.getBool('isRestored') ?? false;
     if (canShowPopup) {
-       Toast.show(
-      'You restored via keys',
-         duration: Toast.lengthShort,
-         gravity: Toast.bottom,
-         textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
+       await Fluttertoast.showToast(
+      msg: 'You restored via keys',
+         toastLength: Toast.LENGTH_SHORT,
+         gravity: ToastGravity.BOTTOM,
+         textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
     );
     }
@@ -453,7 +452,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  width: 130,
+                                  width: 160,
                                   child: Observer(
                                       builder: (context) {
                                       return TextFormField(
@@ -552,7 +551,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                   onSurface: settingsStore.isDarkTheme ? Colors.white : Colors.black, // Month days , years
                 ),
                 datePickerTheme: DatePickerThemeData(
-                    backgroundColor: Theme.of(context).dialogBackgroundColor,
+                    backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
                     cancelButtonStyle: ButtonStyle(
                       foregroundColor: WidgetStateProperty.all(Color(0xff0BA70F)),
                     ),

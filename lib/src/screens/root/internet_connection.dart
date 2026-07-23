@@ -77,7 +77,7 @@ Future<void> _checkConnectivity() async {
               builder: (context, value, child) {
                 return Container();
     //             value ? Container(
-    // height:50,width: MediaQuery.of(context).size.width*2.5/3,
+    // height:50,width: MediaQuery.sizeOf(context).width*2.5/3,
     // decoration: BoxDecoration(color: Color(0xff333343),
     // borderRadius: BorderRadius.circular(10)
     // ),

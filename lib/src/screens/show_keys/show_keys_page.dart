@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_keys_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../l10n.dart';
 import '../../util/clipboard_helper.dart';
 
@@ -65,7 +65,6 @@ class _KeysDisplayWidgetState extends State<KeysDisplayWidget> {
   Widget build(BuildContext context) {
     final walletKeysStore = Provider.of<WalletKeysStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    ToastContext().init(context);
     return Container(
         padding: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 5, right: 5),
         child: Observer(
@@ -112,13 +111,11 @@ class _KeysDisplayWidgetState extends State<KeysDisplayWidget> {
                           InkWell(
                             onTap: () async {
                               await ClipboardHelper.copyWithAutoClear(keysMap.values.elementAt(index));
-                              Toast.show(
-                                tr(context).copied,
-                                duration: Toast
-                                    .lengthShort, // Toast duration (short or long)
-                                gravity: Toast
-                                    .bottom,
-                                textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
+                              await Fluttertoast.showToast(
+                                msg: tr(context).copied,
+                                toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                                gravity: ToastGravity.BOTTOM,
+                                textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                               );
 

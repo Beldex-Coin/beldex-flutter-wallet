@@ -27,7 +27,7 @@ class CustomScrollbar extends SingleChildRenderObjectWidget {
       strokeWidth: strokeWidth ?? 16,
       padding:
       padding ?? const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-      trackColor: trackColor ?? Colors.purpleAccent.withOpacity(0.3),
+      trackColor: trackColor ?? Colors.purpleAccent.withValues(alpha: 0.3),
       thumbColor: thumbColor ?? Colors.purpleAccent,
     );
   }

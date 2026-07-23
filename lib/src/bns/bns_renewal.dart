@@ -126,8 +126,8 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
       SyncStore syncStore,
       BnsRenewalChangeNotifier bnsRenewalChangeNotifier, WalletStore walletStore) {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.sizeOf(context).width,
+      height: MediaQuery.sizeOf(context).height,
       margin: EdgeInsets.all(10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
@@ -146,7 +146,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
             children: [
               //BNS Price
               Container(
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.sizeOf(context).width,
                 margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
@@ -180,7 +180,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                           ]),
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width,
+                      width: MediaQuery.sizeOf(context).width,
                       height: 50,
                       margin: EdgeInsets.only(top: 10, bottom: 5),
                       child: ListView.builder(
@@ -374,7 +374,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                   : null,
               child: Container(
                 alignment: Alignment.bottomCenter,
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.sizeOf(context).width,
                 padding: EdgeInsets.all(10),
                 margin:
                 EdgeInsets.only(top: 20, left: 40, right: 40, bottom: 30),
@@ -388,7 +388,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                       alignment: Alignment.centerLeft,
                       child: SvgPicture.asset(
                         'assets/images/new-images/bns_renewal.svg',
-                        color: Color(0xffffffff),
+                        colorFilter: ColorFilter.mode(Color(0xffffffff), BlendMode.srcIn),
                         width: 19,height: 19,),
                     ),
                     Align(

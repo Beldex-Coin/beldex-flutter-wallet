@@ -146,9 +146,7 @@ class SettingsFormState extends State<SettingsForm> {
                         style: TextStyle(
                             backgroundColor: Colors.transparent,
                             fontWeight: FontWeight.w400,
-                            fontSize: MediaQuery.of(context).size.height *
-                                0.06 /
-                                3, color: Theme.of(context).primaryTextTheme.titleLarge?.color),),
+                            fontSize: 16.0, color: Theme.of(context).primaryTextTheme.titleLarge?.color),),
                     settingsStore.node == null
                         ? Container()
                         : Observer(builder: (_) {
@@ -185,9 +183,9 @@ class SettingsFormState extends State<SettingsForm> {
                               backgroundColor: Colors.transparent,
                               insetPadding: EdgeInsets.all(15),
                               child: Container(
-                                width: MediaQuery.of(context).size.width,
+                                width: MediaQuery.sizeOf(context).width,
                                 height:
-                                    MediaQuery.of(context).size.height *
+                                    MediaQuery.sizeOf(context).height *
                                         0.90 /
                                         3,
                                 padding: EdgeInsets.all(10),
@@ -208,7 +206,7 @@ class SettingsFormState extends State<SettingsForm> {
                                             tr(context).settings_display_balance_as,
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
-                                                fontSize: 18,
+                                                fontSize: 16.0,
                                                 fontWeight:
                                                     FontWeight.bold),
                                           ),
@@ -284,8 +282,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                                 color: settingsStore.balanceDisplayMode !=
                                                                         BalanceDisplayMode.all[
                                                                             index]
-                                                                    ? Colors.grey.withOpacity(
-                                                                        0.6)
+                                                                    ? Colors.grey.withValues(alpha: 0.6)
                                                                     : Color(
                                                                         0xffFFFFFF),
                                                                 fontWeight:
@@ -326,10 +323,7 @@ class SettingsFormState extends State<SettingsForm> {
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
-                                fontSize:
-                                    MediaQuery.of(context).size.height *
-                                        0.06 /
-                                        3,
+                                fontSize: 16.0,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).primaryTextTheme.titleLarge?.color),
                           )),
@@ -350,9 +344,9 @@ class SettingsFormState extends State<SettingsForm> {
                               backgroundColor: Colors.transparent,
                               insetPadding: EdgeInsets.all(15),
                               child: Container(
-                                width: MediaQuery.of(context).size.width,
+                                width: MediaQuery.sizeOf(context).width,
                                 height:
-                                    MediaQuery.of(context).size.height *
+                                    MediaQuery.sizeOf(context).height *
                                         1 /
                                         3,
                                 padding: EdgeInsets.all(10),
@@ -373,7 +367,7 @@ class SettingsFormState extends State<SettingsForm> {
                                             'Decimals',
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
-                                                fontSize: 18,
+                                                fontSize: 16.0,
                                                 fontWeight:
                                                     FontWeight.bold),
                                           ),
@@ -451,10 +445,7 @@ class SettingsFormState extends State<SettingsForm> {
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
-                                fontSize:
-                                    MediaQuery.of(context).size.height *
-                                        0.06 /
-                                        3,
+                                fontSize: 16.0,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).primaryTextTheme.titleLarge?.color),
                           )),
@@ -483,7 +474,7 @@ class SettingsFormState extends State<SettingsForm> {
                                   insetPadding: EdgeInsets.all(15),
                                   child: Container(
                                     width:
-                                        MediaQuery.of(context).size.width,
+                                        MediaQuery.sizeOf(context).width,
                                     height: MediaQuery.of(context)
                                             .size
                                             .height *
@@ -507,7 +498,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                 'Currency',
                                                 style: TextStyle(
                                                   backgroundColor: Colors.transparent,
-                                                  fontSize: 18,
+                                                  fontSize: 16.0,
                                                   fontWeight:
                                                       FontWeight.bold,
                                                 ),
@@ -637,10 +628,7 @@ class SettingsFormState extends State<SettingsForm> {
                             settingsStore.fiatCurrency.toString(),
                             textAlign: TextAlign.right,
                             style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.height *
-                                        0.06 /
-                                        3,
+                                fontSize: 16.0,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).primaryTextTheme.titleLarge?.color),
                           )),
@@ -661,9 +649,9 @@ class SettingsFormState extends State<SettingsForm> {
                               backgroundColor: Colors.transparent,
                               insetPadding: EdgeInsets.all(15),
                               child: Container(
-                                width: MediaQuery.of(context).size.width,
+                                width: MediaQuery.sizeOf(context).width,
                                 height:
-                                    MediaQuery.of(context).size.height *
+                                    MediaQuery.sizeOf(context).height *
                                         0.75 /
                                         3,
                                 padding: EdgeInsets.all(10),
@@ -684,7 +672,7 @@ class SettingsFormState extends State<SettingsForm> {
                                             'Fee Priority',
                                             style: TextStyle(
                                               backgroundColor: Colors.transparent,
-                                              fontSize: 18,
+                                              fontSize: 16.0,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -764,8 +752,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                                 color: settingsStore.transactionPriority !=
                                                                         BeldexTransactionPriority.all[
                                                                             index]
-                                                                    ? Colors.grey.withOpacity(
-                                                                        0.6)
+                                                                    ? Colors.grey.withValues(alpha: 0.6)
                                                                     : Color(
                                                                         0xffffffff),
                                                                 fontWeight:
@@ -803,10 +790,7 @@ class SettingsFormState extends State<SettingsForm> {
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
-                                fontSize:
-                                    MediaQuery.of(context).size.height *
-                                        0.06 /
-                                        3,
+                                fontSize: 16.0,
                                 fontWeight: FontWeight.w400,
                                 color: Theme.of(context).primaryTextTheme.titleLarge?.color),
                           )),
@@ -831,8 +815,7 @@ class SettingsFormState extends State<SettingsForm> {
                     contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                     title: Text(t.settings_change_pin,
                         style: TextStyle(
-                            fontSize:
-                                MediaQuery.of(context).size.height * 0.06 / 3,
+                            fontSize: 16.0,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context)
                                 .primaryTextTheme
@@ -868,8 +851,7 @@ class SettingsFormState extends State<SettingsForm> {
                     contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                     title: Text(t.change_language,
                         style: TextStyle(
-                            fontSize:
-                                MediaQuery.of(context).size.height * 0.06 / 3,
+                            fontSize: 16.0,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).primaryTextTheme.titleLarge?.color)),
                     trailing: Icon(
@@ -909,8 +891,7 @@ class SettingsFormState extends State<SettingsForm> {
                     contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                     title: Text(t.settings_terms_and_conditions,
                         style: TextStyle(
-                            fontSize:
-                                MediaQuery.of(context).size.height * 0.06 / 3,
+                            fontSize: 16.0,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).primaryTextTheme.titleLarge?.color)),
                     trailing: Icon(
@@ -933,8 +914,7 @@ class SettingsFormState extends State<SettingsForm> {
                     contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                     title: Text(t.faq,
                         style: TextStyle(
-                            fontSize:
-                                MediaQuery.of(context).size.height * 0.06 / 3,
+                            fontSize: 16.0,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).primaryTextTheme.titleLarge?.color)),
                     trailing: Icon(
@@ -957,8 +937,7 @@ class SettingsFormState extends State<SettingsForm> {
                     contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
                     title: Text(t.changelog,
                         style: TextStyle(
-                            fontSize:
-                                MediaQuery.of(context).size.height * 0.06 / 3,
+                            fontSize: 16.0,
                             fontWeight: FontWeight.w400,
                             color: Theme.of(context).primaryTextTheme.titleLarge?.color)),
                     trailing: Icon(
@@ -1056,7 +1035,7 @@ class SettingsFormState extends State<SettingsForm> {
               ? Colors.transparent
               : Color(0xff2979FB),
           child: Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.sizeOf(context).width,
               padding: EdgeInsets.only(top: 10, bottom: 10),
               child: Observer(
                 builder: (_) => Text(
@@ -1066,7 +1045,7 @@ class SettingsFormState extends State<SettingsForm> {
                       fontSize: 14,
                       color:
                           settingsStore.balanceDetail != AmountDetail.all[index]
-                              ? Colors.grey.withOpacity(0.6)
+                              ? Colors.grey.withValues(alpha: 0.6)
                               : Color(0xffffffff),
                       fontWeight: FontWeight.bold),
                 ),
@@ -1099,7 +1078,7 @@ class SettingsFormState extends State<SettingsForm> {
               ? Color(0xff2979FB)
               : Colors.transparent,
           child: Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.sizeOf(context).width,
               padding: EdgeInsets.only(top: 15, bottom: 15),
               child: Observer(
                 builder: (_) => Text(
@@ -1109,7 +1088,7 @@ class SettingsFormState extends State<SettingsForm> {
                       fontSize: 14,
                       color:
                           settingsStore.fiatCurrency != FiatCurrency.all[index]
-                              ? Colors.grey.withOpacity(0.6)
+                              ? Colors.grey.withValues(alpha: 0.6)
                               : Color(0xffffffff),
                       fontWeight: FontWeight.bold),
                 ),

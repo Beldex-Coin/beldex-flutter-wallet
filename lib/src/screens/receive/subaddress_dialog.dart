@@ -53,10 +53,10 @@ class AddSubAddress extends StatelessWidget {
               Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
-                      color: Theme.of(context).dialogBackgroundColor,
+                      color: Theme.of(context).dialogTheme.backgroundColor,
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
-                      height: MediaQuery.of(context).size.height * 1 / 3,
+                      height: MediaQuery.sizeOf(context).height * 1 / 3,
                       margin: EdgeInsets.only(
                           left: 10, right: 10, bottom: 10, top: 10),
                       decoration: BoxDecoration(
@@ -88,7 +88,7 @@ class AddSubAddress extends StatelessWidget {
                           ),
                           Observer(
                             builder: (_) => SizedBox(
-                              width: 250,
+                              width: 280,
                               child: LoadingPrimaryButton(
                                   onPressed: () async {
                                     if (_formKey.currentState?.validate() ?? false) {

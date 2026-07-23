@@ -22,7 +22,7 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
       backgroundColor:
           settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffFFFFFF),
       child: Container(
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery.sizeOf(context).width,
         margin: EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -40,8 +40,8 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
               },
               elevation: 0,
               color: Color(0xff0BA70F),
-              height: MediaQuery.of(context).size.height * 0.20 / 3,
-              minWidth: MediaQuery.of(context).size.width * 1.3 / 2,
+              height: MediaQuery.sizeOf(context).height * 0.20 / 3,
+              minWidth: MediaQuery.sizeOf(context).width * 1.3 / 2,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Text(
@@ -64,8 +64,8 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
               color: settingsStore.isDarkTheme
                   ? Color(0xff383848)
                   : Color(0xffE8E8E8),
-              height: MediaQuery.of(context).size.height * 0.20 / 3,
-              minWidth: MediaQuery.of(context).size.width * 1.3 / 2,
+              height: MediaQuery.sizeOf(context).height * 0.20 / 3,
+              minWidth: MediaQuery.sizeOf(context).width * 1.3 / 2,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Text(

@@ -90,7 +90,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(
-                          width: 130,
+                          width: 160,
                           child: TextFormField(
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
@@ -159,7 +159,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                   onSurface: settingsStore.isDarkTheme ? Colors.white : Colors.black, // Month days , years
                 ),
                 datePickerTheme: DatePickerThemeData(
-                    backgroundColor: Theme.of(context).dialogBackgroundColor,
+                    backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
                     cancelButtonStyle: ButtonStyle(
                       foregroundColor: WidgetStateProperty.all(Color(0xff0BA70F)),
                     ),

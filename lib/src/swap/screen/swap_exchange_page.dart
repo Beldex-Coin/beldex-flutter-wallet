@@ -165,8 +165,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.of(context).size.width;
-    final _screenHeight = MediaQuery.of(context).size.height;
+    final _screenWidth = MediaQuery.sizeOf(context).width;
+    final _screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     final swapExchangePageChangeNotifier = Provider.of<SwapExchangePageChangeNotifier>(context);
@@ -301,7 +301,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             curStep: currentStep,
             stepCompleteColor: Colors.blue,
             currentStepColor: Color(0xff20D030),
@@ -360,7 +360,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             curStep: currentStep,
             stepCompleteColor: Colors.blue,
             currentStepColor: Color(0xff20D030),
@@ -413,8 +413,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                               top: 15, left: 10, right: 10, bottom: 15),
                           elevation: 0,
                           color: settingsStore.isDarkTheme
-                              ? Color(0xFF24242F).withOpacity(0.7)
-                              : Color(0xfff3f3f3).withOpacity(0.7),
+                              ? Color(0xFF24242F).withValues(alpha: 0.7)
+                              : Color(0xfff3f3f3).withValues(alpha: 0.7),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
@@ -500,7 +500,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       child: Padding(
         padding: EdgeInsets.only(left: 20.0, right: 20.0),
         child: Container(
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             padding: EdgeInsets.only(top: 5, bottom: 5),
             child: Observer(
               builder: (_) => Row(
@@ -605,7 +605,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       child: Padding(
         padding: EdgeInsets.only(left: 10.0, right: 10.0),
         child: Container(
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             padding: EdgeInsets.only(top: 5, bottom: 5),
             child: Observer(
               builder: (_) => Row(
@@ -686,8 +686,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                 ? Color(0xff65656E)
                 : Color(0xffDADADA), BlendMode.srcIn),
-            width: 112,
-            height: 112,
+            width: 130,
+            height: 130,
           ),
           RichText(
             textAlign: TextAlign.center,
@@ -837,7 +837,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         hintStyle: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
-                            color: Colors.grey.withOpacity(0.6)),
+                            color: Colors.grey.withValues(alpha: 0.6)),
                         hintText: tr(context).enterAmount,
                         errorStyle: TextStyle(color: BeldexPalette.red),
                       ),
@@ -911,7 +911,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         });
                       },
                       child: Container(
-                        width: 125.0,
+                        width: 150.0,
                         margin: EdgeInsets.only(left: 3),
                         padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
                         decoration: BoxDecoration(
@@ -1119,7 +1119,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         hintStyle: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
-                            color: Colors.grey.withOpacity(0.6)),
+                            color: Colors.grey.withValues(alpha: 0.6)),
                         hintText: '...',
                         errorStyle: TextStyle(color: BeldexPalette.red),
                       ),
@@ -1134,7 +1134,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         });
                       },
                       child: Container(
-                        width: 125.0,
+                        width: 150.0,
                         margin: EdgeInsets.only(left: 3),
                         padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
                         decoration: BoxDecoration(
@@ -1418,7 +1418,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             return Container(
               height: 200,
               margin: EdgeInsets.only(
-                  top: 275, left: MediaQuery.of(context).size.width / 4),
+                  top: 275, left: MediaQuery.sizeOf(context).width / 4),
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: settingsStore.isDarkTheme
@@ -1518,7 +1518,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             return Container(
               height: 200,
               margin: EdgeInsets.only(
-                  top: 130, left: MediaQuery.of(context).size.width / 4),
+                  top: 130, left: MediaQuery.sizeOf(context).width / 4),
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: settingsStore.isDarkTheme
@@ -1706,7 +1706,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         hintStyle: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
-                            color: Colors.grey.withOpacity(0.6)),
+                            color: Colors.grey.withValues(alpha: 0.6)),
                         hintText: tr(context).enterAmount,
                         errorStyle: TextStyle(color: BeldexPalette.red),
                       ),
@@ -1851,7 +1851,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         hintStyle: TextStyle(
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
-                            color: Colors.grey.withOpacity(0.6)),
+                            color: Colors.grey.withValues(alpha: 0.6)),
                         hintText: '...',
                         errorStyle: TextStyle(color: BeldexPalette.red),
                       ),

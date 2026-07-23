@@ -80,7 +80,7 @@ class WalletListBodyState extends State<WalletListBody> {
         children: [
           Container(
             margin: EdgeInsets.all(15),
-            height: MediaQuery.of(context).size.height * 1.1 / 3,
+            height: MediaQuery.sizeOf(context).height * 1.1 / 3,
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),

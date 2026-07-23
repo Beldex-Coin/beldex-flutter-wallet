@@ -50,8 +50,8 @@ version: 2.3.1+39
 # keytool -genkey -v -keystore c:\Users\konst\key.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias key
 
 environment:
-  sdk: ">=2.15.0 <4.0.0"
-  flutter: ">=1.22.6"
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.32.0"
 
 dependencies:
   flutter:
@@ -59,15 +59,15 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   #flutter_cupertino_localizations: ^1.0.1
-  intl: any #^0.17.0
+  intl: ^0.20.2
   qr: ^3.0.2
-  uuid: #^4.3.1
+  uuid: ^4.6.0
   shared_preferences: ^2.0.13
   flutter_secure_storage: ^9.2.4
   provider: ^6.0.2
   rxdart: ^0.28.0
   yaml: ^3.1.0
-  barcode_scan2: ^4.3.3 # outdated and should be replaced
+  barcode_scan2: ^4.8.0
   http: ^1.1.0
   path_provider: ^2.0.9
   mobx: ^2.0.6
@@ -77,7 +77,7 @@ dependencies:
   # share: ^0.6.2+1
   #lottie:
   wakelock_plus: ^1.1.4
-  toast: ^0.3.0
+  fluttertoast: ^9.0.0
   #esys_flutter_share: ^1.0.2
   #date_range_picker: ^1.0.7
   custom_date_range_picker:
@@ -101,7 +101,6 @@ dependencies:
   encrypt: ^5.0.0
   basic_utils: ^5.7.0
   #win32: ^1.7.4+1
-  draggable_scrollbar: ^0.1.0
   flutter_svg: ^2.0.9
   #flutter_launcher_icons: ^0.9.2
   #dropdown_search: ^0.4.9

@@ -29,7 +29,7 @@ class NewNavListTrailing extends StatelessWidget {
             highlightColor:Colors.transparent,
           ),
           child: ListTile(
-            contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+            contentPadding: EdgeInsets.only(left: 10.0, right: 10.0),
             leading: leading,
             title: Text(text!,
                 style: TextStyle(

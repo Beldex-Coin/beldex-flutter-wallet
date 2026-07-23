@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../palette.dart';
 import '../../../routes.dart';
@@ -168,11 +168,10 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.of(context).size.width;
-    final _screenHeight = MediaQuery.of(context).size.height;
+    final _screenWidth = MediaQuery.sizeOf(context).width;
+    final _screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
-    ToastContext().init(context);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
@@ -213,7 +212,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             curStep: currentStep,
             stepCompleteColor: Colors.blue,
             currentStepColor: Color(0xff20D030),
@@ -286,7 +285,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
           ),
         ),
         Container(
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             child: Column(
               children: [
                 //Confirming in progress Details
@@ -356,11 +355,11 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                               this.getCurrenciesFullProvider = getCurrenciesFullProvider;
                               _isInitialized = true;
                               if(getCurrenciesFullProvider.error != null) {
-                                Toast.show(
-                                  'Network Error! Please check internet connection.',
-                                  duration: Toast.lengthShort,
-                                  gravity: Toast.bottom,
-                                  textStyle:TextStyle(color: Colors.white),
+                                Fluttertoast.showToast(
+                                  msg: 'Network Error! Please check internet connection.',
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  textColor: Colors.white,
                                   backgroundColor: Color(0xff8B1C1C),
                                 );
                               }
@@ -579,7 +578,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
             )),
         //History Option Details
         Container(
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery.sizeOf(context).width,
           margin: EdgeInsets.only(top: 25, bottom: 10),
           padding: EdgeInsets.all(15),
           decoration: BoxDecoration(
@@ -710,13 +709,11 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                             InkWell(
                               onTap: () async {
                                 await ClipboardHelper.copyWithAutoClear(transactionDetails.id.toString());
-                                Toast.show(
-                                  tr(context).copied,
-                                  duration: Toast
-                                      .lengthShort, // Toast duration (short or long)
-                                  gravity: Toast
-                                      .bottom,
-                                  textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
+                                await Fluttertoast.showToast(
+                                  msg: tr(context).copied,
+                                  toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                                  gravity: ToastGravity.BOTTOM,
+                                  textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
                                   backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                                 );
                               },

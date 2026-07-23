@@ -67,8 +67,7 @@ class StakePageBodyState extends State<StakePageBody> {
           if (snapshot.hasError) {
             return Center(
               child: Container(
-                  width: 200,
-                  height: 400,
+                  constraints: BoxConstraints(maxWidth: 300, maxHeight: 400),
                   child: Center(
                     child: Text(snapshot.error.toString()),
                   )),
@@ -95,8 +94,7 @@ class StakePageBodyState extends State<StakePageBody> {
                   children: <Widget>[
                     Center(
                       child: Container(
-                        width: 200,
-                        height: 200,
+                        constraints: BoxConstraints(maxWidth: 200, maxHeight: 200),
                         child: CircularProgressIndicator(
                           strokeWidth: 15,
                           value: stakePercentage,
@@ -234,8 +232,7 @@ class StakePageBodyState extends State<StakePageBody> {
         } else {
           return Center(
             child: Container(
-                width: 200,
-                height: 400,
+                constraints: BoxConstraints(maxWidth: 300, maxHeight: 400),
                 child: Center(
                   child: CircularProgressIndicator(
                     valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryTextTheme.labelLarge!.backgroundColor!),

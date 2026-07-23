@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../routes.dart';
 import '../../util/clipboard_helper.dart';
 import '../../util/constants.dart';
@@ -100,11 +100,10 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.of(context).size.width;
-    final _screenHeight = MediaQuery.of(context).size.height;
+    final _screenWidth = MediaQuery.sizeOf(context).width;
+    final _screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
-    ToastContext().init(context);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
@@ -130,7 +129,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             curStep: currentStep,
             stepCompleteColor: Colors.blue,
             currentStepColor: Color(0xff20D030),
@@ -177,7 +176,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
         PairsWidget(settingsStore: settingsStore, from: transactionModel?.currencyFrom, to: transactionModel?.currencyFrom),
         //Completed Details
         Container(
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery.sizeOf(context).width,
           margin: EdgeInsets.only(left: 6, right: 6, top: 20, bottom: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,7 +205,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
               ),
               //Transaction ID Details
               Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.sizeOf(context).width,
                   margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
@@ -259,13 +258,11 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             InkWell(
                               onTap: () async {
                                 await ClipboardHelper.copyWithAutoClear(transactionModel.id!);
-                                Toast.show(
-                                  tr(context).copied,
-                                  duration: Toast
-                                      .lengthShort, // Toast duration (short or long)
-                                  gravity: Toast
-                                      .bottom,
-                                  textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
+                                await Fluttertoast.showToast(
+                                  msg: tr(context).copied,
+                                  toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                                  gravity: ToastGravity.BOTTOM,
+                                  textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
                                   backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                                 );
                               },
@@ -476,7 +473,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
               ),
               //Recipient Address Details
               Container(
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.sizeOf(context).width,
                 margin: EdgeInsets.only(top: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -507,7 +504,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
               ),
               //Memo Details
               Container(
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.sizeOf(context).width,
                 margin: EdgeInsets.only(top: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -607,11 +604,11 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       Navigator.of(context).pop(true);
                       Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored));
                     } else {
-                      Toast.show(
-                        'Network Error! Please check internet connection.',
-                        duration: Toast.lengthShort,
-                        gravity: Toast.bottom,
-                        textStyle:TextStyle(color: Colors.white),
+                      Fluttertoast.showToast(
+                        msg: 'Network Error! Please check internet connection.',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        textColor: Colors.white,
                         backgroundColor: Color(0xff8B1C1C),
                       );
                     }
@@ -647,11 +644,11 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       Navigator.of(context, rootNavigator: true).pushNamed(
                           Routes.swapExchange, arguments: transactionStatus.walletAddress);
                     } else {
-                      Toast.show(
-                        'Network Error! Please check internet connection.',
-                        duration: Toast.lengthShort,
-                        gravity: Toast.bottom,
-                        textStyle:TextStyle(color: Colors.white),
+                      Fluttertoast.showToast(
+                        msg: 'Network Error! Please check internet connection.',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        textColor: Colors.white,
                         backgroundColor: Color(0xff8B1C1C),
                       );
                     }

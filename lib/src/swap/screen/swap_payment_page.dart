@@ -10,7 +10,7 @@ import 'package:beldex_wallet/src/swap/model/get_exchange_amount_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../routes.dart';
 import '../../util/constants.dart';
 import '../../util/network_provider.dart';
@@ -136,12 +136,11 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.of(context).size.width;
-    final _screenHeight = MediaQuery.of(context).size.height;
+    final _screenWidth = MediaQuery.sizeOf(context).width;
+    final _screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     final walletStore = Provider.of<WalletStore>(context);
-    ToastContext().init(context);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
@@ -204,7 +203,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             curStep: currentStep,
             stepCompleteColor: Colors.blue,
             currentStepColor: Color(0xff20D030),
@@ -690,11 +689,11 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
         Navigator.of(context).pop();
         final status = value.error?.message ?? "";
         if(status.isNotEmpty) {
-          Toast.show(
-            value.error!.message.toString(),
-            duration: Toast.lengthLong,
-            gravity: Toast.bottom,
-            textStyle: TextStyle(color: Colors.white),
+          Fluttertoast.showToast(
+            msg: value.error!.message.toString(),
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            textColor: Colors.white,
             backgroundColor: Color(0xff0ba70f),
           );
         }

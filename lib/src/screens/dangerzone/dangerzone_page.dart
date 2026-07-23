@@ -30,7 +30,7 @@ class DangerZonePage extends BasePage {
   @override
   Widget body(BuildContext context) {
     final _baseWidth = 411.43;
-    final _screenWidth = MediaQuery.of(context).size.width;
+    final _screenWidth = MediaQuery.sizeOf(context).width;
     final textScaleFactor = _screenWidth < _baseWidth ? 0.76 : 1.0;
     final appStore =
         Platform.isAndroid ? tr(context).playStore : tr(context).appstore;
@@ -44,8 +44,8 @@ class DangerZonePage extends BasePage {
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
               Widget>[
             Container(
-                width: MediaQuery.of(context).size.width * 0.90 / 3,
-                height: MediaQuery.of(context).size.height * 0.50 / 3,
+                width: MediaQuery.sizeOf(context).width * 0.90 / 3,
+                height: MediaQuery.sizeOf(context).height * 0.50 / 3,
                 margin: EdgeInsets.only(bottom: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
