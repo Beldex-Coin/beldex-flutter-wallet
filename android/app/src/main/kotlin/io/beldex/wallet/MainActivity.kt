@@ -1,11 +1,17 @@
 package io.beldex.wallet
 
+import android.content.ClipData
+import android.content.ClipDescription
+import android.content.ClipboardManager
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.NonNull
+import androidx.annotation.RequiresApi
 import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
@@ -46,6 +52,27 @@ class MainActivity: FlutterFragmentActivity() {
                             Log.d("Exception", e.message.toString())
                         }
                         result.success(hashMapOf("test" to ""))
+                    }
+                    "copySensitiveClipboard" -> {
+                        val args = call.arguments as Map<String, Any>
+                        val text = args["text"] as String
+                        val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                        val clip = ClipData.newPlainText("beldex_sensitive", text)
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            clip.description.extras = PersistableBundle().apply {
+                                putBoolean(ClipDescription.EXTRA_IS_SENSITIVE, true)
+                            }
+                        }
+
+                        clipboard.setPrimaryClip(clip)
+                        result.success(true)
+                    }
+                    "clearClipboard" -> {
+                        val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+                        val clip = ClipData.newPlainText("", "")
+                        clipboard.setPrimaryClip(clip)
+                        result.success(true)
                     }
                     else -> result.notImplemented()
                 }
