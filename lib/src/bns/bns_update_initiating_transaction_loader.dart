@@ -33,8 +33,8 @@ class BnsUpdateInitiatingTransactionLoader extends StatelessWidget {
       sendStore.createBnsUpdateTransaction(owner:owner, backUpOwner:backUpOwner, walletAddress:walletAddress, bchatId:bchatId,  belnetId:belnetId, ethAddress:ethAddress, bnsName:bnsName, tPriority: BeldexTransactionPriority.slow);
     });
 
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Center(
           child: Scaffold(
             body: Container(

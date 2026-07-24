@@ -29,8 +29,8 @@ class BnsRenewalInitiatingTransactionLoader extends StatelessWidget {
       sendStore.createBnsRenewalTransaction(bnsName:bnsName, mappingYears:mappingYears, tPriority: BeldexTransactionPriority.slow);
     });
 
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Center(
           child: Scaffold(
             body: Container(

@@ -8,6 +8,7 @@ import 'package:beldex_wallet/src/widgets/standard_switch.dart';
 import 'package:beldex_wallet/theme_changer.dart';
 import 'package:beldex_wallet/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../l10n.dart';
@@ -235,8 +236,15 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
     final networkStatus = Provider.of<NetworkProvider>(context);
     final _height = MediaQuery.sizeOf(context).height;
     final _width = MediaQuery.sizeOf(context).width;
-    return WillPopScope(
-      onWillPop: onBackPressed,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        final shouldPop = await onBackPressed();
+        if (shouldPop) {
+          await SystemNavigator.pop();
+        }
+      },
       child: ListView.builder(
           key: _listKey,
           itemCount: 2,

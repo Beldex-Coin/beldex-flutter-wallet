@@ -29,8 +29,8 @@ class CommonLoader extends StatelessWidget {
       }
     });
 
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Center(
           child: Scaffold(
             body: Container(

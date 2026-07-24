@@ -174,10 +174,8 @@ class SettingsFormState extends State<SettingsForm> {
                         barrierDismissible: false,
                         context: context,
                         builder: (BuildContext context) {
-                          return WillPopScope(
-                            onWillPop: () {
-                              return Future.value(false);
-                            },
+                          return PopScope(
+                            canPop: false,
                             child: Dialog(
                               surfaceTintColor: Colors.transparent,
                               backgroundColor: Colors.transparent,
@@ -335,10 +333,8 @@ class SettingsFormState extends State<SettingsForm> {
                         barrierDismissible: false,
                         context: context,
                         builder: (BuildContext context) {
-                          return WillPopScope(
-                            onWillPop: () {
-                              return Future.value(false);
-                            },
+                          return PopScope(
+                            canPop: false,
                             child: Dialog(
                               surfaceTintColor: Colors.transparent,
                               backgroundColor: Colors.transparent,
@@ -464,10 +460,8 @@ class SettingsFormState extends State<SettingsForm> {
                             StatefulBuilder(builder:
                                 (BuildContext context, StateSetter setState) {
                               _searchCurrencySetState = setState;
-                              return WillPopScope(
-                                onWillPop: () {
-                                  return Future.value(false);
-                                },
+                              return PopScope(
+                                canPop: false,
                                 child: Dialog(
                                   surfaceTintColor: Colors.transparent,
                                   backgroundColor: Colors.transparent,
@@ -640,10 +634,8 @@ class SettingsFormState extends State<SettingsForm> {
                         barrierDismissible: false,
                         context: context,
                         builder: (BuildContext context) {
-                          return WillPopScope(
-                            onWillPop: () {
-                              return Future.value(false);
-                            },
+                          return PopScope(
+                            canPop: false,
                             child: Dialog(
                               surfaceTintColor: Colors.transparent,
                               backgroundColor: Colors.transparent,

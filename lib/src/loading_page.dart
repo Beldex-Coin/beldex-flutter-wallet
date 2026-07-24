@@ -25,8 +25,8 @@ class LoadingPage extends StatelessWidget{
       WakelockPlus.disable();
       Navigator.of(context).pop();
     });
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Center(
           child: Scaffold(
             body: Container(

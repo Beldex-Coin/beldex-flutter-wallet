@@ -62,9 +62,9 @@ class NewNodeFormState extends State<NewNodePageForm> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return WillPopScope(
+        return PopScope(
           // Prevent closing the dialog when the user presses the back button
-          onWillPop: () async => false,
+          canPop: false,
           child: AlertDialog(
             surfaceTintColor: Colors.transparent,
             shape:
