@@ -635,7 +635,7 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                       Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored));
                     } else {
                       Fluttertoast.showToast(
-                        msg: 'Network Error! Please check internet connection.',
+                        msg: tr(context).networkErrorCheckConnection,
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,
                         textColor: Colors.white,
@@ -675,7 +675,7 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                           Routes.swapExchange, arguments: transactionStatus.walletAddress);
                     } else {
                       Fluttertoast.showToast(
-                        msg: 'Network Error! Please check internet connection.',
+                        msg: tr(context).networkErrorCheckConnection,
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,
                         textColor: Colors.white,

@@ -106,6 +106,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   var from;
   var to;
   bool _isInitialized = false;
+  bool _errorShown = false;
   final _focusWalletAddress = FocusNode();
   final _focusDestinationTag = FocusNode();
   late KeyboardDetectionController keyboardDetectionController;
@@ -353,9 +354,10 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
           builder: (context, validateAddressProvider, child) {
             this.validateAddressProvider = validateAddressProvider;
             _isInitialized = true;
-            if(validateAddressProvider.error != null) {
+            if(validateAddressProvider.error != null && !_errorShown) {
+              _errorShown = true;
               Fluttertoast.showToast(
-                msg: 'Network Error! Please check internet connection.',
+                msg: tr(context).networkErrorCheckConnection,
                 toastLength: Toast.LENGTH_SHORT,
                 gravity: ToastGravity.BOTTOM,
                 textColor: Colors.white,

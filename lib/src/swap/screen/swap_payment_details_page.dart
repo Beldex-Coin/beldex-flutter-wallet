@@ -101,6 +101,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   //var createdTxnDetails = {'type': 'float', 'payTill': DateTime.now().toString()};
   late GetTransactionsProvider getTransactionsProvider;
   bool _isInitialized = false;
+  bool _errorShown = false;
   late NetworkProvider networkProvider;
 
   void startAndStopPendingTransactionTimer(int? createdAt) {
@@ -712,9 +713,10 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
             builder: (context, getTransactionsProvider, child) {
               this.getTransactionsProvider = getTransactionsProvider;
               _isInitialized = true;
-              if(getTransactionsProvider.error != null) {
+              if(getTransactionsProvider.error != null && !_errorShown) {
+                _errorShown = true;
                 Fluttertoast.showToast(
-                  msg: 'Network Error! Please check internet connection.',
+                  msg: tr(context).networkErrorCheckConnection,
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
                   textColor: Colors.white,

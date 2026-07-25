@@ -831,20 +831,42 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   }
 }
 
-class CommitTransactionLoader extends StatelessWidget {
+class CommitTransactionLoader extends StatefulWidget {
   CommitTransactionLoader({Key? key, required this.sendStore}) : super(key: key);
 
   final SendStore sendStore;
 
+  @override
+  State<CommitTransactionLoader> createState() => _CommitTransactionLoaderState();
+}
+
+class _CommitTransactionLoaderState extends State<CommitTransactionLoader> {
+  Timer? _timer;
+  bool _transactionStarted = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WakelockPlus.enable();
+    _timer = Timer(const Duration(seconds: 1), () {
+      if (!_transactionStarted && mounted) {
+        _transactionStarted = true;
+        widget.sendStore.commitTransaction();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    WakelockPlus.disable();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.sizeOf(context).height;
-    WakelockPlus.enable();
-    Future.delayed(const Duration(seconds: 1), () {
-      sendStore.commitTransaction();
-    });
 
     return PopScope(
       canPop: false,

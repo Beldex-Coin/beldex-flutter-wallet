@@ -475,7 +475,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                               if (nodeList.nodes![i].uri.contains(
                                                   '${_nodeAddressController.text}:${_nodePortController.text}')) {
                                                 status = true;
-                                                await Fluttertoast.showToast(msg: 'This node is already exist',
+                                                await Fluttertoast.showToast(msg: tr(context).nodeAlreadyExists,
                                                toastLength: Toast.LENGTH_SHORT,
                                                gravity: ToastGravity.BOTTOM,
                                                   textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,

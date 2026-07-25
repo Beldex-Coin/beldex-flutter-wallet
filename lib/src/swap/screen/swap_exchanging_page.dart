@@ -100,6 +100,8 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
   late GetTransactionsProvider getTransactionsProvider;
   bool _isInitializedCurrencyFullProvider = false;
   bool _isInitializedTransactionsProvider = false;
+  bool _errorShownCurrencyFull = false;
+  bool _errorShownTransactions = false;
   late NetworkProvider networkProvider;
 
   @override
@@ -358,9 +360,10 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                             builder: (context, getCurrenciesFullProvider, child) {
                               this.getCurrenciesFullProvider = getCurrenciesFullProvider;
                               _isInitializedCurrencyFullProvider = true;
-                              if(getCurrenciesFullProvider.error != null) {
+                              if(getCurrenciesFullProvider.error != null && !_errorShownCurrencyFull) {
+                                _errorShownCurrencyFull = true;
                                 Fluttertoast.showToast(
-                                  msg: 'Network Error! Please check internet connection.',
+                                  msg: tr(context).networkErrorCheckConnection,
                                   toastLength: Toast.LENGTH_SHORT,
                                   gravity: ToastGravity.BOTTOM,
                                   textColor: Colors.white,
@@ -652,9 +655,10 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
             builder: (context, getTransactionsProvider, child) {
               this.getTransactionsProvider = getTransactionsProvider;
               _isInitializedTransactionsProvider = true;
-              if(getTransactionsProvider.error != null) {
+              if(getTransactionsProvider.error != null && !_errorShownTransactions) {
+                _errorShownTransactions = true;
                 Fluttertoast.showToast(
-                  msg: 'Network Error! Please check internet connection.',
+                  msg: tr(context).networkErrorCheckConnection,
                   toastLength: Toast.LENGTH_SHORT,
                   gravity: ToastGravity.BOTTOM,
                   textColor: Colors.white,

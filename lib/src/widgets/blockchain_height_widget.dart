@@ -89,9 +89,10 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          width: 160,
-                          child: TextFormField(
+                        Flexible(
+                          child: Container(
+                            constraints: BoxConstraints(minWidth: 120),
+                            child: TextFormField(
                             autovalidateMode: AutovalidateMode.onUserInteraction,
                             style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                             decoration: InputDecoration(
@@ -107,7 +108,8 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                                return null;
                               }
                             },
-                          ),
+                           ),
+                         ),
                         ),
                         Icon(Icons.calendar_today,color:settingsStore.isDarkTheme ? Color(0xff77778B) : Color(0xffB5B5C1))
                       ],

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void displaySnackBar(BuildContext context, String text) {
-  final settingsStore = Provider.of<SettingsStore>(context);
+  final settingsStore = Provider.of<SettingsStore>(context, listen: false);
 
   Fluttertoast.showToast(
     msg: text,

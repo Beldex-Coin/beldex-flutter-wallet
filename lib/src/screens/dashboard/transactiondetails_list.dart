@@ -230,8 +230,8 @@ class TransactionDetailsListBodyState
                                         height: 18,
                                         colorFilter: ColorFilter.mode(Theme.of(context)
                                             .primaryTextTheme
-                                            .bodySmall!
-                                            .color ?? Colors.green, BlendMode.srcIn),
+                                            .bodySmall
+                                            ?.color ?? Colors.green, BlendMode.srcIn),
                                       )))
                             ]),
                       ),

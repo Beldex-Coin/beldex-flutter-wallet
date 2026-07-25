@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
@@ -18,7 +19,7 @@ class ClipboardHelper {
       await Clipboard.setData(ClipboardData(text: text));
     }
 
-    Future.delayed(clearAfter, () async {
+    unawaited(Future.delayed(clearAfter, () async {
       if (generation != _copyGeneration) return;
 
       if (Platform.isAndroid) {
@@ -29,6 +30,6 @@ class ClipboardHelper {
           await Clipboard.setData(const ClipboardData(text: ''));
         }
       }
-    });
+    }).catchError((_) {}));
   }
 }

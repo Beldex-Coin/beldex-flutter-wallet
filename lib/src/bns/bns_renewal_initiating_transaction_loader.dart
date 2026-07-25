@@ -3,15 +3,13 @@ import 'dart:async';
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../../l10n.dart';
 
-class BnsRenewalInitiatingTransactionLoader extends StatelessWidget {
+class BnsRenewalInitiatingTransactionLoader extends StatefulWidget {
   BnsRenewalInitiatingTransactionLoader(
       {Key? key, required this.mappingYears, required this.bnsName, required this.sendStore})
       : super(key: key);
@@ -21,13 +19,39 @@ class BnsRenewalInitiatingTransactionLoader extends StatelessWidget {
   final SendStore sendStore;
 
   @override
+  State<BnsRenewalInitiatingTransactionLoader> createState() => _BnsRenewalInitiatingTransactionLoaderState();
+}
+
+class _BnsRenewalInitiatingTransactionLoaderState extends State<BnsRenewalInitiatingTransactionLoader> {
+  Timer? _timer;
+  bool _transactionStarted = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WakelockPlus.enable();
+    _timer = Timer(const Duration(seconds: 1), () {
+      if (!_transactionStarted && mounted) {
+        _transactionStarted = true;
+        widget.sendStore.createBnsRenewalTransaction(
+            bnsName: widget.bnsName,
+            mappingYears: widget.mappingYears,
+            tPriority: BeldexTransactionPriority.slow);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    WakelockPlus.disable();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final height = MediaQuery.sizeOf(context).height;
-    WakelockPlus.enable();
-    Future.delayed(const Duration(seconds: 1), () {
-      sendStore.createBnsRenewalTransaction(bnsName:bnsName, mappingYears:mappingYears, tPriority: BeldexTransactionPriority.slow);
-    });
 
     return PopScope(
       canPop: false,

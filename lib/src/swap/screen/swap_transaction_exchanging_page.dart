@@ -98,6 +98,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
   late GetCurrenciesFullProvider getCurrenciesFullProvider;
   late NetworkProvider networkProvider;
   bool _isInitialized = false;
+  bool _errorShown = false;
 
   @override
   void initState() {
@@ -354,9 +355,10 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                             builder: (context, getCurrenciesFullProvider, child) {
                               this.getCurrenciesFullProvider = getCurrenciesFullProvider;
                               _isInitialized = true;
-                              if(getCurrenciesFullProvider.error != null) {
+                              if(getCurrenciesFullProvider.error != null && !_errorShown) {
+                                _errorShown = true;
                                 Fluttertoast.showToast(
-                                  msg: 'Network Error! Please check internet connection.',
+                                  msg: tr(context).networkErrorCheckConnection,
                                   toastLength: Toast.LENGTH_SHORT,
                                   gravity: ToastGravity.BOTTOM,
                                   textColor: Colors.white,
