@@ -135,3 +135,8 @@
   version: 2.3.1
   changes:
     - Minor bug fixes
+-
+  version: 2.3.2
+  changes:
+    - Targeted latest android version
+    - Minor bug fixes
