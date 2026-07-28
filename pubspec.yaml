@@ -11,7 +11,7 @@ description: A Wallet for Beldex.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.3.2+41
+version: 2.3.2+42
 
 # Version Code 1 Version Name 1.0.0 Release Date : 30-12-2021
 # Version Code 2 Version Name 1.0.1 Release Date : 07-01-2022
@@ -47,7 +47,7 @@ version: 2.3.2+41
 # Version Code 36 Version Name 2.2.1 Internal Test Release Date : 25-05-2026
 # Version Code 37 Version Name 2.3.0 Internal Test Release Date : 27-06-2026
 # Version Code 38,39 Version Name 2.3.1 Internal Test Release Date : 01-07-2026
-# Version Code 40,41 Version Name 2.3.1 Internal Test Release Date : 28-07-2026
+# Version Code 40,41,42 Version Name 2.3.1 Internal Test Release Date : 28-07-2026
 
 # keytool -genkey -v -keystore c:\Users\konst\key.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias key
 
