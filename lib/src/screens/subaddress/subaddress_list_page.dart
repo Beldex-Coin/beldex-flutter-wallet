@@ -25,7 +25,7 @@ class SubaddressListPage extends BasePage {
     final subaddressListStore = Provider.of<SubaddressListStore>(context);
 
     final currentColor = Colors.grey;
-    final notCurrentColor = Theme.of(context).dialogBackgroundColor;
+    final notCurrentColor = Theme.of(context).dialogTheme.backgroundColor;
 
     return Container(
         padding: EdgeInsets.only(top: 20.0, bottom: 20.0),

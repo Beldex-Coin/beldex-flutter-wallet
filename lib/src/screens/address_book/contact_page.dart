@@ -139,7 +139,7 @@ class ContactFormState extends State<ContactForm> {
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintStyle:
-                        TextStyle(backgroundColor:Colors.transparent,fontSize: 16.0, color: Colors.grey.withOpacity(0.6),fontWeight: FontWeight.bold),
+                        TextStyle(backgroundColor:Colors.transparent,fontSize: 16.0, color: Colors.grey.withValues(alpha: 0.6),fontWeight: FontWeight.bold),
                         hintText: tr(context).enterName,
                         errorStyle: TextStyle(backgroundColor:Colors.transparent,color: BeldexPalette.red)),
                   ),
@@ -192,15 +192,14 @@ class ContactFormState extends State<ContactForm> {
                                 'assets/images/qr_code_svg.svg',
                                 width: 20,
                                 height: 20,
-                                color:
-                                Theme.of(context).primaryTextTheme.bodySmall?.color,
+                                  colorFilter: ColorFilter.mode(Theme.of(context).primaryTextTheme.bodySmall?.color ?? Colors.green, BlendMode.srcIn),
                                 placeholderBuilder: (context) {
                                   return Icon(Icons.image);
                                 },
                               ),
                             )),
                         hintStyle:
-                        TextStyle(backgroundColor:Colors.transparent,fontSize: 16.0, color: Colors.grey.withOpacity(0.6),fontWeight: FontWeight.bold),
+                        TextStyle(backgroundColor:Colors.transparent,fontSize: 16.0, color: Colors.grey.withValues(alpha: 0.6),fontWeight: FontWeight.bold),
                         hintText: tr(context).enterAddress,
                         errorStyle: TextStyle(backgroundColor:Colors.transparent,color: BeldexPalette.red)),
                   ),
@@ -210,7 +209,7 @@ class ContactFormState extends State<ContactForm> {
           ),
         ),
         bottomSection: Container(
-          height: MediaQuery.of(context).size.height * 0.35 / 3,
+          height: MediaQuery.sizeOf(context).height * 0.35 / 3,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
@@ -291,7 +290,7 @@ class ContactFormState extends State<ContactForm> {
                                             BorderRadius.circular(20.0)),
                                     surfaceTintColor: Colors.transparent,
                                     child: Container(
-                                      height: 170,
+                                      constraints: BoxConstraints(minHeight: 170),
                                       child: Padding(
                                         padding: const EdgeInsets.all(12.0),
                                         child: Column(

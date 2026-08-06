@@ -7,7 +7,7 @@ import 'package:beldex_wallet/src/wallet/transaction/transaction_direction.dart'
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../util/clipboard_helper.dart';
 
@@ -43,7 +43,6 @@ class TransactionRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    ToastContext().init(context);
     return InkWell(
         // onTap: onTap,
         child: Container(
@@ -80,15 +79,15 @@ class TransactionRow extends StatelessWidget {
                             child: direction == TransactionDirection.incoming
                                 ? SvgPicture.asset(
                                     'assets/images/new-images/incoming.svg',
-                                    color: direction ==
+                                    colorFilter: ColorFilter.mode(direction ==
                                             TransactionDirection.incoming
                                         ? Colors.green
-                                        : Colors.red,
+                                        : Colors.red, BlendMode.srcIn),
                                     //fit:BoxFit.cover
                                   )
                                 : isBns==true ? SvgPicture.asset(
                               'assets/images/new-images/ic_bns_dark.svg',
-                              color: Color(0xffAFAFBE),
+                              colorFilter: ColorFilter.mode(Color(0xffAFAFBE), BlendMode.srcIn),
                               //fit:BoxFit.cover
                             ) : Padding(
                                     padding: EdgeInsets.all(5),
@@ -199,13 +198,11 @@ class TransactionRow extends StatelessWidget {
                                     InkWell(
                                       onTap: () async {
                                         await ClipboardHelper.copyWithAutoClear(transaction.id);
-                                        Toast.show(
-                                          tr(context).copied,
-                                          duration: Toast
-                                              .lengthShort, // Toast duration (short or long)
-                                          gravity: Toast
-                                          .bottom, // Toast gravity (top, center, or bottom)
-                                          textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
+                                        await Fluttertoast.showToast(
+                                          msg: tr(context).copied,
+                                          toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                                          gravity: ToastGravity.BOTTOM, // Toast gravity (top, center, or bottom)
+                                          textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,// Background color
                                         );
                                       },
@@ -264,13 +261,11 @@ class TransactionRow extends StatelessWidget {
                                       InkWell(
                                         onTap: () async {
                                           await ClipboardHelper.copyWithAutoClear(paymentId);
-                                          Toast.show(
-                                            tr(context).copied,
-                                            duration: Toast
-                                                .lengthShort, // Toast duration (short or long)
-                                            gravity: Toast
-                                                .bottom, // Toast gravity (top, center, or bottom)
-                                            textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
+                                          await Fluttertoast.showToast(
+                                            msg: tr(context).copied,
+                                            toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                                            gravity: ToastGravity.BOTTOM, // Toast gravity (top, center, or bottom)
+                                            textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
                                             backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,// Background color
                                           );
                                         },
@@ -421,13 +416,11 @@ class TransactionRow extends StatelessWidget {
                                           InkWell(
                                             onTap: () async {
                                               await ClipboardHelper.copyWithAutoClear(transaction.recipientAddress!);
-                                              Toast.show(
-                                                tr(context).copied,
-                                                duration: Toast
-                                                    .lengthShort,
-                                                gravity: Toast
-                                                    .bottom,
-                                                textStyle: TextStyle(color: Colors.white),
+                                              await Fluttertoast.showToast(
+                                                msg: tr(context).copied,
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                textColor: Colors.white,
                                                 backgroundColor: Color(
                                                     0xff0BA70F), 
                                               );

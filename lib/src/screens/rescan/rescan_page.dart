@@ -56,7 +56,7 @@ class RescanPage extends BasePage {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 0.60 / 3),
+              SizedBox(height: MediaQuery.sizeOf(context).height * 0.60 / 3),
               Center(child: BlockHeightSwapingWidget(key: blockchainKey)),
             ]),
         //),
@@ -226,7 +226,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Container(
-                                  width: 150,
+                                  width: 180,
                                   child: TextFormField(
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
@@ -318,7 +318,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                   onSurface: settingsStore.isDarkTheme ? Colors.white : Colors.black, // Month days , years
                 ),
                 datePickerTheme: DatePickerThemeData(
-                    backgroundColor: Theme.of(context).dialogBackgroundColor,
+                    backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
                     cancelButtonStyle: ButtonStyle(
                       foregroundColor: WidgetStateProperty.all(Color(0xff0BA70F)),
                     ),

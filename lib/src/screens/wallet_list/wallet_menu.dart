@@ -61,7 +61,7 @@ class WalletMenu {
                   widthFactor: 0.95,
                   // heightFactor:0.50 ,
                   child: Container(
-                    // height: MediaQuery.of(context).size.height*0.85/3,
+                    // height: MediaQuery.sizeOf(context).height*0.85/3,
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Column(

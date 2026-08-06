@@ -194,7 +194,7 @@ class _ExpandedSectionState extends State<ExpandedSection>
 //                       //   child:
 //                       Container(
 //                         padding: EdgeInsets.only(
-//                             top: MediaQuery.of(context).size.height * 0.06 / 3),
+//                             top: MediaQuery.sizeOf(context).height * 0.06 / 3),
 //                         constraints: BoxConstraints(
 //                             maxHeight: widget.maxListHeight,
 //                             maxWidth: size.width),
@@ -276,7 +276,7 @@ class _ExpandedSectionState extends State<ExpandedSection>
 //     double safePaddingBottom = MediaQuery.of(context).padding.bottom;
 
 //     double screenHeight =
-//         MediaQuery.of(context).size.height - safePaddingBottom - safePaddingTop;
+//         MediaQuery.sizeOf(context).height - safePaddingBottom - safePaddingTop;
 
 //     return screenHeight - offsetY;
 //   }

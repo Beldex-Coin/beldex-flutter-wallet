@@ -15,7 +15,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keyboard_detection/keyboard_detection.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../palette.dart';
 import '../../../routes.dart';
@@ -106,6 +106,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   var from;
   var to;
   bool _isInitialized = false;
+  bool _errorShown = false;
   final _focusWalletAddress = FocusNode();
   final _focusDestinationTag = FocusNode();
   late KeyboardDetectionController keyboardDetectionController;
@@ -163,11 +164,10 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.of(context).size.width;
-    final _screenHeight = MediaQuery.of(context).size.height;
+    final _screenWidth = MediaQuery.sizeOf(context).width;
+    final _screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
-    ToastContext().init(context);
     return KeyboardDetection(
       controller: keyboardDetectionController,
       child: GestureDetector(
@@ -237,7 +237,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             curStep: currentStep,
             stepCompleteColor: Colors.blue,
             currentStepColor: Color(0xff20D030),
@@ -354,12 +354,13 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
           builder: (context, validateAddressProvider, child) {
             this.validateAddressProvider = validateAddressProvider;
             _isInitialized = true;
-            if(validateAddressProvider.error != null) {
-              Toast.show(
-                'Network Error! Please check internet connection.',
-                duration: Toast.lengthShort,
-                gravity: Toast.bottom,
-                textStyle:TextStyle(color: Colors.white),
+            if(validateAddressProvider.error != null && !_errorShown) {
+              _errorShown = true;
+              Fluttertoast.showToast(
+                msg: tr(context).networkErrorCheckConnection,
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                textColor: Colors.white,
                 backgroundColor: Color(0xff8B1C1C),
               );
             }
@@ -456,7 +457,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                             backgroundColor: Colors.transparent,
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
-                            color: Colors.grey.withOpacity(0.6)),
+                            color: Colors.grey.withValues(alpha: 0.6)),
                         hintText: 'Enter your ${to.toUpperCase()} recipient address',
                         errorStyle: TextStyle(backgroundColor: Colors.transparent,height: 0.1)),
                     onChanged: (value) {
@@ -549,7 +550,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                   hintStyle: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.normal,
-                      color: Colors.grey.withOpacity(0.6)),
+                      color: Colors.grey.withValues(alpha: 0.6)),
                   hintText: 'Enter your ${to.toUpperCase()} refund address',
                   errorStyle: TextStyle(color: BeldexPalette.red),
                   suffixIcon: InkWell(
@@ -711,7 +712,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                             hintStyle: TextStyle(
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.normal,
-                                color: Colors.grey.withOpacity(0.6)),
+                                color: Colors.grey.withValues(alpha: 0.6)),
                             hintText: 'Enter ${_exchangeData.extraIdName}',
                             errorStyle: TextStyle(color: BeldexPalette.red),
                           ),

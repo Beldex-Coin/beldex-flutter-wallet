@@ -104,7 +104,7 @@ class NewStakeFormState extends State<NewStakeForm>
                   borderRadius: BorderRadius.circular(15)),
               child: Container(
                 color: Colors.transparent,
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.sizeOf(context).width,
                 padding:
                     EdgeInsets.only(top: 25, left: 25, right: 25, bottom: 10),
                 child: Column(
@@ -281,7 +281,7 @@ class NewStakeFormState extends State<NewStakeForm>
                                 border: InputBorder.none,
                                 hintStyle: TextStyle(
                                     fontSize: 18.0,
-                                    color: Colors.grey.withOpacity(0.6)),
+                                    color: Colors.grey.withValues(alpha: 0.6)),
                                 hintText: '00.000000000 BDX',
                                 errorStyle:
                                     TextStyle(color: BeldexPalette.red)),
@@ -377,13 +377,13 @@ class NewStakeFormState extends State<NewStakeForm>
                   builder: (context, spanshot) => GestureDetector(
                     onVerticalDragUpdate: (DragUpdateDetails details) {
                       position =
-                          MediaQuery.of(context).size.height - details.globalPosition.dy;
+                          MediaQuery.sizeOf(context).height - details.globalPosition.dy;
                       if (!position.isNegative && position < 240) {
                         controller.add(position);
                       }
                     },
                     onVerticalDragEnd: (details) {
-                      controller.add(MediaQuery.of(context).size.height * 0.12);
+                      controller.add(MediaQuery.sizeOf(context).height * 0.12);
                       syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0
                                 ? () async {
                               if (_formKey.currentState.validate()) {
@@ -416,7 +416,7 @@ class NewStakeFormState extends State<NewStakeForm>
                     child: Container(
                         height: spanshot.hasData
                             ? spanshot.data
-                            : MediaQuery.of(context).size.height * 0.12,
+                            : MediaQuery.sizeOf(context).height * 0.12,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -453,7 +453,7 @@ class NewStakeFormState extends State<NewStakeForm>
 // this height forces the container to be a circle
                                     child: SvgPicture.asset(
                                       'assets/images/up_arrow_svg.svg',
-                                      color: Colors.white,
+                                      colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
                                       width: 25,
                                       height: 25,
                                     ),

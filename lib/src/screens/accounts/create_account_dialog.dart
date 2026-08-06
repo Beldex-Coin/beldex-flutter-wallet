@@ -101,7 +101,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                 : Color(0xffFFFFFF),
             surfaceTintColor: Colors.transparent,
             child: Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.sizeOf(context).width,
               margin: EdgeInsets.all(20),
               child: Form(
                 key: _formKey,
@@ -167,8 +167,8 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                                 ? Color(0xff383848)
                                 : Color(0xffE8E8E8),
                             height:
-                                MediaQuery.of(context).size.height * 0.18 / 3,
-                            minWidth: MediaQuery.of(context).size.width / 2,
+                                MediaQuery.sizeOf(context).height * 0.18 / 3,
+                            minWidth: MediaQuery.sizeOf(context).width < 600 ? MediaQuery.sizeOf(context).width / 2 : 180,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             child: Text(
@@ -210,8 +210,8 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                             elevation: 0,
                             color: Color(0xff0BA70F),
                             height:
-                                MediaQuery.of(context).size.height * 0.18 / 3,
-                            minWidth: MediaQuery.of(context).size.width / 2,
+                                MediaQuery.sizeOf(context).height * 0.18 / 3,
+                            minWidth: MediaQuery.sizeOf(context).width < 600 ? MediaQuery.sizeOf(context).width / 2 : 180,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
                             child: Text(

@@ -203,7 +203,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
             Container(
               padding:
               EdgeInsets.only(top: 10.0, bottom: 40.0, left: 40.0, right: 40.0),
-              height: MediaQuery.of(context).size.height * 0.60 / 3,
+              height: MediaQuery.sizeOf(context).height * 0.60 / 3,
               width: double.infinity,
               child: SvgPicture.asset(
                 'assets/images/new-images/Password.svg',
@@ -302,10 +302,9 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                         const marginLeft = 15.0;
 
                         if (index == 9) {
-                          return Container(
-                              padding: Platform.isIOS ? EdgeInsets.only(bottom: 18,left:10,right:10) : EdgeInsets.all(10),
-                              margin: EdgeInsets.only(
-                                  left: marginLeft, right: marginRight),
+                          return Center(
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(maxWidth: 48, maxHeight: 48),
                               child: GestureDetector(
                                   onTap: () {
                                     // final prefs = await SharedPreferences.getInstance();
@@ -404,14 +403,14 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                           });
                                     }
                                   },
-                                  child: SvgPicture.asset(
-                                    'assets/images/new-images/fingerprint.svg',
-                                    height: 20,width: 20,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffFFFFFF)
-                                        : Color(0xff060606),
-                                    fit: BoxFit.contain,
-                                  )));
+                                  child: Center(
+                                    child: SvgPicture.asset(
+                                      'assets/images/new-images/fingerprint.svg',
+                                      colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
+                                          ? Color(0xffFFFFFF)
+                                          : Color(0xff060606), BlendMode.srcIn),
+                                    ),
+                                  ))));
                         } else if (index == 10) {
                           index = 0;
                         } else if (index == 11) {
@@ -419,17 +418,11 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                             margin: EdgeInsets.only(
                                 left: marginLeft, right: marginRight),
                             child: TextButton(
-                              //FlatButton
                                 onPressed: () => _pop(),
-                                child: SvgPicture.asset('assets/images/new-images/clear.svg', color:Theme.of(context)
+                                child: SvgPicture.asset('assets/images/new-images/clear.svg', colorFilter: ColorFilter.mode(Theme.of(context)
                                     .primaryTextTheme
                                     .bodySmall!
-                                    .color)
-                              // Icon(Icons.backspace_outlined,
-                              //     color: Theme.of(context)
-                              //         .primaryTextTheme
-                              //         .caption
-                              //         .color),
+                                    .color!, BlendMode.srcIn))
                             ),
                           );
                         } else {
@@ -453,7 +446,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                     )
                         : null))
           ]),
-        ));
+        ),);
   }
 
   void _push(int num) {

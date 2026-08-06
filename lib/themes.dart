@@ -6,7 +6,9 @@ class Themes {
   static final ThemeData lightTheme = ThemeData(
     fontFamily: 'OpenSans',
     brightness: Brightness.light,
-    dialogBackgroundColor: Palette.lightThemeBackground,
+    dialogTheme: DialogThemeData(
+      backgroundColor: Palette.lightThemeBackground,
+    ),
     scaffoldBackgroundColor: Palette.lightThemeBlack,
     hintColor: Colors.grey[500],
     focusColor: Palette.lightGrey, // focused and enabled border color for text fields
@@ -104,7 +106,9 @@ class Themes {
   static final ThemeData darkTheme = ThemeData(
     fontFamily: 'OpenSans',
     brightness: Brightness.dark,
-    dialogBackgroundColor: PaletteDark.darkThemeBackground,
+    dialogTheme: DialogThemeData(
+      backgroundColor: PaletteDark.darkThemeBackground,
+    ),
     scaffoldBackgroundColor: PaletteDark.darkThemeBlack,
     hintColor: PaletteDark.darkThemeGrey,
     focusColor: PaletteDark.darkThemeGreyWithOpacity, // focused and enabled border color for text fields

@@ -94,7 +94,7 @@ class AccountFormState extends State<AccountForm> {
           )),
       bottomSection: Observer(
           builder: (_) => SizedBox(
-                width: 250,
+                width: 280,
                 child: LoadingPrimaryButton(
                   onPressed: () async {
                     if (!(_formKey.currentState?.validate() ?? false)) {

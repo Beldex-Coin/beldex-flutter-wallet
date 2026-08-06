@@ -228,10 +228,10 @@ class TransactionDetailsListBodyState
                                         'assets/images/new-images/filter.svg',
                                         width: 18,
                                         height: 18,
-                                        color: Theme.of(context)
+                                        colorFilter: ColorFilter.mode(Theme.of(context)
                                             .primaryTextTheme
-                                            .bodySmall!
-                                            .color,
+                                            .bodySmall
+                                            ?.color ?? Colors.green, BlendMode.srcIn),
                                       )))
                             ]),
                       ),
@@ -264,7 +264,7 @@ class TransactionDetailsListBodyState
 
                     if (index < 0 || index >= items.length) {
                       return Container(
-                        height: MediaQuery.of(context).size.height * 2.6 / 3,
+                        height: MediaQuery.sizeOf(context).height * 2.6 / 3,
                         margin: EdgeInsets.only(
                             top: 8.0, bottom: 10.0, right: 15.0, left: 15.0),
                         decoration: BoxDecoration(
@@ -378,7 +378,7 @@ class TransactionDetailsListBodyState
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             SizedBox(
-                              width: 55,
+                              width: 70,
                               child:
                                TextButton(
                                 style: TextButton.styleFrom(
@@ -404,7 +404,7 @@ class TransactionDetailsListBodyState
                               ),
                             ),
                             SizedBox(
-                              width: 55,
+                              width: 70,
                               child: TextButton(
                                 style: TextButton.styleFrom(
                                   shape: RoundedRectangleBorder(

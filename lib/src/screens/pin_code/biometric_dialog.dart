@@ -65,7 +65,7 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
           filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
           child: Container(
             // margin: EdgeInsets.all(10),
-            // decoration: BoxDecoration(color: Color(0xff171720).withOpacity(0.55)),
+            // decoration: BoxDecoration(color: Color(0xff171720).withValues(alpha: 0.55)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -78,7 +78,7 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
                     ),
                     child: Container(
                         height:
-                        MediaQuery.of(context).size.height * 1 / 3,
+                        MediaQuery.sizeOf(context).height * 1 / 3,
                         margin: EdgeInsets.only(
                             left: 10, right: 10, bottom: 10, top: 10),
                         decoration: BoxDecoration(
@@ -122,7 +122,7 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
                                       .confirmYourScreenLockPinpatternAndPassword,
                                   style: TextStyle(
                                       fontSize:
-                                      MediaQuery.of(context).size.height *
+                                      MediaQuery.sizeOf(context).height *
                                           0.05 /
                                           3,
                                       color: settingsStore.isDarkTheme
@@ -138,11 +138,11 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
                                         3),
                                 child: SvgPicture.asset(
                                   'assets/images/new-images/fingerprint.svg',
-                                  color: settingsStore.isDarkTheme
+                                  colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                                       ? Color(0xffffffff)
-                                      : Color(0xff16161D),
+                                      : Color(0xff16161D), BlendMode.srcIn),
                                   height:
-                                  MediaQuery.of(context).size.height *
+                                  MediaQuery.sizeOf(context).height *
                                       0.25 /
                                       3,
                                 )),

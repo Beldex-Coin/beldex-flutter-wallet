@@ -10,7 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../routes.dart';
 import '../../stores/sync/sync_store.dart';
 import '../../util/clipboard_helper.dart';
@@ -101,6 +101,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   //var createdTxnDetails = {'type': 'float', 'payTill': DateTime.now().toString()};
   late GetTransactionsProvider getTransactionsProvider;
   bool _isInitialized = false;
+  bool _errorShown = false;
   late NetworkProvider networkProvider;
 
   void startAndStopPendingTransactionTimer(int? createdAt) {
@@ -224,12 +225,11 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.of(context).size.width;
-    final _screenHeight = MediaQuery.of(context).size.height;
+    final _screenWidth = MediaQuery.sizeOf(context).width;
+    final _screenHeight = MediaQuery.sizeOf(context).height;
     final syncStore = Provider.of<SyncStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
-    ToastContext().init(context);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
@@ -263,7 +263,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             curStep: currentStep,
             stepCompleteColor: Colors.blue,
             currentStepColor: Color(0xff20D030),
@@ -419,7 +419,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
             )),
         //Transaction ID with Time Details
         Container(
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: settingsStore.isDarkTheme
@@ -463,13 +463,11 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                     InkWell(
                       onTap: () async {
                         await ClipboardHelper.copyWithAutoClear(createdTransactionDetails!.id.toString());
-                        Toast.show(
-                          tr(context).copied,
-                          duration: Toast
-                              .lengthShort, // Toast duration (short or long)
-                          gravity: Toast
-                              .bottom,
-                          textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
+                        await Fluttertoast.showToast(
+                          msg: tr(context).copied,
+                          toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                          gravity: ToastGravity.BOTTOM,
+                          textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
                           backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                         );
                       },
@@ -484,7 +482,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
               ],
             )),
         Container(
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             margin: EdgeInsets.only(bottom: 10),
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -583,13 +581,11 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                     InkWell(
                         onTap: () async {
                           await ClipboardHelper.copyWithAutoClear(createdTransactionDetails!.payinAddress.toString());
-                          Toast.show(
-                            tr(context).copied,
-                            duration: Toast
-                                .lengthShort, // Toast duration (short or long)
-                            gravity: Toast
-                                .bottom,
-                            textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
+                          await Fluttertoast.showToast(
+                            msg: tr(context).copied,
+                            toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                            gravity: ToastGravity.BOTTOM,
+                            textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
                             backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                           );
                         },
@@ -645,7 +641,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
         ),
         //Time Remaining Details
         Container(
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery.sizeOf(context).width,
           margin: EdgeInsets.only(top: 20, bottom: 20),
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
@@ -656,7 +652,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width:MediaQuery.of(context).size.width,
+                width:MediaQuery.sizeOf(context).width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
@@ -717,12 +713,13 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
             builder: (context, getTransactionsProvider, child) {
               this.getTransactionsProvider = getTransactionsProvider;
               _isInitialized = true;
-              if(getTransactionsProvider.error != null) {
-                Toast.show(
-                  'Network Error! Please check internet connection.',
-                  duration: Toast.lengthShort,
-                  gravity: Toast.bottom,
-                  textStyle:TextStyle(color: Colors.white),
+              if(getTransactionsProvider.error != null && !_errorShown) {
+                _errorShown = true;
+                Fluttertoast.showToast(
+                  msg: tr(context).networkErrorCheckConnection,
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  textColor: Colors.white,
                   backgroundColor: Color(0xff8B1C1C),
                 );
               }

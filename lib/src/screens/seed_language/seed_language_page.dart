@@ -69,7 +69,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
       content: Column(
         children: <Widget>[
           Container(
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             decoration: BoxDecoration(
                 color: settingsStore.isDarkTheme
                     ? Color(0xff272733)
@@ -89,7 +89,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
                   height: 15,
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 1.3 / 3, //200,
+                  height: MediaQuery.sizeOf(context).height * 1.3 / 3, //200,
                   child: Container(
                       margin: EdgeInsets.only(left: 20.0, right: 10.0),
                       color: settingsStore.isDarkTheme

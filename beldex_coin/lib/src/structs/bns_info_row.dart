@@ -2,7 +2,7 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 
-class BnsRowPointer extends Struct {
+base class BnsRowPointer extends Struct {
 
   external Pointer<Utf8> _name;
 

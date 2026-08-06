@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../l10n.dart';
 import '../../stores/settings/settings_store.dart';
@@ -30,7 +30,6 @@ class InputOutputDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    ToastContext().init(context);
     return Container(
       color: Colors.transparent,
       child: BackdropFilter(
@@ -38,7 +37,7 @@ class InputOutputDialog extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(15),
           decoration:
-          BoxDecoration(color: Color(0xff171720).withOpacity(0.55)),
+          BoxDecoration(color: Color(0xff171720).withValues(alpha: 0.55)),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -84,19 +83,17 @@ class InputOutputDialog extends StatelessWidget {
                                           InkWell(
                                             onTap: () async {
                                               await ClipboardHelper.copyWithAutoClear(inputHash);
-                                              Toast.show(
-                                                tr(context).copied,
-                                                duration: Toast
-                                                    .lengthShort, // Toast duration (short or long)
-                                                gravity: Toast
-                                                    .bottom,
-                                                textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
+                                              await Fluttertoast.showToast(
+                                                msg: tr(context).copied,
+                                                toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                                                gravity: ToastGravity.BOTTOM,
+                                                textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
                                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                                               );
                                             },
                                             child: SvgPicture.asset(
                                               'assets/images/swap/copy.svg',
-                                              color: Colors.green,
+                                              colorFilter: ColorFilter.mode(Colors.green, BlendMode.srcIn),
                                               width: 13,
                                               height: 13,
                                             ),
@@ -133,19 +130,17 @@ class InputOutputDialog extends StatelessWidget {
                                           InkWell(
                                             onTap: () async {
                                               await ClipboardHelper.copyWithAutoClear(outputHash);
-                                              Toast.show(
-                                                tr(context).copied,
-                                                duration: Toast
-                                                    .lengthShort, // Toast duration (short or long)
-                                                gravity: Toast
-                                                    .bottom,
-                                                textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
+                                              await Fluttertoast.showToast(
+                                                msg: tr(context).copied,
+                                                toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                                                gravity: ToastGravity.BOTTOM,
+                                                textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
                                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                                               );
                                             },
                                             child: SvgPicture.asset(
                                               'assets/images/swap/copy.svg',
-                                              color: Colors.green,
+                                              colorFilter: ColorFilter.mode(Colors.green, BlendMode.srcIn),
                                               width: 13,
                                               height: 13,
                                             ),
@@ -173,7 +168,7 @@ class InputOutputDialog extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        width: MediaQuery.of(context).size.width / 2.5,
+                        width: MediaQuery.sizeOf(context).width < 600 ? MediaQuery.sizeOf(context).width / 2.5 : 200,
                         child: PrimaryButton(
                             text: tr(context).ok,
                             color: Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor,

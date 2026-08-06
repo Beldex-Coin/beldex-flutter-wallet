@@ -51,7 +51,7 @@ class AccountListPage extends BasePage {
       children: [
 
         Container(
-           height:ScreenSize.screenHeight1, //MediaQuery.of(context).size.height*1/3,
+           height:ScreenSize.screenHeight1, //MediaQuery.sizeOf(context).height*1/3,
         decoration: BoxDecoration(
          color: settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED),
          borderRadius: BorderRadius.circular(10)
@@ -110,7 +110,7 @@ class AccountListPage extends BasePage {
                               }
                             },
                             child: Container(
-                             width: MediaQuery.of(context).size.width,
+                             width: MediaQuery.sizeOf(context).width,
                              decoration: BoxDecoration(
                                color:  settingsStore.isDarkTheme ? isCurrent ? Color(0xff383848) : Color(0xff1B1B23) : Color(0xffFFFFFF),
                                   borderRadius: BorderRadius.circular(10)),
@@ -157,7 +157,7 @@ class AccountListPage extends BasePage {
             child: FractionallySizedBox(
               widthFactor: 0.95,
               child: Container(
-                width:ScreenSize.screenWidth, //MediaQuery.of(context).size.width,
+                width:ScreenSize.screenWidth, //MediaQuery.sizeOf(context).width,
                 margin: EdgeInsets.all(20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

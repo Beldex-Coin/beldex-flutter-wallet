@@ -20,8 +20,8 @@ Future showQRCodeDialog(BuildContext context, SettingsStore settingsStore, Strin
                 fontSize: 16,
                 fontWeight: FontWeight.w800)),
         Container(
-          height: MediaQuery.of(context).size.height * 0.60 / 2,
-          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.sizeOf(context).height * 0.60 / 2,
+          width: MediaQuery.sizeOf(context).width,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: settingsStore.isDarkTheme
@@ -48,8 +48,8 @@ Future showQRCodeDialog(BuildContext context, SettingsStore settingsStore, Strin
             }
           },
           child: Container(
-            height: 41,
-            width: 121,
+            height: 45,
+            width: 150,
             decoration:
             BoxDecoration(
               borderRadius:

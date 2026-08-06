@@ -6,11 +6,10 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
-class BnsInitiatingTransactionLoader extends StatelessWidget {
+class BnsInitiatingTransactionLoader extends StatefulWidget {
   BnsInitiatingTransactionLoader(
       {Key? key, required this.owner, required this.backUpOwner, required this.mappingYears, required this.bchatId, required this.walletAddress, required this.belnetId, required this.bnsName, required this.ethAddress, required this.sendStore})
       : super(key: key);
@@ -26,16 +25,48 @@ class BnsInitiatingTransactionLoader extends StatelessWidget {
   final SendStore sendStore;
 
   @override
+  State<BnsInitiatingTransactionLoader> createState() => _BnsInitiatingTransactionLoaderState();
+}
+
+class _BnsInitiatingTransactionLoaderState extends State<BnsInitiatingTransactionLoader> {
+  Timer? _timer;
+  bool _transactionStarted = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WakelockPlus.enable();
+    _timer = Timer(const Duration(seconds: 1), () {
+      if (!_transactionStarted && mounted) {
+        _transactionStarted = true;
+        widget.sendStore.createBnsTransaction(
+            owner: widget.owner,
+            backUpOwner: widget.backUpOwner,
+            mappingYears: widget.mappingYears,
+            walletAddress: widget.walletAddress,
+            bchatId: widget.bchatId,
+            belnetId: widget.belnetId,
+            ethAddress: widget.ethAddress,
+            bnsName: widget.bnsName,
+            tPriority: BeldexTransactionPriority.slow);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    WakelockPlus.disable();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    final height = MediaQuery.of(context).size.height;
-    WakelockPlus.enable();
-    Future.delayed(const Duration(seconds: 1), () {
-      sendStore.createBnsTransaction(owner:owner, backUpOwner:backUpOwner, mappingYears:mappingYears, walletAddress:walletAddress, bchatId:bchatId,  belnetId:belnetId, ethAddress:ethAddress, bnsName:bnsName, tPriority: BeldexTransactionPriority.slow);
-    });
+    final height = MediaQuery.sizeOf(context).height;
 
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Center(
           child: Scaffold(
         body: Container(

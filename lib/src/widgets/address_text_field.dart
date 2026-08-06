@@ -94,8 +94,8 @@ class AddressTextField extends StatelessWidget {
                           'assets/images/qr_code_svg.svg',
                           width: 20,
                           height: 20,
-                          color:
-                              Theme.of(context).primaryTextTheme.bodySmall?.color,
+                          colorFilter: ColorFilter.mode(
+                              Theme.of(context).primaryTextTheme.bodySmall?.color ?? Colors.green, BlendMode.srcIn),
                           placeholderBuilder: (context) {
                             return Icon(Icons.image);
                           },
@@ -113,8 +113,8 @@ class AddressTextField extends StatelessWidget {
                           'assets/images/contact_book_svg.svg',
                           width: 25,
                           height: 25,
-                          color:
-                              Theme.of(context).primaryTextTheme.bodySmall?.color,
+                          colorFilter: ColorFilter.mode(
+                              Theme.of(context).primaryTextTheme.bodySmall?.color ?? Colors.green, BlendMode.srcIn),
                           placeholderBuilder: (context) {
                             return Icon(Icons.image);
                           },

@@ -61,9 +61,9 @@ class RestoreWalletOptionsPage extends BasePage {
                                 padding: EdgeInsets.only(right: 8.0),
                                 child: SvgPicture.asset(
                                   'assets/images/new-images/restore_seed.svg',
-                                  color: settingsStore.isDarkTheme
+                                  colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                                       ? Color(0xffAEAEAE)
-                                      : Color(0xff16161D),
+                                      : Color(0xff16161D), BlendMode.srcIn),
                                 ),
                               ),
                               Text(
@@ -139,9 +139,9 @@ class RestoreWalletOptionsPage extends BasePage {
                                 padding: EdgeInsets.only(right: 8.0),
                                 child: SvgPicture.asset(
                                   'assets/images/new-images/restore_key.svg',
-                                  color: settingsStore.isDarkTheme
+                                  colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                                       ? Color(0xffAEAEAE)
-                                      : Color(0xff16161D),
+                                      : Color(0xff16161D), BlendMode.srcIn),
                                 ),
                               ),
                               Text(
