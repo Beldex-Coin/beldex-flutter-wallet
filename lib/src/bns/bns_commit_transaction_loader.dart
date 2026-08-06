@@ -1,28 +1,52 @@
+import 'dart:async';
+
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../../l10n.dart';
 
-class CommitTransactionLoader extends StatelessWidget {
+class CommitTransactionLoader extends StatefulWidget {
   CommitTransactionLoader({Key? key, required this.sendStore}) : super(key: key);
 
   final SendStore sendStore;
 
   @override
+  State<CommitTransactionLoader> createState() => _CommitTransactionLoaderState();
+}
+
+class _CommitTransactionLoaderState extends State<CommitTransactionLoader> {
+  Timer? _timer;
+  bool _transactionStarted = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WakelockPlus.enable();
+    _timer = Timer(const Duration(seconds: 1), () {
+      if (!_transactionStarted && mounted) {
+        _transactionStarted = true;
+        widget.sendStore.commitTransaction();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    WakelockPlus.disable();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    final height = MediaQuery.of(context).size.height;
-    WakelockPlus.enable();
-    Future.delayed(const Duration(seconds: 1), () {
-      sendStore.commitTransaction();
-    });
+    final height = MediaQuery.sizeOf(context).height;
 
-    return WillPopScope(
-      onWillPop: () async => false,
+    return PopScope(
+      canPop: false,
       child: Center(
           child: Scaffold(
             body: Container(

@@ -9,7 +9,7 @@ import 'package:beldex_wallet/src/stores/node_list/node_list_store.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class NewNodePage extends BasePage {
   @override
@@ -62,9 +62,9 @@ class NewNodeFormState extends State<NewNodePageForm> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        return WillPopScope(
+        return PopScope(
           // Prevent closing the dialog when the user presses the back button
-          onWillPop: () async => false,
+          canPop: false,
           child: AlertDialog(
             surfaceTintColor: Colors.transparent,
             shape:
@@ -108,7 +108,6 @@ class NewNodeFormState extends State<NewNodePageForm> {
     final settingsStore = Provider.of<SettingsStore>(context);
     var newNodePageChangeNotifier =
         Provider.of<NewNodePageChangeNotifier>(context);
-    ToastContext().init(context);
     return GestureDetector(
      onTap: (){
        FocusScope.of(context).unfocus();
@@ -324,7 +323,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                             padding: EdgeInsets.only(left: 20, right: 20),
                             margin: EdgeInsets.only(
                                 left: 20, right: 20, top: 10, bottom: 10),
-                            height: MediaQuery.of(context).size.height * 0.20 / 3,
+                            height: MediaQuery.sizeOf(context).height * 0.20 / 3,
                             decoration: BoxDecoration(
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff333343)
@@ -336,7 +335,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                   tr(context).testResult,
                                   style: TextStyle(
                                     backgroundColor: Colors.transparent,
-                                    fontSize: MediaQuery.of(context).size.height *
+                                    fontSize: MediaQuery.sizeOf(context).height *
                                         0.06 /
                                         3,
                                   ),
@@ -382,7 +381,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                               ],
                             )),
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.26 / 3,
+                      height: MediaQuery.sizeOf(context).height * 0.26 / 3,
                       padding: EdgeInsets.only(left: 15.0, right: 15),
                       width: double.infinity,
                       decoration: BoxDecoration(
@@ -430,7 +429,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                       style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize:
-                                            MediaQuery.of(context).size.height *
+                                            MediaQuery.sizeOf(context).height *
                                                 0.07 /
                                                 3,
                                         fontWeight: FontWeight.bold,
@@ -455,7 +454,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                               ? Color(0xffB9B9B9)
                                               : Color(0xff9292A7),
                                           fontSize:
-                                              MediaQuery.of(context).size.height *
+                                              MediaQuery.sizeOf(context).height *
                                                   0.07 /
                                                   3))),
                             ),
@@ -476,11 +475,10 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                               if (nodeList.nodes![i].uri.contains(
                                                   '${_nodeAddressController.text}:${_nodePortController.text}')) {
                                                 status = true;
-                                                Toast.show('This node is already exist',
-                                                  duration: Toast.lengthShort,
-                                              gravity: Toast
-                                                  .bottom, // Toast gravity (top, center, or bottom)
-                                                  textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),
+                                                await Fluttertoast.showToast(msg: tr(context).nodeAlreadyExists,
+                                               toastLength: Toast.LENGTH_SHORT,
+                                               gravity: ToastGravity.BOTTOM,
+                                                  textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,
                                                   backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                                                 );
                                                 return;
@@ -497,12 +495,11 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                             }
                                             Navigator.of(context).pop();
                                           } else {
-                                            Toast.show(
-                                              tr(context).pleaseAddAMainnetNode,
-                                              duration: Toast.lengthShort,
-                                              gravity: Toast
-                                                  .bottom, // Toast gravity (top, center, or bottom)
-                                              textStyle: TextStyle(color: Colors.white), // Text color // Background color
+                                            await Fluttertoast.showToast(
+                                              msg: tr(context).pleaseAddAMainnetNode,
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.BOTTOM, // Toast gravity (top, center, or bottom)
+                                              textColor: Colors.white, // Text color // Background color
                                             );
                                           }
                                         }
@@ -511,7 +508,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                     tr(context).add,
                                     style: TextStyle(
                                         fontSize:
-                                            MediaQuery.of(context).size.height *
+                                            MediaQuery.sizeOf(context).height *
                                                 0.07 /
                                                 3,
                                         fontWeight: FontWeight.bold,

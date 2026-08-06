@@ -21,8 +21,8 @@ class WelcomePage extends BasePage {
 
   @override
   Widget body(BuildContext context) {
-    final _screenWidth = MediaQuery.of(context).size.width;
-    final _screenHeight = MediaQuery.of(context).size.height;
+    final _screenWidth = MediaQuery.sizeOf(context).width;
+    final _screenHeight = MediaQuery.sizeOf(context).height;
     final textScaleFactor = _screenWidth < _baseWidth ? 0.76 : 1.0;
     final settingsStore = Provider.of<SettingsStore>(context);
     return Stack(
@@ -135,19 +135,19 @@ class WelcomePage extends BasePage {
               ),
               Positioned(
                   left: 10.0,
-                  top: 100,
+                  top: _screenHeight * 0.12,
                   child: Container(
-                      height: 65,
-                      width: 65,
+                      height: _screenHeight * 0.08,
+                      width: _screenHeight * 0.08,
                       child: Image.asset(
                           'assets/images/new-images/green_coin.png')) //Image.asset('assets/images/new-images/coin.png'),
               ),
               Positioned(
                   right: 2.0,
-                  bottom: 130,
+                  bottom: _screenHeight * 0.16,
                   child: Container(
-                      height: 50,
-                      width: 55,
+                      height: _screenHeight * 0.06,
+                      width: _screenHeight * 0.07,
                       child: Image.asset('assets/images/new-images/blue_coin.png'))),
             ],
           ),

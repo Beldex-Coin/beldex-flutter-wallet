@@ -9,6 +9,7 @@ import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/screens/auth/auth_page.dart';
 import 'package:provider/provider.dart';
+import '../../util/constants.dart' as constants;
 import '../../widgets/nav/new_nav_list_arrow.dart';
 
 class ProfilePage extends BasePage {
@@ -59,10 +60,11 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
           children: [
             Container(
               margin: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.4 / 4),
+                  left: constants.leftPx),
+              padding: EdgeInsets.only(left: 10),
               child: Text(
                 tr(context).wallet,
-                style: TextStyle(fontSize: 20.0, color: Color(0xff737385)),
+                style: TextStyle(fontSize: 20.0, color: Color(0xff737385), fontWeight: FontWeight.w500),
               ),
             ),
             NewNavListArrow(
@@ -70,7 +72,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                 leading: SvgPicture.asset('assets/images/new-images/wallet.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.titleLarge?.color),
+                    colorFilter: ColorFilter.mode(Theme.of(context).primaryTextTheme.titleLarge?.color ?? Colors.green, BlendMode.srcIn)),
                 text: t.wallets,
                 onTap: () {
                   Navigator.of(context).pop();
@@ -82,17 +84,18 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                     'assets/images/new-images/wallet_settings.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.titleLarge?.color),
+                    colorFilter: ColorFilter.mode(Theme.of(context).primaryTextTheme.titleLarge?.color ?? Colors.green, BlendMode.srcIn)),
                 text: tr(context).walletSettings,
                 onTap: () => Navigator.of(context).pushNamed(Routes.settings)),
 
             Container(
               margin: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.4 / 4,
-                  top: MediaQuery.of(context).size.width * 0.3 / 3),
+                  left: constants.leftPx,
+                  top: MediaQuery.sizeOf(context).width * 0.3 / 3),
+              padding: EdgeInsets.only(left: 10),
               child: Text(
                 tr(context).account,
-                style: TextStyle(fontSize: 20.0, color: Color(0xff737385)),
+                style: TextStyle(fontSize: 20.0, color: Color(0xff737385), fontWeight: FontWeight.w500),
               ),
             ),
             // NewNavListHeader(title: S.current.wallet_menu),
@@ -112,7 +115,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                     'assets/images/new-images/address_book.svg',
                     width: 25,
                     height: 25,
-                    color: Theme.of(context).primaryTextTheme.titleLarge?.color),
+                    colorFilter: ColorFilter.mode(Theme.of(context).primaryTextTheme.titleLarge?.color ?? Colors.green, BlendMode.srcIn)),
                 text: t.address_book,
                 onTap: () =>
                     Navigator.of(context).pushNamed(Routes.addressBook)),
@@ -125,7 +128,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                         'assets/images/new-images/settings_account.svg',
                         width: 25,
                         height: 25,
-                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.titleLarge?.color : Colors.grey ),
+                        colorFilter: ColorFilter.mode(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.titleLarge?.color ?? Colors.green : Colors.grey, BlendMode.srcIn)),
                     text: t.accounts,
                     onTap: (){
                       if(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus) {
@@ -137,11 +140,12 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
             //Important -->
             Container(
               margin: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.4 / 4,
-                  top: MediaQuery.of(context).size.width * 0.3 / 3),
+                  left: constants.leftPx,
+                  top: MediaQuery.sizeOf(context).width * 0.3 / 3),
+              padding: EdgeInsets.only(left: 10),
               child: Text(
                 tr(context).seedKeys,
-                style: TextStyle(fontSize: 20.0, color: Color(0xff737385)),
+                style: TextStyle(fontSize: 20.0, color: Color(0xff737385), fontWeight: FontWeight.w500),
               ),
             ),
             //NewNavListHeader(title: S.current.dangerzone),
@@ -154,7 +158,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                         'assets/images/new-images/settings_show_keys.svg',
                         width: 25,
                         height: 25,
-                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.titleLarge?.color : Colors.grey),
+                        colorFilter: ColorFilter.mode(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.titleLarge?.color ?? Colors.green : Colors.grey, BlendMode.srcIn)),
                     text: t.show_keys,
                     onTap: () {
                       if(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus) {
@@ -178,7 +182,7 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                         'assets/images/new-images/settings_show_seed.svg',
                         width: 25,
                         height: 25,
-                        color: syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.titleLarge?.color : Colors.grey),
+                        colorFilter: ColorFilter.mode(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus ? Theme.of(context).primaryTextTheme.titleLarge?.color ?? Colors.green : Colors.grey, BlendMode.srcIn)),
                     text: t.show_seed,
                     onTap: () {
                       if(syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0 || syncStore.status is FailedSyncStatus) {

@@ -32,9 +32,9 @@ Future<T?> presentPicker<T extends Object>(
                   Padding(
                     padding: EdgeInsets.only(top: 15, bottom: 30),
                     child: Container(
-                      height: 150.0,
+                      height: 180.0,
                       child: CupertinoPicker(
-                          backgroundColor: Theme.of(context).dialogBackgroundColor,
+                          backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
                           itemExtent: 45.0,
                           onSelectedItemChanged: (int index) =>
                               _value = list[index],

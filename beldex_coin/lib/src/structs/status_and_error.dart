@@ -3,7 +3,7 @@
 import 'dart:ffi';
 import 'dart:convert';
 
-class status_and_error extends Struct {
+base class status_and_error extends Struct {
   @Bool()
   external bool good;
 

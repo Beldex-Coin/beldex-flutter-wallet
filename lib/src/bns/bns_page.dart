@@ -192,7 +192,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
       BuyBnsChangeNotifier buyBnsChangeNotifier, WalletStore walletStore) {
     return SingleChildScrollView(
       child: Container(
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery.sizeOf(context).width,
         margin: EdgeInsets.all(10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
@@ -206,7 +206,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
           children: [
             //BNS Description
             Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.sizeOf(context).width,
               margin: EdgeInsets.only(top: 10, left: 10, right: 10),
               child: Text('Purchase or update an BNS record. If you purchase a name, it may take a minute or two for it to show up in the list',
                   style: TextStyle(
@@ -219,7 +219,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             ),
             //BNS Price
             Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.sizeOf(context).width,
               margin: EdgeInsets.all(10),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
@@ -251,7 +251,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                         ]),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width,
+                    width: MediaQuery.sizeOf(context).width,
                     height: 50,
                     margin: EdgeInsets.only(top: 10, bottom: 5),
                     child: ListView.builder(
@@ -510,7 +510,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
               ),
             ),*/
             Container(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery.sizeOf(context).width,
               margin: EdgeInsets.all(10),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
@@ -867,7 +867,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                       }
                     : null,
                 child: Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.sizeOf(context).width,
                   padding: EdgeInsets.all(10),
                   margin:
                       EdgeInsets.only(top: 20, left: 40, right: 40, bottom: 30),
@@ -1167,7 +1167,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
         });
       },
       child: Container(
-        width: MediaQuery.of(context).size.width/2.5,
+        width: MediaQuery.sizeOf(context).width < 600 ? MediaQuery.sizeOf(context).width/2.5 : 180,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(

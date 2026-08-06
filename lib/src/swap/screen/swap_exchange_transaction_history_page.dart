@@ -114,8 +114,8 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.of(context).size.width;
-    final _screenHeight = MediaQuery.of(context).size.height;
+    final _screenWidth = MediaQuery.sizeOf(context).width;
+    final _screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     final walletStore = Provider.of<WalletStore>(context);
@@ -268,7 +268,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                 final isExpanded = swapTransactionExpansionStatusChangeNotifier.isExpanded(index);
                 return Container(
                   margin: EdgeInsets.only(top: 10, bottom: 10),
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery.sizeOf(context).width,
                   child: ExpansionTile(
                       initiallyExpanded: isExpanded,
                       onExpansionChanged: (test) {

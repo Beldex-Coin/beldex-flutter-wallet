@@ -98,7 +98,7 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                         ),
                         Center(
                           child: SizedBox(
-                            width: 55,
+                            width: 70,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                   shape: RoundedRectangleBorder(
@@ -162,7 +162,7 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                         ),
                         Center(
                           child: SizedBox(
-                            width: 55,
+                            width: 70,
                             child: TextButton(
                               style: TextButton.styleFrom(
                                 shape: RoundedRectangleBorder(

@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../../routes.dart';
 import '../../stores/sync/sync_store.dart';
 import '../../util/clipboard_helper.dart';
@@ -219,12 +219,11 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.of(context).size.width;
-    final _screenHeight = MediaQuery.of(context).size.height;
+    final _screenWidth = MediaQuery.sizeOf(context).width;
+    final _screenHeight = MediaQuery.sizeOf(context).height;
     final syncStore = Provider.of<SyncStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
-    ToastContext().init(context);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
@@ -258,7 +257,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             curStep: currentStep,
             stepCompleteColor: Colors.blue,
             currentStepColor: Color(0xff20D030),
@@ -414,7 +413,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
             )),
         //Transaction ID with Time Details
         Container(
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: settingsStore.isDarkTheme
@@ -458,13 +457,11 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     InkWell(
                       onTap: () async {
                         await ClipboardHelper.copyWithAutoClear(createdTransactionDetails!.id.toString());
-                        Toast.show(
-                          tr(context).copied,
-                          duration: Toast
-                              .lengthShort, // Toast duration (short or long)
-                          gravity: Toast
-                              .bottom,
-                          textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
+                        await Fluttertoast.showToast(
+                          msg: tr(context).copied,
+                          toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                          gravity: ToastGravity.BOTTOM,
+                          textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
                           backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                         );
                       },
@@ -479,7 +476,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
               ],
             )),
         Container(
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             margin: EdgeInsets.only(bottom: 10),
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -578,13 +575,11 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     InkWell(
                         onTap: () async {
                           await ClipboardHelper.copyWithAutoClear(createdTransactionDetails!.payinAddress.toString());
-                          Toast.show(
-                            tr(context).copied,
-                            duration: Toast
-                                .lengthShort, // Toast duration (short or long)
-                            gravity: Toast
-                                .bottom,
-                            textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),// Toast gravity (top, center, or bottom)// Text color
+                          await Fluttertoast.showToast(
+                            msg: tr(context).copied,
+                            toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                            gravity: ToastGravity.BOTTOM,
+                            textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
                             backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                           );
                         },
@@ -663,7 +658,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
         ),
         //Time Remaining Details
         Container(
-          width: MediaQuery.of(context).size.width,
+          width: MediaQuery.sizeOf(context).width,
           margin: EdgeInsets.only(top: 20, bottom: 20),
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
@@ -674,7 +669,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width:MediaQuery.of(context).size.width,
+                width:MediaQuery.sizeOf(context).width,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,

@@ -172,14 +172,14 @@ class BeldexDialog extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(15),
             decoration:
-                BoxDecoration(color: Color(0xff171720).withOpacity(0.55)),
+                BoxDecoration(color: Color(0xff171720).withValues(alpha: 0.55)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        color: Theme.of(context).dialogBackgroundColor,
+                        color: Theme.of(context).dialogTheme.backgroundColor,
                         borderRadius: BorderRadius.circular(10)),
                     child: body),
               ],
@@ -237,7 +237,7 @@ class SimpleBeldexDialog extends StatelessWidget {
                               .bodySmall!
                               .color))),
               Container(
-                width: MediaQuery.of(context).size.width / 3,
+                width: MediaQuery.sizeOf(context).width < 600 ? MediaQuery.sizeOf(context).width / 3 : 200,
                 child: PrimaryButton(
                     text: tr(context).ok,
                     color: Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor,

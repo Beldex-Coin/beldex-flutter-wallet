@@ -27,7 +27,7 @@ class Picker<Item extends Object> extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
           child: Container(
-            decoration: BoxDecoration(color: Colors.white.withOpacity(0.55)),
+            decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.55)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -37,7 +37,7 @@ class Picker<Item extends Object> extends StatelessWidget {
                       width: double.infinity,
                       height: pickerHeight,
                       decoration: BoxDecoration(
-                          color: Theme.of(context).dialogBackgroundColor,
+                          color: Theme.of(context).dialogTheme.backgroundColor,
                           borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(20),
                               topRight: Radius.circular(20))),
@@ -53,7 +53,7 @@ class Picker<Item extends Object> extends StatelessWidget {
                         itemBuilder: (_, index) {
                           if (index == 0) {
                             return Container(
-                              height: 100,
+                              height: 120,
                               width: double.infinity,
                               child: Center(
                                 child: Text(

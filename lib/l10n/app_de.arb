@@ -328,7 +328,7 @@
   "copied": "Kopiert",
   "addAddress": "Adresse hinzufügen",
   "important": "WICHTIG",
-  "neverInputYourBeldexWalletItemIntoAnySoftwareOr":"Geben Sie Ihr Beldex-Wallet {item} niemals in eine andere Software oder Website ein als die offiziellen Beldex-Wallets, die Sie direkt aus dem {appStore},\\n der Beldex-Website oder dem Beldex GitHub heruntergeladen haben.",
+  "neverInputYourBeldexWalletItemIntoAnySoftwareOr":"Geben Sie Ihr Beldex-Wallet {item} niemals in eine andere Software oder Website ein als die offiziellen Beldex-Wallets, die Sie direkt aus dem {appStore},\n der Beldex-Website oder dem Beldex GitHub heruntergeladen haben.",
   "enterWalletName_": "Geben Sie den Wallet-Namen ein",
   "chooseSeedLanguage": "Wählen Sie die Seed-Sprache",
   "wallet": "Geldbörse",
@@ -348,7 +348,7 @@
   "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate": "Stellen Sie sicher, dass Sie Ihre Daten wieder aufnehmen\nWiederherstellungs-Seed, Wallet-Adresse\nund private Schlüssel",
   "blockRemaining": "{status} Verbleibende Blockierung",
   "flashTransaction": "Flash-Transaktion",
-  "transferYourBdxMoreFasternWithFlashTransaction": "Tanchbir, deine Bits mehr Pastor Mit\n Flash-Transaktion!",
+  "transferYourBdxMoreFasternWithFlashTransaction": "Übertrage deine BDX schneller mit\n Flash-Transaktion!",
   "enterYourPin": "PIN eingeben",
   "walletSettings": "Wallet-Einstellungen",
   "recoverySeed": "Erholungssamen",
@@ -432,5 +432,7 @@
   "bns": "BNS",
   "bnsUpdate": "BNS-Update",
   "bnsRenewal": "BNS-Erneuerung",
-  "swap": "Tauschen"
+  "swap": "Tauschen",
+  "nodeAlreadyExists": "Dieser Knoten existiert bereits",
+  "networkErrorCheckConnection": "Netzwerkfehler! Bitte überprüfen Sie Ihre Internetverbindung."
 }

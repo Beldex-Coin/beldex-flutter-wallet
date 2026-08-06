@@ -8,6 +8,7 @@ import 'package:beldex_wallet/src/widgets/standard_switch.dart';
 import 'package:beldex_wallet/theme_changer.dart';
 import 'package:beldex_wallet/themes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../l10n.dart';
@@ -34,7 +35,7 @@ class DashboardPage extends BasePage {
           child: IconButton(
             icon: SvgPicture.asset(
               'assets/images/new-images/refresh.svg',
-              color: Theme.of(context).primaryTextTheme.bodySmall?.color,
+              colorFilter: ColorFilter.mode(Theme.of(context).primaryTextTheme.bodySmall?.color ?? Colors.green, BlendMode.srcIn),
               width: 23,
               height: 23,
             ),
@@ -106,8 +107,8 @@ class DashboardPage extends BasePage {
     final settingsStore = Provider.of<SettingsStore>(context);
     ScreenSize.init(context);
     return Container(
-        height:ScreenSize.screenHeight035, //MediaQuery.of(context).size.height * 0.35 / 3,
-        width:ScreenSize.screenWidth, //MediaQuery.of(context).size.width,
+        height:ScreenSize.screenHeight035, //MediaQuery.sizeOf(context).height * 0.35 / 3,
+        width:ScreenSize.screenWidth, //MediaQuery.sizeOf(context).width,
         decoration: BoxDecoration(
             color: settingsStore.isDarkTheme
                 ? Color(0xff171720)
@@ -233,10 +234,17 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
     final syncStore = Provider.of<SyncStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
     final networkStatus = Provider.of<NetworkProvider>(context);
-    final _height = MediaQuery.of(context).size.height;
-    final _width = MediaQuery.of(context).size.width;
-    return WillPopScope(
-      onWillPop: onBackPressed,
+    final _height = MediaQuery.sizeOf(context).height;
+    final _width = MediaQuery.sizeOf(context).width;
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+        final shouldPop = await onBackPressed();
+        if (shouldPop) {
+          await SystemNavigator.pop();
+        }
+      },
       child: ListView.builder(
           key: _listKey,
           itemCount: 2,
@@ -462,7 +470,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           backgroundColor: Colors.transparent,
                                           color: Color(0xff0BA70F),
                                           fontSize:
-                                          MediaQuery.of(context).size.height *
+                                          MediaQuery.sizeOf(context).height *
                                               0.06 /
                                               3));
                                 }),
@@ -666,7 +674,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
             }
             return Container(
               margin: EdgeInsets.only(left: 15, right: 15, bottom: 10,top:10,),
-              height: MediaQuery.of(context).size.height * 0.83 / 2,
+              height: MediaQuery.sizeOf(context).height < 700 ? MediaQuery.sizeOf(context).height * 0.83 / 2 : MediaQuery.sizeOf(context).height * 0.4,
               padding: EdgeInsets.only(top: 10, bottom: 10),
               width: double.infinity,
               decoration: BoxDecoration(

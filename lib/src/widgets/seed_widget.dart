@@ -189,7 +189,7 @@ class SeedWidgetState extends State<SeedWidget> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 1 / 3,
+                    height: MediaQuery.sizeOf(context).height * 1 / 3,
                     padding: EdgeInsets.all(16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -232,7 +232,7 @@ class SeedWidgetState extends State<SeedWidget> {
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             hintStyle:
-                                TextStyle(color: Colors.grey.withOpacity(0.6)),
+                                TextStyle(color: Colors.grey.withValues(alpha: 0.6)),
                             hintText:
                                 tr(context).restore_from_seed_placeholder,
                             errorText: _errorMessage,
@@ -328,7 +328,7 @@ class SeedWidgetState extends State<SeedWidget> {
                 Column(
                   children: [
                     SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.70 / 3),
+                        height: MediaQuery.sizeOf(context).height * 0.70 / 3),
                     PrimaryButton(
                         onPressed: () {
                           if (wordCount == maxWordCount) {

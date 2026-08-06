@@ -34,7 +34,7 @@ class FaqPage extends BasePage {
                 tr(context).howCanWenhelpYou,
                 style: TextStyle(
                     backgroundColor: Colors.transparent,
-                    fontSize: MediaQuery.of(context).size.height * 0.15 / 3,
+                    fontSize: MediaQuery.sizeOf(context).height * 0.15 / 3,
                     fontWeight: FontWeight.bold),
               ),
             ),

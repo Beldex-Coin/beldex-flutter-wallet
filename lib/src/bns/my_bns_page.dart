@@ -18,7 +18,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:keyboard_detection/keyboard_detection.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
 
 import '../../routes.dart';
@@ -59,7 +59,6 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
     final balanceStore = Provider.of<BalanceStore>(context);
     final walletStore = Provider.of<WalletStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
-    ToastContext().init(context);
     return KeyboardDetection(
       controller: keyboardDetectionController,
       child: Container(
@@ -201,35 +200,35 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                               if (bnsSetRecordResponse) {
                                 callGetAllBns();
                                 Navigator.of(context).pop();
-                                Toast.show(
-                                  'Successfully decrypted BNS Record for ${_decryptRecordController
+                                Fluttertoast.showToast(
+                                  msg: 'Successfully decrypted BNS Record for ${_decryptRecordController
                                       .text}.bdx',
-                                  duration: Toast.lengthLong,
-                                  gravity: Toast.bottom,
-                                  textStyle:TextStyle(color: Colors.white),
+                                  toastLength: Toast.LENGTH_LONG,
+                                  gravity: ToastGravity.BOTTOM,
+                                  textColor: Colors.white,
                                   backgroundColor: Color(0xff0ba70f),
                                 );
                                 _decryptRecordController.clear();
                               }
                             } else {
                               Navigator.of(context).pop();
-                              Toast.show(
-                                'The given BNS record doesn\'t exist or does not belong to this wallet.',
-                                duration: Toast.lengthLong,
-                                gravity: Toast.bottom,
-                                textStyle:TextStyle(color: Colors.white),
+                              Fluttertoast.showToast(
+                                msg: 'The given BNS record doesn\'t exist or does not belong to this wallet.',
+                                toastLength: Toast.LENGTH_LONG,
+                                gravity: ToastGravity.BOTTOM,
+                                textColor: Colors.white,
                                 backgroundColor: Colors.red,
                               );
                               _decryptRecordController.clear();
                             }
                           } else {
                             Navigator.of(context).pop();
-                            Toast.show(
-                              'Failed to decrypt BNS Record for ${_decryptRecordController
+                            Fluttertoast.showToast(
+                              msg: 'Failed to decrypt BNS Record for ${_decryptRecordController
                                   .text}.bdx',
-                              duration: Toast.lengthLong,
-                              gravity: Toast.bottom,
-                              textStyle:TextStyle(color: Colors.white),
+                              toastLength: Toast.LENGTH_LONG,
+                              gravity: ToastGravity.BOTTOM,
+                              textColor: Colors.white,
                               backgroundColor: Colors.red,
                             );
                             _decryptRecordController.clear();
@@ -237,11 +236,11 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                         });
                       });
                     }else{
-                      Toast.show(
-                        'Please wait until we fetch the BNS record from Network',
-                        duration: Toast.lengthLong,
-                        gravity: Toast.bottom,
-                        textStyle:TextStyle(color: Colors.white),
+                      await Fluttertoast.showToast(
+                        msg: 'Please wait until we fetch the BNS record from Network',
+                        toastLength: Toast.LENGTH_LONG,
+                        gravity: ToastGravity.BOTTOM,
+                        textColor: Colors.white,
                         backgroundColor: Colors.red,
                       );
                     }
@@ -951,7 +950,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                               alignment: Alignment.centerLeft,
                                               child: SvgPicture.asset(
                                                 'assets/images/new-images/bns_update.svg',
-                                                color: Color(0xff3DA2FF),),
+                                                colorFilter: ColorFilter.mode(Color(0xff3DA2FF), BlendMode.srcIn),),
                                           ),
                                           Align(
                                               alignment: Alignment.center,
@@ -996,7 +995,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                                 alignment: Alignment.centerLeft,
                                                 child:  SvgPicture.asset(
                                                   'assets/images/new-images/bns_renewal.svg',
-                                                  color: Color(0xff00CF08),)
+                                                  colorFilter: ColorFilter.mode(Color(0xff00CF08), BlendMode.srcIn),)
                                             ),
                                             Align(
                                                 alignment: Alignment.center,
@@ -1030,7 +1029,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                           .of(context)
                           .size
                           .width,
-                      height: 310,
+                      height: 350,
                       margin: EdgeInsets.all(10),
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
@@ -1045,10 +1044,10 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                         children: [
                           SvgPicture.asset(
                             'assets/images/new-images/ic_bns_dark.svg',
-                            color: settingsStore.isDarkTheme
+                            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                                 ? Color(0xff484860)
-                                : Color.fromRGBO(72, 72, 96, 0.2),
-                            width: 100, height: 100,),
+                                : Color.fromRGBO(72, 72, 96, 0.2), BlendMode.srcIn),
+                            width: 120, height: 120,),
                           Text(
                             'Here you can find all the BNS Names owned by this wallet. Decrypting a record you own will return the name and value at the BNS record.',
                             textAlign: TextAlign.center,

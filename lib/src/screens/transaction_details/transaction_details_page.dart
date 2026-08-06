@@ -9,7 +9,7 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/screens/transaction_details/standart_list_item.dart';
 import 'package:beldex_wallet/src/screens/transaction_details/standart_list_row.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 import '../../util/clipboard_helper.dart';
@@ -79,7 +79,6 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    ToastContext().init(context);
     return Container(
       padding: EdgeInsets.only(left: 20, right: 15, top: 10, bottom: 10),
       child: ListView.separated(
@@ -98,11 +97,11 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
                   await openUrl(methodChannelPlatform: methodChannelPlatform, url: 'https://explorer.beldex.io/tx/${item.value}');
                 } else {
                   await ClipboardHelper.copyWithAutoClear(item.value);
-                  Toast.show(
-                    tr(context).transaction_details_copied(item.title),
-                    duration: Toast.lengthShort,
-                    gravity: Toast.bottom,
-                    textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
+                  await Fluttertoast.showToast(
+                    msg: tr(context).transaction_details_copied(item.title),
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                   );
 

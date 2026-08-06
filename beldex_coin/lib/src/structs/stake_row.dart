@@ -21,7 +21,7 @@ import 'package:ffi/ffi.dart';
 //   String masterNodeKey;
 // }
 
-class StakeRowPointer extends Struct {
+base class StakeRowPointer extends Struct {
   external Pointer<Utf8> _masterNodeKey;
 
   @Uint64()

@@ -19,7 +19,7 @@ import 'package:beldex_wallet/src/stores/subaddress_list/subaddress_list_store.d
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:ui' as ui;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -141,7 +141,6 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
         walletStore.onChangedAmountValue('');
       }
     });
-    ToastContext().init(context);
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -171,9 +170,9 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             Container(
                               margin: EdgeInsets.only(bottom: 10),
                               height:
-                                  MediaQuery.of(context).size.height * 0.60 / 3,
+                                  MediaQuery.sizeOf(context).height * 0.60 / 3,
                               width:
-                                  MediaQuery.of(context).size.height * 0.60 / 3,
+                                  MediaQuery.sizeOf(context).height * 0.60 / 3,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: settingsStore.isDarkTheme
@@ -219,13 +218,13 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                 GestureDetector(
                                   onTap: () async {
                                     await ClipboardHelper.copyWithAutoClear(walletStore.subaddress.address);
-                                    Toast.show(
-                                      tr(context).copied,
-                                      duration: Toast.lengthShort,
+                                    await Fluttertoast.showToast(
+                                      msg: tr(context).copied,
+                                      toastLength: Toast.LENGTH_SHORT,
                                       // Toast duration (short or long)
-                                      gravity: Toast.bottom,
+                                      gravity: ToastGravity.BOTTOM,
                                       // Toast gravity (top, center, or bottom)
-                                      textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),
+                                      textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,
                                       backgroundColor: settingsStore.isDarkTheme
                                           ? Colors.grey.shade50
                                           : Colors.grey.shade900,
@@ -236,9 +235,9 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                       width: 20,
                                       child: SvgPicture.asset(
                                         'assets/images/new-images/copy.svg',
-                                        color: settingsStore.isDarkTheme
+                                        colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                                             ? Color(0xffFFFFFF)
-                                            : Color(0xff16161D),
+                                            : Color(0xff16161D), BlendMode.srcIn),
                                       )),
                                 )
                               ],
@@ -377,7 +376,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                       height: 25.0,
                                       child: SvgPicture.asset(
                                           'assets/images/new-images/plus_fill.svg',
-                                          color: Color(0xff2979FB)),
+                                          colorFilter: ColorFilter.mode(Color(0xff2979FB), BlendMode.srcIn)),
                                     ),
                                     Text(
                                       tr(context).addSubAddress,
@@ -399,7 +398,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                     ],
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.20 / 3),
+                SizedBox(height: MediaQuery.sizeOf(context).height * 0.20 / 3),
                 Container(
                   margin: EdgeInsets.all(15),
                   child: InkWell(
@@ -480,9 +479,9 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                           Container(
                             margin: EdgeInsets.only(bottom: 10),
                             height:
-                                MediaQuery.of(context).size.height * 0.60 / 3,
+                                MediaQuery.sizeOf(context).height * 0.60 / 3,
                             width:
-                                MediaQuery.of(context).size.height * 0.60 / 3,
+                                MediaQuery.sizeOf(context).height * 0.60 / 3,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: settingsStore.isDarkTheme
@@ -526,13 +525,13 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                               GestureDetector(
                                 onTap: () async {
                                   await ClipboardHelper.copyWithAutoClear(receivePageChangeNotifier.currentAddress);
-                                  Toast.show(
-                                    tr(context).copied,
-                                    duration: Toast.lengthShort,
+                                  await Fluttertoast.showToast(
+                                    msg: tr(context).copied,
+                                    toastLength: Toast.LENGTH_SHORT,
                                     // Toast duration (short or long)
-                                    gravity: Toast.bottom,
+                                    gravity: ToastGravity.BOTTOM,
                                     // Toast gravity (top, center, or bottom)
-                                    webTexColor: settingsStore.isDarkTheme
+                                    textColor: settingsStore.isDarkTheme
                                         ? Colors.black
                                         : Colors.white,
                                     backgroundColor: settingsStore.isDarkTheme
@@ -545,9 +544,9 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                     width: 20,
                                     child: SvgPicture.asset(
                                       'assets/images/new-images/copy.svg',
-                                      color: settingsStore.isDarkTheme
+                                      colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                                           ? Color(0xffFFFFFF)
-                                          : Color(0xff16161D),
+                                          : Color(0xff16161D), BlendMode.srcIn),
                                     )),
                               )
                             ],
@@ -684,7 +683,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                       height: 25.0,
                                       child: SvgPicture.asset(
                                           'assets/images/new-images/plus_fill.svg',
-                                          color: Color(0xff2979FB)),
+                                          colorFilter: ColorFilter.mode(Color(0xff2979FB), BlendMode.srcIn)),
                                     ),
                                     Text(
                                       tr(context).addSubAddress,
@@ -705,7 +704,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                     ],
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.20 / 3),
+                SizedBox(height: MediaQuery.sizeOf(context).height * 0.20 / 3),
                 Container(
                   margin: EdgeInsets.all(15),
                   child: InkWell(
@@ -750,7 +749,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
     return Stack(
       children: [
         Container(
-            height: MediaQuery.of(context).size.height * 0.19 / 3,
+            height: MediaQuery.sizeOf(context).height * 0.19 / 3,
             decoration: BoxDecoration(
                 color: settingsStore.isDarkTheme
                     ? Color(0xff292937)
@@ -798,7 +797,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
     return Stack(
       children: [
         Container(
-            height: MediaQuery.of(context).size.height * 0.19 / 3,
+            height: MediaQuery.sizeOf(context).height * 0.19 / 3,
             decoration: BoxDecoration(
                 color: settingsStore.isDarkTheme
                     ? Color(0xff292937)
@@ -910,15 +909,15 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                 }
               },
               child: Container(
-                height: 200.0,
+                constraints: BoxConstraints(minHeight: 200.0),
                 margin: EdgeInsets.only(
                     top: mHeight * 2.080 / 3, //2.010
-                    bottom: MediaQuery.of(context).size.height * 0.38 / 3,
+                    bottom: MediaQuery.sizeOf(context).height * 0.38 / 3,
                     left: mHeight * 0.15 / 3,
                     right: mHeight * 0.16 / 3),
                 child: Container(
-                    height: MediaQuery.of(context).size.height * 0.70 / 3,
-                    width: MediaQuery.of(context).size.width * 2.7 / 3,
+                    height: MediaQuery.sizeOf(context).height * 0.70 / 3,
+                    width: MediaQuery.sizeOf(context).width * 2.7 / 3,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(4.0),
                       color: settingsStore.isDarkTheme
@@ -1117,7 +1116,7 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
       )),
       content: Container(
           width: double.maxFinite,
-          height: MediaQuery.of(context).size.height * 0.80 / 3,
+          height: MediaQuery.sizeOf(context).height * 0.80 / 3,
           decoration: BoxDecoration(
               color: widget.settingsStore?.isDarkTheme ?? false
                   ? Color(0xff272733)

@@ -12,7 +12,7 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/address_book/address_book_store.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:provider/provider.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import '../../domain/common/contact.dart';
 import '../../util/clipboard_helper.dart';
 
@@ -49,7 +49,6 @@ class AddressBookPage extends BasePage {
   Widget body(BuildContext context) {
     final addressBookStore = Provider.of<AddressBookStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    ToastContext().init(context);
     ScreenSize.init(context);
     return Observer(builder: (_) {
       var addressBook = addressBookStore.contactList;
@@ -62,7 +61,7 @@ class AddressBookPage extends BasePage {
                   children: [
                     Container(
                       height: ScreenSize
-                          .screenHeight1, //MediaQuery.of(context).size.height * 1 / 3,
+                          .screenHeight1, //MediaQuery.sizeOf(context).height * 1 / 3,
                       child: SvgPicture.asset(settingsStore.isDarkTheme
                           ? 'assets/images/new-images/address_empty_dark_theme.svg'
                           : 'assets/images/new-images/address_empty_white_theme.svg'),
@@ -90,7 +89,7 @@ class AddressBookPage extends BasePage {
                     return !isEditable
                         ? Container(
                             height:
-                                MediaQuery.of(context).size.height * 0.55 / 3,
+                                MediaQuery.sizeOf(context).height * 0.55 / 3,
                             width: double.infinity,
                             margin:
                                 EdgeInsets.only(left: 15, right: 15, top: 10),
@@ -101,6 +100,7 @@ class AddressBookPage extends BasePage {
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
                                   height: 40,
@@ -127,9 +127,9 @@ class AddressBookPage extends BasePage {
                                       IconButton(
                                         icon: SvgPicture.asset(
                                             'assets/images/new-images/send.svg',
-                                            color: settingsStore.isDarkTheme
+                                            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                                                 ? Color(0xffffffff)
-                                                : Color(0xff16161D)),
+                                                : Color(0xff16161D), BlendMode.srcIn)),
                                         onPressed: () {
                                           Navigator.of(context).pop(contact);
                                         },
@@ -203,7 +203,7 @@ class AddressBookPage extends BasePage {
                           ),
                           children: []),
                             child: Container(
-                                height: MediaQuery.of(context).size.height *
+                                height: MediaQuery.sizeOf(context).height *
                                     0.55 /
                                     3,
                                 width: double.infinity,
@@ -245,16 +245,16 @@ class AddressBookPage extends BasePage {
                                           IconButton(
                                             icon: SvgPicture.asset(
                                                 'assets/images/new-images/copy.svg',
-                                                color: settingsStore.isDarkTheme
+                                                colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                                                     ? Color(0xffffffff)
-                                                    : Color(0xff16161D)),
+                                                    : Color(0xff16161D), BlendMode.srcIn)),
                                             onPressed: () async {
                                               await ClipboardHelper.copyWithAutoClear(contact.address);
-                                              Toast.show(
-                                                'Address ${tr(context).copied}',
-                                                duration: Toast.lengthShort,
-                                                gravity: Toast.bottom,
-                                                textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white),
+                                              await Fluttertoast.showToast(
+                                                msg: 'Address ${tr(context).copied}',
+                                                toastLength: Toast.LENGTH_SHORT,
+                                                gravity: ToastGravity.BOTTOM,
+                                                textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,
                                                 backgroundColor:
                                                     settingsStore.isDarkTheme
                                                         ? Colors.grey.shade50

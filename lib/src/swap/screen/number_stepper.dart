@@ -65,7 +65,7 @@ class NumberStepper extends StatelessWidget {
 
   Color? getLineColor(int i) {
     var color =
-    curStep > i + 1 ? Colors.blue.withOpacity(0.4) : Colors.grey[200];
+    curStep > i + 1 ? Colors.blue.withValues(alpha: 0.4) : Colors.grey[200];
     return color;
   }
   List<String> titles =['Exchange Pair','Wallet address','Payment','Exchange'];

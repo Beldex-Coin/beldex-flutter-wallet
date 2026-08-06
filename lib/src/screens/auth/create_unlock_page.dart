@@ -11,8 +11,8 @@ Widget createUnlockPage(
           required UserService userService,
           required WalletService walletService,
           required Function(bool, AuthPageState) onAuthenticationFinished}) =>
-      WillPopScope(
-          onWillPop: () async => false,
+      PopScope(
+          canPop: false,
           child: Provider(
               create: (_) => AuthStore(
                   sharedPreferences: sharedPreferences,

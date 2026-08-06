@@ -133,7 +133,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                           : Colors.white, //Theme.of(context).backgroundColor,
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 1.4 / 3,
+                    height: MediaQuery.sizeOf(context).height * 1.4 / 3,
                     padding: EdgeInsets.only(top: 15.0, left: 20, right: 20),
                     child: Column(
                       children: [
@@ -196,7 +196,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                             margin: EdgeInsets.only(top: 10),
                             padding: EdgeInsets.all(10),
                             height:
-                                MediaQuery.of(context).size.height * 0.60 / 3,
+                                MediaQuery.sizeOf(context).height * 0.60 / 3,
                             decoration: BoxDecoration(
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff383848)
@@ -221,56 +221,58 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                             )),
                         Container(
                           margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height *
+                              top: MediaQuery.sizeOf(context).height *
                                   0.10 /
                                   3),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
-                                height: 45,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xff383848)
-                                        : Color(0xffEDEDED),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: GestureDetector(
-                                    onTap: () {
-                                      if (onDismiss != null) {
-                                        onDismiss!(context);
-                                      }
-                                    },
-                                    child: Center(
-                                        child: Text(tr(context).cancel,
-                                            style: TextStyle(
-                                                backgroundColor: Colors.transparent,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold)))),
+                              Expanded(
+                                child: Container(
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xff383848)
+                                          : Color(0xffEDEDED),
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        if (onDismiss != null) {
+                                          onDismiss!(context);
+                                        }
+                                      },
+                                      child: Center(
+                                          child: Text(tr(context).cancel,
+                                              style: TextStyle(
+                                                  backgroundColor: Colors.transparent,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)))),
+                                ),
                               ),
                               SizedBox(width: 20),
-                              Container(
-                                height: 45,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                    color: Color(0xff0BA70F),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: GestureDetector(
-                                    onTap: () {
-                                      if (onPressed != null) {
-                                        onPressed!(context);
-                                      }
-                                    },
-                                    child: Center(
-                                        child: Text(
-                                      tr(context).ok,
-                                      style: TextStyle(
-                                          backgroundColor: Colors.transparent,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ))),
+                              Expanded(
+                                child: Container(
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xff0BA70F),
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        if (onPressed != null) {
+                                          onPressed!(context);
+                                        }
+                                      },
+                                      child: Center(
+                                          child: Text(
+                                        tr(context).ok,
+                                        style: TextStyle(
+                                            backgroundColor: Colors.transparent,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ))),
+                                ),
                               )
                             ],
                           ),
@@ -325,7 +327,7 @@ class TransactionSendDetails extends StatelessWidget {
                           : Colors.white, //Theme.of(context).backgroundColor,
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 1.4 / 3,
+                    height: MediaQuery.sizeOf(context).height * 1.4 / 3,
                     padding: EdgeInsets.only(top: 15.0, left: 20, right: 20),
                     child: Column(
                       children: [
@@ -389,7 +391,7 @@ class TransactionSendDetails extends StatelessWidget {
                             margin: EdgeInsets.only(top: 10),
                             padding: EdgeInsets.all(10),
                             height:
-                                MediaQuery.of(context).size.height * 0.60 / 3,
+                                MediaQuery.sizeOf(context).height * 0.60 / 3,
                             decoration: BoxDecoration(
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff383848)
@@ -414,56 +416,58 @@ class TransactionSendDetails extends StatelessWidget {
                             )),
                         Container(
                           margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height *
+                              top: MediaQuery.sizeOf(context).height *
                                   0.10 /
                                   3),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
-                                height: 45,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xff383848)
-                                        : Color(0xffEDEDED),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: GestureDetector(
-                                    onTap: () {
-                                      if (onDismiss != null) {
-                                        onDismiss!(context);
-                                      }
-                                    },
-                                    child: Center(
-                                        child: Text(tr(context).cancel,
-                                            style: TextStyle(
-                                                backgroundColor: Colors.transparent,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold)))),
+                              Expanded(
+                                child: Container(
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xff383848)
+                                          : Color(0xffEDEDED),
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        if (onDismiss != null) {
+                                          onDismiss!(context);
+                                        }
+                                      },
+                                      child: Center(
+                                          child: Text(tr(context).cancel,
+                                              style: TextStyle(
+                                                  backgroundColor: Colors.transparent,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.bold)))),
+                                ),
                               ),
                               SizedBox(width: 20),
-                              Container(
-                                height: 45,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                    color: Color(0xff0BA70F),
-                                    borderRadius: BorderRadius.circular(8)),
-                                child: GestureDetector(
-                                    onTap: () {
-                                      if (onPressed != null) {
-                                        onPressed!(context);
-                                      }
-                                    },
-                                    child: Center(
-                                        child: Text(
-                                      tr(context).ok,
-                                      style: TextStyle(
-                                          backgroundColor: Colors.transparent,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ))),
+                              Expanded(
+                                child: Container(
+                                  height: 45,
+                                  decoration: BoxDecoration(
+                                      color: Color(0xff0BA70F),
+                                      borderRadius: BorderRadius.circular(8)),
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        if (onPressed != null) {
+                                          onPressed!(context);
+                                        }
+                                      },
+                                      child: Center(
+                                          child: Text(
+                                        tr(context).ok,
+                                        style: TextStyle(
+                                            backgroundColor: Colors.transparent,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ))),
+                                ),
                               )
                             ],
                           ),
@@ -529,7 +533,7 @@ class _SendTransactionSuccessfullyState
                           : Colors.white, //Theme.of(context).backgroundColor,
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.80 / 3,
+                    height: MediaQuery.sizeOf(context).height * 0.80 / 3,
                     padding: EdgeInsets.only(
                         //top: 15.0,
                         left: 10,
@@ -628,7 +632,7 @@ class ConfirmSending extends StatelessWidget {
                           : Colors.white, //Theme.of(context).backgroundColor,
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
-                    // height: MediaQuery.of(context).size.height * 1.4 / 3,
+                    // height: MediaQuery.sizeOf(context).height * 1.4 / 3,
                     padding: EdgeInsets.only(
                         top: 15.0, left: 20, right: 20, bottom: 20),
                     child: Column(
@@ -690,7 +694,7 @@ class ConfirmSending extends StatelessWidget {
                               ],
                             )),
                         Container(
-                            width: MediaQuery.of(context).size.width,
+                            width: MediaQuery.sizeOf(context).width,
                             margin: EdgeInsets.only(top: 10),
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
@@ -707,7 +711,7 @@ class ConfirmSending extends StatelessWidget {
                                     style:
                                         TextStyle(backgroundColor: Colors.transparent,fontWeight: FontWeight.bold)),
                                 Container(
-                                    width: MediaQuery.of(context).size.width,
+                                    width: MediaQuery.sizeOf(context).width,
                                     margin: EdgeInsets.only(top: 5, bottom: 5),
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
@@ -725,7 +729,7 @@ class ConfirmSending extends StatelessWidget {
                             )),
                         Container(
                           margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height *
+                              top: MediaQuery.sizeOf(context).height *
                                   0.10 /
                                   3),
                           child: Row(
@@ -1172,7 +1176,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                           )),
                       Container(
                         margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.10 / 3),
+                            top: MediaQuery.sizeOf(context).height * 0.10 / 3),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -1553,7 +1557,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                           )),
                       Container(
                         margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.10 / 3),
+                            top: MediaQuery.sizeOf(context).height * 0.10 / 3),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -1744,7 +1748,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                           )),
                       Container(
                         margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.10 / 3),
+                            top: MediaQuery.sizeOf(context).height * 0.10 / 3),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [

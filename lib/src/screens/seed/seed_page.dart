@@ -10,7 +10,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet_seed/wallet_seed_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
-import 'package:toast/toast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../util/clipboard_helper.dart';
 
@@ -87,8 +87,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
     final walletSeedStore = Provider.of<WalletSeedStore>(context);
     String _seed;
     String? _isSeed;
-    final _height = MediaQuery.of(context).size.height;
-    ToastContext().init(context);
+    final _height = MediaQuery.sizeOf(context).height;
     return ScrollableWithBottomSection(
       contentPadding: EdgeInsets.all(0),
       content: Container(
@@ -179,7 +178,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                               ),
                               Container(
                                   // height:
-                                  //     MediaQuery.of(context).size.height *
+                                  //     MediaQuery.sizeOf(context).height *
                                   //         0.50 /
                                   //         3,
                                   padding: EdgeInsets.all(15),
@@ -220,17 +219,14 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                           isCopied = true;
                                                         });
                                                         await ClipboardHelper.copyWithAutoClear(_seed);
-                                                        Toast.show(
-                                                          tr(context)
+                                                        await Fluttertoast.showToast(
+                                                          msg: tr(context)
                                                               .copied,
-                                                          duration: Toast
-                                                              .lengthShort,
-                                                          // Toast duration (short or long)
-                                                          gravity:
-                                                              Toast.bottom,
+                                                           toastLength: Toast.LENGTH_SHORT,
+                                                           gravity: ToastGravity.BOTTOM,
                                                           // Toast gravity (top, center, or bottom)
-                                                          textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
-                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900, // Background color
+                                                          textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                                          backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900, // Background color
                                                         );
                                                       }
                                                     : null,
@@ -339,15 +335,13 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                   isCopied = true;
                                                 });
                                                 await ClipboardHelper.copyWithAutoClear(_seed);
-                                                Toast.show(
-                                                  tr(context).copied,
-                                                  duration:
-                                                      Toast.lengthShort,
-                                                  // Toast duration (short or long)
-                                                  gravity: Toast.bottom,
+                                                await Fluttertoast.showToast(
+                                                  msg: tr(context).copied,
+                                                   toastLength: Toast.LENGTH_SHORT,
+                                                   gravity: ToastGravity.BOTTOM,
                                                   // Toast gravity (top, center, or bottom)
-                                                  textStyle: TextStyle(color: settingsStore.isDarkTheme ? Colors.black : Colors.white), // Text color
-                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                                                  textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                                  backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                                                 );
                                               },
                                               style:
