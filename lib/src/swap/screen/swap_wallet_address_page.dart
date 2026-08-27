@@ -20,7 +20,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../../palette.dart';
 import '../../../routes.dart';
 import '../api_client/get_exchange_amount_api_client.dart';
-import '../model/get_exchange_amount_model.dart';
+import '../exchange/exchange_manager.dart';
+import '../exchange/models/exchange_rate.dart';
 import '../provider/valdiate_extra_id_field_provider.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
@@ -96,9 +97,10 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   var showPrefixIcon = true;
   var acceptTermsAndConditions = false;
   late ValidateAddressProvider validateAddressProvider;
+  RefundValidateAddressProvider? _refundValidateAddressProvider;
   late GetExchangeAmountApiClient getExchangeAmountApiClient;
   late NetworkProvider networkProvider;
-  late StreamController<GetExchangeAmountModel> _getExchangeAmountStreamController;
+  late StreamController<ExchangeRate> _getExchangeAmountStreamController;
   late Timer timer;
   late ExchangeData _exchangeData;
   late ValidateExtraIdFieldProvider validateExtraIdFieldProvider;
@@ -107,6 +109,11 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   var to;
   bool _isInitialized = false;
   bool _errorShown = false;
+
+  bool get _showRefundAddress {
+    final exchangeName = ExchangeManager.selectedType?.name ?? '';
+    return exchangeName == 'quickex';
+  }
   final _focusWalletAddress = FocusNode();
   final _focusDestinationTag = FocusNode();
   late KeyboardDetectionController keyboardDetectionController;
@@ -119,7 +126,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     to = _exchangeData.to;
     getExchangeAmountApiClient = GetExchangeAmountApiClient();
     // Create a stream controller and exchange amount to the stream.
-    _getExchangeAmountStreamController = StreamController<GetExchangeAmountModel>();
+    _getExchangeAmountStreamController = StreamController<ExchangeRate>();
     Future.delayed(Duration(seconds: 2), () {
       callGetExchangeAmountApi(getExchangeAmountApiClient, _exchangeData.amountFrom);
       if (!mounted) return;
@@ -142,12 +149,13 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   void callGetExchangeAmountApi(
       GetExchangeAmountApiClient getExchangeAmountApiClient, String? amountFrom) {
     getExchangeAmountApiClient.getExchangeAmountData(context,
-        {'from': _exchangeData.from, "to": _exchangeData.to, "amountFrom": amountFrom}).then((value) {
+        {'from': _exchangeData.from ?? '', 'fromNetwork': _exchangeData.fromProtocol ?? '', "to": _exchangeData.to ?? '', 'toNetwork': _exchangeData.toProtocol ?? '', "amountFrom": amountFrom ?? ''}).then((value) {
       _getExchangeAmountStreamController.sink.add(value!);
     });
   }
 
   bool isNextButtonEnabled(String minimumAmount, String maximumAmount, BuildContext context, NetworkProvider networkProvider){
+    final refundValid = !_showRefundAddress || _refundWalletAddressController.text.isEmpty || (_refundValidateAddressProvider?.successState ?? true);
     if(validateExtraIdFieldProvider.showMemo){
       if(_destinationTagController.text.isEmpty){
         return false;
@@ -155,10 +163,10 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         return acceptTermsAndConditions &&
             !validateAddressProvider.loading &&
             _recipientAddressController.text.isNotEmpty &&
-            validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected;
+            validateAddressProvider.successState && refundValid && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected;
       }
     }else{
-      return acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected;
+      return acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && refundValid && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected;
     }
   }
 
@@ -177,7 +185,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         },
         child: Consumer<NetworkProvider>(builder: (context,networkProvider,child){
           this.networkProvider = networkProvider;
-          return StreamBuilder<GetExchangeAmountModel>(
+          return StreamBuilder<ExchangeRate>(
             stream: _getExchangeAmountStreamController.stream,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -201,7 +209,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     double _screenHeight,
     SettingsStore settingsStore,
     ScrollController _scrollController,
-    GetExchangeAmountModel getExchangeAmountModel, NetworkProvider networkProvider,
+    ExchangeRate exchangeRateData, NetworkProvider networkProvider,
   ) {
     //GetExchangeAmount
     var exchangeRate = "---";
@@ -210,25 +218,18 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     var getAmount = "---";
     var minimumAmount = "";
     var maximumAmount = "";
-    if(getExchangeAmountModel.result!.isNotEmpty){
-      sendAmount = toStringAsFixed(getExchangeAmountModel.result![0].amountFrom.toString());
-      exchangeRate = toStringAsFixed(getExchangeAmountModel.result![0].rate.toString());
-      serviceFee = toStringAsFixed(getExchangeAmountModel.result![0].fee.toString());
-      networkFee = toStringAsFixed(getExchangeAmountModel.result![0].networkFee.toString());
-      getAmount = toStringAsFixed(getExchangeAmountModel.result![0].amountTo!.toString());
-      from = getExchangeAmountModel.result![0].from.toString();
-      to = getExchangeAmountModel.result![0].to.toString();
-      minimumAmount = "";
-      maximumAmount = "";
-    } else {
-      if(getExchangeAmountModel.error != null && getExchangeAmountModel.error!.data != null){
-        if(double.parse(_exchangeData.amountFrom!) < double.parse(getExchangeAmountModel.error!.data!.limits!.min!.from!)){
-          minimumAmount = getExchangeAmountModel.error!.data!.limits!.min!.from!;
-        }
-        if(double.parse(_exchangeData.amountFrom!) > double.parse(getExchangeAmountModel.error!.data!.limits!.max!.from!)){
-          maximumAmount = getExchangeAmountModel.error!.data!.limits!.max!.from!;
-        }
-      }
+    sendAmount = toStringAsFixed(exchangeRateData.amountFrom.toString());
+    exchangeRate = toStringAsFixed(exchangeRateData.rate.toString());
+    serviceFee = "0";
+    networkFee = toStringAsFixed(exchangeRateData.networkFee?.toString() ?? '0');
+    getAmount = toStringAsFixed(exchangeRateData.amountTo.toString());
+    from = exchangeRateData.from.toString();
+    to = exchangeRateData.to.toString();
+    if (exchangeRateData.minAmount != null && exchangeRateData.minAmount!.isNotEmpty) {
+      minimumAmount = exchangeRateData.minAmount!;
+    }
+    if (exchangeRateData.maxAmount != null && exchangeRateData.maxAmount!.isNotEmpty) {
+      maximumAmount = exchangeRateData.maxAmount!;
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -368,9 +369,9 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               if (validateAddressProvider.data != null) {
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   validateAddressProvider.setSuccessState(
-                      validateAddressProvider.data!.result!.result ?? true);
+                      validateAddressProvider.data!);
                   validateAddressProvider.setErrorMessage(
-                      validateAddressProvider.data!.result!.message ?? '');
+                      '');
                 });
               }
             }
@@ -414,7 +415,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(8))),
                             child: Text(
-                              _exchangeData.protocol ?? "---",
+                              _exchangeData.toProtocol ?? "---",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 12,
@@ -468,6 +469,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                           validateAddressProvider.validateAddressData(context, {
                             "currency": "${to}",
                             "address": value,
+                            "network": _exchangeData.toProtocol ?? "",
                             "extraId": _exchangeData.extraIdName ?? ""
                           });
                         });
@@ -498,7 +500,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         ),
         //Refund wallet Address Title
         Visibility(
-          visible: false,
+          visible: _showRefundAddress,
           child: Container(
             margin: EdgeInsets.only(top: 10, left: 10, bottom: 10),
             child: Text(
@@ -513,67 +515,140 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             ),
           ),
         ),
-        //Refund wallet Address TextFormField
+        //Refund wallet Address TextFormField with validation
         Visibility(
-          visible: false,
-          child: Container(
-            margin: EdgeInsets.only(bottom: 10),
-            padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: settingsStore.isDarkTheme
-                  ? Color(0xff24242f)
-                  : Color(0xfff3f3f3),
-              border: Border.all(
-                color: Color(0xff333343),
-              ),
-            ),
-            child: TextFormField(
-              style: TextStyle(
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.normal,
-                  color: Theme.of(context).primaryTextTheme.bodySmall!.color),
-              controller: _refundWalletAddressController,
-              keyboardType:
-                  TextInputType.numberWithOptions(signed: false, decimal: true),
-              inputFormatters: [
-                TextInputFormatter.withFunction((oldValue, newValue) {
-                  final regEx = RegExp(r'^\d*\.?\d*');
-                  final newString = regEx.stringMatch(newValue.text) ?? '';
-                  return newString == newValue.text ? newValue : oldValue;
-                }),
-                FilteringTextInputFormatter.deny(RegExp('[-, ]'))
-              ],
-              textInputAction: TextInputAction.done,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintStyle: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.normal,
-                      color: Colors.grey.withValues(alpha: 0.6)),
-                  hintText: 'Enter your ${to.toUpperCase()} refund address',
-                  errorStyle: TextStyle(color: BeldexPalette.red),
-                  suffixIcon: InkWell(
-                      onTap: () {},
-                      child: Container(
-                        width: 20.0,
-                        margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xff333343)
-                                : Color(0xffEBEBEB),
-                            borderRadius: BorderRadius.all(Radius.circular(8))),
-                        child: SvgPicture.asset(
-                          'assets/images/swap/scan_qr.svg',
-                          colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
-                              ? Color(0xffA9A9CD)
-                              : Color(0xff222222), BlendMode.srcIn),
-                          width: 20,
-                          height: 20,
+          visible: _showRefundAddress,
+          child: Consumer<RefundValidateAddressProvider>(
+            builder: (context, refundValidator, child) {
+              _refundValidateAddressProvider = refundValidator;
+              if (refundValidator.loading == false && refundValidator.data != null) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                  refundValidator.setSuccessState(refundValidator.data!);
+                  refundValidator.setErrorMessage('');
+                });
+              }
+              return Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 5),
+                    padding: EdgeInsets.only(left: 5, right: 5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff24242f)
+                          : Color(0xfff3f3f3),
+                      border: Border.all(
+                        color: !refundValidator.getSuccessState()
+                            ? Colors.red
+                            : Color(0xff333343),
+                      ),
+                    ),
+                    child: TextFormField(
+                      controller: _refundWalletAddressController,
+                      style: TextStyle(
+                          backgroundColor: Colors.transparent,
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.normal,
+                          color: Theme.of(context).primaryTextTheme.bodySmall!.color),
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                      ],
+                      textAlignVertical: TextAlignVertical(y: 0.0),
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          prefixIcon: Container(
+                              margin: EdgeInsets.only(right: 3, top: 5, bottom: 3),
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff333343)
+                                      : Color(0xffEBEBEB),
+                                  borderRadius: BorderRadius.all(Radius.circular(8))),
+                              child: Text(
+                                _exchangeData.fromProtocol ?? "---",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffFFFFFF)
+                                        : Color(0xff060606)),
+                              )),
+                          suffixIcon: refundValidator.loading &&
+                                  _refundWalletAddressController.text.isNotEmpty
+                              ? Container(
+                                  width: 15.0,
+                                  height: 15.0,
+                                  margin: EdgeInsets.all(10),
+                                  padding: EdgeInsets.all(0),
+                                  child: circularProgressBar(Color(0xff0BA70F), 2.0))
+                              : InkWell(
+                                  onTap: () async => _presentRefundQRScanner(
+                                      context, refundValidator, from ?? ''),
+                                  child: Container(
+                                    width: 10,
+                                    margin: EdgeInsets.only(top: 5, bottom: 3, left: 3),
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xff333343)
+                                            : Color(0xffEBEBEB),
+                                        borderRadius: BorderRadius.all(Radius.circular(8))),
+                                    child: SvgPicture.asset(
+                                      'assets/images/swap/scan_qr.svg',
+                                      colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
+                                          ? Color(0xffA9A9CD)
+                                          : Color(0xff222222), BlendMode.srcIn),
+                                      width: 10,
+                                      height: 10,
+                                    ),
+                                  )),
+                          hintStyle: TextStyle(
+                              backgroundColor: Colors.transparent,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.grey.withValues(alpha: 0.6)),
+                          hintText: 'Enter your ${(from ?? '').toUpperCase()} refund address',
+                          errorStyle: TextStyle(backgroundColor: Colors.transparent, height: 0.1)),
+                      onChanged: (value) {
+                        if (value.isNotEmpty) {
+                          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                            refundValidator.setRecipientAddress(value);
+                            refundValidator.validateAddressData(context, {
+                              "currency": "${from}",
+                              "address": value,
+                              "network": _exchangeData.fromProtocol ?? "",
+                              "extraId": ""
+                            });
+                          });
+                        } else {
+                          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                            refundValidator.setSuccessState(true);
+                            refundValidator.setErrorMessage('');
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                  Visibility(
+                    visible: refundValidator.getErrorMessage().trim().isNotEmpty,
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10, top: 5),
+                        child: Text(
+                          refundValidator.getErrorMessage(),
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: BeldexPalette.red,
+                          ),
                         ),
-                      ))),
-            ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
 
@@ -1149,22 +1224,23 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                   alignment: Alignment.center,
                   child: ElevatedButton(
                     onPressed: () {
+                      final refundValid = !_showRefundAddress || _refundWalletAddressController.text.isEmpty || (_refundValidateAddressProvider?.successState ?? true);
                       if(validateExtraIdFieldProvider.showMemo){
                         if(_destinationTagController.text.isEmpty){
                           validateExtraIdFieldProvider.setShowErrorBorder(true);
                           validateExtraIdFieldProvider.setErrorMessage("Please enter ${_exchangeData.extraIdName}");
                         }else {
-                          if (acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected) {
+                          if (acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && refundValid && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected) {
                             //Navigate to Payment Screen
                             Navigator.of(context).pop(true);
-                            Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, _destinationTagController.text, _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain));
+                            Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, _destinationTagController.text, _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain, fromProtocol: _exchangeData.fromProtocol, toProtocol: _exchangeData.toProtocol, refundAddress: _showRefundAddress ? _refundWalletAddressController.text : ''));
                           }
                         }
                       }else{
-                        if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected){
+                        if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && refundValid && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected){
                           //Navigate to Payment Screen
                           Navigator.of(context).pop(true);
-                          Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, "", _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain));
+                          Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, "", _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain, fromProtocol: _exchangeData.fromProtocol, toProtocol: _exchangeData.toProtocol, refundAddress: _showRefundAddress ? _refundWalletAddressController.text : ''));
                         }
                       }
                     },
@@ -1214,11 +1290,33 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         validateAddressProvider.validateAddressData(context, {
           "currency": "${to}",
           "address": _recipientAddressController.text.toString(),
+          "network": _exchangeData.toProtocol!,
           "extraId": _exchangeData.extraIdName!
         });
       });
     } catch (e) {
       print('Error $e');
+    }
+  }
+
+  Future<void> _presentRefundQRScanner(BuildContext context,
+      RefundValidateAddressProvider refundValidator, String from) async {
+    try {
+      final code = await presentQRScanner();
+      final uri = Uri.parse(code!);
+      final address = uri.path;
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        refundValidator.setRecipientAddress(address);
+        _refundWalletAddressController.text = address;
+        refundValidator.validateAddressData(context, {
+          "currency": "${from}",
+          "address": address,
+          "network": _exchangeData.fromProtocol ?? "",
+          "extraId": ""
+        });
+      });
+    } catch (e) {
+      print('Refund QR scan error: $e');
     }
   }
 

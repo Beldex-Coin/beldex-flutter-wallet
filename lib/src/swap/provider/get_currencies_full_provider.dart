@@ -1,14 +1,15 @@
 import 'dart:io';
 
-import 'package:beldex_wallet/src/swap/model/get_currencies_full_model.dart';
+import 'package:beldex_wallet/src/swap/exchange/base_exchange_service.dart';
+import 'package:beldex_wallet/src/swap/exchange/exchange_manager.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/coin_info.dart';
 import 'package:beldex_wallet/src/swap/util/utils.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../api_service/get_currencies_full_api_service.dart';
 import '../util/data_class.dart';
 
 class GetCurrenciesFullProvider with ChangeNotifier {
-  late GetCurrenciesFullModel? data;
+  List<CoinInfo> data = [];
 
   bool loading = true;
   bool? bdxIsEnabled;
@@ -17,7 +18,7 @@ class GetCurrenciesFullProvider with ChangeNotifier {
   Coins selectedYouGetCoins = bdxCoin;
   bool youSendCoinsDropDownVisible = false;
   bool youGetCoinsDropDownVisible = false;
-  GetCurrenciesFullApiService services = GetCurrenciesFullApiService();
+  BaseExchangeService? _service;
   String? _error;
   String? get error => _error;
 
@@ -26,28 +27,30 @@ class GetCurrenciesFullProvider with ChangeNotifier {
     loading = true;
     _error = null;
     try {
-      final response = await services.getSignature();
-      if (response != null) {
-        data = response;
-      } else {
-        _error = "Failed to fetch data.";
+      _service = ExchangeManager.selectedService;
+      if (_service == null) {
+        bdxIsEnabled = false;
+        return;
       }
+      final cached = ExchangeManager.cachedCurrencies;
+      if (cached.isNotEmpty) {
+        data = cached;
+      } else {
+        data = await _service!.getCurrencies();
+      }
+      bdxIsEnabled = data.any(
+        (c) => c.name.toUpperCase() == 'BDX' && c.enabled,
+      );
     } on SocketException catch (e) {
       print('get currencies full api SocketException: Failed to connect: $e');
-      _error = "No internet connection.";
+      //_error = "No internet connection.";
     } catch (e) {
       print('get currencies full api Unexpected error: $e');
-      _error = "Unexpected error: ${e.toString()}";
+      //_error = "Unexpected error: ${e.toString()}";
     } finally {
       loading = false;
       if(!_disposed) notifyListeners();
     }
-  }
-
-  void setBdxIsEnabled(status){
-    this.bdxIsEnabled = status;
-    if(_disposed) return ;
-    notifyListeners();
   }
 
   bool? get getBdxIsEnabled => this.bdxIsEnabled;

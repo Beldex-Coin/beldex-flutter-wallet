@@ -1,0 +1,249 @@
+import 'package:beldex_wallet/src/swap/api_service/get_currencies_full_api_service.dart';
+import 'package:beldex_wallet/src/swap/api_service/get_exchange_amount_api_service.dart';
+import 'package:beldex_wallet/src/swap/api_service/get_pairs_params_api_service.dart';
+import 'package:beldex_wallet/src/swap/api_service/get_status_api_service.dart';
+import 'package:beldex_wallet/src/swap/api_service/get_transactions_api_service.dart';
+import 'package:beldex_wallet/src/swap/api_service/create_transaction_api_service.dart';
+import 'package:beldex_wallet/src/swap/api_service/validate_address_api_service.dart';
+import 'package:beldex_wallet/src/swap/exchange/base_exchange_service.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/coin_info.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/exchange_rate.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/order_info.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/order_request.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/pair_params.dart';
+
+import '../../util/utils.dart';
+
+class ChangellyExchangeService extends BaseExchangeService {
+  final _currenciesService = GetCurrenciesFullApiService();
+  final _pairsService = GetPairsParamsApiService();
+  final _exchangeAmountService = GetExchangeAmountApiService();
+  final _validateAddressService = ValidateAddressApiService();
+  final _createTransactionService = CreateTransactionApiService();
+  final _getStatusService = GetStatusApiService();
+  final _getTransactionsService = GetTransactionsApiService();
+
+  @override
+  String get exchangeName => 'Changelly';
+
+  @override
+  String get exchangeUrl => 'https://changelly.com';
+
+  @override
+  Future<List<CoinInfo>> getCurrencies() async {
+    try {
+      final response = await _currenciesService.getSignature();
+      if (response?.result == null) return [];
+      return response!.result!
+          .where((c) => c.enabled == true)
+          .map((c) => CoinInfo(
+                name: c.name?.toUpperCase() ?? '',
+                ticker: c.ticker ?? c.name,
+                fullName: c.fullName ?? c.name ?? '',
+                enabled: c.enabled ?? true,
+                enabledFrom: c.enabledFrom ?? true,
+                enabledTo: c.enabledTo ?? true,
+                fixRateEnabled: c.fixRateEnabled ?? false,
+                payinConfirmations: c.payinConfirmations ?? 0,
+                extraIdName: c.extraIdName,
+                logoUrl: c.image,
+                protocol: c.protocol ?? c.contractAddress ?? '',
+                network: c.blockchain ?? c.protocol ?? '',
+                blockchain: c.blockchain
+              ))
+          .toList();
+    } catch (e) {
+      print('Changelly getCurrencies error: $e');
+      return [];
+    }
+  }
+
+  @override
+  Future<PairParams?> getPairParams({
+    required String fromCurrency,
+    required String fromNetwork,
+    required String toCurrency,
+    required String toNetwork,
+    required String amount
+  }) async {
+    try {
+      final params = [
+        {'from': fromCurrency.toLowerCase(), 'to': toCurrency.toLowerCase()}
+      ];
+
+      final response = await _pairsService.getSignature(params);
+      if (response?.result == null || response!.result!.isEmpty) {
+        return null;
+      }
+      return PairParams(
+        fromCurrency: fromCurrency.toUpperCase(),
+        toCurrency: toCurrency.toUpperCase(),
+        minAmountFloat: response.result!.first.minAmountFloat ?? '0',
+        maxAmountFloat: response.result!.first.maxAmountFloat ?? '0',
+        minAmountFixed: response.result!.first.minAmountFixed ?? '0',
+        maxAmountFixed: response.result!.first.maxAmountFixed ?? '0',
+      );
+    } catch (e) {
+      print('Changelly getPairParams error: $e');
+      return null;
+    }
+  }
+
+  @override
+  Future<ExchangeRate?> getExchangeRate({
+    required String fromCurrency,
+    required String fromNetwork,
+    required String toCurrency,
+    required String toNetwork,
+    required String amount
+  }) async {
+    try {
+      final params = {
+        'from': fromCurrency.toLowerCase(),
+        'to': toCurrency.toLowerCase(),
+        'amountFrom': amount,
+      };
+      final response = await _exchangeAmountService.getSignature(params);
+      if (response?.result == null || response!.result!.isEmpty) return null;
+      final result = response.result!.first;
+      return ExchangeRate(
+        from: fromCurrency,
+        to: toCurrency,
+        amountFrom: result.amountFrom ?? amount,
+        amountTo: result.amountTo ?? '0',
+        rate: result.rate ?? '0',
+        networkFee: result.networkFee
+      );
+    } catch (e) {
+      print('Changelly getExchangeRate error: $e');
+      return null;
+    }
+  }
+
+  @override
+  Future<bool> validateAddress({
+    required String currency,
+    required String network,
+    required String address,
+    String? memo,
+  }) async {
+    try {
+      final params = {
+        'currency': currency.toLowerCase(),
+        'address': address,
+      };
+      if (memo != null && memo.isNotEmpty) {
+        params['extraId'] = memo;
+      }
+      final response = await _validateAddressService.getSignature(params);
+      return response?.result?.result ?? false;
+    } catch (e) {
+      print('Changelly validateAddress error: $e');
+      return false;
+    }
+  }
+
+  @override
+  Future<OrderInfo?> createOrder(OrderRequest request) async {
+    try {
+      final params = {
+        'from': request.fromCurrency.toLowerCase(),
+        'to': request.toCurrency.toLowerCase(),
+        'amount': request.depositAmount,
+        'address': request.destinationAddress,
+        'refundAddress': request.refundAddress ?? '',
+      };
+      if (request.destinationAddressMemo != null && request.destinationAddressMemo!.isNotEmpty) {
+        params['extraId'] = request.destinationAddressMemo!;
+      }
+      final response = await _createTransactionService.getSignature(params);
+      if (response?.result == null) return null;
+      final result = response!.result!;
+      return OrderInfo(
+        orderId: result.id ?? '',
+        type: 'float',
+        networkFee: result.networkFee,
+        platformFee: '0',
+        apiExtraFee: result.apiExtraFee,
+        payinAddress: result.payinAddress,
+        payinExtraId: result.payinExtraId,
+        payoutAddress: result.payoutAddress,
+        payoutExtraId: result.payoutExtraId,
+        refundAddress: result.refundAddress,
+        refundExtraId: result.refundExtraId,
+        amountExpectedFrom: result.amountExpectedFrom,
+        amountExpectedTo: result.amountExpectedTo,
+        amountTo: result.amountTo,
+        status: result.status == 'finished' ? 'finished' : 'waiting',
+        currencyFrom: result.currencyFrom?.toLowerCase() ?? '',
+        currencyTo: result.currencyTo?.toLowerCase() ?? '',
+        payTill: DateTime.now().add(const Duration(minutes: 15)).toUtc().toIso8601String(),
+        createdAt: toMsEpoch(result.createdAt),
+        payinConfirmations: result.payinConfirmations ?? 0,
+        rawResponse: result
+      );
+    } catch (e) {
+      print('Changelly createOrder error: $e');
+      return null;
+    }
+  }
+
+  @override
+  Future<OrderInfo?> getOrderInfo(int orderId) async {
+    try {
+      final params = {'id': orderId.toString()};
+      final response = await _getStatusService.getSignature(params);
+      if (response?.result == null) return null;
+      final status = response!.result!;
+      return OrderInfo(
+        orderId: orderId,
+        //state: status,
+        //completed: status == 'finished',
+        status: status,
+        //exchangeName: exchangeName,
+      );
+    } catch (e) {
+      print('Changelly getOrderInfo error: $e');
+      return null;
+    }
+  }
+
+  @override
+  Future<List<OrderInfo>> getOrderHistory({int? offset, int? limit}) async {
+    try {
+      final params = {
+        'id': <String>[],
+      };
+      final response = await _getTransactionsService.getSignatureWithIds(params);
+      if (response?.result == null) return [];
+      return response!.result!
+          .map((r) => OrderInfo(
+                orderId: r.id ?? '',
+                //state: r.status ?? 'unknown',
+                //completed: r.status == 'finished',
+                //depositAddress: r.payinAddress,
+                //depositAddressMemo: r.payinExtraId,
+                //destinationAddress: r.payoutAddress,
+                //destinationAddressMemo: r.payoutExtraId,
+                //claimedDepositAmount: r.amountExpectedFrom,
+                //amountToGet: r.amountExpectedTo,
+                //fromCurrency: r.currencyFrom,
+                //fromNetwork: '',
+                //toCurrency: r.currencyTo,
+                //toNetwork: '',
+                //txId: r.payoutHash,
+                networkFee: r.networkFee,
+                createdAt: null,
+                //updatedAt: null,
+                //trackUrl: r.trackUrl,
+                refundAddress: r.refundAddress,
+                status: r.status,
+                //exchangeName: exchangeName,
+              ))
+          .toList();
+    } catch (e) {
+      print('Changelly getOrderHistory error: $e');
+      return [];
+    }
+  }
+}

@@ -18,8 +18,7 @@ class GetTransactionsApiService {
     return callGetTransactionsApiService(params: params);
   }
 
-  Future<GetTransactionsModel> callGetTransactionsApiService({Map? params}) async {
-    late GetTransactionsModel data;
+  Future<GetTransactionsModel?> callGetTransactionsApiService({Map? params}) async {
     try {
       final requestBody = params != null
           ? {'jsonrpc': '2.0', 'id': 'test', 'method': Apis.getTransactions, 'params': params}
@@ -30,13 +29,14 @@ class GetTransactionsApiService {
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
         final resultBody = json.decode(response.body);
-        data = GetTransactionsModel.fromJson(resultBody);
+        return GetTransactionsModel.fromJson(resultBody);
       } else {
-        print('Error Occurred');
+        print('get transactions api error: status=${response.statusCode}');
+        return null;
       }
     } catch (e) {
-      print('get transactions api error occurred' + e.toString());
+      print('get transactions api error: $e');
+      return null;
     }
-    return data;
   }
 }

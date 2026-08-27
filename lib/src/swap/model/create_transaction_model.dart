@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:beldex_wallet/src/swap/exchange/models/order_info.dart';
+
 CreateTransactionModel createTransactionModelFromJson(String str) => CreateTransactionModel.fromJson(json.decode(str));
 
 String createTransactionModelToJson(CreateTransactionModel data) => json.encode(data.toJson());
@@ -13,12 +15,16 @@ class CreateTransactionModel {
   Result? result;
   Error? error;
   String? id;
+  String? payTill;
+  OrderInfo? orderInfo;
 
   CreateTransactionModel({
     this.jsonrpc,
     this.result,
     this.error,
     this.id,
+    this.payTill,
+    this.orderInfo,
   });
 
   factory CreateTransactionModel.fromJson(Map<String, dynamic> json) => CreateTransactionModel(

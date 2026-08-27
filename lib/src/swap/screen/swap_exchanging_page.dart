@@ -130,7 +130,8 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
   }
 
   void callGetStatusApi(Result? result, GetStatusApiClient getStatusApiClient) {
-    getStatusApiClient.getStatusData(context, {"id": "${result?.id}"}).then((value) {
+    final exchangeName = stored.where((s) => parseTransactionId(s) == '${result?.id}').map(parseExchangeName).firstOrNull ?? 'changelly';
+    getStatusApiClient.getStatusData(context, {"id": "${result?.id}"}, exchangeName: exchangeName).then((value) {
       if (value!.result!.isNotEmpty) {
         if (!_getStatusStreamController.isClosed) {
           _getStatusStreamController.sink.add(value);
@@ -373,12 +374,12 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                               if (getCurrenciesFullProvider.loading) {
                                 return Center(child: circularProgressBar(Color(0xff0BA70F), 1.0));
                               } else {
-                                if (getCurrenciesFullProvider.data!.result!.isNotEmpty &&
+                                if (getCurrenciesFullProvider.data!.isNotEmpty &&
                                     getCurrenciesFullProvider.loading == false) {
                                   final currencyDetails = getCurrenciesFullProvider.data;
                                   return InkWell(
                                     onTap: (){
-                                      currencyDetails!.result!.forEach((item){
+                                      currencyDetails!.forEach((item){
                                         if(item.ticker == transactionDetails.result!.currencyFrom) {
                                           final url = processUrl(item.transactionUrl, transactionDetails.result?.payinHash);
                                           if(url.trim().isNotEmpty){

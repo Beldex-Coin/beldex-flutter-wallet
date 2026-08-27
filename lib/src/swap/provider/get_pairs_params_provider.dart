@@ -1,11 +1,12 @@
 import 'dart:io';
 
-import 'package:beldex_wallet/src/swap/api_service/get_pairs_params_api_service.dart';
-import 'package:beldex_wallet/src/swap/model/get_pairs_params_model.dart';
+import 'package:beldex_wallet/src/swap/exchange/base_exchange_service.dart';
+import 'package:beldex_wallet/src/swap/exchange/exchange_manager.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/pair_params.dart';
 import 'package:flutter/cupertino.dart';
 
 class GetPairsParamsProvider with ChangeNotifier {
-  late GetPairsParamsModel? data;
+  PairParams? data;
 
   bool loading = false;
   bool _disposed = false;
@@ -16,26 +17,40 @@ class GetPairsParamsProvider with ChangeNotifier {
   bool errorState = false;
   bool sendCoinAvailableOnGetCoinStatus = false;
   bool getCoinAvailableOnSendCoinStatus = false;
-  GetPairsParamsApiService services = GetPairsParamsApiService();
+  BaseExchangeService? _service;
   String? _error;
   String? get error => _error;
 
-  void getPairsParamsData(context, List<Map<String, String>> params) async {
+  void getPairsParamsData(context, List<Map<String, String>> params, String amount) async {
     loading = true;
     _error = null;
     try {
-      final response = await services.getSignature(params);
-      if (response != null) {
+      _service = ExchangeManager.selectedService;
+      if (_service == null) {
+        //_error = 'No exchange selected';
+        return;
+      }
+      if (params.isNotEmpty) {
+        final from = params.first;
+        final response = await _service!.getPairParams(
+          fromCurrency: from['from'] ?? '',
+          fromNetwork: from['fromNetwork'] ?? '',
+          toCurrency: from['to'] ?? '',
+          toNetwork: from['toNetwork'] ?? '',
+          amount: amount ?? "0"
+        );
         data = response;
-      } else {
-        _error = "Failed to fetch data.";
+        if (response != null) {
+          minimumAmount = double.tryParse(response.minAmountFloat) ?? 0.0;
+          maximumAmount = double.tryParse(response.maxAmountFloat) ?? 0.0;
+        }
       }
     } on SocketException catch (e) {
       print('get pairs params api SocketException: Failed to connect: $e');
-      _error = "No internet connection.";
+      //_error = "No internet connection.";
     } catch (e) {
       print('get pairs params api Unexpected error: $e');
-      _error = "Unexpected error: ${e.toString()}";
+      //_error = "Unexpected error: ${e.toString()}";
     } finally {
       loading = false;
       if(!_disposed) notifyListeners();
@@ -74,7 +89,7 @@ class GetPairsParamsProvider with ChangeNotifier {
   }
 
   double getGetAmountValue(){
-    return this.getAmountValue;
+    return getAmountValue;
   }
 
   void setSendFieldErrorState(state){

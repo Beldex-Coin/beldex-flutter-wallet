@@ -14,9 +14,8 @@ class CreateTransactionApiService {
     return callCreateTransactionApiService(params: params);
   }
 
-  Future<CreateTransactionModel> callCreateTransactionApiService(
+  Future<CreateTransactionModel?> callCreateTransactionApiService(
       {Map? params}) async {
-    late CreateTransactionModel data;
     try {
       final requestBody = params != null
           ? {'jsonrpc': '2.0', 'id': 'test', 'method': Apis.createTransaction, 'params': params}
@@ -27,14 +26,14 @@ class CreateTransactionApiService {
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
         final resultBody = json.decode(response.body);
-        data = CreateTransactionModel.fromJson(resultBody);
-        print('create transaction data from json --> $resultBody');
+        return CreateTransactionModel.fromJson(resultBody);
       } else {
-        print('Error Occurred');
+        print('create transaction api error: status=${response.statusCode}');
+        return null;
       }
     } catch (e) {
-      print('create transaction api error occurred' + e.toString());
+      print('create transaction api error: $e');
+      return null;
     }
-    return data;
   }
 }

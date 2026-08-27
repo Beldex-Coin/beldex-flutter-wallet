@@ -1,15 +1,16 @@
 import 'dart:io';
 
-import 'package:beldex_wallet/src/swap/api_service/get_exchange_amount_api_service.dart';
+import 'package:beldex_wallet/src/swap/exchange/base_exchange_service.dart';
+import 'package:beldex_wallet/src/swap/exchange/exchange_manager.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/exchange_rate.dart';
 import 'package:flutter/cupertino.dart';
-import '../model/get_exchange_amount_model.dart';
 
 class GetExchangeAmountProvider with ChangeNotifier {
-  late GetExchangeAmountModel? data;
+  ExchangeRate? data;
 
   bool loading = true;
   bool _disposed = false;
-  GetExchangeAmountApiService services = GetExchangeAmountApiService();
+  BaseExchangeService? _service;
   bool transactionStatus = false;
   String? _error;
   String? get error => _error;
@@ -18,18 +19,30 @@ class GetExchangeAmountProvider with ChangeNotifier {
     loading = true;
     _error = null;
     try {
-      final response = await services.getSignature(params);
+      _service = ExchangeManager.selectedService;
+      if (_service == null) {
+        //_error = 'No exchange selected';
+        return;
+      }
+      final response = await _service!.getExchangeRate(
+        fromCurrency: params['from'] ?? '',
+        fromNetwork: params['fromNetwork'] ?? '',
+        toCurrency: params['to'] ?? '',
+        toNetwork: params['toNetwork'] ?? '',
+        amount: params['amountFrom'] ?? params['amount'] ?? '0'
+      );
       if (response != null) {
         data = response;
       } else {
-        _error = "Failed to fetch data.";
+        //_error = "Failed to fetch data.";
       }
     } on SocketException catch (e) {
       print('get exchange amount api SocketException: Failed to connect: $e');
-      _error = "No internet connection.";
+      //_error = "No internet connection.";
     } catch (e) {
-      print('get exchange amount api Unexpected error: $e');
-      _error = "Unexpected error: ${e.toString()}";
+      final msg = e.toString().replaceFirst('Exception: ', '');
+      print('get exchange amount api error: $msg');
+      //_error = msg;
     } finally {
       loading = false;
       if(!_disposed) notifyListeners();

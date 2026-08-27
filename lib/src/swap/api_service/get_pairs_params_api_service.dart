@@ -14,9 +14,8 @@ class GetPairsParamsApiService {
     return callGetPairsParamsApiService(params: params);
   }
 
-  Future<GetPairsParamsModel> callGetPairsParamsApiService(
+  Future<GetPairsParamsModel?> callGetPairsParamsApiService(
       {List<Map<String, dynamic>>? params}) async {
-    late GetPairsParamsModel data;
     try {
       final requestBody = params != null && params.isNotEmpty
           ? {'jsonrpc': '2.0', 'id': 'test', 'method': Apis.getPairsParams, 'params': params}
@@ -27,13 +26,14 @@ class GetPairsParamsApiService {
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
         final resultBody = json.decode(response.body);
-        data = GetPairsParamsModel.fromJson(resultBody);
+        return GetPairsParamsModel.fromJson(resultBody);
       } else {
-        print('Error Occurred');
+        print('get pairs params api error: status=${response.statusCode}');
+        return null;
       }
     } catch (e) {
-      print('get pairs params api error occurred' + e.toString());
+      print('get pairs params api error: $e');
+      return null;
     }
-    return data;
   }
 }

@@ -14,9 +14,8 @@ class ValidateAddressApiService {
     return callValidateAddressApiService(params: params);
   }
 
-  Future<ValidateAddressModel> callValidateAddressApiService(
+  Future<ValidateAddressModel?> callValidateAddressApiService(
       {Map? params}) async {
-    late ValidateAddressModel data;
     try {
       final requestBody = params != null
           ? {'jsonrpc': '2.0', 'id': 'test', 'method': Apis.validateAddress, 'params': params}
@@ -27,13 +26,14 @@ class ValidateAddressApiService {
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
         final resultBody = json.decode(response.body);
-        data = ValidateAddressModel.fromJson(resultBody);
+        return ValidateAddressModel.fromJson(resultBody);
       } else {
-        print('Error Occurred');
+        print('validate address api error: status=${response.statusCode}');
+        return null;
       }
     } catch (e) {
-      print('validate address api error occurred' + e.toString());
+      print('validate address api error: $e');
+      return null;
     }
-    return data;
   }
 }

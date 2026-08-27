@@ -14,9 +14,8 @@ class GetCurrenciesFullApiService {
     return callGetCurrenciesFullApiService();
   }
 
-  Future<GetCurrenciesFullModel> callGetCurrenciesFullApiService(
+  Future<GetCurrenciesFullModel?> callGetCurrenciesFullApiService(
       {Map? params}) async {
-    late GetCurrenciesFullModel data;
     try {
       final requestBody = params != null
           ? {'jsonrpc': '2.0', 'id': 'test', 'method': Apis.getCurrenciesFull, 'params': params}
@@ -27,13 +26,14 @@ class GetCurrenciesFullApiService {
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
         final resultBody = json.decode(response.body);
-        data = GetCurrenciesFullModel.fromJson(resultBody);
+        return GetCurrenciesFullModel.fromJson(resultBody);
       } else {
-        print('Error Occurred');
+        print('get currencies full api error: status=${response.statusCode}');
+        return null;
       }
     } catch (e) {
-      print('get currencies full api error occurred' + e.toString());
+      print('get currencies full api error: $e');
+      return null;
     }
-    return data;
   }
 }

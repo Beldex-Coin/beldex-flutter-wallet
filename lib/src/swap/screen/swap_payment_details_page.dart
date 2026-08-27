@@ -5,6 +5,7 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
 import 'package:beldex_wallet/src/swap/api_client/get_status_api_client.dart';
+import 'package:beldex_wallet/src/swap/exchange/exchange_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -137,7 +138,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
 
   void callUnPaidScreen(CreateTransactionModel createdTransactionDetails, String? status) {
     Navigator.of(context).pop(true);
-    Navigator.of(context).pushNamed(Routes.swapUnPaid,arguments: TransactionStatus(createdTransactionDetails, status, _walletAddress));
+    Navigator.of(context).pushNamed(Routes.swapUnPaid,arguments: TransactionStatus(createdTransactionDetails, status, _walletAddress, exchangeName: ExchangeManager.selectedType?.name));
   }
 
   @override
@@ -164,7 +165,8 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   }
 
   void callGetStatusApi(Result? result, GetStatusApiClient getStatusApiClient){
-    getStatusApiClient.getStatusData(context, {"id":"${result?.id}"}).then((value){
+    final exchangeName = widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly';
+    getStatusApiClient.getStatusData(context, {"id":"${result?.id}"}, exchangeName: exchangeName).then((value){
       if(value!.result!.isNotEmpty){
         if (!_getStatusStreamController.isClosed) {
           _getStatusStreamController.sink.add(value);
@@ -195,7 +197,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
             }
             Future.delayed(Duration(seconds: 2), () {
               Navigator.of(context).pop(true);
-              Navigator.of(context).pushNamed(Routes.swapCompleted,arguments: TransactionStatus(createdTransactionDetails, value.result, _walletAddress));
+              Navigator.of(context).pushNamed(Routes.swapCompleted,arguments: TransactionStatus(createdTransactionDetails, value.result, _walletAddress, exchangeName: widget.transactionDetails.exchangeName));
             });
             break;
           }

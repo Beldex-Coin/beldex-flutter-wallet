@@ -4,7 +4,7 @@ import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/api_client/get_status_api_client.dart';
-import 'package:beldex_wallet/src/swap/model/get_currencies_full_model.dart';
+import 'package:beldex_wallet/src/swap/exchange/exchange_manager.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -134,7 +134,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
 
   void callUnPaidScreen(GetTransactionResult createdTransactionDetails, String? status) {
     Navigator.of(context).pop(true);
-    Navigator.of(context).pushNamed(Routes.swapTransactionUnPaid,arguments: GetTransactionStatus(createdTransactionDetails, status, _walletAddress));
+    Navigator.of(context).pushNamed(Routes.swapTransactionUnPaid,arguments: GetTransactionStatus(createdTransactionDetails, status, _walletAddress, exchangeName: widget.transactionDetails.exchangeName));
   }
 
   @override
@@ -158,7 +158,8 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
   }
 
   void callGetStatusApi(GetTransactionResult? result, GetStatusApiClient getStatusApiClient){
-    getStatusApiClient.getStatusData(context, {"id":"${result?.id}"}).then((value){
+    final exchangeName = widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly';
+    getStatusApiClient.getStatusData(context, {"id":"${result?.id}"}, exchangeName: exchangeName).then((value){
       if(value!.result!.isNotEmpty){
         if (!_getStatusStreamController.isClosed) {
           _getStatusStreamController.sink.add(value);
@@ -189,7 +190,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
             }
             Future.delayed(Duration(seconds: 2), () {
               Navigator.of(context).pop(true);
-              Navigator.of(context).pushNamed(Routes.swapTransactionCompleted,arguments: GetTransactionStatus(createdTransactionDetails, value.result, _walletAddress));
+              Navigator.of(context).pushNamed(Routes.swapTransactionCompleted,arguments: GetTransactionStatus(createdTransactionDetails, value.result, _walletAddress, exchangeName: widget.transactionDetails.exchangeName));
             });
             break;
           }
@@ -639,12 +640,11 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     return networkTextWidget("...");
                   } else {
                     if (getCurrenciesFullProvider.loading == false &&
-                        getCurrenciesFullProvider.data!.result!.isNotEmpty) {
-                      final matchingItem = getCurrenciesFullProvider.data!.result!.firstWhere(
+                        getCurrenciesFullProvider.data!.isNotEmpty) {
+                      final matchingItem = getCurrenciesFullProvider.data!.where(
                             (item) => item.ticker == createdTransactionDetails?.currencyTo,
-                        orElse: () => GetCurrenciesResult(), // create an "empty" object
-                      );
-                      if (matchingItem.ticker == createdTransactionDetails?.currencyTo) {
+                      ).firstOrNull;
+                      if (matchingItem != null && matchingItem.ticker == createdTransactionDetails?.currencyTo) {
                         return networkTextWidget(networkWithUppercase(matchingItem.blockchain));
                       } else {
                         return networkTextWidget("...");

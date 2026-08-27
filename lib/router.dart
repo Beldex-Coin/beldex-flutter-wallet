@@ -4,6 +4,7 @@ import 'package:beldex_wallet/src/swap/provider/get_currencies_full_provider.dar
 import 'package:beldex_wallet/src/swap/provider/get_exchange_amount_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_pairs_params_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
+import 'package:beldex_wallet/src/swap/provider/exchange_selection_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/swap_transaction_expansion_status_change_notifier.dart';
 import 'package:beldex_wallet/src/swap/provider/valdiate_extra_id_field_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
@@ -648,6 +649,7 @@ class Router {
           return MultiProvider(
             providers: [
               ChangeNotifierProvider<SwapExchangePageChangeNotifier>(create: (_) => SwapExchangePageChangeNotifier()),
+              ChangeNotifierProvider<ExchangeSelectionProvider>(create: (_) => ExchangeSelectionProvider()),
               ChangeNotifierProvider<GetCurrenciesFullProvider>(create: (_) => GetCurrenciesFullProvider()),
               ChangeNotifierProvider<GetPairsParamsProvider>(create: (_) => GetPairsParamsProvider()),
               ChangeNotifierProvider<GetExchangeAmountProvider>(create: (_) => GetExchangeAmountProvider())
@@ -660,6 +662,7 @@ class Router {
           return MultiProvider(
             providers: [
               ChangeNotifierProvider<ValidateAddressProvider>(create: (_) => ValidateAddressProvider()),
+              ChangeNotifierProvider<RefundValidateAddressProvider>(create: (_) => RefundValidateAddressProvider()),
               ChangeNotifierProvider<ValidateExtraIdFieldProvider>(create: (_) => ValidateExtraIdFieldProvider())
             ],
             child: SwapWalletAddressPage(exchangeData : settings.arguments as ExchangeData),

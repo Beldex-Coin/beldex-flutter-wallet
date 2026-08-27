@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:beldex_wallet/src/node/sync_status.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/order_info.dart';
+import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/services/platform_channel.dart';
@@ -140,6 +142,22 @@ Future<List<String>> getTransactionIds(String fileName, String key) async {
   }
 }
 
+String parseTransactionId(String storedId) {
+  final colonIndex = storedId.indexOf(':');
+  if (colonIndex != -1 && colonIndex < storedId.length - 1) {
+    return storedId.substring(colonIndex + 1);
+  }
+  return storedId;
+}
+
+String parseExchangeName(String storedId) {
+  final colonIndex = storedId.indexOf(':');
+  if (colonIndex != -1 && colonIndex > 0) {
+    return storedId.substring(0, colonIndex);
+  }
+  return 'changelly';
+}
+
 bool syncStatus(SyncStatus status) {
   return status is SyncedSyncStatus || status.blocksLeft == 0;
 }
@@ -199,7 +217,7 @@ String networkWithUppercase(String? blockChain) {
       : "...";
 }
 
-Widget networkWidget(SettingsStore settingsStore, String? blockChain) {
+Widget networkWidget(SettingsStore settingsStore, String? network) {
   return Flexible(
     flex: 1,
     child: Container(
@@ -224,7 +242,7 @@ Widget networkWidget(SettingsStore settingsStore, String? blockChain) {
                 fontWeight: FontWeight.w500),
             children: [
               TextSpan(
-                  text: networkWithUppercase(blockChain),
+                  text: networkWithUppercase(network),
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.normal,
@@ -249,4 +267,83 @@ String networkWithLowercase(String? blockChain) {
   return (blockChain?.isNotEmpty ?? false)
       ? blockChain!.replaceAll("_", " ").toLowerCase()
       : "...";
+}
+
+int toMsEpoch(dynamic value) {
+  final now = DateTime.now().millisecondsSinceEpoch;
+
+  if (value == null || value.toString().isEmpty) {
+    return now;
+  }
+
+  // Handle date strings such as:
+  // "2025-01-21T12:00:00Z"
+  if (value is String && num.tryParse(value) == null) {
+    final date = DateTime.tryParse(value);
+
+    return date?.millisecondsSinceEpoch ?? now;
+  }
+
+  final num? number = value is num
+      ? value
+      : num.tryParse(value.toString());
+
+  if (number == null) {
+    return now;
+  }
+
+  final int digits = number.abs().floor().toString().length;
+
+  // Nanoseconds → milliseconds
+  if (digits >= 19) {
+    return (number / 1000000).floor();
+  }
+
+  // Microseconds → milliseconds
+  if (digits >= 16) {
+    return (number / 1000).floor();
+  }
+
+  // Milliseconds
+  if (digits >= 11) {
+    return number.floor();
+  }
+
+  // Seconds → milliseconds
+  return (number * 1000).floor();
+}
+
+/// Convert a common [OrderInfo] (from any exchange) into the historical
+/// Changelly-shaped [CreateTransactionModel] used by the downstream screens.
+///
+/// For Changelly the raw response already IS a [Result], so it is passed
+/// through untouched (preserving every field incl. payTill/rawResponse).
+/// For other exchanges a [Result] is built from the common [OrderInfo] fields.
+CreateTransactionModel orderInfoToCreateTransactionModel(OrderInfo? order) {
+  if (order == null) {
+    return CreateTransactionModel(error: Error(message: 'Order creation failed'));
+  }
+
+  final result = Result(
+    id: '${order.orderId}',
+    type: order.type,
+    networkFee: order.networkFee,
+    apiExtraFee: order.apiExtraFee,
+    payinAddress: order.payinAddress,
+    payinExtraId: order.payinExtraId,
+    payoutAddress: order.payoutAddress,
+    payoutExtraId: order.payoutExtraId,
+    refundAddress: order.refundAddress,
+    refundExtraId: order.refundExtraId,
+    amountExpectedFrom: order.amountExpectedFrom,
+    amountTo: order.amountTo,
+    amountExpectedTo: order.amountExpectedTo,
+    status: order.status,
+    currencyFrom: order.currencyFrom,
+    currencyTo: order.currencyTo,
+    createdAt: order.createdAt,
+    payinConfirmations: order.payinConfirmations,
+    trackUrl: order.rawResponse?.trackUrl?.toString(),
+  );
+  return CreateTransactionModel(result: result, payTill: order.payTill, orderInfo: order);
 }

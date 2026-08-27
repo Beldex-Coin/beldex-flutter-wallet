@@ -22,14 +22,14 @@ class GetTransactionsProvider with ChangeNotifier {
       if (response != null) {
         data = response;
       } else {
-        _error = "Failed to fetch data.";
+        //_error = "Failed to fetch data.";
       }
     } on SocketException catch (e) {
       print('get transactions api SocketException: Failed to connect: $e');
-      _error = "No internet connection.";
+      //_error = "No internet connection.";
     } catch (e) {
       print('get transactions api Unexpected error: $e');
-      _error = "Unexpected error: ${e.toString()}";
+      //_error = "Unexpected error: ${e.toString()}";
     } finally {
       loading = false;
       if(!_disposed) notifyListeners();
@@ -44,14 +44,14 @@ class GetTransactionsProvider with ChangeNotifier {
       if (response != null) {
         data = response;
       } else {
-        _error = "Failed to fetch data.";
+        //_error = "Failed to fetch data.";
       }
     } on SocketException catch (e) {
       print('get transactions list api SocketException: Failed to connect: $e');
-      _error = "No internet connection.";
+      //_error = "No internet connection.";
     } catch (e) {
       print('get transactions list api Unexpected error: $e');
-      _error = "Unexpected error: ${e.toString()}";
+      //_error = "Unexpected error: ${e.toString()}";
     } finally {
       loading = false;
       if(!_disposed) notifyListeners();

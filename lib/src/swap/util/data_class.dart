@@ -16,7 +16,7 @@ class Coins {
 }
 
 class ExchangeData {
-  ExchangeData(this.from, this.to, this.amountFrom, this.extraIdName, this.fromBlockChain, this.toBlockChain, this.protocol);
+  ExchangeData(this.from, this.to, this.amountFrom, this.extraIdName, this.fromBlockChain, this.toBlockChain, this.fromProtocol, this.toProtocol);
 
   String? from;
   String? to;
@@ -24,7 +24,8 @@ class ExchangeData {
   String? extraIdName = "";
   String? fromBlockChain;
   String? toBlockChain;
-  String? protocol;
+  String? fromProtocol;
+  String? toProtocol;
 }
 
 class SwapTransactionHistory {
@@ -34,7 +35,7 @@ class SwapTransactionHistory {
 }
 
 class ExchangeDataWithRecipientAddress {
-  ExchangeDataWithRecipientAddress(this.from, this.to, this.amountFrom, this.extraIdName, this.recipientAddress, this.fromBlockChain, this.toBlockChain);
+  ExchangeDataWithRecipientAddress(this.from, this.to, this.amountFrom, this.extraIdName, this.recipientAddress, this.fromBlockChain, this.toBlockChain, {this.fromProtocol, this.toProtocol, this.refundAddress});
 
   String? from;
   String? to;
@@ -43,30 +44,36 @@ class ExchangeDataWithRecipientAddress {
   String? recipientAddress = "";
   String? fromBlockChain;
   String? toBlockChain;
+  String? fromProtocol;
+  String? toProtocol;
+  String? refundAddress;
 }
 
 class TransactionStatus {
-  TransactionStatus(this.transactionModel, this.status, this.walletAddress);
+  TransactionStatus(this.transactionModel, this.status, this.walletAddress, {this.exchangeName});
 
   CreateTransactionModel transactionModel;
   String? status;
   String walletAddress;
+  String? exchangeName;
 }
 
 class TransactionDetails {
-  TransactionDetails(this.createTransactionModel, this.toBlockChain, this.walletAddress);
+  TransactionDetails(this.createTransactionModel, this.toBlockChain, this.walletAddress, {this.exchangeName});
 
   CreateTransactionModel? createTransactionModel;
   String? toBlockChain;
   String walletAddress;
+  String? exchangeName;
 }
 
 class GetTransactionStatus {
-  GetTransactionStatus(this.transactionModel, this.status, this.walletAddress);
+  GetTransactionStatus(this.transactionModel, this.status, this.walletAddress, {this.exchangeName});
 
   GetTransactionResult? transactionModel;
   String? status;
   String walletAddress;
+  String? exchangeName;
 }
 
 class TransactionDataWithWalletAddress {
@@ -77,8 +84,9 @@ class TransactionDataWithWalletAddress {
 }
 
 class GetTransactionStatusWithWalletAddress {
-  GetTransactionStatusWithWalletAddress(this.transactionModel, this.walletAddress);
+  GetTransactionStatusWithWalletAddress(this.transactionModel, this.walletAddress, {this.exchangeName});
 
   GetTransactionResult transactionModel;
   String walletAddress;
+  String? exchangeName;
 }

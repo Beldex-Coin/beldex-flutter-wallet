@@ -14,8 +14,7 @@ class GetStatusApiService {
     return callGetStatusApiService(params: params);
   }
 
-  Future<GetStatusModel> callGetStatusApiService({Map? params}) async {
-    late GetStatusModel data;
+  Future<GetStatusModel?> callGetStatusApiService({Map? params}) async {
     try {
       final requestBody = params != null
           ? {'jsonrpc': '2.0', 'id': 'test', 'method': Apis.getStatus, 'params': params}
@@ -26,13 +25,14 @@ class GetStatusApiService {
       final response = await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
         final resultBody = json.decode(response.body);
-        data = GetStatusModel.fromJson(resultBody);
+        return GetStatusModel.fromJson(resultBody);
       } else {
-        print('Error Occurred');
+        print('get status api error: status=${response.statusCode}');
+        return null;
       }
     } catch (e) {
-      print('get status api error occurred' + e.toString());
+      print('get status api error: $e');
+      return null;
     }
-    return data;
   }
 }
