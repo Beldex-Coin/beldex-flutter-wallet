@@ -47,8 +47,7 @@ class GetTransactionsProvider with ChangeNotifier {
         }
         return;
       }
-      final id = params['id'];
-      final orderId = int.tryParse(id ?? '');
+      final orderId = params['id'];
       if (orderId != null) {
         String? destAddress = params['destinationAddress'] ?? params['destination_address'];
         if (destAddress == null || destAddress.isEmpty) {

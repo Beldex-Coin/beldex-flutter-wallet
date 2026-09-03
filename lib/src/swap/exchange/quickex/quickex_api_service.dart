@@ -300,7 +300,7 @@ class QuickexApiService {
     return null;
   }
 
-  Future<QuickexOrder?> getOrderInfo(int orderId, {String? destinationAddress}) async {
+  Future<QuickexOrder?> getOrderInfo(dynamic orderId, {String? destinationAddress}) async {
     try {
       final destAddress = destinationAddress?.isNotEmpty == true
           ? destinationAddress

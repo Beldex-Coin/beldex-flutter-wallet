@@ -208,7 +208,7 @@ class QuickexExchangeService extends BaseExchangeService {
   }
 
   @override
-  Future<OrderInfoExtended?> getOrderInfo(int orderId, String? destinationAddress) async {
+  Future<OrderInfoExtended?> getOrderInfo(dynamic orderId, String? destinationAddress) async {
     final order = await _api.getOrderInfo(orderId, destinationAddress: destinationAddress);
     if (order == null) return null;
     final status = resolveQuickexTxStatus(order);
