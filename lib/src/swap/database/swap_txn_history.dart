@@ -124,7 +124,7 @@ class SwapTxnHistory {
       'amount_to': details['amountExpectedTo'] ?? details['amountTo'],
       'network_fee': details['networkFee'] ?? details['apiExtraFee'] ?? 0,
       'platform_fee': details['platformFee'] ?? details['changellyFee'] ?? 0,
-      'raw_response': details['raw_response'] ?? details,
+      'raw_response': details['raw_response'] ?? details['rawResponse'] ?? details,
       'created_at': createdAt,
       'updated_at': now,
     };

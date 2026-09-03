@@ -5,7 +5,6 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/exchange/exchange_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -182,7 +181,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
 
   @override
   void initState() {
-    createdTransactionDetails = widget.transactionDetails.createTransactionModel!;
+    createdTransactionDetails = widget.transactionDetails.createTransactionModel;
     startAndStopPendingTransactionTimer(createdTransactionDetails);
     _toBlockChain = networkWithUppercase(widget.transactionDetails.toBlockChain);
     _walletAddress = widget.transactionDetails.walletAddress;
@@ -350,7 +349,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PairsWidget(settingsStore: settingsStore, from: createdTransactionDetails?.currencyFrom, to: createdTransactionDetails?.currencyTo),
+        PairsWidget(settingsStore: settingsStore, from: createdTransactionDetails.currencyFrom, to: createdTransactionDetails.currencyTo),
         //Send funds to the address below Title
         Text(
           'Send funds to the address below',
@@ -605,7 +604,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                 Flexible(
                   flex: 2,
                   child: Text(
-                    '${createdTransactionDetails?.payinAddress}',
+                    '${createdTransactionDetails.payinAddress}',
                     style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
@@ -621,7 +620,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                   children: [
                     InkWell(
                         onTap: () async {
-                          await ClipboardHelper.copyWithAutoClear(createdTransactionDetails!.payinAddress.toString());
+                          await ClipboardHelper.copyWithAutoClear(createdTransactionDetails.payinAddress.toString());
                           await Fluttertoast.showToast(
                             msg: tr(context).copied,
                             toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
@@ -647,7 +646,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                     InkWell(
                         onTap: () {
                           _isVisibleQRCodeDialog = true;
-                          showQRCodeDialog(context, settingsStore,createdTransactionDetails?.payinAddress, onDismiss: (buildContext){
+                          showQRCodeDialog(context, settingsStore,createdTransactionDetails.payinAddress, onDismiss: (buildContext){
                             _isVisibleQRCodeDialog = false;
                             Navigator.of(buildContext).pop(true);
                           });

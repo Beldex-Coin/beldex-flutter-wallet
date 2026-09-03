@@ -8,7 +8,6 @@ import 'package:beldex_wallet/src/swap/exchange/exchange_manager.dart';
 import 'package:beldex_wallet/src/swap/exchange/models/order_info.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -102,7 +101,6 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
   Timer? pendingTransactionTimer;
   bool timeIsExpire = false;
   String status = "overdue";
-  //var createdTxnDetails = {'type': 'float', 'payTill': DateTime.now().toString()};
 
   void startAndStopPendingTransactionTimer(SwapTransactionHistoryModel createdTransactionDetails) {
     pendingTransactionTimer?.cancel();
@@ -702,8 +700,8 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     return networkTextWidget("...");
                   } else {
                     if (getCurrenciesFullProvider.loading == false &&
-                        getCurrenciesFullProvider.data!.isNotEmpty) {
-                      final matchingItem = getCurrenciesFullProvider.data!.where(
+                        getCurrenciesFullProvider.data.isNotEmpty) {
+                      final matchingItem = getCurrenciesFullProvider.data.where(
                             (item) => item.ticker == createdTransactionDetails?.currencyTo,
                       ).firstOrNull;
                       if (matchingItem != null && matchingItem.ticker == createdTransactionDetails?.currencyTo) {
@@ -891,7 +889,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     padding:
                     const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                     child: Text(
-                      '${toStringAsFixed(createdTransactionDetails.networkFee)} ${createdTransactionDetails.currencyTo?.toUpperCase()}',
+                      '${toStringAsFixed(createdTransactionDetails.networkFee)} ${createdTransactionDetails.currencyTo.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -917,7 +915,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      '${toStringAsFixed(createdTransactionDetails.networkFee)} ${createdTransactionDetails.currencyTo?.toUpperCase()}',
+                      '${toStringAsFixed(createdTransactionDetails.networkFee)} ${createdTransactionDetails.currencyTo.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,

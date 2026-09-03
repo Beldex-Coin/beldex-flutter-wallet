@@ -187,7 +187,7 @@ class ChangellyExchangeService extends BaseExchangeService {
   }
 
   @override
-  Future<OrderInfoExtended?>  getOrderInfo(int orderId, String? destinationAddress) async {
+  Future<OrderInfoExtended?>  getOrderInfo(dynamic orderId, String? destinationAddress) async {
     try {
       final params = {'id': orderId.toString()};
       final response = await _getTransactionsService.getSignature(params);
@@ -214,7 +214,7 @@ class ChangellyExchangeService extends BaseExchangeService {
           payTill: DateTime.now().add(const Duration(minutes: 15)).toUtc().toIso8601String(),
           createdAt: toMsEpoch(result[0].createdAt),
           payinConfirmations: result[0].payinConfirmations ?? 0,
-          rawResponse: result,
+          rawResponse: result[0].toString(),
           rate: result[0].rate,
           moneyReceived: result[0].moneyReceived,
           moneySent: result[0].moneySent,
