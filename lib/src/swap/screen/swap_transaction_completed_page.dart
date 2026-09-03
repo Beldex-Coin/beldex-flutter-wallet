@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
-import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
+import 'package:beldex_wallet/src/swap/database/swap_transaction_history_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,9 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../routes.dart';
 import '../../util/clipboard_helper.dart';
-import '../../util/constants.dart';
 import '../../util/network_provider.dart';
-import '../api_client/get_status_api_client.dart';
 import '../dialog/input_output_hash_dialog.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
@@ -85,16 +82,11 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
 
   late GetTransactionStatus transactionStatus;
   late Timer timer;
-  late GetStatusApiClient getStatusApiClient;
-  late List<String> stored = [];
   late NetworkProvider networkProvider;
 
   @override
   void initState() {
     transactionStatus = widget.transactionStatus;
-    getTransactionIds(swapTransactionHistoryFileName, transactionStatus.walletAddress).then((List<String> ids) {
-      stored = ids;
-    });
     super.initState();
   }
 
@@ -120,7 +112,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
       double _screenWidth,
       double _screenHeight,
       SettingsStore settingsStore,
-      ScrollController _scrollController, GetTransactionResult? transactionModel, NetworkProvider networkProvider,
+      ScrollController _scrollController, SwapTransactionHistoryModel? transactionModel, NetworkProvider networkProvider,
       ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -169,7 +161,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
     );
   }
 
-  Widget exchangeCompletedScreen(SettingsStore settingsStore, GetTransactionResult? transactionModel, NetworkProvider networkProvider) {
+  Widget exchangeCompletedScreen(SettingsStore settingsStore, SwapTransactionHistoryModel? transactionModel, NetworkProvider networkProvider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -243,7 +235,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                           children: [
                             Expanded(
                               child: Text(
-                                transactionModel!.id!,
+                                transactionModel!.txnId,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -257,7 +249,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             ),
                             InkWell(
                               onTap: () async {
-                                await ClipboardHelper.copyWithAutoClear(transactionModel.id!);
+                                await ClipboardHelper.copyWithAutoClear(transactionModel.txnId);
                                 await Fluttertoast.showToast(
                                   msg: tr(context).copied,
                                   toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
@@ -302,7 +294,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             height: 5,
                           ),
                           Text(
-                            '${toStringAsFixed(transactionModel.amountExpectedFrom)} ${transactionModel.currencyFrom!.toUpperCase()}',
+                            '${toStringAsFixed(transactionModel.amountFrom)} ${transactionModel.currencyFrom.toUpperCase()}',
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -331,7 +323,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             height: 5,
                           ),
                           Text(
-                            '${toStringAsFixed(transactionModel.amountExpectedTo)} ${transactionModel.currencyTo!.toUpperCase()}',
+                            '${toStringAsFixed(transactionModel.amountTo)} ${transactionModel.currencyTo.toUpperCase()}',
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -522,7 +514,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       height: 5,
                     ),
                     Text(
-                      transactionModel.payinExtraId ?? "---",
+                      transactionModel.payinAddressMemo ?? "---",
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -602,7 +594,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                   onPressed: () {
                     if(networkProvider.isConnected) {
                       Navigator.of(context).pop(true);
-                      Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored));
+                      Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(transactionStatus.walletAddress, exchangeName: transactionStatus.exchangeName));
                     } else {
                       Fluttertoast.showToast(
                         msg: tr(context).networkErrorCheckConnection,

@@ -12,7 +12,7 @@ class QuickexExchangeService extends BaseExchangeService {
   final QuickexApiService _api = QuickexApiService();
 
   @override
-  String get exchangeName => 'Quickex';
+  String get exchangeName => 'quickex';
 
   @override
   String get exchangeUrl => 'https://quickex.io';
@@ -185,19 +185,9 @@ class QuickexExchangeService extends BaseExchangeService {
   }
 
   @override
-  Future<OrderInfo?> getOrderInfo(int orderId) async {
-    final order = await _api.getOrderInfo(orderId);
+  Future<OrderInfo?> getOrderInfo(int orderId, String? destinationAddress) async {
+    final order = await _api.getOrderInfo(orderId, destinationAddress: destinationAddress);
     if (order == null) return null;
-    return _mapOrder(order);
-  }
-
-  @override
-  Future<List<OrderInfo>> getOrderHistory({int? offset, int? limit}) async {
-    final orders = await _api.getOrders(offset: offset, limit: limit);
-    return orders.map(_mapOrder).toList();
-  }
-
-  OrderInfo _mapOrder(dynamic order) {
     return OrderInfo(
       orderId: order.orderId,
       type: 'float',

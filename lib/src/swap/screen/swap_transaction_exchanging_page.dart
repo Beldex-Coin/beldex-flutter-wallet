@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
+import 'package:beldex_wallet/src/swap/database/swap_transaction_history_model.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,11 +15,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../../palette.dart';
 import '../../../routes.dart';
 import '../../util/clipboard_helper.dart';
-import '../../util/constants.dart';
 import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
-import '../api_client/get_status_api_client.dart';
+import '../database/swap_txn_history.dart';
+import '../exchange/exchange_manager.dart';
 import '../provider/get_currencies_full_provider.dart';
+import '../provider/get_transactions_provider.dart';
 import '../util/circular_progress_bar.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
@@ -88,14 +89,13 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
     }
   }
 
-  late GetTransactionResult transactionDetails;
+  late SwapTransactionHistoryModel transactionDetails;
   String _walletAddress = "";
   late Timer timer;
-  late GetStatusApiClient getStatusApiClient;
-  late StreamController<GetStatusModel> _getStatusStreamController;
-  late List<String> stored = [];
+  late StreamController<GetTransactionsModel> _getStatusStreamController;
   static const methodChannelPlatform = MethodChannel("io.beldex.wallet/beldex_wallet_channel");
   late GetCurrenciesFullProvider getCurrenciesFullProvider;
+  late GetTransactionsProvider getTransactionsProvider;
   late NetworkProvider networkProvider;
   bool _isInitialized = false;
   bool _errorShown = false;
@@ -104,18 +104,16 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
   void initState() {
     transactionDetails = widget.transactionStatus.transactionModel;
     _walletAddress = widget.transactionStatus.walletAddress;
-    getTransactionIds(swapTransactionHistoryFileName, _walletAddress).then((List<String> ids) {
-      stored = ids;
-    });
-    getStatusApiClient = GetStatusApiClient();
     // Create a stream controller and get status to the stream.
-    _getStatusStreamController = StreamController<GetStatusModel>();
+    _getStatusStreamController = StreamController<GetTransactionsModel>();
+    getTransactionsProvider = Provider.of<GetTransactionsProvider>(context, listen: false);
+    getTransactionsProvider.addListener(_onStatusUpdate);
     Future.delayed(Duration(seconds: 2), () {
-      callGetStatusApi(transactionDetails, getStatusApiClient);
+      _pollStatus();
       if (!mounted) return;
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
         if (!mounted && !networkProvider.isConnected) return;
-        callGetStatusApi(transactionDetails, getStatusApiClient);
+        _pollStatus();
       });
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Provider.of<GetCurrenciesFullProvider>(context, listen: false).getCurrenciesFullData(context);
@@ -124,48 +122,74 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
     super.initState();
   }
 
-  void callGetStatusApi(GetTransactionResult? result, GetStatusApiClient getStatusApiClient) {
-    final exchangeName = stored.where((s) => parseTransactionId(s) == '${result?.id}').map(parseExchangeName).firstOrNull ?? 'changelly';
-    getStatusApiClient.getStatusData(context, {"id": "${result?.id}"}, exchangeName: exchangeName).then((value) {
-      if (value!.result!.isNotEmpty) {
-        if (!_getStatusStreamController.isClosed) {
-          _getStatusStreamController.sink.add(value);
+  void _pollStatus() {
+    final exchangeName = widget.transactionStatus.exchangeName ?? 'changelly';
+    getTransactionsProvider.getTransactionsData(context, {"id": "${transactionDetails.txnId}"}, exchangeName: exchangeName);
+  }
+
+  void _onStatusUpdate() {
+    final value = getTransactionsProvider.data;
+    if (value == null || value.result == null || value.result!.isEmpty || value.orderInfo == null) return;
+    if (!_getStatusStreamController.isClosed) {
+      _getStatusStreamController.sink.add(value);
+    }
+    final status = value.result!.first.status ?? '';
+    final orderInfo = value.orderInfo;
+    if (_walletAddress.isNotEmpty && value.orderInfo != null) {
+      final details = <String, dynamic>{
+        ...orderInfo!.toJson(),
+        'blockchainFrom': null,
+        'blockchainTo': null,
+        'networkFrom': null,
+        'networkTo': null,
+      };
+      SwapTxnHistory.instance.updateTransactionDetails(
+        orderInfo.orderId,
+        _walletAddress,
+        exchangeType: widget.transactionStatus.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly',
+        details: details,
+      );
+    }
+    switch (status) {
+      case "finished" :
+        {
+          //Completed Screen
+          Future.delayed(Duration(seconds: 3), () {
+            Navigator.of(context).pop(true);
+            Navigator.of(context).pushNamed(Routes.swapTransactionCompleted,
+                arguments: GetTransactionStatus(
+                    transactionDetails, status, _walletAddress, exchangeName: widget.transactionStatus.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly'));
+          });
+          break;
         }
-        switch (value.result) {
-          case "finished" :
-            {
-              //Completed Screen
-              Future.delayed(Duration(seconds: 3), () {
-                Navigator.of(context).pop(true);
-                Navigator.of(context).pushNamed(Routes.swapTransactionCompleted,
-                    arguments: GetTransactionStatus(
-                        transactionDetails, value.result, _walletAddress));
-              });
-              break;
-            }
-          case "refunded" :
-            {
-              break;
-            }
-          case "failed" :
-          case "overdue" :
-          case "expired" :
-            {
-              //Failed, Overdue and Expired Screen
-              Future.delayed(Duration(seconds: 3), () {
-                Navigator.of(context).pop(true);
-                Navigator.of(context).pushNamed(Routes.swapTransactionUnPaid,
-                    arguments: GetTransactionStatus(
-                        transactionDetails, value.result, _walletAddress));
-              });
-              break;
-            }
-          default: {
-            break;
-          }
+      case "refunded" :
+        {
+          break;
         }
+      case "failed" :
+      case "overdue" :
+      case "expired" :
+        {
+          //Failed, Overdue and Expired Screen
+          Future.delayed(Duration(seconds: 3), () {
+            Navigator.of(context).pop(true);
+            Navigator.of(context).pushNamed(Routes.swapTransactionUnPaid,
+                arguments: GetTransactionStatus(
+                    transactionDetails, status, _walletAddress, exchangeName: widget.transactionStatus.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly'));
+          });
+          break;
+        }
+      default: {
+        break;
       }
-    });
+    }
+  }
+
+  String? _txStatus(GetTransactionsModel? model) {
+    if (model == null || model.result == null || model.result!.isEmpty) {
+      return null;
+    }
+    return model.result!.first.status;
   }
 
   @override
@@ -177,7 +201,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
-        return StreamBuilder<GetStatusModel>(
+        return StreamBuilder<GetTransactionsModel>(
           stream: _getStatusStreamController.stream,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -204,8 +228,8 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
       double _screenHeight,
       SettingsStore settingsStore,
       ScrollController _scrollController,
-      GetStatusModel? responseData,
-      GetTransactionResult transactionDetails, NetworkProvider networkProvider,
+      GetTransactionsModel? responseData,
+      SwapTransactionHistoryModel transactionDetails, NetworkProvider networkProvider,
       ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -257,7 +281,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
 
 
   Widget exchangingScreen(SettingsStore settingsStore,
-      GetStatusModel? responseData, GetTransactionResult transactionDetails, NetworkProvider networkProvider) {
+      GetTransactionsModel? responseData, SwapTransactionHistoryModel transactionDetails, NetworkProvider networkProvider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -282,8 +306,8 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                 : Color(0xffFFFFFF),
             valueColor: AlwaysStoppedAnimation<Color>(BeldexPalette.belgreen),
             value: responseData!.result!.isNotEmpty &&
-                responseData.result == "confirming" ? 0.3 : responseData.result == "exchanging"
-                ? 0.6 : responseData.result == "sending" ? 0.9 : responseData.result == "finished" ? 1.0 : 0.0,
+                _txStatus(responseData) == "confirming" ? 0.3 : _txStatus(responseData) == "exchanging"
+                ? 0.6 : _txStatus(responseData) == "sending" ? 0.9 : _txStatus(responseData) == "finished" ? 1.0 : 0.0,
           ),
         ),
         Container(
@@ -294,16 +318,16 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 5.0),
-                    child: responseData.result!.isNotEmpty &&
-                        responseData.result == "confirming"
+                    child: (_txStatus(responseData)?.isNotEmpty ?? false) &&
+                        _txStatus(responseData) == "confirming"
                         ? SizedBox(
                         width: 15,
                         height: 15,
                         child: circularProgressBar(Color(0xff0BA70F), 2.0))
                         : SvgPicture.asset(
                       'assets/images/swap/swap_confirmed.svg',
-                      colorFilter: ColorFilter.mode(responseData.result!.isNotEmpty &&
-                          (responseData.result == "exchanging" || responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                      colorFilter: ColorFilter.mode((_txStatus(responseData)?.isNotEmpty ?? false) &&
+                          (_txStatus(responseData) == "exchanging" || _txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
                           ? Color(0xffAFAFBE)
                           : Color(0xff737373), BlendMode.srcIn),
                       width: 15,
@@ -321,7 +345,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                           mainAxisAlignment : MainAxisAlignment.start,
                           children: [
                             Text(
-                              (responseData.result == "exchanging" || responseData.result == "sending" || responseData.result == "finished") ? 'Confirmed' :'Confirming in progress',
+                              (_txStatus(responseData) == "exchanging" || _txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? 'Confirmed' :'Confirming in progress',
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -330,10 +354,10 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                                       : Color(0xff222222)),
                             ),
                             SizedBox(width: 5,),
-                            (responseData.result == "exchanging" || responseData.result == "sending" || responseData.result == "finished") ? SvgPicture.asset(
+                            (_txStatus(responseData) == "exchanging" || _txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? SvgPicture.asset(
                               'assets/images/swap/swap_done.svg',
-                              colorFilter: ColorFilter.mode(responseData.result!.isNotEmpty &&
-                                  (responseData.result == "exchanging" || responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                              colorFilter: ColorFilter.mode((_txStatus(responseData)?.isNotEmpty ?? false) &&
+                                  (_txStatus(responseData) == "exchanging" || _txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
                                   ? Color(0xffAFAFBE)
                                   : Color(0xff737373), BlendMode.srcIn),
                               width: 12,
@@ -343,7 +367,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                         ),
                         SizedBox(height: 5),
                         Text(
-                          'Once ${transactionDetails.currencyFrom?.toUpperCase()} is confirmed in the blockchain, we’ll start exchanging it to ${transactionDetails.currencyTo?.toUpperCase()}',
+                          'Once ${transactionDetails.currencyFrom.toUpperCase()} is confirmed in the blockchain, we’ll start exchanging it to ${transactionDetails.currencyTo.toUpperCase()}',
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
@@ -369,12 +393,12 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                               if (getCurrenciesFullProvider.loading) {
                                 return Center(child: circularProgressBar(Color(0xff0BA70F), 1.0));
                               } else {
-                                if (getCurrenciesFullProvider.data!.isNotEmpty &&
+                                if (getCurrenciesFullProvider.data.isNotEmpty &&
                                     getCurrenciesFullProvider.loading == false) {
                                   final currencyDetails = getCurrenciesFullProvider.data;
                                   return InkWell(
                                     onTap: (){
-                                      currencyDetails!.forEach((item){
+                                      currencyDetails.forEach((item){
                                         if(item.ticker == transactionDetails.currencyFrom) {
                                           final url = processUrl(item.transactionUrl, transactionDetails.payinHash);
                                           if(url.trim().isNotEmpty){
@@ -414,8 +438,8 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 5.0),
-                    child: responseData.result!.isNotEmpty &&
-                        responseData.result == "exchanging"
+                    child: (_txStatus(responseData)?.isNotEmpty ?? false) &&
+                        _txStatus(responseData) == "exchanging"
                         ? SizedBox(
                         width: 15,
                         height: 15,
@@ -424,8 +448,8 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       angle: 90 * pi / 180,
                       child: SvgPicture.asset(
                         'assets/images/swap/swap.svg',
-                        colorFilter: ColorFilter.mode(responseData.result!.isNotEmpty &&
-                            (responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                        colorFilter: ColorFilter.mode((_txStatus(responseData)?.isNotEmpty ?? false) &&
+                            (_txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
                             ? Color(0xffAFAFBE)
                             : Color(0xff737373), BlendMode.srcIn),
                         width: 15,
@@ -434,14 +458,14 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                     ),
                   ),
                   SizedBox(width: 10),
-                  (responseData.result == "sending" || responseData.result == "finished") ?
+                  (_txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ?
                   Flexible(
                     flex: 1,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'Done Exchanging ${transactionDetails.currencyFrom?.toUpperCase()} to ${transactionDetails.currencyTo?.toUpperCase()}',
+                          'Done Exchanging ${transactionDetails.currencyFrom.toUpperCase()} to ${transactionDetails.currencyTo.toUpperCase()}',
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -450,10 +474,10 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                                   : Color(0xff222222)),
                         ),
                         SizedBox(height: 5),
-                        (responseData.result == "sending" || responseData.result == "finished") ? SvgPicture.asset(
+                        (_txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? SvgPicture.asset(
                           'assets/images/swap/swap_done.svg',
-                          colorFilter: ColorFilter.mode(responseData.result!.isNotEmpty &&
-                              (responseData.result == "sending" || responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                          colorFilter: ColorFilter.mode((_txStatus(responseData)?.isNotEmpty ?? false) &&
+                              (_txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
                               ? Color(0xffAFAFBE)
                               : Color(0xff737373), BlendMode.srcIn),
                           width: 12,
@@ -469,7 +493,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Exchanging ${transactionDetails.currencyFrom?.toUpperCase()} to ${transactionDetails.currencyTo?.toUpperCase()}',
+                          'Exchanging ${transactionDetails.currencyFrom.toUpperCase()} to ${transactionDetails.currencyTo.toUpperCase()}',
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -502,16 +526,16 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 5.0),
-                    child: responseData.result!.isNotEmpty &&
-                        responseData.result == "sending"
+                    child: (_txStatus(responseData)?.isNotEmpty ?? false) &&
+                        _txStatus(responseData) == "sending"
                         ? SizedBox(
                         width: 15,
                         height: 15,
                         child: circularProgressBar(Color(0xff0BA70F), 2.0))
                         : SvgPicture.asset(
                       'assets/images/swap/swap_wallet.svg',
-                      colorFilter: ColorFilter.mode(responseData.result!.isNotEmpty &&
-                          responseData.result == "finished" ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                      colorFilter: ColorFilter.mode((_txStatus(responseData)?.isNotEmpty ?? false) &&
+                          _txStatus(responseData) == "finished" ? Color(0xff0BA70F) : settingsStore.isDarkTheme
                           ? Color(0xffAFAFBE)
                           : Color(0xff737373), BlendMode.srcIn),
                       width: 15,
@@ -519,7 +543,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                     ),
                   ),
                   SizedBox(width: 10),
-                  (responseData.result == "finished") ?
+                  (_txStatus(responseData) == "finished") ?
                   Flexible(
                     flex: 1,
                     child: Column(
@@ -536,10 +560,10 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                                   : Color(0xff222222)),
                         ),
                         SizedBox(height: 5),
-                        (responseData.result == "finished") ? SvgPicture.asset(
+                        (_txStatus(responseData) == "finished") ? SvgPicture.asset(
                           'assets/images/swap/swap_done.svg',
-                          colorFilter: ColorFilter.mode(responseData.result!.isNotEmpty &&
-                              (responseData.result == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
+                          colorFilter: ColorFilter.mode((_txStatus(responseData)?.isNotEmpty ?? false) &&
+                              (_txStatus(responseData) == "finished") ? Color(0xff0BA70F) : settingsStore.isDarkTheme
                               ? Color(0xffAFAFBE)
                               : Color(0xff737373), BlendMode.srcIn),
                           width: 12,
@@ -617,7 +641,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       WidgetSpan(child: InkWell(
                         onTap: networkProvider.isConnected ? () {
                           Navigator.of(context).pop(true);
-                          Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored));
+                          Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(widget.transactionStatus.walletAddress, exchangeName: widget.transactionStatus.exchangeName ?? 'changelly'));
                         } : null,
                         child: Text(
                             'history',
@@ -698,7 +722,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              '${transactionDetails.id}',
+                              '${transactionDetails.txnId}',
                               style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,
@@ -711,7 +735,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                             ),
                             InkWell(
                               onTap: () async {
-                                await ClipboardHelper.copyWithAutoClear(transactionDetails.id.toString());
+                                await ClipboardHelper.copyWithAutoClear(transactionDetails.txnId.toString());
                                 await Fluttertoast.showToast(
                                   msg: tr(context).copied,
                                   toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
@@ -749,7 +773,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                                   : Color(0xff737373)),
                         ),
                         Text(
-                          '${toStringAsFixed(transactionDetails.amountExpectedFrom)} ${transactionDetails.currencyFrom?.toUpperCase()}',
+                          '${toStringAsFixed(transactionDetails.amountFrom)} ${transactionDetails.currencyFrom.toUpperCase()}',
                           style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -778,7 +802,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                                   : Color(0xff737373)),
                         ),
                         Text(
-                          '1 ${transactionDetails.currencyFrom?.toUpperCase()} ~ ${toStringAsFixed(transactionDetails.rate)} ${transactionDetails.currencyTo?.toUpperCase()}',
+                          '1 ${transactionDetails.currencyFrom.toUpperCase()} ~ ${toStringAsFixed(transactionDetails.rate)} ${transactionDetails.currencyTo.toUpperCase()}',
                           style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -798,7 +822,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Changelly address (${transactionDetails.currencyFrom?.toUpperCase()})',
+                          'Changelly address (${transactionDetails.currencyFrom.toUpperCase()})',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -827,7 +851,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Recipient address (${transactionDetails.currencyTo?.toUpperCase()})',
+                          'Recipient address (${transactionDetails.currencyTo.toUpperCase()})',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -864,7 +888,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                                   : Color(0xff737373)),
                         ),
                         Text(
-                          transactionDetails.payinExtraId ?? '---',
+                          transactionDetails.payinAddressMemo ?? '---',
                           style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -911,7 +935,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                         ),
                         SizedBox(width: 10),
                         Text(
-                          '~ ${toStringAsFixed(transactionDetails.amountExpectedTo)} ${transactionDetails.currencyTo?.toUpperCase()}',
+                          '~ ${toStringAsFixed(transactionDetails.amountTo)} ${transactionDetails.currencyTo.toUpperCase()}',
                           style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -941,6 +965,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
     if(_isInitialized) {
       getCurrenciesFullProvider.dispose();
     }
+    getTransactionsProvider.removeListener(_onStatusUpdate);
     super.dispose();
   }
 }

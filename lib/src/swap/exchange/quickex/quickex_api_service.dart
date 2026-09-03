@@ -300,11 +300,19 @@ class QuickexApiService {
     return null;
   }
 
-  Future<QuickexOrder?> getOrderInfo(int orderId) async {
+  Future<QuickexOrder?> getOrderInfo(int orderId, {String? destinationAddress}) async {
     try {
-      final queryString = 'orderId=${orderId}';
+      final destAddress = destinationAddress?.isNotEmpty == true
+          ? destinationAddress
+          : null;
+      final queryParams = <String, String>{'orderId': orderId.toString()};
+      var queryString = 'orderId=$orderId';
+      if (destAddress != null) {
+        queryParams['destinationAddress'] = destAddress;
+        queryString += '&destinationAddress=${Uri.encodeQueryComponent(destAddress)}';
+      }
       final uri = Uri.parse(QuickexApiConfig.orderInfo).replace(
-        queryParameters: {'orderId': orderId.toString()},
+        queryParameters: queryParams,
       );
       final headers = _signedHeaders('', queryString: queryString);
       final response = await http.get(uri, headers: headers);
@@ -316,30 +324,5 @@ class QuickexApiService {
       print('Quickex getOrderInfo error: $e');
     }
     return null;
-  }
-
-  Future<List<QuickexOrder>> getOrders({int? offset, int? limit}) async {
-    try {
-      final queryParams = <String, String>{};
-      if (offset != null) queryParams['offset'] = offset.toString();
-      if (limit != null) queryParams['limit'] = limit.toString();
-      queryParams['order'] = 'desc';
-
-      final uri = Uri.parse(QuickexApiConfig.ordersList).replace(
-        queryParameters: queryParams.isNotEmpty ? queryParams : null,
-      );
-      final queryString = uri.query;
-      final headers = _signedHeaders('', queryString: queryString);
-      final response = await http.get(uri, headers: headers);
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body) as List<dynamic>;
-        return data
-            .map((e) => QuickexOrder.fromJson(e as Map<String, dynamic>))
-            .toList();
-      }
-    } catch (e) {
-      print('Quickex getOrders error: $e');
-    }
-    return [];
   }
 }

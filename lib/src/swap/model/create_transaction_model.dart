@@ -32,6 +32,8 @@ class CreateTransactionModel {
     result: json["result"] == null ? null : Result.fromJson(json["result"]),
     error: json["error"] == null ? null : Error.fromJson(json["error"]),
     id: json["id"],
+    payTill: json["payTill"] == null ? null : json["payTill"],
+    orderInfo: json["orderInfo"] == null ? null : OrderInfo.fromJson(json["orderInfo"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -39,6 +41,8 @@ class CreateTransactionModel {
     "result": result?.toJson(),
     "error": error?.toJson(),
     "id": id,
+    "payTill":payTill,
+    "orderInfo":orderInfo,
   };
 }
 

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,7 +11,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../../routes.dart';
 import '../../util/clipboard_helper.dart';
 import '../../util/network_provider.dart';
-import '../api_client/get_status_api_client.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
 import 'number_stepper.dart';
@@ -81,7 +79,6 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
   }
 
   late GetTransactionStatus transactionStatus;
-  late GetStatusApiClient getStatusApiClient;
   late NetworkProvider networkProvider;
 
   @override
@@ -245,7 +242,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                           children: [
                             Expanded(
                               child: Text(
-                                transactionStatus.transactionModel!.id!,
+                                transactionStatus.transactionModel!.txnId,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -259,7 +256,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                             ),
                             InkWell(
                               onTap: () async {
-                                await ClipboardHelper.copyWithAutoClear(transactionStatus.transactionModel!.id!);
+                                await ClipboardHelper.copyWithAutoClear(transactionStatus.transactionModel!.txnId);
                                 await Fluttertoast.showToast(
                                   msg: tr(context).copied,
                                   toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
@@ -304,7 +301,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                             height: 5,
                           ),
                           Text(
-                            '${toStringAsFixed(transactionStatus.transactionModel!.amountExpectedFrom)} ${transactionStatus.transactionModel!.currencyFrom!.toUpperCase()}',
+                            '${toStringAsFixed(transactionStatus.transactionModel!.amountFrom)} ${transactionStatus.transactionModel!.currencyFrom.toUpperCase()}',
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -333,7 +330,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                             height: 5,
                           ),
                           Text(
-                            '${toStringAsFixed(transactionStatus.transactionModel!.amountExpectedTo)} ${transactionStatus.transactionModel!.currencyTo!.toUpperCase()}',
+                            '${toStringAsFixed(transactionStatus.transactionModel!.amountTo)} ${transactionStatus.transactionModel!.currencyTo.toUpperCase()}',
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,

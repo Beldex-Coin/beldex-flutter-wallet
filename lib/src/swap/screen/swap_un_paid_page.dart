@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,7 +11,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../../routes.dart';
 import '../../util/clipboard_helper.dart';
 import '../../util/network_provider.dart';
-import '../api_client/get_status_api_client.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
 import 'number_stepper.dart';
@@ -81,7 +79,6 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
   }
 
   late TransactionStatus transactionStatus;
-  late GetStatusApiClient getStatusApiClient;
   late NetworkProvider networkProvider;
 
   @override
@@ -165,7 +162,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PairsWidget(settingsStore: settingsStore, from: transactionStatus.transactionModel.result!.currencyFrom, to: transactionStatus.transactionModel.result!.currencyTo),
+        PairsWidget(settingsStore: settingsStore, from: transactionStatus.transactionModel.currencyFrom, to: transactionStatus.transactionModel.currencyTo),
         //Not Paid Details
         Container(
           width: MediaQuery.sizeOf(context).width,
@@ -245,7 +242,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
                           children: [
                             Expanded(
                               child: Text(
-                                transactionStatus.transactionModel.result!.id!,
+                                transactionStatus.transactionModel.txnId,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -259,7 +256,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
                             ),
                             InkWell(
                               onTap: () async {
-                                await ClipboardHelper.copyWithAutoClear(transactionStatus.transactionModel.result!.id!);
+                                await ClipboardHelper.copyWithAutoClear(transactionStatus.transactionModel.txnId);
                                 await Fluttertoast.showToast(
                                   msg: tr(context).copied,
                                   toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
@@ -304,7 +301,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
                             height: 5,
                           ),
                           Text(
-                            '${toStringAsFixed(transactionStatus.transactionModel.result!.amountExpectedFrom)} ${transactionStatus.transactionModel.result!.currencyFrom!.toUpperCase()}',
+                            '${toStringAsFixed(transactionStatus.transactionModel.amountFrom)} ${transactionStatus.transactionModel.currencyFrom.toUpperCase()}',
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -333,7 +330,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
                             height: 5,
                           ),
                           Text(
-                            '${toStringAsFixed(transactionStatus.transactionModel.result!.amountExpectedTo)} ${transactionStatus.transactionModel.result!.currencyTo!.toUpperCase()}',
+                            '${toStringAsFixed(transactionStatus.transactionModel.amountTo)} ${transactionStatus.transactionModel.currencyTo.toUpperCase()}',
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -367,7 +364,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
                       height: 5,
                     ),
                     Text(
-                      transactionStatus.transactionModel.result!.payinAddress!,
+                      transactionStatus.transactionModel.payinAddress!,
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,

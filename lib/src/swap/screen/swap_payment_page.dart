@@ -5,6 +5,7 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:beldex_wallet/src/swap/api_client/get_exchange_amount_api_client.dart';
+import 'package:beldex_wallet/src/swap/database/swap_transaction_history_model.dart';
 import 'package:beldex_wallet/src/swap/exchange/exchange_manager.dart';
 import 'package:beldex_wallet/src/swap/exchange/models/exchange_rate.dart';
 import 'package:beldex_wallet/src/swap/exchange/models/order_request.dart';
@@ -14,13 +15,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../routes.dart';
-import '../../util/constants.dart';
 import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
 import '../dialog/showSwapInitiatingTransactionDialog.dart';
 import '../util/circular_progress_bar.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
+import '../database/swap_txn_history.dart';
 import 'number_stepper.dart';
 
 class SwapPaymentPage extends BasePage {
@@ -671,7 +672,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                   if (refundAddress != null && refundAddress.isNotEmpty) {
                     params["refundAddress"] = refundAddress;
                   }
-                  createTransaction(params, _exchangeDataWithRecipientAddress.toBlockChain!, walletAddress);
+                  createTransaction(params, _exchangeDataWithRecipientAddress.toBlockChain!, walletAddress, false);
                 } else {
                   final params = <String, String>{
                     "from": from ?? '',
@@ -682,7 +683,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                   if (refundAddress != null && refundAddress.isNotEmpty) {
                     params["refundAddress"] = refundAddress;
                   }
-                  createTransaction(params, _exchangeDataWithRecipientAddress.toBlockChain!, walletAddress);
+                  createTransaction(params, _exchangeDataWithRecipientAddress.toBlockChain!, walletAddress, false);
                 }
               }
             },
@@ -713,16 +714,60 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     );
   }
 
-  void createTransaction(Map<String, String> params, String? toBlockChain, String walletAddress) {
+  void createTransaction(Map<String, String> params, String? toBlockChain, String walletAddress, bool isPrivacySwap) {
     callCreateTransactionApi(params).then((value) {
       if (value?.result != null) {
         print('Status -> Success');
-        storeTransactionIds(swapTransactionHistoryFileName, walletAddress, value!.result!.id, exchangeName: ExchangeManager.selectedType?.name ?? 'changelly');
-        Future.delayed(Duration(seconds: 2), () {
-          Navigator.of(context).pop();
-          Navigator.of(context).pop(true);
-          Navigator.of(context).pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(value, toBlockChain, walletAddress, exchangeName: ExchangeManager.selectedType?.name)); // Start adding getExchangeAmount api result to the stream.
-        });
+        if(value?.orderInfo != null) {
+          final exchangeName = _exchangeDataWithRecipientAddress.exchangeName ??
+              ExchangeManager.selectedType?.name ?? 'changelly';
+          final details = <String, dynamic>{
+            ...value!.orderInfo!.toJson(),
+            'blockchainFrom': _exchangeDataWithRecipientAddress.fromBlockChain,
+            'blockchainTo': _exchangeDataWithRecipientAddress.toBlockChain,
+            'networkFrom': _exchangeDataWithRecipientAddress.fromProtocol,
+            'networkTo': _exchangeDataWithRecipientAddress.toProtocol,
+          };
+          SwapTxnHistory.instance.updateTransactionDetails(
+            value.orderInfo!.orderId,
+            walletAddress,
+            exchangeType: exchangeName,
+            details: details,
+          );
+          final swapType = isPrivacySwap ? 'privacy' : 'normal';
+          final swapTransactionHistoryModel = SwapTransactionHistoryModel(
+              uuid: "0",
+              walletAddress: walletAddress,
+              exchange: exchangeName,
+              txnId: value.orderInfo!.orderId,
+              txnStatus: value.orderInfo!.status ?? "waiting",
+              txnType: value.orderInfo!.type,
+              swapType: swapType,
+              blockchainFrom: _exchangeDataWithRecipientAddress.fromBlockChain,
+              currencyTo: value.orderInfo!.currencyTo ?? '',
+              networkTo: _exchangeDataWithRecipientAddress.toProtocol,
+              blockchainTo: _exchangeDataWithRecipientAddress.toBlockChain,
+              payinAddress: value.orderInfo!.payinAddress,
+              payinAddressMemo: value.orderInfo!.payinExtraId,
+              payoutAddress: value.orderInfo!.payoutAddress,
+              payoutAddressMemo: value.orderInfo!.payoutExtraId,
+              refundAddress: value.orderInfo!.refundAddress,
+              refundStatus : 'not_returned',
+              refundAddressMemo: value.orderInfo!.refundExtraId,
+              amountFrom: value.orderInfo!.amountExpectedFrom,
+              amountTo: value.orderInfo!.amountExpectedTo ?? value.orderInfo!.amountTo,
+              networkFee: value.orderInfo!.networkFee,
+              platformFee: value.orderInfo!.platformFee,
+              rawResponse: value.result,
+              createdAt: toMsEpoch(value.orderInfo!.createdAt),
+              updatedAt: toMsEpoch(value.orderInfo!.createdAt),
+          );
+          Future.delayed(Duration(seconds: 2), () {
+            Navigator.of(context).pop();
+            Navigator.of(context).pop(true);
+            Navigator.of(context).pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(swapTransactionHistoryModel, toBlockChain, walletAddress, exchangeName: exchangeName)); // Start adding getExchangeAmount api result to the stream.
+          });
+        }
       } else if (value?.error != null) {
         print('Status -> error ${value!.error!.message}');
         Navigator.of(context).pop();

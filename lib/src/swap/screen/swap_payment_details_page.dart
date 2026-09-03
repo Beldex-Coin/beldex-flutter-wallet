@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
-import 'package:beldex_wallet/src/swap/api_client/get_status_api_client.dart';
 import 'package:beldex_wallet/src/swap/exchange/exchange_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,12 +15,15 @@ import '../../stores/sync/sync_store.dart';
 import '../../util/clipboard_helper.dart';
 import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
+import '../database/swap_transaction_history_model.dart';
 import '../dialog/show_qr_code_dialog.dart';
-import '../model/get_status_model.dart';
+import '../exchange/models/order_info.dart';
+import '../model/get_transactions_model.dart';
 import '../provider/get_transactions_provider.dart';
 import '../util/circular_progress_bar.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
+import '../database/swap_txn_history.dart';
 import 'number_stepper.dart';
 
 class SwapPaymentDetailsPage extends BasePage {
@@ -88,12 +89,12 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     }
   }
 
-  late CreateTransactionModel createdTransactionDetails;
+  late SwapTransactionHistoryModel createdTransactionDetails;
   late String _toBlockChain;
   String _walletAddress = "";
   late Timer timer;
-  late GetStatusApiClient getStatusApiClient;
-  late StreamController<GetStatusModel> _getStatusStreamController;
+  late StreamController<GetTransactionsModel> _getStatusStreamController;
+  bool _isVisibleQRCodeDialog = false;
 
   ValueNotifier<String> pendingTransactionTimeRemaining = ValueNotifier("");
   Timer? pendingTransactionTimer;
@@ -105,9 +106,9 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   bool _errorShown = false;
   late NetworkProvider networkProvider;
 
-  void startAndStopPendingTransactionTimer(int? createdAt) {
+  void startAndStopPendingTransactionTimer(SwapTransactionHistoryModel createdTransactionDetails) {
     pendingTransactionTimer?.cancel();
-    final start = DateTime.fromMicrosecondsSinceEpoch(createdAt!);
+    final start = DateTime.fromMicrosecondsSinceEpoch(createdTransactionDetails.createdAt);
     final newTime = start.add(Duration(hours: 3));
     final countDownDate = newTime.millisecondsSinceEpoch;
 
@@ -122,6 +123,44 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
       pendingTransactionTimeRemaining.value = '$hours h $minutes m $seconds s';
 
       if (distance < 0) {
+        if (_walletAddress.isNotEmpty) {
+          final OrderInfo orderInfo = OrderInfo(
+            orderId: createdTransactionDetails.txnId,
+            type: 'float',
+            networkFee: createdTransactionDetails.networkFee,
+            platformFee: createdTransactionDetails.platformFee,
+            apiExtraFee: createdTransactionDetails.networkFee,
+            payinAddress: createdTransactionDetails.payinAddress,
+            payinExtraId: createdTransactionDetails.payinAddressMemo,
+            payoutAddress: createdTransactionDetails.payoutAddress,
+            payoutExtraId: createdTransactionDetails.payoutAddressMemo,
+            refundAddress: createdTransactionDetails.refundAddress,
+            refundExtraId: createdTransactionDetails.refundAddressMemo,
+            amountExpectedFrom: createdTransactionDetails.amountFrom,
+            amountExpectedTo: createdTransactionDetails.amountTo,
+            amountTo: createdTransactionDetails.amountTo,
+            status: status,
+            currencyFrom: createdTransactionDetails.currencyFrom,
+            currencyTo: createdTransactionDetails.currencyTo,
+            payTill: DateTime.now().add(const Duration(minutes: 15)).toUtc().toIso8601String(),
+            createdAt: toMsEpoch(createdTransactionDetails.createdAt),
+            payinConfirmations: 0,
+            rawResponse: createdTransactionDetails.rawResponse,
+          );
+          final details = <String, dynamic>{
+            ...orderInfo.toJson(),
+            'blockchainFrom': createdTransactionDetails.blockchainFrom,
+            'blockchainTo': createdTransactionDetails.blockchainTo,
+            'networkFrom': createdTransactionDetails.networkFrom,
+            'networkTo': createdTransactionDetails.networkTo,
+          };
+          SwapTxnHistory.instance.updateTransactionDetails(
+            createdTransactionDetails.txnId,
+            createdTransactionDetails.walletAddress,
+            exchangeType: createdTransactionDetails.exchange,
+            details: details,
+          );
+        }
         pendingTransactionTimeRemaining.value = '00:00:00';
         timeIsExpire = true;
         clearIntervals();
@@ -136,93 +175,93 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     pendingTransactionTimer?.cancel();
   }
 
-  void callUnPaidScreen(CreateTransactionModel createdTransactionDetails, String? status) {
+  void callUnPaidScreen(SwapTransactionHistoryModel createdTransactionDetails, String? status) {
     Navigator.of(context).pop(true);
-    Navigator.of(context).pushNamed(Routes.swapUnPaid,arguments: TransactionStatus(createdTransactionDetails, status, _walletAddress, exchangeName: ExchangeManager.selectedType?.name));
+    Navigator.of(context).pushNamed(Routes.swapUnPaid,arguments: TransactionStatus(createdTransactionDetails, status, _walletAddress, exchangeName: widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly'));
   }
 
   @override
   void initState() {
     createdTransactionDetails = widget.transactionDetails.createTransactionModel!;
-    startAndStopPendingTransactionTimer(createdTransactionDetails.result?.createdAt);
+    startAndStopPendingTransactionTimer(createdTransactionDetails);
     _toBlockChain = networkWithUppercase(widget.transactionDetails.toBlockChain);
     _walletAddress = widget.transactionDetails.walletAddress;
-    getStatusApiClient = GetStatusApiClient();
-    // Create a stream controller and get status to the stream.
-    _getStatusStreamController = StreamController<GetStatusModel>();
+    _getStatusStreamController = StreamController<GetTransactionsModel>();
+    getTransactionsProvider = Provider.of<GetTransactionsProvider>(context, listen: false);
+    getTransactionsProvider.addListener(_onStatusUpdate);
     Future.delayed(Duration(seconds: 2), () {
-      callGetStatusApi(createdTransactionDetails.result, getStatusApiClient);
+      _pollStatus();
       if (!mounted) return;
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
         if (!mounted && !networkProvider.isConnected) return;
-        callGetStatusApi(createdTransactionDetails.result, getStatusApiClient);
-      }); // Start adding getStatus api result to the stream.
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Provider.of<GetTransactionsProvider>(context, listen: false).getTransactionsData(context, {"id": "${createdTransactionDetails.result?.id}"});
+        _pollStatus();
       });
     });
     super.initState();
   }
 
-  void callGetStatusApi(Result? result, GetStatusApiClient getStatusApiClient){
+  void _pollStatus() {
     final exchangeName = widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly';
-    getStatusApiClient.getStatusData(context, {"id":"${result?.id}"}, exchangeName: exchangeName).then((value){
-      if(value!.result!.isNotEmpty){
-        if (!_getStatusStreamController.isClosed) {
-          _getStatusStreamController.sink.add(value);
-        }
-        status = value.result!;
-        switch(value.result){
-          case "waiting" :{
-            //Swap Payment Details Screen
-            break;
-          }
-          case "confirming" :
-          case "exchanging" :
-          case "sending" :{
-            //Exchanging Screen
-            if(getStatusApiClient.isVisibleQRCodeDialog) {
-              Navigator.of(context).pop(true);
-            }
-            Future.delayed(Duration(seconds: 2), () {
-              Navigator.of(context).pop(true);
-              Navigator.of(context).pushNamed(Routes.swapExchanging,arguments: TransactionDataWithWalletAddress(createdTransactionDetails, _walletAddress));
-            });
-            break;
-          }
-          case "finished" : {
-            //Completed Screen
-            if(getStatusApiClient.isVisibleQRCodeDialog) {
-              Navigator.of(context).pop(true);
-            }
-            Future.delayed(Duration(seconds: 2), () {
-              Navigator.of(context).pop(true);
-              Navigator.of(context).pushNamed(Routes.swapCompleted,arguments: TransactionStatus(createdTransactionDetails, value.result, _walletAddress, exchangeName: widget.transactionDetails.exchangeName));
-            });
-            break;
-          }
-          case "refunded" : {
-            break;
-          }
-          case "failed" :
-          case "overdue" :
-          case "expired" : {
-            //Failed, Overdue and Expired Screen
-            if(getStatusApiClient.isVisibleQRCodeDialog) {
-              Navigator.of(context).pop(true);
-            }
-            Future.delayed(Duration(seconds: 2), () {
-              Navigator.of(context).pop(true);
-              callUnPaidScreen(createdTransactionDetails, value.result);
-            });
-            break;
-          }
-          default: {
-            break;
-          }
-        }
+    getTransactionsProvider.getTransactionsData(context, {"id": "${createdTransactionDetails.txnId}"}, exchangeName: exchangeName);
+  }
+
+  void _onStatusUpdate() {
+    final value = getTransactionsProvider.data;
+    if (value == null || value.result == null || value.result!.isEmpty) return;
+    final transactionDetails = value.result!.first;
+    if (!_getStatusStreamController.isClosed) {
+      _getStatusStreamController.sink.add(value);
+    }
+    status = transactionDetails.status ?? '';
+    switch(status){
+      case "waiting" :{
+        //Swap Payment Details Screen
+        break;
       }
-    });
+      case "confirming" :
+      case "exchanging" :
+      case "sending" :{
+        //Exchanging Screen
+        if(_isVisibleQRCodeDialog) {
+          Navigator.of(context).pop(true);
+        }
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.of(context).pop(true);
+          Navigator.of(context).pushNamed(Routes.swapExchanging,arguments: TransactionDataWithWalletAddress(createdTransactionDetails, _walletAddress, exchangeName: widget.transactionDetails.exchangeName));
+        });
+        break;
+      }
+      case "finished" : {
+        //Completed Screen
+        if(_isVisibleQRCodeDialog) {
+          Navigator.of(context).pop(true);
+        }
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.of(context).pop(true);
+          Navigator.of(context).pushNamed(Routes.swapCompleted,arguments: TransactionStatus(createdTransactionDetails, status, _walletAddress, exchangeName: widget.transactionDetails.exchangeName));
+        });
+        break;
+      }
+      case "refunded" : {
+        break;
+      }
+      case "failed" :
+      case "overdue" :
+      case "expired" : {
+        //Failed, Overdue and Expired Screen
+        if(_isVisibleQRCodeDialog) {
+          Navigator.of(context).pop(true);
+        }
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.of(context).pop(true);
+          callUnPaidScreen(createdTransactionDetails, status);
+        });
+        break;
+      }
+      default: {
+        break;
+      }
+    }
   }
 
   @override
@@ -235,7 +274,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
-        return StreamBuilder<GetStatusModel>(
+        return StreamBuilder<GetTransactionsModel>(
           stream: _getStatusStreamController.stream,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -248,7 +287,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                   _screenHeight,
                   settingsStore,
                   _scrollController,
-                  createdTransactionDetails.result,
+                  createdTransactionDetails,
                   syncStore,networkProvider);
             }
           },
@@ -257,7 +296,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     );
   }
 
-  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, Result? createdTransactionDetails, SyncStore syncStore, NetworkProvider networkProvider){
+  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, SwapTransactionHistoryModel createdTransactionDetails, SyncStore syncStore, NetworkProvider networkProvider){
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -307,7 +346,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     );
   }
 
-  Widget paymentSendFundsToTheAddressBelowScreen(SettingsStore settingsStore, Result? createdTransactionDetails, SyncStore syncStore, NetworkProvider networkProvider,) {
+  Widget paymentSendFundsToTheAddressBelowScreen(SettingsStore settingsStore, SwapTransactionHistoryModel createdTransactionDetails, SyncStore syncStore, NetworkProvider networkProvider,) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -356,7 +395,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                                 : Color(0xff222222)),
                       ),
                       Text(
-                        '${toStringAsFixed(createdTransactionDetails?.amountExpectedFrom)} ${createdTransactionDetails?.currencyFrom?.toUpperCase()}',
+                        '${toStringAsFixed(createdTransactionDetails.amountFrom)} ${createdTransactionDetails.currencyFrom.toUpperCase()}',
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
@@ -366,7 +405,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                   ),
                 ),
                 Visibility(
-                  visible: createdTransactionDetails?.currencyFrom == "bdx",
+                  visible: createdTransactionDetails.currencyFrom == "bdx",
                   child: Flexible(
                     flex: 1,
                     child: Observer(
@@ -375,7 +414,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                         onTap: syncStatus(syncStore.status) && networkProvider.isConnected
                             ? () async {
                           await Navigator.pushNamed(context, Routes.send,
-                              arguments: {'flash': true, 'address': createdTransactionDetails?.payinAddress, 'amount': createdTransactionDetails?.amountExpectedFrom});
+                              arguments: {'flash': true, 'address': createdTransactionDetails.payinAddress, 'amount': createdTransactionDetails.amountFrom});
                         } : null ,
                         child: Container(
                           padding: EdgeInsets.only(
@@ -451,7 +490,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      '${createdTransactionDetails?.id}',
+                      '${createdTransactionDetails.txnId}',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -464,7 +503,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                     ),
                     InkWell(
                       onTap: () async {
-                        await ClipboardHelper.copyWithAutoClear(createdTransactionDetails!.id.toString());
+                        await ClipboardHelper.copyWithAutoClear(createdTransactionDetails.txnId.toString());
                         await Fluttertoast.showToast(
                           msg: tr(context).copied,
                           toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
@@ -504,7 +543,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Time left to send ${toStringAsFixed(createdTransactionDetails?.amountExpectedFrom)} ${createdTransactionDetails?.currencyFrom?.toUpperCase()}',
+                  'Time left to send ${toStringAsFixed(createdTransactionDetails.amountFrom)} ${createdTransactionDetails.currencyFrom.toUpperCase()}',
                   style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
@@ -607,9 +646,9 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                         )),
                     InkWell(
                         onTap: () {
-                          getStatusApiClient.setQRCodeDialogVisibility(true);
+                          _isVisibleQRCodeDialog = true;
                           showQRCodeDialog(context, settingsStore,createdTransactionDetails?.payinAddress, onDismiss: (buildContext){
-                            getStatusApiClient.setQRCodeDialogVisibility(false);
+                            _isVisibleQRCodeDialog = false;
                             Navigator.of(buildContext).pop(true);
                           });
                         },
@@ -731,6 +770,23 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                 if (getTransactionsProvider.loading == false &&
                     getTransactionsProvider.data!.result!.isNotEmpty) {
                   final transactionDetails = getTransactionsProvider.data?.result![0];
+                  final orderInfo = getTransactionsProvider.data?.orderInfo;
+                  status = transactionDetails?.status ?? '';
+                  if (transactionDetails != null && _walletAddress.isNotEmpty && status != "waiting" && orderInfo != null) {
+                    final details = <String, dynamic>{
+                      ...orderInfo.toJson(),
+                      'blockchainFrom': null,
+                      'blockchainTo': null,
+                      'networkFrom': null,
+                      'networkTo': null,
+                    };
+                    SwapTxnHistory.instance.updateTransactionDetails(
+                      orderInfo.orderId,
+                      _walletAddress,
+                      exchangeType: widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly',
+                      details: details,
+                    );
+                  }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -1003,7 +1059,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     clearIntervals();
     _getStatusStreamController.close();
     if(_isInitialized) {
-      getTransactionsProvider.dispose();
+      getTransactionsProvider.removeListener(_onStatusUpdate);
     }
     super.dispose();
   }

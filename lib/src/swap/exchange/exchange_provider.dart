@@ -7,9 +7,9 @@ extension ExchangeProviderTypeExtension on ExchangeProviderType {
   String get displayName {
     switch (this) {
       case ExchangeProviderType.changelly:
-        return 'Changelly';
+        return 'changelly';
       case ExchangeProviderType.quickex:
-        return 'Quickex';
+        return 'quickex';
     }
   }
 

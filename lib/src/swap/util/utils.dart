@@ -142,22 +142,6 @@ Future<List<String>> getTransactionIds(String fileName, String key) async {
   }
 }
 
-String parseTransactionId(String storedId) {
-  final colonIndex = storedId.indexOf(':');
-  if (colonIndex != -1 && colonIndex < storedId.length - 1) {
-    return storedId.substring(colonIndex + 1);
-  }
-  return storedId;
-}
-
-String parseExchangeName(String storedId) {
-  final colonIndex = storedId.indexOf(':');
-  if (colonIndex != -1 && colonIndex > 0) {
-    return storedId.substring(0, colonIndex);
-  }
-  return 'changelly';
-}
-
 bool syncStatus(SyncStatus status) {
   return status is SyncedSyncStatus || status.blocksLeft == 0;
 }

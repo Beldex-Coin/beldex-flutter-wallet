@@ -21,11 +21,12 @@ import 'package:provider/provider.dart';
 
 import '../../../palette.dart';
 import '../../../routes.dart';
-import '../../util/constants.dart';
 import '../provider/get_currencies_full_provider.dart';
 import '../util/data_class.dart';
+import '../exchange/exchange_manager.dart';
 import '../../widgets/no_internet.dart';
 import '../util/utils.dart';
+import '../database/swap_txn_history.dart';
 import 'number_stepper.dart';
 
 Widget _swapCoinImage(String? url, {double? width, double? height, Color? color}) {
@@ -138,7 +139,6 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   late GetExchangeAmountProvider getExchangeAmountProvider;
   late NetworkProvider networkProvider;
   Timer? timer;
-  late List<String> stored = [];
   bool _isInitialized = false;
   final _focusSendCoin = FocusNode();
   final _focusGetCoin = FocusNode();
@@ -148,9 +148,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   @override
   void initState() {
     _walletAddress = widget.walletAddress;
-    getTransactionIds(swapTransactionHistoryFileName, _walletAddress).then((List<String> ids) {
-      stored = ids;
-    });
+    // Migrates the wallet's legacy JSON swap history into SQLite (history reads from DB).
+    SwapTxnHistory.instance.migrateSwapHistory(_walletAddress);
     searchYouGetCoinsController.addListener(() {
       _searchYouGetCoinsSetState!(() {
         youGetCoinsFilter = searchYouGetCoinsController.text;
@@ -766,7 +765,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 InkWell(
                   onTap: () {
                     Navigator.of(context).pop(true);
-                    Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored));
+                    Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(_walletAddress, exchangeName: ExchangeManager.selectedType?.name));
                   },
                   child: SvgPicture.asset(
                     'assets/images/swap/history.svg',
@@ -1386,7 +1385,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                 .blockchain, getCurrenciesFullProvider
                                 .getSelectedYouGetCoins()
                                 .blockchain, getCurrenciesFullProvider.getSelectedYouSendCoins().protocol, getCurrenciesFullProvider
-                                .getSelectedYouGetCoins().protocol));
+                                .getSelectedYouGetCoins().protocol, exchangeName: ExchangeManager.selectedType?.name));
                   }
                 },
                 style: ElevatedButton.styleFrom(

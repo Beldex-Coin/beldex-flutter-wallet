@@ -1,9 +1,5 @@
 
-import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
-import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-
-import '../model/create_transaction_model.dart';
+import 'package:beldex_wallet/src/swap/database/swap_transaction_history_model.dart';
 
 class Coins {
   Coins(this.name, this.fullName, this.extraIdName, this.blockchain, this.protocol);
@@ -16,7 +12,7 @@ class Coins {
 }
 
 class ExchangeData {
-  ExchangeData(this.from, this.to, this.amountFrom, this.extraIdName, this.fromBlockChain, this.toBlockChain, this.fromProtocol, this.toProtocol);
+  ExchangeData(this.from, this.to, this.amountFrom, this.extraIdName, this.fromBlockChain, this.toBlockChain, this.fromProtocol, this.toProtocol, {this.exchangeName});
 
   String? from;
   String? to;
@@ -26,16 +22,18 @@ class ExchangeData {
   String? toBlockChain;
   String? fromProtocol;
   String? toProtocol;
+  String? exchangeName;
 }
 
 class SwapTransactionHistory {
-  SwapTransactionHistory(this.transactionIdList);
+  SwapTransactionHistory(this.walletAddress, {this.exchangeName});
 
-  List<String> transactionIdList;
+  String? walletAddress;
+  String? exchangeName;
 }
 
 class ExchangeDataWithRecipientAddress {
-  ExchangeDataWithRecipientAddress(this.from, this.to, this.amountFrom, this.extraIdName, this.recipientAddress, this.fromBlockChain, this.toBlockChain, {this.fromProtocol, this.toProtocol, this.refundAddress});
+  ExchangeDataWithRecipientAddress(this.from, this.to, this.amountFrom, this.extraIdName, this.recipientAddress, this.fromBlockChain, this.toBlockChain, {this.fromProtocol, this.toProtocol, this.refundAddress, this.exchangeName});
 
   String? from;
   String? to;
@@ -47,12 +45,13 @@ class ExchangeDataWithRecipientAddress {
   String? fromProtocol;
   String? toProtocol;
   String? refundAddress;
+  String? exchangeName;
 }
 
 class TransactionStatus {
   TransactionStatus(this.transactionModel, this.status, this.walletAddress, {this.exchangeName});
 
-  CreateTransactionModel transactionModel;
+  SwapTransactionHistoryModel transactionModel;
   String? status;
   String walletAddress;
   String? exchangeName;
@@ -61,7 +60,7 @@ class TransactionStatus {
 class TransactionDetails {
   TransactionDetails(this.createTransactionModel, this.toBlockChain, this.walletAddress, {this.exchangeName});
 
-  CreateTransactionModel? createTransactionModel;
+  SwapTransactionHistoryModel? createTransactionModel;
   String? toBlockChain;
   String walletAddress;
   String? exchangeName;
@@ -70,23 +69,24 @@ class TransactionDetails {
 class GetTransactionStatus {
   GetTransactionStatus(this.transactionModel, this.status, this.walletAddress, {this.exchangeName});
 
-  GetTransactionResult? transactionModel;
+  SwapTransactionHistoryModel? transactionModel;
   String? status;
   String walletAddress;
   String? exchangeName;
 }
 
 class TransactionDataWithWalletAddress {
-  TransactionDataWithWalletAddress(this.transactionModel, this.walletAddress);
+  TransactionDataWithWalletAddress(this.transactionModel, this.walletAddress, {this.exchangeName});
 
-  CreateTransactionModel transactionModel;
+  SwapTransactionHistoryModel transactionModel;
   String walletAddress;
+  String? exchangeName;
 }
 
 class GetTransactionStatusWithWalletAddress {
   GetTransactionStatusWithWalletAddress(this.transactionModel, this.walletAddress, {this.exchangeName});
 
-  GetTransactionResult transactionModel;
+  SwapTransactionHistoryModel transactionModel;
   String walletAddress;
   String? exchangeName;
 }

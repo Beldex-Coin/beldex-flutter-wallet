@@ -1,7 +1,6 @@
 import 'package:beldex_wallet/src/swap/api_service/get_currencies_full_api_service.dart';
 import 'package:beldex_wallet/src/swap/api_service/get_exchange_amount_api_service.dart';
 import 'package:beldex_wallet/src/swap/api_service/get_pairs_params_api_service.dart';
-import 'package:beldex_wallet/src/swap/api_service/get_status_api_service.dart';
 import 'package:beldex_wallet/src/swap/api_service/get_transactions_api_service.dart';
 import 'package:beldex_wallet/src/swap/api_service/create_transaction_api_service.dart';
 import 'package:beldex_wallet/src/swap/api_service/validate_address_api_service.dart';
@@ -20,11 +19,10 @@ class ChangellyExchangeService extends BaseExchangeService {
   final _exchangeAmountService = GetExchangeAmountApiService();
   final _validateAddressService = ValidateAddressApiService();
   final _createTransactionService = CreateTransactionApiService();
-  final _getStatusService = GetStatusApiService();
   final _getTransactionsService = GetTransactionsApiService();
 
   @override
-  String get exchangeName => 'Changelly';
+  String get exchangeName => 'changelly';
 
   @override
   String get exchangeUrl => 'https://changelly.com';
@@ -189,61 +187,38 @@ class ChangellyExchangeService extends BaseExchangeService {
   }
 
   @override
-  Future<OrderInfo?> getOrderInfo(int orderId) async {
+  Future<OrderInfo?>  getOrderInfo(int orderId, String? destinationAddress) async {
     try {
       final params = {'id': orderId.toString()};
-      final response = await _getStatusService.getSignature(params);
+      final response = await _getTransactionsService.getSignature(params);
       if (response?.result == null) return null;
-      final status = response!.result!;
+      final result = response!.result!;
       return OrderInfo(
-        orderId: orderId,
-        //state: status,
-        //completed: status == 'finished',
-        status: status,
-        //exchangeName: exchangeName,
+          orderId: result[0].id ?? '',
+          type: 'float',
+          networkFee: result[0].networkFee,
+          platformFee: '0',
+          apiExtraFee: result[0].apiExtraFee,
+          payinAddress: result[0].payinAddress,
+          payinExtraId: result[0].payinExtraId,
+          payoutAddress: result[0].payoutAddress,
+          payoutExtraId: result[0].payoutExtraId,
+          refundAddress: result[0].refundAddress,
+          refundExtraId: result[0].refundExtraId,
+          amountExpectedFrom: result[0].amountExpectedFrom,
+          amountExpectedTo: result[0].amountExpectedTo,
+          amountTo: result[0].amountTo,
+          status: result[0].status == 'finished' ? 'finished' : 'waiting',
+          currencyFrom: result[0].currencyFrom?.toLowerCase() ?? '',
+          currencyTo: result[0].currencyTo?.toLowerCase() ?? '',
+          payTill: DateTime.now().add(const Duration(minutes: 15)).toUtc().toIso8601String(),
+          createdAt: toMsEpoch(result[0].createdAt),
+          payinConfirmations: result[0].payinConfirmations ?? 0,
+          rawResponse: result
       );
     } catch (e) {
       print('Changelly getOrderInfo error: $e');
       return null;
-    }
-  }
-
-  @override
-  Future<List<OrderInfo>> getOrderHistory({int? offset, int? limit}) async {
-    try {
-      final params = {
-        'id': <String>[],
-      };
-      final response = await _getTransactionsService.getSignatureWithIds(params);
-      if (response?.result == null) return [];
-      return response!.result!
-          .map((r) => OrderInfo(
-                orderId: r.id ?? '',
-                //state: r.status ?? 'unknown',
-                //completed: r.status == 'finished',
-                //depositAddress: r.payinAddress,
-                //depositAddressMemo: r.payinExtraId,
-                //destinationAddress: r.payoutAddress,
-                //destinationAddressMemo: r.payoutExtraId,
-                //claimedDepositAmount: r.amountExpectedFrom,
-                //amountToGet: r.amountExpectedTo,
-                //fromCurrency: r.currencyFrom,
-                //fromNetwork: '',
-                //toCurrency: r.currencyTo,
-                //toNetwork: '',
-                //txId: r.payoutHash,
-                networkFee: r.networkFee,
-                createdAt: null,
-                //updatedAt: null,
-                //trackUrl: r.trackUrl,
-                refundAddress: r.refundAddress,
-                status: r.status,
-                //exchangeName: exchangeName,
-              ))
-          .toList();
-    } catch (e) {
-      print('Changelly getOrderHistory error: $e');
-      return [];
     }
   }
 }

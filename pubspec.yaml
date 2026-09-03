@@ -73,6 +73,7 @@ dependencies:
   http: ^1.1.0
   crypto: ^3.0.3
   path_provider: ^2.0.9
+  sqflite: ^2.3.0
   mobx: ^2.0.6
   flutter_mobx: ^2.0.4
   flutter_slidable: #^2.0.0
