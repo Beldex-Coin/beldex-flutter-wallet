@@ -172,7 +172,7 @@ class ChangellyExchangeService extends BaseExchangeService {
         amountExpectedFrom: result.amountExpectedFrom,
         amountExpectedTo: result.amountExpectedTo,
         amountTo: result.amountTo,
-        status: result.status == 'finished' ? 'finished' : 'waiting',
+        status: result.status,
         currencyFrom: result.currencyFrom?.toLowerCase() ?? '',
         currencyTo: result.currencyTo?.toLowerCase() ?? '',
         payTill: DateTime.now().add(const Duration(minutes: 15)).toUtc().toIso8601String(),
@@ -187,13 +187,13 @@ class ChangellyExchangeService extends BaseExchangeService {
   }
 
   @override
-  Future<OrderInfo?>  getOrderInfo(int orderId, String? destinationAddress) async {
+  Future<OrderInfoExtended?>  getOrderInfo(int orderId, String? destinationAddress) async {
     try {
       final params = {'id': orderId.toString()};
       final response = await _getTransactionsService.getSignature(params);
       if (response?.result == null) return null;
       final result = response!.result!;
-      return OrderInfo(
+      return OrderInfoExtended(
           orderId: result[0].id ?? '',
           type: 'float',
           networkFee: result[0].networkFee,
@@ -208,13 +208,20 @@ class ChangellyExchangeService extends BaseExchangeService {
           amountExpectedFrom: result[0].amountExpectedFrom,
           amountExpectedTo: result[0].amountExpectedTo,
           amountTo: result[0].amountTo,
-          status: result[0].status == 'finished' ? 'finished' : 'waiting',
+          status: result[0].status,
           currencyFrom: result[0].currencyFrom?.toLowerCase() ?? '',
           currencyTo: result[0].currencyTo?.toLowerCase() ?? '',
           payTill: DateTime.now().add(const Duration(minutes: 15)).toUtc().toIso8601String(),
           createdAt: toMsEpoch(result[0].createdAt),
           payinConfirmations: result[0].payinConfirmations ?? 0,
-          rawResponse: result
+          rawResponse: result,
+          rate: result[0].rate,
+          moneyReceived: result[0].moneyReceived,
+          moneySent: result[0].moneySent,
+          payinHash: result[0].payinHash,
+          payoutHashLink: result[0].payoutHashLink,
+          payoutHash: result[0].payoutHash,
+          payinExtraIdName: result[0].payinExtraIdName
       );
     } catch (e) {
       print('Changelly getOrderInfo error: $e');

@@ -400,7 +400,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                                     onTap: (){
                                       currencyDetails.forEach((item){
                                         if(item.ticker == transactionDetails.currencyFrom) {
-                                          final url = processUrl(item.transactionUrl, transactionDetails.payinHash);
+                                          final url = processUrl(item.transactionUrl, responseData.result?[0].payinHash);
                                           if(url.trim().isNotEmpty){
                                             openUrl(methodChannelPlatform: methodChannelPlatform, url: url);
                                           }
@@ -802,7 +802,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                                   : Color(0xff737373)),
                         ),
                         Text(
-                          '1 ${transactionDetails.currencyFrom.toUpperCase()} ~ ${toStringAsFixed(transactionDetails.rate)} ${transactionDetails.currencyTo.toUpperCase()}',
+                          '1 ${transactionDetails.currencyFrom.toUpperCase()} ~ ${toStringAsFixed(responseData.result?[0].rate)} ${transactionDetails.currencyTo.toUpperCase()}',
                           style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w500,
@@ -879,7 +879,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          transactionDetails.payinExtraIdName ?? '---',
+                          responseData.result?[0].payinExtraIdName ?? '---',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,

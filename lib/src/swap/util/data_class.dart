@@ -60,7 +60,7 @@ class TransactionStatus {
 class TransactionDetails {
   TransactionDetails(this.createTransactionModel, this.toBlockChain, this.walletAddress, {this.exchangeName});
 
-  SwapTransactionHistoryModel? createTransactionModel;
+  SwapTransactionHistoryModel createTransactionModel;
   String? toBlockChain;
   String walletAddress;
   String? exchangeName;
@@ -69,7 +69,7 @@ class TransactionDetails {
 class GetTransactionStatus {
   GetTransactionStatus(this.transactionModel, this.status, this.walletAddress, {this.exchangeName});
 
-  SwapTransactionHistoryModel? transactionModel;
+  SwapTransactionHistoryModel transactionModel;
   String? status;
   String walletAddress;
   String? exchangeName;

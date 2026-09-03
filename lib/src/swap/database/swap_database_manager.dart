@@ -106,12 +106,12 @@ class SwapDatabaseManager {
   }
 
   /// Inserts or updates a swap transaction. Unique on (exchange, txn_id).
-  /// Matches the Node.js ON CONFLICT behaviour preserving earlier non-empty
-  /// fields while always refreshing status/fees/raw data.
+  /// Uses ON CONFLICT to preserve earlier non-empty fields while always
+  /// refreshing status/fees/raw data.
   ///
   /// When [txn] is provided (i.e. called from [batchUpsertTransactions]) all
   /// statements go through that transaction object instead of the base
-  /// database handle — sqflite requires this inside an explicit transaction
+  /// database handle: sqflite requires this inside an explicit transaction
   /// and otherwise deadlocks writing on the base connection.
   Future<void> upsertTransaction(Map<String, dynamic> tx, {Transaction? txn}) async {
     final db = txn ?? await _getDb();

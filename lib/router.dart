@@ -1,5 +1,3 @@
-import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
-import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_currencies_full_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_exchange_amount_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_pairs_params_provider.dart';
@@ -713,7 +711,12 @@ class Router {
         });
       case Routes.swapTransactionCompleted:
         return MaterialPageRoute<void>(builder: (context) {
-          return SwapTransactionCompletedPage(transactionStatus: settings.arguments as GetTransactionStatus);
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider())
+            ],
+            child: SwapTransactionCompletedPage(transactionStatus: settings.arguments as GetTransactionStatus),
+          );
         });
       case Routes.swapTransactionUnPaid:
         return MaterialPageRoute<void>(builder: (context) {

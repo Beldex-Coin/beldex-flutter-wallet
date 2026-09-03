@@ -302,6 +302,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                   _screenHeight,
                   settingsStore,
                   _scrollController,
+                  snapshot.data,
                   createdTransactionDetails,
               syncStore,networkProvider);
             }
@@ -311,7 +312,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
     );
   }
 
-  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, SwapTransactionHistoryModel? createdTransactionDetails, SyncStore syncStore, NetworkProvider networkProvider){
+  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, GetTransactionsModel? responseData, SwapTransactionHistoryModel? createdTransactionDetails, SyncStore syncStore, NetworkProvider networkProvider){
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -350,7 +351,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                         padding: const EdgeInsets.all(15.0),
                         width: _screenWidth,
                         height: double.infinity,
-                        child: paymentSendFundsToTheAddressBelowScreen(settingsStore,createdTransactionDetails, syncStore, networkProvider),
+                        child: paymentSendFundsToTheAddressBelowScreen(settingsStore,responseData, createdTransactionDetails, syncStore, networkProvider),
                       ),
                     ),
                   ),
@@ -361,7 +362,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
     );
   }
 
-  Widget paymentSendFundsToTheAddressBelowScreen(SettingsStore settingsStore, SwapTransactionHistoryModel? createdTransactionDetails, SyncStore syncStore, NetworkProvider networkProvider,) {
+  Widget paymentSendFundsToTheAddressBelowScreen(SettingsStore settingsStore, GetTransactionsModel? responseData, SwapTransactionHistoryModel? createdTransactionDetails, SyncStore syncStore, NetworkProvider networkProvider,) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -863,7 +864,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     padding:
                     const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                     child: Text(
-                      '1 ${createdTransactionDetails!.currencyFrom?.toUpperCase()} ~ ${toStringAsFixed(createdTransactionDetails.rate)} ${createdTransactionDetails.currencyTo?.toUpperCase()}',
+                      '1 ${createdTransactionDetails.currencyFrom.toUpperCase()} ~ ${toStringAsFixed(responseData?.result![0].rate)} ${createdTransactionDetails.currencyTo.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,

@@ -20,7 +20,17 @@ class QuickexOrder {
     this.trackUrl,
     this.platformFeeAbsolute,
     this.claimedNetworkFee,
-    this.minConfirmationsToTrade
+    this.minConfirmationsToTrade,
+    this.price,
+    this.moneyReceived,
+    this.moneySent,
+    this.payinHash,
+    this.payoutHashLink,
+    this.payoutHash,
+    this.payinExtraIdName,
+    this.orderEvents = const [],
+    this.failedToCreate = false,
+    this.isPendingToCreate = false
   });
 
   factory QuickexOrder.fromJson(Map<String, dynamic> json) {
@@ -52,7 +62,28 @@ class QuickexOrder {
       trackUrl: json['trackUrl']?.toString(),
       platformFeeAbsolute: claimedPublicRateObj?['platformFee_Absolute']?.toString(),
       minConfirmationsToTrade: json['minConfirmationsToTrade']?.toString(),
+      price: claimedPublicRateObj?['price']?.toString(),
+      moneyReceived: json['moneyReceived']?.toString(),
+      moneySent: json['moneySent']?.toString(),
+      payinHash: json['payinHash']?.toString(),
+      payoutHashLink: json['payoutHashLink']?.toString(),
+      payoutHash: json['payoutHash']?.toString(),
+      payinExtraIdName: json['payinExtraIdName']?.toString(),
+      orderEvents: _parseOrderEvents(json['orderEvents']),
+      failedToCreate: json['failedToCreate'] ?? false,
+      isPendingToCreate: json['isPendingToCreate'] ?? false,
     );
+  }
+
+  static List<QuickexOrderEvent> _parseOrderEvents(dynamic value) {
+    if (value is! List) return const [];
+    return value
+        .whereType<Map<String, dynamic>>()
+        .map((e) => QuickexOrderEvent(
+              kind: e['kind']?.toString() ?? '',
+              createdAt: e['createdAt']?.toString(),
+            ))
+        .toList();
   }
 
   final int? orderId;
@@ -76,6 +107,16 @@ class QuickexOrder {
   final String? platformFeeAbsolute;
   final String? claimedNetworkFee;
   final String? minConfirmationsToTrade;
+  final String? price;
+  final String? moneyReceived;
+  final String? moneySent;
+  final String? payinHash;
+  final String? payoutHashLink;
+  final String? payoutHash;
+  final String? payinExtraIdName;
+  final List<QuickexOrderEvent> orderEvents;
+  final bool failedToCreate;
+  final bool isPendingToCreate;
 
 
   static int? _parseInt(dynamic value) {
@@ -83,4 +124,14 @@ class QuickexOrder {
     if (value is String) return int.tryParse(value);
     return null;
   }
+}
+
+class QuickexOrderEvent {
+  QuickexOrderEvent({
+    required this.kind,
+    this.createdAt,
+  });
+
+  final String kind;
+  final String? createdAt;
 }

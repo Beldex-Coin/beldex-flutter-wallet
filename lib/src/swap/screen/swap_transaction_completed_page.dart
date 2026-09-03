@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/swap/database/swap_transaction_history_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,7 +11,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../../routes.dart';
 import '../../util/clipboard_helper.dart';
 import '../../util/network_provider.dart';
+import '../../widgets/no_internet.dart';
 import '../dialog/input_output_hash_dialog.dart';
+import '../model/get_transactions_model.dart';
+import '../provider/get_transactions_provider.dart';
+import '../util/circular_progress_bar.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
 import 'number_stepper.dart';
@@ -82,11 +85,20 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
 
   late GetTransactionStatus transactionStatus;
   late Timer timer;
+  late GetTransactionsProvider getTransactionsProvider;
   late NetworkProvider networkProvider;
+  bool _isInitialized = false;
 
   @override
   void initState() {
     transactionStatus = widget.transactionStatus;
+    Future.delayed(Duration(seconds: 2), () {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Provider.of<GetTransactionsProvider>(context, listen: false)
+            .getTransactionsData(
+            context, {"id": "${transactionStatus.transactionModel.txnId}"}, exchangeName: transactionStatus.exchangeName);
+      });
+    });
     super.initState();
   }
 
@@ -98,13 +110,30 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
     final _scrollController = ScrollController(keepScrollOffset: true);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
-          this.networkProvider = networkProvider;
-        return body(
-            _screenWidth,
-            _screenHeight,
-            settingsStore,
-            _scrollController, transactionStatus.transactionModel, networkProvider);
-      }
+          return Consumer<GetTransactionsProvider>(
+              builder: (context, getTransactionsProvider, child) {
+                this.getTransactionsProvider = getTransactionsProvider;
+                this.networkProvider = networkProvider;
+                _isInitialized = true;
+                if (getTransactionsProvider.loading) {
+                  return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0));
+                }
+
+                if(getTransactionsProvider.error != null || !networkProvider.isConnected) {
+                  return noInternet(settingsStore, _screenWidth);
+                }
+
+                if (getTransactionsProvider.loading == false && getTransactionsProvider.data!.result!.isNotEmpty) {
+                  return body(
+                      _screenWidth,
+                      _screenHeight,
+                      settingsStore,
+                      _scrollController,getTransactionsProvider.data,networkProvider);
+                }
+
+                return SizedBox();
+              });
+        }
     );
   }
 
@@ -112,7 +141,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
       double _screenWidth,
       double _screenHeight,
       SettingsStore settingsStore,
-      ScrollController _scrollController, SwapTransactionHistoryModel? transactionModel, NetworkProvider networkProvider,
+      ScrollController _scrollController, GetTransactionsModel? transactionModel, NetworkProvider networkProvider,
       ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -161,11 +190,11 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
     );
   }
 
-  Widget exchangeCompletedScreen(SettingsStore settingsStore, SwapTransactionHistoryModel? transactionModel, NetworkProvider networkProvider) {
+  Widget exchangeCompletedScreen(SettingsStore settingsStore, GetTransactionsModel? transactionModel, NetworkProvider networkProvider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PairsWidget(settingsStore: settingsStore, from: transactionModel?.currencyFrom, to: transactionModel?.currencyFrom),
+        PairsWidget(settingsStore: settingsStore, from: transactionModel?.result![0].currencyFrom, to: transactionModel?.result![0].currencyTo),
         //Completed Details
         Container(
           width: MediaQuery.sizeOf(context).width,
@@ -235,7 +264,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                           children: [
                             Expanded(
                               child: Text(
-                                transactionModel!.txnId,
+                                transactionModel!.result![0].id!,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -249,7 +278,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             ),
                             InkWell(
                               onTap: () async {
-                                await ClipboardHelper.copyWithAutoClear(transactionModel.txnId);
+                                await ClipboardHelper.copyWithAutoClear(transactionModel.result![0].id!);
                                 await Fluttertoast.showToast(
                                   msg: tr(context).copied,
                                   toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
@@ -294,7 +323,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             height: 5,
                           ),
                           Text(
-                            '${toStringAsFixed(transactionModel.amountFrom)} ${transactionModel.currencyFrom.toUpperCase()}',
+                            '${toStringAsFixed(transactionModel.result![0].amountExpectedFrom)} ${transactionModel.result![0].currencyFrom!.toUpperCase()}',
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -323,7 +352,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             height: 5,
                           ),
                           Text(
-                            '${toStringAsFixed(transactionModel.amountTo)} ${transactionModel.currencyTo.toUpperCase()}',
+                            '${toStringAsFixed(transactionModel.result![0].amountExpectedTo)} ${transactionModel.result![0].currencyTo!.toUpperCase()}',
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -357,7 +386,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             height: 5,
                           ),
                           Text(
-                            getDateAndTime(transactionModel.moneyReceived!),
+                            getDateAndTime(transactionModel.result![0].moneyReceived!),
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -386,7 +415,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             height: 5,
                           ),
                           Text(
-                            getDateAndTime(transactionModel.moneySent!),
+                            getDateAndTime(transactionModel.result![0].moneySent!),
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -420,7 +449,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             height: 5,
                           ),
                           Text(
-                            '1 ${transactionModel.currencyFrom?.toUpperCase()} ~ ${toStringAsFixed(transactionModel.rate)} ${transactionModel.currencyTo?.toUpperCase()}',
+                            '1 ${transactionModel.result![0].currencyFrom?.toUpperCase()} ~ ${toStringAsFixed(transactionModel.result![0].rate)} ${transactionModel.result![0].currencyTo?.toUpperCase()}',
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -449,7 +478,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             height: 5,
                           ),
                           Text(
-                            '${toStringAsFixed(transactionModel.networkFee)} ${transactionModel.currencyTo?.toUpperCase()}',
+                            '${toStringAsFixed(transactionModel.result![0].networkFee)} ${transactionModel.result![0].currencyTo?.toUpperCase()}',
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -483,7 +512,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       height: 5,
                     ),
                     Text(
-                      transactionModel.payinAddress!,
+                      transactionModel.result![0].payinAddress!,
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -502,7 +531,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      transactionModel.payinExtraIdName ?? "---",
+                      transactionModel.result![0].payinExtraIdName ?? "---",
                       style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
@@ -514,7 +543,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       height: 5,
                     ),
                     Text(
-                      transactionModel.payinAddressMemo ?? "---",
+                      transactionModel.result![0].payinExtraId ?? "---",
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -536,7 +565,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                 margin: EdgeInsets.only(right: 5),
                 child: ElevatedButton(
                   onPressed: () {
-                    showAlertDialog(context, transactionModel.payinHash!, transactionModel.payoutHash!);
+                    showAlertDialog(context, transactionModel.result![0].payinHash!, transactionModel.result![0].payoutHash!);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: settingsStore.isDarkTheme
@@ -697,6 +726,9 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
   @override
   void dispose() {
     timer.cancel();
+    if(_isInitialized) {
+      getTransactionsProvider.dispose();
+    }
     super.dispose();
   }
 }

@@ -5,8 +5,31 @@ import 'package:beldex_wallet/src/swap/exchange/models/order_info.dart';
 import 'package:beldex_wallet/src/swap/exchange/models/order_request.dart';
 import 'package:beldex_wallet/src/swap/exchange/models/pair_params.dart';
 import 'package:beldex_wallet/src/swap/exchange/quickex/quickex_api_service.dart';
+import 'package:beldex_wallet/src/swap/exchange/quickex/models/quickex_order.dart';
 
 import '../../util/utils.dart';
+
+const Map<String, String> _quickexEventStatusMap = {
+  'CREATION_END': 'waiting',
+  'INCOMING_FUNDS_DETECTED': 'confirming',
+  'DEPOSIT_REGISTERED': 'exchanging',
+  'FUNDS_WITHDRAWAL_START': 'sending',
+  'WITHDRAWAL_COMPLETED': 'finished',
+};
+
+/// Resolves a Quickex order to an app status string
+/// ('waiting'/'confirming'/'exchanging'/'sending'/'finished'/'failed'/'overdue').
+String resolveQuickexTxStatus(QuickexOrder order) {
+  if (order.completed) return 'finished';
+  if (order.failedToCreate) return 'failed';
+  if (order.orderEvents.isNotEmpty) {
+    final event = order.orderEvents.first;
+    if (!isWithin3Hours(event.createdAt)) return 'overdue';
+    return _quickexEventStatusMap[event.kind] ?? 'waiting';
+  }
+  if (order.isPendingToCreate) return "waiting";
+  return 'waiting';
+}
 
 class QuickexExchangeService extends BaseExchangeService {
   final QuickexApiService _api = QuickexApiService();
@@ -185,10 +208,21 @@ class QuickexExchangeService extends BaseExchangeService {
   }
 
   @override
-  Future<OrderInfo?> getOrderInfo(int orderId, String? destinationAddress) async {
+  Future<OrderInfoExtended?> getOrderInfo(int orderId, String? destinationAddress) async {
     final order = await _api.getOrderInfo(orderId, destinationAddress: destinationAddress);
     if (order == null) return null;
-    return OrderInfo(
+    final status = resolveQuickexTxStatus(order);
+    final amountExpectedFrom = order.claimedDepositAmount;
+    final amountExpectedTo = order.amountToGet;
+    var rate = order.price;
+    if ((rate == null || rate.isEmpty)) {
+      final from = double.tryParse(amountExpectedFrom ?? '');
+      final to = double.tryParse(amountExpectedTo ?? '');
+      if (from != null && to != null && from != 0) {
+        rate = (to / from).toString();
+      }
+    }
+    return OrderInfoExtended(
       orderId: order.orderId,
       type: 'float',
       networkFee: order.claimedNetworkFee,
@@ -200,16 +234,23 @@ class QuickexExchangeService extends BaseExchangeService {
       payoutExtraId: order.destinationAddressMemo,
       refundAddress: null,
       refundExtraId: null,
-      amountExpectedFrom: order.claimedDepositAmount,
-      amountExpectedTo: order.amountToGet,
-      amountTo: order.amountToGet,
-      status: order.state,
+      amountExpectedFrom: amountExpectedFrom,
+      amountExpectedTo: amountExpectedTo,
+      amountTo: amountExpectedTo,
+      status: status,
       currencyFrom: order.fromCurrency?.toLowerCase(),
       currencyTo: order.toCurrency?.toLowerCase(),
-      payTill: null,
+      payTill: DateTime.now().add(const Duration(minutes: 15)).toUtc().toIso8601String(),
       createdAt: toMsEpoch(order.createdAt),
       payinConfirmations: int.tryParse(order.minConfirmationsToTrade ?? '') ?? 0,
       rawResponse: order,
+      rate: rate,
+      moneyReceived: int.tryParse(order.moneyReceived ?? ''),
+      moneySent: int.tryParse(order.moneySent ?? ''),
+      payinHash: order.payinHash ?? '',
+      payoutHashLink: order.payoutHashLink ?? '',
+      payoutHash: order.payoutHash ?? '',
+      payinExtraIdName: order.payinExtraIdName ?? ''
     );
   }
 }

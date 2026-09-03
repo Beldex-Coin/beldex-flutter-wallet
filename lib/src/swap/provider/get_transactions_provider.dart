@@ -78,7 +78,7 @@ class GetTransactionsProvider with ChangeNotifier {
     }
   }
 
-  GetTransactionResult mapOrderToTransaction(OrderInfo order) {
+  GetTransactionResult mapOrderToTransaction(OrderInfoExtended order) {
     return GetTransactionResult(
       id: '${order.orderId}',
       status: order.status,
@@ -95,6 +95,13 @@ class GetTransactionsProvider with ChangeNotifier {
       networkFee: order.networkFee,
       payinConfirmations: int.tryParse(order.payinConfirmations ?? ''),
       createdAt: order.createdAt is int ? order.createdAt : order.createdAt != null ? toMsEpoch(order.createdAt) : null,
+      rate: order.rate,
+      moneyReceived: order.moneyReceived,
+      moneySent: order.moneySent,
+      payinHash: order.payinHash,
+      payoutHashLink: order.payoutHashLink,
+      payoutHash: order.payoutHash,
+      payinExtraIdName: order.payinExtraIdName,
     );
   }
 

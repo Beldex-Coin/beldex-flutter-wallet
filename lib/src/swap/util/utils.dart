@@ -297,6 +297,15 @@ int toMsEpoch(dynamic value) {
   return (number * 1000).floor();
 }
 
+/// Returns true if the given timestamp is within the last 3 hours.
+/// Parses various timestamp forms via [toMsEpoch]; a missing/invalid value
+/// falls back to now, which counts as "within 3 hours".
+bool isWithin3Hours(dynamic value) {
+  final now = DateTime.now().millisecondsSinceEpoch;
+  final ts = toMsEpoch(value);
+  return now - ts <= const Duration(hours: 3).inMilliseconds;
+}
+
 /// Convert a common [OrderInfo] (from any exchange) into the historical
 /// Changelly-shaped [CreateTransactionModel] used by the downstream screens.
 ///
