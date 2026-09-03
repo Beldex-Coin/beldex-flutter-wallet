@@ -106,7 +106,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
 
   void startAndStopPendingTransactionTimer(SwapTransactionHistoryModel createdTransactionDetails) {
     pendingTransactionTimer?.cancel();
-    final start = DateTime.fromMicrosecondsSinceEpoch(createdTransactionDetails.createdAt);
+    final start = DateTime.fromMillisecondsSinceEpoch(createdTransactionDetails.createdAt);
     final newTime = start.add(Duration(hours: 3));
     final countDownDate = newTime.millisecondsSinceEpoch;
 

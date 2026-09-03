@@ -29,22 +29,22 @@ String toStringAsFixed(String? amount) {
 }
 
 String getDate(int timeStamp) {
-  final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+  final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
   return DateFormat('dd MMM yyyy').format(date);
 }
 
 String getDateAndTime(int timeStamp) {
-  final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+  final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
   return DateFormat('dd MMM yyyy, HH:mm:ss').format(date);
 }
 
 String getTransactionDate(int timeStamp) {
-  final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+  final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
   return DateFormat('dd MMM yyyy').format(date);
 }
 
 String getTransactionTime(int timeStamp) {
-  final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+  final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
   return DateFormat('HH:mm:ss').format(date);
 }
 
