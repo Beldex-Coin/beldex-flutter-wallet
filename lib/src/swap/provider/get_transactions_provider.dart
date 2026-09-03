@@ -92,7 +92,9 @@ class GetTransactionsProvider with ChangeNotifier {
       amountExpectedTo: order.amountExpectedTo,
       amountTo: order.amountTo,
       networkFee: order.networkFee,
-      payinConfirmations: int.tryParse(order.payinConfirmations ?? ''),
+      payinConfirmations: order.payinConfirmations is num
+          ? order.payinConfirmations
+          : int.tryParse('${order.payinConfirmations ?? ''}') ?? 0,
       createdAt: order.createdAt is int ? order.createdAt : order.createdAt != null ? toMsEpoch(order.createdAt) : null,
       rate: order.rate,
       moneyReceived: order.moneyReceived,
