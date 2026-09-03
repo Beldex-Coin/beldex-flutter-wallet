@@ -126,7 +126,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
 
   void _pollStatus() {
     final exchangeName = widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly';
-    getTransactionsProvider.getTransactionsData(context, {"id": "${transactionDetails.txnId}"}, exchangeName: exchangeName);
+    getTransactionsProvider.getTransactionsData(context, {"id": "${transactionDetails.txnId}", "destinationAddress": "${transactionDetails.payoutAddress}"}, exchangeName: exchangeName);
   }
 
   void _onStatusUpdate() {

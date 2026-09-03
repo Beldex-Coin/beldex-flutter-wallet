@@ -96,7 +96,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Provider.of<GetTransactionsProvider>(context, listen: false)
             .getTransactionsData(
-            context, {"id": "${transactionStatus.transactionModel.txnId}"}, exchangeName: transactionStatus.exchangeName);
+            context, {"id": "${transactionStatus.transactionModel.txnId}", "destinationAddress": "${transactionStatus.transactionModel.payoutAddress}"}, exchangeName: transactionStatus.exchangeName);
       });
     });
     super.initState();
