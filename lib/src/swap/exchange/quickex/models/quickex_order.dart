@@ -28,6 +28,8 @@ class QuickexOrder {
     this.payoutHashLink,
     this.payoutHash,
     this.payinExtraIdName,
+    this.refundAddress,
+    this.refundAddressMemo,
     this.orderEvents = const [],
     this.failedToCreate = false,
     this.isPendingToCreate = false,
@@ -71,6 +73,8 @@ class QuickexOrder {
       payoutHashLink: json['payoutHashLink']?.toString(),
       payoutHash: json['payoutHash']?.toString(),
       payinExtraIdName: json['payinExtraIdName']?.toString(),
+      refundAddress: json['refundAddress']?.toString(),
+      refundAddressMemo: json['refundAddressMemo']?.toString(),
       orderEvents: _parseOrderEvents(json['orderEvents']),
       failedToCreate: json['failedToCreate'] ?? false,
       isPendingToCreate: json['isPendingToCreate'] ?? false,
@@ -118,6 +122,8 @@ class QuickexOrder {
   final String? payoutHashLink;
   final String? payoutHash;
   final String? payinExtraIdName;
+  final String? refundAddress;
+  final String? refundAddressMemo;
   final List<QuickexOrderEvent> orderEvents;
   final bool failedToCreate;
   final bool isPendingToCreate;
