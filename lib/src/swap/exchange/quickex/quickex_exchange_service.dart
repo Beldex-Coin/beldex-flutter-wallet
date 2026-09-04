@@ -203,12 +203,12 @@ class QuickexExchangeService extends BaseExchangeService {
       payTill: DateTime.now().add(const Duration(minutes: 15)).toUtc().toIso8601String(),
       createdAt: toMsEpoch(order.createdAt),
       payinConfirmations: order.minConfirmationsToTrade ?? 0,
-      rawResponse: order
+      rawResponse: order.rawJson ?? {}
     );
   }
 
   @override
-  Future<OrderInfoExtended?> getOrderInfo(dynamic orderId, String? destinationAddress) async {
+  Future<OrderInfoExtended?> getOrderInfo(String orderId, String? destinationAddress) async {
     final order = await _api.getOrderInfo(orderId, destinationAddress: destinationAddress);
     if (order == null) return null;
     final status = resolveQuickexTxStatus(order);
@@ -243,7 +243,7 @@ class QuickexExchangeService extends BaseExchangeService {
       payTill: DateTime.now().add(const Duration(minutes: 15)).toUtc().toIso8601String(),
       createdAt: toMsEpoch(order.createdAt),
       payinConfirmations: int.tryParse(order.minConfirmationsToTrade ?? '') ?? 0,
-      rawResponse: order,
+      rawResponse: order.rawJson ?? {},
       rate: rate,
       moneyReceived: int.tryParse(order.moneyReceived ?? ''),
       moneySent: int.tryParse(order.moneySent ?? ''),

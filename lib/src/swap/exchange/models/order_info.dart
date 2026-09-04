@@ -23,7 +23,7 @@ class OrderInfo {
     this.rawResponse
   });
 
-  final dynamic orderId;
+  final String orderId;
   final String type;
   final String? networkFee;
   final String? platformFee;

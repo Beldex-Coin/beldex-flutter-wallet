@@ -220,7 +220,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     var maximumAmount = "";
     sendAmount = toStringAsFixed(exchangeRateData.amountFrom.toString());
     exchangeRate = toStringAsFixed(exchangeRateData.rate.toString());
-    serviceFee = "0";
+    serviceFee = "0.00000";
     networkFee = toStringAsFixed(exchangeRateData.networkFee?.toString() ?? '0');
     getAmount = toStringAsFixed(exchangeRateData.amountTo.toString());
     from = exchangeRateData.from.toString();

@@ -58,10 +58,9 @@ class TransactionStatus {
 }
 
 class TransactionDetails {
-  TransactionDetails(this.createTransactionModel, this.toBlockChain, this.walletAddress, {this.exchangeName});
+  TransactionDetails(this.createTransactionModel, this.walletAddress, {this.exchangeName});
 
   SwapTransactionHistoryModel createTransactionModel;
-  String? toBlockChain;
   String walletAddress;
   String? exchangeName;
 }

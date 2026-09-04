@@ -336,7 +336,7 @@ CreateTransactionModel orderInfoToCreateTransactionModel(OrderInfo? order) {
     currencyTo: order.currencyTo,
     createdAt: order.createdAt,
     payinConfirmations: order.payinConfirmations,
-    trackUrl: order.rawResponse?.trackUrl?.toString(),
+    trackUrl: order.rawResponse is Map<String, dynamic> ? order.rawResponse['trackUrl']?.toString() : null,
   );
   return CreateTransactionModel(result: result, payTill: order.payTill, orderInfo: order);
 }

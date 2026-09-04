@@ -765,7 +765,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
           Future.delayed(Duration(seconds: 2), () {
             Navigator.of(context).pop();
             Navigator.of(context).pop(true);
-            Navigator.of(context).pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(swapTransactionHistoryModel, toBlockChain, walletAddress, exchangeName: exchangeName)); // Start adding getExchangeAmount api result to the stream.
+            Navigator.of(context).pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(swapTransactionHistoryModel, walletAddress, exchangeName: exchangeName)); // Start adding getExchangeAmount api result to the stream.
           });
         }
       } else if (value?.error != null) {

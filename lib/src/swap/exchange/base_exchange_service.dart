@@ -35,5 +35,5 @@ abstract class BaseExchangeService {
 
   Future<OrderInfo?> createOrder(OrderRequest request);
 
-  Future<OrderInfo?> getOrderInfo(int orderId, String? destinationAddress);
+  Future<OrderInfo?> getOrderInfo(String orderId, String? destinationAddress);
 }

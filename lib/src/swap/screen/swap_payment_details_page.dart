@@ -89,7 +89,6 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   }
 
   late SwapTransactionHistoryModel createdTransactionDetails;
-  late String _toBlockChain;
   String _walletAddress = "";
   late Timer timer;
   late StreamController<GetTransactionsModel> _getStatusStreamController;
@@ -183,7 +182,6 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   void initState() {
     createdTransactionDetails = widget.transactionDetails.createTransactionModel;
     startAndStopPendingTransactionTimer(createdTransactionDetails);
-    _toBlockChain = networkWithUppercase(widget.transactionDetails.toBlockChain);
     _walletAddress = widget.transactionDetails.walletAddress;
     _getStatusStreamController = StreamController<GetTransactionsModel>();
     getTransactionsProvider = Provider.of<GetTransactionsProvider>(context, listen: false);
@@ -488,14 +486,17 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      '${createdTransactionDetails.txnId}',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffEBEBEB)
-                              : Color(0xff222222)),
+                    Expanded(
+                      child: Text(
+                        '${createdTransactionDetails.txnId}',
+                        maxLines: 2,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffEBEBEB)
+                                : Color(0xff222222)),
+                      ),
                     ),
                     SizedBox(
                       width: 5,
@@ -676,7 +677,10 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
             SizedBox(
               height: 5,
             ),
-            networkTextWidget(_toBlockChain)
+            createdTransactionDetails.networkTo != null
+                ? networkTextWidget(
+                networkWithUppercase(createdTransactionDetails.networkTo))
+                : networkTextWidget("..."),
           ],
         ),
         //Time Remaining Details
@@ -889,7 +893,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                               padding:
                               const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                               child: Text(
-                                '${toStringAsFixed(transactionDetails.networkFee)} ${transactionDetails.currencyTo?.toUpperCase()}',
+                                '0.0000 ${transactionDetails.currencyTo?.toUpperCase()}',
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -916,6 +920,33 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                               padding: const EdgeInsets.all(10.0),
                               child: Text(
                                 '${toStringAsFixed(transactionDetails.networkFee)} ${transactionDetails.currencyTo?.toUpperCase()}',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffEBEBEB)
+                                        : Color(0xff222222)),
+                              ),
+                            )
+                          ]),
+
+                          TableRow(children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                              child: Text(
+                                'Confirmations',
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffAFAFBE)
+                                        : Color(0xff737373)),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Text(
+                                '${transactionDetails.payinConfirmations} BLOCKS',
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,

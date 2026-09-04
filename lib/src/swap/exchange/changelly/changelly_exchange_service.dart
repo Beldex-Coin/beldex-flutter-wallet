@@ -178,7 +178,7 @@ class ChangellyExchangeService extends BaseExchangeService {
         payTill: DateTime.now().add(const Duration(minutes: 15)).toUtc().toIso8601String(),
         createdAt: toMsEpoch(result.createdAt),
         payinConfirmations: result.payinConfirmations ?? 0,
-        rawResponse: result
+        rawResponse: result.toJson()
       );
     } catch (e) {
       print('Changelly createOrder error: $e');
@@ -187,9 +187,9 @@ class ChangellyExchangeService extends BaseExchangeService {
   }
 
   @override
-  Future<OrderInfoExtended?>  getOrderInfo(dynamic orderId, String? destinationAddress) async {
+  Future<OrderInfoExtended?>  getOrderInfo(String orderId, String? destinationAddress) async {
     try {
-      final params = {'id': orderId.toString()};
+      final params = {'id': orderId};
       final response = await _getTransactionsService.getSignature(params);
       if (response?.result == null) return null;
       final result = response!.result!;
@@ -214,7 +214,7 @@ class ChangellyExchangeService extends BaseExchangeService {
           payTill: DateTime.now().add(const Duration(minutes: 15)).toUtc().toIso8601String(),
           createdAt: toMsEpoch(result[0].createdAt),
           payinConfirmations: result[0].payinConfirmations ?? 0,
-          rawResponse: result[0].toString(),
+          rawResponse: result[0].toJson(),
           rate: result[0].rate,
           moneyReceived: result[0].moneyReceived,
           moneySent: result[0].moneySent,

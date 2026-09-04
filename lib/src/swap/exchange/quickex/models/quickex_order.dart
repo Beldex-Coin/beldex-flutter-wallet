@@ -1,6 +1,6 @@
 class QuickexOrder {
   QuickexOrder({
-    this.orderId,
+    required this.orderId,
     this.state = 'created',
     this.completed = false,
     this.depositAddress,
@@ -30,7 +30,9 @@ class QuickexOrder {
     this.payinExtraIdName,
     this.orderEvents = const [],
     this.failedToCreate = false,
-    this.isPendingToCreate = false
+    this.isPendingToCreate = false,
+    this.expired = false,
+    this.rawJson
   });
 
   factory QuickexOrder.fromJson(Map<String, dynamic> json) {
@@ -41,7 +43,7 @@ class QuickexOrder {
     final claimedPublicRateObj = json['claimedPublicRate'] as Map<String, dynamic>?;
 
     return QuickexOrder(
-      orderId: _parseInt(json['orderId']),
+      orderId: json['orderId'],
       state: json['state']?.toString() ?? 'created',
       completed: json['completed'] ?? false,
       depositAddress: depositAddressObj?['depositAddress']?.toString(),
@@ -72,6 +74,8 @@ class QuickexOrder {
       orderEvents: _parseOrderEvents(json['orderEvents']),
       failedToCreate: json['failedToCreate'] ?? false,
       isPendingToCreate: json['isPendingToCreate'] ?? false,
+      expired: json['expired'] ?? false,
+      rawJson: Map<String, dynamic>.from(json),
     );
   }
 
@@ -86,7 +90,7 @@ class QuickexOrder {
         .toList();
   }
 
-  final int? orderId;
+  final String orderId;
   final String state;
   final bool completed;
   final String? depositAddress;
@@ -117,13 +121,8 @@ class QuickexOrder {
   final List<QuickexOrderEvent> orderEvents;
   final bool failedToCreate;
   final bool isPendingToCreate;
-
-
-  static int? _parseInt(dynamic value) {
-    if (value is int) return value;
-    if (value is String) return int.tryParse(value);
-    return null;
-  }
+  final bool expired;
+  final Map<String, dynamic>? rawJson;
 }
 
 class QuickexOrderEvent {

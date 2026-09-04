@@ -224,7 +224,7 @@ class QuickexApiService {
         body: body,
       );
       print('[quickex_api] validate-address status=${response.statusCode}');
-      if (response.statusCode == 201) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
         try {
           final data = json.decode(response.body) as Map<String, dynamic>;
           return data['valid'] == true || data['result'] == true;
@@ -256,26 +256,22 @@ class QuickexApiService {
   }) async {
     try {
       final bodyMap = <String, dynamic>{
-        'instrumentFrom': {
-          'currencyTitle': fromCurrency.toUpperCase(),
-          'networkTitle': fromNetwork.toUpperCase(),
+        "instrumentFrom": {
+          "currencyTitle": fromCurrency.toUpperCase(),
+          "networkTitle": fromNetwork.toUpperCase(),
         },
-        'instrumentTo': {
-          'currencyTitle': toCurrency.toUpperCase(),
-          'networkTitle': toNetwork.toUpperCase(),
+        "instrumentTo": {
+          "currencyTitle": toCurrency.toUpperCase(),
+          "networkTitle": toNetwork.toUpperCase(),
         },
-        'destinationAddress': destinationAddress,
-        'claimedDepositAmount': depositAmount,
-        'rateMode': rateMode,
-        'referrerId': _referrerId
+        "destinationAddress": destinationAddress,
+        "refundAddress": refundAddress ?? "",
+        "claimedDepositAmount": depositAmount,
+        "rateMode": rateMode,
+        "referrerId": _referrerId
       };
-      if (destinationAddressMemo != null) bodyMap['destinationAddressMemo'] = destinationAddressMemo;
-      if (refundAddress != null) bodyMap['refundAddress'] = refundAddress;
-      if (refundAddressMemo != null) bodyMap['refundAddressMemo'] = refundAddressMemo;
-      if (rate != null) bodyMap['rate'] = rate;
-      if (networkFee != null) bodyMap['networkFee'] = networkFee;
-      if (markup != null) bodyMap['markup'] = markup;
-
+      if (destinationAddressMemo != null && destinationAddressMemo.isNotEmpty) bodyMap["destinationAddressMemo"] = destinationAddressMemo;
+      if (refundAddressMemo != null && refundAddressMemo.isNotEmpty) bodyMap["refundAddressMemo"] = refundAddressMemo;
       final body = json.encode(bodyMap);
       final headers = _signedHeaders(body);
       final response = await http.post(
@@ -284,7 +280,7 @@ class QuickexApiService {
         body: body,
       );
       print('[quickex_api] createOrder status=${response.statusCode}');
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201 || response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
         return QuickexOrder.fromJson(data);
       } else {
@@ -300,7 +296,7 @@ class QuickexApiService {
     return null;
   }
 
-  Future<QuickexOrder?> getOrderInfo(dynamic orderId, {String? destinationAddress}) async {
+  Future<QuickexOrder?> getOrderInfo(String orderId, {String? destinationAddress}) async {
     try {
       final destAddress = destinationAddress?.isNotEmpty == true
           ? destinationAddress

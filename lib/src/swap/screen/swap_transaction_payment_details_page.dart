@@ -19,7 +19,6 @@ import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
 import '../dialog/show_qr_code_dialog.dart';
 import '../database/swap_txn_history.dart';
-import '../provider/get_currencies_full_provider.dart';
 import '../provider/get_transactions_provider.dart';
 import '../util/circular_progress_bar.dart';
 import '../util/data_class.dart';
@@ -192,7 +191,6 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
         if (!mounted && !networkProvider.isConnected) return;
         _pollStatus();
       });
-      Provider.of<GetCurrenciesFullProvider>(context, listen: false).getCurrenciesFullData(context);// Start adding getStatus api result to the stream.
     });
     super.initState();
   }
@@ -503,14 +501,17 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      '${createdTransactionDetails?.txnId}',
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffEBEBEB)
-                              : Color(0xff222222)),
+                    Expanded(
+                      child: Text(
+                        '${createdTransactionDetails?.txnId}',
+                        maxLines: 2,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffEBEBEB)
+                                : Color(0xff222222)),
+                      ),
                     ),
                     SizedBox(
                       width: 5,
@@ -635,13 +636,21 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                   children: [
                     InkWell(
                         onTap: () async {
-                          await ClipboardHelper.copyWithAutoClear(createdTransactionDetails!.payinAddress.toString());
+                          await ClipboardHelper.copyWithAutoClear(
+                              createdTransactionDetails!.payinAddress
+                                  .toString());
                           await Fluttertoast.showToast(
                             msg: tr(context).copied,
-                            toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                            toastLength: Toast.LENGTH_SHORT,
+                            // Toast duration (short or long)
                             gravity: ToastGravity.BOTTOM,
-                            textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
-                            backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                            textColor: settingsStore.isDarkTheme
+                                ? Colors.black
+                                : Colors.white,
+                            // Toast gravity (top, center, or bottom)// Text color
+                            backgroundColor: settingsStore.isDarkTheme
+                                ? Colors.grey.shade50
+                                : Colors.grey.shade900,
                           );
                         },
                         child: Container(
@@ -651,7 +660,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                           decoration: BoxDecoration(
                               color: Color(0xff00AD07),
                               borderRadius:
-                              BorderRadius.all(Radius.circular(5))),
+                                  BorderRadius.all(Radius.circular(5))),
                           child: Icon(
                             Icons.copy,
                             color: Color(0xffFFFFFF),
@@ -661,7 +670,9 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     InkWell(
                         onTap: () {
                           _isVisibleQRCodeDialog = true;
-                          showQRCodeDialog(context, settingsStore,createdTransactionDetails?.payinAddress, onDismiss: (buildContext){
+                          showQRCodeDialog(context, settingsStore,
+                              createdTransactionDetails?.payinAddress,
+                              onDismiss: (buildContext) {
                             _isVisibleQRCodeDialog = false;
                             Navigator.of(buildContext).pop(true);
                           });
@@ -674,12 +685,14 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                                   ? Color(0xff32324A)
                                   : Color(0xffFFFFFF),
                               borderRadius:
-                              BorderRadius.all(Radius.circular(5))),
+                                  BorderRadius.all(Radius.circular(5))),
                           child: SvgPicture.asset(
                             'assets/images/swap/scan_qr.svg',
-                            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
-                                ? Color(0xffFFFFFF)
-                                : Color(0xff222222), BlendMode.srcIn),
+                            colorFilter: ColorFilter.mode(
+                                settingsStore.isDarkTheme
+                                    ? Color(0xffFFFFFF)
+                                    : Color(0xff222222),
+                                BlendMode.srcIn),
                             width: 20,
                             height: 20,
                           ),
@@ -691,29 +704,10 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
             SizedBox(
               height: 5,
             ),
-            Consumer<GetCurrenciesFullProvider>(
-                builder: (context, getCurrenciesFullProvider, child) {
-                  if(getCurrenciesFullProvider.error != null) {
-                    return networkTextWidget("...");
-                  }
-                  if (getCurrenciesFullProvider.loading) {
-                    return networkTextWidget("...");
-                  } else {
-                    if (getCurrenciesFullProvider.loading == false &&
-                        getCurrenciesFullProvider.data.isNotEmpty) {
-                      final matchingItem = getCurrenciesFullProvider.data.where(
-                            (item) => item.ticker == createdTransactionDetails?.currencyTo,
-                      ).firstOrNull;
-                      if (matchingItem != null && matchingItem.ticker == createdTransactionDetails?.currencyTo) {
-                        return networkTextWidget(networkWithUppercase(matchingItem.blockchain));
-                      } else {
-                        return networkTextWidget("...");
-                      }
-                    } else {
-                      return networkTextWidget("...");
-                    }
-                  }
-                }),
+            createdTransactionDetails?.networkTo != null
+                ? networkTextWidget(
+                    networkWithUppercase(createdTransactionDetails?.networkTo))
+                : networkTextWidget("..."),
           ],
         ),
         //Time Remaining Details
@@ -889,7 +883,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     padding:
                     const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                     child: Text(
-                      '${toStringAsFixed(createdTransactionDetails.networkFee)} ${createdTransactionDetails.currencyTo.toUpperCase()}',
+                      '0.0000 ${createdTransactionDetails.currencyTo.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -916,6 +910,33 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
                       '${toStringAsFixed(createdTransactionDetails.networkFee)} ${createdTransactionDetails.currencyTo.toUpperCase()}',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xffEBEBEB)
+                              : Color(0xff222222)),
+                    ),
+                  )
+                ]),
+
+                TableRow(children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                    child: Text(
+                      'Confirmations',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xffAFAFBE)
+                              : Color(0xff737373)),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(
+                      '${responseData?.result![0].payinConfirmations} BLOCKS',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
