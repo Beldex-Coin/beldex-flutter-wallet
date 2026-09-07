@@ -7,6 +7,7 @@ class QuickexRate {
     this.finalNetworkFeeAmount,
     this.minDepositAmount,
     this.maxDepositAmount,
+    this.platformFeeAbsolute,
   });
 
   factory QuickexRate.fromJson(Map<String, dynamic> json) {
@@ -18,6 +19,7 @@ class QuickexRate {
       finalNetworkFeeAmount: json['finalNetworkFeeAmount']?.toString(),
       minDepositAmount: json['generalMinAmount']?.toString(),
       maxDepositAmount: json['generalMaxAmount']?.toString(),
+      platformFeeAbsolute: json['platformFee_Absolute']?.toString(),
     );
   }
 
@@ -28,4 +30,5 @@ class QuickexRate {
   final String? finalNetworkFeeAmount;
   final String? minDepositAmount;
   final String? maxDepositAmount;
+  final String? platformFeeAbsolute;
 }

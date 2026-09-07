@@ -179,7 +179,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     _latestExchangeRate = exchangeRateData;
     sendAmount = toStringAsFixed(exchangeRateData.amountFrom.toString());
     exchangeRate = toStringAsFixed(exchangeRateData.rate.toString());
-    serviceFee = "0";
+    serviceFee = toStringAsFixed(exchangeRateData.platformFee.toString());
     networkFee = toStringAsFixed(exchangeRateData.networkFee?.toString() ?? '0');
     getAmount = toStringAsFixed(exchangeRateData.amountTo.toString());
     from = exchangeRateData.from.toString();

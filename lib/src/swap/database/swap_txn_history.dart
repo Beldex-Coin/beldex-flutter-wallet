@@ -61,6 +61,17 @@ class SwapTxnHistory {
     return record != null ? record['exchange'] as String? : null;
   }
 
+  /// Extracts a fee value for storage. For a 410-expired update
+  /// (details['status'] == 'expired') a missing fee yields `null` so the SQL
+  /// UPSERT (COALESCE) keeps the previously stored fee instead of zeroing it
+  /// out, because an expired order has no fee data. For any other update the
+  /// fallback `0` remains for backwards compatibility.
+  dynamic _extractFee(dynamic fee, Map<String, dynamic> details) {
+    if (fee != null) return fee;
+    if (details['status'] == 'expired') return null;
+    return 0;
+  }
+
   Map<String, dynamic> mapDetailsToRecord(
     String txnId,
     String address, {
@@ -122,8 +133,8 @@ class SwapTxnHistory {
         details['refundExtraId'] ?? details['refundAddressMemo'] ?? details['refundAddress']),
       'amount_from': details['amountExpectedFrom'] ?? details['amountFrom'],
       'amount_to': details['amountExpectedTo'] ?? details['amountTo'],
-      'network_fee': details['networkFee'] ?? details['apiExtraFee'] ?? 0,
-      'platform_fee': details['platformFee'] ?? details['changellyFee'] ?? 0,
+      'network_fee': _extractFee(details['networkFee'] ?? details['apiExtraFee'], details),
+      'platform_fee': _extractFee(details['platformFee'] ?? details['changellyFee'], details),
       'raw_response': details['raw_response'] ?? details['rawResponse'] ?? details,
       'created_at': createdAt,
       'updated_at': now,

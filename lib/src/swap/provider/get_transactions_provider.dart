@@ -102,6 +102,7 @@ class GetTransactionsProvider with ChangeNotifier {
       payoutHashLink: order.payoutHashLink,
       payoutHash: order.payoutHash,
       payinExtraIdName: order.payinExtraIdName,
+      changellyFee: order.platformFee
     );
   }
 

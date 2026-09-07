@@ -8,6 +8,7 @@ class ExchangeRate {
     this.networkFee,
     this.minAmount,
     this.maxAmount,
+    this.platformFee
   });
 
   final String from;
@@ -18,4 +19,5 @@ class ExchangeRate {
   final String? networkFee;
   final String? minAmount;
   final String? maxAmount;
+  final String? platformFee;
 }

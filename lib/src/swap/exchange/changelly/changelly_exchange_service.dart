@@ -110,7 +110,8 @@ class ChangellyExchangeService extends BaseExchangeService {
         amountFrom: result.amountFrom ?? amount,
         amountTo: result.amountTo ?? '0',
         rate: result.rate ?? '0',
-        networkFee: result.networkFee
+        networkFee: result.networkFee,
+        platformFee: result.fee ?? '0'
       );
     } catch (e) {
       print('Changelly getExchangeRate error: $e');
@@ -197,7 +198,7 @@ class ChangellyExchangeService extends BaseExchangeService {
           orderId: result[0].id ?? '',
           type: 'float',
           networkFee: result[0].networkFee,
-          platformFee: '0',
+          platformFee: result[0].changellyFee,
           apiExtraFee: result[0].apiExtraFee,
           payinAddress: result[0].payinAddress,
           payinExtraId: result[0].payinExtraId,

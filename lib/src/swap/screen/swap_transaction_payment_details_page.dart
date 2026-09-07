@@ -883,7 +883,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     padding:
                     const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                     child: Text(
-                      '0.0000 ${createdTransactionDetails.currencyTo.toUpperCase()}',
+                      '${toStringAsFixed(responseData?.result![0].changellyFee)} ${createdTransactionDetails.currencyTo.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,

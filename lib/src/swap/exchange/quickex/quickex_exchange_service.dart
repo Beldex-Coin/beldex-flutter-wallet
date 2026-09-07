@@ -128,6 +128,7 @@ class QuickexExchangeService extends BaseExchangeService {
         amountTo: rate.amountToGet ?? '0',
         rate: rate.price,
         networkFee: rate.finalNetworkFeeAmount,
+        platformFee: rate.platformFeeAbsolute ?? '0'
       );
     }
     if (result.minMaxHint != null) {
