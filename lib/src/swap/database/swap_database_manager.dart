@@ -144,8 +144,7 @@ class SwapDatabaseManager {
       'amount_to': tx['amount_to'] != null ? _toNum(tx['amount_to']) : null,
       'network_fee': tx['network_fee'] != null ? _toNum(tx['network_fee']) : 0,
       'platform_fee': tx['platform_fee'] != null ? _toNum(tx['platform_fee']) : 0,
-      'raw_response':
-          tx['raw_response'] is Map ? jsonEncode(tx['raw_response']) : (tx['raw_response'] ?? null),
+      'raw_response': _encodeRawResponse(tx['raw_response']),
       'created_at': createdAt,
       'updated_at': tx['updated_at'] != null ? _toNum(tx['updated_at']).round() : now,
     };
@@ -313,4 +312,16 @@ class SwapDatabaseManager {
   }
 
   static double _toNum(dynamic value) => double.tryParse(value.toString()) ?? 0.0;
+
+  /// Encodes a raw API response for storage, or returns `null` when the value
+  /// is absent or empty so the SQL UPSERT (COALESCE) keeps the existing data
+  /// instead of overwriting it.
+  static String? _encodeRawResponse(dynamic raw) {
+    if (raw == null) return null;
+    if (raw is String) return raw.isEmpty ? null : raw;
+    if (raw is Map) return raw.isEmpty ? null : jsonEncode(raw);
+    if (raw is List) return raw.isEmpty ? null : jsonEncode(raw);
+    if (raw is num || raw is bool) return raw.toString();
+    return jsonEncode(raw);
+  }
 }

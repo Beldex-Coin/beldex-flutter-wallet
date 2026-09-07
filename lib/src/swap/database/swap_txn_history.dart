@@ -61,6 +61,18 @@ class SwapTxnHistory {
     return record != null ? record['exchange'] as String? : null;
   }
 
+  /// Returns the raw API response to persist, or `null` when none is provided.
+  /// Returning null lets the SQL UPSERT (COALESCE) keep any previously stored
+  /// raw_response instead of overwriting it with unrelated fields.
+  dynamic _extractRawResponse(Map<String, dynamic> details) {
+    final raw = details['raw_response'] ?? details['rawResponse'];
+    if (raw == null) return null;
+    if (raw is String && raw.isEmpty) return null;
+    if (raw is Map && raw.isEmpty) return null;
+    if (raw is List && raw.isEmpty) return null;
+    return raw;
+  }
+
   /// Extracts a fee value for storage. For a 410-expired update
   /// (details['status'] == 'expired') a missing fee yields `null` so the SQL
   /// UPSERT (COALESCE) keeps the previously stored fee instead of zeroing it
@@ -135,7 +147,7 @@ class SwapTxnHistory {
       'amount_to': details['amountExpectedTo'] ?? details['amountTo'],
       'network_fee': _extractFee(details['networkFee'] ?? details['apiExtraFee'], details),
       'platform_fee': _extractFee(details['platformFee'] ?? details['changellyFee'], details),
-      'raw_response': details['raw_response'] ?? details['rawResponse'] ?? details,
+      'raw_response': _extractRawResponse(details),
       'created_at': createdAt,
       'updated_at': now,
     };
