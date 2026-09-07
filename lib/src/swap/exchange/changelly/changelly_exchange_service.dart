@@ -148,7 +148,7 @@ class ChangellyExchangeService extends BaseExchangeService {
       final params = {
         'from': request.fromCurrency.toLowerCase(),
         'to': request.toCurrency.toLowerCase(),
-        'amount': request.depositAmount,
+        'amountFrom': request.depositAmount,
         'address': request.destinationAddress,
       };
       if (request.destinationAddressMemo != null && request.destinationAddressMemo!.isNotEmpty) {
