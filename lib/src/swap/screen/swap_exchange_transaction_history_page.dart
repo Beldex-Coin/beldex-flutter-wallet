@@ -208,7 +208,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     if(Platform.isAndroid) {
       final directory = await getExternalStorageDirectories(
           type: StorageDirectory.downloads); // Internal storage
-      final path = '${directory?.first.path}/Transaction_Report.csv';
+      final path = '${directory?.first.path}/Beldex_wallet_swap_transaction_report.csv';
       // Convert your CSV string to a Uint8List for downloading.
       final file = File(path);
       await file.writeAsBytes(bytes).whenComplete(() {
@@ -219,7 +219,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     if(Platform.isIOS) {
       // Use application documents directory for cross-platform compatibility
       final directory = await getApplicationDocumentsDirectory();
-      final path = '${directory.path}/Transaction_Report.csv';
+      final path = '${directory.path}/Beldex_wallet_swap_transaction_report.csv';
 
       final file = File(path);
       await file.writeAsBytes(bytes);
@@ -503,6 +503,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                     onTap: () {
                                       switch (result.txnStatus) {
                                         case "waiting" :
+                                        case "new" :
                                           {
                                             Navigator.of(context).pop(true);
                                             Navigator.of(context).pushNamed(Routes.swapTransactionPaymentDetails, arguments: GetTransactionStatusWithWalletAddress(result, walletStore.subaddress.address, exchangeName: result.exchange));
@@ -630,10 +631,10 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                 if(rows.length-1 != transactions.length) {
                   if(addHeader){
                     addHeader = false;
-                    rows.add(["Status", "Date", "Exchange_Amount_From", "Exchange_Rate", "Receiver", "Amount_Received"]);
+                    rows.add(["Date", "Status", "Exchange_Currency", "Exchange_Amount_From", "Exchange_Rate", "Received_Amount", "Swap_Type", "Receiver_Address"]);
                   }
                   final result = transactions[index];
-                  rows.add([result.txnStatus, getDate(result.createdAt), toStringAsFixed(result.amountFrom), toStringAsFixed(result.rate), result.payinAddress, toStringAsFixed(result.amountTo)]);
+                  rows.add([getDate(result.createdAt), result.txnStatus, "${result.currencyFrom.toUpperCase()} -> ${result.currencyTo.toUpperCase()}", toStringAsFixed(result.amountFrom), toStringAsFixed(result.rate), toStringAsFixed(result.amountTo), result.swapType.isNotEmpty ? result.swapType[0].toUpperCase() + result.swapType.substring(1) : result.swapType,result.payoutAddress]);
                 }
                 return transactionRow(settingsStore, transactions, index, walletStore);
               }),
