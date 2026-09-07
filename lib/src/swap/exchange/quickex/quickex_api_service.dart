@@ -7,6 +7,7 @@ import 'package:beldex_wallet/src/swap/exchange/quickex/models/quickex_instrumen
 import 'package:beldex_wallet/src/swap/exchange/quickex/models/quickex_order.dart';
 import 'package:beldex_wallet/src/swap/exchange/quickex/models/quickex_pair.dart';
 import 'package:beldex_wallet/src/swap/exchange/quickex/models/quickex_rate.dart';
+import 'package:beldex_wallet/src/swap/model/validate_address_model.dart';
 import 'package:http/http.dart' as http;
 
 // ---------------------------------------------------------------------------
@@ -202,7 +203,7 @@ class QuickexApiService {
     }
   }
 
-  Future<bool> validateAddress({
+  Future<ValidateAddressResult?> validateAddress({
     required String currency,
     required String network,
     required String address,
@@ -225,17 +226,49 @@ class QuickexApiService {
       );
       print('[quickex_api] validate-address status=${response.statusCode}');
       if (response.statusCode == 201 || response.statusCode == 200) {
-        try {
-          final data = json.decode(response.body) as Map<String, dynamic>;
-          return data['valid'] == true || data['result'] == true;
-        } catch (_) {
-          return true;
-        }
+        return _parseValidateAddress(response.body);
       }
-      return false;
+      return ValidateAddressResult(
+        result: false,
+        message: 'Invalid address',
+      );
     } catch (e) {
       print('Quickex validateAddress error: $e');
-      return false;
+      return ValidateAddressResult(result: false, message: 'Invalid address');
+    }
+  }
+
+  /// Quickex returns validation as either a bare JSON boolean (`true`) or an
+  /// object carrying `result`/`valid` plus an optional `message`. A bare
+  /// `false` carries no reason, so a default "Invalid address" is surfaced.
+  ValidateAddressResult _parseValidateAddress(String body) {
+    try {
+      final decoded = json.decode(body);
+      if (decoded is bool) {
+        return ValidateAddressResult(
+          result: decoded,
+          message: decoded ? null : 'Invalid address',
+        );
+      }
+      if (decoded is Map<String, dynamic>) {
+        final rawResult = decoded['result'] ?? decoded['valid'];
+        final result = rawResult is bool
+            ? rawResult
+            : rawResult == true
+                ? true
+                : false;
+        return ValidateAddressResult(
+          result: result,
+          message: decoded['message']?.toString() ??
+              (result ? null : 'Invalid address'),
+        );
+      }
+      return ValidateAddressResult(result: false);
+    } catch (_) {
+      return ValidateAddressResult(
+        result: body.trim() == 'true',
+        message: body,
+      );
     }
   }
 

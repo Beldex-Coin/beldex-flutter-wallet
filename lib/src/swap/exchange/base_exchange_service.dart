@@ -3,6 +3,7 @@ import 'package:beldex_wallet/src/swap/exchange/models/exchange_rate.dart';
 import 'package:beldex_wallet/src/swap/exchange/models/order_info.dart';
 import 'package:beldex_wallet/src/swap/exchange/models/order_request.dart';
 import 'package:beldex_wallet/src/swap/exchange/models/pair_params.dart';
+import 'package:beldex_wallet/src/swap/model/validate_address_model.dart';
 
 abstract class BaseExchangeService {
   String get exchangeName;
@@ -26,7 +27,7 @@ abstract class BaseExchangeService {
     required String amount
   });
 
-  Future<bool> validateAddress({
+  Future<ValidateAddressResult?> validateAddress({
     required String currency,
     required String network,
     required String address,

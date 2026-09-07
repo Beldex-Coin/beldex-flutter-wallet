@@ -10,6 +10,7 @@ import 'package:beldex_wallet/src/swap/exchange/models/exchange_rate.dart';
 import 'package:beldex_wallet/src/swap/exchange/models/order_info.dart';
 import 'package:beldex_wallet/src/swap/exchange/models/order_request.dart';
 import 'package:beldex_wallet/src/swap/exchange/models/pair_params.dart';
+import 'package:beldex_wallet/src/swap/model/validate_address_model.dart';
 
 import '../../util/utils.dart';
 
@@ -120,7 +121,7 @@ class ChangellyExchangeService extends BaseExchangeService {
   }
 
   @override
-  Future<bool> validateAddress({
+  Future<ValidateAddressResult?> validateAddress({
     required String currency,
     required String network,
     required String address,
@@ -135,10 +136,13 @@ class ChangellyExchangeService extends BaseExchangeService {
         params['extraId'] = memo;
       }
       final response = await _validateAddressService.getSignature(params);
-      return response?.result?.result ?? false;
+      return ValidateAddressResult(
+        result: response?.result?.result ?? false,
+        message: response?.result?.message,
+      );
     } catch (e) {
       print('Changelly validateAddress error: $e');
-      return false;
+      return ValidateAddressResult(result: false, message: e.toString());
     }
   }
 

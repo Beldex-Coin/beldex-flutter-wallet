@@ -51,3 +51,16 @@ class Result {
     "message": message,
   };
 }
+
+/// Normalized validation outcome surfaced to the swap UI. [result] is whether
+/// the address is valid; [message] carries the provider's reason (e.g.
+/// "Invalid address") when available.
+class ValidateAddressResult {
+  ValidateAddressResult({
+    required this.result,
+    this.message,
+  });
+
+  final bool result;
+  final String? message;
+}

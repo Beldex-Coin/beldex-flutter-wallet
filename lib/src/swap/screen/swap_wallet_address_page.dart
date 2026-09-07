@@ -369,9 +369,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               if (validateAddressProvider.data != null) {
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   validateAddressProvider.setSuccessState(
-                      validateAddressProvider.data!);
-                  validateAddressProvider.setErrorMessage(
-                      '');
+                      validateAddressProvider.data?.result ?? false);
+                  validateAddressProvider.setErrorMessage(validateAddressProvider.data?.message ?? '');
                 });
               }
             }
@@ -483,7 +482,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                   ),
                 ),
                 Visibility(
-                  visible: validateAddressProvider.getErrorMessage().trim().isNotEmpty,
+                  visible: !validateAddressProvider.getSuccessState() &&
+                      validateAddressProvider.getErrorMessage().trim().isNotEmpty,
                   child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -523,8 +523,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               _refundValidateAddressProvider = refundValidator;
               if (refundValidator.loading == false && refundValidator.data != null) {
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                  refundValidator.setSuccessState(refundValidator.data!);
-                  refundValidator.setErrorMessage('');
+                  refundValidator.setSuccessState(refundValidator.data?.result ?? false);
+                  refundValidator.setErrorMessage(refundValidator.data?.message ?? '');
                 });
               }
               return Column(
@@ -631,7 +631,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     ),
                   ),
                   Visibility(
-                    visible: refundValidator.getErrorMessage().trim().isNotEmpty,
+                    visible: !refundValidator.getSuccessState() &&
+                        refundValidator.getErrorMessage().trim().isNotEmpty,
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Padding(

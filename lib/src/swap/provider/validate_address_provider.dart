@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:beldex_wallet/src/swap/exchange/base_exchange_service.dart';
 import 'package:beldex_wallet/src/swap/exchange/exchange_manager.dart';
+import 'package:beldex_wallet/src/swap/model/validate_address_model.dart';
 import 'package:flutter/cupertino.dart';
 
 class ValidateAddressProvider with ChangeNotifier {
-  bool data = false;
+  ValidateAddressResult? data;
 
   bool loading = true;
   bool _disposed = false;
@@ -35,6 +36,7 @@ class ValidateAddressProvider with ChangeNotifier {
         memo: memo,
       );
       data = response;
+      setSuccessState(response?.result ?? false);
     } on SocketException catch (e) {
       print('validate address api SocketException: Failed to connect: $e');
     } catch (e) {
@@ -94,7 +96,7 @@ class ValidateAddressProvider with ChangeNotifier {
 }
 
 class RefundValidateAddressProvider with ChangeNotifier {
-  bool data = false;
+  ValidateAddressResult? data;
 
   bool loading = true;
   bool _disposed = false;
@@ -124,6 +126,7 @@ class RefundValidateAddressProvider with ChangeNotifier {
         memo: memo,
       );
       data = response;
+      setSuccessState(response?.result ?? false);
     } on SocketException catch (e) {
       print('refund validate address SocketException: $e');
     } catch (e) {

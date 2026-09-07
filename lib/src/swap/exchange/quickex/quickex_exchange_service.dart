@@ -6,6 +6,7 @@ import 'package:beldex_wallet/src/swap/exchange/models/order_request.dart';
 import 'package:beldex_wallet/src/swap/exchange/models/pair_params.dart';
 import 'package:beldex_wallet/src/swap/exchange/quickex/quickex_api_service.dart';
 import 'package:beldex_wallet/src/swap/exchange/quickex/models/quickex_order.dart';
+import 'package:beldex_wallet/src/swap/model/validate_address_model.dart';
 
 import '../../util/utils.dart';
 
@@ -149,7 +150,7 @@ class QuickexExchangeService extends BaseExchangeService {
   }
 
   @override
-  Future<bool> validateAddress({
+  Future<ValidateAddressResult?> validateAddress({
     required String currency,
     required String network,
     required String address,
