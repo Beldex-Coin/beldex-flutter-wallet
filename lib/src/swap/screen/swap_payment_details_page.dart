@@ -206,10 +206,26 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
     final value = getTransactionsProvider.data;
     if (value == null || value.result == null || value.result!.isEmpty) return;
     final transactionDetails = value.result!.first;
+    final orderInfo = value.orderInfo;
+    status = transactionDetails.status ?? '';
+    if (_walletAddress.isNotEmpty && status != "waiting") {
+      final details = <String, dynamic>{
+        ...orderInfo!.toJson(),
+        'blockchainFrom': null,
+        'blockchainTo': null,
+        'networkFrom': null,
+        'networkTo': null,
+      };
+      SwapTxnHistory.instance.updateTransactionDetails(
+        orderInfo.orderId,
+        _walletAddress,
+        exchangeType: widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly',
+        details: details,
+      );
+    }
     if (!_getStatusStreamController.isClosed) {
       _getStatusStreamController.sink.add(value);
     }
-    status = transactionDetails.status ?? '';
     switch(status){
       case "waiting" :{
         //Swap Payment Details Screen
@@ -773,23 +789,6 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                 if (getTransactionsProvider.loading == false &&
                     getTransactionsProvider.data!.result!.isNotEmpty) {
                   final transactionDetails = getTransactionsProvider.data?.result![0];
-                  final orderInfo = getTransactionsProvider.data?.orderInfo;
-                  status = transactionDetails?.status ?? '';
-                  if (transactionDetails != null && _walletAddress.isNotEmpty && status != "waiting" && orderInfo != null) {
-                    final details = <String, dynamic>{
-                      ...orderInfo.toJson(),
-                      'blockchainFrom': null,
-                      'blockchainTo': null,
-                      'networkFrom': null,
-                      'networkTo': null,
-                    };
-                    SwapTxnHistory.instance.updateTransactionDetails(
-                      orderInfo.orderId,
-                      _walletAddress,
-                      exchangeType: widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly',
-                      details: details,
-                    );
-                  }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

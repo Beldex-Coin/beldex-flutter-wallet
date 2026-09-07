@@ -150,7 +150,6 @@ class ChangellyExchangeService extends BaseExchangeService {
         'to': request.toCurrency.toLowerCase(),
         'amount': request.depositAmount,
         'address': request.destinationAddress,
-        'refundAddress': request.refundAddress ?? '',
       };
       if (request.destinationAddressMemo != null && request.destinationAddressMemo!.isNotEmpty) {
         params['extraId'] = request.destinationAddressMemo!;

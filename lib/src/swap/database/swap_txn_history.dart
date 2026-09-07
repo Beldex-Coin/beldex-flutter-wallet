@@ -123,14 +123,14 @@ class SwapTxnHistory {
       'blockchain_to': details['blockchainTo'],
       'payin_address': extractAddr(details['payinAddress'] ?? details['depositAddress']),
       'payin_address_memo': extractMemo(
-        details['payinExtraId'] ?? details['depositAddressMemo'] ?? details['depositAddress']),
+        details['payinExtraId'] ?? details['depositAddressMemo']),
       'payout_address': extractAddr(details['payoutAddress'] ?? details['destinationAddress']),
       'payout_address_memo': extractMemo(
-        details['payoutExtraId'] ?? details['destinationAddressMemo'] ?? details['destinationAddress']),
+        details['payoutExtraId'] ?? details['destinationAddressMemo']),
       'refund_address': extractAddr(details['refundAddress']),
       'refund_status': details['refundStatus'] ?? 'not_returned',
       'refund_address_memo': extractMemo(
-        details['refundExtraId'] ?? details['refundAddressMemo'] ?? details['refundAddress']),
+        details['refundExtraId'] ?? details['refundAddressMemo']),
       'amount_from': details['amountExpectedFrom'] ?? details['amountFrom'],
       'amount_to': details['amountExpectedTo'] ?? details['amountTo'],
       'network_fee': _extractFee(details['networkFee'] ?? details['apiExtraFee'], details),

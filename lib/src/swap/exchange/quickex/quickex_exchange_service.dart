@@ -132,7 +132,6 @@ class QuickexExchangeService extends BaseExchangeService {
       );
     }
     if (result.minMaxHint != null) {
-      print("getExchangeRate success-> ${result.minMaxHint!.minAmountFloat}, ${result.minMaxHint!.maxAmountFloat}");
       return ExchangeRate(
         from: fromCurrency.toUpperCase(),
         to: toCurrency.toUpperCase(),
@@ -233,8 +232,8 @@ class QuickexExchangeService extends BaseExchangeService {
       payinExtraId: order.depositAddressMemo,
       payoutAddress: order.destinationAddress,
       payoutExtraId: order.destinationAddressMemo,
-      refundAddress: null,
-      refundExtraId: null,
+      refundAddress: order.refundAddress,
+      refundExtraId: order.refundAddressMemo,
       amountExpectedFrom: amountExpectedFrom,
       amountExpectedTo: amountExpectedTo,
       amountTo: amountExpectedTo,
