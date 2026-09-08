@@ -21,6 +21,7 @@ const Map<String, String> _quickexEventStatusMap = {
 /// Resolves a Quickex order to an app status string
 /// ('waiting'/'confirming'/'exchanging'/'sending'/'finished'/'failed'/'overdue').
 String resolveQuickexTxStatus(QuickexOrder order) {
+  if (order.expired) return 'expired';
   if (order.completed) return 'finished';
   if (order.failedToCreate) return 'failed';
   if (order.orderEvents.isNotEmpty) {

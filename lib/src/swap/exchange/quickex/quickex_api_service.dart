@@ -348,6 +348,23 @@ class QuickexApiService {
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
         return QuickexOrder.fromJson(data);
+      } else {
+        Map<String, dynamic>? errorData;
+        try {
+          errorData = json.decode(response.body) as Map<String, dynamic>;
+        } catch (_) {}
+        final errStatus = errorData?['status']?.toString();
+        if (response.statusCode == 410 ||
+            errStatus == 'ERR_ORDER_EXPIRED' ||
+            (errorData?['message']?.toString().toLowerCase().contains('expired') ?? false)) {
+          return QuickexOrder(
+            orderId: orderId,
+            orderEvents: const [],
+            expired: true,
+            rawJson: {},
+          );
+        }
+        return _handleError('getOrder', 'HTTP ${response.statusCode}', errorData, null).data as QuickexOrder?;
       }
     } catch (e) {
       print('Quickex getOrderInfo error: $e');
