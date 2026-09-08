@@ -241,9 +241,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                     ? Colors.white
                     : Colors.black, // Your accent color
               ),
-              dividerColor: Colors.transparent,
-              textSelectionTheme:
-              TextSelectionThemeData(selectionColor: Colors.green)),
+              dividerColor: Colors.transparent),
           child:  Consumer<SwapTransactionExpansionStatusChangeNotifier>(
               builder: (context, swapTransactionExpansionStatusChangeNotifier, child) {
                 final isExpanded = swapTransactionExpansionStatusChangeNotifier.isExpanded(index);
