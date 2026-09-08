@@ -5,6 +5,8 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'package:beldex_wallet/src/domain/common/encrypt.dart';
+import 'swap_db_encryption_config.dart';
 import '../util/utils.dart' show toMsEpoch;
 
 const String swapDbFileName = 'beldex_wallet.db';
@@ -133,18 +135,18 @@ class SwapDatabaseManager {
       'currency_to': tx['currency_to'] ?? '',
       'network_to': tx['network_to'],
       'blockchain_to': tx['blockchain_to'],
-      'payin_address': tx['payin_address'],
-      'payin_address_memo': tx['payin_address_memo'],
-      'payout_address': tx['payout_address'],
-      'payout_address_memo': tx['payout_address_memo'],
-      'refund_address': tx['refund_address'],
+      'payin_address': _encryptField(tx['payin_address']),
+      'payin_address_memo': _encryptField(tx['payin_address_memo']),
+      'payout_address': _encryptField(tx['payout_address']),
+      'payout_address_memo': _encryptField(tx['payout_address_memo']),
+      'refund_address': _encryptField(tx['refund_address']),
       'refund_status': tx['refund_status'] ?? 'not_returned',
-      'refund_address_memo': tx['refund_address_memo'],
+      'refund_address_memo': _encryptField(tx['refund_address_memo']),
       'amount_from': tx['amount_from'] != null ? _toNum(tx['amount_from']) : null,
       'amount_to': tx['amount_to'] != null ? _toNum(tx['amount_to']) : null,
       'network_fee': tx['network_fee'] != null ? _toNum(tx['network_fee']) : 0,
       'platform_fee': tx['platform_fee'] != null ? _toNum(tx['platform_fee']) : 0,
-      'raw_response': _encodeRawResponse(tx['raw_response']),
+      'raw_response': _encryptField(_encodeRawResponse(tx['raw_response'])),
       'created_at': createdAt,
       'updated_at': tx['updated_at'] != null ? _toNum(tx['updated_at']).round() : now,
     };
@@ -217,7 +219,7 @@ class SwapDatabaseManager {
     return db.rawQuery(
       'SELECT * FROM swap_transactions_history WHERE wallet_address = ? ORDER BY created_at DESC LIMIT ? OFFSET ?',
       [walletAddress, limit, offset],
-    );
+    ).then((rows) => rows.map(_decryptRow).toList());
   }
 
   Future<List<Map<String, dynamic>>> getAllOrderHistory(String walletAddress) async {
@@ -226,7 +228,7 @@ class SwapDatabaseManager {
     return db.rawQuery(
       'SELECT * FROM swap_transactions_history WHERE wallet_address = ? ORDER BY created_at DESC',
       [walletAddress],
-    );
+    ).then((rows) => rows.map(_decryptRow).toList());
   }
 
   Future<int> getOrderHistoryCount(String walletAddress) async {
@@ -246,7 +248,7 @@ class SwapDatabaseManager {
       'SELECT * FROM swap_transactions_history WHERE exchange = ? AND txn_id = ? LIMIT 1',
       [exchange, txnId],
     );
-    return rows.isNotEmpty ? rows.first : null;
+    return rows.isNotEmpty ? _decryptRow(rows.first) : null;
   }
 
   Future<Map<String, dynamic>?> getTxnById(String txnId) async {
@@ -256,7 +258,7 @@ class SwapDatabaseManager {
       'SELECT * FROM swap_transactions_history WHERE txn_id = ? LIMIT 1',
       [txnId],
     );
-    return rows.isNotEmpty ? rows.first : null;
+    return rows.isNotEmpty ? _decryptRow(rows.first) : null;
   }
 
   Future<Set<String>> getExistingTxnIds(String walletAddress) async {
@@ -312,6 +314,52 @@ class SwapDatabaseManager {
   }
 
   static double _toNum(dynamic value) => double.tryParse(value.toString()) ?? 0.0;
+
+  /// Encrypts a single sensitive value for storage at rest. Strings get the
+  /// [SwapDbEncryptionConfig.encryptedFieldPrefix] prefix so decryption can be
+  /// skipped/legacy rows preserved; non-strings pass through unchanged.
+  static String? _encryptField(dynamic value) {
+    if (value == null) return null;
+    final text = value.toString();
+    if (text.isEmpty) return text;
+    try {
+      return '${SwapDbEncryptionConfig.encryptedFieldPrefix}${_encryptValue(text)}';
+    } catch (err) {
+      print('[SwapDatabaseManager] Failed to encrypt field: $err');
+      return text;
+    }
+  }
+
+  static String? _decryptField(dynamic value) {
+    if (value == null) return null;
+    final text = value.toString();
+    if (!text.startsWith(SwapDbEncryptionConfig.encryptedFieldPrefix)) return text;
+    final cipher = text.substring(SwapDbEncryptionConfig.encryptedFieldPrefix.length);
+    try {
+      return _decryptValue(cipher);
+    } catch (err) {
+      print('[SwapDatabaseManager] Failed to decrypt field: $err');
+      return null;
+    }
+  }
+
+  static Map<String, dynamic> _decryptRow(Map<String, dynamic> row) {
+    final decrypted = Map<String, dynamic>.from(row);
+    for (final field in SwapDbEncryptionConfig.encryptedFields) {
+      decrypted[field] = _decryptField(decrypted[field]);
+    }
+    return decrypted;
+  }
+
+  /// AES-SIC encryption using the swap encryption key. Produces a
+  /// self-contained `iv:ciphertext` string that can be stored in a column.
+  static String _encryptValue(String source) {
+    return encrypt(source: source, key: SwapDbEncryptionConfig.encryptionKey);
+  }
+
+  static String _decryptValue(String source) {
+    return decrypt(source: source, key: SwapDbEncryptionConfig.encryptionKey);
+  }
 
   /// Encodes a raw API response for storage, or returns `null` when the value
   /// is absent or empty so the SQL UPSERT (COALESCE) keeps the existing data
