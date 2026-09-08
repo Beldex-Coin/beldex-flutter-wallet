@@ -24,6 +24,7 @@ import 'package:beldex_wallet/src/stores/send/sending_state.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
+import 'package:beldex_wallet/src/wallet/beldex/beldex_amount_format.dart';
 import 'package:beldex_wallet/src/wallet/beldex/calculate_estimated_fee.dart';
 import 'package:beldex_wallet/src/widgets/address_text_field.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
@@ -467,87 +468,128 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                             color: Theme.of(context).cardColor),
                         child: Column(
                           children: [
-                            TextFormField(
-                              focusNode: _focusNodeAmount,
-                                style: TextStyle(
-                                    backgroundColor: Colors.transparent,
-                                    fontSize: 26.0,
-                                    fontWeight: FontWeight.w900,
-                                    color: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodySmall!
-                                        .color),
-                                controller: _cryptoAmountController,
-                                maxLength: 15,
-                                keyboardType: TextInputType.numberWithOptions(
-                                    signed: false, decimal: true),
-                                inputFormatters: [
-                                  TextInputFormatter.withFunction(
-                                          (oldValue, newValue) {
-                                        final regEx = RegExp(r'^\d*\.?\d*');
-                                        final newString =
-                                            regEx.stringMatch(newValue.text) ?? '';
-                                        return newString == newValue.text
-                                            ? newValue
-                                            : oldValue;
-                                      }),
-                                  FilteringTextInputFormatter.deny(
-                                      RegExp('[-, ]'))
-                                ],
-                                textInputAction: TextInputAction.done,
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintStyle: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.grey.withValues(alpha: 0.6)),
-                                    hintText: tr(context).enterAmount,
-                                    errorStyle:
-                                    TextStyle(color: BeldexPalette.red),
-                                    counterText: ''),
-                                onTap: (){
-                                  isFlashMap = false;
-                                },
-                                validator: (value) {
-                                  if (value?.isEmpty ?? false) {
-                                    setState(() {
-                                      amountValidation = true;
-                                      amountErrorMessage =
-                                          tr(context).pleaseEnterAAmount;
-                                    });
-                                    return null;
-                                  } else {
-                                    if (value != null) {
-                                        if (getAmountValidation(value)) {
-                                          sendStore.validateBELDEX(value,
-                                              balanceStore.unlockedBalance,
-                                              tr(context));
-                                          if (sendStore.errorMessage != null) {
-                                            setState(() {
-                                              amountValidation = true;
-                                              amountErrorMessage = tr(context)
-                                                  .pleaseEnterAValidAmount;
-                                            });
-                                            return;
-                                          } else {
-                                            setState(() {
-                                              amountValidation = false;
-                                              amountErrorMessage = "";
-                                            });
-                                          }
-                                          return null;
-                                        } else {
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    focusNode: _focusNodeAmount,
+                                      style: TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          fontSize: 26.0,
+                                          fontWeight: FontWeight.w900,
+                                          color: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodySmall!
+                                              .color),
+                                      controller: _cryptoAmountController,
+                                      maxLength: 15,
+                                      keyboardType: TextInputType.numberWithOptions(
+                                          signed: false, decimal: true),
+                                      inputFormatters: [
+                                        TextInputFormatter.withFunction(
+                                                (oldValue, newValue) {
+                                              final regEx = RegExp(r'^\d*\.?\d*');
+                                              final newString =
+                                                  regEx.stringMatch(newValue.text) ?? '';
+                                              return newString == newValue.text
+                                                  ? newValue
+                                                  : oldValue;
+                                            }),
+                                        FilteringTextInputFormatter.deny(
+                                            RegExp('[-, ]'))
+                                      ],
+                                      textInputAction: TextInputAction.done,
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintStyle: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.grey.withValues(alpha: 0.6)),
+                                          hintText: tr(context).enterAmount,
+                                          errorStyle:
+                                          TextStyle(color: BeldexPalette.red),
+                                          counterText: ''),
+                                      onTap: (){
+                                        isFlashMap = false;
+                                      },
+                                      validator: (value) {
+                                        if (value?.isEmpty ?? false) {
                                           setState(() {
                                             amountValidation = true;
                                             amountErrorMessage =
-                                                tr(context)
-                                                    .pleaseEnterAValidAmount;
+                                                tr(context).pleaseEnterAAmount;
                                           });
-                                          return;
+                                          return null;
+                                        } else {
+                                          if (value != null) {
+                                              if (getAmountValidation(value)) {
+                                                sendStore.validateBELDEX(value,
+                                                    balanceStore.unlockedBalance,
+                                                    tr(context));
+                                                if (sendStore.errorMessage != null) {
+                                                  setState(() {
+                                                    amountValidation = true;
+                                                    amountErrorMessage = tr(context)
+                                                        .pleaseEnterAValidAmount;
+                                                  });
+                                                  return;
+                                                } else {
+                                                  setState(() {
+                                                    amountValidation = false;
+                                                    amountErrorMessage = "";
+                                                  });
+                                                }
+                                                return null;
+                                              } else {
+                                                setState(() {
+                                                  amountValidation = true;
+                                                  amountErrorMessage =
+                                                      tr(context)
+                                                          .pleaseEnterAValidAmount;
+                                                });
+                                                return;
+                                              }
+                                            }
                                         }
-                                      }
-                                  }
-                                }),
+                                      }),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      final maxAmount = belDexAmountToDouble(
+                                          balanceStore.unlockedBalance);
+                                      final formattedAmount =
+                                          maxAmount.toStringAsFixed(5);
+                                      _cryptoAmountController.text =
+                                          formattedAmount;
+                                      _cryptoAmountController.selection =
+                                          TextSelection.fromPosition(
+                                              TextPosition(
+                                                  offset: formattedAmount.length));
+                                    },
+                                    style: TextButton.styleFrom(
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 12, vertical: 8),
+                                      minimumSize: Size(0, 32),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      tr(context).max,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [

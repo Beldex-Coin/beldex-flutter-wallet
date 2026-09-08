@@ -435,5 +435,6 @@
   "bnsRenewal": "Renouvellement du BNS",
   "swap": "Échanger",
   "nodeAlreadyExists": "Ce nœud existe déjà",
-  "networkErrorCheckConnection": "Erreur réseau ! Veuillez vérifier votre connexion Internet."
+  "networkErrorCheckConnection": "Erreur réseau ! Veuillez vérifier votre connexion Internet.",
+  "max":"Max"
 }

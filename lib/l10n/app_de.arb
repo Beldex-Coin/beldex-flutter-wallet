@@ -434,5 +434,6 @@
   "bnsRenewal": "BNS-Erneuerung",
   "swap": "Tauschen",
   "nodeAlreadyExists": "Dieser Knoten existiert bereits",
-  "networkErrorCheckConnection": "Netzwerkfehler! Bitte überprüfen Sie Ihre Internetverbindung."
+  "networkErrorCheckConnection": "Netzwerkfehler! Bitte überprüfen Sie Ihre Internetverbindung.",
+  "max":"Max"
 }

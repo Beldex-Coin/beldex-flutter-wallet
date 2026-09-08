@@ -2304,6 +2304,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Network Error! Please check internet connection.'**
   String get networkErrorCheckConnection;
+
+  /// No description provided for @max.
+  ///
+  /// In en, this message translates to:
+  /// **'Max'**
+  String get max;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

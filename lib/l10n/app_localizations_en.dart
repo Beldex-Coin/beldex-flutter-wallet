@@ -1153,4 +1153,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get networkErrorCheckConnection => 'Network Error! Please check internet connection.';
+
+  @override
+  String get max => 'Max';
 }

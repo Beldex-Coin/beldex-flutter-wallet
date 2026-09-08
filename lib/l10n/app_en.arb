@@ -435,5 +435,6 @@
   "bnsRenewal": "BNS Renewal",
   "swap": "Swap",
   "nodeAlreadyExists": "This node already exists",
-  "networkErrorCheckConnection": "Network Error! Please check internet connection."
+  "networkErrorCheckConnection": "Network Error! Please check internet connection.",
+  "max":"Max"
 }

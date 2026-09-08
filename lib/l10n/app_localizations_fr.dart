@@ -1153,4 +1153,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get networkErrorCheckConnection => 'Erreur réseau ! Veuillez vérifier votre connexion Internet.';
+
+  @override
+  String get max => 'Max';
 }
