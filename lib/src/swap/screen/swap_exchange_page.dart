@@ -11,7 +11,6 @@ import 'package:beldex_wallet/src/swap/exchange/models/coin_info.dart';
 import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
 import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
 import 'package:beldex_wallet/src/util/network_provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -28,37 +27,6 @@ import '../../widgets/no_internet.dart';
 import '../util/utils.dart';
 import '../database/swap_txn_history.dart';
 import 'number_stepper.dart';
-
-Widget _swapCoinImage(String? url, {double? width, double? height, Color? color}) {
-  if (url == null || url.isEmpty) return Icon(Icons.error, size: width ?? 15);
-  final List<double> grayscaleMatrix = [
-    0.2126, 0.7152, 0.0722, 0, 0,
-    0.2126, 0.7152, 0.0722, 0, 0,
-    0.2126, 0.7152, 0.0722, 0, 0,
-    0,      0,      0,      1, 0,
-  ];
-  Widget image;
-  if (url.toLowerCase().endsWith('.svg')) {
-    image = SvgPicture.network(
-      url,
-      width: width,
-      height: height,
-      placeholderBuilder: (context) => circularProgressBar(color ?? Color(0xff737373), 1.0),
-    );
-  } else {
-    image = CachedNetworkImage(
-      imageUrl: url,
-      width: width,
-      height: height,
-      placeholder: (context, url) => circularProgressBar(color ?? Color(0xff737373), 1.0),
-      errorWidget: (context, url, error) => Icon(Icons.error, size: width ?? 15),
-    );
-  }
-  return ColorFiltered(
-    colorFilter: ColorFilter.matrix(grayscaleMatrix),
-    child: image,
-  );
-}
 
 class SwapExchangePage extends BasePage {
   SwapExchangePage({required this.walletAddress});
@@ -525,7 +493,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               builder: (_) => Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  _swapCoinImage(
+                  swapCoinImage(
                     enableTo.image,
                     width: 15,
                     height: 15,
@@ -619,7 +587,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               builder: (_) => Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  _swapCoinImage(
+                  swapCoinImage(
                     enableFrom.image,
                     width: 15,
                     height: 15,

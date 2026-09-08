@@ -5,6 +5,7 @@ import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/swap/exchange/models/order_info.dart';
 import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/services/platform_channel.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,7 +14,45 @@ import 'package:path_provider/path_provider.dart';
 import 'data_class.dart';
 import 'package:path/path.dart' as p;
 
+import 'circular_progress_bar.dart';
+import 'swap_coin_svg_image.dart';
+
 const swapTransactionsListKey = "swap_transaction_list";
+
+Widget swapCoinImage(String? url, {double? width, double? height, Color? color}) {
+  if (url == null || url.isEmpty) return Icon(Icons.error, size: width ?? 15);
+  final List<double> grayscaleMatrix = [
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0,      0,      0,      1, 0,
+  ];
+  Widget image;
+  if (url.toLowerCase().endsWith('.svg')) {
+    image = SwapCoinSvgImage(
+      url: url,
+      width: width,
+      height: height,
+      color: color,
+    );
+  } else {
+    image = CachedNetworkImage(
+      imageUrl: url,
+      width: width,
+      height: height,
+      placeholder: (context, url) => SizedBox(
+        width: width,
+        height: height,
+        child: circularProgressBar(color ?? Color(0xff737373), 1.0),
+      ),
+      errorWidget: (context, url, error) => Icon(Icons.error, size: width ?? 15),
+    );
+  }
+  return ColorFiltered(
+    colorFilter: ColorFilter.matrix(grayscaleMatrix),
+    child: image,
+  );
+}
 
 String toStringAsFixed(String? amount) {
   if (amount == null || amount.trim().isEmpty) {
