@@ -936,7 +936,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text(
-                      '${responseData?.result![0].payinConfirmations} BLOCKS',
+                      formatBlockConfirmations(tr(context), responseData?.result![0].payinConfirmations),
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,

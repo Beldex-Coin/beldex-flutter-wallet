@@ -889,6 +889,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String blockConfirmed(Object count) {
+    return '$count Block';
+  }
+
+  @override
+  String blocksConfirmed(Object count) {
+    return '$count Blocks';
+  }
+
+  @override
   String get flashTransaction => 'Flash Transaction';
 
   @override

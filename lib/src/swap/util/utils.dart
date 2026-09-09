@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/swap/exchange/models/order_info.dart';
 import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
@@ -183,6 +184,16 @@ Future<List<String>> getTransactionIds(String fileName, String key) async {
 
 bool syncStatus(SyncStatus status) {
   return status is SyncedSyncStatus || status.blocksLeft == 0;
+}
+
+/// Formats the pay-in confirmation count of a swap with proper pluralization.
+/// Accepts an int, num, or a numeric String (as returned by the exchange APIs);
+/// non-numeric/null values default to 0.
+String formatBlockConfirmations(AppLocalizations t, dynamic confirmations) {
+  final count = confirmations is num
+      ? confirmations.toInt()
+      : (int.tryParse('${confirmations ?? ''}') ?? 0);
+  return count == 1 ? t.blockConfirmed(count) : t.blocksConfirmed(count);
 }
 
 Coins btcCoin = Coins('BTC', 'Bitcoin', "", 'bitcoin', 'BTC');
