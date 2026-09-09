@@ -22,7 +22,9 @@ class GetStatusApiService {
       final body = json.encode(requestBody);
       final headers = await _signer.buildSignedHeaders(body);
       final url = Uri.parse(Apis.mainUrl);
-      final response = await http.post(url, headers: headers, body: body);
+      final response = await http
+          .post(url, headers: headers, body: body)
+          .timeout(const Duration(seconds: 15));
       if (response.statusCode == 200) {
         final resultBody = json.decode(response.body);
         return GetStatusModel.fromJson(resultBody);

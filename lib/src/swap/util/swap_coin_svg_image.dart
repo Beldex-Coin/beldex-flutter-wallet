@@ -53,7 +53,9 @@ class _SwapCoinSvgImageState extends State<SwapCoinSvgImage> {
       return;
     }
     try {
-      final response = await http.get(Uri.parse(widget.url));
+      final response = await http
+          .get(Uri.parse(widget.url))
+          .timeout(const Duration(seconds: 15));
       if (response.statusCode != 200) {
         throw Exception('HTTP ${response.statusCode}');
       }

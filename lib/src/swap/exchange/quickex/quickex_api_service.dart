@@ -103,10 +103,12 @@ class QuickexApiService {
 
   Future<List<QuickexInstrument>> getInstruments() async {
     try {
-      final response = await http.get(
-        Uri.parse(QuickexApiConfig.instrumentsPublic),
-        headers: _baseHeaders(),
-      );
+      final response = await http
+          .get(
+            Uri.parse(QuickexApiConfig.instrumentsPublic),
+            headers: _baseHeaders(),
+          )
+          .timeout(const Duration(seconds: 15));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body) as List<dynamic>;
         return data
@@ -140,7 +142,9 @@ class QuickexApiService {
         'referrerId': _referrerId
       };
       final uri = Uri.parse(QuickexApiConfig.ratesPublicOne).replace(queryParameters: queryParams);
-      final response = await http.get(uri, headers: _baseHeaders());
+      final response = await http
+          .get(uri, headers: _baseHeaders())
+          .timeout(const Duration(seconds: 15));
       print('[quickex_api] getPairs status=${response.statusCode}');
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
@@ -182,7 +186,9 @@ class QuickexApiService {
         'referrerId': _referrerId
       };
       final uri = Uri.parse(QuickexApiConfig.ratesPublicOne).replace(queryParameters: queryParams);
-      final response = await http.get(uri, headers: _baseHeaders());
+      final response = await http
+          .get(uri, headers: _baseHeaders())
+          .timeout(const Duration(seconds: 15));
       print('[quickex_api] getRate status=${response.statusCode}');
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
@@ -219,11 +225,13 @@ class QuickexApiService {
         bodyMap['memo'] = memo;
       }
       final body = json.encode(bodyMap);
-      final response = await http.post(
-        Uri.parse(QuickexApiConfig.instrumentsValidateAddress),
-        headers: _baseHeaders(),
-        body: body,
-      );
+      final response = await http
+          .post(
+            Uri.parse(QuickexApiConfig.instrumentsValidateAddress),
+            headers: _baseHeaders(),
+            body: body,
+          )
+          .timeout(const Duration(seconds: 15));
       print('[quickex_api] validate-address status=${response.statusCode}');
       if (response.statusCode == 201 || response.statusCode == 200) {
         return _parseValidateAddress(response.body);
@@ -307,11 +315,13 @@ class QuickexApiService {
       if (refundAddressMemo != null && refundAddressMemo.isNotEmpty) bodyMap["refundAddressMemo"] = refundAddressMemo;
       final body = json.encode(bodyMap);
       final headers = _signedHeaders(body);
-      final response = await http.post(
-        Uri.parse(QuickexApiConfig.createOrder),
-        headers: headers,
-        body: body,
-      );
+      final response = await http
+          .post(
+            Uri.parse(QuickexApiConfig.createOrder),
+            headers: headers,
+            body: body,
+          )
+          .timeout(const Duration(seconds: 15));
       print('[quickex_api] createOrder status=${response.statusCode}');
       if (response.statusCode == 201 || response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
@@ -344,7 +354,9 @@ class QuickexApiService {
         queryParameters: queryParams,
       );
       final headers = _signedHeaders('', queryString: queryString);
-      final response = await http.get(uri, headers: headers);
+      final response = await http
+          .get(uri, headers: headers)
+          .timeout(const Duration(seconds: 15));
       if (response.statusCode == 200) {
         final data = json.decode(response.body) as Map<String, dynamic>;
         return QuickexOrder.fromJson(data);
