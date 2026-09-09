@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:beldex_wallet/src/util/generate_name.dart';
 
 import '../../../palette.dart';
 import '../../../routes.dart';
@@ -122,9 +123,10 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
     super.initState();
   }
 
+  String get _exchangeName => widget.transactionStatus.exchangeName ?? 'changelly';
+
   void _pollStatus() {
-    final exchangeName = widget.transactionStatus.exchangeName ?? 'changelly';
-    getTransactionsProvider.getTransactionsData(context, {"id": "${transactionDetails.txnId}", "destinationAddress": "${transactionDetails.payoutAddress}"}, exchangeName: exchangeName);
+    getTransactionsProvider.getTransactionsData(context, {"id": "${transactionDetails.txnId}", "destinationAddress": "${transactionDetails.payoutAddress}"}, exchangeName: _exchangeName);
   }
 
   void _onStatusUpdate() {
@@ -823,7 +825,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Changelly address (${transactionDetails.currencyFrom.toUpperCase()})',
+                          '${_exchangeName.capitalized()} address (${transactionDetails.currencyFrom.toUpperCase()})',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
