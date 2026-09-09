@@ -9,8 +9,8 @@ class ExchangeManager {
   ExchangeManager._();
 
   static final List<ExchangeProviderType> _enabledExchanges = [
-    if (SwapExchangeConfig.changellyEnabled) ExchangeProviderType.changelly,
     if (SwapExchangeConfig.quickexEnabled) ExchangeProviderType.quickex,
+    if (SwapExchangeConfig.changellyEnabled) ExchangeProviderType.changelly,
   ];
 
   static List<ExchangeProviderType> get enabledExchanges => List.unmodifiable(_enabledExchanges);
