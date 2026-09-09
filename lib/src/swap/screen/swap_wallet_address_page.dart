@@ -110,10 +110,13 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   bool _isInitialized = false;
   bool _errorShown = false;
 
-  bool get _showRefundAddress {
-    final exchangeName = _exchangeData.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly';
-    return exchangeName == 'quickex';
-  }
+  String get _exchangeName =>
+      _exchangeData.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly';
+
+  bool get _isQuickex => _exchangeName == 'quickex';
+
+  bool get _showRefundAddress => _isQuickex;
+
   final _focusWalletAddress = FocusNode();
   final _focusDestinationTag = FocusNode();
   late KeyboardDetectionController keyboardDetectionController;
@@ -1178,7 +1181,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                       TextSpan(
                         text: 'Terms of Use',
                         recognizer: TapGestureRecognizer()..onTap =() async {
-                          await openUrl(methodChannelPlatform: methodChannelPlatform, url: 'https://changelly.com/terms-of-use');
+                          await openUrl(methodChannelPlatform: methodChannelPlatform, url: termsOfUseUrl(_isQuickex));
                         },
                         style: TextStyle(
                             decoration: TextDecoration.underline,
@@ -1200,7 +1203,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                       TextSpan(
                         text: 'Privacy Policy',
                         recognizer: TapGestureRecognizer()..onTap =() async {
-                          await openUrl(methodChannelPlatform: methodChannelPlatform, url: 'https://changelly.com/privacy-policy');
+                          await openUrl(methodChannelPlatform: methodChannelPlatform, url: privacyPolicyUrl(_isQuickex));
                         },
                         style: TextStyle(
                             decoration: TextDecoration.underline,

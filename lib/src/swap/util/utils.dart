@@ -106,6 +106,20 @@ Future<void> openUrl({required MethodChannel methodChannelPlatform, required Str
   'url': url,
 });
 
+/// Terms of Use URL for the given exchange. Falls back to Changelly's when
+/// the exchange is not Quickex.
+String termsOfUseUrl(bool isQuickex) =>
+    isQuickex
+        ? 'https://quickex.io/docs/terms-of-use'
+        : 'https://changelly.com/terms-of-use';
+
+/// Privacy Policy URL for the given exchange. Falls back to Changelly's when
+/// the exchange is not Quickex.
+String privacyPolicyUrl(bool isQuickex) =>
+    isQuickex
+        ? 'https://quickex.io/docs/privacy-policy'
+        : 'https://changelly.com/privacy-policy';
+
 Future<void> storeTransactionIds(String fileName, String key, dynamic transactionId) async {
   try {
     // Get the documents directory
