@@ -174,8 +174,9 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
   }
 
   void callUnPaidScreen(SwapTransactionHistoryModel createdTransactionDetails, String? status) {
-    Navigator.of(context).pop(true);
-    Navigator.of(context).pushNamed(Routes.swapUnPaid,arguments: TransactionStatus(createdTransactionDetails, status, _walletAddress, exchangeName: widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly'));
+    Navigator.of(context).pushNamedAndRemoveUntil(
+        Routes.swapUnPaid, (route) => route.isFirst,
+        arguments: TransactionStatus(createdTransactionDetails, status, _walletAddress, exchangeName: widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly'));
   }
 
   @override
@@ -239,8 +240,9 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
           Navigator.of(context).pop(true);
         }
         Future.delayed(Duration(seconds: 2), () {
-          Navigator.of(context).pop(true);
-          Navigator.of(context).pushNamed(Routes.swapExchanging,arguments: TransactionDataWithWalletAddress(createdTransactionDetails, _walletAddress, exchangeName: widget.transactionDetails.exchangeName));
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              Routes.swapExchanging, (route) => route.isFirst,
+              arguments: TransactionDataWithWalletAddress(createdTransactionDetails, _walletAddress, exchangeName: widget.transactionDetails.exchangeName));
         });
         break;
       }
@@ -250,8 +252,9 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
           Navigator.of(context).pop(true);
         }
         Future.delayed(Duration(seconds: 2), () {
-          Navigator.of(context).pop(true);
-          Navigator.of(context).pushNamed(Routes.swapCompleted,arguments: TransactionStatus(createdTransactionDetails, status, _walletAddress, exchangeName: widget.transactionDetails.exchangeName));
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              Routes.swapCompleted, (route) => route.isFirst,
+              arguments: TransactionStatus(createdTransactionDetails, status, _walletAddress, exchangeName: widget.transactionDetails.exchangeName));
         });
         break;
       }

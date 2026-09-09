@@ -141,8 +141,8 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
         {
           //Completed Screen
           Future.delayed(Duration(seconds: 3), () {
-            Navigator.of(context).pop(true);
-            Navigator.of(context).pushNamed(Routes.swapCompleted,
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                Routes.swapCompleted, (route) => route.isFirst,
                 arguments: TransactionStatus(
                     transactionDetails, status, _walletAddress, exchangeName: widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly'));
           });
@@ -158,8 +158,8 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
         {
           //Failed, Overdue and Expired Screen
           Future.delayed(Duration(seconds: 3), () {
-            Navigator.of(context).pop(true);
-            Navigator.of(context).pushNamed(Routes.swapUnPaid,
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                Routes.swapUnPaid, (route) => route.isFirst,
                 arguments: TransactionStatus(
                     transactionDetails, status, _walletAddress, exchangeName: widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly'));
           });
@@ -626,8 +626,9 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                     children: [
                       WidgetSpan(child: InkWell(
                         onTap: networkProvider.isConnected ? () {
-                          Navigator.of(context).pop(true);
-                          Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(widget.transactionDetails.walletAddress, exchangeName: widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly'));
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              Routes.swapTransactionList, (route) => route.isFirst,
+                              arguments: SwapTransactionHistory(widget.transactionDetails.walletAddress, exchangeName: widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly'));
                         } : null,
                         child: Text(
                             'history',

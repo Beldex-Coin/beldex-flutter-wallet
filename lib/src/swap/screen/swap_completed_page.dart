@@ -623,8 +623,9 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                 child: ElevatedButton(
                   onPressed: () {
                     if(networkProvider.isConnected) {
-                      Navigator.of(context).pop(true);
-                      Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(transactionStatus.walletAddress, exchangeName: transactionStatus.exchangeName));
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        Routes.swapTransactionList, (route) => route.isFirst,
+                        arguments: SwapTransactionHistory(transactionStatus.walletAddress, exchangeName: transactionStatus.exchangeName));
                     } else {
                       Fluttertoast.showToast(
                         msg: tr(context).networkErrorCheckConnection,
@@ -662,9 +663,9 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                 child: ElevatedButton(
                   onPressed: () {
                     if(networkProvider.isConnected) {
-                      Navigator.of(context).pop(true);
-                      Navigator.of(context, rootNavigator: true).pushNamed(
-                          Routes.swapExchange, arguments: transactionStatus.walletAddress);
+                      Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+                          Routes.swapExchange, (route) => route.isFirst,
+                          arguments: transactionStatus.walletAddress);
                     } else {
                       Fluttertoast.showToast(
                         msg: tr(context).networkErrorCheckConnection,

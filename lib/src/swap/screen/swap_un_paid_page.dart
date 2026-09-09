@@ -423,9 +423,9 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
           child: ElevatedButton(
             onPressed:() {
               if(networkProvider.isConnected) {
-                Navigator.of(context).pop(true);
-                Navigator.of(context, rootNavigator: true).pushNamed(
-                    Routes.swapExchange, arguments: transactionStatus.walletAddress);
+                Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+                    Routes.swapExchange, (route) => route.isFirst,
+                    arguments: transactionStatus.walletAddress);
               } else {
                 Fluttertoast.showToast(
                   msg: tr(context).networkErrorCheckConnection,

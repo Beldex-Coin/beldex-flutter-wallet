@@ -763,9 +763,9 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               updatedAt: toMsEpoch(value.orderInfo!.createdAt),
           );
           Future.delayed(Duration(seconds: 2), () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pop(true);
-            Navigator.of(context).pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(swapTransactionHistoryModel, walletAddress, exchangeName: exchangeName)); // Start adding getExchangeAmount api result to the stream.
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                Routes.swapPaymentDetails, (route) => route.isFirst,
+                arguments: TransactionDetails(swapTransactionHistoryModel, walletAddress, exchangeName: exchangeName)); // Start adding getExchangeAmount api result to the stream.
           });
         }
       } else if (value?.error != null) {

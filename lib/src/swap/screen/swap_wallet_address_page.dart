@@ -1233,15 +1233,15 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                         }else {
                           if (acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && refundValid && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected) {
                             //Navigate to Payment Screen
-                            Navigator.of(context).pop(true);
-                            Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, _destinationTagController.text, _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain, fromProtocol: _exchangeData.fromProtocol, toProtocol: _exchangeData.toProtocol, refundAddress: _showRefundAddress ? _refundWalletAddressController.text : '', exchangeName: _exchangeData.exchangeName));
+                            Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+                                Routes.swapPayment, (route) => route.isFirst, arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, _destinationTagController.text, _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain, fromProtocol: _exchangeData.fromProtocol, toProtocol: _exchangeData.toProtocol, refundAddress: _showRefundAddress ? _refundWalletAddressController.text : '', exchangeName: _exchangeData.exchangeName));
                           }
                         }
                       }else{
                         if(acceptTermsAndConditions && !validateAddressProvider.loading && _recipientAddressController.text.isNotEmpty && validateAddressProvider.successState && refundValid && (minimumAmount.trim().isEmpty && maximumAmount.trim().isEmpty) && networkProvider.isConnected){
                           //Navigate to Payment Screen
-                          Navigator.of(context).pop(true);
-                          Navigator.of(context, rootNavigator: true).pushNamed(Routes.swapPayment,arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, "", _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain, fromProtocol: _exchangeData.fromProtocol, toProtocol: _exchangeData.toProtocol, refundAddress: _showRefundAddress ? _refundWalletAddressController.text : '', exchangeName: _exchangeData.exchangeName));
+                          Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+                            Routes.swapPayment, (route) => route.isFirst, arguments: ExchangeDataWithRecipientAddress(_exchangeData.from, _exchangeData.to, _exchangeData.amountFrom, "", _recipientAddressController.text, _exchangeData.fromBlockChain, _exchangeData.toBlockChain, fromProtocol: _exchangeData.fromProtocol, toProtocol: _exchangeData.toProtocol, refundAddress: _showRefundAddress ? _refundWalletAddressController.text : '', exchangeName: _exchangeData.exchangeName));
                         }
                       }
                     },

@@ -503,24 +503,26 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                         case "waiting" :
                                         case "new" :
                                           {
-                                            Navigator.of(context).pop(true);
-                                            Navigator.of(context).pushNamed(Routes.swapTransactionPaymentDetails, arguments: GetTransactionStatusWithWalletAddress(result, walletStore.subaddress.address, exchangeName: result.exchange));
+                                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                                Routes.swapTransactionPaymentDetails, (route) => route.isFirst,
+                                                arguments: GetTransactionStatusWithWalletAddress(result, walletStore.subaddress.address, exchangeName: result.exchange));
                                             break;
                                           }
                                         case "confirming" :
                                         case "exchanging" :
                                         case "sending" :
                                           {
-                                            Navigator.of(context).pop(true);
-                                            Navigator.of(context).pushNamed(Routes.swapTransactionExchanging,arguments: GetTransactionStatusWithWalletAddress(result, walletStore.subaddress.address, exchangeName: result.exchange));
+                                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                                Routes.swapTransactionExchanging, (route) => route.isFirst,
+                                                arguments: GetTransactionStatusWithWalletAddress(result, walletStore.subaddress.address, exchangeName: result.exchange));
                                             break;
                                           }
                                         case "finished" :
                                           {
                                             //Completed Screen
-                                            Navigator.of(context).pop(true);
-                                            Navigator.of(context).pushNamed(Routes.swapTransactionCompleted,
-                                                arguments: GetTransactionStatus(result, result.txnStatus, walletStore.subaddress.address, exchangeName: result.exchange));
+                                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                                    Routes.swapTransactionCompleted, (route) => route.isFirst,
+                                                    arguments: GetTransactionStatus(result, result.txnStatus, walletStore.subaddress.address, exchangeName: result.exchange));
                                             break;
                                           }
                                         case "refunded" :
@@ -531,9 +533,9 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                         case "overdue" :
                                         case "expired" :
                                           {
-                                            Navigator.of(context).pop(true);
-                                            Navigator.of(context).pushNamed(Routes.swapTransactionUnPaid,
-                                                arguments: GetTransactionStatus(result, result.txnStatus, walletStore.subaddress.address, exchangeName: result.exchange));
+                                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                                    Routes.swapTransactionUnPaid, (route) => route.isFirst,
+                                                    arguments: GetTransactionStatus(result, result.txnStatus, walletStore.subaddress.address, exchangeName: result.exchange));
                                             break;
                                           }
                                         default: {

@@ -732,8 +732,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).pop(true);
-                    Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(_walletAddress, exchangeName: ExchangeManager.selectedType?.name));
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        Routes.swapTransactionList, (route) => route.isFirst,
+                        arguments: SwapTransactionHistory(_walletAddress, exchangeName: ExchangeManager.selectedType?.name));
                   },
                   child: SvgPicture.asset(
                     'assets/images/swap/history.svg',
@@ -1336,8 +1337,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               child: ElevatedButton(
                 onPressed: () {
                   if(isNextButtonEnabled(floatingExchangeRate, !getPairsParamsProvider.getSendFieldErrorState(), sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)) {
-                    Navigator.of(context).pop(true);
-                    Navigator.of(context).pushNamed(Routes.swapWalletAddress,
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        Routes.swapWalletAddress, (route) => route.isFirst,
                         arguments: ExchangeData(getCurrenciesFullProvider
                             .getSelectedYouSendCoins()
                             .name
