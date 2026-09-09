@@ -411,12 +411,12 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xffAFAFBE)
                                               : Color(0xff737373))),
-                                  Text(result.txnStatus == "finished" ? '${result.amountTo} ${result.currencyTo.toUpperCase()}' : '---',
+                                  Text(result.txnStatus == "finished" ? '${toStringAsFixed(result.amountTo)} ${result.currencyTo.toUpperCase()}' : '---',
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600,
-                                          color: true
+                                          color: result.txnStatus == "finished"
                                               ? Color(0xff20D030)
                                               : settingsStore.isDarkTheme
                                               ? Color(0xffD1D1D3)
@@ -756,19 +756,21 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                         : Color(0xff737373)),
                                 children: [
                                   TextSpan(
-                                      text: '~ ${toStringAsFixed(result.amountTo)} ${result.currencyTo.toUpperCase()}',
+                                      text: result.txnStatus == "finished" ? '~ ${toStringAsFixed(result.amountTo)} ${result.currencyTo.toUpperCase()}' : '---',
                                       style: TextStyle(
                                           backgroundColor:
                                           Colors
                                               .transparent,
                                           fontSize: 12,
                                           fontWeight:
-                                          FontWeight.w500,
+                                          FontWeight.w600,
                                           color: result.txnStatus == "finished"
                                               ? Color(
                                               0xff00AD07)
-                                              : Color(
-                                              0xff77778B)))
+                                              : settingsStore
+                                              .isDarkTheme
+                                              ? Color(0xffAFAFBE)
+                                              : Color(0xff737373)))
                                 ]),
                           ),
                           Text(
