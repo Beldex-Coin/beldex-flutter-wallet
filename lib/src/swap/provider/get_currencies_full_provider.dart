@@ -33,7 +33,7 @@ class GetCurrenciesFullProvider with ChangeNotifier {
         return;
       }
       final cached = ExchangeManager.cachedCurrencies;
-      if (cached.isNotEmpty) {
+      if (cached.isNotEmpty && ExchangeManager.hasFreshCurrencyCache) {
         data = cached;
       } else {
         data = await _service!.getCurrencies();
