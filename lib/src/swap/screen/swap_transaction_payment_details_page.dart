@@ -381,9 +381,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
             margin: EdgeInsets.only(top: 20, bottom: 20),
             padding: EdgeInsets.only(left: 10),
             decoration: BoxDecoration(
-              color: settingsStore.isDarkTheme
-                  ? Colors.transparent
-                  : Color(0xffFFFFFF),
+              color: Colors.transparent,
               border: Border(
                   left: BorderSide(
                     width: 1.0,
@@ -435,6 +433,9 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                             padding: EdgeInsets.only(
                                 top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
                             decoration: BoxDecoration(
+                              color: settingsStore.isDarkTheme
+                                  ? Colors.transparent
+                                  : Color(0xffFFFFFF),
                                 border: Border.all(
                                   color: Color(0xff20D030),
                                 ),
