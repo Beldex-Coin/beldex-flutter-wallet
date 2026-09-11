@@ -100,6 +100,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
   Timer? pendingTransactionTimer;
   bool timeIsExpire = false;
   String status = "overdue";
+  late String firstOrderStatus;
 
   void startAndStopPendingTransactionTimer(SwapTransactionHistoryModel createdTransactionDetails) {
     pendingTransactionTimer?.cancel();
@@ -179,6 +180,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
   @override
   void initState() {
     createdTransactionDetails = widget.transactionDetails.transactionModel;
+    firstOrderStatus = createdTransactionDetails.txnStatus;
     _walletAddress = widget.transactionDetails.walletAddress;
     startAndStopPendingTransactionTimer(createdTransactionDetails);
     // Create a stream controller and get status to the stream.
@@ -207,7 +209,8 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
     final transactionDetails = value.result!.first;
     final orderInfo = value.orderInfo;
     status = transactionDetails.status ?? '';
-    if (_walletAddress.isNotEmpty && status != "waiting") {
+    if (_walletAddress.isNotEmpty && (status != "waiting" || firstOrderStatus == "new")) {
+      firstOrderStatus = status;
       final details = <String, dynamic>{
         ...orderInfo!.toJson(),
         'blockchainFrom': null,
