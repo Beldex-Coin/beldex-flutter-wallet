@@ -743,6 +743,8 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               txnStatus: value.orderInfo!.status ?? "waiting",
               txnType: value.orderInfo!.type,
               swapType: swapType,
+              currencyFrom: value.orderInfo!.currencyFrom ?? '',
+              networkFrom: _exchangeDataWithRecipientAddress.fromProtocol,
               blockchainFrom: _exchangeDataWithRecipientAddress.fromBlockChain,
               currencyTo: value.orderInfo!.currencyTo ?? '',
               networkTo: _exchangeDataWithRecipientAddress.toProtocol,
