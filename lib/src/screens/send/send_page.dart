@@ -517,7 +517,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                           setState(() {
                                             amountValidation = true;
                                             amountErrorMessage =
-                                                tr(context).pleaseEnterAAmount;
+                                                tr(context).pleaseEnterAValidAmount;
                                           });
                                           return null;
                                         } else {
