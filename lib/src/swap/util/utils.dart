@@ -248,7 +248,7 @@ Widget PairsWidget({required SettingsStore settingsStore, required String? from,
             to?.toUpperCase() ?? "",
             style: TextStyle(
                 fontSize: 12,
-                fontWeight: FontWeight.w800  ,
+                fontWeight: FontWeight.w800,
                 color: settingsStore.isDarkTheme
                     ? Color(0xffFFFFFF)
                     : Color(0xff060606)),

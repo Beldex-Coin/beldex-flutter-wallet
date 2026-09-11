@@ -265,12 +265,13 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                           mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
                             Visibility(
-                              visible: result.txnStatus == "waiting",
-                              child:showImage('assets/images/swap/swap_waiting.svg'),
-                            ),
-                            Visibility(
-                              visible: result.txnStatus == "confirming",
-                              child:showImage('assets/images/swap/swap_pending.svg'),
+                              visible: [
+                                "waiting",
+                                "confirming",
+                                "exchanging",
+                                "sending",
+                              ].contains(result.txnStatus),
+                              child: showImage('assets/images/swap/swap_waiting.svg'),
                             ),
                             Visibility(
                               visible: result.txnStatus == "finished",
@@ -281,12 +282,11 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                               child:showImage('assets/images/swap/swap_refund.svg'),
                             ),
                             Visibility(
-                              visible: result.txnStatus == "overdue",
-                              child:showImage('assets/images/swap/swap_waiting.svg'),
-                            ),
-                            Visibility(
-                              visible: result.txnStatus == "expired",
-                              child:showImage('assets/images/swap/swap_waiting.svg'),
+                              visible: [
+                                "overdue",
+                                "expired",
+                              ].contains(result.txnStatus),
+                              child: showImage('assets/images/swap/swap_overdue.svg'),
                             ),
                             Expanded(
                                 child: Padding(
@@ -657,12 +657,13 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Visibility(
-            visible: result.txnStatus == "waiting",
-            child:showImage('assets/images/swap/swap_waiting.svg'),
-          ),
-          Visibility(
-            visible: result.txnStatus == "confirming",
-            child:showImage('assets/images/swap/swap_pending.svg'),
+            visible: [
+              "waiting",
+              "confirming",
+              "exchanging",
+              "sending",
+            ].contains(result.txnStatus),
+            child: showImage('assets/images/swap/swap_waiting.svg'),
           ),
           Visibility(
             visible: result.txnStatus == "finished",
@@ -673,12 +674,11 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
             child:showImage('assets/images/swap/swap_refund.svg'),
           ),
           Visibility(
-            visible: result.txnStatus == "overdue",
-            child:showImage('assets/images/swap/swap_waiting.svg'),
-          ),
-          Visibility(
-            visible: result.txnStatus == "expired",
-            child:showImage('assets/images/swap/swap_waiting.svg'),
+            visible: [
+              "overdue",
+              "expired",
+            ].contains(result.txnStatus),
+            child: showImage('assets/images/swap/swap_overdue.svg'),
           ),
           Expanded(
               child: Padding(

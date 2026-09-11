@@ -174,14 +174,14 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  isFailed() ?
+                  isFailed(transactionStatus.status) ?
                   SvgPicture.asset(
                     'assets/images/swap/swap_failed.svg',
                     colorFilter: ColorFilter.mode(Colors.red, BlendMode.srcIn),
                     width: 20,
                     height: 20,
                   ) : SvgPicture.asset(
-                    'assets/images/swap/swap_waiting.svg',
+                    'assets/images/swap/swa_overdue.svg',
                     colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                         ? Color(0xffAFAFBE)
                         : Color(0xff737373), BlendMode.srcIn),
@@ -192,11 +192,11 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                     width: 10,
                   ),
                   Text(
-                    validateStatus(),
+                    validateStatus(transactionStatus.status),
                     style: TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.w700,
-                        color: isFailed() ? Colors.red :settingsStore.isDarkTheme
+                        color: isFailed(transactionStatus.status) ? Colors.red :settingsStore.isDarkTheme
                             ? Color(0xffAFAFBE)
                             : Color(0xff737373)),
                   ),
@@ -474,17 +474,17 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
     super.dispose();
   }
 
-  String validateStatus() {
-    final status = transactionStatus.status;
+  String validateStatus(String? status) {
     if(status == "failed") {
       return "Failed";
+    } else if(status == "expired") {
+      return "Expired";
     } else {
-      return "Not Paid";
+      return "Overdue";
     }
   }
 
-  bool isFailed() {
-    final status = transactionStatus.status;
+  bool isFailed(String? status) {
     return status == "failed";
   }
 }
