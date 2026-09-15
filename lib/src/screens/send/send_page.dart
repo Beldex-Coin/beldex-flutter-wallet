@@ -551,6 +551,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                               }
                                             }
                                         }
+                                        return null;
                                       }),
                                 ),
                                 Padding(

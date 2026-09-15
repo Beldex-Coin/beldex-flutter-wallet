@@ -266,6 +266,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                           children: <Widget>[
                             Visibility(
                               visible: [
+                                "new",
                                 "waiting",
                                 "confirming",
                                 "exchanging",
@@ -658,6 +659,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
         children: <Widget>[
           Visibility(
             visible: [
+              "new",
               "waiting",
               "confirming",
               "exchanging",
