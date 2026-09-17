@@ -33,7 +33,7 @@ void commitTransactionFromPointerAddress({required int address}) =>
 
 PendingTransactionDescription _createTransactionSync(Map args) {
   final address = args['address'] as String;
-  final amount = args['amount'] as String;
+  final amount = args['amount'] as String?;
   final priorityRaw = args['priorityRaw'] as int;
   final accountIndex = args['accountIndex'] as int;
 
@@ -46,7 +46,7 @@ PendingTransactionDescription _createTransactionSync(Map args) {
 
 Future<PendingTransactionDescription> createTransaction(
         {required String address,
-        required String amount,
+        String? amount,
         required int priorityRaw,
         int accountIndex = 0}) =>
     compute(_createTransactionSync, {

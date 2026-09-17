@@ -49,6 +49,8 @@ abstract class SendStoreBase with Store {
   @observable
   String cryptoAmount='';
 
+  bool sendAll = false;
+
   @observable
   bool isValid=false;
 
@@ -87,12 +89,13 @@ abstract class SendStoreBase with Store {
 
     try {
       final _amount = amount ??
-          (cryptoAmount == t.all
+          (sendAll
               ? null
               : cryptoAmount.replaceAll(',', '.'));
+      sendAll = false;
       final credentials = BeldexTransactionCreationCredentials(
           address: address,
-          amount: _amount!,
+          amount: _amount,
           priority: tPriority ?? settingsStore.transactionPriority);
 
       _pendingTransaction = await walletService.createTransaction(credentials);
@@ -220,12 +223,13 @@ abstract class SendStoreBase with Store {
 
   @action
   void setSendAll(AppLocalizations t) {
-    cryptoAmount = t.all;
+    sendAll = true;
     fiatAmount = '';
   }
 
   @action
   void changeCryptoAmount(String amount) {
+    sendAll = false;
     cryptoAmount = amount;
 
     if (cryptoAmount != null && cryptoAmount.isNotEmpty) {

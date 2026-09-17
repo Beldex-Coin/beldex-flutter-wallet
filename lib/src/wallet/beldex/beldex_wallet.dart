@@ -328,7 +328,7 @@ class BelDexWallet extends Wallet {
     final _credentials = credentials as BeldexTransactionCreationCredentials;
     final transactionDescription = await transaction_history.createTransaction(
         address: _credentials.address,
-        amount: _credentials.amount!,
+        amount: _credentials.amount,
         priorityRaw: _credentials.priority.serialize(),
         accountIndex: _account.value.id);
     print('transaction created');

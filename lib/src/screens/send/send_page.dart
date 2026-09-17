@@ -568,10 +568,11 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                           TextSelection.fromPosition(
                                               TextPosition(
                                                   offset: formattedAmount.length));
+                                      sendStore.setSendAll(tr(context));
                                     },
                                     style: TextButton.styleFrom(
                                       backgroundColor:
-                                          Theme.of(context).primaryColor,
+                                          Theme.of(context).textTheme.bodySmall?.decorationColor,
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 12, vertical: 8),
                                       minimumSize: Size(0, 32),
@@ -740,8 +741,19 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 return;
                               }
                               Navigator.of(auth.context).pop();
-                              _startCreatingTransaction(sendStore,
-                                  _addressController.text, isFlashTransaction);
+                              final _enteredAmount = double.tryParse(
+                              _cryptoAmountController.text.replaceAll(',', '.'));
+                              if (_enteredAmount != null) {
+                                final enteredScaled = (_enteredAmount * 1e5).round();
+                                final balanceScaled =
+                                    (balanceStore.unlockedBalance / 1e4).round();
+                                if (enteredScaled == balanceScaled) {
+                                  sendStore.setSendAll(tr(context));
+                                }
+                              }
+                              _startCreatingTransaction(
+                                    sendStore, _addressController.text,
+                                    isFlashTransaction);
                             });
                       }
                     }
