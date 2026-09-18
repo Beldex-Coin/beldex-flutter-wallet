@@ -24,6 +24,7 @@ import 'package:beldex_wallet/src/stores/send/sending_state.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
+import 'package:beldex_wallet/src/util/ui_utils.dart';
 import 'package:beldex_wallet/src/wallet/beldex/beldex_amount_format.dart';
 import 'package:beldex_wallet/src/wallet/beldex/calculate_estimated_fee.dart';
 import 'package:beldex_wallet/src/widgets/address_text_field.dart';
@@ -593,28 +594,53 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 ),
                               ],
                             ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                  height: 30,
-                                  width: 168,
-                                  margin: EdgeInsets.only(top: 20, bottom: 5),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 12, vertical: 4),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(25),
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xff1A1A23)
-                                          : Color(0xffFFFFFF)),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Observer(
-                                        builder: (_) {
-                                          return Text(
-                                            settingsStore.fiatCurrency
-                                                .toString(),
-                                            textAlign: TextAlign.center,
+                            Observer(
+                              builder: (_) => Align(
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                    height: 30,
+                                    width: UIUtils.fiatContainerWidth(
+                                        _fiatAmountController.text,
+                                        settingsStore.fiatCurrency
+                                            .toString()),
+                                    margin: EdgeInsets.only(top: 20, bottom: 5),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 4),
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(25),
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xff1A1A23)
+                                            : Color(0xffFFFFFF)),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Observer(
+                                          builder: (_) {
+                                            return Text(
+                                              settingsStore.fiatCurrency
+                                                  .toString(),
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w500,
+                                                color:
+                                                    settingsStore.isDarkTheme
+                                                        ? Color(0xffffffff)
+                                                        : Color(0xff16161D),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Expanded(
+                                          child: TextField(
+                                            readOnly: true,
+                                            controller: _fiatAmountController,
+                                            textAlign: TextAlign.left,
+                                            textAlignVertical:
+                                                TextAlignVertical.center,
                                             style: TextStyle(
                                               fontSize: 15.0,
                                               fontWeight: FontWeight.w500,
@@ -622,44 +648,30 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                                   ? Color(0xffffffff)
                                                   : Color(0xff16161D),
                                             ),
-                                          );
-                                        },
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Expanded(
-                                        child: TextField(
-                                          readOnly: true,
-                                          controller: _fiatAmountController,
-                                          textAlign: TextAlign.left,
-                                          textAlignVertical: TextAlignVertical.center,
-                                          style: TextStyle(
-                                            fontSize: 15.0,
-                                            fontWeight: FontWeight.w500,
-                                            color: settingsStore.isDarkTheme
-                                                ? Color(0xffffffff)
-                                                : Color(0xff16161D),
-                                          ),
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            isDense: true,
-                                            contentPadding: EdgeInsets.zero,
-                                            hintStyle: TextStyle(
-                                              fontSize: 15.0,
-                                              fontWeight: FontWeight.w500,
-                                              color: settingsStore.isDarkTheme
-                                                  ? Color(0xffffffff)
-                                                  : Color(0xff16161D),
-                                            ),
-                                            hintText: '00.000000000',
-                                            errorStyle: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: BeldexPalette.red,
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              isDense: true,
+                                              contentPadding:
+                                                  EdgeInsets.zero,
+                                              hintStyle: TextStyle(
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w500,
+                                                color:
+                                                    settingsStore.isDarkTheme
+                                                        ? Color(0xffffffff)
+                                                        : Color(0xff16161D),
+                                              ),
+                                              hintText: '0.00',
+                                              errorStyle: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: BeldexPalette.red,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  )),
+                                      ],
+                                    )),
+                              ),
                             )
                           ],
                         ),
