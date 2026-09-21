@@ -224,7 +224,12 @@ abstract class SendStoreBase with Store {
   @action
   void setSendAll(AppLocalizations t) {
     sendAll = true;
-    fiatAmount = '';
+
+    if (cryptoAmount.isNotEmpty) {
+      _calculateFiatAmount();
+    } else {
+      fiatAmount = '';
+    }
   }
 
   @action
@@ -232,7 +237,7 @@ abstract class SendStoreBase with Store {
     sendAll = false;
     cryptoAmount = amount;
 
-    if (cryptoAmount != null && cryptoAmount.isNotEmpty) {
+    if (cryptoAmount.isNotEmpty) {
       _calculateFiatAmount();
     } else {
       fiatAmount = '';
@@ -243,7 +248,7 @@ abstract class SendStoreBase with Store {
   void changeFiatAmount(String amount) {
     fiatAmount = amount;
 
-    if (fiatAmount != null && fiatAmount.isNotEmpty) {
+    if (fiatAmount.isNotEmpty) {
       _calculateCryptoAmount();
     } else {
       cryptoAmount = '';
@@ -350,7 +355,7 @@ abstract class SendStoreBase with Store {
     }
 
     isValid = true;
-    errorMessage = (isValid ? '' : t.error_text_address)!;
+    errorMessage = (isValid ? '' : t.error_text_address);
   }
 
   bool compareAvailableBalance(String amount, int availableBalance) {
