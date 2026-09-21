@@ -600,9 +600,14 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 child: Container(
                                     height: 30,
                                     width: UIUtils.fiatContainerWidth(
-                                        _fiatAmountController.text,
+                                        sendStore.fiatAmount,
                                         settingsStore.fiatCurrency
-                                            .toString()),
+                                            .toString(),
+                                        textScaler:
+                                            MediaQuery.textScalerOf(context),
+                                        maxWidth: MediaQuery.sizeOf(context)
+                                                .width -
+                                            95),
                                     margin: EdgeInsets.only(top: 20, bottom: 5),
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 12, vertical: 4),
