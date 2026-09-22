@@ -258,12 +258,14 @@ class BelDexWallet extends Wallet {
   Future<void> connectToNode(
       {required Node node, bool useSSL = false, bool isLightWallet = false}) async {
     try {
-      _syncStatus.value = ConnectingSyncStatus(getCurrentHeight());
+      _syncStatus.value =
+          ConnectingSyncStatus(await beldex_wallet.getCurrentHeightAsync());
 
       // Check if node is online to avoid crash
       final nodeIsOnline = await node.isOnline();
       if (!nodeIsOnline) {
-        _syncStatus.value = FailedSyncStatus(getCurrentHeight());
+        _syncStatus.value =
+            FailedSyncStatus(await beldex_wallet.getCurrentHeightAsync());
         return;
       }
 
@@ -273,9 +275,11 @@ class BelDexWallet extends Wallet {
           password: node.password,*/
           useSSL: useSSL,
           isLightWallet: isLightWallet);
-      _syncStatus.value = ConnectedSyncStatus(getCurrentHeight());
+      _syncStatus.value =
+          ConnectedSyncStatus(await beldex_wallet.getCurrentHeightAsync());
     } catch (e) {
-      _syncStatus.value = FailedSyncStatus(getCurrentHeight());
+      _syncStatus.value =
+          FailedSyncStatus(await beldex_wallet.getCurrentHeightAsync());
       print(e);
     }
   }
@@ -286,18 +290,20 @@ class BelDexWallet extends Wallet {
       _setInitialHeight();
     } catch (_) {}*/
 
-    print('Starting from height: ${getCurrentHeight()}');
-    final prefs =await SharedPreferences.getInstance();
-    await prefs.setInt('currentHeight', getCurrentHeight() ?? 0);
+    final currentHeight = await beldex_wallet.getCurrentHeightAsync();
+    print('Starting from height: $currentHeight');
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('currentHeight', currentHeight);
     try {
       print('Starting from height try');
-      _syncStatus.value = StartingSyncStatus(getCurrentHeight());
+      _syncStatus.value = StartingSyncStatus(currentHeight);
       beldex_wallet.startRefresh();
       _setListeners();
       _listener?.start();
     } catch (e) {
       print('Starting from height catch');
-      _syncStatus.value = FailedSyncStatus(getCurrentHeight());
+      _syncStatus.value =
+          FailedSyncStatus(await beldex_wallet.getCurrentHeightAsync());
       print(e);
       rethrow;
     }
@@ -411,10 +417,12 @@ class BelDexWallet extends Wallet {
 
   @override
   Future rescan({int restoreHeight = 0}) async {
-    _syncStatus.value = StartingSyncStatus(getCurrentHeight());
+    _syncStatus.value =
+        StartingSyncStatus(await beldex_wallet.getCurrentHeightAsync());
     setRefreshFromBlockHeight(height: restoreHeight);
     beldex_wallet.rescanBlockchainAsync();
-    _syncStatus.value = StartingSyncStatus(getCurrentHeight());
+    _syncStatus.value =
+        StartingSyncStatus(await beldex_wallet.getCurrentHeightAsync());
   }
 
   void setRecoveringFromSeed() =>
@@ -496,12 +504,12 @@ class BelDexWallet extends Wallet {
     _listener = beldex_wallet.setListeners(_onNewBlock, _onNewTransaction);
   }
 
-  void _setInitialHeight() {
+  Future<void> _setInitialHeight() async {
     if (walletInfo.isRecovery) {
       return;
     }
 
-    final currentHeight = getCurrentHeight();
+    final currentHeight = await beldex_wallet.getCurrentHeightAsync();
     print('setInitialHeight() $currentHeight');
 
     if (currentHeight <= 1) {
