@@ -148,9 +148,10 @@ class BelDexWallet extends Wallet {
   @override
   Future updateInfo() async {
     _name.value = await getName();
-    final acccountList = getAccountList();
-    acccountList.refresh();
-    _account.value = acccountList.getAll().first;
+    final accountList = getAccountList();
+    await accountList.refresh();
+    final accounts = await accountList.getAllAsync();
+    _account.value = accounts.first;
     final subaddressList = getSubaddress();
     await subaddressList.refresh(
         accountIndex: _account.value != null ? _account.value.id : 0);
