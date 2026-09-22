@@ -125,7 +125,8 @@ class BeldexWalletsManager extends WalletsManager {
     debugPrint('opening a Wallet with nettype $nettype');
     try {
       final path = await pathForWallet(name: name);
-      beldex_wallet_manager.openWallet(path: path, password: password, nettype: nettype);
+      await beldex_wallet_manager.openWalletAsync(
+          path: path, password: password, nettype: nettype);
       final wallet = await BelDexWallet.load(walletInfoSource, name, type);
       await wallet.updateInfo();
       return wallet;

@@ -59,8 +59,11 @@ void _restoreFromKeys(Map<String, dynamic> args) {
       spendKey: spendKey);
 }
 
-Future<void> _openWallet(Map<String, String> args) async =>
-    loadWallet(path: args['path'] as String, password: args['password'] as String);
+Future<void> _openWallet(Map<String, Object> args) async =>
+    loadWallet(
+        path: args['path'] as String,
+        password: args['password'] as String,
+        nettype: args['nettype'] as int);
 
 bool _isWalletExist(String path) =>
     wallet_manager.isWalletExistSync(path: path);
@@ -68,8 +71,18 @@ bool _isWalletExist(String path) =>
 void openWallet({required String path, required String password, int nettype = 0}) async =>
     loadWallet(path: path, password: password, nettype: nettype);
 
-Future<void> openWalletAsync(Map<String, String> args) async =>
-    compute(_openWallet, args);
+/// Opens the wallet on a background isolate. The native load deserializes the
+/// whole wallet cache file, which can take seconds and would ANR the UI thread
+/// if called synchronously.
+Future<void> openWalletAsync(
+        {required String path,
+        required String password,
+        int nettype = 0}) async =>
+    compute<Map<String, Object>, void>(_openWallet, {
+      'path': path,
+      'password': password,
+      'nettype': nettype
+    });
 
 Future<void> createWallet(
         {required String path,
