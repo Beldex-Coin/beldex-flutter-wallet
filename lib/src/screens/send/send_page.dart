@@ -91,10 +91,16 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   var addressErrorMessage = '';
   bool amountValidation = false;
   var amountErrorMessage = '';
-  ReactionDisposer? rdisposer1, rdisposer2, rdisposer3;
+  ReactionDisposer? rdisposer1, rdisposer2, rdisposer3, rdisposer4;
   bool isFlashTransaction = false;
   var isFlashMap = true;
   late KeyboardDetectionController keyboardDetectionController;
+
+  // Estimated fee text computed off the UI isolate; the native fee estimation
+  // can block on the wallet mutex, so it must never run during build().
+  String _estimatedFeeText = '--';
+  int _feeEstimateGeneration = 0;
+
   @override
   void initState() {
     _focusNodeAddress.addListener(() {
@@ -112,6 +118,12 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       },
     );
 
+    // Runs after the first frame, once getFlashData() has determined whether
+    // this is a flash transaction.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _refreshEstimatedFee();
+    });
+
     super.initState();
   }
 
@@ -124,6 +136,23 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       if (widget.flashMap['amount'] != null && widget.flashMap['amount'] != '') {
         _cryptoAmountController.text = (widget.flashMap['amount'] as String);
       }
+    }
+  }
+
+  Future<void> _refreshEstimatedFee() async {
+    final generation = ++_feeEstimateGeneration;
+    final settingsStore = Provider.of<SettingsStore>(context, listen: false);
+    final priority = isFlashTransaction
+        ? BeldexTransactionPriority.flash
+        : settingsStore.transactionPriority;
+
+    try {
+      final fee = await calculateEstimatedFeeAsync(priority: priority);
+      if (!mounted || generation != _feeEstimateGeneration) return;
+      setState(() => _estimatedFeeText = '$fee');
+    } catch (_) {
+      if (!mounted || generation != _feeEstimateGeneration) return;
+      setState(() => _estimatedFeeText = '--');
     }
   }
 
@@ -157,6 +186,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     rdisposer1?.call();
     rdisposer2?.call();
     rdisposer3?.call();
+    rdisposer4?.call();
     _addressController?.dispose();
     _cryptoAmountController?.dispose();
     _fiatAmountController?.dispose();
@@ -726,13 +756,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                             ),
                             const SizedBox(width: 8),
                             Text(
-                              '${isFlashTransaction == true
-                                  ? calculateEstimatedFee(
-                                priority: BeldexTransactionPriority.flash,
-                              )
-                                  : calculateEstimatedFee(
-                                priority: settingsStore.transactionPriority,
-                              )}',
+                              _estimatedFeeText,
                               style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
@@ -851,6 +875,10 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       if (amount != _cryptoAmountController.text) {
         _cryptoAmountController.text = amount;
       }
+    });
+    final settingsStore = Provider.of<SettingsStore>(context);
+    rdisposer4 = reaction((_) => settingsStore.transactionPriority, (_) {
+      _refreshEstimatedFee();
     });
     _fiatAmountController.addListener(() {
       final fiatAmount = _fiatAmountController.text;

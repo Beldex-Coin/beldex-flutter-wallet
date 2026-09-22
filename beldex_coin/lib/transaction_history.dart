@@ -13,8 +13,20 @@ void refreshTransactions() => transaction_history.transactionsRefreshNative();
 
 int countOfTransactions() => transaction_history.transactionsCountNative();
 
-int estimateTransactionFee(int priorityRaw, {int recipients = 1}) =>
-    transaction_history.transactionEstimateFeeNative(priorityRaw, recipients);
+int _estimateTransactionFeeSync(Map args) {
+  final priorityRaw = args['priorityRaw'] as int;
+  final recipients = args['recipients'] as int;
+
+  return transaction_history.transactionEstimateFeeNative(
+      priorityRaw, recipients);
+}
+
+/// Runs the blocking native fee estimation on a background isolate so the
+/// wallet mutex wait cannot stall the UI thread.
+Future<int> estimateTransactionFeeAsync(
+        {required int priorityRaw, int recipients = 1}) =>
+    compute(_estimateTransactionFeeSync,
+        {'priorityRaw': priorityRaw, 'recipients': recipients});
 
 List<TransactionInfoRow> getAllTransactions() {
   final size = transaction_history.transactionsCountNative();
