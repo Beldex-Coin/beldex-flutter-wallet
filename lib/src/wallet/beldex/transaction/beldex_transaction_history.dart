@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:beldex_coin/transaction_history.dart' as beldex_transaction_history;
 import 'package:beldex_wallet/src/wallet/transaction/transaction_history.dart';
@@ -51,7 +52,7 @@ class BeldexTransactionHistory extends TransactionHistory {
 
   @override
   Future<List<TransactionInfo>> getAll({bool force = false}) async =>
-      _getAllTransactions(null);
+      compute<dynamic, List<TransactionInfo>>(_getAllTransactions, null);
 
   @override
   Future<int> count() async => beldex_transaction_history.countOfTransactions();
@@ -65,7 +66,7 @@ class BeldexTransactionHistory extends TransactionHistory {
     try {
       _isRefreshing = true;
       print("RangeError-> 2");
-      beldex_transaction_history.refreshTransactions();
+      await beldex_transaction_history.refreshTransactions();
       print("RangeError-> 3");
       _isRefreshing = false;
     } on PlatformException catch (e) {

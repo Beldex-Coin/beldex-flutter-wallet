@@ -9,7 +9,13 @@ import 'package:beldex_coin/beldex_coin_structs.dart';
 import 'package:beldex_coin/src/native/transaction_history.dart'
     as transaction_history;
 
-void refreshTransactions() => transaction_history.transactionsRefreshNative();
+void _refreshTransactions(void _) =>
+    transaction_history.transactionsRefreshNative();
+
+/// Runs the blocking native transaction refresh on a background isolate so the
+/// wallet mutex wait cannot stall the UI thread.
+Future<void> refreshTransactions() =>
+    compute<void, void>(_refreshTransactions, null);
 
 int countOfTransactions() => transaction_history.transactionsCountNative();
 
