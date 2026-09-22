@@ -90,7 +90,14 @@ void setRefreshFromBlockHeight({required int height}) =>
 void setRecoveringFromSeed({required bool isRecovery}) =>
     beldex_wallet.setRecoveringFromSeedNative(_boolToInt(isRecovery));
 
-void closeCurrentWallet() => beldex_wallet.closeCurrentWalletNative();
+void _closeCurrentWalletSync(int _) => beldex_wallet.closeCurrentWalletNative();
+
+/// Runs the blocking native wallet close on a background isolate. The native
+/// close acquires the wallet's mutex and can block while the wallet is busy
+/// (e.g. refreshing), which would freeze the UI thread if called synchronously
+/// and cause an ANR.
+Future<void> closeCurrentWalletAsync() =>
+    compute<int, void>(_closeCurrentWalletSync, 0);
 
 String getSecretViewKey() =>
     convertUTF8ToString(pointer: beldex_wallet.getSecretViewKeyNative());

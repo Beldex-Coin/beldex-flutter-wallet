@@ -245,7 +245,9 @@ class BelDexWallet extends Wallet {
   @override
   Future close() async {
     _listener?.stop();
-    beldex_wallet.closeCurrentWallet();
+    // Native close acquires the wallet mutex and can block while the wallet is
+    // busy; run it off the UI isolate to avoid freezing the main thread.
+    await beldex_wallet.closeCurrentWalletAsync();
     await _name.close();
     await _address.close();
     await _subaddress.close();
