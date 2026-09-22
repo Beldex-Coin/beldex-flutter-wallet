@@ -5,8 +5,17 @@ import 'package:flutter/foundation.dart';
 import 'package:beldex_coin/src/native/subaddress_list.dart' as subaddress_list;
 import 'package:beldex_coin/beldex_coin_structs.dart';
 
-void refreshSubaddresses({required int accountIndex}) =>
-    subaddress_list.subaddressRefreshNative(accountIndex);
+void _refreshSubaddresses(Map<String, dynamic> args) {
+  final accountIndex = args['accountIndex'] as int;
+
+  subaddress_list.subaddressRefreshNative(accountIndex);
+}
+
+/// Runs the blocking native subaddress refresh on a background isolate so the
+/// wallet mutex wait cannot stall the UI thread.
+Future<void> refreshSubaddresses({required int accountIndex}) =>
+    compute<Map<String, Object>, void>(
+        _refreshSubaddresses, {'accountIndex': accountIndex});
 
 List<SubaddressRow> getAllSubaddresses() {
   final size = subaddress_list.subaddressSizeNative();

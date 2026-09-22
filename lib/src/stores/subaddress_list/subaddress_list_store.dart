@@ -50,7 +50,7 @@ abstract class SubaddressListStoreBase with Store {
 
   Future<void> _updateSubaddressList({required int accountIndex}) async {
     await _subaddressList.refresh(accountIndex: accountIndex);
-    subaddresses = ObservableList.of(_subaddressList.getAll());
+    subaddresses = ObservableList.of(await _subaddressList.getAllAsync());
   }
 
   Future<void> _onWalletChanged(Wallet wallet) async {

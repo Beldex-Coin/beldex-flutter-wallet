@@ -150,7 +150,7 @@ class WalletListService {
         }
         final subAddressList = wallet.getSubAddressList();
         await subAddressList.refresh(accountIndex: 0);
-        final subAddresses = subAddressList.getAll();
+        final subAddresses = await subAddressList.getAllAsync();
         if(subAddresses.isNotEmpty){
           await sharedPreferences.setString('currentSubAddress', subAddresses[0].label ?? '');
           await sharedPreferences.setString('currentAddress', subAddresses[0].address ?? '');

@@ -154,7 +154,7 @@ class BelDexWallet extends Wallet {
     final subaddressList = getSubaddress();
     await subaddressList.refresh(
         accountIndex: _account.value != null ? _account.value.id : 0);
-    final subaddresses = subaddressList.getAll();
+    final subaddresses = await subaddressList.getAllAsync();
     _subaddress.value = subaddresses.first;
     print('sub address');
     _address.value = await getAddress();
@@ -452,7 +452,7 @@ class BelDexWallet extends Wallet {
 
     getSubaddress()
         .refresh(accountIndex: account.id)
-        .then((dynamic _) => getSubaddress().getAll())
+        .then((dynamic _) => getSubaddress().getAllAsync())
         .then((subaddresses) => _subaddress.value = subaddresses[0]);
   }
 
