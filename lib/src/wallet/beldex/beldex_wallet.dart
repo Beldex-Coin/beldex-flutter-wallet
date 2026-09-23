@@ -139,6 +139,7 @@ class BelDexWallet extends Wallet {
   final BehaviorSubject<String> _address;
   final BehaviorSubject<Subaddress> _subaddress;
   int _cachedBlockchainHeight;
+  Node? _node;
 
   TransactionHistory? _cachedTransactionHistory;
   SubaddressList? _cachedSubaddressList;
@@ -258,6 +259,7 @@ class BelDexWallet extends Wallet {
   Future<void> connectToNode(
       {required Node node, bool useSSL = false, bool isLightWallet = false}) async {
     try {
+      _node = node;
       _syncStatus.value =
           ConnectingSyncStatus(await beldex_wallet.getCurrentHeightAsync());
 
@@ -296,6 +298,18 @@ class BelDexWallet extends Wallet {
     await prefs.setInt('currentHeight', currentHeight);
     try {
       print('Starting from height try');
+
+      // Do not start the native refresh against an unreachable node
+      final node = _node;
+      if (node != null) {
+        final nodeIsOnline = await node.isOnline();
+        if (!nodeIsOnline) {
+          _syncStatus.value =
+              FailedSyncStatus(await beldex_wallet.getCurrentHeightAsync());
+          return;
+        }
+      }
+
       _syncStatus.value = StartingSyncStatus(currentHeight);
       beldex_wallet.startRefresh();
       _setListeners();
