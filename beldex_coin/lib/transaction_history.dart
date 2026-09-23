@@ -44,10 +44,15 @@ List<TransactionInfoRow> getAllTransactions() {
       .toList();
 }
 
-void commitTransactionFromPointerAddress({required int address}) =>
+void _commitTransactionSync(int address) =>
     transaction_history.commitTransaction(
         transactionPointer:
             Pointer<PendingTransactionRaw>.fromAddress(address));
+
+/// Runs the blocking native transaction commit on a background isolate so the
+/// wallet mutex wait cannot stall the UI thread.
+Future<void> commitTransactionFromPointerAddress({required int address}) =>
+    compute<int, void>(_commitTransactionSync, address);
 
 PendingTransactionDescription _createTransactionSync(Map args) {
   final address = args['address'] as String;
