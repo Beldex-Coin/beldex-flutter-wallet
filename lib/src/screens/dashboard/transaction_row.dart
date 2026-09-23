@@ -62,7 +62,12 @@ class TransactionRow extends StatelessWidget {
                 dividerColor: Colors.transparent,
                 textSelectionTheme:
                     TextSelectionThemeData(selectionColor: Colors.green)),
-            child: ExpansionTile(
+            child: Material(
+                // Supplies the nearest Material for ExpansionTile's internal
+                // ListTile so its ink splashes paint above the Container
+                // background (DecoratedBox) instead of being hidden behind it.
+                type: MaterialType.transparency,
+                child: ExpansionTile(
                 iconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
                 collapsedIconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
                 // initiallyExpanded: true,
@@ -449,6 +454,7 @@ class TransactionRow extends StatelessWidget {
                     ),
                   ),
                 ]),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 15.0, right: 15.0),

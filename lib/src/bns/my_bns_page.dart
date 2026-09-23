@@ -314,7 +314,12 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                     ? Color(0xff32324A)
                                     : Color(0xffFFFFFF),
                                 borderRadius: BorderRadius.circular(10)),
-                            child: ExpansionTile(
+                            child: Material(
+                              // Supplies the nearest Material for
+                              // ExpansionTile's internal ListTile so its ink
+                              // paints above the Container background.
+                              type: MaterialType.transparency,
+                              child: ExpansionTile(
                               iconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
                               collapsedIconColor: settingsStore.isDarkTheme ? Colors.white : Colors.black,
                               title: bnsDetails.name != '(none)' ? Column(
@@ -1018,6 +1023,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   ],),
                                )
                               ],
+                            ),
                             ),
                           ),
                         );
