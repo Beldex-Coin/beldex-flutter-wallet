@@ -176,7 +176,9 @@ class BelDexWallet extends Wallet {
       accountIndex: _account.value.id, addressIndex: _subaddress.value.id);
 
   @override
-  Future<String> getSeed() async => beldex_wallet.getSeed();
+  // Native seed read acquires the wallet mutex and can block while the wallet
+  // is busy; run it off the UI isolate to avoid freezing the main thread.
+  Future<String> getSeed() async => beldex_wallet.getSeedAsync();
 
   @override
   Future<int> getFullBalance() async {

@@ -32,7 +32,13 @@ Future<bool> isNewTransactionExistAsync() =>
 String getFilename() =>
     convertUTF8ToString(pointer: beldex_wallet.getFileNameNative());
 
-String getSeed() => convertUTF8ToString(pointer: beldex_wallet.getSeedNative());
+String _getSeedSync(int _) => convertUTF8ToString(pointer: beldex_wallet.getSeedNative());
+
+/// Runs the blocking native seed read on a background isolate. The native
+/// read acquires the wallet's mutex and can block while the wallet is busy
+/// (e.g. refreshing), which would freeze the UI thread if called during
+/// widget build and cause an ANR.
+Future<String> getSeedAsync() => compute<int, String>(_getSeedSync, 0);
 
 String getAddress({int accountIndex = 0, int addressIndex = 0}) =>
     convertUTF8ToString(

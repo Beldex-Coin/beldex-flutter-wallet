@@ -147,8 +147,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                           fontWeight: FontWeight.w400),
                                       children: [
                                         TextSpan(
-                                            text: tr(context)
-                                                .neverShareYourSeedToAnyoneCheckYourSurroundingsTo,
+                                            text: ' ${tr(context).neverShareYourSeedToAnyoneCheckYourSurroundingsTo}',
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 fontSize: 15,
