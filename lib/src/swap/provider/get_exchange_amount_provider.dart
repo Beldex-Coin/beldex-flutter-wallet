@@ -12,16 +12,20 @@ class GetExchangeAmountProvider with ChangeNotifier {
   bool _disposed = false;
   BaseExchangeService? _service;
   bool transactionStatus = false;
-  String? _error;
-  String? get error => _error;
+
+  // True when the selected pair can't be traded (e.g. QuickEX "Pair not active").
+  // Keeps the swap screen visible with an "Unsupported exchange pair" message.
+  bool _pairUnsupported = false;
+  bool get pairUnsupported => _pairUnsupported;
 
   void getExchangeAmountData(Map<String, String> params) async {
     loading = true;
-    _error = null;
+    // Keep the last known pair state during the request so the build gate
+    // doesn't fall through to a blank box while the rate call is in flight.
+    if(!_disposed) notifyListeners();
     try {
       _service = ExchangeManager.selectedService;
       if (_service == null) {
-        //_error = 'No exchange selected';
         return;
       }
       final response = await _service!.getExchangeRate(
@@ -33,16 +37,22 @@ class GetExchangeAmountProvider with ChangeNotifier {
       );
       if (response != null) {
         data = response;
+        _pairUnsupported = false;
       } else {
-        //_error = "Failed to fetch data.";
+        // No rate for this pair (Changelly returns null for unsupported
+        // pairs), so mark it unsupported to keep the screen visible.
+        _pairUnsupported = true;
       }
     } on SocketException catch (e) {
       print('get exchange amount api SocketException: Failed to connect: $e');
-      //_error = "No internet connection.";
     } catch (e) {
       final msg = e.toString().replaceFirst('Exception: ', '');
       print('get exchange amount api error: $msg');
-      //_error = msg;
+      // Unsupported/troubled pairs (e.g. "Pair ... not active",
+      // "not available on QuickEX") keep the screen visible instead of blank.
+      _pairUnsupported = RegExp(r'pair(?:.*?)\bnot (?:active|found)\b', caseSensitive: false)
+              .hasMatch(msg) ||
+          msg.toLowerCase().contains('not available on quickex');
     } finally {
       loading = false;
       if(!_disposed) notifyListeners();

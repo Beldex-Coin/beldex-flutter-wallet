@@ -1159,6 +1159,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get swap => 'Tauschen';
 
   @override
+  String get unsupportedExchangePair => 'Nicht unterstütztes Exchange-Paar';
+
+  @override
   String get nodeAlreadyExists => 'Dieser Knoten existiert bereits';
 
   @override

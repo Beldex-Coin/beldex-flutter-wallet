@@ -434,6 +434,9 @@
   "bnsUpdate": "Mise à jour du BNS",
   "bnsRenewal": "Renouvellement du BNS",
   "swap": "Échanger",
+  "unsupportedExchangePair": "Paire d'échange non prise en charge",
+  "blockConfirmed": "{count} Bloc",
+  "blocksConfirmed": "{count} Blocs",
   "nodeAlreadyExists": "Ce nœud existe déjà",
   "networkErrorCheckConnection": "Erreur réseau ! Veuillez vérifier votre connexion Internet.",
   "max":"Max"

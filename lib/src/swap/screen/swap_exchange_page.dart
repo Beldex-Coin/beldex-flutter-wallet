@@ -206,12 +206,10 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 this.getPairsParamsProvider = getPairsParamsProvider;
                 return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
                   if(getPairsParamsProvider.error != null || !networkProvider.isConnected) {
-                    print("Error of getPairsParamsProvider-> ${getPairsParamsProvider.error}");
-                    print("Error of getExchangeAmountProvider-> ${getExchangeAmountProvider.error}");
                     return noInternet(settingsStore, _screenWidth);
                   }
 
-                  if(getPairsParamsProvider.data != null || getExchangeAmountProvider.data != null) {
+                  if(getPairsParamsProvider.data != null || getExchangeAmountProvider.data != null || getExchangeAmountProvider.pairUnsupported) {
                     this.getExchangeAmountProvider = getExchangeAmountProvider;
                     _isInitialized = true;
                     return body(
@@ -935,6 +933,30 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                //Unsupported exchange pair
+                Visibility(
+                  visible: getExchangeAmountProvider.pairUnsupported,
+                  child: Flexible(
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.red.withAlpha(25),
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
+                      child: Text(
+                        tr(context).unsupportedExchangePair,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            backgroundColor: Colors.transparent,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff222222),
+                            fontSize: 13,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                  ),
+                ),
                 Visibility(
                   visible: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider) || validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider),
                   child: Flexible(

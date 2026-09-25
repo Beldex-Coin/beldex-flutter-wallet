@@ -433,6 +433,9 @@
   "bnsUpdate": "BNS-Update",
   "bnsRenewal": "BNS-Erneuerung",
   "swap": "Tauschen",
+  "unsupportedExchangePair": "Nicht unterstütztes Exchange-Paar",
+  "blockConfirmed": "{count} Block",
+  "blocksConfirmed": "{count} Blöcke",
   "nodeAlreadyExists": "Dieser Knoten existiert bereits",
   "networkErrorCheckConnection": "Netzwerkfehler! Bitte überprüfen Sie Ihre Internetverbindung.",
   "max":"Max"

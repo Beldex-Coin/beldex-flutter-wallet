@@ -1159,6 +1159,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get swap => 'Swap';
 
   @override
+  String get unsupportedExchangePair => 'Unsupported exchange pair';
+
+  @override
   String get nodeAlreadyExists => 'This node already exists';
 
   @override

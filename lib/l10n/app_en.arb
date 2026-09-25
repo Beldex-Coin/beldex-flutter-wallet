@@ -434,6 +434,9 @@
   "bnsUpdate": "BNS Update",
   "bnsRenewal": "BNS Renewal",
   "swap": "Swap",
+  "unsupportedExchangePair": "Unsupported exchange pair",
+  "blockConfirmed": "{count} Block",
+  "blocksConfirmed": "{count} Blocks",
   "nodeAlreadyExists": "This node already exists",
   "networkErrorCheckConnection": "Network Error! Please check internet connection.",
   "max":"Max"

@@ -2305,6 +2305,12 @@ abstract class AppLocalizations {
   /// **'Swap'**
   String get swap;
 
+  /// No description provided for @unsupportedExchangePair.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsupported exchange pair'**
+  String get unsupportedExchangePair;
+
   /// No description provided for @nodeAlreadyExists.
   ///
   /// In en, this message translates to:

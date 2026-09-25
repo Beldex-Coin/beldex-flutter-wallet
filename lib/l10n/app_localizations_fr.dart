@@ -1159,6 +1159,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get swap => 'Échanger';
 
   @override
+  String get unsupportedExchangePair => 'Paire d\'échange non prise en charge';
+
+  @override
   String get nodeAlreadyExists => 'Ce nœud existe déjà';
 
   @override

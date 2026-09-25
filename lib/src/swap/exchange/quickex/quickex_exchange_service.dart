@@ -45,6 +45,11 @@ class QuickexExchangeService extends BaseExchangeService {
   @override
   Future<List<CoinInfo>> getCurrencies() async {
     final instruments = await _api.getInstruments();
+    // Coins are reported exactly as QuickEX lists them. Whether a specific
+    // pair can actually be traded is checked generically per selection at
+    // swap time (see GetExchangeAmountProvider.pairUnsupported), so an
+    // inactive pair (e.g. BDX) surfaces as an "Unsupported exchange pair"
+    // message on the swap screen instead of disabling the coin here.
     return instruments
         .where((i) => i.instrumentType == 'crypto')
         .map((i) => CoinInfo(
@@ -145,7 +150,14 @@ class QuickexExchangeService extends BaseExchangeService {
       );
     }
     if (!result.success) {
-      throw Exception(result.errorMessage ?? 'Unknown error');
+      final msg = result.errorMessage ?? 'Unknown error';
+      if (RegExp(r'pair(?:.*?)\bnot (?:active|found)\b', caseSensitive: false)
+          .hasMatch(msg)) {
+        throw Exception(
+            'This pair is not available on QuickEX at the moment. '
+            'Please try a different pair or another exchange.');
+      }
+      throw Exception(msg);
     }
     return null;
   }
