@@ -493,7 +493,7 @@ class NewStakeFormState extends State<NewStakeForm>
             SizedBox(
               height: 5,
             ),
-            Text(S.current.send_title,
+            Text(S.current.send,
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w600,
@@ -593,7 +593,7 @@ class NewStakeFormState extends State<NewStakeForm>
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
-                        sendStore.commitTransaction();
+                        sendStore.commitTransaction(t: tr(context));
                       },
                       child: Text(tr(context).ok),
                     ),

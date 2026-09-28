@@ -29,7 +29,7 @@ class SwapTransactionCompletedPage extends BasePage {
   bool get isModalBackButton => false;
 
   @override
-  String getTitle(AppLocalizations t) => 'Swap';
+  String getTitle(AppLocalizations t) => t.swap;
 
   @override
   Color get textColor => Colors.white;
@@ -120,7 +120,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                 }
 
                 if(getTransactionsProvider.error != null || !networkProvider.isConnected) {
-                  return noInternet(settingsStore, _screenWidth);
+                  return noInternet(settingsStore, _screenWidth, tr(context));
                 }
 
                 if (getTransactionsProvider.loading == false && getTransactionsProvider.data!.result!.isNotEmpty) {
@@ -216,7 +216,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                     width: 10,
                   ),
                   Text(
-                    'Completed',
+                    tr(context).swap_completed,
                     style: TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.w700,
@@ -246,7 +246,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       Flexible(
                         flex: 1,
                         child: Text(
-                          'Transaction ID',
+                          tr(context).transaction_details_transaction_id,
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
@@ -311,7 +311,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Amount from',
+                            tr(context).swap_amount_from,
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -340,7 +340,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Amount to',
+                            tr(context).swap_amount_to,
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -374,7 +374,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Received Time',
+                            tr(context).swap_received_time,
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -403,7 +403,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Amount Sent',
+                            tr(context).swap_amount_sent,
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -437,7 +437,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Exchange Rate',
+                            tr(context).exchangeRate,
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -466,7 +466,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Network fee',
+                            tr(context).swap_network_fee,
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -500,7 +500,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Recipient Address',
+                      tr(context).transaction_details_recipient_address,
                       style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
@@ -601,7 +601,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       ),
                       Flexible(
                         flex: 2,
-                        child: Text('Input/Output Hash',
+                        child: Text(tr(context).swap_input_output_hash,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: settingsStore.isDarkTheme
@@ -647,7 +647,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  child: Text('Open History',
+                  child: Text(tr(context).swap_open_history,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: settingsStore.isDarkTheme
@@ -699,7 +699,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       SizedBox(width: 3),
                       Flexible(
                         flex: 3,
-                        child: Text('New Transaction',
+                        child: Text(tr(context).swap_new_transaction,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Color(0xffffffff),

@@ -265,7 +265,7 @@ String networkWithUppercase(String? blockChain) {
       : "...";
 }
 
-Widget networkWidget(SettingsStore settingsStore, String? network) {
+Widget networkWidget(BuildContext context, SettingsStore settingsStore, String? network) {
   return Flexible(
     flex: 1,
     child: Container(
@@ -281,7 +281,7 @@ Widget networkWidget(SettingsStore settingsStore, String? network) {
       child: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
-            text: 'NETWORK: ',
+            text: tr(context).swap_network_label,
             style: TextStyle(
                 color: settingsStore.isDarkTheme
                     ? Color(0xffAFAFBE)

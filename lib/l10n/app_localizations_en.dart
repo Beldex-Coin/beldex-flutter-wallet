@@ -471,9 +471,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_dark_mode => 'Dark mode';
 
   @override
-  String get settings_transactions => 'Transactions';
-
-  @override
   String get settings_display_on_dashboard_list => 'Display on dashboard list';
 
   @override
@@ -563,12 +560,241 @@ class AppLocalizationsEn extends AppLocalizations {
   String get transaction_details_amount => 'Amount';
 
   @override
+  String get transaction_details_payment_id => 'Payment ID';
+
+  @override
   String transaction_details_copied(Object title) {
     return '$title copied to Clipboard';
   }
 
   @override
   String get transaction_details_recipient_address => 'Recipient Address';
+
+  @override
+  String get swap_wallet_address => 'Wallet Address';
+
+  @override
+  String get swap_recipient_address => 'Recipient Address';
+
+  @override
+  String swap_correct_chain_address(Object blockchain) {
+    return 'Please make sure to enter the correct address for the selected chain - $blockchain. Otherwise you will lose your funds.';
+  }
+
+  @override
+  String swap_enter_recipient_address(Object currency) {
+    return 'Enter your $currency recipient address';
+  }
+
+  @override
+  String get swap_refund_wallet_address => 'Refund wallet Address';
+
+  @override
+  String swap_enter_refund_address(Object currency) {
+    return 'Enter your $currency refund address';
+  }
+
+  @override
+  String swap_extra_id_info(Object currency, Object extraIdName) {
+    return 'Please specify the $extraIdName for your $currency receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a $extraIdName, remove the tick.';
+  }
+
+  @override
+  String swap_my_wallet_requires_extra_id(Object extraIdName) {
+    return 'My wallet requires $extraIdName';
+  }
+
+  @override
+  String swap_enter_extra_id(Object extraIdName) {
+    return 'Enter $extraIdName';
+  }
+
+  @override
+  String swap_please_enter_extra_id(Object extraIdName) {
+    return 'Please enter $extraIdName';
+  }
+
+  @override
+  String get swap_minimum_amount_changed => 'The minimum amount value has changed, The new value is ';
+
+  @override
+  String get swap_maximum_amount_changed => 'The maximum amount value has changed, The new value is ';
+
+  @override
+  String get swap_transaction_preview => 'Transaction Preview';
+
+  @override
+  String get swap_exchange_rate => 'Exchange rate';
+
+  @override
+  String get swap_service_fee => 'Service fee 0.25%';
+
+  @override
+  String get service_fee => 'Service Fee 0.25%';
+
+  @override
+  String get network_fee => 'Network Fee';
+
+  @override
+  String get swap_refund_address => 'Refund Address';
+
+  @override
+  String get swap_network_fee => 'Network fee';
+
+  @override
+  String get swap_you_get => 'You Get';
+
+  @override
+  String get swap_checkout => 'Checkout';
+
+  @override
+  String get swap_network_label => 'NETWORK: ';
+
+  @override
+  String get swap_estimated_time => 'Estimated Time';
+
+  @override
+  String get swap_estimated_time_value => '5-30 mins';
+
+  @override
+  String get swap_confirm_and_make_payment => 'Confirm & Make Payment';
+
+  @override
+  String get swap_send_funds_to_address_below => 'Send funds to the address below';
+
+  @override
+  String swap_time_left_to_send(Object amount, Object currency) {
+    return 'Time left to send $amount $currency';
+  }
+
+  @override
+  String swap_time_remaining(Object value) {
+    return 'Time Remaining : $value';
+  }
+
+  @override
+  String get swap_send_funds_notice => 'You Have 3 Hours to send funds otherwise the transaction will be cancelled automatically.\n\nThe exchange will be initiated once the funds are received.';
+
+  @override
+  String get swap_confirmations => 'Confirmations';
+
+  @override
+  String get swap_completed => 'Completed';
+
+  @override
+  String get swap_amount_from => 'Amount from';
+
+  @override
+  String get swap_amount_to => 'Amount to';
+
+  @override
+  String get swap_received_time => 'Received Time';
+
+  @override
+  String get swap_amount_sent => 'Amount Sent';
+
+  @override
+  String get swap_input_output_hash => 'Input/Output Hash';
+
+  @override
+  String get swap_input_hash => 'Input Hash';
+
+  @override
+  String get swap_output_hash => 'Output Hash';
+
+  @override
+  String get swap_failed => 'Failed';
+
+  @override
+  String get swap_expired => 'Expired';
+
+  @override
+  String get swap_overdue => 'Overdue';
+
+  @override
+  String get swap_funds_not_received => 'The funds were not received within 3 hours. Please check the rates and create a new transaction';
+
+  @override
+  String get swap_start_over => 'Start Over';
+
+  @override
+  String get swap_exchanging => 'Exchanging';
+
+  @override
+  String get swap_confirming_in_progress => 'Confirming in progress';
+
+  @override
+  String get swap_confirmed => 'Confirmed';
+
+  @override
+  String swap_confirmed_in_blockchain(Object currencyFrom, Object currencyTo) {
+    return 'Once $currencyFrom is confirmed in the blockchain, we\'ll start exchanging it to $currencyTo';
+  }
+
+  @override
+  String get swap_see_input_hash_in_explorer => 'See input hash in explorer';
+
+  @override
+  String swap_done_exchanging(Object currencyFrom, Object currencyTo) {
+    return 'Done Exchanging $currencyFrom to $currencyTo';
+  }
+
+  @override
+  String swap_exchanging_currency(Object currencyFrom, Object currencyTo) {
+    return 'Exchanging $currencyFrom to $currencyTo';
+  }
+
+  @override
+  String get swap_process_wait => 'The process will take a few minutes. please wait.';
+
+  @override
+  String get swap_sending_funds_to_wallet => 'Sending funds to your wallet';
+
+  @override
+  String get swap_funds_sent_to_wallet => 'Funds send to your wallet';
+
+  @override
+  String get swap_you_dont_have_to_wait_here => 'You don’t have to wait here';
+
+  @override
+  String get swap_you_can_initiate_new_transaction => 'You can initiate a new transaction. You can always check the status of this transaction in transaction ';
+
+  @override
+  String get swap_history => 'history';
+
+  @override
+  String get swap_you_sent => 'You sent';
+
+  @override
+  String swap_exchange_address(Object currency, Object exchangeName) {
+    return '$exchangeName address ($currency)';
+  }
+
+  @override
+  String swap_recipient_address_with_currency(Object currency) {
+    return 'Recipient address ($currency)';
+  }
+
+  @override
+  String get swap_open_history => 'Open History';
+
+  @override
+  String get swap_new_transaction => 'New Transaction';
+
+  @override
+  String get swap_i_agree_with => 'I agree with ';
+
+  @override
+  String get swap_terms_of_use => 'Terms of Use';
+
+  @override
+  String get swap_and => ' and ';
+
+  @override
+  String get swap_privacy_policy => 'Privacy Policy';
+
+  @override
+  String get swap_next => 'Next';
 
   @override
   String get wallet_list_title => 'Beldex Wallet';
@@ -813,7 +1039,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterWalletName => 'Enter Wallet Name';
 
   @override
-  String get noTransactionsYet => 'No transactions yet!';
+  String get noTransactionsYet => 'No Transactions Yet!';
 
   @override
   String get afterYourFirstTransactionnYouWillBeAbleToView => 'After your first transaction,\n you will be able to view it here.';
@@ -866,6 +1092,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterAValidNameUpto15Characters => 'Enter a valid name upto 15 characters';
 
   @override
+  String get enterAValidNameUpto20Characters => 'Enter a valid name upto 20 characters';
+
+  @override
   String get fiveDecimals => '5 - Five (0.00000)';
 
   @override
@@ -886,16 +1115,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String blockRemaining(Object status) {
     return '$status Block Remaining';
-  }
-
-  @override
-  String blockConfirmed(Object count) {
-    return '$count Block';
-  }
-
-  @override
-  String blocksConfirmed(Object count) {
-    return '$count Blocks';
   }
 
   @override
@@ -1103,6 +1322,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterAValidName => 'Enter a valid name';
 
   @override
+  String get addressShouldNotBeEmpty => 'Address should not be empty';
+
+  @override
   String get nameShouldNotBeEmpty => 'Name should not be empty';
 
   @override
@@ -1147,7 +1369,218 @@ class AppLocalizationsEn extends AppLocalizations {
   String get buyBns => 'Buy BNS';
 
   @override
+  String get myBns => 'My BNS';
+
+  @override
+  String get addBns => 'Add BNS';
+
+  @override
   String get bns => 'BNS';
+
+  @override
+  String get bnsPurchaseDescription => 'Purchase or update an BNS record. If you purchase a name, it may take a minute or two for it to show up in the list';
+
+  @override
+  String get bnsPrice => 'Price';
+
+  @override
+  String get bnsYearOneShort => '1 Yr';
+
+  @override
+  String get bnsYearTwoShort => '2 Yrs';
+
+  @override
+  String get bnsYearFiveShort => '5 Yrs';
+
+  @override
+  String get bnsYearTenShort => '10 Yrs';
+
+  @override
+  String get bnsYearOne => '1 Year';
+
+  @override
+  String get bnsYearTwo => '2 Years';
+
+  @override
+  String get bnsYearFive => '5 Years';
+
+  @override
+  String get bnsYearTen => '10 Years';
+
+  @override
+  String get bnsYouSave => 'You Save ';
+
+  @override
+  String get bnsNameHint => 'The name to purchase via Beldex Name Service';
+
+  @override
+  String get bnsOwnerOptional => 'Owner (optional)';
+
+  @override
+  String get bnsOwnerHint => 'The wallet address of the owner';
+
+  @override
+  String get bnsWalletAddress => 'Wallet Address';
+
+  @override
+  String get bnsBchatId => 'BChat ID';
+
+  @override
+  String get bnsBelnetId => 'Belnet ID';
+
+  @override
+  String get bnsEthAddress => 'ETH Address';
+
+  @override
+  String get bnsUpdateOwner => 'Update Owner';
+
+  @override
+  String get bnsUpdateValues => 'Update Values';
+
+  @override
+  String get bnsNewOwnerHint => 'Enter the wallet address of new owner';
+
+  @override
+  String get bnsUpdateNote => 'You can only update owner address or values at a time. If you want to update both, you can either update the value before ownership or after transferring ownership.';
+
+  @override
+  String get bnsAddRecord => 'Add Record';
+
+  @override
+  String get bnsRecordsDescription => 'Here you can find all the BNS Names owned by this wallet. Decrypting a record you own will return the name and value at the BNS record.';
+
+  @override
+  String get bnsRecordNameHint => 'A BNS name that belongs to you';
+
+  @override
+  String get bnsFetchingRecords => 'Fetching BNS records from the network...';
+
+  @override
+  String bnsDecryptionSuccess(Object bnsName) {
+    return 'Successfully decrypted BNS Record for $bnsName';
+  }
+
+  @override
+  String bnsDecryptionFailure(Object bnsName) {
+    return 'Failed to decrypt BNS Record for $bnsName';
+  }
+
+  @override
+  String get bnsRecordNotFound => 'The given BNS record doesn\'t exist or does not belong to this wallet.';
+
+  @override
+  String get bnsWaitForFetch => 'Please wait until we fetch the BNS record from Network';
+
+  @override
+  String get bnsRecords => 'BNS Records';
+
+  @override
+  String get bnsExpirationHeight => 'Expiration Height : ';
+
+  @override
+  String get bnsUpdateHeight => 'Update Height';
+
+  @override
+  String get bnsBackupOwner => 'Backup Owner';
+
+  @override
+  String get bnsEncryptedWalletValue => 'Encrypted Wallet Value';
+
+  @override
+  String get bnsEncryptedBchatValue => 'Encrypted BChat Value';
+
+  @override
+  String get bnsEncryptedBelnetValue => 'Encrypted Belnet Value';
+
+  @override
+  String get bnsEncryptedEthValue => 'Encrypted ETH Value';
+
+  @override
+  String get bnsUpdateAction => 'Update';
+
+  @override
+  String get bnsRenewAction => 'Renew';
+
+  @override
+  String get bnsNoteLabel => 'Note : ';
+
+  @override
+  String get bnsEthAddressDescription => 'Our eth address is compatible across all EVM chains';
+
+  @override
+  String get bnsPurchase => 'Purchase';
+
+  @override
+  String get bnsPleaseFillField => 'Please fill in this field';
+
+  @override
+  String get bnsInvalidName => 'Invalid BNS Name';
+
+  @override
+  String get bnsInvalidBchatId => 'Invalid BChat ID';
+
+  @override
+  String get bnsInvalidBelnetId => 'Invalid Belnet ID';
+
+  @override
+  String get bnsInvalidEthAddress => 'Invalid ETH Address';
+
+  @override
+  String get bnsEnterValidWalletAddress => 'Enter a valid wallet address.';
+
+  @override
+  String get bnsConfirmPurchase => 'Confirm Purchase';
+
+  @override
+  String get bnsNameLabel => 'Name';
+
+  @override
+  String get bnsYearLabel => 'Year';
+
+  @override
+  String get bnsOwnerLabel => 'Owner';
+
+  @override
+  String get bnsAddressLabel => 'Address';
+
+  @override
+  String get bnsNone => 'None';
+
+  @override
+  String get bnsSameOwnerAddress => 'same owner address';
+
+  @override
+  String get bnsSameWalletAddress => 'same wallet address';
+
+  @override
+  String get bnsSameBchatId => 'same Bchat id';
+
+  @override
+  String get bnsSameBelnetId => 'same Belnet id';
+
+  @override
+  String get bnsSameEthAddress => 'same ETH Address';
+
+  @override
+  String get bnsInvalidOwnerAddress => 'Invalid Owner address.';
+
+  @override
+  String get bnsNameIsTaken => 'BNS name is taken. Choose a different one.';
+
+  @override
+  String get bnsInvalidWalletAddress => 'Invalid wallet address. Leave blank if you want to use the current wallet as the BNS owner.';
+
+  @override
+  String get bnsOwnerAndBackupDifferent => 'Owner and backup address must be different.';
+
+  @override
+  String get bnsPurchasedSuccessfully => 'BNS Purchased Successfully';
+
+  @override
+  String get bnsUpdatedSuccessfully => 'BNS Updated Successfully';
+
+  @override
+  String get bnsRenewedSuccessfully => 'BNS Renewed Successfully';
 
   @override
   String get bnsUpdate => 'BNS Update';
@@ -1162,11 +1595,113 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unsupportedExchangePair => 'Unsupported exchange pair';
 
   @override
+  String blockConfirmed(Object count) {
+    return '$count Block';
+  }
+
+  @override
+  String blocksConfirmed(Object count) {
+    return '$count Blocks';
+  }
+
+  @override
+  String get restoredViaKeys => 'You restored via keys';
+
+  @override
+  String walletAlreadyExists(Object name) {
+    return 'Wallet with name $name is already exist!';
+  }
+
+  @override
   String get nodeAlreadyExists => 'This node already exists';
+
+  @override
+  String get fee => 'Fee';
+
+  @override
+  String get noInternet => 'No Internet!';
+
+  @override
+  String get noInternetMessage => 'Please check your internet Connection\nand try again.';
+
+  @override
+  String get swapNotAvailable => ' Swap is not available\nat the moment';
+
+  @override
+  String get tryAgain => 'Please try again after some times.';
+
+  @override
+  String get exchange => 'Exchange';
+
+  @override
+  String get youSend => 'You send';
+
+  @override
+  String get youGet => 'You get';
+
+  @override
+  String get floatingExchangeRate => 'Floating Exchange Rate';
+
+  @override
+  String get floatingRateDescription => 'The floating rate can change at any point due to market conditions, so you might receive more or less crypto than expected.';
+
+  @override
+  String get searchCoins => 'Search Coins';
+
+  @override
+  String get minimumAmount => 'Minimum amount is ';
+
+  @override
+  String get maximumAmount => 'Maximum amount is ';
+
+  @override
+  String get exchangeAmount => 'Exchange Amount';
+
+  @override
+  String get exchangeRate => 'Exchange Rate';
+
+  @override
+  String get receiver => 'Receiver';
+
+  @override
+  String get amountReceived => 'Amount Received';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get expandDetails => 'Expand Details';
+
+  @override
+  String get view => 'View';
+
+  @override
+  String get noTransactionsMessage => 'There are no Transactions or\nexchanges made to show..';
 
   @override
   String get networkErrorCheckConnection => 'Network Error! Please check internet connection.';
 
   @override
+  String get swapTransactionReport => 'Beldex_wallet_swap_transaction_report';
+
+  @override
+  String get transactionReport => 'Transaction Report';
+
+  @override
+  String get failedToGetOutputDistribution => 'Failed to get output distribution';
+
+  @override
+  String get sendValueExceedBalance => 'Value of amount can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 2';
+
+  @override
+  String get noPendingTransaction => 'No pending transaction';
+
+  @override
   String get max => 'Max';
+
+  @override
+  String get addressCopied => 'Address Copied';
+
+  @override
+  String get searchCurrency => 'Search Currency';
 }

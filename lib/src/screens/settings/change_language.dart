@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 
 class ChangeLanguage extends BasePage {
   @override
-  String getTitle(AppLocalizations t) => t.settings_change_language;
+  String getTitle(AppLocalizations t) => t.selectLanguage;
 
   @override
   Widget trailing(BuildContext context) {

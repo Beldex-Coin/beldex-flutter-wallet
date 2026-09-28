@@ -112,7 +112,7 @@ class TransactionDetailsListBodyState
                                             enabled: false,
                                             value: -1,
                                             child: Text(
-                                                'Filter by',
+                                                tr(context).filters,
                                                 style: TextStyle(backgroundColor:Colors.transparent,
                                                     fontWeight:
                                                     FontWeight.bold,

@@ -36,7 +36,7 @@ class SwapTransactionExchangingPage extends BasePage {
   bool get isModalBackButton => false;
 
   @override
-  String getTitle(AppLocalizations t) => 'Swap';
+  String getTitle(AppLocalizations t) => t.swap;
 
   @override
   Color get textColor => Colors.white;
@@ -209,7 +209,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
             } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
-              return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
+              return noInternet(settingsStore, _screenWidth, tr(context)); // Display an error message if an error occurs. or Display a message when no data is available.
             } else {
               return body(
                   _screenWidth,
@@ -290,7 +290,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
         PairsWidget(settingsStore: settingsStore, from: transactionDetails.currencyFrom, to: transactionDetails.currencyTo),
         //Exchanging Title
         Text(
-          'Exchanging',
+          tr(context).swap_exchanging,
           style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
@@ -347,7 +347,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                           mainAxisAlignment : MainAxisAlignment.start,
                           children: [
                             Text(
-                              (_txStatus(responseData) == "exchanging" || _txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? 'Confirmed' :'Confirming in progress',
+                              (_txStatus(responseData) == "exchanging" || _txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? tr(context).swap_confirmed : tr(context).swap_confirming_in_progress,
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -369,7 +369,9 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                         ),
                         SizedBox(height: 5),
                         Text(
-                          'Once ${transactionDetails.currencyFrom.toUpperCase()} is confirmed in the blockchain, we’ll start exchanging it to ${transactionDetails.currencyTo.toUpperCase()}',
+                          tr(context).swap_confirmed_in_blockchain(
+                              transactionDetails.currencyFrom.toUpperCase(),
+                              transactionDetails.currencyTo.toUpperCase()),
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
@@ -410,7 +412,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                                       });
                                     },
                                     child: Text(
-                                      'See input hash in explorer',
+                                      tr(context).swap_see_input_hash_in_explorer,
                                       style: TextStyle(
                                           decoration: TextDecoration.underline,
                                           fontSize: 12,
@@ -467,7 +469,9 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'Done Exchanging ${transactionDetails.currencyFrom.toUpperCase()} to ${transactionDetails.currencyTo.toUpperCase()}',
+                          tr(context).swap_done_exchanging(
+                              transactionDetails.currencyFrom.toUpperCase(),
+                              transactionDetails.currencyTo.toUpperCase()),
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -495,7 +499,9 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Exchanging ${transactionDetails.currencyFrom.toUpperCase()} to ${transactionDetails.currencyTo.toUpperCase()}',
+                          tr(context).swap_exchanging_currency(
+                              transactionDetails.currencyFrom.toUpperCase(),
+                              transactionDetails.currencyTo.toUpperCase()),
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -505,7 +511,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                         ),
                         SizedBox(height: 5),
                         Text(
-                          'The process will take a few minutes. please wait.',
+                          tr(context).swap_process_wait,
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
@@ -553,7 +559,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Funds send to your wallet',
+                          tr(context).swap_funds_sent_to_wallet,
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -581,7 +587,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Sending funds to your wallet',
+                          tr(context).swap_sending_funds_to_wallet,
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -591,7 +597,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                         ),
                         SizedBox(height: 5),
                         Text(
-                          'The process will take a few minutes. please wait.',
+                          tr(context).swap_process_wait,
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
@@ -619,7 +625,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('You don’t have to wait here',
+              Text(tr(context).swap_you_dont_have_to_wait_here,
                   style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -631,8 +637,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
               ),
               RichText(
                 text: TextSpan(
-                    text:
-                    'You can initiate a new transaction.You can always check the status of this transaction in transaction ',
+                    text: tr(context).swap_you_can_initiate_new_transaction,
                     style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
@@ -647,7 +652,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                               arguments: SwapTransactionHistory(widget.transactionStatus.walletAddress, exchangeName: widget.transactionStatus.exchangeName ?? 'changelly'));
                         } : null,
                         child: Text(
-                            'history',
+                            tr(context).swap_history,
                             style: TextStyle(
                                 decoration: TextDecoration.underline,
                                 fontSize: 13,
@@ -665,7 +670,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
         Container(
           margin: EdgeInsets.only(left: 10.0, bottom: 10.0, top: 5.0),
           child: Text(
-            'Transaction Preview',
+            tr(context).swap_transaction_preview,
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
@@ -713,7 +718,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Transaction ID',
+                          tr(context).transaction_details_transaction_id,
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -767,7 +772,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'You sent',
+                          tr(context).swap_you_sent,
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -796,7 +801,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Exchange Rate',
+                          tr(context).exchangeRate,
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -825,7 +830,9 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${_exchangeName.capitalized()} address (${transactionDetails.currencyFrom.toUpperCase()})',
+                          tr(context).swap_exchange_address(
+                              _exchangeName.capitalized(),
+                              transactionDetails.currencyFrom.toUpperCase()),
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -854,7 +861,8 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Recipient address (${transactionDetails.currencyTo.toUpperCase()})',
+                          tr(context).swap_recipient_address_with_currency(
+                              transactionDetails.currencyTo.toUpperCase()),
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -928,7 +936,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Text(
-                          'You Get',
+                          tr(context).swap_you_get,
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,

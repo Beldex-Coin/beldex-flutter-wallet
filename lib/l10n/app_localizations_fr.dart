@@ -97,7 +97,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get receive => 'recevoir';
 
   @override
-  String get transactions => 'transactions';
+  String get transactions => 'Transactions';
 
   @override
   String get incoming => 'entrant';
@@ -118,7 +118,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get yesterday => 'hier';
 
   @override
-  String get received => 'a reçu';
+  String get received => 'Reçu';
 
   @override
   String get sent => 'expédié';
@@ -169,7 +169,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get amount => 'Montant: ';
 
   @override
-  String get status => 'Statut: ';
+  String get status => 'Statut';
 
   @override
   String get confirm => 'confirmer';
@@ -471,9 +471,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settings_dark_mode => 'Mode Sombre';
 
   @override
-  String get settings_transactions => 'Transactions';
-
-  @override
   String get settings_display_on_dashboard_list => 'Afficher dans la liste du tableau de bord';
 
   @override
@@ -563,12 +560,241 @@ class AppLocalizationsFr extends AppLocalizations {
   String get transaction_details_amount => 'Montant';
 
   @override
+  String get transaction_details_payment_id => 'ID de paiement';
+
+  @override
   String transaction_details_copied(Object title) {
     return '$title copié dans le presse-papiers';
   }
 
   @override
   String get transaction_details_recipient_address => 'Adresse du destinataire';
+
+  @override
+  String get swap_wallet_address => 'Adresse du portefeuille';
+
+  @override
+  String get swap_recipient_address => 'Adresse du destinataire';
+
+  @override
+  String swap_correct_chain_address(Object blockchain) {
+    return 'Veuillez vous assurer de saisir la bonne adresse pour la chaîne sélectionnée - $blockchain. Sinon, vous perdrez vos fonds.';
+  }
+
+  @override
+  String swap_enter_recipient_address(Object currency) {
+    return 'Saisissez l\'adresse du destinataire $currency';
+  }
+
+  @override
+  String get swap_refund_wallet_address => 'Adresse du portefeuille de remboursement';
+
+  @override
+  String swap_enter_refund_address(Object currency) {
+    return 'Saisissez l\'adresse de remboursement $currency';
+  }
+
+  @override
+  String swap_extra_id_info(Object currency, Object extraIdName) {
+    return 'Veuillez préciser le $extraIdName de votre adresse de réception $currency si votre portefeuille le fournit. Votre transaction ne passera pas si vous l\'omettez. Si votre portefeuille n\'a pas besoin de $extraIdName, désactivez la case.';
+  }
+
+  @override
+  String swap_my_wallet_requires_extra_id(Object extraIdName) {
+    return 'Mon portefeuille nécessite $extraIdName';
+  }
+
+  @override
+  String swap_enter_extra_id(Object extraIdName) {
+    return 'Saisissez $extraIdName';
+  }
+
+  @override
+  String swap_please_enter_extra_id(Object extraIdName) {
+    return 'Veuillez saisir $extraIdName';
+  }
+
+  @override
+  String get swap_minimum_amount_changed => 'Le montant minimum a changé, la nouvelle valeur est ';
+
+  @override
+  String get swap_maximum_amount_changed => 'Le montant maximum a changé, la nouvelle valeur est ';
+
+  @override
+  String get swap_transaction_preview => 'Aperçu de la transaction';
+
+  @override
+  String get swap_exchange_rate => 'Taux de change';
+
+  @override
+  String get swap_service_fee => 'Frais de service 0,25 %';
+
+  @override
+  String get service_fee => 'Frais de service 0,25 %';
+
+  @override
+  String get network_fee => 'Frais de réseau';
+
+  @override
+  String get swap_refund_address => 'Adresse de remboursement';
+
+  @override
+  String get swap_network_fee => 'Frais de réseau';
+
+  @override
+  String get swap_you_get => 'Vous recevez';
+
+  @override
+  String get swap_checkout => 'Paiement';
+
+  @override
+  String get swap_network_label => 'RÉSEAU : ';
+
+  @override
+  String get swap_estimated_time => 'Temps estimé';
+
+  @override
+  String get swap_estimated_time_value => '5-30 min';
+
+  @override
+  String get swap_confirm_and_make_payment => 'Confirmer et effectuer le paiement';
+
+  @override
+  String get swap_send_funds_to_address_below => 'Envoyez les fonds à l\'adresse ci-dessous';
+
+  @override
+  String swap_time_left_to_send(Object amount, Object currency) {
+    return 'Temps restant pour envoyer $amount $currency';
+  }
+
+  @override
+  String swap_time_remaining(Object value) {
+    return 'Temps restant : $value';
+  }
+
+  @override
+  String get swap_send_funds_notice => 'Vous avez 3 heures pour envoyer les fonds, sinon la transaction sera annulée automatiquement.\n\nL\'échange commencera une fois les fonds reçus.';
+
+  @override
+  String get swap_confirmations => 'Confirmations';
+
+  @override
+  String get swap_completed => 'Terminé';
+
+  @override
+  String get swap_amount_from => 'Montant de';
+
+  @override
+  String get swap_amount_to => 'Montant vers';
+
+  @override
+  String get swap_received_time => 'Heure reçue';
+
+  @override
+  String get swap_amount_sent => 'Montant envoyé';
+
+  @override
+  String get swap_input_output_hash => 'Hachage d\'entrée/sortie';
+
+  @override
+  String get swap_input_hash => 'Hash d\'entrée';
+
+  @override
+  String get swap_output_hash => 'Hash de sortie';
+
+  @override
+  String get swap_failed => 'Échoué';
+
+  @override
+  String get swap_expired => 'Expiré';
+
+  @override
+  String get swap_overdue => 'En retard';
+
+  @override
+  String get swap_funds_not_received => 'Les fonds n\'ont pas été reçus dans les 3 heures. Veuillez vérifier les taux et créer une nouvelle transaction';
+
+  @override
+  String get swap_start_over => 'Recommencer';
+
+  @override
+  String get swap_exchanging => 'Échange en cours';
+
+  @override
+  String get swap_confirming_in_progress => 'Confirmation en cours';
+
+  @override
+  String get swap_confirmed => 'Confirmé';
+
+  @override
+  String swap_confirmed_in_blockchain(Object currencyFrom, Object currencyTo) {
+    return 'Une fois $currencyFrom confirmé dans la blockchain, nous commencerons à l\'échanger contre $currencyTo';
+  }
+
+  @override
+  String get swap_see_input_hash_in_explorer => 'Voir le hash d\'entrée dans l\'explorateur';
+
+  @override
+  String swap_done_exchanging(Object currencyFrom, Object currencyTo) {
+    return 'Échange terminé de $currencyFrom vers $currencyTo';
+  }
+
+  @override
+  String swap_exchanging_currency(Object currencyFrom, Object currencyTo) {
+    return 'Échange de $currencyFrom vers $currencyTo';
+  }
+
+  @override
+  String get swap_process_wait => 'Le processus prendra quelques minutes. Veuillez patienter.';
+
+  @override
+  String get swap_sending_funds_to_wallet => 'Envoi des fonds vers votre portefeuille';
+
+  @override
+  String get swap_funds_sent_to_wallet => 'Fonds envoyés vers votre portefeuille';
+
+  @override
+  String get swap_you_dont_have_to_wait_here => 'Vous n\'avez pas besoin d\'attendre ici';
+
+  @override
+  String get swap_you_can_initiate_new_transaction => 'Vous pouvez lancer une nouvelle transaction. Vous pouvez toujours vérifier l\'état de cette transaction dans l\'historique ';
+
+  @override
+  String get swap_history => 'historique';
+
+  @override
+  String get swap_you_sent => 'Vous avez envoyé';
+
+  @override
+  String swap_exchange_address(Object currency, Object exchangeName) {
+    return 'Adresse $exchangeName ($currency)';
+  }
+
+  @override
+  String swap_recipient_address_with_currency(Object currency) {
+    return 'Adresse du destinataire ($currency)';
+  }
+
+  @override
+  String get swap_open_history => 'Historique ouvert';
+
+  @override
+  String get swap_new_transaction => 'Nouvelle transaction';
+
+  @override
+  String get swap_i_agree_with => 'J\'accepte les ';
+
+  @override
+  String get swap_terms_of_use => 'Conditions d\'utilisation';
+
+  @override
+  String get swap_and => ' et ';
+
+  @override
+  String get swap_privacy_policy => 'Politique de confidentialité';
+
+  @override
+  String get swap_next => 'Suivant';
 
   @override
   String get wallet_list_title => 'Beldex Wallet';
@@ -813,7 +1039,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get enterWalletName => 'Entrez le nom du portefeuille';
 
   @override
-  String get noTransactionsYet => 'Aucune transaction pour l\'instant!';
+  String get noTransactionsYet => 'Pas de transactions pour le moment !';
 
   @override
   String get afterYourFirstTransactionnYouWillBeAbleToView => 'Après votre première transaction,\n  Vous pourrez le voir ici.';
@@ -866,6 +1092,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get enterAValidNameUpto15Characters => 'Entrez un nom valide jusqu\'à 15 caractères';
 
   @override
+  String get enterAValidNameUpto20Characters => 'Entrez un nom valide jusqu\'à 20 caractères';
+
+  @override
   String get fiveDecimals => '5 - Five (0.00000)';
 
   @override
@@ -886,16 +1115,6 @@ class AppLocalizationsFr extends AppLocalizations {
   @override
   String blockRemaining(Object status) {
     return '$status Bloc restant';
-  }
-
-  @override
-  String blockConfirmed(Object count) {
-    return '$count Bloc';
-  }
-
-  @override
-  String blocksConfirmed(Object count) {
-    return '$count Blocs';
   }
 
   @override
@@ -1103,6 +1322,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get enterAValidName => 'Entrez un nom valide';
 
   @override
+  String get addressShouldNotBeEmpty => 'L\'adresse ne doit pas être vide';
+
+  @override
   String get nameShouldNotBeEmpty => 'Le nom ne doit pas être vide';
 
   @override
@@ -1147,7 +1369,218 @@ class AppLocalizationsFr extends AppLocalizations {
   String get buyBns => 'Acheter des BNS';
 
   @override
+  String get myBns => 'Mes BNS';
+
+  @override
+  String get addBns => 'Ajouter BNS';
+
+  @override
   String get bns => 'BNS';
+
+  @override
+  String get bnsPurchaseDescription => 'Achetez ou mettez à jour un enregistrement BNS. Si vous achetez un nom, il peut falloir une minute ou deux avant qu\'il n\'apparaisse dans la liste';
+
+  @override
+  String get bnsPrice => 'Prix';
+
+  @override
+  String get bnsYearOneShort => '1 an';
+
+  @override
+  String get bnsYearTwoShort => '2 ans';
+
+  @override
+  String get bnsYearFiveShort => '5 ans';
+
+  @override
+  String get bnsYearTenShort => '10 ans';
+
+  @override
+  String get bnsYearOne => '1 an';
+
+  @override
+  String get bnsYearTwo => '2 ans';
+
+  @override
+  String get bnsYearFive => '5 ans';
+
+  @override
+  String get bnsYearTen => '10 ans';
+
+  @override
+  String get bnsYouSave => 'Vous économisez ';
+
+  @override
+  String get bnsNameHint => 'Le nom à acheter via le service de noms Beldex';
+
+  @override
+  String get bnsOwnerOptional => 'Propriétaire (facultatif)';
+
+  @override
+  String get bnsOwnerHint => 'L\'adresse du portefeuille du propriétaire';
+
+  @override
+  String get bnsWalletAddress => 'Adresse du portefeuille';
+
+  @override
+  String get bnsBchatId => 'ID BChat';
+
+  @override
+  String get bnsBelnetId => 'ID Belnet';
+
+  @override
+  String get bnsEthAddress => 'Adresse ETH';
+
+  @override
+  String get bnsUpdateOwner => 'Mettre à jour le propriétaire';
+
+  @override
+  String get bnsUpdateValues => 'Mettre à jour les valeurs';
+
+  @override
+  String get bnsNewOwnerHint => 'Entrez l\'adresse du portefeuille du nouveau propriétaire';
+
+  @override
+  String get bnsUpdateNote => 'Vous ne pouvez mettre à jour l\'adresse du propriétaire ou les valeurs qu\'un seul à la fois. Si vous souhaitez mettre à jour les deux, vous pouvez d\'abord mettre à jour la valeur avant le transfert de propriété ou après.';
+
+  @override
+  String get bnsAddRecord => 'Ajouter un enregistrement';
+
+  @override
+  String get bnsRecordsDescription => 'Vous trouverez ici tous les noms BNS appartenant à ce portefeuille. Le décryptage d\'un enregistrement que vous possédez renverra le nom et la valeur de l\'enregistrement BNS.';
+
+  @override
+  String get bnsRecordNameHint => 'Un nom BNS qui vous appartient';
+
+  @override
+  String get bnsFetchingRecords => 'Récupération des enregistrements BNS depuis le réseau...';
+
+  @override
+  String bnsDecryptionSuccess(Object bnsName) {
+    return 'Enregistrement BNS déchiffré avec succès pour $bnsName';
+  }
+
+  @override
+  String bnsDecryptionFailure(Object bnsName) {
+    return 'Échec du déchiffrement de l\'enregistrement BNS pour $bnsName';
+  }
+
+  @override
+  String get bnsRecordNotFound => 'L\'enregistrement BNS donné n\'existe pas ou n\'appartient pas à ce portefeuille.';
+
+  @override
+  String get bnsWaitForFetch => 'Veuillez patienter pendant la récupération de l\'enregistrement BNS depuis le réseau';
+
+  @override
+  String get bnsRecords => 'Enregistrements BNS';
+
+  @override
+  String get bnsExpirationHeight => 'Hauteur d\'expiration : ';
+
+  @override
+  String get bnsUpdateHeight => 'Hauteur de mise à jour';
+
+  @override
+  String get bnsBackupOwner => 'Propriétaire de sauvegarde';
+
+  @override
+  String get bnsEncryptedWalletValue => 'Valeur de portefeuille chiffrée';
+
+  @override
+  String get bnsEncryptedBchatValue => 'Valeur BChat chiffrée';
+
+  @override
+  String get bnsEncryptedBelnetValue => 'Valeur Belnet chiffrée';
+
+  @override
+  String get bnsEncryptedEthValue => 'Valeur ETH chiffrée';
+
+  @override
+  String get bnsUpdateAction => 'Mettre à jour';
+
+  @override
+  String get bnsRenewAction => 'Renouveler';
+
+  @override
+  String get bnsNoteLabel => 'Remarque : ';
+
+  @override
+  String get bnsEthAddressDescription => 'Notre adresse ETH est compatible avec toutes les chaînes EVM';
+
+  @override
+  String get bnsPurchase => 'Acheter';
+
+  @override
+  String get bnsPleaseFillField => 'Veuillez remplir ce champ';
+
+  @override
+  String get bnsInvalidName => 'Nom BNS invalide';
+
+  @override
+  String get bnsInvalidBchatId => 'ID BChat invalide';
+
+  @override
+  String get bnsInvalidBelnetId => 'ID Belnet invalide';
+
+  @override
+  String get bnsInvalidEthAddress => 'Adresse ETH invalide';
+
+  @override
+  String get bnsEnterValidWalletAddress => 'Veuillez saisir une adresse de portefeuille valide.';
+
+  @override
+  String get bnsConfirmPurchase => 'Confirmer l\'achat';
+
+  @override
+  String get bnsNameLabel => 'Nom';
+
+  @override
+  String get bnsYearLabel => 'Année';
+
+  @override
+  String get bnsOwnerLabel => 'Propriétaire';
+
+  @override
+  String get bnsAddressLabel => 'Adresse';
+
+  @override
+  String get bnsNone => 'Aucun';
+
+  @override
+  String get bnsSameOwnerAddress => 'même adresse du propriétaire';
+
+  @override
+  String get bnsSameWalletAddress => 'même adresse du portefeuille';
+
+  @override
+  String get bnsSameBchatId => 'même ID BChat';
+
+  @override
+  String get bnsSameBelnetId => 'même ID Belnet';
+
+  @override
+  String get bnsSameEthAddress => 'même adresse ETH';
+
+  @override
+  String get bnsInvalidOwnerAddress => 'Adresse du propriétaire invalide.';
+
+  @override
+  String get bnsNameIsTaken => 'Le nom BNS est déjà pris. Choisissez-en un autre.';
+
+  @override
+  String get bnsInvalidWalletAddress => 'Adresse du portefeuille invalide. Laissez vide si vous souhaitez utiliser le portefeuille actuel comme propriétaire BNS.';
+
+  @override
+  String get bnsOwnerAndBackupDifferent => 'Le propriétaire et l\'adresse de secours doivent être différents.';
+
+  @override
+  String get bnsPurchasedSuccessfully => 'BNS acheté avec succès';
+
+  @override
+  String get bnsUpdatedSuccessfully => 'BNS mis à jour avec succès';
+
+  @override
+  String get bnsRenewedSuccessfully => 'BNS renouvelé avec succès';
 
   @override
   String get bnsUpdate => 'Mise à jour du BNS';
@@ -1162,11 +1595,113 @@ class AppLocalizationsFr extends AppLocalizations {
   String get unsupportedExchangePair => 'Paire d\'échange non prise en charge';
 
   @override
+  String blockConfirmed(Object count) {
+    return '$count Bloc';
+  }
+
+  @override
+  String blocksConfirmed(Object count) {
+    return '$count Blocs';
+  }
+
+  @override
+  String get restoredViaKeys => 'Vous avez restauré via les clés';
+
+  @override
+  String walletAlreadyExists(Object name) {
+    return 'Le wallet nommé $name existe déjà !';
+  }
+
+  @override
   String get nodeAlreadyExists => 'Ce nœud existe déjà';
+
+  @override
+  String get fee => 'Frais';
+
+  @override
+  String get noInternet => 'Pas d\'Internet !';
+
+  @override
+  String get noInternetMessage => 'Vérifiez votre connexion Internet\net réessayez.';
+
+  @override
+  String get swapNotAvailable => ' Le swap n\'est pas disponible\npour le moment';
+
+  @override
+  String get tryAgain => 'Veuillez réessayer après quelques instants.';
+
+  @override
+  String get exchange => 'Échanger';
+
+  @override
+  String get youSend => 'Vous envoyez';
+
+  @override
+  String get youGet => 'Vous recevez';
+
+  @override
+  String get floatingExchangeRate => 'Taux de change flottant';
+
+  @override
+  String get floatingRateDescription => 'Le taux flottant peut changer à tout moment en raison des conditions du marché, vous pourriez recevoir plus ou moins de crypto que prévu.';
+
+  @override
+  String get searchCoins => 'Rechercher des coins';
+
+  @override
+  String get minimumAmount => 'Montant minimum est ';
+
+  @override
+  String get maximumAmount => 'Montant maximum est ';
+
+  @override
+  String get exchangeAmount => 'Montant de l\'échange';
+
+  @override
+  String get exchangeRate => 'Taux de change';
+
+  @override
+  String get receiver => 'Récepteur';
+
+  @override
+  String get amountReceived => 'Montant reçu';
+
+  @override
+  String get date => 'Date';
+
+  @override
+  String get expandDetails => 'Voir plus de détails';
+
+  @override
+  String get view => 'Voir';
+
+  @override
+  String get noTransactionsMessage => 'Il n\'y a pas de transactions ou\nd\'échanges à afficher..';
 
   @override
   String get networkErrorCheckConnection => 'Erreur réseau ! Veuillez vérifier votre connexion Internet.';
 
   @override
+  String get swapTransactionReport => 'Beldex_wallet_swap_transaction_report';
+
+  @override
+  String get transactionReport => 'Rapport de transaction';
+
+  @override
+  String get failedToGetOutputDistribution => 'Échec de l\'obtention de la distribution de sortie';
+
+  @override
+  String get sendValueExceedBalance => 'Le montant ne peut pas dépasser le solde disponible.\nLe nombre de chiffres fractionnaires doit être inférieur ou égal à 2';
+
+  @override
+  String get noPendingTransaction => 'Aucune transaction en attente';
+
+  @override
   String get max => 'Max';
+
+  @override
+  String get addressCopied => 'Adresse copiée';
+
+  @override
+  String get searchCurrency => 'Rechercher une devise';
 }

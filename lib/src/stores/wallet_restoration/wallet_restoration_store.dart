@@ -39,7 +39,7 @@ abstract class WalletRestorationStoreBase with Store {
   List<MnemoticItem>? seed;
 
   @action
-  Future restoreFromSeed({required String name, String? seed, required int restoreHeight}) async {
+  Future restoreFromSeed({required String name, String? seed, required int restoreHeight, required AppLocalizations t}) async {
     state = WalletRestorationStateInitial();
     final _seed = seed ?? _seedText();
 
@@ -48,6 +48,8 @@ abstract class WalletRestorationStoreBase with Store {
       await walletListService.restoreFromSeed(name, _seed, restoreHeight);
       authStore.restored();
       state = WalletRestoredSuccessfully();
+    } on WalletIsExistException catch (e) {
+      state = WalletRestorationFailure(error: e.localizedMessage(t));
     } catch (e) {
       state = WalletRestorationFailure(error: e.toString());
     }

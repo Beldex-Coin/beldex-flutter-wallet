@@ -14,11 +14,14 @@ import 'package:beldex_wallet/src/wallet/wallet_type.dart';
 import 'package:beldex_wallet/src/wallet/wallets_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
+import 'package:beldex_wallet/l10n.dart';
 
 class WalletIsExistException implements Exception {
   WalletIsExistException(this.name);
 
   String name;
+
+  String localizedMessage(AppLocalizations t) => t.walletAlreadyExists(name);
 
   @override
   String toString() => 'Wallet with name $name is already exist!';

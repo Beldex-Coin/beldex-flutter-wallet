@@ -233,7 +233,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xff77778B)
                                         : Color(0xff77778B)),
-                                hintText: tr(context).restore_view_key_private,
+                                hintText: tr(context).view_key_private,
                                 errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
                               ),
                               validator: (value) {
@@ -274,7 +274,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xff77778B)
                                         : Color(0xff77778B)),
-                                hintText: tr(context).restore_spend_key_private,
+                                hintText: tr(context).spend_key_private,
                                 errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
                               ),
                               validator: (value) {
@@ -314,7 +314,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                       viewKey: _viewKeyController.text,
                       spendKey: _spendKeyController.text,
                       restoreHeight: height);
-                  restoreHeights(height,settingsStore);
+                  restoreHeights(height,settingsStore,tr(context));
               }
             },
             text: tr(context).restore_recover,
@@ -327,20 +327,20 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
     );
   }
 
-  void restoreHeights(int height ,SettingsStore settingsStore) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('currentHeight', height);
-    canShowPopup = prefs.getBool('isRestored') ?? false;
-    if (canShowPopup) {
-       await Fluttertoast.showToast(
-      msg: 'You restored via keys',
-         toastLength: Toast.LENGTH_SHORT,
-         gravity: ToastGravity.BOTTOM,
-         textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
-                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
-    );
-    }
-  }
+void restoreHeights(int height, SettingsStore settingsStore, AppLocalizations t) async {
+     final prefs = await SharedPreferences.getInstance();
+     await prefs.setInt('currentHeight', height);
+     canShowPopup = prefs.getBool('isRestored') ?? false;
+     if (canShowPopup) {
+        await Fluttertoast.showToast(
+       msg: t.restoredViaKeys,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,
+                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+     );
+     }
+   }
 }
 
 ///// block height selection widget

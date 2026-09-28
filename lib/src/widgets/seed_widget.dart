@@ -357,7 +357,7 @@ class SeedWidgetState extends State<SeedWidget> {
                             return null;
                           }
                         },
-                        text: tr(context).seed_language_next,
+                        text: tr(context).restore_next,
                         color: Theme.of(context)
                             .primaryTextTheme
                             .labelLarge!

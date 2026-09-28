@@ -34,7 +34,7 @@ class SwapPaymentDetailsPage extends BasePage {
   bool get isModalBackButton => false;
 
   @override
-  String getTitle(AppLocalizations t) => 'Swap';
+  String getTitle(AppLocalizations t) => t.swap;
 
   @override
   Color get textColor => Colors.white;
@@ -296,7 +296,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
             } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
-              return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
+              return noInternet(settingsStore, _screenWidth, tr(context)); // Display an error message if an error occurs. or Display a message when no data is available.
             } else {
               return body(
                   _screenWidth,
@@ -369,7 +369,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
         PairsWidget(settingsStore: settingsStore, from: createdTransactionDetails.currencyFrom, to: createdTransactionDetails.currencyTo),
         //Send funds to the address below Title
         Text(
-          'Send funds to the address below',
+          tr(context).swap_send_funds_to_address_below,
           style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
@@ -400,7 +400,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Amount',
+                        tr(context).transaction_details_amount,
                         style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w400,
@@ -495,7 +495,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Transaction ID',
+                  tr(context).transaction_details_transaction_id,
                   style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
@@ -563,7 +563,10 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Time left to send ${toStringAsFixed(createdTransactionDetails.amountFrom)} ${createdTransactionDetails.currencyFrom.toUpperCase()}',
+                  tr(context).swap_time_left_to_send(
+                    toStringAsFixed(createdTransactionDetails.amountFrom),
+                    createdTransactionDetails.currencyFrom.toUpperCase(),
+                  ),
                   style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
@@ -608,7 +611,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
               height: 10,
             ),
             Text(
-              'Recipient Address',
+              tr(context).transaction_details_recipient_address,
               style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -734,7 +737,8 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                     Flexible(
                       child: ValueListenableBuilder<String>(
                         valueListenable: pendingTransactionTimeRemaining,
-                        builder: (context, value, child) => Text('Time Remaining : $value',//${createdTransactionDetails?.createdAt}',
+                        builder: (context, value, child) => Text(
+                            tr(context).swap_time_remaining(value),
                             style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
@@ -750,7 +754,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                 height: 10,
               ),
               Text(
-                  'You Have 3 Hours to send funds otherwise the transaction will be cancelled automatically.\n\nThe exchange will be initiated once the funds are received.',
+                  tr(context).swap_send_funds_notice,
                   style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
@@ -764,7 +768,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
         Container(
           margin: EdgeInsets.only(left: 10.0, bottom: 10.0),
           child: Text(
-            'Transaction Preview',
+            tr(context).swap_transaction_preview,
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
@@ -829,7 +833,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                             Padding(
                               padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                               child: Text(
-                                'You send',
+                                tr(context).youSend,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -856,7 +860,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                             Padding(
                               padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                               child: Text(
-                                'Exchange rate',
+                                tr(context).swap_exchange_rate,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -883,7 +887,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                             Padding(
                               padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                               child: Text(
-                                'Service fee 0.25%',
+                                tr(context).swap_service_fee,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -910,7 +914,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                             Padding(
                               padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                               child: Text(
-                                'Network fee',
+                                tr(context).swap_network_fee,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -937,7 +941,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                             Padding(
                               padding: const EdgeInsets.only(top: 10.0, left: 10.0),
                               child: Text(
-                                'Confirmations',
+                                tr(context).swap_confirmations,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,

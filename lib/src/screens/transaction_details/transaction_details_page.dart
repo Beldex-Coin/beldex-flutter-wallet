@@ -56,7 +56,7 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
           title: t.transaction_details_transaction_id,
           value: widget.transactionInfo.id),
       StandartListItem(
-          title: t.transaction_details_date,
+          title: t.date,
           value: _dateFormat.format(widget.transactionInfo.date)),
       StandartListItem(
           title: t.transaction_details_height,

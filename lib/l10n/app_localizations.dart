@@ -5,9 +5,18 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_ar.dart';
 import 'app_localizations_de.dart';
 import 'app_localizations_en.dart';
+import 'app_localizations_es.dart';
 import 'app_localizations_fr.dart';
+import 'app_localizations_ja.dart';
+import 'app_localizations_ko.dart';
+import 'app_localizations_pt.dart';
+import 'app_localizations_ru.dart';
+import 'app_localizations_tr.dart';
+import 'app_localizations_vi.dart';
+import 'app_localizations_zh.dart';
 
 // ignore_for_file: type=lint
 
@@ -92,9 +101,18 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('ar'),
     Locale('de'),
     Locale('en'),
-    Locale('fr')
+    Locale('es'),
+    Locale('fr'),
+    Locale('ja'),
+    Locale('ko'),
+    Locale('pt'),
+    Locale('ru'),
+    Locale('tr'),
+    Locale('vi'),
+    Locale('zh')
   ];
 
   /// No description provided for @welcome.
@@ -997,12 +1015,6 @@ abstract class AppLocalizations {
   /// **'Dark mode'**
   String get settings_dark_mode;
 
-  /// No description provided for @settings_transactions.
-  ///
-  /// In en, this message translates to:
-  /// **'Transactions'**
-  String get settings_transactions;
-
   /// No description provided for @settings_display_on_dashboard_list.
   ///
   /// In en, this message translates to:
@@ -1177,6 +1189,12 @@ abstract class AppLocalizations {
   /// **'Amount'**
   String get transaction_details_amount;
 
+  /// No description provided for @transaction_details_payment_id.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment ID'**
+  String get transaction_details_payment_id;
+
   /// No description provided for @transaction_details_copied.
   ///
   /// In en, this message translates to:
@@ -1188,6 +1206,402 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recipient Address'**
   String get transaction_details_recipient_address;
+
+  /// No description provided for @swap_wallet_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet Address'**
+  String get swap_wallet_address;
+
+  /// No description provided for @swap_recipient_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient Address'**
+  String get swap_recipient_address;
+
+  /// No description provided for @swap_correct_chain_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Please make sure to enter the correct address for the selected chain - {blockchain}. Otherwise you will lose your funds.'**
+  String swap_correct_chain_address(Object blockchain);
+
+  /// No description provided for @swap_enter_recipient_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your {currency} recipient address'**
+  String swap_enter_recipient_address(Object currency);
+
+  /// No description provided for @swap_refund_wallet_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund wallet Address'**
+  String get swap_refund_wallet_address;
+
+  /// No description provided for @swap_enter_refund_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your {currency} refund address'**
+  String swap_enter_refund_address(Object currency);
+
+  /// No description provided for @swap_extra_id_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Please specify the {extraIdName} for your {currency} receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a {extraIdName}, remove the tick.'**
+  String swap_extra_id_info(Object currency, Object extraIdName);
+
+  /// No description provided for @swap_my_wallet_requires_extra_id.
+  ///
+  /// In en, this message translates to:
+  /// **'My wallet requires {extraIdName}'**
+  String swap_my_wallet_requires_extra_id(Object extraIdName);
+
+  /// No description provided for @swap_enter_extra_id.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter {extraIdName}'**
+  String swap_enter_extra_id(Object extraIdName);
+
+  /// No description provided for @swap_please_enter_extra_id.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter {extraIdName}'**
+  String swap_please_enter_extra_id(Object extraIdName);
+
+  /// No description provided for @swap_minimum_amount_changed.
+  ///
+  /// In en, this message translates to:
+  /// **'The minimum amount value has changed, The new value is '**
+  String get swap_minimum_amount_changed;
+
+  /// No description provided for @swap_maximum_amount_changed.
+  ///
+  /// In en, this message translates to:
+  /// **'The maximum amount value has changed, The new value is '**
+  String get swap_maximum_amount_changed;
+
+  /// No description provided for @swap_transaction_preview.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction Preview'**
+  String get swap_transaction_preview;
+
+  /// No description provided for @swap_exchange_rate.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange rate'**
+  String get swap_exchange_rate;
+
+  /// No description provided for @swap_service_fee.
+  ///
+  /// In en, this message translates to:
+  /// **'Service fee 0.25%'**
+  String get swap_service_fee;
+
+  /// No description provided for @service_fee.
+  ///
+  /// In en, this message translates to:
+  /// **'Service Fee 0.25%'**
+  String get service_fee;
+
+  /// No description provided for @network_fee.
+  ///
+  /// In en, this message translates to:
+  /// **'Network Fee'**
+  String get network_fee;
+
+  /// No description provided for @swap_refund_address.
+  ///
+  /// In en, this message translates to:
+  /// **'Refund Address'**
+  String get swap_refund_address;
+
+  /// No description provided for @swap_network_fee.
+  ///
+  /// In en, this message translates to:
+  /// **'Network fee'**
+  String get swap_network_fee;
+
+  /// No description provided for @swap_you_get.
+  ///
+  /// In en, this message translates to:
+  /// **'You Get'**
+  String get swap_you_get;
+
+  /// No description provided for @swap_checkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout'**
+  String get swap_checkout;
+
+  /// No description provided for @swap_network_label.
+  ///
+  /// In en, this message translates to:
+  /// **'NETWORK: '**
+  String get swap_network_label;
+
+  /// No description provided for @swap_estimated_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Estimated Time'**
+  String get swap_estimated_time;
+
+  /// No description provided for @swap_estimated_time_value.
+  ///
+  /// In en, this message translates to:
+  /// **'5-30 mins'**
+  String get swap_estimated_time_value;
+
+  /// No description provided for @swap_confirm_and_make_payment.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm & Make Payment'**
+  String get swap_confirm_and_make_payment;
+
+  /// No description provided for @swap_send_funds_to_address_below.
+  ///
+  /// In en, this message translates to:
+  /// **'Send funds to the address below'**
+  String get swap_send_funds_to_address_below;
+
+  /// No description provided for @swap_time_left_to_send.
+  ///
+  /// In en, this message translates to:
+  /// **'Time left to send {amount} {currency}'**
+  String swap_time_left_to_send(Object amount, Object currency);
+
+  /// No description provided for @swap_time_remaining.
+  ///
+  /// In en, this message translates to:
+  /// **'Time Remaining : {value}'**
+  String swap_time_remaining(Object value);
+
+  /// No description provided for @swap_send_funds_notice.
+  ///
+  /// In en, this message translates to:
+  /// **'You Have 3 Hours to send funds otherwise the transaction will be cancelled automatically.\n\nThe exchange will be initiated once the funds are received.'**
+  String get swap_send_funds_notice;
+
+  /// No description provided for @swap_confirmations.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmations'**
+  String get swap_confirmations;
+
+  /// No description provided for @swap_completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get swap_completed;
+
+  /// No description provided for @swap_amount_from.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount from'**
+  String get swap_amount_from;
+
+  /// No description provided for @swap_amount_to.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount to'**
+  String get swap_amount_to;
+
+  /// No description provided for @swap_received_time.
+  ///
+  /// In en, this message translates to:
+  /// **'Received Time'**
+  String get swap_received_time;
+
+  /// No description provided for @swap_amount_sent.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount Sent'**
+  String get swap_amount_sent;
+
+  /// No description provided for @swap_input_output_hash.
+  ///
+  /// In en, this message translates to:
+  /// **'Input/Output Hash'**
+  String get swap_input_output_hash;
+
+  /// No description provided for @swap_input_hash.
+  ///
+  /// In en, this message translates to:
+  /// **'Input Hash'**
+  String get swap_input_hash;
+
+  /// No description provided for @swap_output_hash.
+  ///
+  /// In en, this message translates to:
+  /// **'Output Hash'**
+  String get swap_output_hash;
+
+  /// No description provided for @swap_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed'**
+  String get swap_failed;
+
+  /// No description provided for @swap_expired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get swap_expired;
+
+  /// No description provided for @swap_overdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get swap_overdue;
+
+  /// No description provided for @swap_funds_not_received.
+  ///
+  /// In en, this message translates to:
+  /// **'The funds were not received within 3 hours. Please check the rates and create a new transaction'**
+  String get swap_funds_not_received;
+
+  /// No description provided for @swap_start_over.
+  ///
+  /// In en, this message translates to:
+  /// **'Start Over'**
+  String get swap_start_over;
+
+  /// No description provided for @swap_exchanging.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchanging'**
+  String get swap_exchanging;
+
+  /// No description provided for @swap_confirming_in_progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirming in progress'**
+  String get swap_confirming_in_progress;
+
+  /// No description provided for @swap_confirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirmed'**
+  String get swap_confirmed;
+
+  /// No description provided for @swap_confirmed_in_blockchain.
+  ///
+  /// In en, this message translates to:
+  /// **'Once {currencyFrom} is confirmed in the blockchain, we\'ll start exchanging it to {currencyTo}'**
+  String swap_confirmed_in_blockchain(Object currencyFrom, Object currencyTo);
+
+  /// No description provided for @swap_see_input_hash_in_explorer.
+  ///
+  /// In en, this message translates to:
+  /// **'See input hash in explorer'**
+  String get swap_see_input_hash_in_explorer;
+
+  /// No description provided for @swap_done_exchanging.
+  ///
+  /// In en, this message translates to:
+  /// **'Done Exchanging {currencyFrom} to {currencyTo}'**
+  String swap_done_exchanging(Object currencyFrom, Object currencyTo);
+
+  /// No description provided for @swap_exchanging_currency.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchanging {currencyFrom} to {currencyTo}'**
+  String swap_exchanging_currency(Object currencyFrom, Object currencyTo);
+
+  /// No description provided for @swap_process_wait.
+  ///
+  /// In en, this message translates to:
+  /// **'The process will take a few minutes. please wait.'**
+  String get swap_process_wait;
+
+  /// No description provided for @swap_sending_funds_to_wallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending funds to your wallet'**
+  String get swap_sending_funds_to_wallet;
+
+  /// No description provided for @swap_funds_sent_to_wallet.
+  ///
+  /// In en, this message translates to:
+  /// **'Funds send to your wallet'**
+  String get swap_funds_sent_to_wallet;
+
+  /// No description provided for @swap_you_dont_have_to_wait_here.
+  ///
+  /// In en, this message translates to:
+  /// **'You don’t have to wait here'**
+  String get swap_you_dont_have_to_wait_here;
+
+  /// No description provided for @swap_you_can_initiate_new_transaction.
+  ///
+  /// In en, this message translates to:
+  /// **'You can initiate a new transaction. You can always check the status of this transaction in transaction '**
+  String get swap_you_can_initiate_new_transaction;
+
+  /// No description provided for @swap_history.
+  ///
+  /// In en, this message translates to:
+  /// **'history'**
+  String get swap_history;
+
+  /// No description provided for @swap_you_sent.
+  ///
+  /// In en, this message translates to:
+  /// **'You sent'**
+  String get swap_you_sent;
+
+  /// No description provided for @swap_exchange_address.
+  ///
+  /// In en, this message translates to:
+  /// **'{exchangeName} address ({currency})'**
+  String swap_exchange_address(Object currency, Object exchangeName);
+
+  /// No description provided for @swap_recipient_address_with_currency.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipient address ({currency})'**
+  String swap_recipient_address_with_currency(Object currency);
+
+  /// No description provided for @swap_open_history.
+  ///
+  /// In en, this message translates to:
+  /// **'Open History'**
+  String get swap_open_history;
+
+  /// No description provided for @swap_new_transaction.
+  ///
+  /// In en, this message translates to:
+  /// **'New Transaction'**
+  String get swap_new_transaction;
+
+  /// No description provided for @swap_i_agree_with.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree with '**
+  String get swap_i_agree_with;
+
+  /// No description provided for @swap_terms_of_use.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Use'**
+  String get swap_terms_of_use;
+
+  /// No description provided for @swap_and.
+  ///
+  /// In en, this message translates to:
+  /// **' and '**
+  String get swap_and;
+
+  /// No description provided for @swap_privacy_policy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get swap_privacy_policy;
+
+  /// No description provided for @swap_next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get swap_next;
 
   /// No description provided for @wallet_list_title.
   ///
@@ -1636,7 +2050,7 @@ abstract class AppLocalizations {
   /// No description provided for @noTransactionsYet.
   ///
   /// In en, this message translates to:
-  /// **'No transactions yet!'**
+  /// **'No Transactions Yet!'**
   String get noTransactionsYet;
 
   /// No description provided for @afterYourFirstTransactionnYouWillBeAbleToView.
@@ -1735,6 +2149,12 @@ abstract class AppLocalizations {
   /// **'Enter a valid name upto 15 characters'**
   String get enterAValidNameUpto15Characters;
 
+  /// No description provided for @enterAValidNameUpto20Characters.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid name upto 20 characters'**
+  String get enterAValidNameUpto20Characters;
+
   /// No description provided for @fiveDecimals.
   ///
   /// In en, this message translates to:
@@ -1776,18 +2196,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{status} Block Remaining'**
   String blockRemaining(Object status);
-
-  /// No description provided for @blockConfirmed.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} Block'**
-  String blockConfirmed(Object count);
-
-  /// No description provided for @blocksConfirmed.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} Blocks'**
-  String blocksConfirmed(Object count);
 
   /// No description provided for @flashTransaction.
   ///
@@ -2197,6 +2605,12 @@ abstract class AppLocalizations {
   /// **'Enter a valid name'**
   String get enterAValidName;
 
+  /// No description provided for @addressShouldNotBeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Address should not be empty'**
+  String get addressShouldNotBeEmpty;
+
   /// No description provided for @nameShouldNotBeEmpty.
   ///
   /// In en, this message translates to:
@@ -2281,11 +2695,425 @@ abstract class AppLocalizations {
   /// **'Buy BNS'**
   String get buyBns;
 
+  /// No description provided for @myBns.
+  ///
+  /// In en, this message translates to:
+  /// **'My BNS'**
+  String get myBns;
+
+  /// No description provided for @addBns.
+  ///
+  /// In en, this message translates to:
+  /// **'Add BNS'**
+  String get addBns;
+
   /// No description provided for @bns.
   ///
   /// In en, this message translates to:
   /// **'BNS'**
   String get bns;
+
+  /// No description provided for @bnsPurchaseDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase or update an BNS record. If you purchase a name, it may take a minute or two for it to show up in the list'**
+  String get bnsPurchaseDescription;
+
+  /// No description provided for @bnsPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get bnsPrice;
+
+  /// No description provided for @bnsYearOneShort.
+  ///
+  /// In en, this message translates to:
+  /// **'1 Yr'**
+  String get bnsYearOneShort;
+
+  /// No description provided for @bnsYearTwoShort.
+  ///
+  /// In en, this message translates to:
+  /// **'2 Yrs'**
+  String get bnsYearTwoShort;
+
+  /// No description provided for @bnsYearFiveShort.
+  ///
+  /// In en, this message translates to:
+  /// **'5 Yrs'**
+  String get bnsYearFiveShort;
+
+  /// No description provided for @bnsYearTenShort.
+  ///
+  /// In en, this message translates to:
+  /// **'10 Yrs'**
+  String get bnsYearTenShort;
+
+  /// No description provided for @bnsYearOne.
+  ///
+  /// In en, this message translates to:
+  /// **'1 Year'**
+  String get bnsYearOne;
+
+  /// No description provided for @bnsYearTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'2 Years'**
+  String get bnsYearTwo;
+
+  /// No description provided for @bnsYearFive.
+  ///
+  /// In en, this message translates to:
+  /// **'5 Years'**
+  String get bnsYearFive;
+
+  /// No description provided for @bnsYearTen.
+  ///
+  /// In en, this message translates to:
+  /// **'10 Years'**
+  String get bnsYearTen;
+
+  /// No description provided for @bnsYouSave.
+  ///
+  /// In en, this message translates to:
+  /// **'You Save '**
+  String get bnsYouSave;
+
+  /// No description provided for @bnsNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The name to purchase via Beldex Name Service'**
+  String get bnsNameHint;
+
+  /// No description provided for @bnsOwnerOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner (optional)'**
+  String get bnsOwnerOptional;
+
+  /// No description provided for @bnsOwnerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The wallet address of the owner'**
+  String get bnsOwnerHint;
+
+  /// No description provided for @bnsWalletAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet Address'**
+  String get bnsWalletAddress;
+
+  /// No description provided for @bnsBchatId.
+  ///
+  /// In en, this message translates to:
+  /// **'BChat ID'**
+  String get bnsBchatId;
+
+  /// No description provided for @bnsBelnetId.
+  ///
+  /// In en, this message translates to:
+  /// **'Belnet ID'**
+  String get bnsBelnetId;
+
+  /// No description provided for @bnsEthAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'ETH Address'**
+  String get bnsEthAddress;
+
+  /// No description provided for @bnsUpdateOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Owner'**
+  String get bnsUpdateOwner;
+
+  /// No description provided for @bnsUpdateValues.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Values'**
+  String get bnsUpdateValues;
+
+  /// No description provided for @bnsNewOwnerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the wallet address of new owner'**
+  String get bnsNewOwnerHint;
+
+  /// No description provided for @bnsUpdateNote.
+  ///
+  /// In en, this message translates to:
+  /// **'You can only update owner address or values at a time. If you want to update both, you can either update the value before ownership or after transferring ownership.'**
+  String get bnsUpdateNote;
+
+  /// No description provided for @bnsAddRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Record'**
+  String get bnsAddRecord;
+
+  /// No description provided for @bnsRecordsDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Here you can find all the BNS Names owned by this wallet. Decrypting a record you own will return the name and value at the BNS record.'**
+  String get bnsRecordsDescription;
+
+  /// No description provided for @bnsRecordNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A BNS name that belongs to you'**
+  String get bnsRecordNameHint;
+
+  /// No description provided for @bnsFetchingRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'Fetching BNS records from the network...'**
+  String get bnsFetchingRecords;
+
+  /// No description provided for @bnsDecryptionSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Successfully decrypted BNS Record for {bnsName}'**
+  String bnsDecryptionSuccess(Object bnsName);
+
+  /// No description provided for @bnsDecryptionFailure.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to decrypt BNS Record for {bnsName}'**
+  String bnsDecryptionFailure(Object bnsName);
+
+  /// No description provided for @bnsRecordNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'The given BNS record doesn\'t exist or does not belong to this wallet.'**
+  String get bnsRecordNotFound;
+
+  /// No description provided for @bnsWaitForFetch.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait until we fetch the BNS record from Network'**
+  String get bnsWaitForFetch;
+
+  /// No description provided for @bnsRecords.
+  ///
+  /// In en, this message translates to:
+  /// **'BNS Records'**
+  String get bnsRecords;
+
+  /// No description provided for @bnsExpirationHeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Expiration Height : '**
+  String get bnsExpirationHeight;
+
+  /// No description provided for @bnsUpdateHeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Update Height'**
+  String get bnsUpdateHeight;
+
+  /// No description provided for @bnsBackupOwner.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup Owner'**
+  String get bnsBackupOwner;
+
+  /// No description provided for @bnsEncryptedWalletValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted Wallet Value'**
+  String get bnsEncryptedWalletValue;
+
+  /// No description provided for @bnsEncryptedBchatValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted BChat Value'**
+  String get bnsEncryptedBchatValue;
+
+  /// No description provided for @bnsEncryptedBelnetValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted Belnet Value'**
+  String get bnsEncryptedBelnetValue;
+
+  /// No description provided for @bnsEncryptedEthValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Encrypted ETH Value'**
+  String get bnsEncryptedEthValue;
+
+  /// No description provided for @bnsUpdateAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Update'**
+  String get bnsUpdateAction;
+
+  /// No description provided for @bnsRenewAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Renew'**
+  String get bnsRenewAction;
+
+  /// No description provided for @bnsNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Note : '**
+  String get bnsNoteLabel;
+
+  /// No description provided for @bnsEthAddressDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Our eth address is compatible across all EVM chains'**
+  String get bnsEthAddressDescription;
+
+  /// No description provided for @bnsPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Purchase'**
+  String get bnsPurchase;
+
+  /// No description provided for @bnsPleaseFillField.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill in this field'**
+  String get bnsPleaseFillField;
+
+  /// No description provided for @bnsInvalidName.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid BNS Name'**
+  String get bnsInvalidName;
+
+  /// No description provided for @bnsInvalidBchatId.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid BChat ID'**
+  String get bnsInvalidBchatId;
+
+  /// No description provided for @bnsInvalidBelnetId.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Belnet ID'**
+  String get bnsInvalidBelnetId;
+
+  /// No description provided for @bnsInvalidEthAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid ETH Address'**
+  String get bnsInvalidEthAddress;
+
+  /// No description provided for @bnsEnterValidWalletAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid wallet address.'**
+  String get bnsEnterValidWalletAddress;
+
+  /// No description provided for @bnsConfirmPurchase.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Purchase'**
+  String get bnsConfirmPurchase;
+
+  /// No description provided for @bnsNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get bnsNameLabel;
+
+  /// No description provided for @bnsYearLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get bnsYearLabel;
+
+  /// No description provided for @bnsOwnerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner'**
+  String get bnsOwnerLabel;
+
+  /// No description provided for @bnsAddressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get bnsAddressLabel;
+
+  /// No description provided for @bnsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get bnsNone;
+
+  /// No description provided for @bnsSameOwnerAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'same owner address'**
+  String get bnsSameOwnerAddress;
+
+  /// No description provided for @bnsSameWalletAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'same wallet address'**
+  String get bnsSameWalletAddress;
+
+  /// No description provided for @bnsSameBchatId.
+  ///
+  /// In en, this message translates to:
+  /// **'same Bchat id'**
+  String get bnsSameBchatId;
+
+  /// No description provided for @bnsSameBelnetId.
+  ///
+  /// In en, this message translates to:
+  /// **'same Belnet id'**
+  String get bnsSameBelnetId;
+
+  /// No description provided for @bnsSameEthAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'same ETH Address'**
+  String get bnsSameEthAddress;
+
+  /// No description provided for @bnsInvalidOwnerAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Owner address.'**
+  String get bnsInvalidOwnerAddress;
+
+  /// No description provided for @bnsNameIsTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'BNS name is taken. Choose a different one.'**
+  String get bnsNameIsTaken;
+
+  /// No description provided for @bnsInvalidWalletAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid wallet address. Leave blank if you want to use the current wallet as the BNS owner.'**
+  String get bnsInvalidWalletAddress;
+
+  /// No description provided for @bnsOwnerAndBackupDifferent.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner and backup address must be different.'**
+  String get bnsOwnerAndBackupDifferent;
+
+  /// No description provided for @bnsPurchasedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'BNS Purchased Successfully'**
+  String get bnsPurchasedSuccessfully;
+
+  /// No description provided for @bnsUpdatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'BNS Updated Successfully'**
+  String get bnsUpdatedSuccessfully;
+
+  /// No description provided for @bnsRenewedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'BNS Renewed Successfully'**
+  String get bnsRenewedSuccessfully;
 
   /// No description provided for @bnsUpdate.
   ///
@@ -2311,11 +3139,161 @@ abstract class AppLocalizations {
   /// **'Unsupported exchange pair'**
   String get unsupportedExchangePair;
 
+  /// No description provided for @blockConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Block'**
+  String blockConfirmed(Object count);
+
+  /// No description provided for @blocksConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Blocks'**
+  String blocksConfirmed(Object count);
+
+  /// No description provided for @restoredViaKeys.
+  ///
+  /// In en, this message translates to:
+  /// **'You restored via keys'**
+  String get restoredViaKeys;
+
+  /// No description provided for @walletAlreadyExists.
+  ///
+  /// In en, this message translates to:
+  /// **'Wallet with name {name} is already exist!'**
+  String walletAlreadyExists(Object name);
+
   /// No description provided for @nodeAlreadyExists.
   ///
   /// In en, this message translates to:
   /// **'This node already exists'**
   String get nodeAlreadyExists;
+
+  /// No description provided for @fee.
+  ///
+  /// In en, this message translates to:
+  /// **'Fee'**
+  String get fee;
+
+  /// No description provided for @noInternet.
+  ///
+  /// In en, this message translates to:
+  /// **'No Internet!'**
+  String get noInternet;
+
+  /// No description provided for @noInternetMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Please check your internet Connection\nand try again.'**
+  String get noInternetMessage;
+
+  /// No description provided for @swapNotAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **' Swap is not available\nat the moment'**
+  String get swapNotAvailable;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Please try again after some times.'**
+  String get tryAgain;
+
+  /// No description provided for @exchange.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange'**
+  String get exchange;
+
+  /// No description provided for @youSend.
+  ///
+  /// In en, this message translates to:
+  /// **'You send'**
+  String get youSend;
+
+  /// No description provided for @youGet.
+  ///
+  /// In en, this message translates to:
+  /// **'You get'**
+  String get youGet;
+
+  /// No description provided for @floatingExchangeRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Floating Exchange Rate'**
+  String get floatingExchangeRate;
+
+  /// No description provided for @floatingRateDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'The floating rate can change at any point due to market conditions, so you might receive more or less crypto than expected.'**
+  String get floatingRateDescription;
+
+  /// No description provided for @searchCoins.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Coins'**
+  String get searchCoins;
+
+  /// No description provided for @minimumAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum amount is '**
+  String get minimumAmount;
+
+  /// No description provided for @maximumAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum amount is '**
+  String get maximumAmount;
+
+  /// No description provided for @exchangeAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange Amount'**
+  String get exchangeAmount;
+
+  /// No description provided for @exchangeRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange Rate'**
+  String get exchangeRate;
+
+  /// No description provided for @receiver.
+  ///
+  /// In en, this message translates to:
+  /// **'Receiver'**
+  String get receiver;
+
+  /// No description provided for @amountReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount Received'**
+  String get amountReceived;
+
+  /// No description provided for @date.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get date;
+
+  /// No description provided for @expandDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Expand Details'**
+  String get expandDetails;
+
+  /// No description provided for @view.
+  ///
+  /// In en, this message translates to:
+  /// **'View'**
+  String get view;
+
+  /// No description provided for @noTransactionsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no Transactions or\nexchanges made to show..'**
+  String get noTransactionsMessage;
 
   /// No description provided for @networkErrorCheckConnection.
   ///
@@ -2323,11 +3301,53 @@ abstract class AppLocalizations {
   /// **'Network Error! Please check internet connection.'**
   String get networkErrorCheckConnection;
 
+  /// No description provided for @swapTransactionReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Beldex_wallet_swap_transaction_report'**
+  String get swapTransactionReport;
+
+  /// No description provided for @transactionReport.
+  ///
+  /// In en, this message translates to:
+  /// **'Transaction Report'**
+  String get transactionReport;
+
+  /// No description provided for @failedToGetOutputDistribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to get output distribution'**
+  String get failedToGetOutputDistribution;
+
+  /// No description provided for @sendValueExceedBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Value of amount can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 2'**
+  String get sendValueExceedBalance;
+
+  /// No description provided for @noPendingTransaction.
+  ///
+  /// In en, this message translates to:
+  /// **'No pending transaction'**
+  String get noPendingTransaction;
+
   /// No description provided for @max.
   ///
   /// In en, this message translates to:
   /// **'Max'**
   String get max;
+
+  /// No description provided for @addressCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Address Copied'**
+  String get addressCopied;
+
+  /// No description provided for @searchCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Currency'**
+  String get searchCurrency;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -2339,7 +3359,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['de', 'en', 'fr'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['ar', 'de', 'en', 'es', 'fr', 'ja', 'ko', 'pt', 'ru', 'tr', 'vi', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -2350,9 +3370,18 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'ar': return AppLocalizationsAr();
     case 'de': return AppLocalizationsDe();
     case 'en': return AppLocalizationsEn();
+    case 'es': return AppLocalizationsEs();
     case 'fr': return AppLocalizationsFr();
+    case 'ja': return AppLocalizationsJa();
+    case 'ko': return AppLocalizationsKo();
+    case 'pt': return AppLocalizationsPt();
+    case 'ru': return AppLocalizationsRu();
+    case 'tr': return AppLocalizationsTr();
+    case 'vi': return AppLocalizationsVi();
+    case 'zh': return AppLocalizationsZh();
   }
 
   throw FlutterError(

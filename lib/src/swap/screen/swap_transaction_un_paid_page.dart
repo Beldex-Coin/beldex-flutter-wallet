@@ -24,7 +24,7 @@ class SwapTransactionUnPaidPage extends BasePage {
   bool get isModalBackButton => false;
 
   @override
-  String getTitle(AppLocalizations t) => 'Swap';
+  String getTitle(AppLocalizations t) => t.swap;
 
   @override
   Color get textColor => Colors.white;
@@ -224,7 +224,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                       Flexible(
                         flex: 1,
                         child: Text(
-                          'Transaction ID',
+                          tr(context).transaction_details_transaction_id,
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
@@ -289,7 +289,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Amount from',
+                            tr(context).swap_amount_from,
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -318,7 +318,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Amount to',
+                            tr(context).swap_amount_to,
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -352,7 +352,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Recipient Address',
+                      tr(context).transaction_details_recipient_address,
                       style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
@@ -406,7 +406,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                 ),
                 Expanded(
                   child: Text(
-                    'The funds were not received within 3 hours. Please check the rates and create a new transaction',
+                    tr(context).swap_funds_not_received,
                     style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
@@ -456,7 +456,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                 SizedBox(
                   width: 10,
                 ),
-                Text('Start Over',
+                Text(tr(context).swap_start_over,
                     style: TextStyle(
                         color: Color(0xffffffff),
                         fontSize: 16,
@@ -476,11 +476,11 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
 
   String validateStatus(String? status) {
     if(status == "failed") {
-      return "Failed";
+      return tr(context).swap_failed;
     } else if(status == "expired") {
-      return "Expired";
+      return tr(context).swap_expired;
     } else {
-      return "Overdue";
+      return tr(context).swap_overdue;
     }
   }
 

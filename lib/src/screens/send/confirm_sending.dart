@@ -216,7 +216,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(10)),
                                     child: Text(address)),
-                                Text('Fee: fee'),
+                                Text('${tr(context).fee}: $fee'),
                               ],
                             )),
                         Container(
@@ -401,7 +401,7 @@ class TransactionSendDetails extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(tr(context).widgets_address),
+                                Text(tr(context).restore_address),
                                 Container(
                                     padding: EdgeInsets.all(10),
                                     decoration: BoxDecoration(
@@ -411,7 +411,7 @@ class TransactionSendDetails extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(10)),
                                     child: Text(address)),
-                                Text('Fee: $fee'),
+                                Text('${tr(context).fee}: $fee'),
                               ],
                             )),
                         Container(
@@ -722,7 +722,7 @@ class ConfirmSending extends StatelessWidget {
                                             BorderRadius.circular(10)),
                                     child: Text(address)),
                                 Text(
-                                  'Fee: $fee',
+                                  '${tr(context).fee}: $fee',
                                   style: TextStyle(backgroundColor: Colors.transparent,fontWeight: FontWeight.bold),
                                 ),
                               ],
@@ -902,7 +902,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10.0),
-                        child: Text('Confirm Purchase',
+                        child: Text(tr(context).bnsConfirmPurchase,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 fontSize: 16, fontWeight: FontWeight.w800)),
@@ -988,7 +988,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Owner',
+                                    tr(context).bnsOwnerLabel,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1060,7 +1060,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Address',
+                                    tr(context).bnsAddressLabel,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1072,7 +1072,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     walletAddress.isNotEmpty
                                         ? walletAddress
-                                        : 'None',
+                                        : tr(context).settings_none,
                                     style: TextStyle(
                                       backgroundColor: Colors.transparent,
                                       fontSize: 12,
@@ -1092,7 +1092,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'BChat ID',
+                                    tr(context).bnsBchatId,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1102,7 +1102,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                         fontWeight: FontWeight.w400),
                                   ),
                                   Text(
-                                    bchatId.isNotEmpty ? bchatId : 'None',
+                                    bchatId.isNotEmpty ? bchatId : tr(context).settings_none,
                                     style: TextStyle(
                                       backgroundColor: Colors.transparent,
                                       fontSize: 12,
@@ -1122,7 +1122,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Belnet ID',
+                                    tr(context).bnsBelnetId,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1132,7 +1132,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                         fontWeight: FontWeight.w400),
                                   ),
                                   Text(
-                                    belnetId.isNotEmpty ? belnetId : 'None',
+                                    belnetId.isNotEmpty ? belnetId : tr(context).settings_none,
                                     style: TextStyle(
                                       backgroundColor: Colors.transparent,
                                       fontSize: 12,
@@ -1152,7 +1152,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'ETH Address',
+                                    tr(context).bnsEthAddress,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1162,7 +1162,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                         fontWeight: FontWeight.w400),
                                   ),
                                   Text(
-                                    ethAddress.isNotEmpty ? ethAddress : 'None',
+                                    ethAddress.isNotEmpty ? ethAddress : tr(context).settings_none,
                                     style: TextStyle(
                                       backgroundColor: Colors.transparent,
                                       fontSize: 12,
@@ -1668,7 +1668,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10.0),
-                        child: Text('Confirm Renewal',
+                        child: Text(tr(context).bnsRenewal,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 fontSize: 16, fontWeight: FontWeight.w800)),
@@ -1690,7 +1690,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Name ',
+                                    '${tr(context).name}',
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1722,7 +1722,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Year',
+                                    tr(context).bnsYearLabel,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,

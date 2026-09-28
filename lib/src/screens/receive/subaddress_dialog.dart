@@ -76,10 +76,9 @@ class AddSubAddress extends StatelessWidget {
                                     child: BeldexTextField(
                                         controller: _labelController,
                                         hintText: tr(context).name,
-                                        //tr(context).new_subaddress_label_name,
                                         validator: (value) {
                                           subAddressCreationStore
-                                              .validateSubaddressName(value!);
+                                               .validateSubaddressName(value!, tr(context));
                                           return subAddressCreationStore
                                               .errorMessage;
                                         }),

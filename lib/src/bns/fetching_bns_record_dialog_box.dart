@@ -1,6 +1,8 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 
+import '../../l10n.dart';
+
 class FetchingBnsRecordDialogBox {
   void showFetchingBnsRecordDialog(BuildContext context, SettingsStore settingsStore) {
     showDialog<Dialog>(
@@ -22,14 +24,14 @@ class FetchingBnsRecordDialogBox {
                     borderRadius: BorderRadius.circular(5)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Color(0xff0BA70F)),
                     ),
                     SizedBox(
                       width: 10,
                     ),
-                    Flexible(child: Text('Fetching BNS records from the network...',style: TextStyle(
+                    Flexible(child: Text(tr(context).bnsFetchingRecords,style: TextStyle(
                       backgroundColor: Colors.transparent,
                         fontSize: 14.0,
                         fontWeight: FontWeight.bold,

@@ -27,7 +27,7 @@ class RescanPage extends BasePage {
   final blockchainKey = GlobalKey<_BlockHeightSwapingWidgetState>();
 
   @override
-  String getTitle(AppLocalizations t) => '${t.rescan} wallet';
+  String getTitle(AppLocalizations t) => '${t.rescanWallet}';
 
   @override
   Widget trailing(BuildContext context) {

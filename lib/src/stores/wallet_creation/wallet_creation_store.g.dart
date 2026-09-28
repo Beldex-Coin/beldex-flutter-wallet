@@ -25,36 +25,22 @@ mixin _$WalletCreationStore on WalletCreationStoreBase, Store {
     });
   }
 
-  late final _$errorMessageAtom =
-      Atom(name: 'WalletCreationStoreBase.errorMessage', context: context);
-
-  @override
-  String? get errorMessage {
-    _$errorMessageAtom.reportRead();
-    return super.errorMessage;
-  }
-
-  @override
-  set errorMessage(String? value) {
-    _$errorMessageAtom.reportWrite(value, super.errorMessage, () {
-      super.errorMessage = value;
-    });
-  }
-
   late final _$createAsyncAction =
       AsyncAction('WalletCreationStoreBase.create', context: context);
 
   @override
-  Future<dynamic> create({required String name, required String language}) {
+  Future<dynamic> create(
+      {required String name,
+      required String language,
+      required AppLocalizations t}) {
     return _$createAsyncAction
-        .run(() => super.create(name: name, language: language));
+        .run(() => super.create(name: name, language: language, t: t));
   }
 
   @override
   String toString() {
     return '''
-state: ${state},
-errorMessage: ${errorMessage}
+state: ${state}
     ''';
   }
 }

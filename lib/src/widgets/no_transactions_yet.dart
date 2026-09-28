@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../stores/settings/settings_store.dart';
+import '../../l10n.dart';
 
-Widget noTransactionsYet(SettingsStore settingsStore, double _screenWidth) {
+Widget noTransactionsYet(SettingsStore settingsStore, double _screenWidth, AppLocalizations t) {
   return Card(
     margin: EdgeInsets.only(
         top: 15, left: 10, right: 10, bottom: 15),
@@ -19,7 +20,7 @@ Widget noTransactionsYet(SettingsStore settingsStore, double _screenWidth) {
         Container(
           margin: EdgeInsets.only(left: 15, top: 15),
           child: Text(
-            'Transactions',
+            t.transactions,
             style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
@@ -42,7 +43,7 @@ Widget noTransactionsYet(SettingsStore settingsStore, double _screenWidth) {
                 height: 10,
               ),
               Text(
-                  "No Transactions Yet!",
+                  t.noTransactionsYet,
                   style: TextStyle(
                       backgroundColor: Colors.transparent,
                       fontSize: 16,
@@ -55,7 +56,7 @@ Widget noTransactionsYet(SettingsStore settingsStore, double _screenWidth) {
                 height: 10,
               ),
               Text(
-                  "There are no Transactions or\nexchanges made to show..",
+                  t.noTransactionsMessage,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       backgroundColor: Colors.transparent,

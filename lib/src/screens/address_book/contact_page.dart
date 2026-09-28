@@ -162,7 +162,7 @@ class ContactFormState extends State<ContactForm> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       if(value?.isEmpty ?? false || value == ''){
-                        return 'Address should not be empty';
+                        return tr(context).addressShouldNotBeEmpty;
                       }else
                       {
                         if(widget.contact.name.isEmpty && widget.contact.address.isEmpty){

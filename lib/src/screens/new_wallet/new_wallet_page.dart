@@ -364,7 +364,8 @@ class _WalletNameFormState extends State<WalletNameForm> {
                       }
                       walletCreationStore.create(
                           name: nameController.text,
-                          language: seedLanguageStore.selectedSeedLanguage);
+                          language: seedLanguageStore.selectedSeedLanguage,
+                          t: tr(context));
                     }
                   },
                   text: tr(context).continue_text,

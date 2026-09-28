@@ -21,7 +21,7 @@ class SeedPage extends BasePage {
   bool get isModalBackButton => true;
 
   @override
-  String getTitle(AppLocalizations t) => !showSeed ? t.widgets_seed : t.recoverySeed;
+  String getTitle(AppLocalizations t) => !showSeed ? t.seed_title : t.recoverySeed;
 
   final VoidCallback onCloseCallback;
   final bool showSeed;

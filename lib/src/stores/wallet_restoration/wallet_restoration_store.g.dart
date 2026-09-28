@@ -79,9 +79,12 @@ mixin _$WalletRestorationStore on WalletRestorationStoreBase, Store {
 
   @override
   Future<dynamic> restoreFromSeed(
-      {required String name, String? seed, required int restoreHeight}) {
-    return _$restoreFromSeedAsyncAction.run(() => super
-        .restoreFromSeed(name: name, seed: seed, restoreHeight: restoreHeight));
+      {required String name,
+      String? seed,
+      required int restoreHeight,
+      required AppLocalizations t}) {
+    return _$restoreFromSeedAsyncAction.run(() => super.restoreFromSeed(
+        name: name, seed: seed, restoreHeight: restoreHeight, t: t));
   }
 
   late final _$restoreFromKeysAsyncAction = AsyncAction(

@@ -196,14 +196,12 @@ abstract class SendStoreBase with Store {
     }
   }
 
-  @action
-  Future commitTransaction() async {
-     if (_pendingTransaction == null) {
-      // Handle this here, but don't worry about translation because this is a logic error in the
-      // caller that shouldn't happen.
-      state = SendingFailed(error: 'No pending transaction');
-      return;
-    }
+@action
+  Future commitTransaction({AppLocalizations? t}) async {
+      if (_pendingTransaction == null) {
+       state = SendingFailed(error: t != null ? t.noPendingTransaction : 'No pending transaction');
+       return;
+     }
     try {
       final transactionId = _pendingTransaction?.hash;
       state = TransactionCommitting();
@@ -414,31 +412,32 @@ abstract class SendStoreBase with Store {
   //   errorMessage = isValid ? null : S.current.error_text_beldex;
   // }
 
-  void validateFiat(String amount, {double? maxValue}) {
-    const minValue = 0.01;
-    final value = amount.replaceAll(',', '.');
+void validateFiat(String amount, {double? maxValue, AppLocalizations? t}) {
+     const minValue = 0.01;
+     final value = amount.replaceAll(',', '.');
 
-    if (value.isEmpty && cryptoAmount == 'ALL') {
-      isValid = true;
-    } else {
-      const pattern = '^([0-9]+([.][0-9]{0,2})?|[.][0-9]{1,2})\$';
-      final regExp = RegExp(pattern);
+     if (value.isEmpty && sendAll) {
+       isValid = true;
+     } else {
+       const pattern = '^([0-9]+([.][0-9]{0,2})?|[.][0-9]{1,2})\$';
+       final regExp = RegExp(pattern);
 
-      if (regExp.hasMatch(value)) {
-        try {
-          final dValue = double.parse(value);
-          isValid = (dValue >= minValue && dValue <= maxValue!);
-        } catch (e) {
-          isValid = false;
-        }
-      } else {
-        isValid = false;
-      }
-    }
+       if (regExp.hasMatch(value)) {
+         try {
+           final dValue = double.parse(value);
+           isValid = (dValue >= minValue && dValue <= maxValue!);
+         } catch (e) {
+           isValid = false;
+         }
+       } else {
+         isValid = false;
+       }
+     }
 
-    errorMessage = (isValid
-        ? null
-        : 'Value of amount can\'t exceed available balance.\n'
-          'The number of fraction digits must be less or equal to 2')!;
-  }
+     errorMessage = (isValid
+         ? null
+         : t != null ? t.error_text_fiat
+         : 'Value of amount can\'t exceed available balance.\n'
+           'The number of fraction digits must be less or equal to 2')!;
+   }
 }

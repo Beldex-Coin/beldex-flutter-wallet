@@ -156,7 +156,7 @@ class WalletListBodyState extends State<WalletListBody> {
               child: PrimaryButton(
                   onPressed: () => Navigator.of(context)
                       .pushNamed(Routes.restoreWalletOptions),
-                  text: tr(context).wallet_list_restore_wallet,
+                  text: tr(context).restore_wallet,
                   color: Color(0xff2979FB),
                   borderColor: Color(0xff2979FB)),
             ),
@@ -166,7 +166,7 @@ class WalletListBodyState extends State<WalletListBody> {
               child: PrimaryButton(
                   onPressed: () =>
                       Navigator.of(context).pushNamed(Routes.newWallet),
-                  text: tr(context).wallet_list_create_new_wallet,
+                  text: tr(context).create_new,
                   color: Color(0xff0BA70F),
                   borderColor: Color(0xff0BA70F)),
             ),

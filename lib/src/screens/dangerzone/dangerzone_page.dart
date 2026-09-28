@@ -90,13 +90,14 @@ class DangerZonePage extends BasePage {
                   textAlign: TextAlign.center,
                 )),
             Container(
-              child:Text('Are you Sure you want to access your $item?',
+              child: Text(
+                tr(context).dangerzone_warning(appStore, item),
                 style: TextStyle(
                   fontSize: 13.0,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).primaryTextTheme.bodySmall?.color,
                 ),
-              )
+              ),
             )
           ]),
         ),

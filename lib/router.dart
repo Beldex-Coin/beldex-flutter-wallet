@@ -480,7 +480,7 @@ class Router {
       case Routes.dangerzoneKeys:
         return MaterialPageRoute<void>(builder: (context) {
           return DangerZonePage(
-            pageTitle: 'Show Keys',
+            pageTitle: AppLocalizations.of(context)!.show_keys,
             nextPage: Routes.showKeys,
           );
         });
@@ -488,7 +488,7 @@ class Router {
       case Routes.dangerzoneSeed:
         return MaterialPageRoute<void>(builder: (context) {
           return DangerZonePage(
-            pageTitle: 'Show Seed',
+            pageTitle: AppLocalizations.of(context)!.show_seed,
             nextPage: Routes.seed,
           );
         });

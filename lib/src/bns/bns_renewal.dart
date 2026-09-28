@@ -71,12 +71,7 @@ class BnsRenewalPageForm extends StatefulWidget {
 }
 
 class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProviderStateMixin {
-  List<BnsPriceItem> bnsPriceDetailsList = [
-    BnsPriceItem('1y', '1 Yr', '1 Year', '650 BDX', ''),
-    BnsPriceItem('2y', '2 Yrs', '2 Years', '1000 BDX', '23.08%'),
-    BnsPriceItem('5y', '5 Yrs', '5 Years', '2000 BDX', '38.46%'),
-    BnsPriceItem('10y', '10 Yrs', '10 Years', '4000 BDX', '38.46%')
-  ];
+  late final List<BnsPriceItem> bnsPriceDetailsList;
 
   final _bnsNameController = TextEditingController();
   bool _effectsInstalled = false;
@@ -84,11 +79,18 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
 
   @override
   void initState() {
+    super.initState();
+    final localizations = tr(context);
+    bnsPriceDetailsList = [
+      BnsPriceItem('1y', localizations.bnsYearOneShort, localizations.bnsYearOne, '650 BDX', ''),
+      BnsPriceItem('2y', localizations.bnsYearTwoShort, localizations.bnsYearTwo, '1000 BDX', '23.08%'),
+      BnsPriceItem('5y', localizations.bnsYearFiveShort, localizations.bnsYearFive, '2000 BDX', '38.46%'),
+      BnsPriceItem('10y', localizations.bnsYearTenShort, localizations.bnsYearTen, '4000 BDX', '38.46%')
+    ];
     if(widget.bnsName.isNotEmpty){
       final bnsName = widget.bnsName;
       _bnsNameController.text = bnsName.substring(0, bnsName.indexOf('.'));
     }
-    super.initState();
   }
 
   @override
@@ -169,7 +171,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                               fontFamily: 'OpenSans'),
                           children: [
                             TextSpan(
-                                text: ' Price',
+                                text: ' ${tr(context).bnsPrice}',
                                 style: TextStyle(
                                     backgroundColor: Colors.transparent,
                                     fontSize: 15,
@@ -240,7 +242,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                               ? RichText(
                             textAlign: TextAlign.start,
                             text: TextSpan(
-                                text: 'You Save ',
+                                text: tr(context).bnsYouSave,
                                 style: TextStyle(
                                     backgroundColor: Colors.transparent,
                                     color: settingsStore.isDarkTheme
@@ -272,7 +274,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
               //BNS Name
               Container(
                 margin: EdgeInsets.only(left: 15),
-                child: Text('Name',
+                child: Text(tr(context).name,
                     style: TextStyle(
                         backgroundColor: Colors.transparent,
                         fontSize: 13.0,
@@ -323,7 +325,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                         color: settingsStore.isDarkTheme
                             ? Color(0xff77778B)
                             : Color(0xff77778B)),
-                    hintText: 'The name to purchase via Beldex Name Service',
+                    hintText: tr(context).bnsNameHint,
                     counterText: '',
                   ),
                   validator: (value) {
@@ -394,7 +396,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                     Align(
                         alignment: Alignment.center,
                         child: Text(
-                            'Renew',
+                            tr(context).bnsRenewAction,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
@@ -538,15 +540,15 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
         Navigator.of(context).pop();
         var errorMessage = state.error;
         if(state.error.contains('Reason: Cannot buy an BNS name that is already registered')){
-          errorMessage = 'BNS name is taken. Choose a different one.';
+          errorMessage = tr(context).bnsNameIsTaken;
         }else if(state.error.contains('Could not convert the wallet address string, check it is correct,')){
-          errorMessage = 'Enter a valid wallet address.';
+          errorMessage = tr(context).bnsEnterValidWalletAddress;
         }else if(state.error.contains('Wallet address provided could not be parsed owner')){
-          errorMessage = 'Invalid wallet address. Leave blank if you want to use the current wallet as the BNS owner.';
+          errorMessage = tr(context).bnsInvalidOwnerAddress;
         }else if(state.error.contains('specifying owner the same as the backup owner')){
-          errorMessage = 'Owner and backup address must be different.';
+          errorMessage = tr(context).bnsOwnerAndBackupDifferent;
         }else if(state.error.contains('Failed to get output distribution')){
-          errorMessage = 'Failed to get output distribution';
+          errorMessage = tr(context).failedToGetOutputDistribution;
         }
         showSimpleBeldexDialog(context, tr(context).alert, errorMessage,
             onPressed: (_) {
@@ -580,7 +582,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
         print('transactionDescription fee --> committed');
         WakelockPlus.disable();
         Navigator.of(context).pop();
-        showDialogTransactionSuccessfully(context, 'BNS Renewed Successfully', onPressed: (_) {
+        showDialogTransactionSuccessfully(context, tr(context).bnsRenewedSuccessfully, onPressed: (_) {
           Navigator.of(context)..pop()..pop();
         }, onDismiss: (_) {
           Navigator.of(context)..pop()..pop();

@@ -35,7 +35,7 @@ class SwapExchangePage extends BasePage {
   bool get isModalBackButton => false;
 
   @override
-  String getTitle(AppLocalizations t) => 'Swap';
+  String getTitle(AppLocalizations t) => t.swap;
 
   @override
   Color get textColor => Colors.white;
@@ -190,7 +190,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 
             if(getCurrenciesFullProvider.error != null || !networkProvider.isConnected) {
               print("Error of getCurrenciesFullProvider-> ${getCurrenciesFullProvider.error}");
-              return noInternet(settingsStore, _screenWidth);
+              return noInternet(settingsStore, _screenWidth, tr(context));
             }
 
             if(getCurrenciesFullProvider.data != null){
@@ -206,7 +206,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 this.getPairsParamsProvider = getPairsParamsProvider;
                 return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
                   if(getPairsParamsProvider.error != null || !networkProvider.isConnected) {
-                    return noInternet(settingsStore, _screenWidth);
+                    return noInternet(settingsStore, _screenWidth, tr(context));
                   }
 
                   if(getPairsParamsProvider.data != null || getExchangeAmountProvider.data != null || getExchangeAmountProvider.pairUnsupported) {
@@ -670,7 +670,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                     fontWeight: FontWeight.w700),
                 children: [
                   TextSpan(
-                      text: ' Swap is not available\nat the moment',
+                      text: tr(context).swapNotAvailable,
                       style: TextStyle(
                           backgroundColor: Colors.transparent,
                           fontSize: 16,
@@ -680,7 +680,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                               : Color(0xff222222)))
                 ]),
           ),
-          Text('Please try again after some times.',
+          Text(tr(context).tryAgain,
               style: TextStyle(
                   backgroundColor: Colors.transparent,
                   color: settingsStore.isDarkTheme
@@ -719,7 +719,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Exchange',
+                  tr(context).exchange,
                   style: TextStyle(
                       backgroundColor: Colors.transparent,
                       fontSize: 20,
@@ -749,7 +749,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             Container(
               margin: EdgeInsets.only(top: 20, left: 10, bottom: 10),
               child: Text(
-                'You send',
+                tr(context).youSend,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     backgroundColor: Colors.transparent,
@@ -986,7 +986,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         child: RichText(
                           textAlign: TextAlign.start,
                           text: TextSpan(
-                              text: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'Minimum amount is ':validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?'Maximum amount is ':'',
+                              text: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?tr(context).minimumAmount:validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)?tr(context).maximumAmount:'',
                               style: TextStyle(
                                   backgroundColor: Colors.transparent,
                                   color: settingsStore.isDarkTheme
@@ -1055,7 +1055,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             Container(
               margin: EdgeInsets.only(top: 10, left: 10, bottom: 10),
               child: Text(
-                'You get',
+                tr(context).youGet,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     backgroundColor: Colors.transparent,
@@ -1217,7 +1217,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Floating Exchange Rate',
+                          tr(context).floatingExchangeRate,
                           style: TextStyle(
                               backgroundColor: Colors.transparent,
                               fontSize: 13,
@@ -1341,7 +1341,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                     ),
                     Expanded(
                       child: Text(
-                        'The floating rate can change at any point due to market conditions, so you might receive more or less crypto than expected.',
+                        tr(context).floatingRateDescription,
                         //'With the fixed rate, you will receive the exact amount of crypto you see on this screen',
                         style: TextStyle(
                             fontSize: 12,
@@ -1391,7 +1391,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text('Exchange',
+                child: Text(tr(context).exchange,
                     style: TextStyle(
                         color: isNextButtonEnabled(floatingExchangeRate, !getPairsParamsProvider.getSendFieldErrorState(), sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)
                             ? Color(0xffffffff)
@@ -1431,7 +1431,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         fillColor: settingsStore.isDarkTheme
                             ? Color(0xff333343)
                             : Color(0xffF8F8F8),
-                        hintText: 'Search Coins',
+                        hintText: tr(context).searchCoins,
                         hintStyle: TextStyle(
                           color: Color(0xff77778B),
                         ),
@@ -1531,7 +1531,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         fillColor: settingsStore.isDarkTheme
                             ? Color(0xff333343)
                             : Color(0xffF8F8F8),
-                        hintText: 'Search Coins',
+                        hintText: tr(context).searchCoins,
                         hintStyle: TextStyle(
                           color: Color(0xff77778B),
                         ),
@@ -1620,7 +1620,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Exchange',
+                  tr(context).exchange,
                   style: TextStyle(
                       backgroundColor: Colors.transparent,
                       fontSize: 20,
@@ -1643,7 +1643,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             Container(
               margin: EdgeInsets.only(top: 20, left: 10, bottom: 10),
               child: Text(
-                'You send',
+                tr(context).youSend,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     backgroundColor: Colors.transparent,
@@ -1789,7 +1789,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             Container(
               margin: EdgeInsets.only(top: 10, left: 10, bottom: 10),
               child: Text(
-                'You get',
+                tr(context).youGet,
                 textAlign: TextAlign.start,
                 style: TextStyle(
                     backgroundColor: Colors.transparent,
@@ -1942,7 +1942,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Floating Exchange Rate',
+                          tr(context).floatingExchangeRate,
                           style: TextStyle(
                               backgroundColor: Colors.transparent,
                               fontSize: 13,
@@ -1999,7 +1999,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                     ),
                     Expanded(
                       child: Text(
-                        'The floating rate can change at any point due to market conditions, so you might receive more or less crypto than expected.',
+                        tr(context).floatingRateDescription,
                         //'With the fixed rate, you will receive the exact amount of crypto you see on this screen',
                         style: TextStyle(
                             fontSize: 12,
@@ -2026,7 +2026,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: Text('Exchange',
+                child: Text(tr(context).exchange,
                     style: TextStyle(
                         color: settingsStore.isDarkTheme
                             ? Color(0xff77778B)

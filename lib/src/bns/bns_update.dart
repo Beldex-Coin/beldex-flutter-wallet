@@ -129,6 +129,17 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     final balanceStore = Provider.of<BalanceStore>(context);
     final walletStore = Provider.of<WalletStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
+    final localizedOptions = [
+      tr(context).walletAddress,
+      tr(context).bnsBchatId,
+      tr(context).bnsBelnetId,
+      tr(context).bnsEthAddress,
+    ];
+    for (var i = 0; i < localizedOptions.length; i++) {
+      if (i < _bnsUpdateChangeNotifier.bnsPurchaseOptions.length) {
+        _bnsUpdateChangeNotifier.bnsPurchaseOptions[i].title = localizedOptions[i];
+      }
+    }
     _setEffects(context);
     return KeyboardDetection(
       controller: keyboardDetectionController,
@@ -206,7 +217,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                         },
                       ),
                       Container(
-                        child: Text('Update Owner',
+                        child: Text(tr(context).bnsUpdateOwner,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 fontSize: 18.0,
@@ -227,7 +238,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                         //BNS Owner Name
                         Container(
                           margin: EdgeInsets.only(left: 15, top: 5),
-                          child: Text('Owner',
+                          child: Text(tr(context).bnsOwnerLabel,
                               style: TextStyle(
                                   backgroundColor: Colors.transparent,
                                   fontSize: 13.0,
@@ -267,7 +278,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff77778B)
                                       : Color(0xff77778B)),
-                              hintText: 'Enter the wallet address of new owner',
+                              hintText: tr(context).bnsNewOwnerHint,
                             ),
                             validator: (value) {
                               return null;
@@ -383,7 +394,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                           },
                         ),
                         Container(
-                          child: Text('Update Values',
+                          child: Text(tr(context).bnsUpdateValues,
                               style: TextStyle(
                                   backgroundColor: Colors.transparent,
                                   fontSize: 18.0,
@@ -487,7 +498,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff77778B)
                                             : Color(0xff77778B)),
-                                    hintText: 'Wallet Address',
+                                    hintText: tr(context).walletAddress,
                                   ),
                                   validator: (value) {
                                     return null;
@@ -553,7 +564,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff77778B)
                                             : Color(0xff77778B)),
-                                    hintText: 'BChat ID',
+                                    hintText: tr(context).bnsBchatId,
                                     counterText: '',
                                   ),
                                   validator: (value) {
@@ -615,7 +626,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff77778B)
                                             : Color(0xff77778B)),
-                                    hintText: 'Belnet ID',
+                                    hintText: tr(context).bnsBelnetId,
                                     counterText: '',
                                   ),
                                   validator: (value) {
@@ -682,7 +693,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff77778B)
                                             : Color(0xff77778B)),
-                                    hintText: 'ETH Address',
+                                    hintText: tr(context).bnsEthAddress,
                                     counterText: '',
                                   ),
                                   validator: (value) {
@@ -726,7 +737,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                      text: 'Note : ',
+                      text: tr(context).bnsNoteLabel,
                       style: TextStyle(
                           backgroundColor: Colors.transparent,
                           fontSize: 15,
@@ -737,8 +748,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                               : Color(0xff626262)),
                       children: [
                         TextSpan(
-                          text:
-                              'You can only update owner address or values at a time. If you want to update both, you can either update the value before ownership or after transferring ownership.',
+                          text: tr(context).bnsUpdateNote,
                           style: TextStyle(
                               backgroundColor: Colors.transparent,
                               fontSize: 14,
@@ -814,7 +824,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                       ),
                       Align(
                           alignment: Alignment.center,
-                          child: Text('Update',
+                          child: Text(tr(context).bnsUpdateAction,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   backgroundColor: Colors.transparent,
@@ -967,7 +977,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       bnsUpdateChangeNotifier.setOwnerAddressFieldErrorMessage(
           bnsUpdateChangeNotifier.ownerAddressFieldIsValid
-              ? value == ownerAddress ?'same owner address':'Please fill in this field'
+              ? value == ownerAddress ? tr(context).bnsSameOwnerAddress : tr(context).bnsPleaseFillField
               : '');
     });
   }
@@ -990,7 +1000,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       bnsUpdateChangeNotifier.setWalletAddressFieldErrorMessage(
           bnsUpdateChangeNotifier.walletAddressFieldIsValid
-              ? value == walletAddress?'same wallet address':'Please fill in this field'
+              ? value == walletAddress ? tr(context).bnsSameWalletAddress : tr(context).bnsPleaseFillField
               : '');
     });
   }
@@ -1002,22 +1012,22 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBchatIdFieldIsValid(true);
       });
-      errorMessage = 'Please fill in this field';
+      errorMessage = tr(context).bnsPleaseFillField;
     } else if (value.isNotEmpty && value.length < 66) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBchatIdFieldIsValid(true);
       });
-      errorMessage = 'Invalid BChat ID';
+      errorMessage = tr(context).bnsInvalidBchatId;
     } else if (value.isNotEmpty && value.substring(0, 2) != 'bd') {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBchatIdFieldIsValid(true);
       });
-      errorMessage = 'Invalid BChat ID';
+      errorMessage = tr(context).bnsInvalidBchatId;
     } else if (value == bchatId){
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBchatIdFieldIsValid(true);
       });
-      errorMessage = 'same Bchat id';
+      errorMessage = tr(context).bnsSameBchatId;
     }else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBchatIdFieldIsValid(false);
@@ -1036,17 +1046,17 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBelnetIdFieldIsValid(true);
       });
-      errorMessage = 'Please fill in this field';
+      errorMessage = tr(context).bnsPleaseFillField;
     } else if (value.isNotEmpty && value.length < 52) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBelnetIdFieldIsValid(true);
       });
-      errorMessage = 'Invalid Belnet ID';
+      errorMessage = tr(context).bnsInvalidBelnetId;
     } else if (value == belnetId){
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBelnetIdFieldIsValid(true);
       });
-      errorMessage = 'same Belnet id';
+      errorMessage = tr(context).bnsSameBelnetId;
     }else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBelnetIdFieldIsValid(false);
@@ -1065,17 +1075,17 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setETHAddressFieldIsValid(true);
       });
-      errorMessage = 'Please fill in this field';
+      errorMessage = tr(context).bnsPleaseFillField;
     } else if (value.isNotEmpty && value.length < 42 && validateETHAddress(value)) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setETHAddressFieldIsValid(true);
       });
-      errorMessage = 'Invalid ETH Address';
+      errorMessage = tr(context).bnsInvalidEthAddress;
     } else if (value == ethAddress){
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setETHAddressFieldIsValid(true);
       });
-      errorMessage = 'same ETH Address';
+      errorMessage = tr(context).bnsSameEthAddress;
     }else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setETHAddressFieldIsValid(false);
@@ -1231,19 +1241,19 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
         var errorMessage = state.error;
         if (state.error.contains(
             'Reason: Cannot buy an BNS name that is already registered')) {
-          errorMessage = 'BNS name is taken. Choose a different one.';
+          errorMessage = tr(context).bnsNameIsTaken;
         } else if (state.error.contains(
             'Could not convert the wallet address string, check it is correct,')) {
-          errorMessage = 'Enter a valid wallet address.';
+          errorMessage = tr(context).bnsEnterValidWalletAddress;
         } else if (state.error
             .contains('Wallet address provided could not be parsed owner')) {
           errorMessage =
-              'Invalid Owner address.';
+              tr(context).bnsInvalidOwnerAddress;
         } else if (state.error
             .contains('specifying owner the same as the backup owner')) {
-          errorMessage = 'Owner and backup address must be different.';
+          errorMessage = tr(context).bnsOwnerAndBackupDifferent;
         } else if (state.error.contains('Failed to get output distribution')) {
-          errorMessage = 'Failed to get output distribution';
+          errorMessage = tr(context).failedToGetOutputDistribution;
         }
         showSimpleBeldexDialog(context, tr(context).alert, errorMessage,
             onPressed: (_) {
@@ -1299,7 +1309,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
         print('transactionDescription fee --> committed');
         WakelockPlus.disable();
         Navigator.of(context).pop();
-        showDialogTransactionSuccessfully(context, 'BNS Updated Successfully',
+        showDialogTransactionSuccessfully(context, tr(context).bnsUpdatedSuccessfully,
             onPressed: (_) {
           Navigator.of(context)..pop()..pop();
         }, onDismiss: (_) {

@@ -903,7 +903,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
         Navigator.of(context).pop();
         var errorMessage = state.error;
         if (state.error.contains('Failed to get output distribution')) {
-          errorMessage = 'Failed to get output distribution';
+          errorMessage = tr(context).failedToGetOutputDistribution;
         }
         showSimpleBeldexDialog(context, tr(context).alert, errorMessage,
             onPressed: (_) => Navigator.of(context).pop(),
@@ -977,7 +977,7 @@ class _CommitTransactionLoaderState extends State<CommitTransactionLoader> {
     _timer = Timer(const Duration(seconds: 1), () {
       if (!_transactionStarted && mounted) {
         _transactionStarted = true;
-        widget.sendStore.commitTransaction();
+        widget.sendStore.commitTransaction(t: tr(context));
       }
     });
   }

@@ -107,7 +107,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                           } else if (checkSubAddressAlreadyExist(value)) {
                             return tr(context).subaddressAlreadyExist;
                           } else {
-                            subAddressCreationStore.validateSubaddressName(value);
+                            subAddressCreationStore.validateSubaddressName(value, tr(context));
                             return subAddressCreationStore.errorMessage;
                           }
                         }),

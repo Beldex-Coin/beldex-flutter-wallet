@@ -248,7 +248,7 @@ class TransactionRow extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      Text('Payment ID',
+                                      Text(tr(context).transaction_details_payment_id,
                                           style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w900)),
@@ -309,7 +309,7 @@ class TransactionRow extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Date',
+                                Text(tr(context).date,
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w900)),
@@ -335,7 +335,7 @@ class TransactionRow extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Height',
+                                Text(tr(context).transaction_details_height,
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w900)),
@@ -365,7 +365,7 @@ class TransactionRow extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Amount',
+                                Text(tr(context).transaction_details_amount,
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w900)),

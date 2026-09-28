@@ -170,7 +170,7 @@ class _RestoreFromSeedDetailsFormState
               onPressed: () {
                 if ((_formKey.currentState?.validate() ?? false) && (_formKey2.currentState?.validate() ?? false)) {
                   walletRestorationStore.restoreFromSeed(
-                      name: _nameController.text, restoreHeight: height);
+                      name: _nameController.text, restoreHeight: height, t: tr(context));
                   restoreHeights(height);
                 } else {
                   return;

@@ -126,7 +126,7 @@ class SettingsFormState extends State<SettingsForm> {
           children: <Widget>[
             //Nodes Header
             NewNavListHeader(
-              title: t.settings_nodes,
+              title: t.nodes,
             ),
             //Current Node
             Theme(
@@ -164,7 +164,7 @@ class SettingsFormState extends State<SettingsForm> {
               ),
             ),
             //Wallets Header
-            NewNavListHeader(title: t.settings_wallets),
+            NewNavListHeader(title: t.wallets),
             Column(
               children: [
                 //Display Balance as
@@ -269,7 +269,8 @@ class SettingsFormState extends State<SettingsForm> {
                                                             BalanceDisplayMode
                                                                 .all[
                                                                     index]
-                                                                .toString(),
+                                                                .getTitle(
+                                                                    tr(context)),
                                                             textAlign:
                                                                 TextAlign
                                                                     .center,
@@ -317,7 +318,8 @@ class SettingsFormState extends State<SettingsForm> {
                   title: t.settings_display_balance_as,
                   widget: Observer(
                       builder: (_) => Text(
-                            settingsStore.balanceDisplayMode.toString(),
+                            settingsStore.balanceDisplayMode?.getTitle(tr(context)) ??
+                                tr(context).beldex_available_balance,
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
@@ -507,7 +509,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                 decoration:
                                                     InputDecoration(
                                                   hintText:
-                                                      'Search Currency',
+                                                      tr(context).searchCurrency,
                                                   hintStyle: TextStyle(backgroundColor: Colors.transparent),
                                                   suffixIcon: IconButton(
                                                       icon: Icon(
@@ -661,7 +663,7 @@ class SettingsFormState extends State<SettingsForm> {
                                           padding:
                                               const EdgeInsets.all(8.0),
                                           child: Text(
-                                            'Fee Priority',
+                                            tr(context).settings_fee_priority,
                                             style: TextStyle(
                                               backgroundColor: Colors.transparent,
                                               fontSize: 16.0,

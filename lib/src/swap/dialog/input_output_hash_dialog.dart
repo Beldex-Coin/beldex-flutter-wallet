@@ -49,7 +49,7 @@ class InputOutputDialog extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                   child: Column(
                     children: [
-                      Text("Input/Output Hash",
+                      Text(tr(context).swap_input_output_hash,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               backgroundColor: Colors.transparent,
@@ -73,7 +73,7 @@ class InputOutputDialog extends StatelessWidget {
                                       child:  Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text("Input Hash",
+                                          Text(tr(context).swap_input_hash,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   backgroundColor: Colors.transparent,
@@ -120,7 +120,7 @@ class InputOutputDialog extends StatelessWidget {
                                       child:  Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text("Output Hash",
+                                          Text(tr(context).swap_output_hash,
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   backgroundColor: Colors.transparent,

@@ -23,10 +23,10 @@ class BnsUpdateChangeNotifier extends ChangeNotifier{
   String ethAddressFieldErrorMessage = '';
 
   List<BnsPurchaseOptions> bnsPurchaseOptions = [
-    BnsPurchaseOptions('Wallet Address', true),
-    BnsPurchaseOptions('BChat ID', false),
-    BnsPurchaseOptions('Belnet ID', false),
-    BnsPurchaseOptions('ETH Address', false)
+    BnsPurchaseOptions('', true),
+    BnsPurchaseOptions('', false),
+    BnsPurchaseOptions('', false),
+    BnsPurchaseOptions('', false)
   ];
 
   void setOwnerAddressFieldIsValid(bool status) {
