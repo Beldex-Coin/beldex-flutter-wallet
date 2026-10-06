@@ -1060,7 +1060,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    tr(context).bnsAddressLabel,
+                                    tr(context).restore_address,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1297,7 +1297,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10.0),
-                        child: Text('Confirm Update',
+                        child: Text(tr(context).bnsConfirmUpdate,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 fontSize: 16, fontWeight: FontWeight.w800)),

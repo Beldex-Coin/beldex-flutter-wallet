@@ -9,1699 +9,1647 @@ class AppLocalizationsPt extends AppLocalizations {
   AppLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
-  String get welcome => 'Welcome to\nBeldex Wallet';
+  String get welcome => '';
 
   @override
-  String get first_wallet_text => 'Awesome wallet\nfor Beldex';
+  String get first_wallet_text => '';
 
   @override
-  String get please_make_selection => 'Select from the options below to\neither create or recover your wallet.';
+  String get please_make_selection => '';
 
   @override
-  String get create_new => 'Create New Wallet';
+  String get create_new => 'Criar nova carteira';
 
   @override
-  String get restore_wallet => 'Use Existing Wallet';
+  String get restore_wallet => 'Usar carteira existente';
 
   @override
-  String get accounts => 'Accounts';
+  String get accounts => 'Contas';
 
   @override
-  String get edit => 'Edit';
+  String get edit => 'Editar';
 
   @override
-  String get account => 'Account';
+  String get account => 'Conta';
 
   @override
-  String get add => 'Add';
+  String get add => 'Adicionar';
 
   @override
-  String get address_book => 'Address Book';
+  String get address_book => 'Catálogo de Endereços';
 
   @override
-  String get contact => 'Contact';
+  String get contact => '';
 
   @override
-  String get please_select => 'Please select:';
+  String get please_select => '';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Cancelar';
 
   @override
   String get ok => 'Ok';
 
   @override
-  String get contact_name => 'Contact Name';
+  String get contact_name => '';
 
   @override
-  String get reset => 'Reset';
+  String get reset => 'Redefinir';
 
   @override
-  String get save => 'Save';
+  String get save => 'Salvar';
 
   @override
-  String get authenticated => 'Authenticated';
+  String get authenticated => '';
 
   @override
-  String get authentication => 'Authentication';
+  String get authentication => '';
 
   @override
   String failed_authentication(Object state_error) {
-    return 'Failed authentication. $state_error';
+    return 'Falha na autenticação. $state_error';
   }
 
   @override
-  String get wallet_menu => 'Menu';
+  String get wallet_menu => '';
 
   @override
   String blocksRemaining(Object status) {
-    return '$status Blocks Remaining';
+    return 'Restam $status blocos';
   }
 
   @override
-  String get please_try_to_connect_to_another_node => 'Please try to connect to another node';
+  String get please_try_to_connect_to_another_node => 'Por favor, tente conectar a outro nó';
 
   @override
-  String get beldex_hidden => 'Beldex Hidden';
+  String get beldex_hidden => '';
 
   @override
-  String get beldex_available_balance => 'Beldex Available Balance';
+  String get beldex_available_balance => '';
 
   @override
-  String get beldex_full_balance => 'Beldex Full Balance';
+  String get beldex_full_balance => '';
 
   @override
-  String get send => 'Send';
+  String get send => 'Enviar';
 
   @override
-  String get receive => 'Receive';
+  String get receive => 'Receber';
 
   @override
-  String get transactions => 'Transactions';
+  String get transactions => 'Transações';
 
   @override
-  String get incoming => 'Incoming';
+  String get incoming => 'Entrada';
 
   @override
-  String get outgoing => 'Outgoing';
+  String get outgoing => 'Saída';
 
   @override
-  String get transactions_by_date => 'Transactions by Date';
+  String get transactions_by_date => 'Transações por data';
 
   @override
-  String get filters => 'Filters';
+  String get filters => 'Filtrar po';
 
   @override
-  String get today => 'Today';
+  String get today => '';
 
   @override
-  String get yesterday => 'Yesterday';
+  String get yesterday => '';
 
   @override
-  String get received => 'Received';
+  String get received => '';
 
   @override
-  String get sent => 'Sent';
+  String get sent => 'Enviado';
 
   @override
-  String get pending => ' (pending)';
+  String get pending => '';
 
   @override
-  String get rescan => 'Rescan';
+  String get rescan => 'Reescanear';
 
   @override
-  String get reconnect => 'Reconnect';
+  String get reconnect => 'Reconectar';
 
   @override
-  String get wallets => 'Wallets';
+  String get wallets => 'Carteiras';
 
   @override
-  String get show_seed => 'Show Seed';
+  String get show_seed => 'Mostrar seed';
 
   @override
-  String get show_keys => 'Show keys';
+  String get show_keys => 'Mostrar chaves';
 
   @override
-  String get reconnection => 'Reconnection';
+  String get reconnection => '';
 
   @override
-  String get reconnect_alert_text => 'Are you sure to reconnect?';
+  String get reconnect_alert_text => '';
 
   @override
-  String get reload_fiat => 'Reload Fiat data';
+  String get reload_fiat => '';
 
   @override
-  String get clear => 'Clear';
+  String get clear => 'Limpar';
 
   @override
-  String get error => 'Error';
+  String get error => '';
 
   @override
-  String get copied_to_clipboard => 'Copied to clipboard!';
+  String get copied_to_clipboard => '';
 
   @override
-  String get fetching => 'Fetching';
+  String get fetching => '';
 
   @override
-  String get id => 'ID: ';
+  String get id => '';
 
   @override
-  String get amount => 'Amount ';
+  String get amount => 'Valor';
 
   @override
-  String get status => 'Status: ';
+  String get status => 'Status:';
 
   @override
-  String get confirm => 'Confirm';
+  String get confirm => '';
 
   @override
-  String get confirm_sending => 'Confirm sending';
+  String get confirm_sending => 'Confirmar envio';
 
   @override
   String commit_transaction_amount_fee(Object amount, Object fee) {
-    return 'Commit transaction\nAmount: $amount\nFee: $fee';
+    return '';
   }
 
   @override
-  String get sending => 'Sending';
+  String get sending => '';
 
   @override
-  String get transaction_sent => 'Transaction sent!';
+  String get transaction_sent => '';
 
   @override
-  String get send_beldex => 'Send Beldex';
+  String get send_beldex => '';
 
   @override
   String get faq => 'FAQ';
 
   @override
-  String get changelog => 'Changelog';
+  String get changelog => 'Registro de alterações';
 
   @override
-  String get loading_your_wallet => 'Loading your wallet';
+  String get loading_your_wallet => '';
 
   @override
-  String get new_wallet => 'New Wallet';
+  String get new_wallet => 'Nova carteira';
 
   @override
-  String get wallet_name => 'Wallet Name';
+  String get wallet_name => 'Nome da carteira';
 
   @override
-  String get continue_text => 'Continue';
+  String get continue_text => 'Continuar';
 
   @override
-  String get node_new => 'New Node';
+  String get node_new => '';
 
   @override
-  String get node_address => 'Node Address';
+  String get node_address => 'Endereço do nó';
 
   @override
-  String get node_port => 'Node Port';
+  String get node_port => 'Porta do nó';
 
   @override
-  String get login => 'Login';
+  String get login => '';
 
   @override
-  String get password => 'Password';
+  String get password => '';
 
   @override
-  String get nodes => 'Nodes';
+  String get nodes => 'Nós';
 
   @override
-  String get node_reset_settings_title => 'Reset settings';
+  String get node_reset_settings_title => 'Redefinir configurações';
 
   @override
-  String get nodes_list_reset_to_default_message => 'Are you sure that you want to reset settings to default?';
+  String get nodes_list_reset_to_default_message => 'Tem certeza de que deseja redefinir as configurações\n para o padrão?';
 
   @override
   String change_current_node(Object node) {
-    return 'Are you sure to change current node to $node?';
+    return 'Tem certeza de que deseja alterar o nó atual para $node?';
   }
 
   @override
-  String get change => 'Change';
+  String get change => '';
 
   @override
-  String get remove_node => 'Remove node';
+  String get remove_node => '';
 
   @override
-  String get remove_node_message => 'Are you sure that you want to remove selected node?';
+  String get remove_node_message => '';
 
   @override
-  String get remove => 'Remove';
+  String get remove => '';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Excluir';
 
   @override
-  String get use => 'Switch to ';
+  String get use => '';
 
   @override
-  String get digit_pin => '-digit PIN';
+  String get digit_pin => '';
 
   @override
-  String get share_address => 'Share address';
+  String get share_address => '';
 
   @override
-  String get receive_amount => 'Amount';
+  String get subaddresses => '';
 
   @override
-  String get subaddresses => 'Subaddresses';
+  String get restore_restore_wallet => 'Restaurar carteira';
 
   @override
-  String get restore_restore_wallet => 'Restore Wallet';
+  String get restore_title_from_seed_keys => 'Restaurar a partir da seed/chaves';
 
   @override
-  String get restore_title_from_seed_keys => 'Restore from seed/keys';
+  String get restore_description_from_seed_keys => 'Recupere sua carteira usando a seed/chaves que você salvou em um local seguro';
 
   @override
-  String get restore_description_from_seed_keys => 'Get back your wallet from seed/keys that you\'ve saved to secure place';
+  String get restore_next => 'Próximo';
 
   @override
-  String get restore_next => 'Next';
+  String get restore_title_from_backup => '';
 
   @override
-  String get restore_title_from_backup => 'Restore from a back-up file';
+  String get restore_description_from_backup => '';
 
   @override
-  String get restore_description_from_backup => 'You can restore the whole Beldex Wallet app from your back-up file';
+  String get restore_seed_keys_restore => '';
 
   @override
-  String get restore_seed_keys_restore => 'Seed/Keys Restore';
+  String get restore_title_from_seed => 'Restaurar a partir da seed';
 
   @override
-  String get restore_title_from_seed => 'Restore from Seed';
+  String get restore_description_from_seed => 'Use a chave mnemônica de 25 palavras ou frase seed para restaurar sua carteira.';
 
   @override
-  String get restore_description_from_seed => 'Use the 25-word Mnemonic Key or Seed Phrase to Restore your Wallet.';
+  String get restore_title_from_keys => 'Restaurar a partir das chaves';
 
   @override
-  String get restore_title_from_keys => 'Restore from Keys';
+  String get restore_description_from_keys => 'Use as sequências de teclas geradas a partir das chaves privadas para restaurar sua carteira';
 
   @override
-  String get restore_description_from_keys => 'Use the generated keystrokes saved from private keys to Restore your Wallet ';
+  String get restore_address => 'Endereço';
 
   @override
-  String get restore_wallet_name => 'Wallet Name';
+  String get restore_recover => 'Restaurar';
 
   @override
-  String get restore_address => 'Address';
-
-  @override
-  String get restore_view_key_private => 'View key (private)';
-
-  @override
-  String get restore_spend_key_private => 'Spend key (private)';
-
-  @override
-  String get restore_recover => 'Restore';
-
-  @override
-  String get restore_wallet_restore_description => 'Wallet restore description';
+  String get restore_wallet_restore_description => '';
 
   @override
   String get seed_title => 'Seed';
 
   @override
-  String get seed_share => 'Share seed';
+  String get seed_share => '';
 
   @override
-  String get copy => 'Copy';
+  String get copy => '';
 
   @override
-  String get seed_language_choose => 'Please choose a seed language';
+  String get seed_language_choose => '';
 
   @override
-  String get seed_language_next => 'Next';
+  String get seed_language_english => '';
 
   @override
-  String get seed_language_english => 'English';
+  String get seed_language_chinese => '';
 
   @override
-  String get seed_language_chinese => 'Chinese';
+  String get seed_language_dutch => '';
 
   @override
-  String get seed_language_dutch => 'Dutch';
+  String get seed_language_german => '';
 
   @override
-  String get seed_language_german => 'German';
+  String get seed_language_japanese => '';
 
   @override
-  String get seed_language_japanese => 'Japanese';
+  String get seed_language_portuguese => '';
 
   @override
-  String get seed_language_portuguese => 'Portuguese';
+  String get seed_language_russian => '';
 
   @override
-  String get seed_language_russian => 'Russian';
+  String get seed_language_spanish => '';
 
   @override
-  String get seed_language_spanish => 'Spanish';
+  String get seed_language_french => '';
 
   @override
-  String get seed_language_french => 'French';
+  String get seed_language_italian => '';
 
   @override
-  String get seed_language_italian => 'Italian';
+  String get send_your_wallet => '';
 
   @override
-  String get send_title => 'Send';
+  String get send_beldex_address => 'Endereço Beldex ou nome BNS';
 
   @override
-  String get send_your_wallet => 'Your wallet';
+  String get all => '';
 
   @override
-  String get send_beldex_address => 'Beldex address or BNS name';
+  String get send_error_currency => '';
 
   @override
-  String get all => 'ALL';
-
-  @override
-  String get send_error_currency => 'Currency can only contain numbers';
-
-  @override
-  String get send_estimated_fee => 'Estimated Fee:';
+  String get send_estimated_fee => 'Taxa estimada:';
 
   @override
   String send_priority(Object transactionPriority) {
-    return '$transactionPriority priority is set as the default fee.\nGo to setting to change the transaction priority.';
+    return 'A prioridade $transactionPriority está definida como a taxa padrão. Acesse as configurações para alterar a prioridade da transação.';
   }
 
   @override
-  String get send_creating_transaction => 'Creating transaction';
+  String get send_creating_transaction => '';
 
   @override
-  String get title_stakes => 'Stakes';
+  String get title_stakes => '';
 
   @override
-  String get title_new_stake => 'New Stake';
+  String get title_new_stake => '';
 
   @override
-  String get your_contributions => 'Your Contributions';
+  String get your_contributions => '';
 
   @override
-  String get start_staking => 'Start staking';
+  String get start_staking => '';
 
   @override
-  String get stake_more => 'Stake more';
+  String get stake_more => '';
 
   @override
-  String get nothing_staked => 'Nothing staked yet';
+  String get nothing_staked => '';
 
   @override
-  String get service_node_key => 'Master Node Key';
+  String get service_node_key => '';
 
   @override
-  String get stake_beldex => 'Stake Beldex';
+  String get stake_beldex => '';
 
   @override
-  String get title_confirm_unlock_stake => 'Unlock Stake';
+  String get title_confirm_unlock_stake => '';
 
   @override
   String body_confirm_unlock_stake(Object masterNodeKey) {
-    return 'Do you really want to unlock your stake from $masterNodeKey?';
+    return '';
   }
 
   @override
-  String get unlock_stake_requested => 'Stake unlock requested';
+  String get unlock_stake_requested => '';
 
   @override
-  String get unable_unlock_stake => 'Unable to unlock stake';
+  String get unable_unlock_stake => '';
 
   @override
-  String get settings_title => 'Settings';
+  String get settings_title => 'Configurações';
 
   @override
-  String get settings_nodes => 'Nodes';
+  String get settings_current_node => 'Nó atual';
 
   @override
-  String get settings_current_node => 'Current node';
+  String get settings_display_balance_as => 'Exibir saldo como';
 
   @override
-  String get settings_wallets => 'Wallets';
+  String get settings_balance_detail => 'Decimais';
 
   @override
-  String get settings_display_balance_as => 'Display Balance As';
+  String get settings_currency => 'Moeda';
 
   @override
-  String get settings_balance_detail => 'Decimals';
+  String get settings_fee_priority => 'Prioridade de taxa';
 
   @override
-  String get settings_currency => 'Currency';
+  String get settings_save_recipient_address => 'Salvar endereço do destinatário';
 
   @override
-  String get settings_fee_priority => 'Fee Priority';
+  String get settings_personal => 'Pessoal';
 
   @override
-  String get settings_save_recipient_address => 'Save recipient address';
+  String get settings_change_pin => 'Alterar PIN';
 
   @override
-  String get settings_personal => 'Personal';
+  String get settings_allow_biometric_authentication => 'Permitir autenticação biométrica';
 
   @override
-  String get settings_change_pin => 'Change PIN';
+  String get settings_dark_mode => 'Modo escuro';
 
   @override
-  String get settings_change_language => 'Select Language';
+  String get settings_display_on_dashboard_list => '';
 
   @override
-  String get settings_allow_biometric_authentication => 'Allow biometric authentication';
+  String get settings_none => '';
 
   @override
-  String get settings_dark_mode => 'Dark mode';
+  String get settings_support => 'Suporte';
 
   @override
-  String get settings_display_on_dashboard_list => 'Display on dashboard list';
+  String get settings_terms_and_conditions => 'Termos e Condiçõe';
 
   @override
-  String get settings_all => 'ALL';
+  String get settings_enable_fiat_currency => 'Ativar conversão para moeda fiduciária';
 
   @override
-  String get settings_none => 'None';
+  String get pin_is_incorrect => 'PIN incorreto';
 
   @override
-  String get settings_support => 'Support';
+  String get amount_detail_ultra => '';
 
   @override
-  String get settings_terms_and_conditions => 'Terms & Conditions';
+  String get amount_detail_none => '';
 
   @override
-  String get settings_enable_fiat_currency => 'Enable Fiat Currency conversion';
+  String get amount_detail_detailed => '';
 
   @override
-  String get pin_is_incorrect => 'PIN is incorrect';
+  String get amount_detail_normal => '';
 
   @override
-  String get amount_detail_ultra => '9 - Ultra';
+  String get setup_pin => 'Configurar PIN';
 
   @override
-  String get amount_detail_none => '0 - None';
+  String get re_enter_your_pin => 'Digite novamente o seu PIN';
 
   @override
-  String get amount_detail_detailed => '4 - Detailed';
+  String get setup_successful => 'Seu PIN foi configurado com sucesso!';
 
   @override
-  String get amount_detail_normal => '2 - Normal';
+  String get wallet_keys => 'Chaves da carteira';
 
   @override
-  String get setup_pin => 'Setup PIN';
+  String get view_key_private => 'Chave de Visualização (privada)';
 
   @override
-  String get re_enter_your_pin => 'Re-Enter your PIN';
+  String get view_key_public => 'Ver chave (pública)';
 
   @override
-  String get setup_successful => 'Your PIN has been set up \nsuccessfully!';
+  String get spend_key_private => 'Chave de Gasto';
 
   @override
-  String get wallet_keys => 'Wallet keys';
-
-  @override
-  String get view_key_private => 'View key (private)';
-
-  @override
-  String get view_key_public => 'View key (public)';
-
-  @override
-  String get spend_key_private => 'Spend key (private)';
-
-  @override
-  String get spend_key_public => 'Spend key (public)';
+  String get spend_key_public => 'Chave de gasto (pública)';
 
   @override
   String copied_key_to_clipboard(Object key) {
-    return 'Copied $key to Clipboard';
+    return '';
   }
 
   @override
-  String get new_subaddress_title => 'New subaddress';
+  String get new_subaddress_title => '';
 
   @override
-  String get new_subaddress_label_name => 'Label name';
+  String get new_subaddress_create => 'Criar';
 
   @override
-  String get new_subaddress_create => 'Create';
+  String get subaddress_title => '';
 
   @override
-  String get subaddress_title => 'Subaddress list';
+  String get transaction_details_title => '';
 
   @override
-  String get transaction_details_title => 'Transaction Details';
+  String get transaction_details_transaction_id => 'ID da transação';
 
   @override
-  String get transaction_details_transaction_id => 'Transaction ID';
+  String get transaction_details_height => 'Altura';
 
   @override
-  String get transaction_details_date => 'Date';
+  String get transaction_details_amount => 'Valor';
 
   @override
-  String get transaction_details_height => 'Height';
-
-  @override
-  String get transaction_details_amount => 'Amount';
-
-  @override
-  String get transaction_details_payment_id => 'Payment ID';
+  String get transaction_details_payment_id => '';
 
   @override
   String transaction_details_copied(Object title) {
-    return '$title copied to Clipboard';
+    return '';
   }
 
   @override
-  String get transaction_details_recipient_address => 'Recipient Address';
-
-  @override
-  String get swap_wallet_address => 'Wallet Address';
-
-  @override
-  String get swap_recipient_address => 'Recipient Address';
+  String get transaction_details_recipient_address => 'Endereço do destinatário';
 
   @override
   String swap_correct_chain_address(Object blockchain) {
-    return 'Please make sure to enter the correct address for the selected chain - $blockchain. Otherwise you will lose your funds.';
+    return 'Certifique-se de inserir o endereço correto para a rede selecionada - $blockchain. Caso contrário, você perderá seus fundos.';
   }
 
   @override
   String swap_enter_recipient_address(Object currency) {
-    return 'Enter your $currency recipient address';
+    return 'Insira o endereço do destinatário de $currency';
   }
 
   @override
-  String get swap_refund_wallet_address => 'Refund wallet Address';
+  String get swap_refund_wallet_address => '';
 
   @override
   String swap_enter_refund_address(Object currency) {
-    return 'Enter your $currency refund address';
+    return '';
   }
 
   @override
   String swap_extra_id_info(Object currency, Object extraIdName) {
-    return 'Please specify the $extraIdName for your $currency receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a $extraIdName, remove the tick.';
+    return '';
   }
 
   @override
   String swap_my_wallet_requires_extra_id(Object extraIdName) {
-    return 'My wallet requires $extraIdName';
+    return '';
   }
 
   @override
   String swap_enter_extra_id(Object extraIdName) {
-    return 'Enter $extraIdName';
+    return '';
   }
 
   @override
   String swap_please_enter_extra_id(Object extraIdName) {
-    return 'Please enter $extraIdName';
+    return '';
   }
 
   @override
-  String get swap_minimum_amount_changed => 'The minimum amount value has changed, The new value is ';
+  String get swap_minimum_amount_changed => '';
 
   @override
-  String get swap_maximum_amount_changed => 'The maximum amount value has changed, The new value is ';
+  String get swap_maximum_amount_changed => '';
 
   @override
-  String get swap_transaction_preview => 'Transaction Preview';
+  String get swap_transaction_preview => '';
 
   @override
-  String get swap_exchange_rate => 'Exchange rate';
+  String get swap_exchange_rate => 'Taxa de câmbio';
 
   @override
-  String get swap_service_fee => 'Service fee 0.25%';
+  String get swap_service_fee => 'Taxa de serviço 0,25%';
 
   @override
-  String get service_fee => 'Service Fee 0.25%';
+  String get service_fee => 'Taxa de serviço 0,25%';
 
   @override
-  String get network_fee => 'Network Fee';
+  String get network_fee => 'Taxa de rede';
 
   @override
-  String get swap_refund_address => 'Refund Address';
+  String get swap_refund_address => '';
 
   @override
-  String get swap_network_fee => 'Network fee';
+  String get swap_network_fee => 'Taxa de rede';
 
   @override
-  String get swap_you_get => 'You Get';
+  String get swap_you_get => 'Você recebe';
 
   @override
-  String get swap_checkout => 'Checkout';
+  String get swap_checkout => 'Finalizar compra';
 
   @override
-  String get swap_network_label => 'NETWORK: ';
+  String get swap_network_label => 'REDE: ';
 
   @override
-  String get swap_estimated_time => 'Estimated Time';
+  String get swap_estimated_time => '';
 
   @override
-  String get swap_estimated_time_value => '5-30 mins';
+  String get swap_estimated_time_value => '';
 
   @override
-  String get swap_confirm_and_make_payment => 'Confirm & Make Payment';
+  String get swap_confirm_and_make_payment => 'Confirmar e realizar pagamento';
 
   @override
-  String get swap_send_funds_to_address_below => 'Send funds to the address below';
+  String get swap_send_funds_to_address_below => 'Envie os fundos para o endereço abaixo';
 
   @override
   String swap_time_left_to_send(Object amount, Object currency) {
-    return 'Time left to send $amount $currency';
+    return 'Tempo restante para enviar $amount $currency';
   }
 
   @override
   String swap_time_remaining(Object value) {
-    return 'Time Remaining : $value';
+    return 'Tempo restante: $value';
   }
 
   @override
-  String get swap_send_funds_notice => 'You Have 3 Hours to send funds otherwise the transaction will be cancelled automatically.\n\nThe exchange will be initiated once the funds are received.';
+  String get swap_send_funds_notice => 'Você tem 3 horas para enviar os fundos,\ncaso contrário, a transação será\ncancelada automaticamente.\nA troca será iniciada assim que\nos fundos forem recebidos.';
 
   @override
-  String get swap_confirmations => 'Confirmations';
+  String get swap_confirmations => '';
 
   @override
-  String get swap_completed => 'Completed';
+  String get swap_completed => 'Concluído';
 
   @override
-  String get swap_amount_from => 'Amount from';
+  String get swap_amount_from => 'Valor de';
 
   @override
-  String get swap_amount_to => 'Amount to';
+  String get swap_amount_to => 'Valor para';
 
   @override
-  String get swap_received_time => 'Received Time';
+  String get swap_received_time => 'Hora de recebimento';
 
   @override
-  String get swap_amount_sent => 'Amount Sent';
+  String get swap_amount_sent => 'Valor enviado';
 
   @override
-  String get swap_input_output_hash => 'Input/Output Hash';
+  String get swap_input_output_hash => 'Hash de entrada/saída';
 
   @override
-  String get swap_input_hash => 'Input Hash';
+  String get swap_input_hash => 'Hash de entrada';
 
   @override
-  String get swap_output_hash => 'Output Hash';
+  String get swap_output_hash => 'Hash de saída';
 
   @override
-  String get swap_failed => 'Failed';
+  String get swap_failed => 'Falhou';
 
   @override
-  String get swap_expired => 'Expired';
+  String get swap_expired => '';
 
   @override
-  String get swap_overdue => 'Overdue';
+  String get swap_overdue => '';
 
   @override
-  String get swap_funds_not_received => 'The funds were not received within 3 hours. Please check the rates and create a new transaction';
+  String get swap_funds_not_received => 'Os fundos não foram recebidos dentro de 3\nhoras. Por favor, verifique as taxas e crie\numa nova transação';
 
   @override
-  String get swap_start_over => 'Start Over';
+  String get swap_start_over => 'Começar novamente';
 
   @override
-  String get swap_exchanging => 'Exchanging';
+  String get swap_exchanging => '';
 
   @override
-  String get swap_confirming_in_progress => 'Confirming in progress';
+  String get swap_confirming_in_progress => '';
 
   @override
-  String get swap_confirmed => 'Confirmed';
+  String get swap_confirmed => '';
 
   @override
   String swap_confirmed_in_blockchain(Object currencyFrom, Object currencyTo) {
-    return 'Once $currencyFrom is confirmed in the blockchain, we\'ll start exchanging it to $currencyTo';
+    return '';
   }
 
   @override
-  String get swap_see_input_hash_in_explorer => 'See input hash in explorer';
+  String get swap_see_input_hash_in_explorer => '';
 
   @override
   String swap_done_exchanging(Object currencyFrom, Object currencyTo) {
-    return 'Done Exchanging $currencyFrom to $currencyTo';
+    return '';
   }
 
   @override
   String swap_exchanging_currency(Object currencyFrom, Object currencyTo) {
-    return 'Exchanging $currencyFrom to $currencyTo';
+    return '';
   }
 
   @override
-  String get swap_process_wait => 'The process will take a few minutes. please wait.';
+  String get swap_process_wait => '';
 
   @override
-  String get swap_sending_funds_to_wallet => 'Sending funds to your wallet';
+  String get swap_sending_funds_to_wallet => '';
 
   @override
-  String get swap_funds_sent_to_wallet => 'Funds send to your wallet';
+  String get swap_funds_sent_to_wallet => '';
 
   @override
-  String get swap_you_dont_have_to_wait_here => 'You don’t have to wait here';
+  String get swap_you_dont_have_to_wait_here => '';
 
   @override
-  String get swap_you_can_initiate_new_transaction => 'You can initiate a new transaction. You can always check the status of this transaction in transaction ';
+  String get swap_you_can_initiate_new_transaction => '';
 
   @override
-  String get swap_history => 'history';
+  String get swap_history => '';
 
   @override
-  String get swap_you_sent => 'You sent';
+  String get swap_you_sent => '';
 
   @override
   String swap_exchange_address(Object currency, Object exchangeName) {
-    return '$exchangeName address ($currency)';
+    return '';
   }
 
   @override
   String swap_recipient_address_with_currency(Object currency) {
-    return 'Recipient address ($currency)';
+    return '';
   }
 
   @override
-  String get swap_open_history => 'Open History';
+  String get swap_open_history => 'Abrir histórico';
 
   @override
-  String get swap_new_transaction => 'New Transaction';
+  String get swap_new_transaction => 'Nova transação';
 
   @override
-  String get swap_i_agree_with => 'I agree with ';
+  String get swap_i_agree_with => 'Eu concordo com';
 
   @override
-  String get swap_terms_of_use => 'Terms of Use';
+  String get swap_terms_of_use => 'Termos de uso';
 
   @override
-  String get swap_and => ' and ';
+  String get swap_and => 'e';
 
   @override
-  String get swap_privacy_policy => 'Privacy Policy';
+  String get swap_privacy_policy => 'Política de privacidade';
 
   @override
-  String get swap_next => 'Next';
+  String get wallet_list_title => 'Carteira Beldex';
 
   @override
-  String get wallet_list_title => 'Beldex Wallet';
-
-  @override
-  String get wallet_list_create_new_wallet => 'Create New Wallet';
-
-  @override
-  String get wallet_list_restore_wallet => 'Use Existing Wallet';
-
-  @override
-  String get wallet_list_load_wallet => 'Load wallet';
+  String get wallet_list_load_wallet => 'Carregar carteira';
 
   @override
   String wallet_list_loading_wallet(Object wallet_name) {
-    return 'Loading $wallet_name wallet';
+    return '';
   }
 
   @override
   String wallet_list_failed_to_load(Object error, Object wallet_name) {
-    return 'Failed to load $wallet_name wallet. $error';
+    return '';
   }
 
   @override
   String wallet_list_removing_wallet(Object wallet_name) {
-    return 'Removing $wallet_name wallet';
+    return '';
   }
 
   @override
   String wallet_list_failed_to_remove(Object error, Object wallet_name) {
-    return 'Failed to remove $wallet_name wallet. $error';
+    return '';
   }
 
   @override
-  String get widgets_address => 'Address';
+  String get widgets_restore_from_blockheight => 'Restaurar a partir do blockheight';
 
   @override
-  String get widgets_restore_from_blockheight => 'Restore from Blockheight';
+  String get widgets_restore_from_date => 'Restaurar a partir da data';
 
   @override
-  String get widgets_restore_from_date => 'Restore from Date';
-
-  @override
-  String get widgets_or => 'OR';
-
-  @override
-  String get widgets_seed => 'Seed';
+  String get widgets_or => '';
 
   @override
   String router_no_route(Object name) {
-    return 'No route defined for $name';
+    return '';
   }
 
   @override
-  String get error_text_account_name => 'Account name can only contain letters, numbers\nand must be between 1 and 15 characters long';
+  String get error_text_account_name => '';
 
   @override
-  String get error_text_contact_name => 'Contact name can\'t contain ` , \' \" symbols\nand must be between 1 and 32 characters long';
+  String get error_text_contact_name => 'O nome do contato não pode conter os símbolos \' ou \" e deve ter entre 1 e 32 caracteres';
 
   @override
-  String get error_text_address => 'Invalid BDX address';
+  String get error_text_address => 'Endereço BDX inválido';
 
   @override
-  String get error_text_node_address => 'Please enter a iPv4 address';
+  String get error_text_node_address => 'Por favor, insira um endereço IPv4 válido';
 
   @override
-  String get error_text_node_port => 'Node port can only contain numbers between 0 and 65535';
+  String get error_text_node_port => 'A porta do nó pode conter apenas números entre 0 e 65535';
 
   @override
-  String get error_text_payment_id => 'Payment ID can only contain from 16 to 64 chars in hex';
+  String get error_text_payment_id => '';
 
   @override
-  String get error_text_beldex => 'Beldex value can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 9';
+  String get error_text_beldex => '';
 
   @override
-  String get error_text_fiat => 'Value of amount can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 2';
+  String get error_text_fiat => '';
 
   @override
-  String get error_text_subaddress_name => 'Subaddress name can\'t contain ` , \' \" symbols\nand must be between 1 and 20 characters long';
+  String get error_text_subaddress_name => '';
 
   @override
-  String get error_text_amount => 'Amount can only contain numbers';
+  String get error_text_amount => '';
 
   @override
-  String get error_text_wallet_name => 'Wallet name can only contain letters, numbers\nand must be between 1 and 15 characters long';
+  String get error_text_wallet_name => '';
 
   @override
-  String get error_text_keys => 'Wallet keys can only contain 64 chars in hex';
+  String get error_text_keys => 'As chaves da carteira devem conter apenas 64 caracteres em hexadecimal';
 
   @override
-  String get error_text_crypto_currency => 'The number of fraction digits\nmust be less or equal to 12';
+  String get error_text_crypto_currency => '';
 
   @override
-  String get error_text_service_node => 'A Master Node key can only contain 64 chars in hex';
+  String get error_text_service_node => '';
 
   @override
-  String get auth_store_ban_timeout => 'ban_timeout';
+  String get auth_store_ban_timeout => '';
 
   @override
-  String get auth_store_banned_for => 'Banned for ';
+  String get auth_store_banned_for => '';
 
   @override
-  String get auth_store_banned_minutes => ' minutes';
+  String get auth_store_banned_minutes => '';
 
   @override
-  String get auth_store_incorrect_password => 'Wrong PIN';
+  String get auth_store_incorrect_password => '';
 
   @override
-  String get wallet_restoration_store_incorrect_seed_length => 'Incorrect seed length';
+  String get wallet_restoration_store_incorrect_seed_length => '';
 
   @override
-  String get full_balance => 'Full Balance';
+  String get full_balance => 'Saldo total';
 
   @override
-  String get available_balance => 'Available Balance';
+  String get available_balance => 'Saldo disponível';
 
   @override
-  String get hidden_balance => 'Hidden Balance';
+  String get hidden_balance => 'Saldo oculto';
 
   @override
-  String get sync_status_synchronizing => 'SYNCHRONIZING';
+  String get sync_status_synchronizing => 'SINCRONIZANDO';
 
   @override
-  String get sync_status_synchronized => 'SYNCHRONIZED';
+  String get sync_status_synchronized => 'SINCRONIZADO';
 
   @override
-  String get sync_status_not_connected => 'NOT CONNECTED';
+  String get sync_status_not_connected => '';
 
   @override
-  String get sync_status_starting_sync => 'STARTING SYNC';
+  String get sync_status_starting_sync => 'Iniciando sincronização';
 
   @override
-  String get sync_status_failed_connect => 'FAILED CONNECT TO THE NODE';
+  String get sync_status_failed_connect => 'Falha ao conectar ao nó';
 
   @override
-  String get sync_status_connecting => 'CONNECTING';
+  String get sync_status_connecting => 'Conectando';
 
   @override
-  String get sync_status_connected => 'CONNECTED';
+  String get sync_status_connected => '';
 
   @override
-  String get transaction_priority_slow => 'Slow';
+  String get transaction_priority_slow => 'Lenta';
 
   @override
   String get transaction_priority_blink => 'Flash';
 
   @override
-  String get change_language => 'Change Language';
+  String get change_language => 'Alterar idioma';
 
   @override
   String change_language_to(Object language) {
-    return 'Change language to $language?';
+    return '';
   }
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Colar';
 
   @override
-  String get restore_from_seed_placeholder => 'Please enter or paste your seed here';
+  String get restore_from_seed_placeholder => 'Por favor, insira ou cole sua seed aqui';
 
   @override
-  String get add_new_word => 'Add new word';
+  String get add_new_word => '';
 
   @override
-  String get incorrect_seed => 'The text entered is not valid.';
+  String get incorrect_seed => '';
 
   @override
-  String get biometric_auth_reason => 'Scan your fingerprint to authenticate';
+  String get biometric_auth_reason => '';
 
   @override
   String version(Object currentVersion) {
-    return 'Version $currentVersion';
+    return 'Versão $currentVersion';
   }
 
   @override
-  String get openalias_alert_title => 'Beldex Recipient Detected';
+  String get openalias_alert_title => '';
 
   @override
   String openalias_alert_content(Object recipient_name) {
-    return 'You will be sending funds to\n$recipient_name';
+    return '';
   }
 
   @override
-  String get dangerzone => 'Dangerzone';
+  String get dangerzone => '';
 
   @override
-  String get yes_im_sure => 'Yes, I\'m sure!';
+  String get yes_im_sure => 'Sim, tenho certeza!';
 
   @override
   String never_give_your(Object item) {
-    return 'Never Give your Beldex Wallet $item to Anyone!';
+    return 'Nunca forneça o $item da sua carteira Beldex a ninguém!';
   }
 
   @override
   String dangerzone_warning(Object app_store, Object item) {
-    return 'NEVER input your Beldex wallet $item into any software or website other than the OFFICIAL Beldex wallets downloaded directly from the $app_store, the Beldex website, or the Beldex GitHub.\nAre you sure you want to access your wallet $item?';
+    return 'NUNCA insira o $item da sua carteira Beldex em qualquer software ou site que não sejam as carteiras Beldex OFICIAIS baixadas diretamente da $app_store, do site da Beldex ou do GitHub da Beldex. Tem certeza de que deseja acessar sua carteira $item?';
   }
 
   @override
-  String get keys_title => 'Keys';
+  String get keys_title => '';
 
   @override
-  String get are_you_sure => 'Are you sure?';
+  String get are_you_sure => 'Tem certeza?';
 
   @override
-  String get do_you_want_to_exit_an_app => 'Do you want to exit an App';
+  String get do_you_want_to_exit_an_app => '';
 
   @override
-  String get no => 'No';
+  String get no => 'Não';
 
   @override
-  String get yes => 'Yes';
+  String get yes => 'Sim';
 
   @override
-  String get byUsingThisAppYouAgreeToTheTermsOf => 'By using this app, you agree to the Terms of Agreement set forth to below';
+  String get byUsingThisAppYouAgreeToTheTermsOf => '';
 
   @override
-  String get iAgreeToTermsOfUse => 'I agree to Terms of Use';
+  String get iAgreeToTermsOfUse => '';
 
   @override
-  String get accept => 'Accept';
+  String get accept => '';
 
   @override
-  String get pleaseEnterAValidAmount => 'Please enter a valid amount';
+  String get pleaseEnterAValidAmount => 'Por favor, insira um valor válido';
 
   @override
-  String get pleaseEnterAValidSeed => 'Please enter a valid seed';
+  String get pleaseEnterAValidSeed => 'Por favor, insira uma seed válida';
 
   @override
-  String get changeWallet => 'Change Wallet';
+  String get changeWallet => 'Alterar carteira';
 
   @override
-  String get removeWallet => 'Remove Wallet';
+  String get removeWallet => 'Remover carteira';
 
   @override
-  String get reconnectWallet => 'Reconnect Wallet';
+  String get reconnectWallet => 'Reconectar Carteira';
 
   @override
-  String get rescanWallet => 'Rescan Wallet';
+  String get rescanWallet => 'Reescanear Carteira';
 
   @override
-  String get enterWalletName => 'Enter Wallet Name';
+  String get enterWalletName => 'Digite o nome da carteira';
 
   @override
-  String get noTransactionsYet => 'No Transactions Yet!';
+  String get noTransactionsYet => 'Ainda não há transações!';
 
   @override
-  String get afterYourFirstTransactionnYouWillBeAbleToView => 'After your first transaction,\n you will be able to view it here.';
+  String get afterYourFirstTransactionnYouWillBeAbleToView => 'Após sua primeira transação, você poderá\n visualizá-la aqui.';
 
   @override
-  String get copied => 'Copied';
+  String get copied => 'Copiado';
 
   @override
-  String get addAddress => 'Add Address';
+  String get addAddress => 'Adicionar endereço';
 
   @override
-  String get important => 'IMPORTANT';
+  String get important => '';
 
   @override
   String neverInputYourBeldexWalletItemIntoAnySoftwareOr(Object appStore, Object item) {
-    return 'Never input your Beldex wallet $item into any software or website other than the official Beldex wallets downloaded directly from the $appStore,the beldex website, or the beldex GitHub.';
+    return 'Nunca insira o $item da sua carteira Beldex em qualquer software ou site que não sejam as carteiras oficiais Beldex baixadas diretamente da $appStore, do site da Beldex ou do GitHub da Beldex.';
   }
 
   @override
-  String get enterWalletName_ => 'Enter wallet name';
+  String get enterWalletName_ => 'Digite o nome da carteira';
 
   @override
-  String get chooseSeedLanguage => 'Choose Seed Language';
+  String get chooseSeedLanguage => 'Escolha o idioma da seed';
 
   @override
-  String get wallet => 'Wallet';
+  String get wallet => 'Carteira';
 
   @override
-  String get seedKeys => 'Seed & Keys';
+  String get seedKeys => 'Seed e chaves';
 
   @override
-  String get walletAddress => 'Wallet Address';
+  String get walletAddress => 'Endereço da Carteira';
 
   @override
-  String get recoverySeedkey => 'Recovery Seed/Key';
+  String get recoverySeedkey => 'Seed/chave de recuperação';
 
   @override
-  String get selectLanguage => 'Select Language';
+  String get selectLanguage => 'Selecionar idioma';
 
   @override
-  String get chooseLanguage => 'Choose Language';
+  String get chooseLanguage => 'Escolher idioma';
 
   @override
-  String get welcomeToBeldexWallet => 'Welcome to Beldex Wallet :)';
+  String get welcomeToBeldexWallet => 'Bem-vindo à Carteira Beldex :)';
 
   @override
-  String get selectAnOptionBelowToCreateOrnRecoverExistingWallet => 'Select an option below to create or\n recover existing wallet';
+  String get selectAnOptionBelowToCreateOrnRecoverExistingWallet => 'Selecione uma opção para criar ou recuperar uma carteira existente';
 
   @override
-  String get enterAValidNameUpto15Characters => 'Enter a valid name upto 15 characters';
+  String get enterAValidNameUpto15Characters => 'Insira um nome válido com até 15 caracteres';
 
   @override
-  String get enterAValidNameUpto20Characters => 'Enter a valid name upto 20 characters';
+  String get enterAValidNameUpto20Characters => 'Insira um nome válido com até 20 caracteres';
 
   @override
-  String get fiveDecimals => '5 - Five (0.00000)';
+  String get fiveDecimals => '5 - Cinco (0.00000)';
 
   @override
-  String get fourDecimals => '4 - Four (0.0000)';
+  String get fourDecimals => '4 - Quatro (0.0000)';
 
   @override
-  String get twoDecimals => '2 - Two (0.00)';
+  String get twoDecimals => '2 - Dois (0.00)';
 
   @override
   String get zeroDecimal => '0 - Zero (000)';
 
   @override
-  String get doYouWantToExitTheWallet => 'Do you want to exit the wallet?';
+  String get doYouWantToExitTheWallet => 'Você deseja sair da carteira?';
 
   @override
-  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Make sure to take backup of your\nrecovery Seed, wallet address\nand private keys';
+  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Certifique-se de fazer backup da sua\n seed de recuperação, endereço da carteira\n e chaves privadas';
 
   @override
   String blockRemaining(Object status) {
-    return '$status Block Remaining';
+    return '';
   }
 
   @override
-  String get flashTransaction => 'Flash Transaction';
+  String get flashTransaction => 'Transação Flash';
 
   @override
-  String get transferYourBdxMoreFasternWithFlashTransaction => 'Transfer your BDX more faster with\n Flash Transaction!';
+  String get transferYourBdxMoreFasternWithFlashTransaction => 'Transfira seu BDX mais rápido com Transação Flash!';
 
   @override
-  String get enterYourPin => 'Enter Your PIN';
+  String get enterYourPin => 'Digite o seu PIN';
 
   @override
-  String get walletSettings => 'Wallet Settings';
+  String get walletSettings => 'Configurações da carteira';
 
   @override
-  String get recoverySeed => 'Recovery Seed';
+  String get recoverySeed => 'Seed de recuperação';
 
   @override
-  String get youDontHaveEnoughUnlockedBalance => 'You don\'t have enough unlocked balance';
+  String get youDontHaveEnoughUnlockedBalance => '';
 
   @override
-  String get alert => 'Alert';
+  String get alert => 'Alerta';
 
   @override
-  String get touchTheFingerprintSensor => 'Touch the Fingerprint sensor';
+  String get touchTheFingerprintSensor => '';
 
   @override
-  String get usePattern => 'USE PATTERN';
+  String get usePattern => '';
 
   @override
-  String get enterBdxToSend => 'Enter BDX to send';
+  String get enterBdxToSend => 'Digite o BDX para enviar';
 
   @override
-  String get enterAmount => 'Enter Amount';
+  String get enterAmount => 'Digite o valor';
 
   @override
-  String get pleaseEnterAAmount => 'Please enter a amount';
+  String get pleaseEnterAAmount => 'Por favor, insira um valor';
 
   @override
-  String get committingTheTransaction => 'Committing the Transaction';
+  String get committingTheTransaction => '';
 
   @override
-  String get availableBdx => 'Available BDX : ';
+  String get availableBdx => 'BDX disponível :';
 
   @override
-  String get pleaseEnterABdxAddress => 'Please enter a bdx address';
+  String get pleaseEnterABdxAddress => 'Por favor, insira um endereço BDX';
 
   @override
-  String get enterAValidAddress => 'Enter a valid address';
+  String get enterAValidAddress => '';
 
   @override
-  String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings';
+  String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Recurso biométrico atualmente desativado.\n Por favor, ative a autenticação biométrica\n nas configurações do aplicativo';
 
   @override
-  String get unlockBeldexWallet => 'Unlock Beldex Wallet';
+  String get unlockBeldexWallet => '';
 
   @override
-  String get confirmYourScreenLockPinpatternAndPassword => 'Confirm your screen lock PIN,Pattern and password';
+  String get confirmYourScreenLockPinpatternAndPassword => '';
 
   @override
-  String get doYouWantToChangeYournPrimaryAccount => 'Do you want to change your\n primary account?';
+  String get doYouWantToChangeYournPrimaryAccount => 'Deseja alterar sua conta principal?';
 
   @override
-  String get rename => 'Rename';
+  String get rename => '';
 
   @override
-  String get addAccount => 'Add Account';
+  String get addAccount => 'Adicionar conta';
 
   @override
-  String get noAddressesInBook => 'No addresses in book';
+  String get noAddressesInBook => 'Nenhum endereço no catálogo';
 
   @override
-  String get bdx => 'BDX';
+  String get bdx => '';
 
   @override
-  String get howeverWeRecommendToScanTheBlockchainFromTheBlock => 'However we recommend to scan the blockchain from the block height at which you created the wallet to get all transactions and correct balance';
+  String get howeverWeRecommendToScanTheBlockchainFromTheBlock => '';
 
   @override
-  String get youHaveScannedFromTheBlockHeight => 'You have scanned from the block height';
+  String get youHaveScannedFromTheBlockHeight => '';
 
   @override
-  String get syncInfo => 'Sync info';
+  String get syncInfo => '';
 
   @override
-  String get doYouWantToReconnectnTheWallet => 'Do you want to reconnect\n the wallet?';
+  String get doYouWantToReconnectnTheWallet => 'Você deseja reconectar a carteira?';
 
   @override
-  String get enterValidNameUpto15Characters => 'Enter valid name upto 15 characters';
+  String get enterValidNameUpto15Characters => 'Digite um nome válido com até 15 caracteres';
 
   @override
-  String get checkingNodeConnection => 'Checking node connection...';
+  String get checkingNodeConnection => '';
 
   @override
-  String get enterBdxToReceive => 'Enter BDX to Receive';
+  String get enterBdxToReceive => 'Digite o BDX para receber';
 
   @override
-  String get addSubAddress => 'Add Sub Address';
+  String get addSubAddress => 'Adicionar Subendereço';
 
   @override
-  String get shareQr => 'Share QR';
+  String get shareQr => 'Compartilhar QR';
 
   @override
-  String get name => 'Name';
+  String get name => 'Nome';
 
   @override
-  String get enterValidHeightWithoutSpace => 'Enter valid height without space';
+  String get enterValidHeightWithoutSpace => 'Digite um blockheight válido sem espaços';
 
   @override
-  String get dateShouldNotBeEmpty => 'Date should not be empty';
+  String get dateShouldNotBeEmpty => 'A data não deve estar vazia';
 
   @override
-  String get walletRestore => 'Wallet Restore';
+  String get walletRestore => 'Restauração da carteira';
 
   @override
-  String get youCantViewTheSeedBecauseYouveRestoredUsingKeys => 'You can\'t view the seed because you\'ve restored using keys';
+  String get youCantViewTheSeedBecauseYouveRestoredUsingKeys => '';
 
   @override
-  String get neverShareYourSeedToAnyoneCheckYourSurroundingsTo => 'Never share your seed to anyone! Check your surroundings to ensure no one is overlooking';
+  String get neverShareYourSeedToAnyoneCheckYourSurroundingsTo => 'Nunca compartilhe sua seed com ninguém! Verifique ao seu redor para garantir que ninguém esteja olhando';
 
   @override
-  String get note => 'Note :';
+  String get note => 'Nota:';
 
   @override
-  String get copySeed => 'Copy Seed';
+  String get copySeed => 'Copiar seed';
 
   @override
-  String get accountAlreadyExist => 'Account already exist';
+  String get accountAlreadyExist => 'A conta já existe';
 
   @override
-  String get transactionInitiatedSuccessfully => 'Transaction initiated successfully';
+  String get transactionInitiatedSuccessfully => 'Transação iniciada com sucesso';
 
   @override
-  String get enterAValidSubAddress => 'Enter a valid sub address';
+  String get enterAValidSubAddress => 'Insira um subendereço válido';
 
   @override
-  String get subaddressAlreadyExist => 'Subaddress already exist';
+  String get subaddressAlreadyExist => 'Subendereço já existe';
 
   @override
-  String get labelName => 'Label name';
+  String get labelName => 'Nome do rótulo';
 
   @override
-  String get subAddress => 'Sub Address';
+  String get subAddress => 'Subendereço';
 
   @override
-  String get loadingTheWallet => 'Loading the wallet...';
+  String get loadingTheWallet => 'Carregando a carteira…';
 
   @override
-  String get youAreAboutToDeletenYourWallet => 'You are about to delete\n your wallet!';
+  String get youAreAboutToDeletenYourWallet => 'Você está prestes a excluir sua carteira!';
 
   @override
-  String get creatingTheTransaction => 'Creating the Transaction';
+  String get creatingTheTransaction => '';
 
   @override
-  String get copyAndSaveTheSeedToContinue => 'Copy and save the seed to continue';
+  String get copyAndSaveTheSeedToContinue => 'Copie e salve a seed para continuar';
 
   @override
-  String get enterPin => 'Enter PIN';
+  String get enterPin => 'Inserir PIN';
 
   @override
-  String get test => 'Test';
+  String get test => 'Testar';
 
   @override
-  String get success => 'Success';
+  String get success => '';
 
   @override
-  String get connectionFailed => 'Connection Failed';
+  String get connectionFailed => '';
 
   @override
-  String get checking => 'Checking...';
+  String get checking => '';
 
   @override
-  String get testResult => 'Test Result:';
+  String get testResult => 'Resultado do teste:';
 
   @override
-  String get passwordOptional => 'Password (optional)';
+  String get passwordOptional => 'Senha (opcional)';
 
   @override
-  String get userNameOptional => 'User Name (optional)';
+  String get userNameOptional => 'Nome de usuário (opcional)';
 
   @override
-  String get nodeNameOptional => 'Node Name (optional)';
+  String get nodeNameOptional => 'Nome do nó (opcional)';
 
   @override
-  String get addNode => 'Add Node';
+  String get addNode => 'Adicionar nó';
 
   @override
-  String get legalDisclaimer => 'Legal Disclaimer';
+  String get legalDisclaimer => '';
 
   @override
-  String get howCanWenhelpYou => 'How can we\nhelp you?';
+  String get howCanWenhelpYou => 'Como podemos ajudar você?';
 
   @override
-  String get removeContact => 'Remove Contact';
+  String get removeContact => 'Remover contato';
 
   @override
-  String get areYouSureYouWantToRemoveSelectedContact => 'Are you sure you want to remove selected contact?';
+  String get areYouSureYouWantToRemoveSelectedContact => 'Tem certeza de que deseja remover o contato selecionado?';
 
   @override
-  String get theAddressAlreadyExist => 'The Address already Exist';
+  String get theAddressAlreadyExist => 'O endereço já existe';
 
   @override
-  String get thisNameAlreadyExist => 'This Name already Exist';
+  String get thisNameAlreadyExist => 'Este nome já existe';
 
   @override
-  String get enterAValidName => 'Enter a valid name';
+  String get enterAValidName => 'Insira um nome válido';
 
   @override
-  String get addressShouldNotBeEmpty => 'Address should not be empty';
+  String get addressShouldNotBeEmpty => 'O endereço não pode estar vazio';
 
   @override
-  String get nameShouldNotBeEmpty => 'Name should not be empty';
+  String get nameShouldNotBeEmpty => 'O nome não pode estar vazio';
 
   @override
-  String get enterName => 'Enter Name';
+  String get enterName => 'Inserir nome';
 
   @override
-  String get accountName => 'Account Name';
+  String get accountName => 'Nome da conta';
 
   @override
-  String get playStore => 'Play Store';
+  String get playStore => '';
 
   @override
-  String get appstore => 'AppStore';
+  String get appstore => '';
 
   @override
-  String get allowFaceIdAuthentication => 'Allow face id authentication';
+  String get allowFaceIdAuthentication => '';
 
   @override
-  String get enterAddress => 'Enter Address';
+  String get enterAddress => 'Inserir endereço';
 
   @override
-  String get pleaseAddAMainnetNode => 'Please add a mainnet node';
+  String get pleaseAddAMainnetNode => '';
 
   @override
   String flashTransactionPriority(Object transactionPriority) {
-    return 'Flash transaction are instant transactions.\n$transactionPriority priority is set as a default fee.';
+    return '';
   }
 
   @override
-  String get initiatingTransactionTitle => 'Initiating Transaction..';
+  String get initiatingTransactionTitle => 'Iniciando transação..';
 
   @override
-  String get initiatingTransactionDescription => 'Please don\'t close this window or navigate to another app until the transaction gets initiated';
+  String get initiatingTransactionDescription => 'Por favor, não feche esta janela nem navegue para outro aplicativo até que a transação seja iniciada';
 
   @override
-  String get subAddresses => 'Sub Addresses';
+  String get subAddresses => '';
 
   @override
-  String get loadingTheWalletDescription => 'Please don\'t close this window or navigate to another app until we load the wallet';
+  String get loadingTheWalletDescription => 'Por favor, não feche esta janela nem\n navegue para outro aplicativo até que\n a carteira seja carregada';
 
   @override
-  String get buyBns => 'Buy BNS';
+  String get buyBns => 'Comprar BNS';
 
   @override
-  String get myBns => 'My BNS';
+  String get myBns => '';
 
   @override
-  String get addBns => 'Add BNS';
+  String get addBns => 'Adicionar BNS';
 
   @override
-  String get bns => 'BNS';
+  String get bns => '';
 
   @override
-  String get bnsPurchaseDescription => 'Purchase or update an BNS record. If you purchase a name, it may take a minute or two for it to show up in the list';
+  String get bnsPurchaseDescription => 'Comprar ou atualizar um registro BNS.\n Se você comprar um nome, pode levar\n um ou dois minutos para aparecer na lista.';
 
   @override
-  String get bnsPrice => 'Price';
+  String get bnsPrice => 'Preço do';
 
   @override
-  String get bnsYearOneShort => '1 Yr';
+  String get bnsYearOneShort => '1 ano';
 
   @override
-  String get bnsYearTwoShort => '2 Yrs';
+  String get bnsYearTwoShort => '2 anos';
 
   @override
-  String get bnsYearFiveShort => '5 Yrs';
+  String get bnsYearFiveShort => '5 anos';
 
   @override
-  String get bnsYearTenShort => '10 Yrs';
+  String get bnsYearTenShort => '10 anos';
 
   @override
-  String get bnsYearOne => '1 Year';
+  String get bnsYearOne => '';
 
   @override
-  String get bnsYearTwo => '2 Years';
+  String get bnsYearTwo => '';
 
   @override
-  String get bnsYearFive => '5 Years';
+  String get bnsYearFive => '';
 
   @override
-  String get bnsYearTen => '10 Years';
+  String get bnsYearTen => '';
 
   @override
-  String get bnsYouSave => 'You Save ';
+  String get bnsYouSave => 'Você economiza';
 
   @override
-  String get bnsNameHint => 'The name to purchase via Beldex Name Service';
+  String get bnsNameHint => 'O nome a ser adquirido via Beldex Name Service';
 
   @override
-  String get bnsOwnerOptional => 'Owner (optional)';
+  String get bnsOwnerOptional => 'Proprietário (Opcional)';
 
   @override
-  String get bnsOwnerHint => 'The wallet address of the owner';
+  String get bnsOwnerHint => 'O endereço da carteira do proprietário';
 
   @override
-  String get bnsWalletAddress => 'Wallet Address';
+  String get bnsBchatId => 'ID do BChat';
 
   @override
-  String get bnsBchatId => 'BChat ID';
+  String get bnsBelnetId => 'ID do Belnet';
 
   @override
-  String get bnsBelnetId => 'Belnet ID';
+  String get bnsEthAddress => 'Endereço ETH';
 
   @override
-  String get bnsEthAddress => 'ETH Address';
+  String get bnsUpdateOwner => 'Atualizar Proprietário';
 
   @override
-  String get bnsUpdateOwner => 'Update Owner';
+  String get bnsUpdateValues => 'Atualizar Valores';
 
   @override
-  String get bnsUpdateValues => 'Update Values';
+  String get bnsNewOwnerHint => 'Insira o endereço da carteira do novo proprietário';
 
   @override
-  String get bnsNewOwnerHint => 'Enter the wallet address of new owner';
+  String get bnsUpdateNote => 'Você só pode atualizar o endereço do proprietário ou os valores por vez.\n Se quiser atualizar ambos, você pode atualizar os valores antes da transferência de propriedade ou após transferir a propriedade.';
 
   @override
-  String get bnsUpdateNote => 'You can only update owner address or values at a time. If you want to update both, you can either update the value before ownership or after transferring ownership.';
+  String get bnsAddRecord => 'Adicionar registro';
 
   @override
-  String get bnsAddRecord => 'Add Record';
+  String get bnsRecordsDescription => 'Aqui você pode encontrar todos os nomes BNS pertencentes a esta carteira. Ao descriptografar um registro que você possui, será retornado o nome e o valor do registro BNS.';
 
   @override
-  String get bnsRecordsDescription => 'Here you can find all the BNS Names owned by this wallet. Decrypting a record you own will return the name and value at the BNS record.';
+  String get bnsRecordNameHint => 'Um nome BNS que pertence a você';
 
   @override
-  String get bnsRecordNameHint => 'A BNS name that belongs to you';
-
-  @override
-  String get bnsFetchingRecords => 'Fetching BNS records from the network...';
+  String get bnsFetchingRecords => 'Buscando registro BNS na rede';
 
   @override
   String bnsDecryptionSuccess(Object bnsName) {
-    return 'Successfully decrypted BNS Record for $bnsName';
+    return 'Registro BNS de $bnsName descriptografado com sucesso';
   }
 
   @override
   String bnsDecryptionFailure(Object bnsName) {
-    return 'Failed to decrypt BNS Record for $bnsName';
+    return 'Falha ao descriptografar o registro BNS de $bnsName';
   }
 
   @override
-  String get bnsRecordNotFound => 'The given BNS record doesn\'t exist or does not belong to this wallet.';
+  String get bnsRecordNotFound => '';
 
   @override
-  String get bnsWaitForFetch => 'Please wait until we fetch the BNS record from Network';
+  String get bnsWaitForFetch => '';
 
   @override
-  String get bnsRecords => 'BNS Records';
+  String get bnsRecords => 'Registros BNS';
 
   @override
-  String get bnsExpirationHeight => 'Expiration Height : ';
+  String get bnsExpirationHeight => 'Altura de expiração';
 
   @override
-  String get bnsUpdateHeight => 'Update Height';
+  String get bnsUpdateHeight => 'Altura de atualização';
 
   @override
-  String get bnsBackupOwner => 'Backup Owner';
+  String get bnsBackupOwner => 'Proprietário de backup';
 
   @override
-  String get bnsEncryptedWalletValue => 'Encrypted Wallet Value';
+  String get bnsEncryptedWalletValue => 'Valor de carteira criptografado';
 
   @override
-  String get bnsEncryptedBchatValue => 'Encrypted BChat Value';
+  String get bnsEncryptedBchatValue => 'Valor BChat criptografado';
 
   @override
-  String get bnsEncryptedBelnetValue => 'Encrypted Belnet Value';
+  String get bnsEncryptedBelnetValue => 'Valor Belnet criptografado';
 
   @override
-  String get bnsEncryptedEthValue => 'Encrypted ETH Value';
+  String get bnsEncryptedEthValue => 'Valor ETH criptografado';
 
   @override
-  String get bnsUpdateAction => 'Update';
+  String get bnsUpdateAction => 'Atualizar';
 
   @override
-  String get bnsRenewAction => 'Renew';
+  String get bnsRenewAction => 'Renovar';
 
   @override
-  String get bnsNoteLabel => 'Note : ';
+  String get bnsNoteLabel => 'Nota: Nosso endereço ETH é compatível\n com todas as redes EVM';
 
   @override
-  String get bnsEthAddressDescription => 'Our eth address is compatible across all EVM chains';
+  String get bnsEthAddressDescription => 'Nosso endereço ETH é compatível\n com todas as redes EVM';
 
   @override
-  String get bnsPurchase => 'Purchase';
+  String get bnsPurchase => 'Comprar';
 
   @override
-  String get bnsPleaseFillField => 'Please fill in this field';
+  String get bnsPleaseFillField => 'Por favor, preencha este campo';
 
   @override
-  String get bnsInvalidName => 'Invalid BNS Name';
+  String get bnsInvalidName => '';
 
   @override
-  String get bnsInvalidBchatId => 'Invalid BChat ID';
+  String get bnsInvalidBchatId => 'ID do BChat inválido';
 
   @override
-  String get bnsInvalidBelnetId => 'Invalid Belnet ID';
+  String get bnsInvalidBelnetId => 'ID do Belnet inválido';
 
   @override
-  String get bnsInvalidEthAddress => 'Invalid ETH Address';
+  String get bnsInvalidEthAddress => 'Endereço ETH inválido';
 
   @override
-  String get bnsEnterValidWalletAddress => 'Enter a valid wallet address.';
+  String get bnsEnterValidWalletAddress => 'Insira um endereço de carteira válido.';
 
   @override
-  String get bnsConfirmPurchase => 'Confirm Purchase';
+  String get bnsConfirmPurchase => 'Confirmar compra';
 
   @override
-  String get bnsNameLabel => 'Name';
+  String get bnsYearLabel => 'Ano';
 
   @override
-  String get bnsYearLabel => 'Year';
+  String get bnsOwnerLabel => 'Proprietário';
 
   @override
-  String get bnsOwnerLabel => 'Owner';
+  String get bnsSameOwnerAddress => '';
 
   @override
-  String get bnsAddressLabel => 'Address';
+  String get bnsSameWalletAddress => '';
 
   @override
-  String get bnsNone => 'None';
+  String get bnsSameBchatId => '';
 
   @override
-  String get bnsSameOwnerAddress => 'same owner address';
+  String get bnsSameBelnetId => '';
 
   @override
-  String get bnsSameWalletAddress => 'same wallet address';
+  String get bnsSameEthAddress => '';
 
   @override
-  String get bnsSameBchatId => 'same Bchat id';
+  String get bnsInvalidOwnerAddress => '';
 
   @override
-  String get bnsSameBelnetId => 'same Belnet id';
+  String get bnsNameIsTaken => '';
 
   @override
-  String get bnsSameEthAddress => 'same ETH Address';
+  String get bnsInvalidWalletAddress => '';
 
   @override
-  String get bnsInvalidOwnerAddress => 'Invalid Owner address.';
+  String get bnsOwnerAndBackupDifferent => '';
 
   @override
-  String get bnsNameIsTaken => 'BNS name is taken. Choose a different one.';
+  String get bnsPurchasedSuccessfully => '';
 
   @override
-  String get bnsInvalidWalletAddress => 'Invalid wallet address. Leave blank if you want to use the current wallet as the BNS owner.';
+  String get bnsUpdatedSuccessfully => '';
 
   @override
-  String get bnsOwnerAndBackupDifferent => 'Owner and backup address must be different.';
+  String get bnsRenewedSuccessfully => '';
 
   @override
-  String get bnsPurchasedSuccessfully => 'BNS Purchased Successfully';
+  String get bnsUpdate => 'Atualização BNS';
 
   @override
-  String get bnsUpdatedSuccessfully => 'BNS Updated Successfully';
+  String get bnsRenewal => 'Renovação do BNS';
 
   @override
-  String get bnsRenewedSuccessfully => 'BNS Renewed Successfully';
+  String get swap => 'Trocar';
 
   @override
-  String get bnsUpdate => 'BNS Update';
-
-  @override
-  String get bnsRenewal => 'BNS Renewal';
-
-  @override
-  String get swap => 'Swap';
-
-  @override
-  String get unsupportedExchangePair => 'Unsupported exchange pair';
+  String get unsupportedExchangePair => '';
 
   @override
   String blockConfirmed(Object count) {
-    return '$count Block';
+    return '';
   }
 
   @override
   String blocksConfirmed(Object count) {
-    return '$count Blocks';
+    return '';
   }
 
   @override
-  String get restoredViaKeys => 'You restored via keys';
+  String get restoredViaKeys => 'Você restaurou via chaves';
 
   @override
   String walletAlreadyExists(Object name) {
-    return 'Wallet with name $name is already exist!';
+    return 'Já existe uma carteira com o nome $name!';
   }
 
   @override
-  String get nodeAlreadyExists => 'This node already exists';
+  String get nodeAlreadyExists => 'Este nó já existe';
 
   @override
-  String get fee => 'Fee';
+  String get fee => 'Taxa';
 
   @override
-  String get noInternet => 'No Internet!';
+  String get noInternet => 'Sem internet!';
 
   @override
-  String get noInternetMessage => 'Please check your internet Connection\nand try again.';
+  String get noInternetMessage => 'Por favor, verifique sua conexão com a internet e tente novamente.';
 
   @override
-  String get swapNotAvailable => ' Swap is not available\nat the moment';
+  String get swapNotAvailable => 'O BDX Swap não está disponível no momento.';
 
   @override
-  String get tryAgain => 'Please try again after some times.';
+  String get tryAgain => 'Por favor, tente novamente mais tarde.';
 
   @override
-  String get exchange => 'Exchange';
+  String get exchange => 'Trocar';
 
   @override
-  String get youSend => 'You send';
+  String get youSend => 'Você envia';
 
   @override
-  String get youGet => 'You get';
+  String get youGet => 'Você recebe';
 
   @override
-  String get floatingExchangeRate => 'Floating Exchange Rate';
+  String get floatingExchangeRate => 'Taxa de câmbio flutuante';
 
   @override
-  String get floatingRateDescription => 'The floating rate can change at any point due to market conditions, so you might receive more or less crypto than expected.';
+  String get floatingRateDescription => 'A taxa flutuante pode mudar a qualquer momento devido às condições do mercado, então você pode receber mais ou menos cripto do que o esperado.';
 
   @override
-  String get searchCoins => 'Search Coins';
+  String get searchCoins => 'Buscar moedas';
 
   @override
-  String get minimumAmount => 'Minimum amount is ';
+  String get minimumAmount => 'O valor mínimo é';
 
   @override
-  String get maximumAmount => 'Maximum amount is ';
+  String get maximumAmount => 'O valor máximo é';
 
   @override
-  String get exchangeAmount => 'Exchange Amount';
+  String get exchangeAmount => '';
 
   @override
-  String get exchangeRate => 'Exchange Rate';
+  String get exchangeRate => 'Taxa de câmbio';
 
   @override
-  String get receiver => 'Receiver';
+  String get receiver => 'Destinatário';
 
   @override
-  String get amountReceived => 'Amount Received';
+  String get amountReceived => 'Valor recebido';
 
   @override
-  String get date => 'Date';
+  String get date => 'Data';
 
   @override
-  String get expandDetails => 'Expand Details';
+  String get expandDetails => 'Expandir detalhes';
 
   @override
-  String get view => 'View';
+  String get view => 'Visualizar';
 
   @override
-  String get noTransactionsMessage => 'There are no Transactions or\nexchanges made to show..';
+  String get noTransactionsMessage => 'Não há transações ou trocas para mostrar.';
 
   @override
-  String get networkErrorCheckConnection => 'Network Error! Please check internet connection.';
+  String get networkErrorCheckConnection => 'Erro de rede! Por favor, verifique sua conexão com a internet.';
 
   @override
-  String get swapTransactionReport => 'Beldex_wallet_swap_transaction_report';
+  String get swapTransactionReport => '';
 
   @override
-  String get transactionReport => 'Transaction Report';
+  String get transactionReport => '';
 
   @override
-  String get failedToGetOutputDistribution => 'Failed to get output distribution';
+  String get failedToGetOutputDistribution => '';
 
   @override
-  String get sendValueExceedBalance => 'Value of amount can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 2';
+  String get noPendingTransaction => '';
 
   @override
-  String get noPendingTransaction => 'No pending transaction';
+  String get max => '';
 
   @override
-  String get max => 'Max';
+  String get addressCopied => '';
 
   @override
-  String get addressCopied => 'Address Copied';
+  String get searchCurrency => 'Pesquisar moeda';
 
   @override
-  String get searchCurrency => 'Search Currency';
+  String changePinLength(Object value) {
+    return 'Mudar para PIN de $value dígitos';
+  }
+
+  @override
+  String get pleaseEnterAValidHeight => 'Por favor, insira uma altura válida';
+
+  @override
+  String get invalidAddress => '';
+
+  @override
+  String get exchangePair => 'Par de troca';
+
+  @override
+  String get payment => 'Pagamento';
+
+  @override
+  String get bnsConfirmUpdate => 'Confirmar atualização';
 }

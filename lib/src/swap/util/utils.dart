@@ -303,8 +303,8 @@ Widget networkWidget(BuildContext context, SettingsStore settingsStore, String? 
   );
 }
 
-Widget networkTextWidget(String? toBlockChain) {
-  return Text('NETWORK: $toBlockChain',
+Widget networkTextWidget(BuildContext context, String? toBlockChain) {
+  return Text('${tr(context).swap_network_label}$toBlockChain',
       style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,

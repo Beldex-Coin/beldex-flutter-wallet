@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,8 @@ class NumberStepper extends StatelessWidget {
     curStep > i + 1 ? Colors.blue.withValues(alpha: 0.4) : Colors.grey[200];
     return color;
   }
-  List<String> titles =['Exchange Pair','Wallet address','Payment','Exchange'];
+  List<String> _titles(AppLocalizations t) =>
+      [t.exchangePair, t.walletAddress, t.payment, t.exchange];
   List<Widget> _steps(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     var list = <Widget>[];
@@ -99,7 +101,7 @@ class NumberStepper extends StatelessWidget {
             ),
             (i + 1) == curStep ? Padding(
               padding: const EdgeInsets.only(right:5.0),
-              child: Text('${titles[i]}',style: TextStyle(backgroundColor: Colors.transparent,color:settingsStore.isDarkTheme ? Colors.white : Colors.black,fontSize:16 ,fontWeight: FontWeight.w800),),
+              child: Text('${_titles(tr(context))[i]}',style: TextStyle(backgroundColor: Colors.transparent,color:settingsStore.isDarkTheme ? Colors.white : Colors.black,fontSize:16 ,fontWeight: FontWeight.w800),),
             ) : SizedBox.shrink()
           ],
         ),

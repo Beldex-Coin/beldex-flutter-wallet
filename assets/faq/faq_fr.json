@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Quelle est la différence entre le solde disponible et le solde total ?",
+    "answer": "Après avoir effectué une transaction ou reçu des Beldex, la transaction doit encore être confirmée. Votre solde disponible devrait être mis à jour dans environ 20 minutes !\nParfois, lorsque vous envoyez des Beldex, votre solde disponible diminue de plus que le montant que vous avez envoyé. C'est normal et nécessaire pour protéger votre vie privée. Votre solde total devrait revenir à la normale dans les 20 minutes.\n"
+  },
+  {
+    "question": "Que signifient « seed » et « clés » ?",
+    "answer": "Vos clés encodent les informations privées de votre portefeuille et vous permettent de dépenser vos pièces et de voir les transactions entrantes.\nVotre seed est simplement une version de votre clé privée écrite sous une forme plus facile à noter. Votre seed et vos clés sont en réalité la même chose, sous des formes différentes !\nNE DONNEZ JAMAIS votre seed ou vos clés à qui que ce soit. Vos fonds seront volés si vous communiquez votre seed ou vos clés. Veuillez toutefois noter votre seed et la conserver dans un endroit sûr (cela vous permettra de restaurer votre portefeuille si vous perdez votre téléphone.)\n"
+  },
+  {
+    "question": "Combien de portefeuilles puis-je créer ?",
+    "answer": "Il n'y a aucune limite ! Vous pouvez créer autant de portefeuilles que vous le souhaitez.\n"
+  },
+  {
+    "question": "Comment puis-je restaurer mon portefeuille ?",
+    "answer": "Appuyez sur l'icône de profil sur votre tableau de bord (en haut à droite), sélectionnez Portefeuilles, puis choisissez Restaurer le portefeuille. Saisissez ensuite votre seed (ou vos clés) et, si vous le souhaitez, indiquez une date antérieure à la première transaction de votre portefeuille (cela accélérera le processus de synchronisation). Vous devrez peut-être laisser l'application ouverte pendant 15 à 30 minutes afin de restaurer complètement votre portefeuille.\n"
+  },
+  {
+    "question": "Que puis-je faire si je perds ma seed ?",
+    "answer": "Si vous avez oublié votre seed, vous l'avez probablement notée quelque part. Vérifiez vos notes et cherchez sur votre ordinateur. Si vous ne la trouvez nulle part, vous avez peut-être sauvegardé votre portefeuille Beldex (auquel cas vous pourrez le restaurer à partir de cette sauvegarde). Si aucune de ces solutions ne fonctionne, malheureusement, nous ne pouvons rien faire.\n"
+  },
+  {
+    "question": "Collectez-vous des informations sur moi ou sur mon portefeuille ?",
+    "answer": "Beldex Wallet NE COLLECTE ET N'ENREGISTRE AUCUNE information vous concernant ou concernant votre portefeuille. Nous accordons une grande importance à votre vie privée.\nVotre vie privée peut être compromise si vous vous connectez à un nœud malveillant. Nous vous recommandons donc d'utiliser les nœuds par défaut ou votre propre nœud.\n"
+  },
+  {
+    "question": "Est-il possible d'annuler une transaction ?",
+    "answer": "Malheureusement, dès qu'une transaction a été soumise à la blockchain, il est impossible de l'annuler. Vous pouvez toutefois toujours annuler la transaction avant son envoi. Vérifiez donc toujours attentivement l'adresse avant d'envoyer une transaction.\n"
+  },
+  {
+    "question": "Que sont les sous-adresses et comment les utiliser ?",
+    "answer": "Une sous-adresse est essentiellement une adresse unique que vous pouvez générer à tout moment. Les pièces envoyées à cette adresse arriveront toujours dans votre portefeuille principal, mais l'expéditeur ne pourra pas déterminer quelle est votre adresse principale.\nVous pouvez créer une nouvelle sous-adresse depuis l'écran Recevoir en appuyant sur le signe + à côté du bouton Sous-adresses. Saisissez un nom pour la sous-adresse et appuyez sur Ajouter. Ensuite, appuyez simplement sur le nom de la sous-adresse lorsque vous souhaitez l'utiliser !\nSi vous êtes particulièrement soucieux de votre confidentialité, vous devriez probablement créer une nouvelle sous-adresse chaque fois que vous recevez des Beldex.\n"
+  },
+  {
+    "question": "Je n'ai pas reçu mes Beldex ! Que puis-je faire ?",
+    "answer": "Si vous n'avez pas reçu vos Beldex, vous pouvez appuyer sur l'icône de synchronisation de votre tableau de bord (en haut à gauche), puis appuyer sur Reconnecter. Si cela ne fonctionne pas, accédez au menu des paramètres, appuyez sur la section « Nœud actuel » et sélectionnez un nœud avec un point vert à côté.\n"
+  },
+  {
+    "question": "Comment contacter le support de Beldex Wallet ?",
+    "answer": "Envoyez un e-mail à [support@beldex.io](mailto:support@beldex.io), rejoignez le groupe Telegram @official_beldex ou publiez un tweet à @beldexcoin !\n"
+  },
+  {
+    "question": "Le fait de posséder des Beldex fait-il de moi un investisseur ?",
+    "answer": "Non, pas du tout. Cela fait de vous une personne formidable, mais avec des Beldex.\n"
+  }
+]

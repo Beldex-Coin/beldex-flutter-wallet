@@ -97,7 +97,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get receive => 'recevoir';
 
   @override
-  String get transactions => 'Transactions';
+  String get transactions => 'transactions';
 
   @override
   String get incoming => 'entrant';
@@ -109,7 +109,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get transactions_by_date => 'transactions par date';
 
   @override
-  String get filters => 'filtres';
+  String get filters => 'Filtrer par';
 
   @override
   String get today => 'aujourd\'hui';
@@ -169,7 +169,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get amount => 'Montant: ';
 
   @override
-  String get status => 'Statut';
+  String get status => 'Statut: ';
 
   @override
   String get confirm => 'confirmer';
@@ -235,7 +235,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String change_current_node(Object node) {
-    return 'Voulez-vous vraiment changer le Node actuel vers $node?';
+    return 'Êtes-vous sûr de vouloir remplacer le nœud actuel par $node ?';
   }
 
   @override
@@ -263,13 +263,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get share_address => 'Partager l\'adresse ';
 
   @override
-  String get receive_amount => 'Montant';
-
-  @override
   String get subaddresses => 'Sous-adresses';
 
   @override
-  String get restore_restore_wallet => 'Restauration du portefeuille';
+  String get restore_restore_wallet => 'Restaurer le portefeuille';
 
   @override
   String get restore_title_from_seed_keys => 'Restaurer à partir du seed ou des clés';
@@ -302,16 +299,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get restore_description_from_keys => 'Utilisez les frappes générées enregistrées à partir de clés privées pour restaurer votre portefeuille';
 
   @override
-  String get restore_wallet_name => 'Nom du portefeuille';
-
-  @override
   String get restore_address => 'Adresse';
-
-  @override
-  String get restore_view_key_private => 'Clé d\'observation (secret)';
-
-  @override
-  String get restore_spend_key_private => 'Clé de dépense (secret)';
 
   @override
   String get restore_recover => 'Restaurer';
@@ -320,7 +308,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get restore_wallet_restore_description => 'Description de la restauration du portefeuille';
 
   @override
-  String get seed_title => 'Seed';
+  String get seed_title => 'Graine';
 
   @override
   String get seed_share => 'Partager Seed';
@@ -330,9 +318,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get seed_language_choose => 'Veuillez sélectionner la langue source';
-
-  @override
-  String get seed_language_next => 'Continuer';
 
   @override
   String get seed_language_english => 'Anglais';
@@ -363,9 +348,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get seed_language_italian => 'Italien';
-
-  @override
-  String get send_title => 'Envoyer des';
 
   @override
   String get send_your_wallet => 'Votre portefeuille';
@@ -432,13 +414,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settings_title => 'Paramètres';
 
   @override
-  String get settings_nodes => 'Node';
-
-  @override
   String get settings_current_node => 'Node actuel';
-
-  @override
-  String get settings_wallets => 'Portefeuilles';
 
   @override
   String get settings_display_balance_as => 'Afficher la balance comme';
@@ -462,9 +438,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get settings_change_pin => 'changer le code PIN';
 
   @override
-  String get settings_change_language => 'changer de langue';
-
-  @override
   String get settings_allow_biometric_authentication => 'Authentification biométrique';
 
   @override
@@ -472,9 +445,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get settings_display_on_dashboard_list => 'Afficher dans la liste du tableau de bord';
-
-  @override
-  String get settings_all => 'TOUT';
 
   @override
   String get settings_none => 'Rien';
@@ -536,9 +506,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get new_subaddress_title => 'Nouvelle sous-adresse';
 
   @override
-  String get new_subaddress_label_name => 'Nom';
-
-  @override
   String get new_subaddress_create => 'Créer';
 
   @override
@@ -549,9 +516,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get transaction_details_transaction_id => 'ID Transaction';
-
-  @override
-  String get transaction_details_date => 'Date';
 
   @override
   String get transaction_details_height => 'Taille';
@@ -571,19 +535,13 @@ class AppLocalizationsFr extends AppLocalizations {
   String get transaction_details_recipient_address => 'Adresse du destinataire';
 
   @override
-  String get swap_wallet_address => 'Adresse du portefeuille';
-
-  @override
-  String get swap_recipient_address => 'Adresse du destinataire';
-
-  @override
   String swap_correct_chain_address(Object blockchain) {
-    return 'Veuillez vous assurer de saisir la bonne adresse pour la chaîne sélectionnée - $blockchain. Sinon, vous perdrez vos fonds.';
+    return 'Veuillez vous assurer de saisir l’adresse correcte pour la chaîne sélectionnée - $blockchain. Sinon, vous perdrez vos fonds.';
   }
 
   @override
   String swap_enter_recipient_address(Object currency) {
-    return 'Saisissez l\'adresse du destinataire $currency';
+    return 'Saisissez l’adresse du destinataire de $currency';
   }
 
   @override
@@ -782,7 +740,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get swap_new_transaction => 'Nouvelle transaction';
 
   @override
-  String get swap_i_agree_with => 'J\'accepte les ';
+  String get swap_i_agree_with => 'J’accepte';
 
   @override
   String get swap_terms_of_use => 'Conditions d\'utilisation';
@@ -794,16 +752,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get swap_privacy_policy => 'Politique de confidentialité';
 
   @override
-  String get swap_next => 'Suivant';
-
-  @override
   String get wallet_list_title => 'Beldex Wallet';
-
-  @override
-  String get wallet_list_create_new_wallet => 'Créer un nouveau portefeuille';
-
-  @override
-  String get wallet_list_restore_wallet => 'Restaurer le portefeuille';
 
   @override
   String get wallet_list_load_wallet => 'Charger le portefeuille';
@@ -829,9 +778,6 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get widgets_address => 'Adresse';
-
-  @override
   String get widgets_restore_from_blockheight => 'restaurer à partir du blockheight';
 
   @override
@@ -839,9 +785,6 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get widgets_or => 'ou';
-
-  @override
-  String get widgets_seed => 'Seed';
 
   @override
   String router_no_route(Object name) {
@@ -985,12 +928,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String never_give_your(Object item) {
-    return 'Ne donnez JAMAIS votre Wallet Beldex à qui que ce soit! $item à qui que ce soit!';
+    return 'Ne donnez jamais votre $item de portefeuille Beldex à qui que ce soit !';
   }
 
   @override
   String dangerzone_warning(Object app_store, Object item) {
-    return 'Ne JAMAIS saisir  vos identifiants de votre Wallet Beldex $item dans tout logiciel ou site Web autre que les portefeuilles OFFICIELS Beldex téléchargés directement à partir du $app_store, le site internet Beldex, ou Beldex sur GitHub.\nÊtes-vous sûr de vouloir accéder à votre portefeuille $item?';
+    return 'N’ENTREZ JAMAIS le $item de votre portefeuille Beldex dans un logiciel ou un site web autre que les portefeuilles Beldex OFFICIELS téléchargés directement depuis $app_store, le site web de Beldex ou le GitHub de Beldex. Êtes-vous sûr de vouloir accéder à votre portefeuille $item ?';
   }
 
   @override
@@ -1055,7 +998,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String neverInputYourBeldexWalletItemIntoAnySoftwareOr(Object appStore, Object item) {
-    return 'Ne saisissez jamais votre portefeuille Beldex $item dans un logiciel ou un site Web autre que\nles portefeuilles Beldex officiels téléchargés directement depuis l\'$appStore,\nle site Web beldex ou le GitHub beldex.';
+    return 'Ne saisissez jamais le $item de votre portefeuille Beldex dans un logiciel ou un site web autre que les portefeuilles officiels Beldex téléchargés directement depuis $appStore, le site web de Beldex ou le GitHub de Beldex.';
   }
 
   @override
@@ -1077,7 +1020,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get recoverySeedkey => 'Graine/clé de récupération';
 
   @override
-  String get selectLanguage => 'Choisir la langue';
+  String get selectLanguage => 'Sélectionner la langue';
 
   @override
   String get chooseLanguage => 'Choisissez la langue';
@@ -1420,9 +1363,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bnsOwnerHint => 'L\'adresse du portefeuille du propriétaire';
 
   @override
-  String get bnsWalletAddress => 'Adresse du portefeuille';
-
-  @override
   String get bnsBchatId => 'ID BChat';
 
   @override
@@ -1457,12 +1397,12 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String bnsDecryptionSuccess(Object bnsName) {
-    return 'Enregistrement BNS déchiffré avec succès pour $bnsName';
+    return 'Enregistrement BNS de $bnsName déchiffré avec succès';
   }
 
   @override
   String bnsDecryptionFailure(Object bnsName) {
-    return 'Échec du déchiffrement de l\'enregistrement BNS pour $bnsName';
+    return 'Échec du déchiffrement de l’enregistrement BNS de $bnsName';
   }
 
   @override
@@ -1475,7 +1415,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bnsRecords => 'Enregistrements BNS';
 
   @override
-  String get bnsExpirationHeight => 'Hauteur d\'expiration : ';
+  String get bnsExpirationHeight => 'Hauteur d\'expiration';
 
   @override
   String get bnsUpdateHeight => 'Hauteur de mise à jour';
@@ -1532,19 +1472,10 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bnsConfirmPurchase => 'Confirmer l\'achat';
 
   @override
-  String get bnsNameLabel => 'Nom';
-
-  @override
   String get bnsYearLabel => 'Année';
 
   @override
   String get bnsOwnerLabel => 'Propriétaire';
-
-  @override
-  String get bnsAddressLabel => 'Adresse';
-
-  @override
-  String get bnsNone => 'Aucun';
 
   @override
   String get bnsSameOwnerAddress => 'même adresse du propriétaire';
@@ -1586,7 +1517,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bnsUpdate => 'Mise à jour du BNS';
 
   @override
-  String get bnsRenewal => 'Renouvellement du BNS';
+  String get bnsRenewal => 'Renouvellement de BNS';
 
   @override
   String get swap => 'Échanger';
@@ -1609,7 +1540,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String walletAlreadyExists(Object name) {
-    return 'Le wallet nommé $name existe déjà !';
+    return 'Un portefeuille nommé $name existe déjà !';
   }
 
   @override
@@ -1691,9 +1622,6 @@ class AppLocalizationsFr extends AppLocalizations {
   String get failedToGetOutputDistribution => 'Échec de l\'obtention de la distribution de sortie';
 
   @override
-  String get sendValueExceedBalance => 'Le montant ne peut pas dépasser le solde disponible.\nLe nombre de chiffres fractionnaires doit être inférieur ou égal à 2';
-
-  @override
   String get noPendingTransaction => 'Aucune transaction en attente';
 
   @override
@@ -1704,4 +1632,24 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get searchCurrency => 'Rechercher une devise';
+
+  @override
+  String changePinLength(Object value) {
+    return 'Basculer vers $value-chiffre PIN';
+  }
+
+  @override
+  String get pleaseEnterAValidHeight => 'Veuillez saisir une hauteur valide';
+
+  @override
+  String get invalidAddress => '';
+
+  @override
+  String get exchangePair => 'Paire d\'échange';
+
+  @override
+  String get payment => 'Paiement';
+
+  @override
+  String get bnsConfirmUpdate => 'Confirmer la mise à jour';
 }

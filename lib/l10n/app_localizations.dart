@@ -310,7 +310,7 @@ abstract class AppLocalizations {
   /// No description provided for @filters.
   ///
   /// In en, this message translates to:
-  /// **'Filters'**
+  /// **'Filter By'**
   String get filters;
 
   /// No description provided for @today.
@@ -607,12 +607,6 @@ abstract class AppLocalizations {
   /// **'Share address'**
   String get share_address;
 
-  /// No description provided for @receive_amount.
-  ///
-  /// In en, this message translates to:
-  /// **'Amount'**
-  String get receive_amount;
-
   /// No description provided for @subaddresses.
   ///
   /// In en, this message translates to:
@@ -685,29 +679,11 @@ abstract class AppLocalizations {
   /// **'Use the generated keystrokes saved from private keys to Restore your Wallet '**
   String get restore_description_from_keys;
 
-  /// No description provided for @restore_wallet_name.
-  ///
-  /// In en, this message translates to:
-  /// **'Wallet Name'**
-  String get restore_wallet_name;
-
   /// No description provided for @restore_address.
   ///
   /// In en, this message translates to:
   /// **'Address'**
   String get restore_address;
-
-  /// No description provided for @restore_view_key_private.
-  ///
-  /// In en, this message translates to:
-  /// **'View key (private)'**
-  String get restore_view_key_private;
-
-  /// No description provided for @restore_spend_key_private.
-  ///
-  /// In en, this message translates to:
-  /// **'Spend key (private)'**
-  String get restore_spend_key_private;
 
   /// No description provided for @restore_recover.
   ///
@@ -744,12 +720,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please choose a seed language'**
   String get seed_language_choose;
-
-  /// No description provided for @seed_language_next.
-  ///
-  /// In en, this message translates to:
-  /// **'Next'**
-  String get seed_language_next;
 
   /// No description provided for @seed_language_english.
   ///
@@ -810,12 +780,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Italian'**
   String get seed_language_italian;
-
-  /// No description provided for @send_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Send'**
-  String get send_title;
 
   /// No description provided for @send_your_wallet.
   ///
@@ -937,23 +901,11 @@ abstract class AppLocalizations {
   /// **'Settings'**
   String get settings_title;
 
-  /// No description provided for @settings_nodes.
-  ///
-  /// In en, this message translates to:
-  /// **'Nodes'**
-  String get settings_nodes;
-
   /// No description provided for @settings_current_node.
   ///
   /// In en, this message translates to:
   /// **'Current node'**
   String get settings_current_node;
-
-  /// No description provided for @settings_wallets.
-  ///
-  /// In en, this message translates to:
-  /// **'Wallets'**
-  String get settings_wallets;
 
   /// No description provided for @settings_display_balance_as.
   ///
@@ -997,12 +949,6 @@ abstract class AppLocalizations {
   /// **'Change PIN'**
   String get settings_change_pin;
 
-  /// No description provided for @settings_change_language.
-  ///
-  /// In en, this message translates to:
-  /// **'Select Language'**
-  String get settings_change_language;
-
   /// No description provided for @settings_allow_biometric_authentication.
   ///
   /// In en, this message translates to:
@@ -1020,12 +966,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Display on dashboard list'**
   String get settings_display_on_dashboard_list;
-
-  /// No description provided for @settings_all.
-  ///
-  /// In en, this message translates to:
-  /// **'ALL'**
-  String get settings_all;
 
   /// No description provided for @settings_none.
   ///
@@ -1141,12 +1081,6 @@ abstract class AppLocalizations {
   /// **'New subaddress'**
   String get new_subaddress_title;
 
-  /// No description provided for @new_subaddress_label_name.
-  ///
-  /// In en, this message translates to:
-  /// **'Label name'**
-  String get new_subaddress_label_name;
-
   /// No description provided for @new_subaddress_create.
   ///
   /// In en, this message translates to:
@@ -1170,12 +1104,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Transaction ID'**
   String get transaction_details_transaction_id;
-
-  /// No description provided for @transaction_details_date.
-  ///
-  /// In en, this message translates to:
-  /// **'Date'**
-  String get transaction_details_date;
 
   /// No description provided for @transaction_details_height.
   ///
@@ -1206,18 +1134,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Recipient Address'**
   String get transaction_details_recipient_address;
-
-  /// No description provided for @swap_wallet_address.
-  ///
-  /// In en, this message translates to:
-  /// **'Wallet Address'**
-  String get swap_wallet_address;
-
-  /// No description provided for @swap_recipient_address.
-  ///
-  /// In en, this message translates to:
-  /// **'Recipient Address'**
-  String get swap_recipient_address;
 
   /// No description provided for @swap_correct_chain_address.
   ///
@@ -1597,29 +1513,11 @@ abstract class AppLocalizations {
   /// **'Privacy Policy'**
   String get swap_privacy_policy;
 
-  /// No description provided for @swap_next.
-  ///
-  /// In en, this message translates to:
-  /// **'Next'**
-  String get swap_next;
-
   /// No description provided for @wallet_list_title.
   ///
   /// In en, this message translates to:
   /// **'Beldex Wallet'**
   String get wallet_list_title;
-
-  /// No description provided for @wallet_list_create_new_wallet.
-  ///
-  /// In en, this message translates to:
-  /// **'Create New Wallet'**
-  String get wallet_list_create_new_wallet;
-
-  /// No description provided for @wallet_list_restore_wallet.
-  ///
-  /// In en, this message translates to:
-  /// **'Use Existing Wallet'**
-  String get wallet_list_restore_wallet;
 
   /// No description provided for @wallet_list_load_wallet.
   ///
@@ -1651,12 +1549,6 @@ abstract class AppLocalizations {
   /// **'Failed to remove {wallet_name} wallet. {error}'**
   String wallet_list_failed_to_remove(Object error, Object wallet_name);
 
-  /// No description provided for @widgets_address.
-  ///
-  /// In en, this message translates to:
-  /// **'Address'**
-  String get widgets_address;
-
   /// No description provided for @widgets_restore_from_blockheight.
   ///
   /// In en, this message translates to:
@@ -1674,12 +1566,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'OR'**
   String get widgets_or;
-
-  /// No description provided for @widgets_seed.
-  ///
-  /// In en, this message translates to:
-  /// **'Seed'**
-  String get widgets_seed;
 
   /// No description provided for @router_no_route.
   ///
@@ -2296,7 +2182,7 @@ abstract class AppLocalizations {
   /// No description provided for @biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside.
   ///
   /// In en, this message translates to:
-  /// **'Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings'**
+  /// **'Biometric feature currently disabled.Kindly enable allow biometric authentication feature inside the app settings'**
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside;
 
   /// No description provided for @unlockBeldexWallet.
@@ -2797,12 +2683,6 @@ abstract class AppLocalizations {
   /// **'The wallet address of the owner'**
   String get bnsOwnerHint;
 
-  /// No description provided for @bnsWalletAddress.
-  ///
-  /// In en, this message translates to:
-  /// **'Wallet Address'**
-  String get bnsWalletAddress;
-
   /// No description provided for @bnsBchatId.
   ///
   /// In en, this message translates to:
@@ -2902,7 +2782,7 @@ abstract class AppLocalizations {
   /// No description provided for @bnsExpirationHeight.
   ///
   /// In en, this message translates to:
-  /// **'Expiration Height : '**
+  /// **'Expiration Height'**
   String get bnsExpirationHeight;
 
   /// No description provided for @bnsUpdateHeight.
@@ -3013,12 +2893,6 @@ abstract class AppLocalizations {
   /// **'Confirm Purchase'**
   String get bnsConfirmPurchase;
 
-  /// No description provided for @bnsNameLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Name'**
-  String get bnsNameLabel;
-
   /// No description provided for @bnsYearLabel.
   ///
   /// In en, this message translates to:
@@ -3030,18 +2904,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Owner'**
   String get bnsOwnerLabel;
-
-  /// No description provided for @bnsAddressLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Address'**
-  String get bnsAddressLabel;
-
-  /// No description provided for @bnsNone.
-  ///
-  /// In en, this message translates to:
-  /// **'None'**
-  String get bnsNone;
 
   /// No description provided for @bnsSameOwnerAddress.
   ///
@@ -3319,12 +3181,6 @@ abstract class AppLocalizations {
   /// **'Failed to get output distribution'**
   String get failedToGetOutputDistribution;
 
-  /// No description provided for @sendValueExceedBalance.
-  ///
-  /// In en, this message translates to:
-  /// **'Value of amount can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 2'**
-  String get sendValueExceedBalance;
-
   /// No description provided for @noPendingTransaction.
   ///
   /// In en, this message translates to:
@@ -3348,6 +3204,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search Currency'**
   String get searchCurrency;
+
+  /// No description provided for @changePinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to {value}-digit PIN'**
+  String changePinLength(Object value);
+
+  /// No description provided for @pleaseEnterAValidHeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid Height'**
+  String get pleaseEnterAValidHeight;
+
+  /// No description provided for @invalidAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid address'**
+  String get invalidAddress;
+
+  /// No description provided for @exchangePair.
+  ///
+  /// In en, this message translates to:
+  /// **'Exchange Pair'**
+  String get exchangePair;
+
+  /// No description provided for @payment.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment'**
+  String get payment;
+
+  /// No description provided for @bnsConfirmUpdate.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Update'**
+  String get bnsConfirmUpdate;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

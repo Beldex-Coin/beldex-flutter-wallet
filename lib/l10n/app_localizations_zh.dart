@@ -9,1418 +9,1358 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
-  String get welcome => 'Welcome to\nBeldex Wallet';
+  String get welcome => '';
 
   @override
-  String get first_wallet_text => 'Awesome wallet\nfor Beldex';
+  String get first_wallet_text => '';
 
   @override
-  String get please_make_selection => 'Select from the options below to\neither create or recover your wallet.';
+  String get please_make_selection => '';
 
   @override
-  String get create_new => 'Create New Wallet';
+  String get create_new => '创建新钱包';
 
   @override
-  String get restore_wallet => 'Use Existing Wallet';
+  String get restore_wallet => '使用现有钱包';
 
   @override
-  String get accounts => 'Accounts';
+  String get accounts => '账户';
 
   @override
-  String get edit => 'Edit';
+  String get edit => '编辑';
 
   @override
-  String get account => 'Account';
+  String get account => '账户';
 
   @override
-  String get add => 'Add';
+  String get add => '添加';
 
   @override
-  String get address_book => 'Address Book';
+  String get address_book => '地址簿';
 
   @override
-  String get contact => 'Contact';
+  String get contact => '';
 
   @override
-  String get please_select => 'Please select:';
+  String get please_select => '';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => '取消';
 
   @override
-  String get ok => 'Ok';
+  String get ok => '确定';
 
   @override
-  String get contact_name => 'Contact Name';
+  String get contact_name => '';
 
   @override
-  String get reset => 'Reset';
+  String get reset => '重置';
 
   @override
-  String get save => 'Save';
+  String get save => '保存';
 
   @override
-  String get authenticated => 'Authenticated';
+  String get authenticated => '';
 
   @override
-  String get authentication => 'Authentication';
+  String get authentication => '';
 
   @override
   String failed_authentication(Object state_error) {
-    return 'Failed authentication. $state_error';
+    return '身份验证失败。$state_error';
   }
 
   @override
-  String get wallet_menu => 'Menu';
+  String get wallet_menu => '';
 
   @override
   String blocksRemaining(Object status) {
-    return '$status Blocks Remaining';
+    return '剩余 $status 个区块';
   }
 
   @override
-  String get please_try_to_connect_to_another_node => 'Please try to connect to another node';
+  String get please_try_to_connect_to_another_node => '请尝试连接到其他节点';
 
   @override
-  String get beldex_hidden => 'Beldex Hidden';
+  String get beldex_hidden => '';
 
   @override
-  String get beldex_available_balance => 'Beldex Available Balance';
+  String get beldex_available_balance => '';
 
   @override
-  String get beldex_full_balance => 'Beldex Full Balance';
+  String get beldex_full_balance => '';
 
   @override
-  String get send => 'Send';
+  String get send => '发送';
 
   @override
-  String get receive => 'Receive';
+  String get receive => '接收';
 
   @override
-  String get transactions => 'Transactions';
+  String get transactions => '交易记录';
 
   @override
-  String get incoming => 'Incoming';
+  String get incoming => '收入';
 
   @override
-  String get outgoing => 'Outgoing';
+  String get outgoing => '支出';
 
   @override
-  String get transactions_by_date => 'Transactions by Date';
+  String get transactions_by_date => '按日期查看交易';
 
   @override
-  String get filters => 'Filters';
+  String get filters => '按条件筛选';
 
   @override
-  String get today => 'Today';
+  String get today => '';
 
   @override
-  String get yesterday => 'Yesterday';
+  String get yesterday => '';
 
   @override
-  String get received => 'Received';
+  String get received => '';
 
   @override
-  String get sent => 'Sent';
+  String get sent => '已发送';
 
   @override
-  String get pending => ' (pending)';
+  String get pending => '';
 
   @override
-  String get rescan => 'Rescan';
+  String get rescan => '重新扫描';
 
   @override
-  String get reconnect => 'Reconnect';
+  String get reconnect => '重新连接';
 
   @override
-  String get wallets => 'Wallets';
+  String get wallets => '钱包列表';
 
   @override
-  String get show_seed => 'Show Seed';
+  String get show_seed => '显示助记词';
 
   @override
-  String get show_keys => 'Show keys';
+  String get show_keys => '显示密钥';
 
   @override
-  String get reconnection => 'Reconnection';
+  String get reconnection => '';
 
   @override
-  String get reconnect_alert_text => 'Are you sure to reconnect?';
+  String get reconnect_alert_text => '';
 
   @override
-  String get reload_fiat => 'Reload Fiat data';
+  String get reload_fiat => '';
 
   @override
-  String get clear => 'Clear';
+  String get clear => '清除';
 
   @override
-  String get error => 'Error';
+  String get error => '';
 
   @override
-  String get copied_to_clipboard => 'Copied to clipboard!';
+  String get copied_to_clipboard => '';
 
   @override
-  String get fetching => 'Fetching';
+  String get fetching => '';
 
   @override
-  String get id => 'ID: ';
+  String get id => '';
 
   @override
-  String get amount => 'Amount ';
+  String get amount => '金额';
 
   @override
-  String get status => 'Status: ';
+  String get status => '状态:';
 
   @override
-  String get confirm => 'Confirm';
+  String get confirm => '';
 
   @override
-  String get confirm_sending => 'Confirm sending';
+  String get confirm_sending => '确认发送';
 
   @override
   String commit_transaction_amount_fee(Object amount, Object fee) {
-    return 'Commit transaction\nAmount: $amount\nFee: $fee';
+    return '';
   }
 
   @override
-  String get sending => 'Sending';
+  String get sending => '';
 
   @override
-  String get transaction_sent => 'Transaction sent!';
+  String get transaction_sent => '';
 
   @override
-  String get send_beldex => 'Send Beldex';
+  String get send_beldex => '';
 
   @override
-  String get faq => 'FAQ';
+  String get faq => '常见问题';
 
   @override
-  String get changelog => 'Changelog';
+  String get changelog => '更新日志';
 
   @override
-  String get loading_your_wallet => 'Loading your wallet';
+  String get loading_your_wallet => '';
 
   @override
-  String get new_wallet => 'New Wallet';
+  String get new_wallet => '新钱包';
 
   @override
-  String get wallet_name => 'Wallet Name';
+  String get wallet_name => '钱包名称';
 
   @override
-  String get continue_text => 'Continue';
+  String get continue_text => '继续';
 
   @override
-  String get node_new => 'New Node';
+  String get node_new => '';
 
   @override
-  String get node_address => 'Node Address';
+  String get node_address => '节点地址';
 
   @override
-  String get node_port => 'Node Port';
+  String get node_port => '节点端口';
 
   @override
-  String get login => 'Login';
+  String get login => '';
 
   @override
-  String get password => 'Password';
+  String get password => '';
 
   @override
-  String get nodes => 'Nodes';
+  String get nodes => '节点';
 
   @override
-  String get node_reset_settings_title => 'Reset settings';
+  String get node_reset_settings_title => '重置设置';
 
   @override
-  String get nodes_list_reset_to_default_message => 'Are you sure that you want to reset settings to default?';
+  String get nodes_list_reset_to_default_message => '您确定要将设置重置为默认吗？';
 
   @override
   String change_current_node(Object node) {
-    return 'Are you sure to change current node to $node?';
+    return '您确定要将当前节点更改为 $node 吗？';
   }
 
   @override
-  String get change => 'Change';
+  String get change => '';
 
   @override
-  String get remove_node => 'Remove node';
+  String get remove_node => '';
 
   @override
-  String get remove_node_message => 'Are you sure that you want to remove selected node?';
+  String get remove_node_message => '';
 
   @override
-  String get remove => 'Remove';
+  String get remove => '';
 
   @override
-  String get delete => 'Delete';
+  String get delete => '删除';
 
   @override
-  String get use => 'Switch to ';
+  String get use => '';
 
   @override
-  String get digit_pin => '-digit PIN';
+  String get digit_pin => '';
 
   @override
-  String get share_address => 'Share address';
+  String get share_address => '';
 
   @override
-  String get receive_amount => 'Amount';
+  String get subaddresses => '';
 
   @override
-  String get subaddresses => 'Subaddresses';
+  String get restore_restore_wallet => '恢复钱包';
 
   @override
-  String get restore_restore_wallet => 'Restore Wallet';
+  String get restore_title_from_seed_keys => '从助记词/密钥恢复';
 
   @override
-  String get restore_title_from_seed_keys => 'Restore from seed/keys';
+  String get restore_description_from_seed_keys => '通过您保存在安全位置的助记词/密钥找回您的钱包';
 
   @override
-  String get restore_description_from_seed_keys => 'Get back your wallet from seed/keys that you\'ve saved to secure place';
+  String get restore_next => '下一步';
 
   @override
-  String get restore_next => 'Next';
+  String get restore_title_from_backup => '';
 
   @override
-  String get restore_title_from_backup => 'Restore from a back-up file';
+  String get restore_description_from_backup => '';
 
   @override
-  String get restore_description_from_backup => 'You can restore the whole Beldex Wallet app from your back-up file';
+  String get restore_seed_keys_restore => '';
 
   @override
-  String get restore_seed_keys_restore => 'Seed/Keys Restore';
+  String get restore_title_from_seed => '从助记词恢复';
 
   @override
-  String get restore_title_from_seed => 'Restore from Seed';
+  String get restore_description_from_seed => '使用 25 个单词的助记词或种子短语来恢复您的钱包。';
 
   @override
-  String get restore_description_from_seed => 'Use the 25-word Mnemonic Key or Seed Phrase to Restore your Wallet.';
+  String get restore_title_from_keys => '从密钥恢复';
 
   @override
-  String get restore_title_from_keys => 'Restore from Keys';
+  String get restore_description_from_keys => '使用从私钥生成并保存的密钥数据来恢复您的钱包';
 
   @override
-  String get restore_description_from_keys => 'Use the generated keystrokes saved from private keys to Restore your Wallet ';
+  String get restore_address => '地址';
 
   @override
-  String get restore_wallet_name => 'Wallet Name';
+  String get restore_recover => '恢复';
 
   @override
-  String get restore_address => 'Address';
+  String get restore_wallet_restore_description => '';
 
   @override
-  String get restore_view_key_private => 'View key (private)';
+  String get seed_title => '助记词';
 
   @override
-  String get restore_spend_key_private => 'Spend key (private)';
+  String get seed_share => '';
 
   @override
-  String get restore_recover => 'Restore';
+  String get copy => '';
 
   @override
-  String get restore_wallet_restore_description => 'Wallet restore description';
+  String get seed_language_choose => '';
 
   @override
-  String get seed_title => 'Seed';
+  String get seed_language_english => '';
 
   @override
-  String get seed_share => 'Share seed';
+  String get seed_language_chinese => '';
 
   @override
-  String get copy => 'Copy';
+  String get seed_language_dutch => '';
 
   @override
-  String get seed_language_choose => 'Please choose a seed language';
+  String get seed_language_german => '';
 
   @override
-  String get seed_language_next => 'Next';
+  String get seed_language_japanese => '';
 
   @override
-  String get seed_language_english => 'English';
+  String get seed_language_portuguese => '';
 
   @override
-  String get seed_language_chinese => 'Chinese';
+  String get seed_language_russian => '';
 
   @override
-  String get seed_language_dutch => 'Dutch';
+  String get seed_language_spanish => '';
 
   @override
-  String get seed_language_german => 'German';
+  String get seed_language_french => '';
 
   @override
-  String get seed_language_japanese => 'Japanese';
+  String get seed_language_italian => '';
 
   @override
-  String get seed_language_portuguese => 'Portuguese';
+  String get send_your_wallet => '';
 
   @override
-  String get seed_language_russian => 'Russian';
+  String get send_beldex_address => 'Beldex 地址或 BNS 名称';
 
   @override
-  String get seed_language_spanish => 'Spanish';
+  String get all => '';
 
   @override
-  String get seed_language_french => 'French';
+  String get send_error_currency => '';
 
   @override
-  String get seed_language_italian => 'Italian';
-
-  @override
-  String get send_title => 'Send';
-
-  @override
-  String get send_your_wallet => 'Your wallet';
-
-  @override
-  String get send_beldex_address => 'Beldex address or BNS name';
-
-  @override
-  String get all => 'ALL';
-
-  @override
-  String get send_error_currency => 'Currency can only contain numbers';
-
-  @override
-  String get send_estimated_fee => 'Estimated Fee:';
+  String get send_estimated_fee => '预计费用:';
 
   @override
   String send_priority(Object transactionPriority) {
-    return '$transactionPriority priority is set as the default fee.\nGo to setting to change the transaction priority.';
+    return '$transactionPriority 优先级已设置为默认费用。前往设置以更改交易优先级。';
   }
 
   @override
-  String get send_creating_transaction => 'Creating transaction';
+  String get send_creating_transaction => '';
 
   @override
-  String get title_stakes => 'Stakes';
+  String get title_stakes => '';
 
   @override
-  String get title_new_stake => 'New Stake';
+  String get title_new_stake => '';
 
   @override
-  String get your_contributions => 'Your Contributions';
+  String get your_contributions => '';
 
   @override
-  String get start_staking => 'Start staking';
+  String get start_staking => '';
 
   @override
-  String get stake_more => 'Stake more';
+  String get stake_more => '';
 
   @override
-  String get nothing_staked => 'Nothing staked yet';
+  String get nothing_staked => '';
 
   @override
-  String get service_node_key => 'Master Node Key';
+  String get service_node_key => '';
 
   @override
-  String get stake_beldex => 'Stake Beldex';
+  String get stake_beldex => '';
 
   @override
-  String get title_confirm_unlock_stake => 'Unlock Stake';
+  String get title_confirm_unlock_stake => '';
 
   @override
   String body_confirm_unlock_stake(Object masterNodeKey) {
-    return 'Do you really want to unlock your stake from $masterNodeKey?';
+    return '';
   }
 
   @override
-  String get unlock_stake_requested => 'Stake unlock requested';
+  String get unlock_stake_requested => '';
 
   @override
-  String get unable_unlock_stake => 'Unable to unlock stake';
+  String get unable_unlock_stake => '';
 
   @override
-  String get settings_title => 'Settings';
+  String get settings_title => '设置';
 
   @override
-  String get settings_nodes => 'Nodes';
+  String get settings_current_node => '当前节点';
 
   @override
-  String get settings_current_node => 'Current node';
+  String get settings_display_balance_as => '显示余额为';
 
   @override
-  String get settings_wallets => 'Wallets';
+  String get settings_balance_detail => '小数位数';
 
   @override
-  String get settings_display_balance_as => 'Display Balance As';
+  String get settings_currency => '货币';
 
   @override
-  String get settings_balance_detail => 'Decimals';
+  String get settings_fee_priority => '手续费优先级';
 
   @override
-  String get settings_currency => 'Currency';
+  String get settings_save_recipient_address => '保存收款地址';
 
   @override
-  String get settings_fee_priority => 'Fee Priority';
+  String get settings_personal => '个人';
 
   @override
-  String get settings_save_recipient_address => 'Save recipient address';
+  String get settings_change_pin => '修改 PIN';
 
   @override
-  String get settings_personal => 'Personal';
+  String get settings_allow_biometric_authentication => '允许生物识别认证';
 
   @override
-  String get settings_change_pin => 'Change PIN';
+  String get settings_dark_mode => '深色模式';
 
   @override
-  String get settings_change_language => 'Select Language';
+  String get settings_display_on_dashboard_list => '';
 
   @override
-  String get settings_allow_biometric_authentication => 'Allow biometric authentication';
+  String get settings_none => '';
 
   @override
-  String get settings_dark_mode => 'Dark mode';
+  String get settings_support => '支持';
 
   @override
-  String get settings_display_on_dashboard_list => 'Display on dashboard list';
+  String get settings_terms_and_conditions => '条款与条件';
 
   @override
-  String get settings_all => 'ALL';
+  String get settings_enable_fiat_currency => '启用法币转换';
 
   @override
-  String get settings_none => 'None';
+  String get pin_is_incorrect => 'PIN 不正确';
 
   @override
-  String get settings_support => 'Support';
+  String get amount_detail_ultra => '';
 
   @override
-  String get settings_terms_and_conditions => 'Terms & Conditions';
+  String get amount_detail_none => '';
 
   @override
-  String get settings_enable_fiat_currency => 'Enable Fiat Currency conversion';
+  String get amount_detail_detailed => '';
 
   @override
-  String get pin_is_incorrect => 'PIN is incorrect';
+  String get amount_detail_normal => '';
 
   @override
-  String get amount_detail_ultra => '9 - Ultra';
+  String get setup_pin => '设置 PIN';
 
   @override
-  String get amount_detail_none => '0 - None';
+  String get re_enter_your_pin => '重新输入您的 PIN';
 
   @override
-  String get amount_detail_detailed => '4 - Detailed';
+  String get setup_successful => '您的 PIN 已成功设置！';
 
   @override
-  String get amount_detail_normal => '2 - Normal';
+  String get wallet_keys => '钱包密钥';
 
   @override
-  String get setup_pin => 'Setup PIN';
+  String get view_key_private => '查看密钥（私钥）';
 
   @override
-  String get re_enter_your_pin => 'Re-Enter your PIN';
+  String get view_key_public => '查看密钥（公钥）';
 
   @override
-  String get setup_successful => 'Your PIN has been set up \nsuccessfully!';
+  String get spend_key_private => '花费密钥（私钥）';
 
   @override
-  String get wallet_keys => 'Wallet keys';
-
-  @override
-  String get view_key_private => 'View key (private)';
-
-  @override
-  String get view_key_public => 'View key (public)';
-
-  @override
-  String get spend_key_private => 'Spend key (private)';
-
-  @override
-  String get spend_key_public => 'Spend key (public)';
+  String get spend_key_public => '花费密钥（公钥）';
 
   @override
   String copied_key_to_clipboard(Object key) {
-    return 'Copied $key to Clipboard';
+    return '';
   }
 
   @override
-  String get new_subaddress_title => 'New subaddress';
+  String get new_subaddress_title => '';
 
   @override
-  String get new_subaddress_label_name => 'Label name';
+  String get new_subaddress_create => '创建';
 
   @override
-  String get new_subaddress_create => 'Create';
+  String get subaddress_title => '';
 
   @override
-  String get subaddress_title => 'Subaddress list';
+  String get transaction_details_title => '';
 
   @override
-  String get transaction_details_title => 'Transaction Details';
+  String get transaction_details_transaction_id => '交易 ID';
 
   @override
-  String get transaction_details_transaction_id => 'Transaction ID';
+  String get transaction_details_height => '区块高度';
 
   @override
-  String get transaction_details_date => 'Date';
+  String get transaction_details_amount => '金额';
 
   @override
-  String get transaction_details_height => 'Height';
-
-  @override
-  String get transaction_details_amount => 'Amount';
-
-  @override
-  String get transaction_details_payment_id => 'Payment ID';
+  String get transaction_details_payment_id => '';
 
   @override
   String transaction_details_copied(Object title) {
-    return '$title copied to Clipboard';
+    return '';
   }
 
   @override
-  String get transaction_details_recipient_address => 'Recipient Address';
-
-  @override
-  String get swap_wallet_address => 'Wallet Address';
-
-  @override
-  String get swap_recipient_address => 'Recipient Address';
+  String get transaction_details_recipient_address => '接收地址';
 
   @override
   String swap_correct_chain_address(Object blockchain) {
-    return 'Please make sure to enter the correct address for the selected chain - $blockchain. Otherwise you will lose your funds.';
+    return '请确保输入所选链（$blockchain）的正确地址。否则，您可能会损失资金。';
   }
 
   @override
   String swap_enter_recipient_address(Object currency) {
-    return 'Enter your $currency recipient address';
+    return '输入您的 $currency 收款地址';
   }
 
   @override
-  String get swap_refund_wallet_address => 'Refund wallet Address';
+  String get swap_refund_wallet_address => '';
 
   @override
   String swap_enter_refund_address(Object currency) {
-    return 'Enter your $currency refund address';
+    return '';
   }
 
   @override
   String swap_extra_id_info(Object currency, Object extraIdName) {
-    return 'Please specify the $extraIdName for your $currency receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a $extraIdName, remove the tick.';
+    return '';
   }
 
   @override
   String swap_my_wallet_requires_extra_id(Object extraIdName) {
-    return 'My wallet requires $extraIdName';
+    return '';
   }
 
   @override
   String swap_enter_extra_id(Object extraIdName) {
-    return 'Enter $extraIdName';
+    return '';
   }
 
   @override
   String swap_please_enter_extra_id(Object extraIdName) {
-    return 'Please enter $extraIdName';
+    return '';
   }
 
   @override
-  String get swap_minimum_amount_changed => 'The minimum amount value has changed, The new value is ';
+  String get swap_minimum_amount_changed => '';
 
   @override
-  String get swap_maximum_amount_changed => 'The maximum amount value has changed, The new value is ';
+  String get swap_maximum_amount_changed => '';
 
   @override
-  String get swap_transaction_preview => 'Transaction Preview';
+  String get swap_transaction_preview => '';
 
   @override
-  String get swap_exchange_rate => 'Exchange rate';
+  String get swap_exchange_rate => '汇率';
 
   @override
-  String get swap_service_fee => 'Service fee 0.25%';
+  String get swap_service_fee => '服务费 0.25%';
 
   @override
-  String get service_fee => 'Service Fee 0.25%';
+  String get service_fee => '服务费 0.25%';
 
   @override
-  String get network_fee => 'Network Fee';
+  String get network_fee => '网络费用';
 
   @override
-  String get swap_refund_address => 'Refund Address';
+  String get swap_refund_address => '';
 
   @override
-  String get swap_network_fee => 'Network fee';
+  String get swap_network_fee => '网络费用';
 
   @override
-  String get swap_you_get => 'You Get';
+  String get swap_you_get => '您接收';
 
   @override
-  String get swap_checkout => 'Checkout';
+  String get swap_checkout => '结账';
 
   @override
-  String get swap_network_label => 'NETWORK: ';
+  String get swap_network_label => '网络：';
 
   @override
-  String get swap_estimated_time => 'Estimated Time';
+  String get swap_estimated_time => '';
 
   @override
-  String get swap_estimated_time_value => '5-30 mins';
+  String get swap_estimated_time_value => '';
 
   @override
-  String get swap_confirm_and_make_payment => 'Confirm & Make Payment';
+  String get swap_confirm_and_make_payment => '确认并支付';
 
   @override
-  String get swap_send_funds_to_address_below => 'Send funds to the address below';
+  String get swap_send_funds_to_address_below => '请将资金发送至以下地址';
 
   @override
   String swap_time_left_to_send(Object amount, Object currency) {
-    return 'Time left to send $amount $currency';
+    return '发送 $amount $currency 的剩余时间';
   }
 
   @override
   String swap_time_remaining(Object value) {
-    return 'Time Remaining : $value';
+    return '剩余时间：$value';
   }
 
   @override
-  String get swap_send_funds_notice => 'You Have 3 Hours to send funds otherwise the transaction will be cancelled automatically.\n\nThe exchange will be initiated once the funds are received.';
+  String get swap_send_funds_notice => '您有 3 小时发送资金，\n否则交易将自动取消。\n一旦收到资金，兑换将被发起。';
 
   @override
-  String get swap_confirmations => 'Confirmations';
+  String get swap_confirmations => '';
 
   @override
-  String get swap_completed => 'Completed';
+  String get swap_completed => '已完成';
 
   @override
-  String get swap_amount_from => 'Amount from';
+  String get swap_amount_from => '发送金额';
 
   @override
-  String get swap_amount_to => 'Amount to';
+  String get swap_amount_to => '接收金额';
 
   @override
-  String get swap_received_time => 'Received Time';
+  String get swap_received_time => '接收时间';
 
   @override
-  String get swap_amount_sent => 'Amount Sent';
+  String get swap_amount_sent => '发送金额';
 
   @override
-  String get swap_input_output_hash => 'Input/Output Hash';
+  String get swap_input_output_hash => '输入/输出哈希';
 
   @override
-  String get swap_input_hash => 'Input Hash';
+  String get swap_input_hash => '输入哈希';
 
   @override
-  String get swap_output_hash => 'Output Hash';
+  String get swap_output_hash => '输出哈希';
 
   @override
-  String get swap_failed => 'Failed';
+  String get swap_failed => '失败';
 
   @override
-  String get swap_expired => 'Expired';
+  String get swap_expired => '';
 
   @override
-  String get swap_overdue => 'Overdue';
+  String get swap_overdue => '';
 
   @override
-  String get swap_funds_not_received => 'The funds were not received within 3 hours. Please check the rates and create a new transaction';
+  String get swap_funds_not_received => '在 3 小时内未收到资金。请检查汇率并创建新交易';
 
   @override
-  String get swap_start_over => 'Start Over';
+  String get swap_start_over => '重新开始';
 
   @override
-  String get swap_exchanging => 'Exchanging';
+  String get swap_exchanging => '';
 
   @override
-  String get swap_confirming_in_progress => 'Confirming in progress';
+  String get swap_confirming_in_progress => '';
 
   @override
-  String get swap_confirmed => 'Confirmed';
+  String get swap_confirmed => '';
 
   @override
   String swap_confirmed_in_blockchain(Object currencyFrom, Object currencyTo) {
-    return 'Once $currencyFrom is confirmed in the blockchain, we\'ll start exchanging it to $currencyTo';
+    return '';
   }
 
   @override
-  String get swap_see_input_hash_in_explorer => 'See input hash in explorer';
+  String get swap_see_input_hash_in_explorer => '';
 
   @override
   String swap_done_exchanging(Object currencyFrom, Object currencyTo) {
-    return 'Done Exchanging $currencyFrom to $currencyTo';
+    return '';
   }
 
   @override
   String swap_exchanging_currency(Object currencyFrom, Object currencyTo) {
-    return 'Exchanging $currencyFrom to $currencyTo';
+    return '';
   }
 
   @override
-  String get swap_process_wait => 'The process will take a few minutes. please wait.';
+  String get swap_process_wait => '';
 
   @override
-  String get swap_sending_funds_to_wallet => 'Sending funds to your wallet';
+  String get swap_sending_funds_to_wallet => '';
 
   @override
-  String get swap_funds_sent_to_wallet => 'Funds send to your wallet';
+  String get swap_funds_sent_to_wallet => '';
 
   @override
-  String get swap_you_dont_have_to_wait_here => 'You don’t have to wait here';
+  String get swap_you_dont_have_to_wait_here => '';
 
   @override
-  String get swap_you_can_initiate_new_transaction => 'You can initiate a new transaction. You can always check the status of this transaction in transaction ';
+  String get swap_you_can_initiate_new_transaction => '';
 
   @override
-  String get swap_history => 'history';
+  String get swap_history => '';
 
   @override
-  String get swap_you_sent => 'You sent';
+  String get swap_you_sent => '';
 
   @override
   String swap_exchange_address(Object currency, Object exchangeName) {
-    return '$exchangeName address ($currency)';
+    return '';
   }
 
   @override
   String swap_recipient_address_with_currency(Object currency) {
-    return 'Recipient address ($currency)';
+    return '';
   }
 
   @override
-  String get swap_open_history => 'Open History';
+  String get swap_open_history => '查看记录';
 
   @override
-  String get swap_new_transaction => 'New Transaction';
+  String get swap_new_transaction => '新建交易';
 
   @override
-  String get swap_i_agree_with => 'I agree with ';
+  String get swap_i_agree_with => '我同意';
 
   @override
-  String get swap_terms_of_use => 'Terms of Use';
+  String get swap_terms_of_use => '使用条款';
 
   @override
-  String get swap_and => ' and ';
+  String get swap_and => '和';
 
   @override
-  String get swap_privacy_policy => 'Privacy Policy';
+  String get swap_privacy_policy => '隐私政策';
 
   @override
-  String get swap_next => 'Next';
+  String get wallet_list_title => 'Beldex 钱包';
 
   @override
-  String get wallet_list_title => 'Beldex Wallet';
-
-  @override
-  String get wallet_list_create_new_wallet => 'Create New Wallet';
-
-  @override
-  String get wallet_list_restore_wallet => 'Use Existing Wallet';
-
-  @override
-  String get wallet_list_load_wallet => 'Load wallet';
+  String get wallet_list_load_wallet => '加载钱包';
 
   @override
   String wallet_list_loading_wallet(Object wallet_name) {
-    return 'Loading $wallet_name wallet';
+    return '';
   }
 
   @override
   String wallet_list_failed_to_load(Object error, Object wallet_name) {
-    return 'Failed to load $wallet_name wallet. $error';
+    return '';
   }
 
   @override
   String wallet_list_removing_wallet(Object wallet_name) {
-    return 'Removing $wallet_name wallet';
+    return '';
   }
 
   @override
   String wallet_list_failed_to_remove(Object error, Object wallet_name) {
-    return 'Failed to remove $wallet_name wallet. $error';
+    return '';
   }
 
   @override
-  String get widgets_address => 'Address';
+  String get widgets_restore_from_blockheight => '从区块高度恢复';
 
   @override
-  String get widgets_restore_from_blockheight => 'Restore from Blockheight';
+  String get widgets_restore_from_date => '从日期恢复';
 
   @override
-  String get widgets_restore_from_date => 'Restore from Date';
-
-  @override
-  String get widgets_or => 'OR';
-
-  @override
-  String get widgets_seed => 'Seed';
+  String get widgets_or => '';
 
   @override
   String router_no_route(Object name) {
-    return 'No route defined for $name';
+    return '';
   }
 
   @override
-  String get error_text_account_name => 'Account name can only contain letters, numbers\nand must be between 1 and 15 characters long';
+  String get error_text_account_name => '';
 
   @override
-  String get error_text_contact_name => 'Contact name can\'t contain ` , \' \" symbols\nand must be between 1 and 32 characters long';
+  String get error_text_contact_name => '联系人名称不能包含 \' \'、\" 符号，且长度必须在 1 到 32 个字符之间';
 
   @override
-  String get error_text_address => 'Invalid BDX address';
+  String get error_text_address => '无效的 BDX 地址';
 
   @override
-  String get error_text_node_address => 'Please enter a iPv4 address';
+  String get error_text_node_address => '请输入 IPv4 地址';
 
   @override
-  String get error_text_node_port => 'Node port can only contain numbers between 0 and 65535';
+  String get error_text_node_port => '节点端口只能包含 0 到 65535 之间的数字';
 
   @override
-  String get error_text_payment_id => 'Payment ID can only contain from 16 to 64 chars in hex';
+  String get error_text_payment_id => '';
 
   @override
-  String get error_text_beldex => 'Beldex value can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 9';
+  String get error_text_beldex => '';
 
   @override
-  String get error_text_fiat => 'Value of amount can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 2';
+  String get error_text_fiat => '';
 
   @override
-  String get error_text_subaddress_name => 'Subaddress name can\'t contain ` , \' \" symbols\nand must be between 1 and 20 characters long';
+  String get error_text_subaddress_name => '';
 
   @override
-  String get error_text_amount => 'Amount can only contain numbers';
+  String get error_text_amount => '';
 
   @override
-  String get error_text_wallet_name => 'Wallet name can only contain letters, numbers\nand must be between 1 and 15 characters long';
+  String get error_text_wallet_name => '';
 
   @override
-  String get error_text_keys => 'Wallet keys can only contain 64 chars in hex';
+  String get error_text_keys => '钱包密钥只能包含 64 个十六进制字符';
 
   @override
-  String get error_text_crypto_currency => 'The number of fraction digits\nmust be less or equal to 12';
+  String get error_text_crypto_currency => '';
 
   @override
-  String get error_text_service_node => 'A Master Node key can only contain 64 chars in hex';
+  String get error_text_service_node => '';
 
   @override
-  String get auth_store_ban_timeout => 'ban_timeout';
+  String get auth_store_ban_timeout => '';
 
   @override
-  String get auth_store_banned_for => 'Banned for ';
+  String get auth_store_banned_for => '';
 
   @override
-  String get auth_store_banned_minutes => ' minutes';
+  String get auth_store_banned_minutes => '';
 
   @override
-  String get auth_store_incorrect_password => 'Wrong PIN';
+  String get auth_store_incorrect_password => '';
 
   @override
-  String get wallet_restoration_store_incorrect_seed_length => 'Incorrect seed length';
+  String get wallet_restoration_store_incorrect_seed_length => '';
 
   @override
-  String get full_balance => 'Full Balance';
+  String get full_balance => '全部余额';
 
   @override
-  String get available_balance => 'Available Balance';
+  String get available_balance => '可用余额';
 
   @override
-  String get hidden_balance => 'Hidden Balance';
+  String get hidden_balance => '隐藏余额';
 
   @override
-  String get sync_status_synchronizing => 'SYNCHRONIZING';
+  String get sync_status_synchronizing => '正在同步';
 
   @override
-  String get sync_status_synchronized => 'SYNCHRONIZED';
+  String get sync_status_synchronized => '已同步';
 
   @override
-  String get sync_status_not_connected => 'NOT CONNECTED';
+  String get sync_status_not_connected => '';
 
   @override
-  String get sync_status_starting_sync => 'STARTING SYNC';
+  String get sync_status_starting_sync => '开始同步';
 
   @override
-  String get sync_status_failed_connect => 'FAILED CONNECT TO THE NODE';
+  String get sync_status_failed_connect => '连接节点失败';
 
   @override
-  String get sync_status_connecting => 'CONNECTING';
+  String get sync_status_connecting => '连接中';
 
   @override
-  String get sync_status_connected => 'CONNECTED';
+  String get sync_status_connected => '';
 
   @override
-  String get transaction_priority_slow => 'Slow';
+  String get transaction_priority_slow => '慢';
 
   @override
-  String get transaction_priority_blink => 'Flash';
+  String get transaction_priority_blink => '闪电';
 
   @override
-  String get change_language => 'Change Language';
+  String get change_language => '修改语言';
 
   @override
   String change_language_to(Object language) {
-    return 'Change language to $language?';
+    return '';
   }
 
   @override
-  String get paste => 'Paste';
+  String get paste => '粘贴';
 
   @override
-  String get restore_from_seed_placeholder => 'Please enter or paste your seed here';
+  String get restore_from_seed_placeholder => '请在此输入或粘贴您的助记词';
 
   @override
-  String get add_new_word => 'Add new word';
+  String get add_new_word => '';
 
   @override
-  String get incorrect_seed => 'The text entered is not valid.';
+  String get incorrect_seed => '';
 
   @override
-  String get biometric_auth_reason => 'Scan your fingerprint to authenticate';
+  String get biometric_auth_reason => '';
 
   @override
   String version(Object currentVersion) {
-    return 'Version $currentVersion';
+    return '版本 $currentVersion';
   }
 
   @override
-  String get openalias_alert_title => 'Beldex Recipient Detected';
+  String get openalias_alert_title => '';
 
   @override
   String openalias_alert_content(Object recipient_name) {
-    return 'You will be sending funds to\n$recipient_name';
+    return '';
   }
 
   @override
-  String get dangerzone => 'Dangerzone';
+  String get dangerzone => '';
 
   @override
-  String get yes_im_sure => 'Yes, I\'m sure!';
+  String get yes_im_sure => '是的，我确定！';
 
   @override
   String never_give_your(Object item) {
-    return 'Never Give your Beldex Wallet $item to Anyone!';
+    return '切勿将您的 Beldex 钱包 $item 提供给任何人！';
   }
 
   @override
   String dangerzone_warning(Object app_store, Object item) {
-    return 'NEVER input your Beldex wallet $item into any software or website other than the OFFICIAL Beldex wallets downloaded directly from the $app_store, the Beldex website, or the Beldex GitHub.\nAre you sure you want to access your wallet $item?';
+    return '切勿将您的 Beldex 钱包 $item 输入到任何软件或网站中，除非是直接从 $app_store、Beldex 官方网站或 Beldex GitHub 下载的官方 Beldex 钱包。您确定要访问您的钱包 $item 吗？';
   }
 
   @override
-  String get keys_title => 'Keys';
+  String get keys_title => '';
 
   @override
-  String get are_you_sure => 'Are you sure?';
+  String get are_you_sure => '您确定吗？';
 
   @override
-  String get do_you_want_to_exit_an_app => 'Do you want to exit an App';
+  String get do_you_want_to_exit_an_app => '';
 
   @override
-  String get no => 'No';
+  String get no => '否';
 
   @override
-  String get yes => 'Yes';
+  String get yes => '是';
 
   @override
-  String get byUsingThisAppYouAgreeToTheTermsOf => 'By using this app, you agree to the Terms of Agreement set forth to below';
+  String get byUsingThisAppYouAgreeToTheTermsOf => '';
 
   @override
-  String get iAgreeToTermsOfUse => 'I agree to Terms of Use';
+  String get iAgreeToTermsOfUse => '';
 
   @override
-  String get accept => 'Accept';
+  String get accept => '';
 
   @override
-  String get pleaseEnterAValidAmount => 'Please enter a valid amount';
+  String get pleaseEnterAValidAmount => '请输入有效金额';
 
   @override
-  String get pleaseEnterAValidSeed => 'Please enter a valid seed';
+  String get pleaseEnterAValidSeed => '请输入有效的助记词';
 
   @override
-  String get changeWallet => 'Change Wallet';
+  String get changeWallet => '切换钱包';
 
   @override
-  String get removeWallet => 'Remove Wallet';
+  String get removeWallet => '删除钱包';
 
   @override
-  String get reconnectWallet => 'Reconnect Wallet';
+  String get reconnectWallet => '重新连接钱包';
 
   @override
-  String get rescanWallet => 'Rescan Wallet';
+  String get rescanWallet => '重新扫描钱包';
 
   @override
-  String get enterWalletName => 'Enter Wallet Name';
+  String get enterWalletName => '输入钱包名称';
 
   @override
-  String get noTransactionsYet => 'No Transactions Yet!';
+  String get noTransactionsYet => '暂无交易！';
 
   @override
-  String get afterYourFirstTransactionnYouWillBeAbleToView => 'After your first transaction,\n you will be able to view it here.';
+  String get afterYourFirstTransactionnYouWillBeAbleToView => '完成首次交易后，您将在此查看';
 
   @override
-  String get copied => 'Copied';
+  String get copied => '已复制';
 
   @override
-  String get addAddress => 'Add Address';
+  String get addAddress => '添加地址';
 
   @override
-  String get important => 'IMPORTANT';
+  String get important => '';
 
   @override
   String neverInputYourBeldexWalletItemIntoAnySoftwareOr(Object appStore, Object item) {
-    return 'Never input your Beldex wallet $item into any software or website other than the official Beldex wallets downloaded directly from the $appStore,the beldex website, or the beldex GitHub.';
+    return '切勿将您的 Beldex 钱包 $item 输入到任何软件或网站中，除非是直接从 $appStore、Beldex 官方网站或 Beldex GitHub 下载的官方 Beldex 钱包。';
   }
 
   @override
-  String get enterWalletName_ => 'Enter wallet name';
+  String get enterWalletName_ => '输入钱包名称';
 
   @override
-  String get chooseSeedLanguage => 'Choose Seed Language';
+  String get chooseSeedLanguage => '选择助记词语言';
 
   @override
-  String get wallet => 'Wallet';
+  String get wallet => '钱包';
 
   @override
-  String get seedKeys => 'Seed & Keys';
+  String get seedKeys => '助记词与密钥';
 
   @override
-  String get walletAddress => 'Wallet Address';
+  String get walletAddress => '钱包地址';
 
   @override
-  String get recoverySeedkey => 'Recovery Seed/Key';
+  String get recoverySeedkey => '恢复助记词/密钥';
 
   @override
-  String get selectLanguage => 'Select Language';
+  String get selectLanguage => '选择语言';
 
   @override
-  String get chooseLanguage => 'Choose Language';
+  String get chooseLanguage => '选择语言';
 
   @override
-  String get welcomeToBeldexWallet => 'Welcome to Beldex Wallet :)';
+  String get welcomeToBeldexWallet => '欢迎使用 Beldex 钱包 :)';
 
   @override
-  String get selectAnOptionBelowToCreateOrnRecoverExistingWallet => 'Select an option below to create or\n recover existing wallet';
+  String get selectAnOptionBelowToCreateOrnRecoverExistingWallet => '选择一个选项以创建或恢复\n 现有钱包';
 
   @override
-  String get enterAValidNameUpto15Characters => 'Enter a valid name upto 15 characters';
+  String get enterAValidNameUpto15Characters => '请输入最多 15 个字符的有效名称';
 
   @override
-  String get enterAValidNameUpto20Characters => 'Enter a valid name upto 20 characters';
+  String get enterAValidNameUpto20Characters => '请输入不超过 20 个字符的有效名称';
 
   @override
-  String get fiveDecimals => '5 - Five (0.00000)';
+  String get fiveDecimals => '5 - 五位 (0.00000)';
 
   @override
-  String get fourDecimals => '4 - Four (0.0000)';
+  String get fourDecimals => '4 - 四位 (0.0000)';
 
   @override
-  String get twoDecimals => '2 - Two (0.00)';
+  String get twoDecimals => '2 - 两位 (0.00)';
 
   @override
-  String get zeroDecimal => '0 - Zero (000)';
+  String get zeroDecimal => '0 - 零位 (000)';
 
   @override
-  String get doYouWantToExitTheWallet => 'Do you want to exit the wallet?';
+  String get doYouWantToExitTheWallet => '您是否要退出钱包？';
 
   @override
-  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Make sure to take backup of your\nrecovery Seed, wallet address\nand private keys';
+  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => '请确保已备份恢复助记词、钱包地址和私钥';
 
   @override
   String blockRemaining(Object status) {
-    return '$status Block Remaining';
+    return '';
   }
 
   @override
-  String get flashTransaction => 'Flash Transaction';
+  String get flashTransaction => '闪电交易';
 
   @override
-  String get transferYourBdxMoreFasternWithFlashTransaction => 'Transfer your BDX more faster with\n Flash Transaction!';
+  String get transferYourBdxMoreFasternWithFlashTransaction => '通过闪电交易更快地转移您的 BDX！';
 
   @override
-  String get enterYourPin => 'Enter Your PIN';
+  String get enterYourPin => '输入您的 PIN';
 
   @override
-  String get walletSettings => 'Wallet Settings';
+  String get walletSettings => '钱包设置';
 
   @override
-  String get recoverySeed => 'Recovery Seed';
+  String get recoverySeed => '恢复助记词';
 
   @override
-  String get youDontHaveEnoughUnlockedBalance => 'You don\'t have enough unlocked balance';
+  String get youDontHaveEnoughUnlockedBalance => '';
 
   @override
-  String get alert => 'Alert';
+  String get alert => '提示';
 
   @override
-  String get touchTheFingerprintSensor => 'Touch the Fingerprint sensor';
+  String get touchTheFingerprintSensor => '';
 
   @override
-  String get usePattern => 'USE PATTERN';
+  String get usePattern => '';
 
   @override
-  String get enterBdxToSend => 'Enter BDX to send';
+  String get enterBdxToSend => '输入要发送的 BDX';
 
   @override
-  String get enterAmount => 'Enter Amount';
+  String get enterAmount => '输入金额';
 
   @override
-  String get pleaseEnterAAmount => 'Please enter a amount';
+  String get pleaseEnterAAmount => '请输入金额';
 
   @override
-  String get committingTheTransaction => 'Committing the Transaction';
+  String get committingTheTransaction => '';
 
   @override
-  String get availableBdx => 'Available BDX : ';
+  String get availableBdx => '可用 BDX :';
 
   @override
-  String get pleaseEnterABdxAddress => 'Please enter a bdx address';
+  String get pleaseEnterABdxAddress => '请输入 BDX 地址';
 
   @override
-  String get enterAValidAddress => 'Enter a valid address';
+  String get enterAValidAddress => '';
 
   @override
-  String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings';
+  String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => '生物识别功能当前已禁用。\n 请在应用设置中启用\n 生物识别认证功能';
 
   @override
-  String get unlockBeldexWallet => 'Unlock Beldex Wallet';
+  String get unlockBeldexWallet => '';
 
   @override
-  String get confirmYourScreenLockPinpatternAndPassword => 'Confirm your screen lock PIN,Pattern and password';
+  String get confirmYourScreenLockPinpatternAndPassword => '';
 
   @override
-  String get doYouWantToChangeYournPrimaryAccount => 'Do you want to change your\n primary account?';
+  String get doYouWantToChangeYournPrimaryAccount => '您是否要更改您的主账户？';
 
   @override
-  String get rename => 'Rename';
+  String get rename => '';
 
   @override
-  String get addAccount => 'Add Account';
+  String get addAccount => '添加账户';
 
   @override
-  String get noAddressesInBook => 'No addresses in book';
+  String get noAddressesInBook => '地址簿中暂无地址';
 
   @override
-  String get bdx => 'BDX';
+  String get bdx => '';
 
   @override
-  String get howeverWeRecommendToScanTheBlockchainFromTheBlock => 'However we recommend to scan the blockchain from the block height at which you created the wallet to get all transactions and correct balance';
+  String get howeverWeRecommendToScanTheBlockchainFromTheBlock => '';
 
   @override
-  String get youHaveScannedFromTheBlockHeight => 'You have scanned from the block height';
+  String get youHaveScannedFromTheBlockHeight => '';
 
   @override
-  String get syncInfo => 'Sync info';
+  String get syncInfo => '';
 
   @override
-  String get doYouWantToReconnectnTheWallet => 'Do you want to reconnect\n the wallet?';
+  String get doYouWantToReconnectnTheWallet => '您是否要重新连接钱包？';
 
   @override
-  String get enterValidNameUpto15Characters => 'Enter valid name upto 15 characters';
+  String get enterValidNameUpto15Characters => '请输入不超过 15 个字符的有效名称';
 
   @override
-  String get checkingNodeConnection => 'Checking node connection...';
+  String get checkingNodeConnection => '';
 
   @override
-  String get enterBdxToReceive => 'Enter BDX to Receive';
+  String get enterBdxToReceive => '输入要接收的 BDX';
 
   @override
-  String get addSubAddress => 'Add Sub Address';
+  String get addSubAddress => '添加子地址';
 
   @override
-  String get shareQr => 'Share QR';
+  String get shareQr => '分享二维码';
 
   @override
-  String get name => 'Name';
+  String get name => '名称';
 
   @override
-  String get enterValidHeightWithoutSpace => 'Enter valid height without space';
+  String get enterValidHeightWithoutSpace => '请输入有效的区块高度（不要包含空格）';
 
   @override
-  String get dateShouldNotBeEmpty => 'Date should not be empty';
+  String get dateShouldNotBeEmpty => '日期不能为空';
 
   @override
-  String get walletRestore => 'Wallet Restore';
+  String get walletRestore => '钱包恢复';
 
   @override
-  String get youCantViewTheSeedBecauseYouveRestoredUsingKeys => 'You can\'t view the seed because you\'ve restored using keys';
+  String get youCantViewTheSeedBecauseYouveRestoredUsingKeys => '';
 
   @override
-  String get neverShareYourSeedToAnyoneCheckYourSurroundingsTo => 'Never share your seed to anyone! Check your surroundings to ensure no one is overlooking';
+  String get neverShareYourSeedToAnyoneCheckYourSurroundingsTo => '切勿将您的助记词分享给任何人！请检查周围环境，确保没有人 在旁窥视';
 
   @override
-  String get note => 'Note :';
+  String get note => '注意：';
 
   @override
-  String get copySeed => 'Copy Seed';
+  String get copySeed => '复制助记词';
 
   @override
-  String get accountAlreadyExist => 'Account already exist';
+  String get accountAlreadyExist => ' 账户已存在';
 
   @override
-  String get transactionInitiatedSuccessfully => 'Transaction initiated successfully';
+  String get transactionInitiatedSuccessfully => '交易已成功发起';
 
   @override
-  String get enterAValidSubAddress => 'Enter a valid sub address';
+  String get enterAValidSubAddress => '请输入有效的子地址';
 
   @override
-  String get subaddressAlreadyExist => 'Subaddress already exist';
+  String get subaddressAlreadyExist => '子地址已存在';
 
   @override
-  String get labelName => 'Label name';
+  String get labelName => '标签名称';
 
   @override
-  String get subAddress => 'Sub Address';
+  String get subAddress => '子地址';
 
   @override
-  String get loadingTheWallet => 'Loading the wallet...';
+  String get loadingTheWallet => '正在加载钱包…';
 
   @override
-  String get youAreAboutToDeletenYourWallet => 'You are about to delete\n your wallet!';
+  String get youAreAboutToDeletenYourWallet => '您即将删除钱包！';
 
   @override
-  String get creatingTheTransaction => 'Creating the Transaction';
+  String get creatingTheTransaction => '';
 
   @override
-  String get copyAndSaveTheSeedToContinue => 'Copy and save the seed to continue';
+  String get copyAndSaveTheSeedToContinue => '复制并保存助记词以继续';
 
   @override
-  String get enterPin => 'Enter PIN';
+  String get enterPin => '输入 PIN';
 
   @override
-  String get test => 'Test';
+  String get test => '测试';
 
   @override
-  String get success => 'Success';
+  String get success => '';
 
   @override
-  String get connectionFailed => 'Connection Failed';
+  String get connectionFailed => '';
 
   @override
-  String get checking => 'Checking...';
+  String get checking => '';
 
   @override
-  String get testResult => 'Test Result:';
+  String get testResult => '测试结果：';
 
   @override
-  String get passwordOptional => 'Password (optional)';
+  String get passwordOptional => '密码（可选）';
 
   @override
-  String get userNameOptional => 'User Name (optional)';
+  String get userNameOptional => '用户名（可选）';
 
   @override
-  String get nodeNameOptional => 'Node Name (optional)';
+  String get nodeNameOptional => '节点名称（可选）';
 
   @override
-  String get addNode => 'Add Node';
+  String get addNode => '添加节点';
 
   @override
-  String get legalDisclaimer => 'Legal Disclaimer';
+  String get legalDisclaimer => '';
 
   @override
-  String get howCanWenhelpYou => 'How can we\nhelp you?';
+  String get howCanWenhelpYou => '我们如何帮助您？';
 
   @override
-  String get removeContact => 'Remove Contact';
+  String get removeContact => '删除联系人';
 
   @override
-  String get areYouSureYouWantToRemoveSelectedContact => 'Are you sure you want to remove selected contact?';
+  String get areYouSureYouWantToRemoveSelectedContact => '您确定要删除所选联系人吗？';
 
   @override
-  String get theAddressAlreadyExist => 'The Address already Exist';
+  String get theAddressAlreadyExist => '该地址已存在';
 
   @override
-  String get thisNameAlreadyExist => 'This Name already Exist';
+  String get thisNameAlreadyExist => '该名称已存在';
 
   @override
-  String get enterAValidName => 'Enter a valid name';
+  String get enterAValidName => '';
 
   @override
-  String get addressShouldNotBeEmpty => 'Address should not be empty';
+  String get addressShouldNotBeEmpty => '地址不能为空';
 
   @override
-  String get nameShouldNotBeEmpty => 'Name should not be empty';
+  String get nameShouldNotBeEmpty => '名称不能为空';
 
   @override
-  String get enterName => 'Enter Name';
+  String get enterName => '请输入有效名称';
 
   @override
-  String get accountName => 'Account Name';
+  String get accountName => '账户名称';
 
   @override
-  String get playStore => 'Play Store';
+  String get playStore => '';
 
   @override
-  String get appstore => 'AppStore';
+  String get appstore => '';
 
   @override
-  String get allowFaceIdAuthentication => 'Allow face id authentication';
+  String get allowFaceIdAuthentication => '';
 
   @override
-  String get enterAddress => 'Enter Address';
+  String get enterAddress => '输入地址';
 
   @override
-  String get pleaseAddAMainnetNode => 'Please add a mainnet node';
+  String get pleaseAddAMainnetNode => '';
 
   @override
   String flashTransactionPriority(Object transactionPriority) {
-    return 'Flash transaction are instant transactions.\n$transactionPriority priority is set as a default fee.';
+    return '';
   }
 
   @override
-  String get initiatingTransactionTitle => 'Initiating Transaction..';
+  String get initiatingTransactionTitle => '正在发起交易..';
 
   @override
-  String get initiatingTransactionDescription => 'Please don\'t close this window or navigate to another app until the transaction gets initiated';
+  String get initiatingTransactionDescription => '请不要关闭此窗口或切换到其他应用，直到交易被发起';
 
   @override
-  String get subAddresses => 'Sub Addresses';
+  String get subAddresses => '';
 
   @override
-  String get loadingTheWalletDescription => 'Please don\'t close this window or navigate to another app until we load the wallet';
+  String get loadingTheWalletDescription => '请勿关闭此窗口或切换到其他应用，直到钱包加载完成';
 
   @override
-  String get buyBns => 'Buy BNS';
+  String get buyBns => '购买 BNS';
 
   @override
-  String get myBns => 'My BNS';
+  String get myBns => '';
 
   @override
-  String get addBns => 'Add BNS';
+  String get addBns => '添加 BNS';
 
   @override
-  String get bns => 'BNS';
+  String get bns => '';
 
   @override
-  String get bnsPurchaseDescription => 'Purchase or update an BNS record. If you purchase a name, it may take a minute or two for it to show up in the list';
+  String get bnsPurchaseDescription => '购买或更新 BNS 记录。\n 如果您购买一个名称，可能需要\n 一两分钟才会显示在列表中';
 
   @override
-  String get bnsPrice => 'Price';
+  String get bnsPrice => '价格';
 
   @override
-  String get bnsYearOneShort => '1 Yr';
+  String get bnsYearOneShort => '1 年';
 
   @override
-  String get bnsYearTwoShort => '2 Yrs';
+  String get bnsYearTwoShort => '2 年';
 
   @override
-  String get bnsYearFiveShort => '5 Yrs';
+  String get bnsYearFiveShort => '5 年';
 
   @override
-  String get bnsYearTenShort => '10 Yrs';
+  String get bnsYearTenShort => '10 年';
 
   @override
-  String get bnsYearOne => '1 Year';
+  String get bnsYearOne => '';
 
   @override
-  String get bnsYearTwo => '2 Years';
+  String get bnsYearTwo => '';
 
   @override
-  String get bnsYearFive => '5 Years';
+  String get bnsYearFive => '';
 
   @override
-  String get bnsYearTen => '10 Years';
+  String get bnsYearTen => '';
 
   @override
-  String get bnsYouSave => 'You Save ';
+  String get bnsYouSave => '您节省';
 
   @override
-  String get bnsNameHint => 'The name to purchase via Beldex Name Service';
+  String get bnsNameHint => '通过 Beldex 名称服务购买的名称';
 
   @override
-  String get bnsOwnerOptional => 'Owner (optional)';
+  String get bnsOwnerOptional => '所有者（可选）';
 
   @override
-  String get bnsOwnerHint => 'The wallet address of the owner';
-
-  @override
-  String get bnsWalletAddress => 'Wallet Address';
+  String get bnsOwnerHint => '所有者的钱包地址';
 
   @override
   String get bnsBchatId => 'BChat ID';
@@ -1429,279 +1369,287 @@ class AppLocalizationsZh extends AppLocalizations {
   String get bnsBelnetId => 'Belnet ID';
 
   @override
-  String get bnsEthAddress => 'ETH Address';
+  String get bnsEthAddress => 'ETH 地址';
 
   @override
-  String get bnsUpdateOwner => 'Update Owner';
+  String get bnsUpdateOwner => '更新所有者';
 
   @override
-  String get bnsUpdateValues => 'Update Values';
+  String get bnsUpdateValues => '更新数值';
 
   @override
-  String get bnsNewOwnerHint => 'Enter the wallet address of new owner';
+  String get bnsNewOwnerHint => '输入新所有者的钱包地址';
 
   @override
-  String get bnsUpdateNote => 'You can only update owner address or values at a time. If you want to update both, you can either update the value before ownership or after transferring ownership.';
+  String get bnsUpdateNote => '您一次只能更新所有者地址或数值。 如果您想同时更新两者，您可以在转移所有权之前或之后更新数值。';
 
   @override
-  String get bnsAddRecord => 'Add Record';
+  String get bnsAddRecord => '添加记录';
 
   @override
-  String get bnsRecordsDescription => 'Here you can find all the BNS Names owned by this wallet. Decrypting a record you own will return the name and value at the BNS record.';
+  String get bnsRecordsDescription => '在这里您可以查看该钱包拥有的所有 BNS 名称。解密您拥有的记录将返回该 BNS 记录中的名称和值。';
 
   @override
-  String get bnsRecordNameHint => 'A BNS name that belongs to you';
+  String get bnsRecordNameHint => '属于您的 BNS 名称';
 
   @override
-  String get bnsFetchingRecords => 'Fetching BNS records from the network...';
+  String get bnsFetchingRecords => '正在从网络获取 BNS 记录';
 
   @override
   String bnsDecryptionSuccess(Object bnsName) {
-    return 'Successfully decrypted BNS Record for $bnsName';
+    return '已成功解密 $bnsName 的 BNS 记录';
   }
 
   @override
   String bnsDecryptionFailure(Object bnsName) {
-    return 'Failed to decrypt BNS Record for $bnsName';
+    return '无法解密 $bnsName 的 BNS 记录';
   }
 
   @override
-  String get bnsRecordNotFound => 'The given BNS record doesn\'t exist or does not belong to this wallet.';
+  String get bnsRecordNotFound => '';
 
   @override
-  String get bnsWaitForFetch => 'Please wait until we fetch the BNS record from Network';
+  String get bnsWaitForFetch => '';
 
   @override
-  String get bnsRecords => 'BNS Records';
+  String get bnsRecords => 'BNS 记录';
 
   @override
-  String get bnsExpirationHeight => 'Expiration Height : ';
+  String get bnsExpirationHeight => '到期高度';
 
   @override
-  String get bnsUpdateHeight => 'Update Height';
+  String get bnsUpdateHeight => '更新高度';
 
   @override
-  String get bnsBackupOwner => 'Backup Owner';
+  String get bnsBackupOwner => '备用所有者';
 
   @override
-  String get bnsEncryptedWalletValue => 'Encrypted Wallet Value';
+  String get bnsEncryptedWalletValue => '加密的钱包值';
 
   @override
-  String get bnsEncryptedBchatValue => 'Encrypted BChat Value';
+  String get bnsEncryptedBchatValue => '加密的 BChat 值';
 
   @override
-  String get bnsEncryptedBelnetValue => 'Encrypted Belnet Value';
+  String get bnsEncryptedBelnetValue => '加密的 Belnet 值';
 
   @override
-  String get bnsEncryptedEthValue => 'Encrypted ETH Value';
+  String get bnsEncryptedEthValue => '加密的 ETH 值';
 
   @override
-  String get bnsUpdateAction => 'Update';
+  String get bnsUpdateAction => '更新';
 
   @override
-  String get bnsRenewAction => 'Renew';
+  String get bnsRenewAction => '续费';
 
   @override
-  String get bnsNoteLabel => 'Note : ';
+  String get bnsNoteLabel => '注意：';
 
   @override
-  String get bnsEthAddressDescription => 'Our eth address is compatible across all EVM chains';
+  String get bnsEthAddressDescription => '我们的 ETH 地址兼容所有 EVM 链';
 
   @override
-  String get bnsPurchase => 'Purchase';
+  String get bnsPurchase => '购买';
 
   @override
-  String get bnsPleaseFillField => 'Please fill in this field';
+  String get bnsPleaseFillField => '请填写此字段';
 
   @override
-  String get bnsInvalidName => 'Invalid BNS Name';
+  String get bnsInvalidName => '';
 
   @override
-  String get bnsInvalidBchatId => 'Invalid BChat ID';
+  String get bnsInvalidBchatId => '无效的 BChat ID';
 
   @override
-  String get bnsInvalidBelnetId => 'Invalid Belnet ID';
+  String get bnsInvalidBelnetId => '无效的 Belnet ID';
 
   @override
-  String get bnsInvalidEthAddress => 'Invalid ETH Address';
+  String get bnsInvalidEthAddress => '无效的 ETH 地址';
 
   @override
-  String get bnsEnterValidWalletAddress => 'Enter a valid wallet address.';
+  String get bnsEnterValidWalletAddress => '请输入有效的钱包地址';
 
   @override
-  String get bnsConfirmPurchase => 'Confirm Purchase';
+  String get bnsConfirmPurchase => '确认购买';
 
   @override
-  String get bnsNameLabel => 'Name';
+  String get bnsYearLabel => '年限';
 
   @override
-  String get bnsYearLabel => 'Year';
+  String get bnsOwnerLabel => '所有者';
 
   @override
-  String get bnsOwnerLabel => 'Owner';
+  String get bnsSameOwnerAddress => '';
 
   @override
-  String get bnsAddressLabel => 'Address';
+  String get bnsSameWalletAddress => '';
 
   @override
-  String get bnsNone => 'None';
+  String get bnsSameBchatId => '';
 
   @override
-  String get bnsSameOwnerAddress => 'same owner address';
+  String get bnsSameBelnetId => '';
 
   @override
-  String get bnsSameWalletAddress => 'same wallet address';
+  String get bnsSameEthAddress => '';
 
   @override
-  String get bnsSameBchatId => 'same Bchat id';
+  String get bnsInvalidOwnerAddress => '';
 
   @override
-  String get bnsSameBelnetId => 'same Belnet id';
+  String get bnsNameIsTaken => '';
 
   @override
-  String get bnsSameEthAddress => 'same ETH Address';
+  String get bnsInvalidWalletAddress => '';
 
   @override
-  String get bnsInvalidOwnerAddress => 'Invalid Owner address.';
+  String get bnsOwnerAndBackupDifferent => '';
 
   @override
-  String get bnsNameIsTaken => 'BNS name is taken. Choose a different one.';
+  String get bnsPurchasedSuccessfully => '';
 
   @override
-  String get bnsInvalidWalletAddress => 'Invalid wallet address. Leave blank if you want to use the current wallet as the BNS owner.';
+  String get bnsUpdatedSuccessfully => '';
 
   @override
-  String get bnsOwnerAndBackupDifferent => 'Owner and backup address must be different.';
+  String get bnsRenewedSuccessfully => '';
 
   @override
-  String get bnsPurchasedSuccessfully => 'BNS Purchased Successfully';
+  String get bnsUpdate => 'BNS 更新';
 
   @override
-  String get bnsUpdatedSuccessfully => 'BNS Updated Successfully';
+  String get bnsRenewal => 'BNS 续期';
 
   @override
-  String get bnsRenewedSuccessfully => 'BNS Renewed Successfully';
+  String get swap => '兑换';
 
   @override
-  String get bnsUpdate => 'BNS Update';
-
-  @override
-  String get bnsRenewal => 'BNS Renewal';
-
-  @override
-  String get swap => 'Swap';
-
-  @override
-  String get unsupportedExchangePair => 'Unsupported exchange pair';
+  String get unsupportedExchangePair => '';
 
   @override
   String blockConfirmed(Object count) {
-    return '$count Block';
+    return '';
   }
 
   @override
   String blocksConfirmed(Object count) {
-    return '$count Blocks';
+    return '';
   }
 
   @override
-  String get restoredViaKeys => 'You restored via keys';
+  String get restoredViaKeys => '您是通过密钥恢复的钱包';
 
   @override
   String walletAlreadyExists(Object name) {
-    return 'Wallet with name $name is already exist!';
+    return '名为 $name 的钱包已存在！';
   }
 
   @override
-  String get nodeAlreadyExists => 'This node already exists';
+  String get nodeAlreadyExists => '该节点已存在';
 
   @override
-  String get fee => 'Fee';
+  String get fee => '费用';
 
   @override
-  String get noInternet => 'No Internet!';
+  String get noInternet => '无网络！';
 
   @override
-  String get noInternetMessage => 'Please check your internet Connection\nand try again.';
+  String get noInternetMessage => '请检查您的网络连接并重试。';
 
   @override
-  String get swapNotAvailable => ' Swap is not available\nat the moment';
+  String get swapNotAvailable => ' 兑换当前不可用';
 
   @override
-  String get tryAgain => 'Please try again after some times.';
+  String get tryAgain => '请稍后再试。';
 
   @override
-  String get exchange => 'Exchange';
+  String get exchange => '兑换';
 
   @override
-  String get youSend => 'You send';
+  String get youSend => '您发送';
 
   @override
-  String get youGet => 'You get';
+  String get youGet => '您接收';
 
   @override
-  String get floatingExchangeRate => 'Floating Exchange Rate';
+  String get floatingExchangeRate => '浮动汇率';
 
   @override
-  String get floatingRateDescription => 'The floating rate can change at any point due to market conditions, so you might receive more or less crypto than expected.';
+  String get floatingRateDescription => '由于市场情况，浮动汇率可能随时发生变化，因此您实际收到的加密货币可能多于或少于预期。';
 
   @override
-  String get searchCoins => 'Search Coins';
+  String get searchCoins => '搜索币种';
 
   @override
-  String get minimumAmount => 'Minimum amount is ';
+  String get minimumAmount => '最小金额为';
 
   @override
-  String get maximumAmount => 'Maximum amount is ';
+  String get maximumAmount => '最大金额为';
 
   @override
-  String get exchangeAmount => 'Exchange Amount';
+  String get exchangeAmount => '';
 
   @override
-  String get exchangeRate => 'Exchange Rate';
+  String get exchangeRate => '汇率';
 
   @override
-  String get receiver => 'Receiver';
+  String get receiver => '接收方';
 
   @override
-  String get amountReceived => 'Amount Received';
+  String get amountReceived => '接收金额';
 
   @override
-  String get date => 'Date';
+  String get date => '日期';
 
   @override
-  String get expandDetails => 'Expand Details';
+  String get expandDetails => '展开详情';
 
   @override
-  String get view => 'View';
+  String get view => '查看';
 
   @override
-  String get noTransactionsMessage => 'There are no Transactions or\nexchanges made to show..';
+  String get noTransactionsMessage => '当前没有可显示的交易或兑换记录..';
 
   @override
-  String get networkErrorCheckConnection => 'Network Error! Please check internet connection.';
+  String get networkErrorCheckConnection => '网络错误！请检查网络连接。';
 
   @override
-  String get swapTransactionReport => 'Beldex_wallet_swap_transaction_report';
+  String get swapTransactionReport => '';
 
   @override
-  String get transactionReport => 'Transaction Report';
+  String get transactionReport => '';
 
   @override
-  String get failedToGetOutputDistribution => 'Failed to get output distribution';
+  String get failedToGetOutputDistribution => '';
 
   @override
-  String get sendValueExceedBalance => 'Value of amount can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 2';
+  String get noPendingTransaction => '';
 
   @override
-  String get noPendingTransaction => 'No pending transaction';
+  String get max => '';
 
   @override
-  String get max => 'Max';
+  String get addressCopied => '';
 
   @override
-  String get addressCopied => 'Address Copied';
+  String get searchCurrency => '搜索货币';
 
   @override
-  String get searchCurrency => 'Search Currency';
+  String changePinLength(Object value) {
+    return '切换到 $value 位 PIN';
+  }
+
+  @override
+  String get pleaseEnterAValidHeight => '请输入有效的区块高度';
+
+  @override
+  String get invalidAddress => '';
+
+  @override
+  String get exchangePair => '交易对';
+
+  @override
+  String get payment => '支付';
+
+  @override
+  String get bnsConfirmUpdate => '确认更新';
 }

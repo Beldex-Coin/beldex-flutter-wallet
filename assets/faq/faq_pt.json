@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Qual é a diferença entre Saldo Disponível e Saldo Total?",
+    "answer": "Após você realizar uma transação ou receber Beldex, a transação ainda precisa ser confirmada. Em cerca de 20 minutos, seu saldo disponível deve ser atualizado!\n Às vezes, ao enviar Beldex, seu saldo disponível pode diminuir mais do que o valor enviado. Isso é normal e necessário para proteger sua privacidade. Seu saldo total deve voltar ao normal em cerca de 20 minutos.\n"
+  },
+  {
+    "question": "O que significam “seed” e “chaves”?",
+    "answer": "Suas chaves codificam as informações privadas da sua carteira e permitem que você gaste moedas e visualize transações recebidas.\n Sua seed é apenas uma versão da sua chave privada escrita de forma mais fácil de anotar. Sua seed e suas chaves são, na verdade, a mesma coisa, apenas em formatos diferentes!\n NUNCA compartilhe sua seed ou suas chaves com ninguém. Seus fundos serão roubados se você fizer isso. Anote sua seed e guarde-a em um local seguro (isso permitirá restaurar sua carteira caso você perca seu dispositivo).\n"
+  },
+  {
+    "question": "Quantas carteiras posso criar?",
+    "answer": "Não há limite! Você pode criar quantas carteiras quiser.\n"
+  },
+  {
+    "question": "Como posso restaurar minha carteira?",
+    "answer": "Toque no ícone de perfil no seu painel (canto superior direito), selecione “Carteiras” e depois escolha “Restaurar Carteira”. Em seguida, insira sua seed (ou suas chaves) e, opcionalmente, informe uma data anterior à primeira transação da sua carteira (isso acelera o processo de sincronização). Pode ser necessário manter o aplicativo aberto por 15 a 30 minutos para restaurar completamente sua carteira.\n"
+  },
+  {
+    "question": "O que posso fazer se perder minha seed?",
+    "answer": "Se você esqueceu sua seed, provavelmente a anotou em algum lugar. Verifique suas anotações e procure em seu computador. Caso não encontre, você pode ter feito um backup da Beldex Wallet (nesse caso, poderá restaurar a partir dele). Se nenhuma dessas opções funcionar, infelizmente não há nada que possamos fazer.\n"
+  },
+  {
+    "question": "Vocês coletam alguma informação sobre mim ou minha carteira?",
+    "answer": "A carteira Beldex NÃO coleta nem registra nenhuma informação sobre você ou sua carteira. Valorizamos sua privacidade.\n Sua privacidade pode ser comprometida ao se conectar a um nó malicioso, por isso recomendamos usar os nós padrão ou seus próprios nós.\n"
+  },
+  {
+    "question": "É possível reverter uma transação?",
+    "answer": "Infelizmente, assim que uma transação é enviada para a blockchain, não há como revertê-la. No entanto, você pode cancelar a transação antes de enviá-la, portanto sempre verifique o endereço antes de confirmar.\n"
+  },
+  {
+    "question": "O que são subendereços e como usá-los?",
+    "answer": "Um subendereço é basicamente um endereço único que você pode gerar a qualquer momento. As moedas enviadas para ele ainda chegarão à sua carteira principal, mas a pessoa que envia não poderá saber qual é o seu endereço principal.\nVocê pode criar novos subendereços na tela “Receber”, tocando no botão “+” ao lado da opção de subendereços. Insira um nome para o subendereço e toque em “Adicionar”. Depois, basta tocar no nome do subendereço quando quiser utilizá-lo!\nSe você for mais cauteloso com privacidade, é recomendável criar um novo subendereço sempre que receber Beldex.\n"
+  },
+  {
+    "question": "Não recebi meu Beldex! O que posso fazer?",
+    "answer": "Se você não recebeu seu Beldex, tente tocar no ícone de sincronização no painel (canto superior esquerdo) e selecione “Reconectar”.\nSe isso não funcionar, vá até o menu de configurações, toque em “Nó atual” e selecione um nó com um ponto verde ao lado.\n"
+  },
+  {
+    "question": "Como entro em contato com o suporte da Beldex Wallet?",
+    "answer": "Envie um e-mail para support@beldex.io, entre no Telegram em @official_beldex ou envie um tweet para @beldexcoin!\n"
+  },
+  {
+    "question": "Ter Beldex me torna um investidor?",
+    "answer": "Não, não torna. Mas faz de você uma pessoa incrível — com Beldex.\n"
+  }
+]

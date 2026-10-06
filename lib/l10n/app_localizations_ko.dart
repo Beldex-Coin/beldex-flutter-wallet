@@ -9,1418 +9,1358 @@ class AppLocalizationsKo extends AppLocalizations {
   AppLocalizationsKo([String locale = 'ko']) : super(locale);
 
   @override
-  String get welcome => 'Welcome to\nBeldex Wallet';
+  String get welcome => '';
 
   @override
-  String get first_wallet_text => 'Awesome wallet\nfor Beldex';
+  String get first_wallet_text => '';
 
   @override
-  String get please_make_selection => 'Select from the options below to\neither create or recover your wallet.';
+  String get please_make_selection => '';
 
   @override
-  String get create_new => 'Create New Wallet';
+  String get create_new => '새 지갑 생성';
 
   @override
-  String get restore_wallet => 'Use Existing Wallet';
+  String get restore_wallet => '기존 지갑 사용';
 
   @override
-  String get accounts => 'Accounts';
+  String get accounts => '계정 목록';
 
   @override
-  String get edit => 'Edit';
+  String get edit => '수정';
 
   @override
-  String get account => 'Account';
+  String get account => '계정';
 
   @override
-  String get add => 'Add';
+  String get add => '추가';
 
   @override
-  String get address_book => 'Address Book';
+  String get address_book => '주소록';
 
   @override
-  String get contact => 'Contact';
+  String get contact => '';
 
   @override
-  String get please_select => 'Please select:';
+  String get please_select => '';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => '취소';
 
   @override
-  String get ok => 'Ok';
+  String get ok => '확인';
 
   @override
-  String get contact_name => 'Contact Name';
+  String get contact_name => '';
 
   @override
-  String get reset => 'Reset';
+  String get reset => '초기화';
 
   @override
-  String get save => 'Save';
+  String get save => '저장';
 
   @override
-  String get authenticated => 'Authenticated';
+  String get authenticated => '';
 
   @override
-  String get authentication => 'Authentication';
+  String get authentication => '';
 
   @override
   String failed_authentication(Object state_error) {
-    return 'Failed authentication. $state_error';
+    return '인증에 실패했습니다. $state_error';
   }
 
   @override
-  String get wallet_menu => 'Menu';
+  String get wallet_menu => '';
 
   @override
   String blocksRemaining(Object status) {
-    return '$status Blocks Remaining';
+    return '$status 블록 남음';
   }
 
   @override
-  String get please_try_to_connect_to_another_node => 'Please try to connect to another node';
+  String get please_try_to_connect_to_another_node => '다른 노드에 연결을 시도해주세요';
 
   @override
-  String get beldex_hidden => 'Beldex Hidden';
+  String get beldex_hidden => '';
 
   @override
-  String get beldex_available_balance => 'Beldex Available Balance';
+  String get beldex_available_balance => '';
 
   @override
-  String get beldex_full_balance => 'Beldex Full Balance';
+  String get beldex_full_balance => '';
 
   @override
-  String get send => 'Send';
+  String get send => '보내기';
 
   @override
-  String get receive => 'Receive';
+  String get receive => '받기';
 
   @override
-  String get transactions => 'Transactions';
+  String get transactions => '거래 내역';
 
   @override
-  String get incoming => 'Incoming';
+  String get incoming => '입금';
 
   @override
-  String get outgoing => 'Outgoing';
+  String get outgoing => '출금';
 
   @override
-  String get transactions_by_date => 'Transactions by Date';
+  String get transactions_by_date => '날짜별 거래';
 
   @override
-  String get filters => 'Filters';
+  String get filters => '필터';
 
   @override
-  String get today => 'Today';
+  String get today => '';
 
   @override
-  String get yesterday => 'Yesterday';
+  String get yesterday => '';
 
   @override
-  String get received => 'Received';
+  String get received => '';
 
   @override
-  String get sent => 'Sent';
+  String get sent => '보냄';
 
   @override
-  String get pending => ' (pending)';
+  String get pending => '';
 
   @override
-  String get rescan => 'Rescan';
+  String get rescan => '재스캔';
 
   @override
-  String get reconnect => 'Reconnect';
+  String get reconnect => '재연결';
 
   @override
-  String get wallets => 'Wallets';
+  String get wallets => '지갑 목록';
 
   @override
-  String get show_seed => 'Show Seed';
+  String get show_seed => '시드 보기';
 
   @override
-  String get show_keys => 'Show keys';
+  String get show_keys => '키 보기';
 
   @override
-  String get reconnection => 'Reconnection';
+  String get reconnection => '';
 
   @override
-  String get reconnect_alert_text => 'Are you sure to reconnect?';
+  String get reconnect_alert_text => '';
 
   @override
-  String get reload_fiat => 'Reload Fiat data';
+  String get reload_fiat => '';
 
   @override
-  String get clear => 'Clear';
+  String get clear => '지우기';
 
   @override
-  String get error => 'Error';
+  String get error => '';
 
   @override
-  String get copied_to_clipboard => 'Copied to clipboard!';
+  String get copied_to_clipboard => '';
 
   @override
-  String get fetching => 'Fetching';
+  String get fetching => '';
 
   @override
-  String get id => 'ID: ';
+  String get id => '';
 
   @override
-  String get amount => 'Amount ';
+  String get amount => '금액';
 
   @override
-  String get status => 'Status: ';
+  String get status => '상태:';
 
   @override
-  String get confirm => 'Confirm';
+  String get confirm => '';
 
   @override
-  String get confirm_sending => 'Confirm sending';
+  String get confirm_sending => '전송 확인';
 
   @override
   String commit_transaction_amount_fee(Object amount, Object fee) {
-    return 'Commit transaction\nAmount: $amount\nFee: $fee';
+    return '';
   }
 
   @override
-  String get sending => 'Sending';
+  String get sending => '';
 
   @override
-  String get transaction_sent => 'Transaction sent!';
+  String get transaction_sent => '';
 
   @override
-  String get send_beldex => 'Send Beldex';
+  String get send_beldex => '';
 
   @override
   String get faq => 'FAQ';
 
   @override
-  String get changelog => 'Changelog';
+  String get changelog => '변경 로그';
 
   @override
-  String get loading_your_wallet => 'Loading your wallet';
+  String get loading_your_wallet => '';
 
   @override
-  String get new_wallet => 'New Wallet';
+  String get new_wallet => '새 지갑';
 
   @override
-  String get wallet_name => 'Wallet Name';
+  String get wallet_name => '지갑 이름';
 
   @override
-  String get continue_text => 'Continue';
+  String get continue_text => '계속';
 
   @override
-  String get node_new => 'New Node';
+  String get node_new => '';
 
   @override
-  String get node_address => 'Node Address';
+  String get node_address => '노드 주소';
 
   @override
-  String get node_port => 'Node Port';
+  String get node_port => '노드 포트';
 
   @override
-  String get login => 'Login';
+  String get login => '';
 
   @override
-  String get password => 'Password';
+  String get password => '';
 
   @override
-  String get nodes => 'Nodes';
+  String get nodes => '노드';
 
   @override
-  String get node_reset_settings_title => 'Reset settings';
+  String get node_reset_settings_title => '설정 초기화 ';
 
   @override
-  String get nodes_list_reset_to_default_message => 'Are you sure that you want to reset settings to default?';
+  String get nodes_list_reset_to_default_message => '설정을 기본값으로 초기화하시겠습니까? ';
 
   @override
   String change_current_node(Object node) {
-    return 'Are you sure to change current node to $node?';
+    return '현재 노드를 $node(으)로 변경하시겠습니까?';
   }
 
   @override
-  String get change => 'Change';
+  String get change => '';
 
   @override
-  String get remove_node => 'Remove node';
+  String get remove_node => '';
 
   @override
-  String get remove_node_message => 'Are you sure that you want to remove selected node?';
+  String get remove_node_message => '';
 
   @override
-  String get remove => 'Remove';
+  String get remove => '';
 
   @override
-  String get delete => 'Delete';
+  String get delete => '삭제';
 
   @override
-  String get use => 'Switch to ';
+  String get use => '';
 
   @override
-  String get digit_pin => '-digit PIN';
+  String get digit_pin => '';
 
   @override
-  String get share_address => 'Share address';
+  String get share_address => '';
 
   @override
-  String get receive_amount => 'Amount';
+  String get subaddresses => '';
 
   @override
-  String get subaddresses => 'Subaddresses';
+  String get restore_restore_wallet => '지갑 복원';
 
   @override
-  String get restore_restore_wallet => 'Restore Wallet';
+  String get restore_title_from_seed_keys => '시드/키로 복원';
 
   @override
-  String get restore_title_from_seed_keys => 'Restore from seed/keys';
+  String get restore_description_from_seed_keys => '안전한 장소에 저장해둔 시드/키를 사용하여 지갑을 복구하세요';
 
   @override
-  String get restore_description_from_seed_keys => 'Get back your wallet from seed/keys that you\'ve saved to secure place';
+  String get restore_next => '다음';
 
   @override
-  String get restore_next => 'Next';
+  String get restore_title_from_backup => '';
 
   @override
-  String get restore_title_from_backup => 'Restore from a back-up file';
+  String get restore_description_from_backup => '';
 
   @override
-  String get restore_description_from_backup => 'You can restore the whole Beldex Wallet app from your back-up file';
+  String get restore_seed_keys_restore => '';
 
   @override
-  String get restore_seed_keys_restore => 'Seed/Keys Restore';
+  String get restore_title_from_seed => '시드로 복원';
 
   @override
-  String get restore_title_from_seed => 'Restore from Seed';
+  String get restore_description_from_seed => '25단어 니모닉 키 또는 시드 구문을 사용하여 지갑을 복원하세요.';
 
   @override
-  String get restore_description_from_seed => 'Use the 25-word Mnemonic Key or Seed Phrase to Restore your Wallet.';
+  String get restore_title_from_keys => '키로 복원';
 
   @override
-  String get restore_title_from_keys => 'Restore from Keys';
+  String get restore_description_from_keys => '개인 키에서 생성된 키 입력값을 사용하여 지갑을 복원하세요.';
 
   @override
-  String get restore_description_from_keys => 'Use the generated keystrokes saved from private keys to Restore your Wallet ';
+  String get restore_address => '주소';
 
   @override
-  String get restore_wallet_name => 'Wallet Name';
+  String get restore_recover => '복원';
 
   @override
-  String get restore_address => 'Address';
+  String get restore_wallet_restore_description => '';
 
   @override
-  String get restore_view_key_private => 'View key (private)';
+  String get seed_title => '시드';
 
   @override
-  String get restore_spend_key_private => 'Spend key (private)';
+  String get seed_share => '';
 
   @override
-  String get restore_recover => 'Restore';
+  String get copy => '';
 
   @override
-  String get restore_wallet_restore_description => 'Wallet restore description';
+  String get seed_language_choose => '';
 
   @override
-  String get seed_title => 'Seed';
+  String get seed_language_english => '';
 
   @override
-  String get seed_share => 'Share seed';
+  String get seed_language_chinese => '';
 
   @override
-  String get copy => 'Copy';
+  String get seed_language_dutch => '';
 
   @override
-  String get seed_language_choose => 'Please choose a seed language';
+  String get seed_language_german => '';
 
   @override
-  String get seed_language_next => 'Next';
+  String get seed_language_japanese => '';
 
   @override
-  String get seed_language_english => 'English';
+  String get seed_language_portuguese => '';
 
   @override
-  String get seed_language_chinese => 'Chinese';
+  String get seed_language_russian => '';
 
   @override
-  String get seed_language_dutch => 'Dutch';
+  String get seed_language_spanish => '';
 
   @override
-  String get seed_language_german => 'German';
+  String get seed_language_french => '';
 
   @override
-  String get seed_language_japanese => 'Japanese';
+  String get seed_language_italian => '';
 
   @override
-  String get seed_language_portuguese => 'Portuguese';
+  String get send_your_wallet => '';
 
   @override
-  String get seed_language_russian => 'Russian';
+  String get send_beldex_address => '벨덱스 주소 또는 BNS 이름';
 
   @override
-  String get seed_language_spanish => 'Spanish';
+  String get all => '';
 
   @override
-  String get seed_language_french => 'French';
+  String get send_error_currency => '';
 
   @override
-  String get seed_language_italian => 'Italian';
-
-  @override
-  String get send_title => 'Send';
-
-  @override
-  String get send_your_wallet => 'Your wallet';
-
-  @override
-  String get send_beldex_address => 'Beldex address or BNS name';
-
-  @override
-  String get all => 'ALL';
-
-  @override
-  String get send_error_currency => 'Currency can only contain numbers';
-
-  @override
-  String get send_estimated_fee => 'Estimated Fee:';
+  String get send_estimated_fee => '예상 수수료:';
 
   @override
   String send_priority(Object transactionPriority) {
-    return '$transactionPriority priority is set as the default fee.\nGo to setting to change the transaction priority.';
+    return '$transactionPriority 우선순위가 기본 수수료로 설정되어 있습니다. 거래 우선순위를 변경하려면 설정으로 이동하세요.';
   }
 
   @override
-  String get send_creating_transaction => 'Creating transaction';
+  String get send_creating_transaction => '';
 
   @override
-  String get title_stakes => 'Stakes';
+  String get title_stakes => '';
 
   @override
-  String get title_new_stake => 'New Stake';
+  String get title_new_stake => '';
 
   @override
-  String get your_contributions => 'Your Contributions';
+  String get your_contributions => '';
 
   @override
-  String get start_staking => 'Start staking';
+  String get start_staking => '';
 
   @override
-  String get stake_more => 'Stake more';
+  String get stake_more => '';
 
   @override
-  String get nothing_staked => 'Nothing staked yet';
+  String get nothing_staked => '';
 
   @override
-  String get service_node_key => 'Master Node Key';
+  String get service_node_key => '';
 
   @override
-  String get stake_beldex => 'Stake Beldex';
+  String get stake_beldex => '';
 
   @override
-  String get title_confirm_unlock_stake => 'Unlock Stake';
+  String get title_confirm_unlock_stake => '';
 
   @override
   String body_confirm_unlock_stake(Object masterNodeKey) {
-    return 'Do you really want to unlock your stake from $masterNodeKey?';
+    return '';
   }
 
   @override
-  String get unlock_stake_requested => 'Stake unlock requested';
+  String get unlock_stake_requested => '';
 
   @override
-  String get unable_unlock_stake => 'Unable to unlock stake';
+  String get unable_unlock_stake => '';
 
   @override
-  String get settings_title => 'Settings';
+  String get settings_title => '설정';
 
   @override
-  String get settings_nodes => 'Nodes';
+  String get settings_current_node => '현재 노드';
 
   @override
-  String get settings_current_node => 'Current node';
+  String get settings_display_balance_as => '잔액 표시 방식';
 
   @override
-  String get settings_wallets => 'Wallets';
+  String get settings_balance_detail => '소수점';
 
   @override
-  String get settings_display_balance_as => 'Display Balance As';
+  String get settings_currency => '통화 선택';
 
   @override
-  String get settings_balance_detail => 'Decimals';
+  String get settings_fee_priority => '수수료 우선순위';
 
   @override
-  String get settings_currency => 'Currency';
+  String get settings_save_recipient_address => '수신 주소 저장';
 
   @override
-  String get settings_fee_priority => 'Fee Priority';
+  String get settings_personal => '개인 설정';
 
   @override
-  String get settings_save_recipient_address => 'Save recipient address';
+  String get settings_change_pin => 'PIN 변경';
 
   @override
-  String get settings_personal => 'Personal';
+  String get settings_allow_biometric_authentication => '생체 인증 허용';
 
   @override
-  String get settings_change_pin => 'Change PIN';
+  String get settings_dark_mode => '다크 모드';
 
   @override
-  String get settings_change_language => 'Select Language';
+  String get settings_display_on_dashboard_list => '';
 
   @override
-  String get settings_allow_biometric_authentication => 'Allow biometric authentication';
+  String get settings_none => '';
 
   @override
-  String get settings_dark_mode => 'Dark mode';
+  String get settings_support => '지원';
 
   @override
-  String get settings_display_on_dashboard_list => 'Display on dashboard list';
+  String get settings_terms_and_conditions => '이용 약관';
 
   @override
-  String get settings_all => 'ALL';
+  String get settings_enable_fiat_currency => '법정화폐 환산 활성화';
 
   @override
-  String get settings_none => 'None';
+  String get pin_is_incorrect => 'PIN이 올바르지 않습니다';
 
   @override
-  String get settings_support => 'Support';
+  String get amount_detail_ultra => '';
 
   @override
-  String get settings_terms_and_conditions => 'Terms & Conditions';
+  String get amount_detail_none => '';
 
   @override
-  String get settings_enable_fiat_currency => 'Enable Fiat Currency conversion';
+  String get amount_detail_detailed => '';
 
   @override
-  String get pin_is_incorrect => 'PIN is incorrect';
+  String get amount_detail_normal => '';
 
   @override
-  String get amount_detail_ultra => '9 - Ultra';
+  String get setup_pin => 'PIN 설정';
 
   @override
-  String get amount_detail_none => '0 - None';
+  String get re_enter_your_pin => 'PIN을 다시 입력하세요';
 
   @override
-  String get amount_detail_detailed => '4 - Detailed';
+  String get setup_successful => 'PIN이 성공적으로 설정되었습니다!';
 
   @override
-  String get amount_detail_normal => '2 - Normal';
+  String get wallet_keys => '지갑 키';
 
   @override
-  String get setup_pin => 'Setup PIN';
+  String get view_key_private => '조회 키 (개인 키)';
 
   @override
-  String get re_enter_your_pin => 'Re-Enter your PIN';
+  String get view_key_public => '조회 키 (공개)';
 
   @override
-  String get setup_successful => 'Your PIN has been set up \nsuccessfully!';
+  String get spend_key_private => '사용 키 (개인 키)';
 
   @override
-  String get wallet_keys => 'Wallet keys';
-
-  @override
-  String get view_key_private => 'View key (private)';
-
-  @override
-  String get view_key_public => 'View key (public)';
-
-  @override
-  String get spend_key_private => 'Spend key (private)';
-
-  @override
-  String get spend_key_public => 'Spend key (public)';
+  String get spend_key_public => '지출 키 (공개)';
 
   @override
   String copied_key_to_clipboard(Object key) {
-    return 'Copied $key to Clipboard';
+    return '';
   }
 
   @override
-  String get new_subaddress_title => 'New subaddress';
+  String get new_subaddress_title => '';
 
   @override
-  String get new_subaddress_label_name => 'Label name';
+  String get new_subaddress_create => '생성';
 
   @override
-  String get new_subaddress_create => 'Create';
+  String get subaddress_title => '';
 
   @override
-  String get subaddress_title => 'Subaddress list';
+  String get transaction_details_title => '';
 
   @override
-  String get transaction_details_title => 'Transaction Details';
+  String get transaction_details_transaction_id => '거래 ID';
 
   @override
-  String get transaction_details_transaction_id => 'Transaction ID';
+  String get transaction_details_height => '키가';
 
   @override
-  String get transaction_details_date => 'Date';
+  String get transaction_details_amount => '금액';
 
   @override
-  String get transaction_details_height => 'Height';
-
-  @override
-  String get transaction_details_amount => 'Amount';
-
-  @override
-  String get transaction_details_payment_id => 'Payment ID';
+  String get transaction_details_payment_id => '';
 
   @override
   String transaction_details_copied(Object title) {
-    return '$title copied to Clipboard';
+    return '';
   }
 
   @override
-  String get transaction_details_recipient_address => 'Recipient Address';
-
-  @override
-  String get swap_wallet_address => 'Wallet Address';
-
-  @override
-  String get swap_recipient_address => 'Recipient Address';
+  String get transaction_details_recipient_address => '수신 주소';
 
   @override
   String swap_correct_chain_address(Object blockchain) {
-    return 'Please make sure to enter the correct address for the selected chain - $blockchain. Otherwise you will lose your funds.';
+    return '선택한 체인($blockchain)에 맞는 올바른 주소를 입력했는지 확인하세요. 그렇지 않으면 자금을 잃을 수 있습니다.';
   }
 
   @override
   String swap_enter_recipient_address(Object currency) {
-    return 'Enter your $currency recipient address';
+    return '$currency 수신자 주소를 입력하세요';
   }
 
   @override
-  String get swap_refund_wallet_address => 'Refund wallet Address';
+  String get swap_refund_wallet_address => '';
 
   @override
   String swap_enter_refund_address(Object currency) {
-    return 'Enter your $currency refund address';
+    return '';
   }
 
   @override
   String swap_extra_id_info(Object currency, Object extraIdName) {
-    return 'Please specify the $extraIdName for your $currency receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a $extraIdName, remove the tick.';
+    return '';
   }
 
   @override
   String swap_my_wallet_requires_extra_id(Object extraIdName) {
-    return 'My wallet requires $extraIdName';
+    return '';
   }
 
   @override
   String swap_enter_extra_id(Object extraIdName) {
-    return 'Enter $extraIdName';
+    return '';
   }
 
   @override
   String swap_please_enter_extra_id(Object extraIdName) {
-    return 'Please enter $extraIdName';
+    return '';
   }
 
   @override
-  String get swap_minimum_amount_changed => 'The minimum amount value has changed, The new value is ';
+  String get swap_minimum_amount_changed => '';
 
   @override
-  String get swap_maximum_amount_changed => 'The maximum amount value has changed, The new value is ';
+  String get swap_maximum_amount_changed => '';
 
   @override
-  String get swap_transaction_preview => 'Transaction Preview';
+  String get swap_transaction_preview => '';
 
   @override
-  String get swap_exchange_rate => 'Exchange rate';
+  String get swap_exchange_rate => '환율';
 
   @override
-  String get swap_service_fee => 'Service fee 0.25%';
+  String get swap_service_fee => '서비스 수수료: 0.25%';
 
   @override
-  String get service_fee => 'Service Fee 0.25%';
+  String get service_fee => '서비스 수수료: 0.25%';
 
   @override
-  String get network_fee => 'Network Fee';
+  String get network_fee => '네트워크 수수료';
 
   @override
-  String get swap_refund_address => 'Refund Address';
+  String get swap_refund_address => '';
 
   @override
-  String get swap_network_fee => 'Network fee';
+  String get swap_network_fee => '네트워크 수수료';
 
   @override
-  String get swap_you_get => 'You Get';
+  String get swap_you_get => '받는 자산';
 
   @override
-  String get swap_checkout => 'Checkout';
+  String get swap_checkout => '체크아웃';
 
   @override
-  String get swap_network_label => 'NETWORK: ';
+  String get swap_network_label => '네트워크: ';
 
   @override
-  String get swap_estimated_time => 'Estimated Time';
+  String get swap_estimated_time => '';
 
   @override
-  String get swap_estimated_time_value => '5-30 mins';
+  String get swap_estimated_time_value => '';
 
   @override
-  String get swap_confirm_and_make_payment => 'Confirm & Make Payment';
+  String get swap_confirm_and_make_payment => '확인 및 결제 진행';
 
   @override
-  String get swap_send_funds_to_address_below => 'Send funds to the address below';
+  String get swap_send_funds_to_address_below => '아래 주소로 자금을 보내세요';
 
   @override
   String swap_time_left_to_send(Object amount, Object currency) {
-    return 'Time left to send $amount $currency';
+    return '$amount $currency을(를) 보낼 수 있는 남은 시간';
   }
 
   @override
   String swap_time_remaining(Object value) {
-    return 'Time Remaining : $value';
+    return '남은 시간: $value';
   }
 
   @override
-  String get swap_send_funds_notice => 'You Have 3 Hours to send funds otherwise the transaction will be cancelled automatically.\n\nThe exchange will be initiated once the funds are received.';
+  String get swap_send_funds_notice => '자금을 전송할 수 있는 시간은 3시간이며, 이를 초과할 경우 거래는 자동으로 취소됩니다.\n 자금이 수신되면 교환이 시작됩니다.';
 
   @override
-  String get swap_confirmations => 'Confirmations';
+  String get swap_confirmations => '';
 
   @override
-  String get swap_completed => 'Completed';
+  String get swap_completed => '완료됨';
 
   @override
-  String get swap_amount_from => 'Amount from';
+  String get swap_amount_from => '보낸 금액';
 
   @override
-  String get swap_amount_to => 'Amount to';
+  String get swap_amount_to => '받는 금액';
 
   @override
-  String get swap_received_time => 'Received Time';
+  String get swap_received_time => '수신 시간 ';
 
   @override
-  String get swap_amount_sent => 'Amount Sent';
+  String get swap_amount_sent => '전송된 금액';
 
   @override
-  String get swap_input_output_hash => 'Input/Output Hash';
+  String get swap_input_output_hash => '입력/출력 해시';
 
   @override
-  String get swap_input_hash => 'Input Hash';
+  String get swap_input_hash => '입력 해시';
 
   @override
-  String get swap_output_hash => 'Output Hash';
+  String get swap_output_hash => '출력 해시';
 
   @override
-  String get swap_failed => 'Failed';
+  String get swap_failed => '실패';
 
   @override
-  String get swap_expired => 'Expired';
+  String get swap_expired => '';
 
   @override
-  String get swap_overdue => 'Overdue';
+  String get swap_overdue => '';
 
   @override
-  String get swap_funds_not_received => 'The funds were not received within 3 hours. Please check the rates and create a new transaction';
+  String get swap_funds_not_received => '자금이 3시간 이내에 수신되지 않았습니다.\n 환율을 확인하고 새 거래를 생성해 주세요.';
 
   @override
-  String get swap_start_over => 'Start Over';
+  String get swap_start_over => '다시 시작';
 
   @override
-  String get swap_exchanging => 'Exchanging';
+  String get swap_exchanging => '';
 
   @override
-  String get swap_confirming_in_progress => 'Confirming in progress';
+  String get swap_confirming_in_progress => '';
 
   @override
-  String get swap_confirmed => 'Confirmed';
+  String get swap_confirmed => '';
 
   @override
   String swap_confirmed_in_blockchain(Object currencyFrom, Object currencyTo) {
-    return 'Once $currencyFrom is confirmed in the blockchain, we\'ll start exchanging it to $currencyTo';
+    return '';
   }
 
   @override
-  String get swap_see_input_hash_in_explorer => 'See input hash in explorer';
+  String get swap_see_input_hash_in_explorer => '';
 
   @override
   String swap_done_exchanging(Object currencyFrom, Object currencyTo) {
-    return 'Done Exchanging $currencyFrom to $currencyTo';
+    return '';
   }
 
   @override
   String swap_exchanging_currency(Object currencyFrom, Object currencyTo) {
-    return 'Exchanging $currencyFrom to $currencyTo';
+    return '';
   }
 
   @override
-  String get swap_process_wait => 'The process will take a few minutes. please wait.';
+  String get swap_process_wait => '';
 
   @override
-  String get swap_sending_funds_to_wallet => 'Sending funds to your wallet';
+  String get swap_sending_funds_to_wallet => '';
 
   @override
-  String get swap_funds_sent_to_wallet => 'Funds send to your wallet';
+  String get swap_funds_sent_to_wallet => '';
 
   @override
-  String get swap_you_dont_have_to_wait_here => 'You don’t have to wait here';
+  String get swap_you_dont_have_to_wait_here => '';
 
   @override
-  String get swap_you_can_initiate_new_transaction => 'You can initiate a new transaction. You can always check the status of this transaction in transaction ';
+  String get swap_you_can_initiate_new_transaction => '';
 
   @override
-  String get swap_history => 'history';
+  String get swap_history => '';
 
   @override
-  String get swap_you_sent => 'You sent';
+  String get swap_you_sent => '';
 
   @override
   String swap_exchange_address(Object currency, Object exchangeName) {
-    return '$exchangeName address ($currency)';
+    return '';
   }
 
   @override
   String swap_recipient_address_with_currency(Object currency) {
-    return 'Recipient address ($currency)';
+    return '';
   }
 
   @override
-  String get swap_open_history => 'Open History';
+  String get swap_open_history => '내역 열기';
 
   @override
-  String get swap_new_transaction => 'New Transaction';
+  String get swap_new_transaction => '새 거래';
 
   @override
-  String get swap_i_agree_with => 'I agree with ';
+  String get swap_i_agree_with => '동의합니다';
 
   @override
-  String get swap_terms_of_use => 'Terms of Use';
+  String get swap_terms_of_use => '이용 약관';
 
   @override
-  String get swap_and => ' and ';
+  String get swap_and => '및';
 
   @override
-  String get swap_privacy_policy => 'Privacy Policy';
+  String get swap_privacy_policy => '개인정보 보호정책';
 
   @override
-  String get swap_next => 'Next';
+  String get wallet_list_title => '벨덱스 지갑';
 
   @override
-  String get wallet_list_title => 'Beldex Wallet';
-
-  @override
-  String get wallet_list_create_new_wallet => 'Create New Wallet';
-
-  @override
-  String get wallet_list_restore_wallet => 'Use Existing Wallet';
-
-  @override
-  String get wallet_list_load_wallet => 'Load wallet';
+  String get wallet_list_load_wallet => '지갑 불러오기';
 
   @override
   String wallet_list_loading_wallet(Object wallet_name) {
-    return 'Loading $wallet_name wallet';
+    return '';
   }
 
   @override
   String wallet_list_failed_to_load(Object error, Object wallet_name) {
-    return 'Failed to load $wallet_name wallet. $error';
+    return '';
   }
 
   @override
   String wallet_list_removing_wallet(Object wallet_name) {
-    return 'Removing $wallet_name wallet';
+    return '';
   }
 
   @override
   String wallet_list_failed_to_remove(Object error, Object wallet_name) {
-    return 'Failed to remove $wallet_name wallet. $error';
+    return '';
   }
 
   @override
-  String get widgets_address => 'Address';
+  String get widgets_restore_from_blockheight => '블록 높이로 복원';
 
   @override
-  String get widgets_restore_from_blockheight => 'Restore from Blockheight';
+  String get widgets_restore_from_date => '날짜로 복원';
 
   @override
-  String get widgets_restore_from_date => 'Restore from Date';
-
-  @override
-  String get widgets_or => 'OR';
-
-  @override
-  String get widgets_seed => 'Seed';
+  String get widgets_or => '';
 
   @override
   String router_no_route(Object name) {
-    return 'No route defined for $name';
+    return '';
   }
 
   @override
-  String get error_text_account_name => 'Account name can only contain letters, numbers\nand must be between 1 and 15 characters long';
+  String get error_text_account_name => '';
 
   @override
-  String get error_text_contact_name => 'Contact name can\'t contain ` , \' \" symbols\nand must be between 1 and 32 characters long';
+  String get error_text_contact_name => '연락처 이름에는 \' , \" 기호를 포함할 수 없으며\n 1자 이상 32자 이하이어야 합니다';
 
   @override
-  String get error_text_address => 'Invalid BDX address';
+  String get error_text_address => '유효하지 않은 BDX 주소입니다';
 
   @override
-  String get error_text_node_address => 'Please enter a iPv4 address';
+  String get error_text_node_address => 'IPv4 주소를 입력하세요';
 
   @override
-  String get error_text_node_port => 'Node port can only contain numbers between 0 and 65535';
+  String get error_text_node_port => '노드 포트에는 0에서 65535 사이의 숫자만 입력할 수 있습니다';
 
   @override
-  String get error_text_payment_id => 'Payment ID can only contain from 16 to 64 chars in hex';
+  String get error_text_payment_id => '';
 
   @override
-  String get error_text_beldex => 'Beldex value can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 9';
+  String get error_text_beldex => '';
 
   @override
-  String get error_text_fiat => 'Value of amount can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 2';
+  String get error_text_fiat => '';
 
   @override
-  String get error_text_subaddress_name => 'Subaddress name can\'t contain ` , \' \" symbols\nand must be between 1 and 20 characters long';
+  String get error_text_subaddress_name => '';
 
   @override
-  String get error_text_amount => 'Amount can only contain numbers';
+  String get error_text_amount => '';
 
   @override
-  String get error_text_wallet_name => 'Wallet name can only contain letters, numbers\nand must be between 1 and 15 characters long';
+  String get error_text_wallet_name => '';
 
   @override
-  String get error_text_keys => 'Wallet keys can only contain 64 chars in hex';
+  String get error_text_keys => '지갑 키는 16진수 64자만 포함할 수 있습니다';
 
   @override
-  String get error_text_crypto_currency => 'The number of fraction digits\nmust be less or equal to 12';
+  String get error_text_crypto_currency => '';
 
   @override
-  String get error_text_service_node => 'A Master Node key can only contain 64 chars in hex';
+  String get error_text_service_node => '';
 
   @override
-  String get auth_store_ban_timeout => 'ban_timeout';
+  String get auth_store_ban_timeout => '';
 
   @override
-  String get auth_store_banned_for => 'Banned for ';
+  String get auth_store_banned_for => '';
 
   @override
-  String get auth_store_banned_minutes => ' minutes';
+  String get auth_store_banned_minutes => '';
 
   @override
-  String get auth_store_incorrect_password => 'Wrong PIN';
+  String get auth_store_incorrect_password => '';
 
   @override
-  String get wallet_restoration_store_incorrect_seed_length => 'Incorrect seed length';
+  String get wallet_restoration_store_incorrect_seed_length => '';
 
   @override
-  String get full_balance => 'Full Balance';
+  String get full_balance => '전체 잔액';
 
   @override
-  String get available_balance => 'Available Balance';
+  String get available_balance => '사용 가능 잔액';
 
   @override
-  String get hidden_balance => 'Hidden Balance';
+  String get hidden_balance => '숨김 잔액';
 
   @override
-  String get sync_status_synchronizing => 'SYNCHRONIZING';
+  String get sync_status_synchronizing => '동기화 중';
 
   @override
-  String get sync_status_synchronized => 'SYNCHRONIZED';
+  String get sync_status_synchronized => '동기화됨';
 
   @override
-  String get sync_status_not_connected => 'NOT CONNECTED';
+  String get sync_status_not_connected => '';
 
   @override
-  String get sync_status_starting_sync => 'STARTING SYNC';
+  String get sync_status_starting_sync => '동기화 시작 중';
 
   @override
-  String get sync_status_failed_connect => 'FAILED CONNECT TO THE NODE';
+  String get sync_status_failed_connect => '노드에 연결하지 못했습니다';
 
   @override
-  String get sync_status_connecting => 'CONNECTING';
+  String get sync_status_connecting => '연결 중';
 
   @override
-  String get sync_status_connected => 'CONNECTED';
+  String get sync_status_connected => '';
 
   @override
-  String get transaction_priority_slow => 'Slow';
+  String get transaction_priority_slow => '느림';
 
   @override
-  String get transaction_priority_blink => 'Flash';
+  String get transaction_priority_blink => '플래시';
 
   @override
-  String get change_language => 'Change Language';
+  String get change_language => '언어 변경';
 
   @override
   String change_language_to(Object language) {
-    return 'Change language to $language?';
+    return '';
   }
 
   @override
-  String get paste => 'Paste';
+  String get paste => '붙여넣기';
 
   @override
-  String get restore_from_seed_placeholder => 'Please enter or paste your seed here';
+  String get restore_from_seed_placeholder => '시드를 입력하거나 붙여넣으세요';
 
   @override
-  String get add_new_word => 'Add new word';
+  String get add_new_word => '';
 
   @override
-  String get incorrect_seed => 'The text entered is not valid.';
+  String get incorrect_seed => '';
 
   @override
-  String get biometric_auth_reason => 'Scan your fingerprint to authenticate';
+  String get biometric_auth_reason => '';
 
   @override
   String version(Object currentVersion) {
-    return 'Version $currentVersion';
+    return '버전 $currentVersion';
   }
 
   @override
-  String get openalias_alert_title => 'Beldex Recipient Detected';
+  String get openalias_alert_title => '';
 
   @override
   String openalias_alert_content(Object recipient_name) {
-    return 'You will be sending funds to\n$recipient_name';
+    return '';
   }
 
   @override
-  String get dangerzone => 'Dangerzone';
+  String get dangerzone => '';
 
   @override
-  String get yes_im_sure => 'Yes, I\'m sure!';
+  String get yes_im_sure => '예, 확인했습니다!';
 
   @override
   String never_give_your(Object item) {
-    return 'Never Give your Beldex Wallet $item to Anyone!';
+    return 'Beldex 지갑의 $item을(를) 절대로 다른 사람에게 제공하지 마세요!';
   }
 
   @override
   String dangerzone_warning(Object app_store, Object item) {
-    return 'NEVER input your Beldex wallet $item into any software or website other than the OFFICIAL Beldex wallets downloaded directly from the $app_store, the Beldex website, or the Beldex GitHub.\nAre you sure you want to access your wallet $item?';
+    return 'Beldex 지갑의 $item을(를) $app_store, Beldex 웹사이트 또는 Beldex GitHub에서 직접 다운로드한 공식 Beldex 지갑 이외의 소프트웨어나 웹사이트에 절대로 입력하지 마세요. 지갑 $item에 액세스하시겠습니까?';
   }
 
   @override
-  String get keys_title => 'Keys';
+  String get keys_title => '';
 
   @override
-  String get are_you_sure => 'Are you sure?';
+  String get are_you_sure => '정말로 종료하시겠습니까?';
 
   @override
-  String get do_you_want_to_exit_an_app => 'Do you want to exit an App';
+  String get do_you_want_to_exit_an_app => '';
 
   @override
-  String get no => 'No';
+  String get no => '아니요';
 
   @override
-  String get yes => 'Yes';
+  String get yes => '예';
 
   @override
-  String get byUsingThisAppYouAgreeToTheTermsOf => 'By using this app, you agree to the Terms of Agreement set forth to below';
+  String get byUsingThisAppYouAgreeToTheTermsOf => '';
 
   @override
-  String get iAgreeToTermsOfUse => 'I agree to Terms of Use';
+  String get iAgreeToTermsOfUse => '';
 
   @override
-  String get accept => 'Accept';
+  String get accept => '';
 
   @override
-  String get pleaseEnterAValidAmount => 'Please enter a valid amount';
+  String get pleaseEnterAValidAmount => '유효한 금액을 입력하세요';
 
   @override
-  String get pleaseEnterAValidSeed => 'Please enter a valid seed';
+  String get pleaseEnterAValidSeed => '유효한 시드를 입력하세요';
 
   @override
-  String get changeWallet => 'Change Wallet';
+  String get changeWallet => '지갑 변경';
 
   @override
-  String get removeWallet => 'Remove Wallet';
+  String get removeWallet => '지갑 삭제';
 
   @override
-  String get reconnectWallet => 'Reconnect Wallet';
+  String get reconnectWallet => '지갑을 다시 연결하시겠습니까';
 
   @override
-  String get rescanWallet => 'Rescan Wallet';
+  String get rescanWallet => '지갑 재스캔';
 
   @override
-  String get enterWalletName => 'Enter Wallet Name';
+  String get enterWalletName => '지갑 이름 입력';
 
   @override
-  String get noTransactionsYet => 'No Transactions Yet!';
+  String get noTransactionsYet => '아직 거래가 없습니다!';
 
   @override
-  String get afterYourFirstTransactionnYouWillBeAbleToView => 'After your first transaction,\n you will be able to view it here.';
+  String get afterYourFirstTransactionnYouWillBeAbleToView => ' 첫 거래 이후 여기에서 확인할 수 있습니다.';
 
   @override
-  String get copied => 'Copied';
+  String get copied => '복사됨';
 
   @override
-  String get addAddress => 'Add Address';
+  String get addAddress => '주소 추가';
 
   @override
-  String get important => 'IMPORTANT';
+  String get important => '';
 
   @override
   String neverInputYourBeldexWalletItemIntoAnySoftwareOr(Object appStore, Object item) {
-    return 'Never input your Beldex wallet $item into any software or website other than the official Beldex wallets downloaded directly from the $appStore,the beldex website, or the beldex GitHub.';
+    return 'Beldex 지갑의 $item을(를) $appStore, Beldex 웹사이트 또는 Beldex GitHub에서 직접 다운로드한 공식 Beldex 지갑 이외의 소프트웨어나 웹사이트에 절대 입력하지 마세요.';
   }
 
   @override
-  String get enterWalletName_ => 'Enter wallet name';
+  String get enterWalletName_ => '지갑 이름 입력';
 
   @override
-  String get chooseSeedLanguage => 'Choose Seed Language';
+  String get chooseSeedLanguage => '시드 언어 선택';
 
   @override
-  String get wallet => 'Wallet';
+  String get wallet => '지갑';
 
   @override
-  String get seedKeys => 'Seed & Keys';
+  String get seedKeys => '시드 및 키';
 
   @override
-  String get walletAddress => 'Wallet Address';
+  String get walletAddress => '지갑 주소';
 
   @override
-  String get recoverySeedkey => 'Recovery Seed/Key';
+  String get recoverySeedkey => '복구 시드/키';
 
   @override
-  String get selectLanguage => 'Select Language';
+  String get selectLanguage => '언어 선택';
 
   @override
-  String get chooseLanguage => 'Choose Language';
+  String get chooseLanguage => '언어 선택';
 
   @override
-  String get welcomeToBeldexWallet => 'Welcome to Beldex Wallet :)';
+  String get welcomeToBeldexWallet => '벨덱스 지갑에 오신 것을 환영합니다 :)';
 
   @override
-  String get selectAnOptionBelowToCreateOrnRecoverExistingWallet => 'Select an option below to create or\n recover existing wallet';
+  String get selectAnOptionBelowToCreateOrnRecoverExistingWallet => '기존 지갑을 복구하거나 새로 생성할 옵션을 선택하세요';
 
   @override
-  String get enterAValidNameUpto15Characters => 'Enter a valid name upto 15 characters';
+  String get enterAValidNameUpto15Characters => '최대 15자 이내의 유효한 이름을 입력하세요';
 
   @override
-  String get enterAValidNameUpto20Characters => 'Enter a valid name upto 20 characters';
+  String get enterAValidNameUpto20Characters => '20자 이내의 유효한 이름을 입력하세요';
 
   @override
-  String get fiveDecimals => '5 - Five (0.00000)';
+  String get fiveDecimals => '5자리 (0.00000)';
 
   @override
-  String get fourDecimals => '4 - Four (0.0000)';
+  String get fourDecimals => '4자리 (0.0000)';
 
   @override
-  String get twoDecimals => '2 - Two (0.00)';
+  String get twoDecimals => '2자리 (0.00)';
 
   @override
-  String get zeroDecimal => '0 - Zero (000)';
+  String get zeroDecimal => '0자리 (000)';
 
   @override
-  String get doYouWantToExitTheWallet => 'Do you want to exit the wallet?';
+  String get doYouWantToExitTheWallet => '지갑을 종료하시겠습니까?';
 
   @override
-  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Make sure to take backup of your\nrecovery Seed, wallet address\nand private keys';
+  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => '복구 시드, 지갑 주소 및 개인 키를 반드시 백업하세요';
 
   @override
   String blockRemaining(Object status) {
-    return '$status Block Remaining';
+    return '';
   }
 
   @override
-  String get flashTransaction => 'Flash Transaction';
+  String get flashTransaction => '플래시 트랜잭션';
 
   @override
-  String get transferYourBdxMoreFasternWithFlashTransaction => 'Transfer your BDX more faster with\n Flash Transaction!';
+  String get transferYourBdxMoreFasternWithFlashTransaction => '플래시 트랜잭션으로 BDX를 더 빠르게 전송하세요!';
 
   @override
-  String get enterYourPin => 'Enter Your PIN';
+  String get enterYourPin => 'PIN을 입력하세요';
 
   @override
-  String get walletSettings => 'Wallet Settings';
+  String get walletSettings => '지갑 설정';
 
   @override
-  String get recoverySeed => 'Recovery Seed';
+  String get recoverySeed => '복구 시드';
 
   @override
-  String get youDontHaveEnoughUnlockedBalance => 'You don\'t have enough unlocked balance';
+  String get youDontHaveEnoughUnlockedBalance => '';
 
   @override
-  String get alert => 'Alert';
+  String get alert => '알림';
 
   @override
-  String get touchTheFingerprintSensor => 'Touch the Fingerprint sensor';
+  String get touchTheFingerprintSensor => '';
 
   @override
-  String get usePattern => 'USE PATTERN';
+  String get usePattern => '';
 
   @override
-  String get enterBdxToSend => 'Enter BDX to send';
+  String get enterBdxToSend => '전송할 BDX 입력';
 
   @override
-  String get enterAmount => 'Enter Amount';
+  String get enterAmount => '금액 입력';
 
   @override
-  String get pleaseEnterAAmount => 'Please enter a amount';
+  String get pleaseEnterAAmount => '금액을 입력하세요';
 
   @override
-  String get committingTheTransaction => 'Committing the Transaction';
+  String get committingTheTransaction => '';
 
   @override
-  String get availableBdx => 'Available BDX : ';
+  String get availableBdx => '사용 가능한 BDX :';
 
   @override
-  String get pleaseEnterABdxAddress => 'Please enter a bdx address';
+  String get pleaseEnterABdxAddress => 'BDX 주소를 입력하세요';
 
   @override
-  String get enterAValidAddress => 'Enter a valid address';
+  String get enterAValidAddress => '';
 
   @override
-  String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings';
+  String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => '생체 인증 기능이 현재 비활성화되어 있습니다.\n앱 설정에서 생체 인증 허용 기능을 활성화해 주세요.';
 
   @override
-  String get unlockBeldexWallet => 'Unlock Beldex Wallet';
+  String get unlockBeldexWallet => '';
 
   @override
-  String get confirmYourScreenLockPinpatternAndPassword => 'Confirm your screen lock PIN,Pattern and password';
+  String get confirmYourScreenLockPinpatternAndPassword => '';
 
   @override
-  String get doYouWantToChangeYournPrimaryAccount => 'Do you want to change your\n primary account?';
+  String get doYouWantToChangeYournPrimaryAccount => '기본 계정을 변경하시겠습니까?';
 
   @override
-  String get rename => 'Rename';
+  String get rename => '';
 
   @override
-  String get addAccount => 'Add Account';
+  String get addAccount => '계정 추가';
 
   @override
-  String get noAddressesInBook => 'No addresses in book';
+  String get noAddressesInBook => '주소록에 저장된 주소가 없습니다';
 
   @override
-  String get bdx => 'BDX';
+  String get bdx => '';
 
   @override
-  String get howeverWeRecommendToScanTheBlockchainFromTheBlock => 'However we recommend to scan the blockchain from the block height at which you created the wallet to get all transactions and correct balance';
+  String get howeverWeRecommendToScanTheBlockchainFromTheBlock => '';
 
   @override
-  String get youHaveScannedFromTheBlockHeight => 'You have scanned from the block height';
+  String get youHaveScannedFromTheBlockHeight => '';
 
   @override
-  String get syncInfo => 'Sync info';
+  String get syncInfo => '';
 
   @override
-  String get doYouWantToReconnectnTheWallet => 'Do you want to reconnect\n the wallet?';
+  String get doYouWantToReconnectnTheWallet => '지갑을 재연결하시겠습니까?';
 
   @override
-  String get enterValidNameUpto15Characters => 'Enter valid name upto 15 characters';
+  String get enterValidNameUpto15Characters => '유효한 이름을 입력하세요 (최대 15자)';
 
   @override
-  String get checkingNodeConnection => 'Checking node connection...';
+  String get checkingNodeConnection => '';
 
   @override
-  String get enterBdxToReceive => 'Enter BDX to Receive';
+  String get enterBdxToReceive => '수신할 BDX 입력';
 
   @override
-  String get addSubAddress => 'Add Sub Address';
+  String get addSubAddress => '서브 주소 추가';
 
   @override
-  String get shareQr => 'Share QR';
+  String get shareQr => 'QR 코드 공유';
 
   @override
-  String get name => 'Name';
+  String get name => '이름';
 
   @override
-  String get enterValidHeightWithoutSpace => 'Enter valid height without space';
+  String get enterValidHeightWithoutSpace => '공백 없이 유효한 블록 높이를 입력하세요';
 
   @override
-  String get dateShouldNotBeEmpty => 'Date should not be empty';
+  String get dateShouldNotBeEmpty => '날짜를 입력해야 합니다';
 
   @override
-  String get walletRestore => 'Wallet Restore';
+  String get walletRestore => '지갑 복원';
 
   @override
-  String get youCantViewTheSeedBecauseYouveRestoredUsingKeys => 'You can\'t view the seed because you\'ve restored using keys';
+  String get youCantViewTheSeedBecauseYouveRestoredUsingKeys => '';
 
   @override
-  String get neverShareYourSeedToAnyoneCheckYourSurroundingsTo => 'Never share your seed to anyone! Check your surroundings to ensure no one is overlooking';
+  String get neverShareYourSeedToAnyoneCheckYourSurroundingsTo => '시드를 절대 다른 사람과 공유하지 마세요! 주변을 확인하여 다른 사람이 보고 있지 않은지 확인하세요';
 
   @override
-  String get note => 'Note :';
+  String get note => '주의:';
 
   @override
-  String get copySeed => 'Copy Seed';
+  String get copySeed => '시드 복사';
 
   @override
-  String get accountAlreadyExist => 'Account already exist';
+  String get accountAlreadyExist => '이미 존재하는 계정입니다';
 
   @override
-  String get transactionInitiatedSuccessfully => 'Transaction initiated successfully';
+  String get transactionInitiatedSuccessfully => '거래가 성공적으로 시작되었습니다';
 
   @override
-  String get enterAValidSubAddress => 'Enter a valid sub address';
+  String get enterAValidSubAddress => '유효한 하위 주소를 입력하세요';
 
   @override
-  String get subaddressAlreadyExist => 'Subaddress already exist';
+  String get subaddressAlreadyExist => '하위 주소가 이미 존재합니다';
 
   @override
-  String get labelName => 'Label name';
+  String get labelName => '라벨 이름';
 
   @override
-  String get subAddress => 'Sub Address';
+  String get subAddress => '서브 주소';
 
   @override
-  String get loadingTheWallet => 'Loading the wallet...';
+  String get loadingTheWallet => '지갑 로딩 중…';
 
   @override
-  String get youAreAboutToDeletenYourWallet => 'You are about to delete\n your wallet!';
+  String get youAreAboutToDeletenYourWallet => '지갑을 삭제하려고 합니다!';
 
   @override
-  String get creatingTheTransaction => 'Creating the Transaction';
+  String get creatingTheTransaction => '';
 
   @override
-  String get copyAndSaveTheSeedToContinue => 'Copy and save the seed to continue';
+  String get copyAndSaveTheSeedToContinue => '시드를 복사하고 저장한 후 계속하세요';
 
   @override
-  String get enterPin => 'Enter PIN';
+  String get enterPin => 'PIN 입력';
 
   @override
-  String get test => 'Test';
+  String get test => '테스트';
 
   @override
-  String get success => 'Success';
+  String get success => '';
 
   @override
-  String get connectionFailed => 'Connection Failed';
+  String get connectionFailed => '';
 
   @override
-  String get checking => 'Checking...';
+  String get checking => '';
 
   @override
-  String get testResult => 'Test Result:';
+  String get testResult => '테스트 결과:';
 
   @override
-  String get passwordOptional => 'Password (optional)';
+  String get passwordOptional => '비밀번호 (선택 사항)';
 
   @override
-  String get userNameOptional => 'User Name (optional)';
+  String get userNameOptional => '사용자 이름 (선택 사항)';
 
   @override
-  String get nodeNameOptional => 'Node Name (optional)';
+  String get nodeNameOptional => '노드 이름 (선택 사항)';
 
   @override
-  String get addNode => 'Add Node';
+  String get addNode => '노드 추가';
 
   @override
-  String get legalDisclaimer => 'Legal Disclaimer';
+  String get legalDisclaimer => '';
 
   @override
-  String get howCanWenhelpYou => 'How can we\nhelp you?';
+  String get howCanWenhelpYou => '어떻게 도와드릴까요?';
 
   @override
-  String get removeContact => 'Remove Contact';
+  String get removeContact => '연락처 삭제';
 
   @override
-  String get areYouSureYouWantToRemoveSelectedContact => 'Are you sure you want to remove selected contact?';
+  String get areYouSureYouWantToRemoveSelectedContact => '선택한 연락처를 삭제하시겠습니까?';
 
   @override
-  String get theAddressAlreadyExist => 'The Address already Exist';
+  String get theAddressAlreadyExist => '이미 존재하는 주소입니다';
 
   @override
-  String get thisNameAlreadyExist => 'This Name already Exist';
+  String get thisNameAlreadyExist => '이미 존재하는 이름입니다';
 
   @override
-  String get enterAValidName => 'Enter a valid name';
+  String get enterAValidName => '유효한 이름을 입력하세요';
 
   @override
-  String get addressShouldNotBeEmpty => 'Address should not be empty';
+  String get addressShouldNotBeEmpty => '주소를 입력해야 합니다';
 
   @override
-  String get nameShouldNotBeEmpty => 'Name should not be empty';
+  String get nameShouldNotBeEmpty => '이름은 비워둘 수 없습니다';
 
   @override
-  String get enterName => 'Enter Name';
+  String get enterName => '이름 입력';
 
   @override
-  String get accountName => 'Account Name';
+  String get accountName => '계정 이름';
 
   @override
-  String get playStore => 'Play Store';
+  String get playStore => '';
 
   @override
-  String get appstore => 'AppStore';
+  String get appstore => '';
 
   @override
-  String get allowFaceIdAuthentication => 'Allow face id authentication';
+  String get allowFaceIdAuthentication => '';
 
   @override
-  String get enterAddress => 'Enter Address';
+  String get enterAddress => '주소 입력';
 
   @override
-  String get pleaseAddAMainnetNode => 'Please add a mainnet node';
+  String get pleaseAddAMainnetNode => '';
 
   @override
   String flashTransactionPriority(Object transactionPriority) {
-    return 'Flash transaction are instant transactions.\n$transactionPriority priority is set as a default fee.';
+    return '';
   }
 
   @override
-  String get initiatingTransactionTitle => 'Initiating Transaction..';
+  String get initiatingTransactionTitle => '거래 시작 중..';
 
   @override
-  String get initiatingTransactionDescription => 'Please don\'t close this window or navigate to another app until the transaction gets initiated';
+  String get initiatingTransactionDescription => '거래가 시작될 때까지 이 창을 닫거나\n 다른 앱으로 이동하지 마세요';
 
   @override
-  String get subAddresses => 'Sub Addresses';
+  String get subAddresses => '';
 
   @override
-  String get loadingTheWalletDescription => 'Please don\'t close this window or navigate to another app until we load the wallet';
+  String get loadingTheWalletDescription => '지갑을 불러오는 동안 이 창을 닫거나 다른 앱으로 이동하지 마십시오';
 
   @override
-  String get buyBns => 'Buy BNS';
+  String get buyBns => 'BNS 구매';
 
   @override
-  String get myBns => 'My BNS';
+  String get myBns => '';
 
   @override
-  String get addBns => 'Add BNS';
+  String get addBns => 'BNS 추가';
 
   @override
-  String get bns => 'BNS';
+  String get bns => '';
 
   @override
-  String get bnsPurchaseDescription => 'Purchase or update an BNS record. If you purchase a name, it may take a minute or two for it to show up in the list';
+  String get bnsPurchaseDescription => 'BNS 레코드를 구매하거나 당신은 절약합니다업데이트할 수 있습니다.\n 이름을 구매한 경우, 목록에 표시되기까지 1~2분 정도 소요될 수 있습니다.';
 
   @override
-  String get bnsPrice => 'Price';
+  String get bnsPrice => '가격';
 
   @override
-  String get bnsYearOneShort => '1 Yr';
+  String get bnsYearOneShort => '1년';
 
   @override
-  String get bnsYearTwoShort => '2 Yrs';
+  String get bnsYearTwoShort => '2년';
 
   @override
-  String get bnsYearFiveShort => '5 Yrs';
+  String get bnsYearFiveShort => '5년';
 
   @override
-  String get bnsYearTenShort => '10 Yrs';
+  String get bnsYearTenShort => '10년';
 
   @override
-  String get bnsYearOne => '1 Year';
+  String get bnsYearOne => '';
 
   @override
-  String get bnsYearTwo => '2 Years';
+  String get bnsYearTwo => '';
 
   @override
-  String get bnsYearFive => '5 Years';
+  String get bnsYearFive => '';
 
   @override
-  String get bnsYearTen => '10 Years';
+  String get bnsYearTen => '';
 
   @override
-  String get bnsYouSave => 'You Save ';
+  String get bnsYouSave => '당신은 절약합니다';
 
   @override
-  String get bnsNameHint => 'The name to purchase via Beldex Name Service';
+  String get bnsNameHint => 'Beldex Name Service를 통해 구매할 이름';
 
   @override
-  String get bnsOwnerOptional => 'Owner (optional)';
+  String get bnsOwnerOptional => '소유자 (선택 사항)';
 
   @override
-  String get bnsOwnerHint => 'The wallet address of the owner';
-
-  @override
-  String get bnsWalletAddress => 'Wallet Address';
+  String get bnsOwnerHint => '소유자의 지갑 주소';
 
   @override
   String get bnsBchatId => 'BChat ID';
@@ -1429,279 +1369,287 @@ class AppLocalizationsKo extends AppLocalizations {
   String get bnsBelnetId => 'Belnet ID';
 
   @override
-  String get bnsEthAddress => 'ETH Address';
+  String get bnsEthAddress => 'ETH 주소';
 
   @override
-  String get bnsUpdateOwner => 'Update Owner';
+  String get bnsUpdateOwner => '소유자 업데이트';
 
   @override
-  String get bnsUpdateValues => 'Update Values';
+  String get bnsUpdateValues => '값 업데이트';
 
   @override
-  String get bnsNewOwnerHint => 'Enter the wallet address of new owner';
+  String get bnsNewOwnerHint => '새 소유자의 지갑 주소를 입력하세요';
 
   @override
-  String get bnsUpdateNote => 'You can only update owner address or values at a time. If you want to update both, you can either update the value before ownership or after transferring ownership.';
+  String get bnsUpdateNote => '한 번에 소유자 주소 또는 값 중 하나만 업데이트할 수 있습니다.\n 둘 다 업데이트하려면, 소유권 이전 전에 값을 먼저 업데이트하거나\n 소유권 이전 후에 값을 업데이트해야 합니다.';
 
   @override
-  String get bnsAddRecord => 'Add Record';
+  String get bnsAddRecord => '레코드 추가';
 
   @override
-  String get bnsRecordsDescription => 'Here you can find all the BNS Names owned by this wallet. Decrypting a record you own will return the name and value at the BNS record.';
+  String get bnsRecordsDescription => '이 지갑이 소유한 모든 BNS 이름을 확인할 수 있습니다.\n 소유한 레코드를 복호화하면 해당 BNS 레코드의 이름과 값이 반환됩니다.';
 
   @override
-  String get bnsRecordNameHint => 'A BNS name that belongs to you';
+  String get bnsRecordNameHint => '귀하가 소유한 BNS 이름';
 
   @override
-  String get bnsFetchingRecords => 'Fetching BNS records from the network...';
+  String get bnsFetchingRecords => '네트워크에서 BNS 레코드를 가져오는 중...';
 
   @override
   String bnsDecryptionSuccess(Object bnsName) {
-    return 'Successfully decrypted BNS Record for $bnsName';
+    return '$bnsName의 BNS 레코드가 성공적으로 복호화되었습니다';
   }
 
   @override
   String bnsDecryptionFailure(Object bnsName) {
-    return 'Failed to decrypt BNS Record for $bnsName';
+    return '$bnsName의 BNS 레코드를 복호화하지 못했습니다';
   }
 
   @override
-  String get bnsRecordNotFound => 'The given BNS record doesn\'t exist or does not belong to this wallet.';
+  String get bnsRecordNotFound => '';
 
   @override
-  String get bnsWaitForFetch => 'Please wait until we fetch the BNS record from Network';
+  String get bnsWaitForFetch => '';
 
   @override
-  String get bnsRecords => 'BNS Records';
+  String get bnsRecords => 'BNS 레코드';
 
   @override
-  String get bnsExpirationHeight => 'Expiration Height : ';
+  String get bnsExpirationHeight => '만료 높이';
 
   @override
-  String get bnsUpdateHeight => 'Update Height';
+  String get bnsUpdateHeight => '업데이트 높이';
 
   @override
-  String get bnsBackupOwner => 'Backup Owner';
+  String get bnsBackupOwner => '백업 소유자';
 
   @override
-  String get bnsEncryptedWalletValue => 'Encrypted Wallet Value';
+  String get bnsEncryptedWalletValue => '암호화된 지갑 값';
 
   @override
-  String get bnsEncryptedBchatValue => 'Encrypted BChat Value';
+  String get bnsEncryptedBchatValue => '암호화된 BChat 값';
 
   @override
-  String get bnsEncryptedBelnetValue => 'Encrypted Belnet Value';
+  String get bnsEncryptedBelnetValue => '암호화된 Belnet 값';
 
   @override
-  String get bnsEncryptedEthValue => 'Encrypted ETH Value';
+  String get bnsEncryptedEthValue => '암호화된 ETH 값';
 
   @override
-  String get bnsUpdateAction => 'Update';
+  String get bnsUpdateAction => '업데이트';
 
   @override
-  String get bnsRenewAction => 'Renew';
+  String get bnsRenewAction => '갱신';
 
   @override
-  String get bnsNoteLabel => 'Note : ';
+  String get bnsNoteLabel => '참고: ';
 
   @override
-  String get bnsEthAddressDescription => 'Our eth address is compatible across all EVM chains';
+  String get bnsEthAddressDescription => '당사의 ETH 주소는 모든 EVM 체인에서 호환됩니다.';
 
   @override
-  String get bnsPurchase => 'Purchase';
+  String get bnsPurchase => '구매';
 
   @override
-  String get bnsPleaseFillField => 'Please fill in this field';
+  String get bnsPleaseFillField => '이 필드를 입력해 주세요';
 
   @override
-  String get bnsInvalidName => 'Invalid BNS Name';
+  String get bnsInvalidName => '';
 
   @override
-  String get bnsInvalidBchatId => 'Invalid BChat ID';
+  String get bnsInvalidBchatId => '유효하지 않은 BChat ID';
 
   @override
-  String get bnsInvalidBelnetId => 'Invalid Belnet ID';
+  String get bnsInvalidBelnetId => '유효하지 않은 Belnet ID';
 
   @override
-  String get bnsInvalidEthAddress => 'Invalid ETH Address';
+  String get bnsInvalidEthAddress => '유효하지 않은 ETH 주소';
 
   @override
-  String get bnsEnterValidWalletAddress => 'Enter a valid wallet address.';
+  String get bnsEnterValidWalletAddress => '유효한 지갑 주소를 입력하세요.';
 
   @override
-  String get bnsConfirmPurchase => 'Confirm Purchase';
+  String get bnsConfirmPurchase => '구매 확인';
 
   @override
-  String get bnsNameLabel => 'Name';
+  String get bnsYearLabel => '기간';
 
   @override
-  String get bnsYearLabel => 'Year';
+  String get bnsOwnerLabel => '소유자';
 
   @override
-  String get bnsOwnerLabel => 'Owner';
+  String get bnsSameOwnerAddress => '';
 
   @override
-  String get bnsAddressLabel => 'Address';
+  String get bnsSameWalletAddress => '';
 
   @override
-  String get bnsNone => 'None';
+  String get bnsSameBchatId => '';
 
   @override
-  String get bnsSameOwnerAddress => 'same owner address';
+  String get bnsSameBelnetId => '';
 
   @override
-  String get bnsSameWalletAddress => 'same wallet address';
+  String get bnsSameEthAddress => '';
 
   @override
-  String get bnsSameBchatId => 'same Bchat id';
+  String get bnsInvalidOwnerAddress => '';
 
   @override
-  String get bnsSameBelnetId => 'same Belnet id';
+  String get bnsNameIsTaken => '';
 
   @override
-  String get bnsSameEthAddress => 'same ETH Address';
+  String get bnsInvalidWalletAddress => '';
 
   @override
-  String get bnsInvalidOwnerAddress => 'Invalid Owner address.';
+  String get bnsOwnerAndBackupDifferent => '';
 
   @override
-  String get bnsNameIsTaken => 'BNS name is taken. Choose a different one.';
+  String get bnsPurchasedSuccessfully => '';
 
   @override
-  String get bnsInvalidWalletAddress => 'Invalid wallet address. Leave blank if you want to use the current wallet as the BNS owner.';
+  String get bnsUpdatedSuccessfully => '';
 
   @override
-  String get bnsOwnerAndBackupDifferent => 'Owner and backup address must be different.';
+  String get bnsRenewedSuccessfully => '';
 
   @override
-  String get bnsPurchasedSuccessfully => 'BNS Purchased Successfully';
+  String get bnsUpdate => 'BNS 업데이트';
 
   @override
-  String get bnsUpdatedSuccessfully => 'BNS Updated Successfully';
+  String get bnsRenewal => 'BNS 갱신';
 
   @override
-  String get bnsRenewedSuccessfully => 'BNS Renewed Successfully';
+  String get swap => '스왑';
 
   @override
-  String get bnsUpdate => 'BNS Update';
-
-  @override
-  String get bnsRenewal => 'BNS Renewal';
-
-  @override
-  String get swap => 'Swap';
-
-  @override
-  String get unsupportedExchangePair => 'Unsupported exchange pair';
+  String get unsupportedExchangePair => '';
 
   @override
   String blockConfirmed(Object count) {
-    return '$count Block';
+    return '';
   }
 
   @override
   String blocksConfirmed(Object count) {
-    return '$count Blocks';
+    return '';
   }
 
   @override
-  String get restoredViaKeys => 'You restored via keys';
+  String get restoredViaKeys => '키를 통해 복원되었습니다';
 
   @override
   String walletAlreadyExists(Object name) {
-    return 'Wallet with name $name is already exist!';
+    return '$name 이름의 지갑이 이미 존재합니다!';
   }
 
   @override
-  String get nodeAlreadyExists => 'This node already exists';
+  String get nodeAlreadyExists => '이미 존재하는 노드입니다';
 
   @override
-  String get fee => 'Fee';
+  String get fee => '수수료';
 
   @override
-  String get noInternet => 'No Internet!';
+  String get noInternet => '인터넷 연결 없음!';
 
   @override
-  String get noInternetMessage => 'Please check your internet Connection\nand try again.';
+  String get noInternetMessage => '인터넷 연결을 확인한 후 다시 시도하세요.';
 
   @override
-  String get swapNotAvailable => ' Swap is not available\nat the moment';
+  String get swapNotAvailable => ' 현재 BDX 스왑을 사용할 수 없습니다.';
 
   @override
-  String get tryAgain => 'Please try again after some times.';
+  String get tryAgain => '잠시 후 다시 시도해 주세요.';
 
   @override
-  String get exchange => 'Exchange';
+  String get exchange => '환전';
 
   @override
-  String get youSend => 'You send';
+  String get youSend => '보내는 금액';
 
   @override
-  String get youGet => 'You get';
+  String get youGet => '받는 금액';
 
   @override
-  String get floatingExchangeRate => 'Floating Exchange Rate';
+  String get floatingExchangeRate => '변동 환율';
 
   @override
-  String get floatingRateDescription => 'The floating rate can change at any point due to market conditions, so you might receive more or less crypto than expected.';
+  String get floatingRateDescription => '변동 환율은 시장 상황에 따라 언제든지 변경될 수 있으며,예상보다 더 많거나 적은 암호화폐를 받을 수 있습니다.';
 
   @override
-  String get searchCoins => 'Search Coins';
+  String get searchCoins => '코인 검색';
 
   @override
-  String get minimumAmount => 'Minimum amount is ';
+  String get minimumAmount => '최소 금액은';
 
   @override
-  String get maximumAmount => 'Maximum amount is ';
+  String get maximumAmount => '최대 금액은';
 
   @override
-  String get exchangeAmount => 'Exchange Amount';
+  String get exchangeAmount => '';
 
   @override
-  String get exchangeRate => 'Exchange Rate';
+  String get exchangeRate => '환율';
 
   @override
-  String get receiver => 'Receiver';
+  String get receiver => '수신자';
 
   @override
-  String get amountReceived => 'Amount Received';
+  String get amountReceived => '수신 금액';
 
   @override
-  String get date => 'Date';
+  String get date => '날짜';
 
   @override
-  String get expandDetails => 'Expand Details';
+  String get expandDetails => '세부 정보 펼치기';
 
   @override
-  String get view => 'View';
+  String get view => '보기';
 
   @override
-  String get noTransactionsMessage => 'There are no Transactions or\nexchanges made to show..';
+  String get noTransactionsMessage => '표시할 거래 또는 환전 내역이 없습니다.';
 
   @override
-  String get networkErrorCheckConnection => 'Network Error! Please check internet connection.';
+  String get networkErrorCheckConnection => '네트워크 오류! 인터넷 연결을 확인하세요.';
 
   @override
-  String get swapTransactionReport => 'Beldex_wallet_swap_transaction_report';
+  String get swapTransactionReport => '';
 
   @override
-  String get transactionReport => 'Transaction Report';
+  String get transactionReport => '';
 
   @override
-  String get failedToGetOutputDistribution => 'Failed to get output distribution';
+  String get failedToGetOutputDistribution => '';
 
   @override
-  String get sendValueExceedBalance => 'Value of amount can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 2';
+  String get noPendingTransaction => '';
 
   @override
-  String get noPendingTransaction => 'No pending transaction';
+  String get max => '';
 
   @override
-  String get max => 'Max';
+  String get addressCopied => '';
 
   @override
-  String get addressCopied => 'Address Copied';
+  String get searchCurrency => '통화 검색';
 
   @override
-  String get searchCurrency => 'Search Currency';
+  String changePinLength(Object value) {
+    return '$value자리 PIN으로 전환';
+  }
+
+  @override
+  String get pleaseEnterAValidHeight => '유효한 높이를 입력하세요';
+
+  @override
+  String get invalidAddress => '';
+
+  @override
+  String get exchangePair => '환전 쌍';
+
+  @override
+  String get payment => '결제';
+
+  @override
+  String get bnsConfirmUpdate => '업데이트 확인';
 }

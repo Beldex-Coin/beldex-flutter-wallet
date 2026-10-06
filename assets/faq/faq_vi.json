@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Sự khác biệt giữa Số dư khả dụng (Available Balance) và Tổng số dư (Full Balance) là gì?",
+    "answer": "Sau khi bạn thực hiện một giao dịch hoặc nhận Beldex, giao dịch đó vẫn cần được xác nhận. Trong khoảng 20 phút, số dư khả dụng của bạn sẽ được cập nhật.\nĐôi khi, khi bạn gửi Beldex, số dư khả dụng có thể giảm nhiều hơn số tiền bạn đã gửi. Điều này là bình thường và cần thiết để bảo vệ quyền riêng tư của bạn. Tổng số dư của bạn sẽ trở lại bình thường sau khoảng 20 phút.\n"
+  },
+  {
+    "question": "“Seed” và “Keys” nghĩa là gì?",
+    "answer": "Các khóa (keys) của bạn mã hóa thông tin riêng tư trong ví và cho phép bạn chi tiêu coin cũng như xem các giao dịch nhận vào.\nSeed là một dạng của khóa riêng tư được viết theo cách dễ ghi lại hơn. Seed và keys thực chất là cùng một thứ, chỉ khác nhau về hình thức!\nKHÔNG BAO GIỜ chia sẻ seed hoặc keys của bạn với bất kỳ ai. Nếu bạn làm vậy, tài sản của bạn sẽ bị đánh cắp. Hãy ghi lại seed của bạn và lưu trữ ở nơi an toàn (điều này giúp bạn khôi phục ví nếu bạn mất điện thoại).\n"
+  },
+  {
+    "question": "Tôi có thể tạo bao nhiêu ví?",
+    "answer": "Không có giới hạn! Bạn có thể tạo bao nhiêu ví tùy thích.\n"
+  },
+  {
+    "question": "Làm thế nào để khôi phục ví của tôi?",
+    "answer": "Nhấn vào biểu tượng hồ sơ trên bảng điều khiển (góc trên bên phải), chọn Wallets, sau đó chọn Restore Wallet.\n Tiếp theo, nhập seed (hoặc keys) của bạn, và tùy chọn nhập ngày trước giao dịch đầu tiên trong ví (điều này giúp tăng tốc quá trình đồng bộ).\nBạn có thể cần giữ ứng dụng mở trong khoảng 15–30 phút để hoàn tất việc khôi phục ví.\n"
+  },
+  {
+    "question": "Tôi nên làm gì nếu mất seed?",
+    "answer": "Nếu bạn quên seed, có thể bạn đã ghi nó ở đâu đó. Hãy kiểm tra ghi chú của bạn và tìm trên máy tính. Nếu bạn không thể tìm thấy, bạn có thể đã sao lưu ví Beldex (trong trường hợp đó bạn có thể khôi phục từ bản sao lưu).\nNếu tất cả các cách trên đều không hiệu quả, thì rất tiếc, chúng tôi không thể làm gì thêm.\n"
+  },
+  {
+    "question": "Chúng tôi có thu thập thông tin về bạn hoặc ví của bạn không?",
+    "answer": "Ví Beldex KHÔNG thu thập hoặc ghi lại bất kỳ thông tin nào về bạn hoặc ví của bạn. Chúng tôi tôn trọng quyền riêng tư của bạn.\nTuy nhiên, quyền riêng tư của bạn có thể bị ảnh hưởng nếu bạn kết nối với một node độc hại. Vì vậy, chúng tôi khuyến nghị bạn sử dụng các node mặc định hoặc node riêng của bạn.\n"
+  },
+  {
+    "question": "Có thể hoàn tác (reverse) một giao dịch không?",
+    "answer": "Rất tiếc, khi một giao dịch đã được gửi lên blockchain, không có cách nào để hoàn tác. Tuy nhiên, bạn vẫn có thể hủy giao dịch trước khi gửi. Vì vậy, hãy luôn kiểm tra kỹ địa chỉ trước khi thực hiện giao dịch.\n"
+  },
+  {
+    "question": "Subaddress là gì và sử dụng như thế nào?",
+    "answer": "Subaddress là một địa chỉ riêng biệt mà bạn có thể tạo bất kỳ lúc nào. Coin được gửi đến địa chỉ này vẫn sẽ vào ví chính của bạn, nhưng người gửi sẽ không biết địa chỉ chính của bạn là gì.\nBạn có thể tạo subaddress mới trong màn hình Receive bằng cách nhấn dấu + bên cạnh nút subaddresses. Nhập tên cho subaddress và nhấn Add. Sau đó, chỉ cần chọn tên subaddress khi bạn muốn sử dụng.\nNếu bạn muốn tăng cường bảo mật, bạn nên tạo subaddress mới mỗi lần nhận Beldex.\n"
+  },
+  {
+    "question": "Tôi chưa nhận được Beldex! Tôi nên làm gì?",
+    "answer": "Nếu bạn chưa nhận được Beldex, hãy nhấn vào biểu tượng đồng bộ (synchronize) trên bảng điều khiển (góc trên bên trái) và chọn Reconnect.\nNếu vẫn không được, vào phần Settings, nhấn vào mục Current Node, và chọn một node có dấu chấm màu xanh.\n"
+  },
+  {
+    "question": "Làm thế nào để liên hệ hỗ trợ Beldex Wallet?",
+    "answer": "Bạn có thể liên hệ qua:\nEmail: support@beldex.io\nTelegram: @official_beldex\nTwitter: @beldexcoin\n"
+  },
+  {
+    "question": "Sở hữu Beldex có khiến tôi trở thành nhà đầu tư không?",
+    "answer": "Không, điều đó không khiến bạn trở thành nhà đầu tư. Nhưng nó khiến bạn trở thành một người tuyệt vời… với Beldex.\n"
+  }
+]

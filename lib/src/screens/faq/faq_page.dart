@@ -122,10 +122,28 @@ class FaqPage extends BasePage {
 
   String getFaqPath(BuildContext context) {
     switch (tr(context).localeName) {
-      case 'en':
-        return 'assets/faq/faq_en.json';
+      case 'ar':
+        return 'assets/faq/faq_ar.json';
       case 'de':
         return 'assets/faq/faq_de.json';
+      case 'en':
+        return 'assets/faq/faq_en.json';
+      case 'es':
+        return 'assets/faq/faq_es.json';
+      case 'fr':
+        return 'assets/faq/faq_fr.json';
+      case 'jp':
+        return 'assets/faq/faq_jp.json';
+      case 'ko':
+        return 'assets/faq/faq_ko.json';
+      case 'pt':
+        return 'assets/faq/faq_pt.json';
+      case 'tr':
+        return 'assets/faq/faq_tr.json';
+      case 'vi':
+        return 'assets/faq/faq_vi.json';
+      case 'zh':
+        return 'assets/faq/faq_zh.json';
       default:
         return 'assets/faq/faq_en.json';
     }

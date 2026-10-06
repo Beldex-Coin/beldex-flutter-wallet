@@ -9,1699 +9,1647 @@ class AppLocalizationsVi extends AppLocalizations {
   AppLocalizationsVi([String locale = 'vi']) : super(locale);
 
   @override
-  String get welcome => 'Welcome to\nBeldex Wallet';
+  String get welcome => '';
 
   @override
-  String get first_wallet_text => 'Awesome wallet\nfor Beldex';
+  String get first_wallet_text => '';
 
   @override
-  String get please_make_selection => 'Select from the options below to\neither create or recover your wallet.';
+  String get please_make_selection => '';
 
   @override
-  String get create_new => 'Create New Wallet';
+  String get create_new => 'Tạo ví mới';
 
   @override
-  String get restore_wallet => 'Use Existing Wallet';
+  String get restore_wallet => 'Sử dụng ví hiện có';
 
   @override
-  String get accounts => 'Accounts';
+  String get accounts => 'Các tài khoản';
 
   @override
-  String get edit => 'Edit';
+  String get edit => 'Chỉnh sửa';
 
   @override
-  String get account => 'Account';
+  String get account => 'Tài khoản';
 
   @override
-  String get add => 'Add';
+  String get add => 'Thêm';
 
   @override
-  String get address_book => 'Address Book';
+  String get address_book => 'Danh bạ địa chỉ';
 
   @override
-  String get contact => 'Contact';
+  String get contact => '';
 
   @override
-  String get please_select => 'Please select:';
+  String get please_select => '';
 
   @override
-  String get cancel => 'Cancel';
+  String get cancel => 'Hủy';
 
   @override
   String get ok => 'Ok';
 
   @override
-  String get contact_name => 'Contact Name';
+  String get contact_name => '';
 
   @override
-  String get reset => 'Reset';
+  String get reset => 'Đặt lại';
 
   @override
-  String get save => 'Save';
+  String get save => 'Lưu';
 
   @override
-  String get authenticated => 'Authenticated';
+  String get authenticated => '';
 
   @override
-  String get authentication => 'Authentication';
+  String get authentication => '';
 
   @override
   String failed_authentication(Object state_error) {
-    return 'Failed authentication. $state_error';
+    return 'Xác thực không thành công. $state_error';
   }
 
   @override
-  String get wallet_menu => 'Menu';
+  String get wallet_menu => '';
 
   @override
   String blocksRemaining(Object status) {
-    return '$status Blocks Remaining';
+    return 'Còn $status khối';
   }
 
   @override
-  String get please_try_to_connect_to_another_node => 'Please try to connect to another node';
+  String get please_try_to_connect_to_another_node => 'Vui lòng thử kết nối với node khác';
 
   @override
-  String get beldex_hidden => 'Beldex Hidden';
+  String get beldex_hidden => '';
 
   @override
-  String get beldex_available_balance => 'Beldex Available Balance';
+  String get beldex_available_balance => '';
 
   @override
-  String get beldex_full_balance => 'Beldex Full Balance';
+  String get beldex_full_balance => '';
 
   @override
-  String get send => 'Send';
+  String get send => 'Gửi';
 
   @override
-  String get receive => 'Receive';
+  String get receive => 'Nhận';
 
   @override
-  String get transactions => 'Transactions';
+  String get transactions => 'Giao dịch';
 
   @override
-  String get incoming => 'Incoming';
+  String get incoming => 'Đến';
 
   @override
-  String get outgoing => 'Outgoing';
+  String get outgoing => 'Đi';
 
   @override
-  String get transactions_by_date => 'Transactions by Date';
+  String get transactions_by_date => 'Giao dịch theo ngày';
 
   @override
-  String get filters => 'Filters';
+  String get filters => 'Lọc theo';
 
   @override
-  String get today => 'Today';
+  String get today => '';
 
   @override
-  String get yesterday => 'Yesterday';
+  String get yesterday => '';
 
   @override
-  String get received => 'Received';
+  String get received => '';
 
   @override
-  String get sent => 'Sent';
+  String get sent => 'Đã gửi';
 
   @override
-  String get pending => ' (pending)';
+  String get pending => '';
 
   @override
-  String get rescan => 'Rescan';
+  String get rescan => 'Quét lại';
 
   @override
-  String get reconnect => 'Reconnect';
+  String get reconnect => 'Kết nối lại';
 
   @override
-  String get wallets => 'Wallets';
+  String get wallets => 'Các ví';
 
   @override
-  String get show_seed => 'Show Seed';
+  String get show_seed => 'Hiển thị Seed';
 
   @override
-  String get show_keys => 'Show keys';
+  String get show_keys => 'Hiển thị khóa';
 
   @override
-  String get reconnection => 'Reconnection';
+  String get reconnection => '';
 
   @override
-  String get reconnect_alert_text => 'Are you sure to reconnect?';
+  String get reconnect_alert_text => '';
 
   @override
-  String get reload_fiat => 'Reload Fiat data';
+  String get reload_fiat => '';
 
   @override
-  String get clear => 'Clear';
+  String get clear => 'Xóa';
 
   @override
-  String get error => 'Error';
+  String get error => '';
 
   @override
-  String get copied_to_clipboard => 'Copied to clipboard!';
+  String get copied_to_clipboard => '';
 
   @override
-  String get fetching => 'Fetching';
+  String get fetching => '';
 
   @override
-  String get id => 'ID: ';
+  String get id => '';
 
   @override
-  String get amount => 'Amount ';
+  String get amount => 'Số lượng';
 
   @override
-  String get status => 'Status: ';
+  String get status => 'Trạng thái:';
 
   @override
-  String get confirm => 'Confirm';
+  String get confirm => '';
 
   @override
-  String get confirm_sending => 'Confirm sending';
+  String get confirm_sending => 'Xác nhận gửi';
 
   @override
   String commit_transaction_amount_fee(Object amount, Object fee) {
-    return 'Commit transaction\nAmount: $amount\nFee: $fee';
+    return '';
   }
 
   @override
-  String get sending => 'Sending';
+  String get sending => '';
 
   @override
-  String get transaction_sent => 'Transaction sent!';
+  String get transaction_sent => '';
 
   @override
-  String get send_beldex => 'Send Beldex';
+  String get send_beldex => '';
 
   @override
-  String get faq => 'FAQ';
+  String get faq => 'Câu hỏi thường gặp';
 
   @override
-  String get changelog => 'Changelog';
+  String get changelog => 'Lịch sử cập nhật';
 
   @override
-  String get loading_your_wallet => 'Loading your wallet';
+  String get loading_your_wallet => '';
 
   @override
-  String get new_wallet => 'New Wallet';
+  String get new_wallet => 'Ví mới';
 
   @override
-  String get wallet_name => 'Wallet Name';
+  String get wallet_name => 'Tên ví ';
 
   @override
-  String get continue_text => 'Continue';
+  String get continue_text => 'Tiếp tục';
 
   @override
-  String get node_new => 'New Node';
+  String get node_new => '';
 
   @override
-  String get node_address => 'Node Address';
+  String get node_address => 'Địa chỉ Node ';
 
   @override
-  String get node_port => 'Node Port';
+  String get node_port => 'Cổng Node';
 
   @override
-  String get login => 'Login';
+  String get login => '';
 
   @override
-  String get password => 'Password';
+  String get password => '';
 
   @override
-  String get nodes => 'Nodes';
+  String get nodes => 'Nút';
 
   @override
-  String get node_reset_settings_title => 'Reset settings';
+  String get node_reset_settings_title => 'Đặt lại cài đặt ';
 
   @override
-  String get nodes_list_reset_to_default_message => 'Are you sure that you want to reset settings to default?';
+  String get nodes_list_reset_to_default_message => 'Bạn có chắc muốn đặt lại cài đặt về mặc định không?';
 
   @override
   String change_current_node(Object node) {
-    return 'Are you sure to change current node to $node?';
+    return 'Bạn có chắc chắn muốn thay đổi node hiện tại thành $node không?';
   }
 
   @override
-  String get change => 'Change';
+  String get change => '';
 
   @override
-  String get remove_node => 'Remove node';
+  String get remove_node => '';
 
   @override
-  String get remove_node_message => 'Are you sure that you want to remove selected node?';
+  String get remove_node_message => '';
 
   @override
-  String get remove => 'Remove';
+  String get remove => '';
 
   @override
-  String get delete => 'Delete';
+  String get delete => 'Xóa';
 
   @override
-  String get use => 'Switch to ';
+  String get use => '';
 
   @override
-  String get digit_pin => '-digit PIN';
+  String get digit_pin => '';
 
   @override
-  String get share_address => 'Share address';
+  String get share_address => '';
 
   @override
-  String get receive_amount => 'Amount';
+  String get subaddresses => '';
 
   @override
-  String get subaddresses => 'Subaddresses';
+  String get restore_restore_wallet => 'Khôi phục ví';
 
   @override
-  String get restore_restore_wallet => 'Restore Wallet';
+  String get restore_title_from_seed_keys => 'Khôi phục từ seed/keys';
 
   @override
-  String get restore_title_from_seed_keys => 'Restore from seed/keys';
+  String get restore_description_from_seed_keys => 'Lấy lại ví của bạn từ seed/keys mà bạn đã lưu ở nơi an toàn';
 
   @override
-  String get restore_description_from_seed_keys => 'Get back your wallet from seed/keys that you\'ve saved to secure place';
+  String get restore_next => 'Tiếp theo';
 
   @override
-  String get restore_next => 'Next';
+  String get restore_title_from_backup => '';
 
   @override
-  String get restore_title_from_backup => 'Restore from a back-up file';
+  String get restore_description_from_backup => '';
 
   @override
-  String get restore_description_from_backup => 'You can restore the whole Beldex Wallet app from your back-up file';
+  String get restore_seed_keys_restore => '';
 
   @override
-  String get restore_seed_keys_restore => 'Seed/Keys Restore';
+  String get restore_title_from_seed => 'Khôi phục từ Seed';
 
   @override
-  String get restore_title_from_seed => 'Restore from Seed';
+  String get restore_description_from_seed => 'Sử dụng khóa ghi nhớ 25 từ (Mnemonic) hoặc cụm seed để khôi phục ví của bạn';
 
   @override
-  String get restore_description_from_seed => 'Use the 25-word Mnemonic Key or Seed Phrase to Restore your Wallet.';
+  String get restore_title_from_keys => 'Khôi phục từ Keys';
 
   @override
-  String get restore_title_from_keys => 'Restore from Keys';
+  String get restore_description_from_keys => 'Sử dụng các khóa riêng đã lưu để khôi phục ví của bạn';
 
   @override
-  String get restore_description_from_keys => 'Use the generated keystrokes saved from private keys to Restore your Wallet ';
+  String get restore_address => 'Địa chỉ';
 
   @override
-  String get restore_wallet_name => 'Wallet Name';
+  String get restore_recover => 'Khôi phục';
 
   @override
-  String get restore_address => 'Address';
-
-  @override
-  String get restore_view_key_private => 'View key (private)';
-
-  @override
-  String get restore_spend_key_private => 'Spend key (private)';
-
-  @override
-  String get restore_recover => 'Restore';
-
-  @override
-  String get restore_wallet_restore_description => 'Wallet restore description';
+  String get restore_wallet_restore_description => '';
 
   @override
   String get seed_title => 'Seed';
 
   @override
-  String get seed_share => 'Share seed';
+  String get seed_share => '';
 
   @override
-  String get copy => 'Copy';
+  String get copy => '';
 
   @override
-  String get seed_language_choose => 'Please choose a seed language';
+  String get seed_language_choose => '';
 
   @override
-  String get seed_language_next => 'Next';
+  String get seed_language_english => '';
 
   @override
-  String get seed_language_english => 'English';
+  String get seed_language_chinese => '';
 
   @override
-  String get seed_language_chinese => 'Chinese';
+  String get seed_language_dutch => '';
 
   @override
-  String get seed_language_dutch => 'Dutch';
+  String get seed_language_german => '';
 
   @override
-  String get seed_language_german => 'German';
+  String get seed_language_japanese => '';
 
   @override
-  String get seed_language_japanese => 'Japanese';
+  String get seed_language_portuguese => '';
 
   @override
-  String get seed_language_portuguese => 'Portuguese';
+  String get seed_language_russian => '';
 
   @override
-  String get seed_language_russian => 'Russian';
+  String get seed_language_spanish => '';
 
   @override
-  String get seed_language_spanish => 'Spanish';
+  String get seed_language_french => '';
 
   @override
-  String get seed_language_french => 'French';
+  String get seed_language_italian => '';
 
   @override
-  String get seed_language_italian => 'Italian';
+  String get send_your_wallet => '';
 
   @override
-  String get send_title => 'Send';
+  String get send_beldex_address => 'Địa chỉ Beldex hoặc tên BNS';
 
   @override
-  String get send_your_wallet => 'Your wallet';
+  String get all => '';
 
   @override
-  String get send_beldex_address => 'Beldex address or BNS name';
+  String get send_error_currency => '';
 
   @override
-  String get all => 'ALL';
-
-  @override
-  String get send_error_currency => 'Currency can only contain numbers';
-
-  @override
-  String get send_estimated_fee => 'Estimated Fee:';
+  String get send_estimated_fee => 'Phí ước tính:';
 
   @override
   String send_priority(Object transactionPriority) {
-    return '$transactionPriority priority is set as the default fee.\nGo to setting to change the transaction priority.';
+    return 'Mức ưu tiên $transactionPriority được đặt làm phí mặc định. Vào cài đặt để thay đổi mức ưu tiên giao dịch.';
   }
 
   @override
-  String get send_creating_transaction => 'Creating transaction';
+  String get send_creating_transaction => '';
 
   @override
-  String get title_stakes => 'Stakes';
+  String get title_stakes => '';
 
   @override
-  String get title_new_stake => 'New Stake';
+  String get title_new_stake => '';
 
   @override
-  String get your_contributions => 'Your Contributions';
+  String get your_contributions => '';
 
   @override
-  String get start_staking => 'Start staking';
+  String get start_staking => '';
 
   @override
-  String get stake_more => 'Stake more';
+  String get stake_more => '';
 
   @override
-  String get nothing_staked => 'Nothing staked yet';
+  String get nothing_staked => '';
 
   @override
-  String get service_node_key => 'Master Node Key';
+  String get service_node_key => '';
 
   @override
-  String get stake_beldex => 'Stake Beldex';
+  String get stake_beldex => '';
 
   @override
-  String get title_confirm_unlock_stake => 'Unlock Stake';
+  String get title_confirm_unlock_stake => '';
 
   @override
   String body_confirm_unlock_stake(Object masterNodeKey) {
-    return 'Do you really want to unlock your stake from $masterNodeKey?';
+    return '';
   }
 
   @override
-  String get unlock_stake_requested => 'Stake unlock requested';
+  String get unlock_stake_requested => '';
 
   @override
-  String get unable_unlock_stake => 'Unable to unlock stake';
+  String get unable_unlock_stake => '';
 
   @override
-  String get settings_title => 'Settings';
+  String get settings_title => 'Cài đặt';
 
   @override
-  String get settings_nodes => 'Nodes';
+  String get settings_current_node => 'Nút hiện tại';
 
   @override
-  String get settings_current_node => 'Current node';
+  String get settings_display_balance_as => 'Hiển thị số dư dưới dạng';
 
   @override
-  String get settings_wallets => 'Wallets';
+  String get settings_balance_detail => 'Số thập phân';
 
   @override
-  String get settings_display_balance_as => 'Display Balance As';
+  String get settings_currency => 'Tiền tệ';
 
   @override
-  String get settings_balance_detail => 'Decimals';
+  String get settings_fee_priority => 'Mức ưu tiên phí';
 
   @override
-  String get settings_currency => 'Currency';
+  String get settings_save_recipient_address => 'Lưu địa chỉ người nhận';
 
   @override
-  String get settings_fee_priority => 'Fee Priority';
+  String get settings_personal => 'Cá nhân';
 
   @override
-  String get settings_save_recipient_address => 'Save recipient address';
+  String get settings_change_pin => 'Đổi mã PIN';
 
   @override
-  String get settings_personal => 'Personal';
+  String get settings_allow_biometric_authentication => 'Cho phép xác thực sinh trắc học';
 
   @override
-  String get settings_change_pin => 'Change PIN';
+  String get settings_dark_mode => 'Chế độ tối';
 
   @override
-  String get settings_change_language => 'Select Language';
+  String get settings_display_on_dashboard_list => '';
 
   @override
-  String get settings_allow_biometric_authentication => 'Allow biometric authentication';
+  String get settings_none => '';
 
   @override
-  String get settings_dark_mode => 'Dark mode';
+  String get settings_support => 'Hỗ trợ';
 
   @override
-  String get settings_display_on_dashboard_list => 'Display on dashboard list';
+  String get settings_terms_and_conditions => 'Điều khoản & Điều kiện';
 
   @override
-  String get settings_all => 'ALL';
+  String get settings_enable_fiat_currency => 'Bật chuyển đổi tiền tệ';
 
   @override
-  String get settings_none => 'None';
+  String get pin_is_incorrect => 'Mã PIN không chính xác';
 
   @override
-  String get settings_support => 'Support';
+  String get amount_detail_ultra => '';
 
   @override
-  String get settings_terms_and_conditions => 'Terms & Conditions';
+  String get amount_detail_none => '';
 
   @override
-  String get settings_enable_fiat_currency => 'Enable Fiat Currency conversion';
+  String get amount_detail_detailed => '';
 
   @override
-  String get pin_is_incorrect => 'PIN is incorrect';
+  String get amount_detail_normal => '';
 
   @override
-  String get amount_detail_ultra => '9 - Ultra';
+  String get setup_pin => 'Thiết lập mã PIN';
 
   @override
-  String get amount_detail_none => '0 - None';
+  String get re_enter_your_pin => 'Nhập lại mã PIN';
 
   @override
-  String get amount_detail_detailed => '4 - Detailed';
+  String get setup_successful => 'Mã PIN của bạn đã được thiết lập thành công!';
 
   @override
-  String get amount_detail_normal => '2 - Normal';
+  String get wallet_keys => 'Keys của ví';
 
   @override
-  String get setup_pin => 'Setup PIN';
+  String get view_key_private => 'Khóa xem (riêng tư)';
 
   @override
-  String get re_enter_your_pin => 'Re-Enter your PIN';
+  String get view_key_public => 'Xem key (công khai)';
 
   @override
-  String get setup_successful => 'Your PIN has been set up \nsuccessfully!';
+  String get spend_key_private => 'Khóa chi tiêu (riêng tư)';
 
   @override
-  String get wallet_keys => 'Wallet keys';
-
-  @override
-  String get view_key_private => 'View key (private)';
-
-  @override
-  String get view_key_public => 'View key (public)';
-
-  @override
-  String get spend_key_private => 'Spend key (private)';
-
-  @override
-  String get spend_key_public => 'Spend key (public)';
+  String get spend_key_public => 'Spend key (công khai)';
 
   @override
   String copied_key_to_clipboard(Object key) {
-    return 'Copied $key to Clipboard';
+    return '';
   }
 
   @override
-  String get new_subaddress_title => 'New subaddress';
+  String get new_subaddress_title => '';
 
   @override
-  String get new_subaddress_label_name => 'Label name';
+  String get new_subaddress_create => 'Tạo';
 
   @override
-  String get new_subaddress_create => 'Create';
+  String get subaddress_title => '';
 
   @override
-  String get subaddress_title => 'Subaddress list';
+  String get transaction_details_title => '';
 
   @override
-  String get transaction_details_title => 'Transaction Details';
+  String get transaction_details_transaction_id => 'Mã giao dịch';
 
   @override
-  String get transaction_details_transaction_id => 'Transaction ID';
+  String get transaction_details_height => 'Chiều cao';
 
   @override
-  String get transaction_details_date => 'Date';
+  String get transaction_details_amount => 'Số tiền';
 
   @override
-  String get transaction_details_height => 'Height';
-
-  @override
-  String get transaction_details_amount => 'Amount';
-
-  @override
-  String get transaction_details_payment_id => 'Payment ID';
+  String get transaction_details_payment_id => '';
 
   @override
   String transaction_details_copied(Object title) {
-    return '$title copied to Clipboard';
+    return '';
   }
 
   @override
-  String get transaction_details_recipient_address => 'Recipient Address';
-
-  @override
-  String get swap_wallet_address => 'Wallet Address';
-
-  @override
-  String get swap_recipient_address => 'Recipient Address';
+  String get transaction_details_recipient_address => 'Địa chỉ nhận';
 
   @override
   String swap_correct_chain_address(Object blockchain) {
-    return 'Please make sure to enter the correct address for the selected chain - $blockchain. Otherwise you will lose your funds.';
+    return 'Vui lòng đảm bảo nhập đúng địa chỉ cho chuỗi đã chọn - $blockchain. Nếu không, bạn sẽ mất tiền.';
   }
 
   @override
   String swap_enter_recipient_address(Object currency) {
-    return 'Enter your $currency recipient address';
+    return 'Nhập địa chỉ người nhận $currency của bạn';
   }
 
   @override
-  String get swap_refund_wallet_address => 'Refund wallet Address';
+  String get swap_refund_wallet_address => '';
 
   @override
   String swap_enter_refund_address(Object currency) {
-    return 'Enter your $currency refund address';
+    return '';
   }
 
   @override
   String swap_extra_id_info(Object currency, Object extraIdName) {
-    return 'Please specify the $extraIdName for your $currency receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a $extraIdName, remove the tick.';
+    return '';
   }
 
   @override
   String swap_my_wallet_requires_extra_id(Object extraIdName) {
-    return 'My wallet requires $extraIdName';
+    return '';
   }
 
   @override
   String swap_enter_extra_id(Object extraIdName) {
-    return 'Enter $extraIdName';
+    return '';
   }
 
   @override
   String swap_please_enter_extra_id(Object extraIdName) {
-    return 'Please enter $extraIdName';
+    return '';
   }
 
   @override
-  String get swap_minimum_amount_changed => 'The minimum amount value has changed, The new value is ';
+  String get swap_minimum_amount_changed => '';
 
   @override
-  String get swap_maximum_amount_changed => 'The maximum amount value has changed, The new value is ';
+  String get swap_maximum_amount_changed => '';
 
   @override
-  String get swap_transaction_preview => 'Transaction Preview';
+  String get swap_transaction_preview => '';
 
   @override
-  String get swap_exchange_rate => 'Exchange rate';
+  String get swap_exchange_rate => 'Tỷ giá';
 
   @override
-  String get swap_service_fee => 'Service fee 0.25%';
+  String get swap_service_fee => 'Phí dịch vụ 0.25%';
 
   @override
-  String get service_fee => 'Service Fee 0.25%';
+  String get service_fee => 'Phí dịch vụ 0.25%';
 
   @override
-  String get network_fee => 'Network Fee';
+  String get network_fee => 'Phí mạng';
 
   @override
-  String get swap_refund_address => 'Refund Address';
+  String get swap_refund_address => '';
 
   @override
-  String get swap_network_fee => 'Network fee';
+  String get swap_network_fee => 'Phí mạng';
 
   @override
-  String get swap_you_get => 'You Get';
+  String get swap_you_get => 'Bạn nhận';
 
   @override
-  String get swap_checkout => 'Checkout';
+  String get swap_checkout => 'Thanh toán';
 
   @override
-  String get swap_network_label => 'NETWORK: ';
+  String get swap_network_label => 'MẠNG: ';
 
   @override
-  String get swap_estimated_time => 'Estimated Time';
+  String get swap_estimated_time => '';
 
   @override
-  String get swap_estimated_time_value => '5-30 mins';
+  String get swap_estimated_time_value => '';
 
   @override
-  String get swap_confirm_and_make_payment => 'Confirm & Make Payment';
+  String get swap_confirm_and_make_payment => 'Xác nhận & Thanh toán';
 
   @override
-  String get swap_send_funds_to_address_below => 'Send funds to the address below';
+  String get swap_send_funds_to_address_below => 'Gửi tiền đến địa chỉ bên dưới';
 
   @override
   String swap_time_left_to_send(Object amount, Object currency) {
-    return 'Time left to send $amount $currency';
+    return 'Thời gian còn lại để gửi $amount $currency';
   }
 
   @override
   String swap_time_remaining(Object value) {
-    return 'Time Remaining : $value';
+    return 'Thời gian còn lại: $value';
   }
 
   @override
-  String get swap_send_funds_notice => 'You Have 3 Hours to send funds otherwise the transaction will be cancelled automatically.\n\nThe exchange will be initiated once the funds are received.';
+  String get swap_send_funds_notice => 'Bạn có 3 giờ để gửi tiền, nếu không giao dịch sẽ tự động bị hủy.\n Giao dịch sẽ được thực hiện khi tiền được nhận.';
 
   @override
-  String get swap_confirmations => 'Confirmations';
+  String get swap_confirmations => '';
 
   @override
-  String get swap_completed => 'Completed';
+  String get swap_completed => 'Hoàn tất';
 
   @override
-  String get swap_amount_from => 'Amount from';
+  String get swap_amount_from => 'Số tiền gửi';
 
   @override
-  String get swap_amount_to => 'Amount to';
+  String get swap_amount_to => 'Số tiền nhận';
 
   @override
-  String get swap_received_time => 'Received Time';
+  String get swap_received_time => 'Thời gian nhận';
 
   @override
-  String get swap_amount_sent => 'Amount Sent';
+  String get swap_amount_sent => 'Số tiền đã gửi';
 
   @override
-  String get swap_input_output_hash => 'Input/Output Hash';
+  String get swap_input_output_hash => 'Hash đầu vào/đầu ra';
 
   @override
-  String get swap_input_hash => 'Input Hash';
+  String get swap_input_hash => 'Hash đầu vào';
 
   @override
-  String get swap_output_hash => 'Output Hash';
+  String get swap_output_hash => 'Hash đầu ra';
 
   @override
-  String get swap_failed => 'Failed';
+  String get swap_failed => 'Giao dịch thất bại';
 
   @override
-  String get swap_expired => 'Expired';
+  String get swap_expired => '';
 
   @override
-  String get swap_overdue => 'Overdue';
+  String get swap_overdue => '';
 
   @override
-  String get swap_funds_not_received => 'The funds were not received within 3 hours. Please check the rates and create a new transaction';
+  String get swap_funds_not_received => 'Không nhận được tiền trong vòng 3 giờ.\n Vui lòng kiểm tra tỷ giá và tạo giao dịch mới.';
 
   @override
-  String get swap_start_over => 'Start Over';
+  String get swap_start_over => 'Bắt đầu lại';
 
   @override
-  String get swap_exchanging => 'Exchanging';
+  String get swap_exchanging => '';
 
   @override
-  String get swap_confirming_in_progress => 'Confirming in progress';
+  String get swap_confirming_in_progress => '';
 
   @override
-  String get swap_confirmed => 'Confirmed';
+  String get swap_confirmed => '';
 
   @override
   String swap_confirmed_in_blockchain(Object currencyFrom, Object currencyTo) {
-    return 'Once $currencyFrom is confirmed in the blockchain, we\'ll start exchanging it to $currencyTo';
+    return '';
   }
 
   @override
-  String get swap_see_input_hash_in_explorer => 'See input hash in explorer';
+  String get swap_see_input_hash_in_explorer => '';
 
   @override
   String swap_done_exchanging(Object currencyFrom, Object currencyTo) {
-    return 'Done Exchanging $currencyFrom to $currencyTo';
+    return '';
   }
 
   @override
   String swap_exchanging_currency(Object currencyFrom, Object currencyTo) {
-    return 'Exchanging $currencyFrom to $currencyTo';
+    return '';
   }
 
   @override
-  String get swap_process_wait => 'The process will take a few minutes. please wait.';
+  String get swap_process_wait => '';
 
   @override
-  String get swap_sending_funds_to_wallet => 'Sending funds to your wallet';
+  String get swap_sending_funds_to_wallet => '';
 
   @override
-  String get swap_funds_sent_to_wallet => 'Funds send to your wallet';
+  String get swap_funds_sent_to_wallet => '';
 
   @override
-  String get swap_you_dont_have_to_wait_here => 'You don’t have to wait here';
+  String get swap_you_dont_have_to_wait_here => '';
 
   @override
-  String get swap_you_can_initiate_new_transaction => 'You can initiate a new transaction. You can always check the status of this transaction in transaction ';
+  String get swap_you_can_initiate_new_transaction => '';
 
   @override
-  String get swap_history => 'history';
+  String get swap_history => '';
 
   @override
-  String get swap_you_sent => 'You sent';
+  String get swap_you_sent => '';
 
   @override
   String swap_exchange_address(Object currency, Object exchangeName) {
-    return '$exchangeName address ($currency)';
+    return '';
   }
 
   @override
   String swap_recipient_address_with_currency(Object currency) {
-    return 'Recipient address ($currency)';
+    return '';
   }
 
   @override
-  String get swap_open_history => 'Open History';
+  String get swap_open_history => 'Xem lịch sử';
 
   @override
-  String get swap_new_transaction => 'New Transaction';
+  String get swap_new_transaction => 'Giao dịch mới';
 
   @override
-  String get swap_i_agree_with => 'I agree with ';
+  String get swap_i_agree_with => 'Tôi đồng ý với';
 
   @override
-  String get swap_terms_of_use => 'Terms of Use';
+  String get swap_terms_of_use => 'Điều khoản sử dụng';
 
   @override
-  String get swap_and => ' and ';
+  String get swap_and => 'và';
 
   @override
-  String get swap_privacy_policy => 'Privacy Policy';
+  String get swap_privacy_policy => 'Chính sách bảo mật';
 
   @override
-  String get swap_next => 'Next';
+  String get wallet_list_title => 'Ví Beldex';
 
   @override
-  String get wallet_list_title => 'Beldex Wallet';
-
-  @override
-  String get wallet_list_create_new_wallet => 'Create New Wallet';
-
-  @override
-  String get wallet_list_restore_wallet => 'Use Existing Wallet';
-
-  @override
-  String get wallet_list_load_wallet => 'Load wallet';
+  String get wallet_list_load_wallet => 'Tải ví';
 
   @override
   String wallet_list_loading_wallet(Object wallet_name) {
-    return 'Loading $wallet_name wallet';
+    return '';
   }
 
   @override
   String wallet_list_failed_to_load(Object error, Object wallet_name) {
-    return 'Failed to load $wallet_name wallet. $error';
+    return '';
   }
 
   @override
   String wallet_list_removing_wallet(Object wallet_name) {
-    return 'Removing $wallet_name wallet';
+    return '';
   }
 
   @override
   String wallet_list_failed_to_remove(Object error, Object wallet_name) {
-    return 'Failed to remove $wallet_name wallet. $error';
+    return '';
   }
 
   @override
-  String get widgets_address => 'Address';
+  String get widgets_restore_from_blockheight => 'Khôi phục từ Blockheight';
 
   @override
-  String get widgets_restore_from_blockheight => 'Restore from Blockheight';
+  String get widgets_restore_from_date => 'Khôi phục từ ngày ';
 
   @override
-  String get widgets_restore_from_date => 'Restore from Date';
-
-  @override
-  String get widgets_or => 'OR';
-
-  @override
-  String get widgets_seed => 'Seed';
+  String get widgets_or => '';
 
   @override
   String router_no_route(Object name) {
-    return 'No route defined for $name';
+    return '';
   }
 
   @override
-  String get error_text_account_name => 'Account name can only contain letters, numbers\nand must be between 1 and 15 characters long';
+  String get error_text_account_name => '';
 
   @override
-  String get error_text_contact_name => 'Contact name can\'t contain ` , \' \" symbols\nand must be between 1 and 32 characters long';
+  String get error_text_contact_name => 'Tên liên hệ không được chứa ký tự \' , \"\n và phải có độ dài từ 1 đến 32 ký tự';
 
   @override
-  String get error_text_address => 'Invalid BDX address';
+  String get error_text_address => 'Địa chỉ BDX không hợp lệ';
 
   @override
-  String get error_text_node_address => 'Please enter a iPv4 address';
+  String get error_text_node_address => 'Vui lòng nhập địa chỉ IPv4 hợp lệ';
 
   @override
-  String get error_text_node_port => 'Node port can only contain numbers between 0 and 65535';
+  String get error_text_node_port => 'Cổng node chỉ có thể chứa các số từ 0 đến 65535';
 
   @override
-  String get error_text_payment_id => 'Payment ID can only contain from 16 to 64 chars in hex';
+  String get error_text_payment_id => '';
 
   @override
-  String get error_text_beldex => 'Beldex value can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 9';
+  String get error_text_beldex => '';
 
   @override
-  String get error_text_fiat => 'Value of amount can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 2';
+  String get error_text_fiat => '';
 
   @override
-  String get error_text_subaddress_name => 'Subaddress name can\'t contain ` , \' \" symbols\nand must be between 1 and 20 characters long';
+  String get error_text_subaddress_name => '';
 
   @override
-  String get error_text_amount => 'Amount can only contain numbers';
+  String get error_text_amount => '';
 
   @override
-  String get error_text_wallet_name => 'Wallet name can only contain letters, numbers\nand must be between 1 and 15 characters long';
+  String get error_text_wallet_name => '';
 
   @override
-  String get error_text_keys => 'Wallet keys can only contain 64 chars in hex';
+  String get error_text_keys => 'Khóa ví chỉ được chứa 64 ký tự dạng hex';
 
   @override
-  String get error_text_crypto_currency => 'The number of fraction digits\nmust be less or equal to 12';
+  String get error_text_crypto_currency => '';
 
   @override
-  String get error_text_service_node => 'A Master Node key can only contain 64 chars in hex';
+  String get error_text_service_node => '';
 
   @override
-  String get auth_store_ban_timeout => 'ban_timeout';
+  String get auth_store_ban_timeout => '';
 
   @override
-  String get auth_store_banned_for => 'Banned for ';
+  String get auth_store_banned_for => '';
 
   @override
-  String get auth_store_banned_minutes => ' minutes';
+  String get auth_store_banned_minutes => '';
 
   @override
-  String get auth_store_incorrect_password => 'Wrong PIN';
+  String get auth_store_incorrect_password => '';
 
   @override
-  String get wallet_restoration_store_incorrect_seed_length => 'Incorrect seed length';
+  String get wallet_restoration_store_incorrect_seed_length => '';
 
   @override
-  String get full_balance => 'Full Balance';
+  String get full_balance => 'Tổng số dư';
 
   @override
-  String get available_balance => 'Available Balance';
+  String get available_balance => 'Số dư khả dụng';
 
   @override
-  String get hidden_balance => 'Hidden Balance';
+  String get hidden_balance => 'Số dư ẩn';
 
   @override
-  String get sync_status_synchronizing => 'SYNCHRONIZING';
+  String get sync_status_synchronizing => 'ĐANG ĐỒNG BỘ HÓA';
 
   @override
-  String get sync_status_synchronized => 'SYNCHRONIZED';
+  String get sync_status_synchronized => 'Đã đồng bộ';
 
   @override
-  String get sync_status_not_connected => 'NOT CONNECTED';
+  String get sync_status_not_connected => '';
 
   @override
-  String get sync_status_starting_sync => 'STARTING SYNC';
+  String get sync_status_starting_sync => 'Đang bắt đầu đồng bộ';
 
   @override
-  String get sync_status_failed_connect => 'FAILED CONNECT TO THE NODE';
+  String get sync_status_failed_connect => 'Kết nối đến node thất bại';
 
   @override
-  String get sync_status_connecting => 'CONNECTING';
+  String get sync_status_connecting => 'Đang kết nối';
 
   @override
-  String get sync_status_connected => 'CONNECTED';
+  String get sync_status_connected => '';
 
   @override
-  String get transaction_priority_slow => 'Slow';
+  String get transaction_priority_slow => 'Chậm';
 
   @override
-  String get transaction_priority_blink => 'Flash';
+  String get transaction_priority_blink => 'Nhanh';
 
   @override
-  String get change_language => 'Change Language';
+  String get change_language => 'Đổi ngôn ngữ';
 
   @override
   String change_language_to(Object language) {
-    return 'Change language to $language?';
+    return '';
   }
 
   @override
-  String get paste => 'Paste';
+  String get paste => 'Dán';
 
   @override
-  String get restore_from_seed_placeholder => 'Please enter or paste your seed here';
+  String get restore_from_seed_placeholder => 'Vui lòng nhập hoặc dán seed tại đây';
 
   @override
-  String get add_new_word => 'Add new word';
+  String get add_new_word => '';
 
   @override
-  String get incorrect_seed => 'The text entered is not valid.';
+  String get incorrect_seed => '';
 
   @override
-  String get biometric_auth_reason => 'Scan your fingerprint to authenticate';
+  String get biometric_auth_reason => '';
 
   @override
   String version(Object currentVersion) {
-    return 'Version $currentVersion';
+    return 'Phiên bản $currentVersion';
   }
 
   @override
-  String get openalias_alert_title => 'Beldex Recipient Detected';
+  String get openalias_alert_title => '';
 
   @override
   String openalias_alert_content(Object recipient_name) {
-    return 'You will be sending funds to\n$recipient_name';
+    return '';
   }
 
   @override
-  String get dangerzone => 'Dangerzone';
+  String get dangerzone => '';
 
   @override
-  String get yes_im_sure => 'Yes, I\'m sure!';
+  String get yes_im_sure => 'Có, tôi chắc chắn!';
 
   @override
   String never_give_your(Object item) {
-    return 'Never Give your Beldex Wallet $item to Anyone!';
+    return 'Không bao giờ cung cấp $item trong ví Beldex của bạn cho bất kỳ ai!';
   }
 
   @override
   String dangerzone_warning(Object app_store, Object item) {
-    return 'NEVER input your Beldex wallet $item into any software or website other than the OFFICIAL Beldex wallets downloaded directly from the $app_store, the Beldex website, or the Beldex GitHub.\nAre you sure you want to access your wallet $item?';
+    return 'KHÔNG BAO GIỜ nhập $item trong ví Beldex của bạn vào bất kỳ phần mềm hoặc trang web nào khác ngoài các ví Beldex CHÍNH THỨC được tải trực tiếp từ $app_store, trang web Beldex hoặc GitHub của Beldex. Bạn có chắc chắn muốn truy cập vào $item trong ví của mình không?';
   }
 
   @override
-  String get keys_title => 'Keys';
+  String get keys_title => '';
 
   @override
-  String get are_you_sure => 'Are you sure?';
+  String get are_you_sure => 'Xác nhận?';
 
   @override
-  String get do_you_want_to_exit_an_app => 'Do you want to exit an App';
+  String get do_you_want_to_exit_an_app => '';
 
   @override
-  String get no => 'No';
+  String get no => 'Không';
 
   @override
-  String get yes => 'Yes';
+  String get yes => 'Có';
 
   @override
-  String get byUsingThisAppYouAgreeToTheTermsOf => 'By using this app, you agree to the Terms of Agreement set forth to below';
+  String get byUsingThisAppYouAgreeToTheTermsOf => '';
 
   @override
-  String get iAgreeToTermsOfUse => 'I agree to Terms of Use';
+  String get iAgreeToTermsOfUse => '';
 
   @override
-  String get accept => 'Accept';
+  String get accept => '';
 
   @override
-  String get pleaseEnterAValidAmount => 'Please enter a valid amount';
+  String get pleaseEnterAValidAmount => 'Vui lòng nhập số lượng hợp lệ';
 
   @override
-  String get pleaseEnterAValidSeed => 'Please enter a valid seed';
+  String get pleaseEnterAValidSeed => 'Vui lòng nhập seed hợp lệ';
 
   @override
-  String get changeWallet => 'Change Wallet';
+  String get changeWallet => 'Chuyển ví';
 
   @override
-  String get removeWallet => 'Remove Wallet';
+  String get removeWallet => 'Xóa ví';
 
   @override
-  String get reconnectWallet => 'Reconnect Wallet';
+  String get reconnectWallet => 'Kết nối lại ví';
 
   @override
-  String get rescanWallet => 'Rescan Wallet';
+  String get rescanWallet => 'Quét lại ví ';
 
   @override
-  String get enterWalletName => 'Enter Wallet Name';
+  String get enterWalletName => 'Nhập tên ví';
 
   @override
-  String get noTransactionsYet => 'No Transactions Yet!';
+  String get noTransactionsYet => 'Chưa có giao dịch!';
 
   @override
-  String get afterYourFirstTransactionnYouWillBeAbleToView => 'After your first transaction,\n you will be able to view it here.';
+  String get afterYourFirstTransactionnYouWillBeAbleToView => 'Sau giao dịch đầu tiên, bạn sẽ có thể xem tại đây.';
 
   @override
-  String get copied => 'Copied';
+  String get copied => 'Đã sao chép';
 
   @override
-  String get addAddress => 'Add Address';
+  String get addAddress => 'Thêm địa chỉ';
 
   @override
-  String get important => 'IMPORTANT';
+  String get important => '';
 
   @override
   String neverInputYourBeldexWalletItemIntoAnySoftwareOr(Object appStore, Object item) {
-    return 'Never input your Beldex wallet $item into any software or website other than the official Beldex wallets downloaded directly from the $appStore,the beldex website, or the beldex GitHub.';
+    return 'Không bao giờ nhập $item trong ví Beldex của bạn vào bất kỳ phần mềm hoặc trang web nào khác ngoài các ví Beldex chính thức được tải trực tiếp từ $appStore, trang web Beldex hoặc GitHub của Beldex.';
   }
 
   @override
-  String get enterWalletName_ => 'Enter wallet name';
+  String get enterWalletName_ => 'Nhập tên ví';
 
   @override
-  String get chooseSeedLanguage => 'Choose Seed Language';
+  String get chooseSeedLanguage => 'Chọn ngôn ngữ Seed';
 
   @override
-  String get wallet => 'Wallet';
+  String get wallet => 'Ví';
 
   @override
-  String get seedKeys => 'Seed & Keys';
+  String get seedKeys => 'Seed & Khóa';
 
   @override
-  String get walletAddress => 'Wallet Address';
+  String get walletAddress => 'Địa chỉ ví';
 
   @override
-  String get recoverySeedkey => 'Recovery Seed/Key';
+  String get recoverySeedkey => 'Seed/Khóa khôi phục';
 
   @override
-  String get selectLanguage => 'Select Language';
+  String get selectLanguage => 'Chọn ngôn ngữ';
 
   @override
-  String get chooseLanguage => 'Choose Language';
+  String get chooseLanguage => 'Chọn ngôn ngữ';
 
   @override
-  String get welcomeToBeldexWallet => 'Welcome to Beldex Wallet :)';
+  String get welcomeToBeldexWallet => 'Chào mừng bạn đến với Ví Beldex :)';
 
   @override
-  String get selectAnOptionBelowToCreateOrnRecoverExistingWallet => 'Select an option below to create or\n recover existing wallet';
+  String get selectAnOptionBelowToCreateOrnRecoverExistingWallet => 'Hãy chọn một tùy chọn để tạo hoặc khôi phục ví hiện có';
 
   @override
-  String get enterAValidNameUpto15Characters => 'Enter a valid name upto 15 characters';
+  String get enterAValidNameUpto15Characters => 'Nhập tên hợp lệ tối đa 15 ký tự';
 
   @override
-  String get enterAValidNameUpto20Characters => 'Enter a valid name upto 20 characters';
+  String get enterAValidNameUpto20Characters => 'Nhập tên hợp lệ tối đa 20 ký tự';
 
   @override
-  String get fiveDecimals => '5 - Five (0.00000)';
+  String get fiveDecimals => '5 - Năm (0.00000)';
 
   @override
-  String get fourDecimals => '4 - Four (0.0000)';
+  String get fourDecimals => '4 - Bốn (0.0000)';
 
   @override
-  String get twoDecimals => '2 - Two (0.00)';
+  String get twoDecimals => '2 - Hai (0.00)';
 
   @override
-  String get zeroDecimal => '0 - Zero (000)';
+  String get zeroDecimal => '0 - Không (000)';
 
   @override
-  String get doYouWantToExitTheWallet => 'Do you want to exit the wallet?';
+  String get doYouWantToExitTheWallet => 'Bạn có muốn thoát khỏi ví không?';
 
   @override
-  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Make sure to take backup of your\nrecovery Seed, wallet address\nand private keys';
+  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Hãy đảm bảo đã sao lưu Seed khôi phục, địa chỉ ví và khóa riêng';
 
   @override
   String blockRemaining(Object status) {
-    return '$status Block Remaining';
+    return '';
   }
 
   @override
-  String get flashTransaction => 'Flash Transaction';
+  String get flashTransaction => 'Giao dịch Flash';
 
   @override
-  String get transferYourBdxMoreFasternWithFlashTransaction => 'Transfer your BDX more faster with\n Flash Transaction!';
+  String get transferYourBdxMoreFasternWithFlashTransaction => 'Chuyển BDX nhanh hơn với Flash Transaction!';
 
   @override
-  String get enterYourPin => 'Enter Your PIN';
+  String get enterYourPin => 'Nhập mã PIN của bạn';
 
   @override
-  String get walletSettings => 'Wallet Settings';
+  String get walletSettings => 'Cài đặt ví';
 
   @override
-  String get recoverySeed => 'Recovery Seed';
+  String get recoverySeed => 'Seed khôi phục';
 
   @override
-  String get youDontHaveEnoughUnlockedBalance => 'You don\'t have enough unlocked balance';
+  String get youDontHaveEnoughUnlockedBalance => '';
 
   @override
-  String get alert => 'Alert';
+  String get alert => 'Cảnh báo';
 
   @override
-  String get touchTheFingerprintSensor => 'Touch the Fingerprint sensor';
+  String get touchTheFingerprintSensor => '';
 
   @override
-  String get usePattern => 'USE PATTERN';
+  String get usePattern => '';
 
   @override
-  String get enterBdxToSend => 'Enter BDX to send';
+  String get enterBdxToSend => 'Nhập số BDX muốn gửi';
 
   @override
-  String get enterAmount => 'Enter Amount';
+  String get enterAmount => 'Nhập số lượng';
 
   @override
-  String get pleaseEnterAAmount => 'Please enter a amount';
+  String get pleaseEnterAAmount => 'Vui lòng nhập số lượng';
 
   @override
-  String get committingTheTransaction => 'Committing the Transaction';
+  String get committingTheTransaction => '';
 
   @override
-  String get availableBdx => 'Available BDX : ';
+  String get availableBdx => 'BDX khả dụng :';
 
   @override
-  String get pleaseEnterABdxAddress => 'Please enter a bdx address';
+  String get pleaseEnterABdxAddress => 'Vui lòng nhập địa chỉ BDX';
 
   @override
-  String get enterAValidAddress => 'Enter a valid address';
+  String get enterAValidAddress => '';
 
   @override
-  String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings';
+  String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Tính năng sinh trắc học hiện đang bị tắt.\n Vui lòng bật tính năng xác thực sinh trắc học trong phần cài đặt của ứng dụng.';
 
   @override
-  String get unlockBeldexWallet => 'Unlock Beldex Wallet';
+  String get unlockBeldexWallet => '';
 
   @override
-  String get confirmYourScreenLockPinpatternAndPassword => 'Confirm your screen lock PIN,Pattern and password';
+  String get confirmYourScreenLockPinpatternAndPassword => '';
 
   @override
-  String get doYouWantToChangeYournPrimaryAccount => 'Do you want to change your\n primary account?';
+  String get doYouWantToChangeYournPrimaryAccount => 'Bạn có muốn thay đổi tài khoản chính không?';
 
   @override
-  String get rename => 'Rename';
+  String get rename => '';
 
   @override
-  String get addAccount => 'Add Account';
+  String get addAccount => 'Thêm tài khoản';
 
   @override
-  String get noAddressesInBook => 'No addresses in book';
+  String get noAddressesInBook => 'Không có địa chỉ nào trong danh bạ';
 
   @override
-  String get bdx => 'BDX';
+  String get bdx => '';
 
   @override
-  String get howeverWeRecommendToScanTheBlockchainFromTheBlock => 'However we recommend to scan the blockchain from the block height at which you created the wallet to get all transactions and correct balance';
+  String get howeverWeRecommendToScanTheBlockchainFromTheBlock => '';
 
   @override
-  String get youHaveScannedFromTheBlockHeight => 'You have scanned from the block height';
+  String get youHaveScannedFromTheBlockHeight => '';
 
   @override
-  String get syncInfo => 'Sync info';
+  String get syncInfo => '';
 
   @override
-  String get doYouWantToReconnectnTheWallet => 'Do you want to reconnect\n the wallet?';
+  String get doYouWantToReconnectnTheWallet => 'Bạn có muốn kết nối lại ví không?';
 
   @override
-  String get enterValidNameUpto15Characters => 'Enter valid name upto 15 characters';
+  String get enterValidNameUpto15Characters => 'Nhập tên hợp lệ tối đa 15 ký tự';
 
   @override
-  String get checkingNodeConnection => 'Checking node connection...';
+  String get checkingNodeConnection => '';
 
   @override
-  String get enterBdxToReceive => 'Enter BDX to Receive';
+  String get enterBdxToReceive => 'Nhập số BDX muốn nhận';
 
   @override
-  String get addSubAddress => 'Add Sub Address';
+  String get addSubAddress => 'Thêm địa chỉ phụ';
 
   @override
-  String get shareQr => 'Share QR';
+  String get shareQr => 'Chia sẻ mã QR';
 
   @override
-  String get name => 'Name';
+  String get name => 'Tên';
 
   @override
-  String get enterValidHeightWithoutSpace => 'Enter valid height without space';
+  String get enterValidHeightWithoutSpace => 'Nhập chiều cao block hợp lệ (không có khoảng trắng)';
 
   @override
-  String get dateShouldNotBeEmpty => 'Date should not be empty';
+  String get dateShouldNotBeEmpty => 'Ngày không được để trống';
 
   @override
-  String get walletRestore => 'Wallet Restore';
+  String get walletRestore => 'Khôi phục ví';
 
   @override
-  String get youCantViewTheSeedBecauseYouveRestoredUsingKeys => 'You can\'t view the seed because you\'ve restored using keys';
+  String get youCantViewTheSeedBecauseYouveRestoredUsingKeys => '';
 
   @override
-  String get neverShareYourSeedToAnyoneCheckYourSurroundingsTo => 'Never share your seed to anyone! Check your surroundings to ensure no one is overlooking';
+  String get neverShareYourSeedToAnyoneCheckYourSurroundingsTo => 'Không bao giờ chia sẻ seed của bạn cho bất kỳ ai! Hãy kiểm tra xung quanh để đảm bảo không có ai đang nhìn lén';
 
   @override
-  String get note => 'Note :';
+  String get note => 'Lưu ý:';
 
   @override
-  String get copySeed => 'Copy Seed';
+  String get copySeed => 'Sao chép Seed';
 
   @override
-  String get accountAlreadyExist => 'Account already exist';
+  String get accountAlreadyExist => 'Tài khoản đã tồn tại';
 
   @override
-  String get transactionInitiatedSuccessfully => 'Transaction initiated successfully';
+  String get transactionInitiatedSuccessfully => 'Giao dịch đã được khởi tạo thành công';
 
   @override
-  String get enterAValidSubAddress => 'Enter a valid sub address';
+  String get enterAValidSubAddress => 'Nhập địa chỉ phụ hợp lệ';
 
   @override
-  String get subaddressAlreadyExist => 'Subaddress already exist';
+  String get subaddressAlreadyExist => 'Địa chỉ phụ đã tồn tại';
 
   @override
-  String get labelName => 'Label name';
+  String get labelName => 'Tên nhãn';
 
   @override
-  String get subAddress => 'Sub Address';
+  String get subAddress => 'Địa chỉ phụ';
 
   @override
-  String get loadingTheWallet => 'Loading the wallet...';
+  String get loadingTheWallet => 'Đang tải ví…';
 
   @override
-  String get youAreAboutToDeletenYourWallet => 'You are about to delete\n your wallet!';
+  String get youAreAboutToDeletenYourWallet => 'Bạn sắp xóa ví của mình!';
 
   @override
-  String get creatingTheTransaction => 'Creating the Transaction';
+  String get creatingTheTransaction => '';
 
   @override
-  String get copyAndSaveTheSeedToContinue => 'Copy and save the seed to continue';
+  String get copyAndSaveTheSeedToContinue => 'Hãy sao chép và lưu seed để tiếp tục';
 
   @override
-  String get enterPin => 'Enter PIN';
+  String get enterPin => 'Nhập mã PIN';
 
   @override
-  String get test => 'Test';
+  String get test => 'Kiểm tra';
 
   @override
-  String get success => 'Success';
+  String get success => '';
 
   @override
-  String get connectionFailed => 'Connection Failed';
+  String get connectionFailed => '';
 
   @override
-  String get checking => 'Checking...';
+  String get checking => '';
 
   @override
-  String get testResult => 'Test Result:';
+  String get testResult => 'Kết quả kiểm tra:';
 
   @override
-  String get passwordOptional => 'Password (optional)';
+  String get passwordOptional => 'Mật khẩu (tùy chọn)';
 
   @override
-  String get userNameOptional => 'User Name (optional)';
+  String get userNameOptional => 'Tên người dùng (tùy chọn)';
 
   @override
-  String get nodeNameOptional => 'Node Name (optional)';
+  String get nodeNameOptional => 'Tên Node (tùy chọn)';
 
   @override
-  String get addNode => 'Add Node';
+  String get addNode => 'Thêm Node';
 
   @override
-  String get legalDisclaimer => 'Legal Disclaimer';
+  String get legalDisclaimer => '';
 
   @override
-  String get howCanWenhelpYou => 'How can we\nhelp you?';
+  String get howCanWenhelpYou => 'Chúng tôi có thể giúp gì cho bạn?';
 
   @override
-  String get removeContact => 'Remove Contact';
+  String get removeContact => 'Xóa liên hệ';
 
   @override
-  String get areYouSureYouWantToRemoveSelectedContact => 'Are you sure you want to remove selected contact?';
+  String get areYouSureYouWantToRemoveSelectedContact => 'Bạn có chắc chắn muốn xóa liên hệ đã chọn không?';
 
   @override
-  String get theAddressAlreadyExist => 'The Address already Exist';
+  String get theAddressAlreadyExist => 'Địa chỉ đã tồn tại';
 
   @override
-  String get thisNameAlreadyExist => 'This Name already Exist';
+  String get thisNameAlreadyExist => 'Tên này đã tồn tại';
 
   @override
-  String get enterAValidName => 'Enter a valid name';
+  String get enterAValidName => 'Nhập tên hợp lệ';
 
   @override
-  String get addressShouldNotBeEmpty => 'Address should not be empty';
+  String get addressShouldNotBeEmpty => 'Địa chỉ không được để trống';
 
   @override
-  String get nameShouldNotBeEmpty => 'Name should not be empty';
+  String get nameShouldNotBeEmpty => 'Tên không được để trống';
 
   @override
-  String get enterName => 'Enter Name';
+  String get enterName => 'Nhập tên';
 
   @override
-  String get accountName => 'Account Name';
+  String get accountName => 'Tên tài khoản';
 
   @override
-  String get playStore => 'Play Store';
+  String get playStore => '';
 
   @override
-  String get appstore => 'AppStore';
+  String get appstore => '';
 
   @override
-  String get allowFaceIdAuthentication => 'Allow face id authentication';
+  String get allowFaceIdAuthentication => '';
 
   @override
-  String get enterAddress => 'Enter Address';
+  String get enterAddress => 'Nhập địa chỉ';
 
   @override
-  String get pleaseAddAMainnetNode => 'Please add a mainnet node';
+  String get pleaseAddAMainnetNode => '';
 
   @override
   String flashTransactionPriority(Object transactionPriority) {
-    return 'Flash transaction are instant transactions.\n$transactionPriority priority is set as a default fee.';
+    return '';
   }
 
   @override
-  String get initiatingTransactionTitle => 'Initiating Transaction..';
+  String get initiatingTransactionTitle => 'Đang khởi tạo giao dịch...';
 
   @override
-  String get initiatingTransactionDescription => 'Please don\'t close this window or navigate to another app until the transaction gets initiated';
+  String get initiatingTransactionDescription => 'Vui lòng không đóng cửa sổ này hoặc chuyển sang ứng dụng khác cho đến khi giao dịch được khởi tạo';
 
   @override
-  String get subAddresses => 'Sub Addresses';
+  String get subAddresses => '';
 
   @override
-  String get loadingTheWalletDescription => 'Please don\'t close this window or navigate to another app until we load the wallet';
+  String get loadingTheWalletDescription => 'Vui lòng không đóng cửa sổ này hoặc chuyển sang ứng dụng khác cho đến khi ví được tải xong.';
 
   @override
-  String get buyBns => 'Buy BNS';
+  String get buyBns => 'Mua BNS';
 
   @override
-  String get myBns => 'My BNS';
+  String get myBns => '';
 
   @override
-  String get addBns => 'Add BNS';
+  String get addBns => 'Thêm BNS';
 
   @override
-  String get bns => 'BNS';
+  String get bns => '';
 
   @override
-  String get bnsPurchaseDescription => 'Purchase or update an BNS record. If you purchase a name, it may take a minute or two for it to show up in the list';
+  String get bnsPurchaseDescription => 'Mua hoặc cập nhật một bản ghi BNS.\n Nếu bạn mua một tên, có thể mất một hoặc hai phút để hiển thị trong danh sách.';
 
   @override
-  String get bnsPrice => 'Price';
+  String get bnsPrice => 'Giá';
 
   @override
-  String get bnsYearOneShort => '1 Yr';
+  String get bnsYearOneShort => '1 năm';
 
   @override
-  String get bnsYearTwoShort => '2 Yrs';
+  String get bnsYearTwoShort => '2 năm';
 
   @override
-  String get bnsYearFiveShort => '5 Yrs';
+  String get bnsYearFiveShort => '5 năm';
 
   @override
-  String get bnsYearTenShort => '10 Yrs';
+  String get bnsYearTenShort => '10 năm';
 
   @override
-  String get bnsYearOne => '1 Year';
+  String get bnsYearOne => '';
 
   @override
-  String get bnsYearTwo => '2 Years';
+  String get bnsYearTwo => '';
 
   @override
-  String get bnsYearFive => '5 Years';
+  String get bnsYearFive => '';
 
   @override
-  String get bnsYearTen => '10 Years';
+  String get bnsYearTen => '';
 
   @override
-  String get bnsYouSave => 'You Save ';
+  String get bnsYouSave => 'Bạn tiết kiệm';
 
   @override
-  String get bnsNameHint => 'The name to purchase via Beldex Name Service';
+  String get bnsNameHint => 'Tên cần mua thông qua Dịch vụ Tên Beldex';
 
   @override
-  String get bnsOwnerOptional => 'Owner (optional)';
+  String get bnsOwnerOptional => 'Chủ sở hữu (Owner – Tùy chọn)';
 
   @override
-  String get bnsOwnerHint => 'The wallet address of the owner';
+  String get bnsOwnerHint => 'Địa chỉ ví của chủ sở hữu';
 
   @override
-  String get bnsWalletAddress => 'Wallet Address';
+  String get bnsBchatId => 'ID BChat';
 
   @override
-  String get bnsBchatId => 'BChat ID';
+  String get bnsBelnetId => 'ID Belnet';
 
   @override
-  String get bnsBelnetId => 'Belnet ID';
+  String get bnsEthAddress => 'Địa chỉ ETH';
 
   @override
-  String get bnsEthAddress => 'ETH Address';
+  String get bnsUpdateOwner => 'Cập nhật chủ sở hữu';
 
   @override
-  String get bnsUpdateOwner => 'Update Owner';
+  String get bnsUpdateValues => 'Cập nhật giá trị';
 
   @override
-  String get bnsUpdateValues => 'Update Values';
+  String get bnsNewOwnerHint => 'Nhập địa chỉ ví của chủ sở hữu mới';
 
   @override
-  String get bnsNewOwnerHint => 'Enter the wallet address of new owner';
+  String get bnsUpdateNote => 'Bạn chỉ có thể cập nhật địa chỉ chủ sở hữu hoặc các giá trị tại một thời điểm.\n Nếu bạn muốn cập nhật cả hai, bạn có thể cập nhật giá trị trước khi chuyển quyền sở hữu hoặc sau khi chuyển quyền sở hữu.';
 
   @override
-  String get bnsUpdateNote => 'You can only update owner address or values at a time. If you want to update both, you can either update the value before ownership or after transferring ownership.';
+  String get bnsAddRecord => 'Thêm bản ghi';
 
   @override
-  String get bnsAddRecord => 'Add Record';
+  String get bnsRecordsDescription => 'Tại đây bạn có thể tìm thấy tất cả các tên BNS thuộc sở hữu của ví này. Khi giải mã một bản ghi mà bạn sở hữu, hệ thống sẽ trả về tên và giá trị trong bản ghi BNS.';
 
   @override
-  String get bnsRecordsDescription => 'Here you can find all the BNS Names owned by this wallet. Decrypting a record you own will return the name and value at the BNS record.';
+  String get bnsRecordNameHint => 'Một tên BNS thuộc về bạn';
 
   @override
-  String get bnsRecordNameHint => 'A BNS name that belongs to you';
-
-  @override
-  String get bnsFetchingRecords => 'Fetching BNS records from the network...';
+  String get bnsFetchingRecords => 'Đang lấy bản ghi BNS từ mạng';
 
   @override
   String bnsDecryptionSuccess(Object bnsName) {
-    return 'Successfully decrypted BNS Record for $bnsName';
+    return 'Đã giải mã thành công bản ghi BNS cho $bnsName';
   }
 
   @override
   String bnsDecryptionFailure(Object bnsName) {
-    return 'Failed to decrypt BNS Record for $bnsName';
+    return 'Không thể giải mã bản ghi BNS cho $bnsName';
   }
 
   @override
-  String get bnsRecordNotFound => 'The given BNS record doesn\'t exist or does not belong to this wallet.';
+  String get bnsRecordNotFound => '';
 
   @override
-  String get bnsWaitForFetch => 'Please wait until we fetch the BNS record from Network';
+  String get bnsWaitForFetch => '';
 
   @override
-  String get bnsRecords => 'BNS Records';
+  String get bnsRecords => 'Bản ghi BNS';
 
   @override
-  String get bnsExpirationHeight => 'Expiration Height : ';
+  String get bnsExpirationHeight => 'Chiều cao hết hạn';
 
   @override
-  String get bnsUpdateHeight => 'Update Height';
+  String get bnsUpdateHeight => 'Chiều cao cập nhật';
 
   @override
-  String get bnsBackupOwner => 'Backup Owner';
+  String get bnsBackupOwner => 'Chủ sở hữu dự phòng';
 
   @override
-  String get bnsEncryptedWalletValue => 'Encrypted Wallet Value';
+  String get bnsEncryptedWalletValue => 'Giá trị ví được mã hóa';
 
   @override
-  String get bnsEncryptedBchatValue => 'Encrypted BChat Value';
+  String get bnsEncryptedBchatValue => 'Giá trị BChat được mã hóa';
 
   @override
-  String get bnsEncryptedBelnetValue => 'Encrypted Belnet Value';
+  String get bnsEncryptedBelnetValue => 'Giá trị Belnet được mã hóa';
 
   @override
-  String get bnsEncryptedEthValue => 'Encrypted ETH Value';
+  String get bnsEncryptedEthValue => 'Giá trị ETH được mã hóa';
 
   @override
-  String get bnsUpdateAction => 'Update';
+  String get bnsUpdateAction => 'Cập nhật';
 
   @override
-  String get bnsRenewAction => 'Renew';
+  String get bnsRenewAction => 'Gia hạn';
 
   @override
-  String get bnsNoteLabel => 'Note : ';
+  String get bnsNoteLabel => 'Ghi chú:';
 
   @override
-  String get bnsEthAddressDescription => 'Our eth address is compatible across all EVM chains';
+  String get bnsEthAddressDescription => 'Địa chỉ ETH của chúng tôi tương thích với tất cả các chuỗi EVM';
 
   @override
-  String get bnsPurchase => 'Purchase';
+  String get bnsPurchase => 'Mua';
 
   @override
-  String get bnsPleaseFillField => 'Please fill in this field';
+  String get bnsPleaseFillField => 'Vui lòng điền vào trường này';
 
   @override
-  String get bnsInvalidName => 'Invalid BNS Name';
+  String get bnsInvalidName => '';
 
   @override
-  String get bnsInvalidBchatId => 'Invalid BChat ID';
+  String get bnsInvalidBchatId => 'BChat ID không hợp lệ';
 
   @override
-  String get bnsInvalidBelnetId => 'Invalid Belnet ID';
+  String get bnsInvalidBelnetId => 'Belnet ID không hợp lệ';
 
   @override
-  String get bnsInvalidEthAddress => 'Invalid ETH Address';
+  String get bnsInvalidEthAddress => 'Địa chỉ ETH không hợp lệ';
 
   @override
-  String get bnsEnterValidWalletAddress => 'Enter a valid wallet address.';
+  String get bnsEnterValidWalletAddress => 'Nhập địa chỉ ví hợp lệ';
 
   @override
-  String get bnsConfirmPurchase => 'Confirm Purchase';
+  String get bnsConfirmPurchase => 'Xác nhận mua';
 
   @override
-  String get bnsNameLabel => 'Name';
+  String get bnsYearLabel => 'Năm';
 
   @override
-  String get bnsYearLabel => 'Year';
+  String get bnsOwnerLabel => 'Chủ sở hữu';
 
   @override
-  String get bnsOwnerLabel => 'Owner';
+  String get bnsSameOwnerAddress => '';
 
   @override
-  String get bnsAddressLabel => 'Address';
+  String get bnsSameWalletAddress => '';
 
   @override
-  String get bnsNone => 'None';
+  String get bnsSameBchatId => '';
 
   @override
-  String get bnsSameOwnerAddress => 'same owner address';
+  String get bnsSameBelnetId => '';
 
   @override
-  String get bnsSameWalletAddress => 'same wallet address';
+  String get bnsSameEthAddress => '';
 
   @override
-  String get bnsSameBchatId => 'same Bchat id';
+  String get bnsInvalidOwnerAddress => '';
 
   @override
-  String get bnsSameBelnetId => 'same Belnet id';
+  String get bnsNameIsTaken => '';
 
   @override
-  String get bnsSameEthAddress => 'same ETH Address';
+  String get bnsInvalidWalletAddress => '';
 
   @override
-  String get bnsInvalidOwnerAddress => 'Invalid Owner address.';
+  String get bnsOwnerAndBackupDifferent => '';
 
   @override
-  String get bnsNameIsTaken => 'BNS name is taken. Choose a different one.';
+  String get bnsPurchasedSuccessfully => '';
 
   @override
-  String get bnsInvalidWalletAddress => 'Invalid wallet address. Leave blank if you want to use the current wallet as the BNS owner.';
+  String get bnsUpdatedSuccessfully => '';
 
   @override
-  String get bnsOwnerAndBackupDifferent => 'Owner and backup address must be different.';
+  String get bnsRenewedSuccessfully => '';
 
   @override
-  String get bnsPurchasedSuccessfully => 'BNS Purchased Successfully';
+  String get bnsUpdate => 'Cập nhật BNS';
 
   @override
-  String get bnsUpdatedSuccessfully => 'BNS Updated Successfully';
+  String get bnsRenewal => 'Gia hạn BNS';
 
   @override
-  String get bnsRenewedSuccessfully => 'BNS Renewed Successfully';
+  String get swap => 'Hoán đổi';
 
   @override
-  String get bnsUpdate => 'BNS Update';
-
-  @override
-  String get bnsRenewal => 'BNS Renewal';
-
-  @override
-  String get swap => 'Swap';
-
-  @override
-  String get unsupportedExchangePair => 'Unsupported exchange pair';
+  String get unsupportedExchangePair => '';
 
   @override
   String blockConfirmed(Object count) {
-    return '$count Block';
+    return '';
   }
 
   @override
   String blocksConfirmed(Object count) {
-    return '$count Blocks';
+    return '';
   }
 
   @override
-  String get restoredViaKeys => 'You restored via keys';
+  String get restoredViaKeys => 'Bạn đã khôi phục bằng keys';
 
   @override
   String walletAlreadyExists(Object name) {
-    return 'Wallet with name $name is already exist!';
+    return 'Ví có tên $name đã tồn tại!';
   }
 
   @override
-  String get nodeAlreadyExists => 'This node already exists';
+  String get nodeAlreadyExists => 'Node này đã tồn tại';
 
   @override
-  String get fee => 'Fee';
+  String get fee => 'Phí';
 
   @override
-  String get noInternet => 'No Internet!';
+  String get noInternet => 'Không có kết nối internet!';
 
   @override
-  String get noInternetMessage => 'Please check your internet Connection\nand try again.';
+  String get noInternetMessage => 'Vui lòng kiểm tra kết nối internet và thử lại.';
 
   @override
-  String get swapNotAvailable => ' Swap is not available\nat the moment';
+  String get swapNotAvailable => 'Chức năng hoán đổi BDX hiện không khả dụng';
 
   @override
-  String get tryAgain => 'Please try again after some times.';
+  String get tryAgain => 'Vui lòng thử lại sau một thời gian';
 
   @override
-  String get exchange => 'Exchange';
+  String get exchange => 'Hoán đổi';
 
   @override
-  String get youSend => 'You send';
+  String get youSend => 'Bạn gửi';
 
   @override
-  String get youGet => 'You get';
+  String get youGet => 'Bạn nhận';
 
   @override
-  String get floatingExchangeRate => 'Floating Exchange Rate';
+  String get floatingExchangeRate => 'Tỷ giá thả nổi';
 
   @override
-  String get floatingRateDescription => 'The floating rate can change at any point due to market conditions, so you might receive more or less crypto than expected.';
+  String get floatingRateDescription => 'Tỷ giá có thể thay đổi bất cứ lúc nào do điều kiện thị trường, vì vậy bạn có thể nhận được nhiều hoặc ít crypto hơn dự kiến.';
 
   @override
-  String get searchCoins => 'Search Coins';
+  String get searchCoins => 'Tìm kiếm coin';
 
   @override
-  String get minimumAmount => 'Minimum amount is ';
+  String get minimumAmount => 'Số tiền tối thiểu là';
 
   @override
-  String get maximumAmount => 'Maximum amount is ';
+  String get maximumAmount => 'Số tiền tối đa là';
 
   @override
-  String get exchangeAmount => 'Exchange Amount';
+  String get exchangeAmount => '';
 
   @override
-  String get exchangeRate => 'Exchange Rate';
+  String get exchangeRate => 'Tỷ giá';
 
   @override
-  String get receiver => 'Receiver';
+  String get receiver => 'Người nhận';
 
   @override
-  String get amountReceived => 'Amount Received';
+  String get amountReceived => 'Số tiền nhận';
 
   @override
-  String get date => 'Date';
+  String get date => 'Ngày';
 
   @override
-  String get expandDetails => 'Expand Details';
+  String get expandDetails => 'Mở rộng chi tiết';
 
   @override
-  String get view => 'View';
+  String get view => 'Xem';
 
   @override
-  String get noTransactionsMessage => 'There are no Transactions or\nexchanges made to show..';
+  String get noTransactionsMessage => 'Hiện chưa có giao dịch hoặc hoán đổi nào để hiển thị.';
 
   @override
-  String get networkErrorCheckConnection => 'Network Error! Please check internet connection.';
+  String get networkErrorCheckConnection => 'Lỗi mạng! Vui lòng kiểm tra kết nối internet.';
 
   @override
-  String get swapTransactionReport => 'Beldex_wallet_swap_transaction_report';
+  String get swapTransactionReport => '';
 
   @override
-  String get transactionReport => 'Transaction Report';
+  String get transactionReport => '';
 
   @override
-  String get failedToGetOutputDistribution => 'Failed to get output distribution';
+  String get failedToGetOutputDistribution => '';
 
   @override
-  String get sendValueExceedBalance => 'Value of amount can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 2';
+  String get noPendingTransaction => '';
 
   @override
-  String get noPendingTransaction => 'No pending transaction';
+  String get max => '';
 
   @override
-  String get max => 'Max';
+  String get addressCopied => '';
 
   @override
-  String get addressCopied => 'Address Copied';
+  String get searchCurrency => 'Tìm kiếm tiền tệ';
 
   @override
-  String get searchCurrency => 'Search Currency';
+  String changePinLength(Object value) {
+    return 'Chuyển sang PIN $value chữ số';
+  }
+
+  @override
+  String get pleaseEnterAValidHeight => 'Vui lòng nhập chiều cao hợp lệ';
+
+  @override
+  String get invalidAddress => '';
+
+  @override
+  String get exchangePair => 'Cặp giao dịch';
+
+  @override
+  String get payment => 'Thanh toán';
+
+  @override
+  String get bnsConfirmUpdate => 'Xác nhận cập nhật';
 }

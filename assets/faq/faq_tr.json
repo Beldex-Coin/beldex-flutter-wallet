@@ -1,0 +1,46 @@
+[
+  {
+    "question": "Kullanılabilir Bakiye ile Toplam Bakiye arasındaki fark nedir?",
+    "answer": "Bir işlem yaptığınızda veya Beldex aldığınızda, işlemin onaylanması gerekir. Yaklaşık 20 dakika içinde kullanılabilir bakiyeniz güncellenir.\nBazen Beldex gönderdiğinizde, kullanılabilir bakiyeniz gönderdiğiniz miktardan daha fazla azalabilir. Bu normaldir ve gizliliğinizi korumak için gereklidir.\nToplam bakiyeniz yaklaşık 20 dakika içinde tekrar normale dönecektir.\n"
+  },
+  {
+    "question": "“Seed” ve “Keys” ne anlama gelir?",
+    "answer": "Anahtarlarınız (keys), cüzdanınızdaki özel bilgileri kodlar ve coin harcamanızı ve gelen işlemleri görmenizi sağlar.\nSeed ise, özel anahtarınızın yazılması daha kolay bir versiyonudur. Aslında seed ve anahtarlar aynı şeydir, sadece farklı biçimlerde ifade edilirler.\nSeed’inizi veya anahtarlarınızı ASLA kimseyle paylaşmayın. Paylaşırsanız, fonlarınız çalınabilir.\nSeed’inizi mutlaka yazın ve güvenli bir yerde saklayın (bu, telefonunuzu kaybetmeniz durumunda cüzdanınızı geri yüklemenizi sağlar).\n"
+  },
+  {
+    "question": "Kaç tane cüzdan oluşturabilirim?",
+    "answer": "Herhangi bir sınır yoktur! İstediğiniz kadar cüzdan oluşturabilirsiniz.\n"
+  },
+  {
+    "question": "Cüzdanımı nasıl geri yükleyebilirim?",
+    "answer": "Ana ekranınızdaki profil simgesine (sağ üst köşe) dokunun, Cüzdanlar bölümünü seçin ve ardından Cüzdanı Geri Yükle seçeneğini seçin.\nDaha sonra seed’inizi (veya anahtarlarınızı) girin ve isteğe bağlı olarak cüzdanınızdaki ilk işlemden önceki bir tarihi girin (bu, senkronizasyon sürecini hızlandırır).\nCüzdanınızı tamamen geri yüklemek için uygulamayı 15–30 dakika açık tutmanız gerekebilir.\n"
+  },
+  {
+    "question": "Seed’imi kaybedersem ne yapabilirim?",
+    "answer": "Seed’inizi unuttuysanız, muhtemelen bir yere not etmişsinizdir. Notlarınızı kontrol edin ve bilgisayarınızda arama yapın.\nEğer bulamazsanız, Beldex Cüzdanını yedeklemiş olabilirsiniz (bu durumda o yedekten geri yükleme yapabilirsiniz).\nBunların hiçbiri işe yaramazsa, maalesef yapılabilecek bir şey yoktur.\n"
+  },
+  {
+    "question": "Benim veya cüzdanım hakkında herhangi bir bilgi topluyor musunuz?",
+    "answer": "Beldex cüzdanı, sizin veya cüzdanınız hakkında herhangi bir bilgi toplamaz veya kaydetmez. Gizliliğinize önem veriyoruz.\nAncak, kötü niyetli bir düğüme (node) bağlanmak gizliliğinizi riske atabilir. Bu nedenle varsayılan düğümleri veya kendi düğümünüzü kullanmanızı öneririz.\n"
+  },
+  {
+    "question": "Bir işlemi geri almak mümkün mü?",
+    "answer": "Maalesef, bir işlem blockchain’e gönderildikten sonra geri alınamaz. Ancak işlem gönderilmeden önce iptal edilebilir. Bu yüzden işlem yapmadan önce adresi her zaman kontrol edin.\n"
+  },
+  {
+    "question": "Alt adresler (subaddress) nedir ve nasıl kullanılır?",
+    "answer": "Alt adres, istediğiniz zaman oluşturabileceğiniz benzersiz bir adrestir. Bu adrese gönderilen coinler ana cüzdanınıza gelir, ancak gönderen kişi ana adresinizi göremez.\nAlım (Receive) ekranında, alt adresler butonunun yanındaki + simgesine dokunarak yeni bir alt adres oluşturabilirsiniz. Alt adres için bir isim girin ve Ekle’ye dokunun. Daha sonra kullanmak istediğinizde alt adres adına dokunmanız yeterlidir.\nGizliliğe önem veriyorsanız, her Beldex alımında yeni bir alt adres oluşturmanız önerilir.\n"
+  },
+  {
+    "question": "Beldex almadım! Ne yapabilirim?",
+    "answer": "Beldex almadıysanız, ana ekranınızdaki (sol üst) senkronizasyon simgesine dokunup Yeniden Bağlan seçeneğini deneyebilirsiniz.\nBu işe yaramazsa, Ayarlar menüsüne gidin, Mevcut Düğüm (Current Node) seçeneğine dokunun ve yanında yeşil nokta olan bir düğümü seçin.\n"
+  },
+  {
+    "question": "Beldex cüzdan desteği ile nasıl iletişime geçebilirim?",
+    "answer": "E-posta: support@beldex.io\nTelegram: @official_beldex\nTwitter: @beldexcoin\n"
+  },
+  {
+    "question": "Beldex sahibi olmak beni yatırımcı yapar mı?",
+    "answer": "Hayır, yapmaz. Ama sizi Beldex sahibi harika bir kişi yapar\n"
+  }
+]

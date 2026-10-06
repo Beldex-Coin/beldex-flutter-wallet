@@ -109,7 +109,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get transactions_by_date => 'Transactions by Date';
 
   @override
-  String get filters => 'Filters';
+  String get filters => 'Filter By';
 
   @override
   String get today => 'Today';
@@ -263,9 +263,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get share_address => 'Share address';
 
   @override
-  String get receive_amount => 'Amount';
-
-  @override
   String get subaddresses => 'Subaddresses';
 
   @override
@@ -302,16 +299,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get restore_description_from_keys => 'Use the generated keystrokes saved from private keys to Restore your Wallet ';
 
   @override
-  String get restore_wallet_name => 'Wallet Name';
-
-  @override
   String get restore_address => 'Address';
-
-  @override
-  String get restore_view_key_private => 'View key (private)';
-
-  @override
-  String get restore_spend_key_private => 'Spend key (private)';
 
   @override
   String get restore_recover => 'Restore';
@@ -330,9 +318,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get seed_language_choose => 'Please choose a seed language';
-
-  @override
-  String get seed_language_next => 'Next';
 
   @override
   String get seed_language_english => 'English';
@@ -363,9 +348,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get seed_language_italian => 'Italian';
-
-  @override
-  String get send_title => 'Send';
 
   @override
   String get send_your_wallet => 'Your wallet';
@@ -432,13 +414,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_title => 'Settings';
 
   @override
-  String get settings_nodes => 'Nodes';
-
-  @override
   String get settings_current_node => 'Current node';
-
-  @override
-  String get settings_wallets => 'Wallets';
 
   @override
   String get settings_display_balance_as => 'Display Balance As';
@@ -462,9 +438,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settings_change_pin => 'Change PIN';
 
   @override
-  String get settings_change_language => 'Select Language';
-
-  @override
   String get settings_allow_biometric_authentication => 'Allow biometric authentication';
 
   @override
@@ -472,9 +445,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings_display_on_dashboard_list => 'Display on dashboard list';
-
-  @override
-  String get settings_all => 'ALL';
 
   @override
   String get settings_none => 'None';
@@ -536,9 +506,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get new_subaddress_title => 'New subaddress';
 
   @override
-  String get new_subaddress_label_name => 'Label name';
-
-  @override
   String get new_subaddress_create => 'Create';
 
   @override
@@ -549,9 +516,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get transaction_details_transaction_id => 'Transaction ID';
-
-  @override
-  String get transaction_details_date => 'Date';
 
   @override
   String get transaction_details_height => 'Height';
@@ -569,12 +533,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get transaction_details_recipient_address => 'Recipient Address';
-
-  @override
-  String get swap_wallet_address => 'Wallet Address';
-
-  @override
-  String get swap_recipient_address => 'Recipient Address';
 
   @override
   String swap_correct_chain_address(Object blockchain) {
@@ -794,16 +752,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get swap_privacy_policy => 'Privacy Policy';
 
   @override
-  String get swap_next => 'Next';
-
-  @override
   String get wallet_list_title => 'Beldex Wallet';
-
-  @override
-  String get wallet_list_create_new_wallet => 'Create New Wallet';
-
-  @override
-  String get wallet_list_restore_wallet => 'Use Existing Wallet';
 
   @override
   String get wallet_list_load_wallet => 'Load wallet';
@@ -829,9 +778,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get widgets_address => 'Address';
-
-  @override
   String get widgets_restore_from_blockheight => 'Restore from Blockheight';
 
   @override
@@ -839,9 +785,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get widgets_or => 'OR';
-
-  @override
-  String get widgets_seed => 'Seed';
 
   @override
   String router_no_route(Object name) {
@@ -1166,7 +1109,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get enterAValidAddress => 'Enter a valid address';
 
   @override
-  String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Biometric feature currenly disabled.Kindly enable allow biometric authentication feature inside the app settings';
+  String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Biometric feature currently disabled.Kindly enable allow biometric authentication feature inside the app settings';
 
   @override
   String get unlockBeldexWallet => 'Unlock Beldex Wallet';
@@ -1420,9 +1363,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bnsOwnerHint => 'The wallet address of the owner';
 
   @override
-  String get bnsWalletAddress => 'Wallet Address';
-
-  @override
   String get bnsBchatId => 'BChat ID';
 
   @override
@@ -1475,7 +1415,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bnsRecords => 'BNS Records';
 
   @override
-  String get bnsExpirationHeight => 'Expiration Height : ';
+  String get bnsExpirationHeight => 'Expiration Height';
 
   @override
   String get bnsUpdateHeight => 'Update Height';
@@ -1532,19 +1472,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bnsConfirmPurchase => 'Confirm Purchase';
 
   @override
-  String get bnsNameLabel => 'Name';
-
-  @override
   String get bnsYearLabel => 'Year';
 
   @override
   String get bnsOwnerLabel => 'Owner';
-
-  @override
-  String get bnsAddressLabel => 'Address';
-
-  @override
-  String get bnsNone => 'None';
 
   @override
   String get bnsSameOwnerAddress => 'same owner address';
@@ -1691,9 +1622,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get failedToGetOutputDistribution => 'Failed to get output distribution';
 
   @override
-  String get sendValueExceedBalance => 'Value of amount can\'t exceed available balance.\nThe number of fraction digits must be less or equal to 2';
-
-  @override
   String get noPendingTransaction => 'No pending transaction';
 
   @override
@@ -1704,4 +1632,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchCurrency => 'Search Currency';
+
+  @override
+  String changePinLength(Object value) {
+    return 'Switch to $value-digit PIN';
+  }
+
+  @override
+  String get pleaseEnterAValidHeight => 'Please enter a valid Height';
+
+  @override
+  String get invalidAddress => 'Invalid address';
+
+  @override
+  String get exchangePair => 'Exchange Pair';
+
+  @override
+  String get payment => 'Payment';
+
+  @override
+  String get bnsConfirmUpdate => 'Confirm Update';
 }

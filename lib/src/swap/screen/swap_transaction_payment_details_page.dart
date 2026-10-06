@@ -715,9 +715,9 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
               height: 5,
             ),
             createdTransactionDetails?.networkTo != null
-                ? networkTextWidget(
+                ? networkTextWidget(context,
                     networkWithUppercase(createdTransactionDetails?.networkTo))
-                : networkTextWidget("..."),
+                : networkTextWidget(context, "..."),
           ],
         ),
         //Time Remaining Details

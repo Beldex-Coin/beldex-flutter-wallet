@@ -195,7 +195,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                             if (!pattern.hasMatch(value!)) {
                               return tr(context).enterValidHeightWithoutSpace;
                             }else if(!checkCurrentHeight(value!)){
-                              return 'Please enter a valid Height';
+                              return tr(context).pleaseEnterAValidHeight;
                             }else {
                               return null;
                             }

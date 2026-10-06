@@ -471,10 +471,6 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   }
 
   String _changePinLengthText(AppLocalizations t) {
-    return t.use +
-        (pinLength == 4
-            ? '6'
-            : '4') +
-        t.digit_pin;
+    return t.changePinLength(pinLength == 4 ? '6' : '4');
   }
 }
