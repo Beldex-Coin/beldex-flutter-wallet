@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <head> 
-  <style> 
+  <style>
 p {
  font-size: 15px;
 

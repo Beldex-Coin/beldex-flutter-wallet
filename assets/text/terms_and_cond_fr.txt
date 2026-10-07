@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+
+<head>
+  <style>
+p {
+ font-size: 15px;
+ textAlign:center;
+}
+h6 {
+    font-size: 15px;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+<p><b>1. Utilisation du portefeuille BELDEX</b></p>
+<p>L'application BELDEX Wallet (ci-après dénommée « l'Application ») permet d'accéder à la blockchain et au réseau Beldex. Vous n'êtes pas autorisé à utiliser l'Application, et vous ne devez pas vous y fier, pour obtenir des conseils juridiques, commerciaux ou de quelque nature que ce soit. Vous utilisez l'Application et vous vous fiez à son contenu à vos propres risques. Si vous décidez d'agir ou de ne pas agir, vous devez consulter un avocat agréé dans la juridiction concernée dans laquelle vous souhaitez ou avez besoin d'aide. En aucun cas, les propriétaires ou les contributeurs de l'Application ne peuvent être tenus responsables des actions, décisions ou autres comportements que vous entreprenez ou n'entreprenez pas sur la base de l'Application.</p>
+
+<p><b>2. Traductions</b></p>
+<p>
+    L'Application peut contenir des traductions de la version anglaise du contenu disponible dans l'Application. Ces traductions sont fournies uniquement à titre pratique. En cas de conflit entre la version anglaise et une version traduite, la version anglaise prévaut. Si vous constatez des incohérences, veuillez les signaler sur GitHub.
+</p>
+
+<p><b>
+    3. Risques liés à l'utilisation du portefeuille BELDEX
+</b></p>
+<p>
+    L'Application, son propriétaire, le projet Beldex ainsi que les propriétaires, partenaires, employés, contributeurs et sociétés affiliées du projet Beldex ne peuvent être tenus responsables des pertes, dommages ou réclamations résultant d'événements relevant de l'une des cinq catégories suivantes :
+    <ol>
+        <li>
+            Erreurs commises par l'utilisateur de tout logiciel ou service lié à Beldex, telles que l'oubli de mots de passe, l'envoi de paiements à de mauvaises adresses Beldex ou la suppression accidentelle de portefeuilles.
+        </li>
+        <li>
+            Problèmes logiciels affectant l'Application et/ou tout logiciel ou service lié à Beldex, tels qu'un fichier de portefeuille corrompu, des transactions mal construites, des bibliothèques cryptographiques non sécurisées ou des logiciels malveillants affectant l'Application et/ou tout logiciel ou service lié à Beldex.
+        </li>
+        <li>
+            Défaillances techniques du matériel utilisé par l'utilisateur de tout logiciel ou service lié à Beldex, telles que la perte de données due à un périphérique de stockage défectueux ou endommagé.
+        </li>
+        <li>
+            Problèmes de sécurité rencontrés par l'utilisateur de tout logiciel ou service lié à Beldex, tels que l'accès non autorisé aux portefeuilles et/ou aux comptes des utilisateurs.
+        </li>
+        <li>
+            Actions ou omissions de tiers et/ou événements affectant des tiers, tels que la faillite de fournisseurs de services, les attaques visant la sécurité des informations des fournisseurs de services et les fraudes commises par des tiers.
+        </li>
+    </ol>
+</p>
+
+<p><b>
+    4. Clause de non-responsabilité
+</b></p>
+<p>
+    Les cryptomonnaies sont très volatiles et tout investissement dans celles-ci est soumis aux risques du marché. Un investissement dans Beldex peut entraîner des gains ou des pertes d'argent importants sur de courtes ou même de longues périodes. Les investisseurs en Beldex doivent s'attendre à de fortes fluctuations des prix.
+</p>
+
+<p><b>
+    5. Respect des obligations fiscales
+</b></p>
+<p>
+    Les utilisateurs de l'Application sont seuls responsables de déterminer quels impôts, le cas échéant, s'appliquent à leurs transactions Beldex. Les propriétaires et les contributeurs de l'Application ne sont PAS responsables de déterminer les impôts applicables aux transactions Beldex.
+</p>
+
+<p><b>
+    6. L'Application ne stocke, n'envoie ni ne reçoit de Beldex
+</b></p>
+<p>
+    L'Application ne stocke, n'envoie ni ne reçoit de Beldex. En effet, les Beldex n'existent que par le biais de l'enregistrement de propriété conservé sur le réseau Beldex. Tout transfert de propriété de Beldex s'effectue au sein du réseau Beldex décentralisé et non dans l'Application.
+</p>
+
+<p><b>
+    7. Aucune garantie
+</b></p>
+<p>
+    L'Application est fournie « en l'état », sans aucune garantie de quelque nature que ce soit concernant l'Application et/ou tout contenu, toute donnée, tout matériel et/ou tout service fourni dans l'Application.
+</p>
+
+<p><b>
+    8. Limitation de responsabilité
+</b></p>
+<p>
+    Sauf disposition contraire de la loi, en aucun cas les propriétaires ou les contributeurs de l'Application ne pourront être tenus responsables de dommages de quelque nature que ce soit, y compris, mais sans s'y limiter, de la perte d'utilisation, de la perte de bénéfices ou de la perte de données résultant de l'utilisation de l'Application ou liés de quelque manière que ce soit à celle-ci.
+</p>
+
+<p><b>
+    9. Arbitrage
+</b></p>
+<p>
+    L'utilisateur de l'Application accepte de soumettre à l'arbitrage tout litige découlant de l'Application ou de la présente clause de non-responsabilité, ou s'y rapportant, à l'exception des litiges relatifs aux droits d'auteur, logos, marques, noms commerciaux, secrets commerciaux ou brevets. L'arbitrage est régi par les lois des Seychelles. L'arbitrage se déroulera devant les tribunaux des Seychelles.
+</p>
+
+<p><b>
+    10. Dernière modification
+</b></p>
+<p>
+    Cette clause de non-responsabilité a été modifiée pour la dernière fois le 10 octobre 2021.
+</p>
+</body>

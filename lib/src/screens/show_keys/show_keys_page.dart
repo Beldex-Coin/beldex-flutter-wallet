@@ -90,18 +90,6 @@ class _KeysDisplayWidgetState extends State<KeysDisplayWidget> {
                   return ListTile(
                       contentPadding: EdgeInsets.only(
                           top: 10, bottom: 10, left: 10, right: 10),
-                      // onTap: () async {
-                      //   await ClipboardHelper.copyWithAutoClear(keysMap.values.elementAt(index));
-                      //   Scaffold.of(context).showSnackBar(SnackBar(
-                      //     content: Text(
-                      //       S.of(context).copied_key_to_clipboard(key),
-                      //       textAlign: TextAlign.center,
-                      //       style: TextStyle(color: Colors.white),
-                      //     ),
-                      //     backgroundColor: Colors.green,
-                      //     duration: Duration(seconds: 1),
-                      //   ));
-                      // },
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -118,16 +106,6 @@ class _KeysDisplayWidgetState extends State<KeysDisplayWidget> {
                                 textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                               );
-
-                              //      Scaffold.of(context).showSnackBar(SnackBar(
-                              //   content: Text(
-                              //     S.of(context).copied_key_to_clipboard(key),
-                              //     textAlign: TextAlign.center,
-                              //     style: TextStyle(color: Colors.white),
-                              //   ),
-                              //   backgroundColor: Color(0xff0BA70F),
-                              //   duration: Duration(seconds: 1),
-                              // ));
                             },
                             child: Padding(
                               padding: const EdgeInsets.only(right: 8.0),

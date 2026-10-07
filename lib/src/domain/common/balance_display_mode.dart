@@ -33,13 +33,13 @@ class BalanceDisplayMode extends EnumerableItem<int> with Serializable<int> {
   String getTitle(AppLocalizations l10n) {
     switch (this) {
       case BalanceDisplayMode.fullBalance:
-        return l10n.beldex_full_balance;
+        return l10n.full_balance;
       case BalanceDisplayMode.availableBalance:
-        return l10n.beldex_available_balance;
+        return l10n.available_balance;
       case BalanceDisplayMode.hiddenBalance:
-        return l10n.beldex_hidden;
+        return l10n.hidden_balance;
       default:
-        return l10n.beldex_available_balance;
+        return l10n.available_balance;
     }
   }
 }

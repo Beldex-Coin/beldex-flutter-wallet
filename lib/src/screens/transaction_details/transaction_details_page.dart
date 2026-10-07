@@ -104,15 +104,6 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
                     textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                   );
-
-                  // Scaffold.of(context).showSnackBar(
-                  //   SnackBar(
-                  //     content: Text(
-                  //         S.of(context).transaction_details_copied(item.title)),
-                  //     backgroundColor: Colors.green,
-                  //     duration: Duration(milliseconds: 1500),
-                  //   ),
-                  // );
                 }
               },
               child:

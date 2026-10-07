@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<head> 
+  <style> 
+p {
+ font-size: 15px;
+
+ textAlign:center;
+}
+h6 {
+    font-size: 15px;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+<p><b>1. Uso de la Billetera BELDEX</b></p>
+<p>La aplicación BELDEX Wallet (en adelante, la “App”) permite acceder a la red/blockchain de Beldex. No estás autorizado a usar la App como fuente de asesoramiento legal, empresarial o de cualquier tipo. Actúas bajo tu propio riesgo al confiar en el contenido de la App. Si decides actuar o no actuar, debes consultar a un abogado autorizado en la jurisdicción correspondiente. En ningún caso los propietarios o colaboradores de la App serán responsables de tus acciones, decisiones u omisiones basadas en la App.</p>
+<p><b>2. Transacciones</b></p>
+<p>
+    La App puede contener traducciones del contenido en inglés. Estas se proporcionan solo por conveniencia. En caso de conflicto entre la versión en inglés y la traducida, prevalecerá la versión en inglés. Si detectas inconsistencias, repórtalas en Github.
+</p>
+<p><b>
+    3. Riesgos relacionados con el uso de la BELDEX Wallet
+</b></p>
+<p> 
+    Ni la App, ni el Proyecto Beldex, ni sus propietarios, socios, empleados, colaboradores o afiliados serán responsables de pérdidas, daños o reclamaciones derivadas de:
+    <ol>
+        <li> 
+            Errores cometidos por el usuario de cualquier software o servicio relacionado con Beldex; por ejemplo: contraseñas olvidadas, pagos enviados a direcciones de Beldex incorrectas y eliminación accidental de billeteras.
+        </li>
+        <li> 
+            Problemas de software de la Aplicación y/o de cualquier software o servicio relacionado con Beldex; por ejemplo: archivos de billetera corruptos, transacciones construidas incorrectamente, bibliotecas criptográficas inseguras y malware que afecte a la Aplicación y/o a cualquier software o servicio relacionado con Beldex.
+        </li>
+        <li> 
+            Fallos técnicos en el hardware del usuario de cualquier software o servicio relacionado con Beldex; por ejemplo: pérdida de datos debido a dispositivos de almacenamiento defectuosos o dañados.
+        </li>
+        <li> 
+            Problemas de seguridad experimentados por el usuario de cualquier software o servicio relacionado con Beldex; por ejemplo: acceso no autorizado a las billeteras y/o cuentas de los usuarios.
+        </li>
+        <li> 
+            Acciones u omisiones de terceros y/o eventos experimentados por terceros; por ejemplo: la quiebra de proveedores de servicios, ataques a la seguridad de la información dirigidos a proveedores de servicios y fraudes perpetrados por terceros.
+        </li>
+    </ol>
+</p>
+<p><b>
+    4. Descargo de responsabilidad
+</b></p>
+<p>
+    Las criptomonedas son altamente volátiles y su inversión implica riesgos de mercado. Invertir en Beldex puede generar grandes ganancias o pérdidas en periodos cortos o largos.
+</p>
+<p><b>
+    5. Cumplimiento de obligaciones fiscales
+</b></p>
+<p>
+    Los usuarios son responsables de determinar qué impuestos aplican a sus transacciones con Beldex. Los propietarios o colaboradores de la App no son responsables de ello.
+</p>
+<p><b>
+    6. La App no almacena, envía ni recibe Beldex
+</b></p>
+<p>
+    La App no almacena ni transfiere Beldex. Este existe únicamente como registro en la red descentralizada de Beldex. Todas las transferencias ocurren dentro de la red, no en la App.
+</p>
+<p><b>
+    7. Sin garantías
+</b></p>
+<p>
+    La App se proporciona “tal cual”, sin garantías de ningún tipo respecto a su funcionamiento, contenido o servicios.
+</p>
+<p><b>
+    8. Limitación de responsabilidad
+</b></p>
+<p>
+    Salvo que la ley disponga lo contrario, los propietarios o colaboradores de la App no serán responsables por daños de ningún tipo, incluyendo pérdida de uso, beneficios o datos derivados del uso de la App.
+</p>
+<p><b>
+    9. Arbitrajen
+</b></p>
+<p>
+    El usuario acepta someter a arbitraje cualquier disputa relacionada con la App o este aviso, excepto aquellas relacionadas con derechos de autor, marcas, nombres comerciales, secretos comerciales o patentes. La legislación aplicable será la de Seychelles y el arbitraje se llevará a cabo en sus tribunales.
+</p>
+<p><b>
+    10. Última modificación
+</b></p>
+<p>
+    Este aviso fue modificado por última vez el 10 de octubre de 2021.
+</p>
+</body>

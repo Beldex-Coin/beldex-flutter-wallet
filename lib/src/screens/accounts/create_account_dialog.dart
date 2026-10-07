@@ -145,7 +145,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                           } else if (checkNameAlreadyExist(value)) {
                             return tr(context).accountAlreadyExist;
                           } else {
-                            accountListStore.validateAccountName(value);
+                            accountListStore.validateAccountName(context, value);
                             if(accountListStore.errorMessage?.isNotEmpty ?? false) {
                               return accountListStore.errorMessage;
                             }else{

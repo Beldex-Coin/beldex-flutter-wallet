@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:beldex_wallet/src/wallet/wallet.dart';
 import 'package:beldex_wallet/src/wallet/beldex/beldex_wallet.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account_list.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
+
+import '../../../l10n.dart';
 
 part 'account_list_store.g.dart';
 
@@ -90,10 +93,10 @@ abstract class AccountListStoreBase with Store {
     print('Incorrect wallet type for this operation (AccountList)');
   }
 
-  void validateAccountName(String value) {
+  void validateAccountName(BuildContext context, String value) {
     const pattern = '^[a-zA-Z0-9_]{1,15}\$';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
-    errorMessage = (isValid ? '' : 'Enter valid name upto 15 characters'); //S.current.error_text_account_name;
+    errorMessage = (isValid ? '' : tr(context).enterValidNameUpto15Characters);
   }
 }

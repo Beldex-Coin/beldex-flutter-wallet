@@ -205,21 +205,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                     ))
                   ],
                 )
-              :
-              // Padding(
-              //   padding: EdgeInsets.only(top: 25,bottom: 5),
-              //   child: Center(
-              //     child: Text(
-              //       S.of(context).widgets_or,
-              //       textAlign: TextAlign.center,
-              //       style: TextStyle(
-              //           fontSize: 16.0,
-              //           fontWeight: FontWeight.normal,
-              //           color: Theme.of(context).primaryTextTheme.headline6.color),
-              //     ),
-              //   ),
-              // ),
-              Row(
+              : Row(
                   children: <Widget>[
                     Flexible(
                         child: Card(
