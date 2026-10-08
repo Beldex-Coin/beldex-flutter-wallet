@@ -119,30 +119,45 @@ class DashboardPage extends BasePage {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: ElevatedButton.icon(
-                    icon: SvgPicture.asset(
-                      'assets/images/new-images/address_book.svg',
-                      colorFilter: ColorFilter.mode(Color(0xFF1BB71F), BlendMode.srcIn),
-                    ),
+                  child: ElevatedButton(
                     onPressed: () =>
                         Navigator.of(context).pushNamed(Routes.addressBook),
-                    label: Text(tr(context).address_book,
-                        style: TextStyle(
-                            backgroundColor: Colors.transparent,
-                            fontWeight: FontWeight.w800,
-                            color: settingsStore.isDarkTheme
-                                ? Colors.white
-                                : Colors.black)),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
                       fixedSize: Size.fromHeight(ScreenSize.screenHeight025),
                       backgroundColor: settingsStore.isDarkTheme
-                          ? Color(0xff24242F)
-                          : Color(0xffEDEDED),
-                      padding: EdgeInsets.zero,
+                          ? const Color(0xff24242F)
+                          : const Color(0xffEDEDED),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
+                    ),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/new-images/address_book.svg',
+                          width: 24,
+                          height: 24,
+                          colorFilter: const ColorFilter.mode(
+                            Color(0xFF1BB71F),
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            tr(context).address_book,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              color: settingsStore.isDarkTheme
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -150,32 +165,48 @@ class DashboardPage extends BasePage {
                   width: 10,
                 ),
                 Expanded(
-                  child: ElevatedButton.icon(
-                    icon: SvgPicture.asset(
-                        'assets/images/new-images/transactions.svg',
-                      colorFilter: ColorFilter.mode(Color(0xFF2979FB), BlendMode.srcIn),),
+                  child: ElevatedButton(
                     onPressed: () =>
                         Navigator.of(context).pushNamed(Routes.transactionlist),
-                    label: Text(tr(context).transactions,
-                        style: TextStyle(
-                          backgroundColor: Colors.transparent,
-                          fontWeight: FontWeight.w800,
-                          color: settingsStore.isDarkTheme
-                              ? Colors.white
-                              : Colors.black,)),
                     style: ElevatedButton.styleFrom(
                       elevation: 0,
                       fixedSize: Size.fromHeight(ScreenSize.screenHeight025),
                       backgroundColor: settingsStore.isDarkTheme
-                          ? Color(0xff24242F)
-                          : Color(0xffEDEDED),
-                      padding: EdgeInsets.zero,
+                          ? const Color(0xff24242F)
+                          : const Color(0xffEDEDED),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(
+                          'assets/images/new-images/transactions.svg',
+                          width: 24,
+                          height: 24,
+                          colorFilter: const ColorFilter.mode(
+                            Color(0xFF2979FB),
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            tr(context).transactions,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                              color: settingsStore.isDarkTheme
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                )
               ],
             )));
   }
