@@ -27,15 +27,21 @@ class FaqPage extends BasePage {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              margin: EdgeInsets.only(left: 15),
-              child: Text(
-                tr(context).howCanWenhelpYou,
-                style: TextStyle(
-                    backgroundColor: Colors.transparent,
-                    fontSize: MediaQuery.sizeOf(context).height * 0.15 / 3,
-                    fontWeight: FontWeight.bold),
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(left: 15),
+                child: Text(
+                  tr(context).howCanWenhelpYou,
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
+                  style: TextStyle(
+                      backgroundColor: Colors.transparent,
+                      fontSize: MediaQuery.sizeOf(context).height * 0.15 / 3,
+                      height: 1.2,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             Container(

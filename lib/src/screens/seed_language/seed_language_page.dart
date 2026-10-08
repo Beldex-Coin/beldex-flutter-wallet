@@ -172,7 +172,6 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
         child: PrimaryButton(
             onPressed: () {
               if (_selectedIndex == 0) {
-                final seedLocales = getSeedLocales(tr(context));
                 seedLanguageStore.setSelectedSeedLanguage(_selectedIndex);
               }
               Navigator.of(context).popAndPushNamed(seedLanguageStore.currentRoute);

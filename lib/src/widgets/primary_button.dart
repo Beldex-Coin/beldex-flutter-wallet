@@ -36,6 +36,7 @@ class PrimaryButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0)),
           ),
           child: Text(text,
+              textAlign: TextAlign.center,
               style: TextStyle(
                   backgroundColor: Colors.transparent,
                   fontSize: 16.0,

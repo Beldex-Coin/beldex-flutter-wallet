@@ -96,7 +96,7 @@ class AddSubAddress extends StatelessWidget {
                                       Navigator.of(context).pop();
                                     }
                                   },
-                                  text: 'Create',
+                                  text: tr(context).new_subaddress_create,
                                   color: Color.fromARGB(255,46, 160, 33),
                                   borderColor: Color.fromARGB(255,46, 160, 33),
                                   isLoading: subAddressCreationStore.state

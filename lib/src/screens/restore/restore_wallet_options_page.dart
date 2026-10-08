@@ -66,14 +66,18 @@ class RestoreWalletOptionsPage extends BasePage {
                                       : Color(0xff16161D), BlendMode.srcIn),
                                 ),
                               ),
-                              Text(
-                                tr(context).restore_title_from_seed,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffF7F7F7)
-                                        : Color(0xff16161D)),
+                              Flexible(
+                                child: Text(
+                                  tr(context).restore_title_from_seed,
+                                  softWrap: true,
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xffF7F7F7)
+                                          : Color(0xff16161D)),
+                                ),
                               ),
                             ],
                           ),
@@ -144,14 +148,18 @@ class RestoreWalletOptionsPage extends BasePage {
                                       : Color(0xff16161D), BlendMode.srcIn),
                                 ),
                               ),
-                              Text(
-                                tr(context).restore_title_from_keys,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffF7F7F7)
-                                        : Color(0xff16161D)),
+                              Flexible(
+                                child: Text(
+                                  tr(context).restore_title_from_keys,
+                                  softWrap: true,
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xffF7F7F7)
+                                          : Color(0xff16161D)),
+                                ),
                               ),
                             ],
                           ),
