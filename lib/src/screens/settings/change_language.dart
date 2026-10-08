@@ -85,7 +85,7 @@ class ChangeLanguage extends BasePage {
                                   splashColor: Colors.transparent,
                                   onTap: () async {
                                     if (!isCurrent) {
-                                      settingsStore.saveLanguageOverride(lang.code == '' ? null : lang.code);
+                                      await settingsStore.saveLanguageOverride(lang.code == '' ? null : lang.code);
                                       langNotifier.trigger();
                                       Navigator.of(context).pop();
                                       /*await settingsStore.saveLanguageCode(

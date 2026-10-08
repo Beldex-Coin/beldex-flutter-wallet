@@ -13,19 +13,18 @@ class LanguageName {
 }
 
 const languageNames = <LanguageName>[
+  LanguageName('ar', 'عربي (Arabic)'),
+  LanguageName('zh', '中文 (Chinese (Simplified))'),
   LanguageName('en', 'English'),
-  LanguageName('de', 'Deutsch (German)'),
   LanguageName('fr', 'Français (French)'),
-  // LanguageName('es', 'Español (Spanish)'),
-  // LanguageName('hi', 'हिंदी (Hindi)'),
-  // LanguageName('ja', '日本 (Japanese)'),
-  // LanguageName('ko', '한국어 (Korean)'),
-  // LanguageName('nl', 'Nederlands (Dutch)'),
-  // LanguageName('pl', 'Polski (Polish)'),
-  // LanguageName('pt', 'Português (Portuguese)'),
-  // LanguageName('ru', 'Русский (Russian)'),
-  // LanguageName('uk', 'Українська (Ukrainian)'),
-  // LanguageName('zh', '中文 (Chinese)')
+  LanguageName('de', 'Deutsch (German)'),
+  LanguageName('ja', '日本 (Japanese)'),
+  LanguageName('ko', '한국어 (Korean)'),
+  LanguageName('pt', 'Português (Portuguese (Brazil))'),
+  LanguageName('ru', 'Русский (Russian)'),
+  LanguageName('es', 'Español (Spanish)'),
+  LanguageName('tr', 'Türkçe (Turkish)'),
+  LanguageName('vi', 'Vietnam (Vietnamese)')
 ];
 
 class LanguageNotifier with ChangeNotifier {

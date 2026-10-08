@@ -70,9 +70,10 @@ abstract class SendStoreBase with Store {
 
     try {
       final _amount = amount ??
-          (cryptoAmount == l10n.all
+          (sendAll
               ? null
               : cryptoAmount.replaceAll(',', '.'));
+      sendAll = false;
       final credentials = BeldexStakeTransactionCreationCredentials(
           address: address, amount: _amount!);
 

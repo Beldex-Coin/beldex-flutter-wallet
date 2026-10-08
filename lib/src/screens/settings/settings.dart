@@ -319,7 +319,7 @@ class SettingsFormState extends State<SettingsForm> {
                   widget: Observer(
                       builder: (_) => Text(
                             settingsStore.balanceDisplayMode?.getTitle(tr(context)) ??
-                                tr(context).beldex_available_balance,
+                                tr(context).available_balance,
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
