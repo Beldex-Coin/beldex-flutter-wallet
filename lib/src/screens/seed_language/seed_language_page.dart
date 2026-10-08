@@ -49,13 +49,11 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
   int _selectedIndex = 0;
 
   void _onSelected(int index) {
-    final seedLocales = getSeedLocales(tr(context));
     final seedLanguageStore = context.read<SeedLanguageStore>();
     setState(() {
       _selectedIndex = index;
       if (_selectedIndex != null) {
-        seedLanguageStore.setSelectedSeedLanguage(seedLocales[_selectedIndex]);
-        print('seed languages ${seedLocales[_selectedIndex]}');
+        seedLanguageStore.setSelectedSeedLanguage(_selectedIndex);
       }
     });
   }
@@ -175,7 +173,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
             onPressed: () {
               if (_selectedIndex == 0) {
                 final seedLocales = getSeedLocales(tr(context));
-                seedLanguageStore.setSelectedSeedLanguage(seedLocales[_selectedIndex]);
+                seedLanguageStore.setSelectedSeedLanguage(_selectedIndex);
               }
               Navigator.of(context).popAndPushNamed(seedLanguageStore.currentRoute);
             },

@@ -30,11 +30,11 @@ mixin _$SeedLanguageStore on SeedLanguageStoreBase, Store {
       ActionController(name: 'SeedLanguageStoreBase', context: context);
 
   @override
-  void setSelectedSeedLanguage(String seedLanguage) {
+  void setSelectedSeedLanguage(int index) {
     final _$actionInfo = _$SeedLanguageStoreBaseActionController.startAction(
         name: 'SeedLanguageStoreBase.setSelectedSeedLanguage');
     try {
-      return super.setSelectedSeedLanguage(seedLanguage);
+      return super.setSelectedSeedLanguage(index);
     } finally {
       _$SeedLanguageStoreBaseActionController.endAction(_$actionInfo);
     }

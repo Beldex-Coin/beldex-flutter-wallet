@@ -28,8 +28,8 @@ abstract class SeedLanguageStoreBase with Store {
   String currentRoute;
 
   @action
-  void setSelectedSeedLanguage(String seedLanguage) {
-    selectedSeedLanguage = seedLanguage;
+  void setSelectedSeedLanguage(int index) {
+    selectedSeedLanguage = seedLanguages[index];
   }
 
   void setCurrentRoute(String route) {

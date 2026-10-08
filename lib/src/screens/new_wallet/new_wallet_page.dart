@@ -97,13 +97,11 @@ class _WalletNameFormState extends State<WalletNameForm> {
   bool canremove = false;
 
   void _onSelected(int index) {
-    final seedLocales = getSeedLocales(tr(context));
     final seedLanguageStore = context.read<SeedLanguageStore>();
     setState(() {
       _selectedIndex = index;
       if (_selectedIndex != null) {
-        seedLanguageStore.setSelectedSeedLanguage(seedLocales[_selectedIndex]);
-        print('seed languages ${seedLocales[_selectedIndex]}');
+        seedLanguageStore.setSelectedSeedLanguage(_selectedIndex);
       }
     });
   }
@@ -360,7 +358,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                     if (_formKey.currentState?.validate() ?? false) {
                       if (_selectedIndex == 0) {
                         seedLanguageStore.setSelectedSeedLanguage(
-                            seedLocales[_selectedIndex]);
+                            _selectedIndex);
                       }
                       walletCreationStore.create(
                           name: nameController.text,
