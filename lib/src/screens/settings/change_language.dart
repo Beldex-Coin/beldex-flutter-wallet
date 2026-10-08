@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../l10n.dart';
-import 'package:beldex_wallet/src/domain/common/language.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:provider/provider.dart';
@@ -23,9 +22,7 @@ class ChangeLanguage extends BasePage {
   @override
   Widget body(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    final languages = <LanguageName>[
-      LanguageName('', 'System default'),
-      ...languageNames];
+    final languages = <LanguageName>[...languageNames];
     final langNotifier = Provider.of<LanguageNotifier>(context);
     final _controller = ScrollController(keepScrollOffset: true);
 
@@ -79,13 +76,14 @@ class ChangeLanguage extends BasePage {
                               itemCount: languages.length,
                               itemBuilder: (BuildContext context, int index) {
                                 final lang = languages[index];
-                                final isCurrent = lang.code == (settingsStore.languageOverride ?? '');
+                                final isCurrent =
+                                    lang.code == (settingsStore.languageOverride ?? 'en');
 
                                 return InkWell(
                                   splashColor: Colors.transparent,
                                   onTap: () async {
                                     if (!isCurrent) {
-                                      await settingsStore.saveLanguageOverride(lang.code == '' ? null : lang.code);
+                                      await settingsStore.saveLanguageOverride(lang.code);
                                       langNotifier.trigger();
                                       Navigator.of(context).pop();
                                       /*await settingsStore.saveLanguageCode(

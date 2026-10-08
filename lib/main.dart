@@ -520,7 +520,7 @@ class MaterialAppWithTheme extends StatelessWidget {
     final syncStore = Provider.of<SyncStore>(context);
     final balanceStore = Provider.of<BalanceStore>(context);
     final theme = Provider.of<ThemeChanger>(context);
-    final languageNotifier = Provider.of<LanguageNotifier>(context);
+    context.watch<LanguageNotifier>();
     final contacts = Provider.of<Box<Contact>>(context);
     final nodes = Provider.of<Box<Node>>(context);
     final transactionDescriptions =
@@ -553,9 +553,7 @@ class MaterialAppWithTheme extends StatelessWidget {
       },
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
-      locale: settingsStore.languageOverride != null
-          ? Locale(settingsStore.languageOverride!)
-          : null,
+      locale: Locale(settingsStore.languageOverride ?? 'en'),
       onGenerateRoute: (settings) => beldexroute.Router.generateRoute(
           sharedPreferences: sharedPreferences,
           walletListService: walletListService,
