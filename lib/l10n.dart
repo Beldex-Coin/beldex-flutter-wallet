@@ -14,7 +14,7 @@ class LanguageName {
 
 const languageNames = <LanguageName>[
   LanguageName('ar', 'عربي (Arabic)'),
-  LanguageName('zh', '中文 (Chinese (Simplified))'),
+  LanguageName('zh', '中文 (Chinese (simplified))'),
   LanguageName('en', 'English'),
   LanguageName('fr', 'Français (French)'),
   LanguageName('de', 'Deutsch (German)'),

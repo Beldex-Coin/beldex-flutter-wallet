@@ -35,7 +35,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
   List<String> getSeedLocales(AppLocalizations t){
     return [
       t.seed_language_english,
-      'Chinese (simplified)',
+      t.seed_language_chinese,
       t.seed_language_dutch,
       t.seed_language_german,
       t.seed_language_japanese,

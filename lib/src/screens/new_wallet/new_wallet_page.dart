@@ -79,7 +79,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
   List<String> getSeedLocales(AppLocalizations l10n) {
     return [
       l10n.seed_language_english,
-      'Chinese (simplified)',
+      l10n.seed_language_chinese,
       l10n.seed_language_dutch,
       l10n.seed_language_german,
       l10n.seed_language_japanese,
