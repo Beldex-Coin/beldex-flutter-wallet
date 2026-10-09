@@ -448,15 +448,5 @@
   "unlock_stake_requested": "Stake Entsperrung angefragt",
   "unlockBeldexWallet": "Schalten Sie die Beldex-Wallet frei",
   "wallet_menu": "Menü",
-  "your_contributions": "Deine Anteile",
-  "seed_language_chinese": "Chinesisch (vereinfacht)",
-  "seed_language_dutch": "Niederländisch",
-  "seed_language_english": "Englisch",
-  "seed_language_french": "Französisch",
-  "seed_language_german": "Deutsch",
-  "seed_language_italian": "Italienisch",
-  "seed_language_japanese": "Japanisch",
-  "seed_language_portuguese": "Portugiesisch",
-  "seed_language_russian": "Russisch",
-  "seed_language_spanish": "Spanisch"
+  "your_contributions": "Deine Anteile"
 }

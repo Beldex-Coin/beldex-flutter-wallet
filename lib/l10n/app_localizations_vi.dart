@@ -1235,36 +1235,6 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get seed_language_chinese => 'Chinese';
-
-  @override
-  String get seed_language_dutch => 'Dutch';
-
-  @override
-  String get seed_language_english => 'English';
-
-  @override
-  String get seed_language_french => 'French';
-
-  @override
-  String get seed_language_german => 'German';
-
-  @override
-  String get seed_language_italian => 'Italian';
-
-  @override
-  String get seed_language_japanese => 'Japanese';
-
-  @override
-  String get seed_language_portuguese => 'Portuguese';
-
-  @override
-  String get seed_language_russian => 'Russian';
-
-  @override
-  String get seed_language_spanish => 'Spanish';
-
-  @override
   String get seed_share => 'Chia sẻ seed';
 
   @override
@@ -1305,164 +1275,194 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String swap_confirmed_in_blockchain(Object currencyFrom, Object currencyTo) {
-    return 'Once $currencyFrom is confirmed in the blockchain, we\'ll start exchanging it to $currencyTo';
+    return 'Sau khi $currencyFrom được xác nhận trên blockchain, chúng tôi sẽ bắt đầu đổi sang $currencyTo';
   }
 
   @override
-  String get swap_confirming_in_progress => 'Confirming in progress';
+  String get swap_confirming_in_progress => 'Đang xác nhận';
 
   @override
   String swap_done_exchanging(Object currencyFrom, Object currencyTo) {
-    return 'Done Exchanging $currencyFrom to $currencyTo';
+    return 'Đã hoàn tất việc đổi $currencyFrom sang $currencyTo';
   }
 
   @override
   String swap_enter_extra_id(Object extraIdName) {
-    return 'Enter $extraIdName';
+    return 'Nhập $extraIdName';
   }
 
   @override
   String swap_enter_refund_address(Object currency) {
-    return 'Enter your $currency refund address';
+    return 'Nhập địa chỉ hoàn tiền $currency của bạn';
   }
 
   @override
-  String get swap_estimated_time => 'Estimated Time';
+  String get swap_estimated_time => 'Thời gian ước tính';
 
   @override
-  String get swap_estimated_time_value => '5-30 mins';
+  String get swap_estimated_time_value => '5–30 phút';
 
   @override
   String swap_exchange_address(Object currency, Object exchangeName) {
-    return '$exchangeName address ($currency)';
+    return 'Địa chỉ $exchangeName ($currency)';
   }
 
   @override
-  String get swap_exchanging => 'Exchanging';
+  String get swap_exchanging => 'Đang trao đổi';
 
   @override
   String swap_exchanging_currency(Object currencyFrom, Object currencyTo) {
-    return 'Exchanging $currencyFrom to $currencyTo';
+    return 'Đang đổi $currencyFrom sang $currencyTo';
   }
 
   @override
-  String get swap_expired => 'Expired';
+  String get swap_expired => 'Đã hết hạn';
 
   @override
   String swap_extra_id_info(Object currency, Object extraIdName) {
-    return 'Please specify the $extraIdName for your $currency receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a $extraIdName, remove the tick.';
+    return 'Vui lòng nhập $extraIdName cho địa chỉ nhận $currency của bạn nếu ví cung cấp thông tin này. Giao dịch sẽ không được thực hiện nếu bạn bỏ qua. Nếu ví của bạn không yêu cầu $extraIdName, hãy bỏ chọn.';
   }
 
   @override
-  String get swap_funds_sent_to_wallet => 'Funds send to your wallet';
+  String get swap_funds_sent_to_wallet => 'Tiền đã được gửi vào ví của bạn';
 
   @override
-  String get swap_history => 'history';
+  String get swap_history => 'Lịch sử';
 
   @override
-  String get swap_maximum_amount_changed => 'The maximum amount value has changed, The new value is ';
+  String get swap_maximum_amount_changed => 'Số tiền tối đa đã thay đổi. Giá trị mới là';
 
   @override
-  String get swap_minimum_amount_changed => 'The minimum amount value has changed, The new value is ';
+  String get swap_minimum_amount_changed => 'Số tiền tối thiểu đã thay đổi. Giá trị mới là';
 
   @override
   String swap_my_wallet_requires_extra_id(Object extraIdName) {
-    return 'My wallet requires $extraIdName';
+    return 'Ví của tôi yêu cầu $extraIdName';
   }
 
   @override
-  String get swap_overdue => 'Overdue';
+  String get swap_overdue => 'Quá hạn';
 
   @override
   String swap_please_enter_extra_id(Object extraIdName) {
-    return 'Please enter $extraIdName';
+    return 'Vui lòng nhập $extraIdName';
   }
 
   @override
-  String get swap_process_wait => 'The process will take a few minutes. please wait.';
+  String get swap_process_wait => 'Quá trình sẽ mất vài phút. Vui lòng đợi.';
 
   @override
   String swap_recipient_address_with_currency(Object currency) {
-    return 'Recipient address ($currency)';
+    return 'Địa chỉ người nhận ($currency)';
   }
 
   @override
-  String get swap_refund_address => 'Refund Address';
+  String get swap_refund_address => 'Địa chỉ hoàn tiền';
 
   @override
-  String get swap_refund_wallet_address => 'Refund wallet Address';
+  String get swap_refund_wallet_address => 'Địa chỉ ví hoàn tiền';
 
   @override
-  String get swap_see_input_hash_in_explorer => 'See input hash in explorer';
+  String get swap_see_input_hash_in_explorer => 'Xem hash đầu vào trên trình khám phá';
 
   @override
-  String get swap_sending_funds_to_wallet => 'Sending funds to your wallet';
+  String get swap_sending_funds_to_wallet => 'Đang gửi tiền vào ví của bạn';
 
   @override
-  String get swap_you_can_initiate_new_transaction => 'You can initiate a new transaction. You can always check the status of this transaction in transaction ';
+  String get swap_you_can_initiate_new_transaction => 'Bạn có thể bắt đầu một giao dịch mới. Bạn luôn có thể kiểm tra trạng thái của giao dịch này trong lịch sử giao dịch.';
 
   @override
-  String get swap_you_dont_have_to_wait_here => 'You don’t have to wait here';
+  String get swap_you_dont_have_to_wait_here => 'Bạn không cần phải chờ ở đây';
 
   @override
-  String get swap_you_sent => 'You sent';
+  String get swap_you_sent => 'Bạn đã gửi';
 
   @override
   String get swapTransactionReport => 'Beldex_wallet_swap_transaction_report';
 
   @override
-  String get sync_status_connected => 'CONNECTED';
+  String get sync_status_connected => 'ĐÃ KẾT NỐI';
 
   @override
-  String get sync_status_not_connected => 'NOT CONNECTED';
+  String get sync_status_not_connected => 'CHƯA KẾT NỐI';
 
   @override
-  String get syncInfo => 'Sync info';
+  String get syncInfo => 'Thông tin đồng bộ hóa';
 
   @override
-  String get title_confirm_unlock_stake => 'Unlock Stake';
+  String get title_confirm_unlock_stake => 'Mở khóa stake';
 
   @override
-  String get title_new_stake => 'New Stake';
+  String get title_new_stake => 'Stake mới';
 
   @override
-  String get title_stakes => 'Stakes';
+  String get title_stakes => 'Các khoản stake';
 
   @override
-  String get today => 'Today';
+  String get today => 'Hôm nay';
 
   @override
-  String get touchTheFingerprintSensor => 'Touch the Fingerprint sensor';
+  String get touchTheFingerprintSensor => 'Chạm vào cảm biến vân tay';
 
   @override
   String transaction_details_copied(Object title) {
-    return '$title copied to Clipboard';
+    return 'Đã sao chép $title vào bộ nhớ tạm';
   }
 
   @override
-  String get transaction_details_payment_id => 'Payment ID';
+  String get transaction_details_payment_id => 'ID thanh toán';
 
   @override
-  String get transaction_details_title => 'Transaction Details';
+  String get transaction_details_title => 'Chi tiết giao dịch';
 
   @override
-  String get transaction_sent => 'Transaction sent!';
+  String get transaction_sent => 'Đã gửi giao dịch!';
 
   @override
-  String get transactionReport => 'Transaction Report';
+  String get transactionReport => 'Báo cáo giao dịch';
 
   @override
-  String get unable_unlock_stake => 'Unable to unlock stake';
+  String get unable_unlock_stake => 'Không thể mở khóa stake';
 
   @override
-  String get unlock_stake_requested => 'Stake unlock requested';
+  String get unlock_stake_requested => 'Đã yêu cầu mở khóa stake';
 
   @override
-  String get unlockBeldexWallet => 'Unlock Beldex Wallet';
+  String get unlockBeldexWallet => 'Mở khóa ví Beldex';
 
   @override
   String get wallet_menu => 'Menu';
 
   @override
-  String get your_contributions => 'Your Contributions';
+  String get your_contributions => 'Đóng góp của bạn';
+
+  @override
+  String get seed_language_chinese => 'Chinese (simplified)';
+
+  @override
+  String get seed_language_dutch => 'Dutch';
+
+  @override
+  String get seed_language_english => 'English';
+
+  @override
+  String get seed_language_french => 'French';
+
+  @override
+  String get seed_language_german => 'German';
+
+  @override
+  String get seed_language_italian => 'Italian';
+
+  @override
+  String get seed_language_japanese => 'Japanese';
+
+  @override
+  String get seed_language_portuguese => 'Portuguese';
+
+  @override
+  String get seed_language_russian => 'Russian';
+
+  @override
+  String get seed_language_spanish => 'Spanish';
 }

@@ -1235,36 +1235,6 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get seed_language_chinese => 'Chinese';
-
-  @override
-  String get seed_language_dutch => 'Dutch';
-
-  @override
-  String get seed_language_english => 'English';
-
-  @override
-  String get seed_language_french => 'French';
-
-  @override
-  String get seed_language_german => 'German';
-
-  @override
-  String get seed_language_italian => 'Italian';
-
-  @override
-  String get seed_language_japanese => 'Japanese';
-
-  @override
-  String get seed_language_portuguese => 'Portuguese';
-
-  @override
-  String get seed_language_russian => 'Russian';
-
-  @override
-  String get seed_language_spanish => 'Spanish';
-
-  @override
   String get seed_share => 'Compartir semilla';
 
   @override
@@ -1305,164 +1275,194 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String swap_confirmed_in_blockchain(Object currencyFrom, Object currencyTo) {
-    return 'Once $currencyFrom is confirmed in the blockchain, we\'ll start exchanging it to $currencyTo';
+    return 'Una vez que $currencyFrom se confirme en la blockchain, comenzaremos a cambiarlo por $currencyTo';
   }
 
   @override
-  String get swap_confirming_in_progress => 'Confirming in progress';
+  String get swap_confirming_in_progress => 'Confirmación en curso';
 
   @override
   String swap_done_exchanging(Object currencyFrom, Object currencyTo) {
-    return 'Done Exchanging $currencyFrom to $currencyTo';
+    return 'Se ha completado el intercambio de $currencyFrom a $currencyTo';
   }
 
   @override
   String swap_enter_extra_id(Object extraIdName) {
-    return 'Enter $extraIdName';
+    return 'Introduce $extraIdName';
   }
 
   @override
   String swap_enter_refund_address(Object currency) {
-    return 'Enter your $currency refund address';
+    return 'Introduce tu dirección de reembolso de $currency';
   }
 
   @override
-  String get swap_estimated_time => 'Estimated Time';
+  String get swap_estimated_time => 'Tiempo estimado';
 
   @override
-  String get swap_estimated_time_value => '5-30 mins';
+  String get swap_estimated_time_value => '5–30 min';
 
   @override
   String swap_exchange_address(Object currency, Object exchangeName) {
-    return '$exchangeName address ($currency)';
+    return 'Dirección de $exchangeName ($currency)';
   }
 
   @override
-  String get swap_exchanging => 'Exchanging';
+  String get swap_exchanging => 'Intercambiando';
 
   @override
   String swap_exchanging_currency(Object currencyFrom, Object currencyTo) {
-    return 'Exchanging $currencyFrom to $currencyTo';
+    return 'Intercambiando $currencyFrom por $currencyTo';
   }
 
   @override
-  String get swap_expired => 'Expired';
+  String get swap_expired => 'Caducado';
 
   @override
   String swap_extra_id_info(Object currency, Object extraIdName) {
-    return 'Please specify the $extraIdName for your $currency receiving address if your wallet provides it. Your transaction will not go through if you omit it. If your wallet doesn’t require a $extraIdName, remove the tick.';
+    return 'Especifica el $extraIdName de tu dirección de recepción de $currency si tu cartera lo proporciona. La transacción no se realizará si lo omites. Si tu cartera no requiere un $extraIdName, desmarca la casilla.';
   }
 
   @override
-  String get swap_funds_sent_to_wallet => 'Funds send to your wallet';
+  String get swap_funds_sent_to_wallet => 'Fondos enviados a tu cartera';
 
   @override
-  String get swap_history => 'history';
+  String get swap_history => 'Historial';
 
   @override
-  String get swap_maximum_amount_changed => 'The maximum amount value has changed, The new value is ';
+  String get swap_maximum_amount_changed => 'El importe máximo ha cambiado. El nuevo valor es';
 
   @override
-  String get swap_minimum_amount_changed => 'The minimum amount value has changed, The new value is ';
+  String get swap_minimum_amount_changed => 'El importe mínimo ha cambiado. El nuevo valor es';
 
   @override
   String swap_my_wallet_requires_extra_id(Object extraIdName) {
-    return 'My wallet requires $extraIdName';
+    return 'Mi cartera requiere $extraIdName';
   }
 
   @override
-  String get swap_overdue => 'Overdue';
+  String get swap_overdue => 'Vencido';
 
   @override
   String swap_please_enter_extra_id(Object extraIdName) {
-    return 'Please enter $extraIdName';
+    return 'Introduce $extraIdName';
   }
 
   @override
-  String get swap_process_wait => 'The process will take a few minutes. please wait.';
+  String get swap_process_wait => 'El proceso tardará unos minutos. Por favor, espera.';
 
   @override
   String swap_recipient_address_with_currency(Object currency) {
-    return 'Recipient address ($currency)';
+    return 'Dirección del destinatario ($currency)';
   }
 
   @override
-  String get swap_refund_address => 'Refund Address';
+  String get swap_refund_address => 'Dirección de reembolso';
 
   @override
-  String get swap_refund_wallet_address => 'Refund wallet Address';
+  String get swap_refund_wallet_address => 'Dirección de la cartera de reembolso';
 
   @override
-  String get swap_see_input_hash_in_explorer => 'See input hash in explorer';
+  String get swap_see_input_hash_in_explorer => 'Ver el hash de entrada en el explorador';
 
   @override
-  String get swap_sending_funds_to_wallet => 'Sending funds to your wallet';
+  String get swap_sending_funds_to_wallet => 'Enviando fondos a tu cartera';
 
   @override
-  String get swap_you_can_initiate_new_transaction => 'You can initiate a new transaction. You can always check the status of this transaction in transaction ';
+  String get swap_you_can_initiate_new_transaction => 'Puedes iniciar una nueva transacción. Siempre puedes consultar el estado de esta transacción en el historial de transacciones.';
 
   @override
-  String get swap_you_dont_have_to_wait_here => 'You don’t have to wait here';
+  String get swap_you_dont_have_to_wait_here => 'No tienes que esperar aquí';
 
   @override
-  String get swap_you_sent => 'You sent';
+  String get swap_you_sent => 'Has enviado';
 
   @override
   String get swapTransactionReport => 'Beldex_wallet_swap_transaction_report';
 
   @override
-  String get sync_status_connected => 'CONNECTED';
+  String get sync_status_connected => 'CONECTADO';
 
   @override
-  String get sync_status_not_connected => 'NOT CONNECTED';
+  String get sync_status_not_connected => 'NO CONECTADO';
 
   @override
-  String get syncInfo => 'Sync info';
+  String get syncInfo => 'Información de sincronización';
 
   @override
-  String get title_confirm_unlock_stake => 'Unlock Stake';
+  String get title_confirm_unlock_stake => 'Desbloquear staking';
 
   @override
-  String get title_new_stake => 'New Stake';
+  String get title_new_stake => 'Nuevo staking';
 
   @override
-  String get title_stakes => 'Stakes';
+  String get title_stakes => 'Stakings';
 
   @override
-  String get today => 'Today';
+  String get today => 'Hoy';
 
   @override
-  String get touchTheFingerprintSensor => 'Touch the Fingerprint sensor';
+  String get touchTheFingerprintSensor => 'Toca el sensor de huellas dactilares';
 
   @override
   String transaction_details_copied(Object title) {
-    return '$title copied to Clipboard';
+    return '$title se ha copiado al portapapeles';
   }
 
   @override
-  String get transaction_details_payment_id => 'Payment ID';
+  String get transaction_details_payment_id => 'ID de pago';
 
   @override
-  String get transaction_details_title => 'Transaction Details';
+  String get transaction_details_title => 'Detalles de la transacción';
 
   @override
-  String get transaction_sent => 'Transaction sent!';
+  String get transaction_sent => '¡Transacción enviada!';
 
   @override
-  String get transactionReport => 'Transaction Report';
+  String get transactionReport => 'Informe de transacciones';
 
   @override
-  String get unable_unlock_stake => 'Unable to unlock stake';
+  String get unable_unlock_stake => 'No se pudo desbloquear el staking';
 
   @override
-  String get unlock_stake_requested => 'Stake unlock requested';
+  String get unlock_stake_requested => 'Se solicitó desbloquear el staking';
 
   @override
-  String get unlockBeldexWallet => 'Unlock Beldex Wallet';
+  String get unlockBeldexWallet => 'Desbloquear la cartera Beldex';
 
   @override
-  String get wallet_menu => 'Menu';
+  String get wallet_menu => 'Menú';
 
   @override
-  String get your_contributions => 'Your Contributions';
+  String get your_contributions => 'Tus contribuciones';
+
+  @override
+  String get seed_language_chinese => 'Chinese (simplified)';
+
+  @override
+  String get seed_language_dutch => 'Dutch';
+
+  @override
+  String get seed_language_english => 'English';
+
+  @override
+  String get seed_language_french => 'French';
+
+  @override
+  String get seed_language_german => 'German';
+
+  @override
+  String get seed_language_italian => 'Italian';
+
+  @override
+  String get seed_language_japanese => 'Japanese';
+
+  @override
+  String get seed_language_portuguese => 'Portuguese';
+
+  @override
+  String get seed_language_russian => 'Russian';
+
+  @override
+  String get seed_language_spanish => 'Spanish';
 }

@@ -1235,36 +1235,6 @@ class AppLocalizationsFr extends AppLocalizations {
   }
 
   @override
-  String get seed_language_chinese => 'Chinois';
-
-  @override
-  String get seed_language_dutch => 'Néerlandais';
-
-  @override
-  String get seed_language_english => 'Anglais';
-
-  @override
-  String get seed_language_french => 'Français';
-
-  @override
-  String get seed_language_german => 'Allemand';
-
-  @override
-  String get seed_language_italian => 'Italien';
-
-  @override
-  String get seed_language_japanese => 'Japonais';
-
-  @override
-  String get seed_language_portuguese => 'Portugais';
-
-  @override
-  String get seed_language_russian => 'Russe';
-
-  @override
-  String get seed_language_spanish => 'Espagnol';
-
-  @override
   String get seed_share => 'Partager Seed';
 
   @override
@@ -1429,7 +1399,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get title_stakes => 'Stakes';
 
   @override
-  String get today => 'aujourd\'hui';
+  String get today => 'Aujourd’hui';
 
   @override
   String get touchTheFingerprintSensor => 'Touchez le capteur d\'empreintes digitales';
@@ -1443,7 +1413,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get transaction_details_payment_id => 'ID de paiement';
 
   @override
-  String get transaction_details_title => 'détails de la transaction';
+  String get transaction_details_title => 'Détails de la transaction';
 
   @override
   String get transaction_sent => 'Transaction envoyé!';
@@ -1461,8 +1431,38 @@ class AppLocalizationsFr extends AppLocalizations {
   String get unlockBeldexWallet => 'Déverrouiller le portefeuille Beldex';
 
   @override
-  String get wallet_menu => 'Menu du portefeuille';
+  String get wallet_menu => 'Menu';
 
   @override
   String get your_contributions => 'Vos contributions';
+
+  @override
+  String get seed_language_chinese => 'Chinese (simplified)';
+
+  @override
+  String get seed_language_dutch => 'Dutch';
+
+  @override
+  String get seed_language_english => 'English';
+
+  @override
+  String get seed_language_french => 'French';
+
+  @override
+  String get seed_language_german => 'German';
+
+  @override
+  String get seed_language_italian => 'Italian';
+
+  @override
+  String get seed_language_japanese => 'Japanese';
+
+  @override
+  String get seed_language_portuguese => 'Portuguese';
+
+  @override
+  String get seed_language_russian => 'Russian';
+
+  @override
+  String get seed_language_spanish => 'Spanish';
 }

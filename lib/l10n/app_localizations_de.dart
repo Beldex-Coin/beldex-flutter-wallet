@@ -1235,36 +1235,6 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get seed_language_chinese => 'Chinesisch';
-
-  @override
-  String get seed_language_dutch => 'Niederländisch';
-
-  @override
-  String get seed_language_english => 'Englisch';
-
-  @override
-  String get seed_language_french => 'Französisch';
-
-  @override
-  String get seed_language_german => 'Deutsch';
-
-  @override
-  String get seed_language_italian => 'Italienisch';
-
-  @override
-  String get seed_language_japanese => 'Japanisch';
-
-  @override
-  String get seed_language_portuguese => 'Portugiesisch';
-
-  @override
-  String get seed_language_russian => 'Russisch';
-
-  @override
-  String get seed_language_spanish => 'Spanisch';
-
-  @override
   String get seed_share => 'Teilen Sie Seed';
 
   @override
@@ -1408,7 +1378,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get swap_you_sent => 'Sie haben gesendet';
 
   @override
-  String get swapTransactionReport => 'Beldex_Wallet_Tauschbericht';
+  String get swapTransactionReport => 'Beldex_wallet_swap_transaction_report';
 
   @override
   String get sync_status_connected => 'IN VERBINDUNG GEBRACHT';
@@ -1461,8 +1431,38 @@ class AppLocalizationsDe extends AppLocalizations {
   String get unlockBeldexWallet => 'Schalten Sie die Beldex-Wallet frei';
 
   @override
-  String get wallet_menu => 'Wallet-Menü';
+  String get wallet_menu => 'Menü';
 
   @override
   String get your_contributions => 'Deine Anteile';
+
+  @override
+  String get seed_language_chinese => 'Chinese (simplified)';
+
+  @override
+  String get seed_language_dutch => 'Dutch';
+
+  @override
+  String get seed_language_english => 'English';
+
+  @override
+  String get seed_language_french => 'French';
+
+  @override
+  String get seed_language_german => 'German';
+
+  @override
+  String get seed_language_italian => 'Italian';
+
+  @override
+  String get seed_language_japanese => 'Japanese';
+
+  @override
+  String get seed_language_portuguese => 'Portuguese';
+
+  @override
+  String get seed_language_russian => 'Russian';
+
+  @override
+  String get seed_language_spanish => 'Spanish';
 }

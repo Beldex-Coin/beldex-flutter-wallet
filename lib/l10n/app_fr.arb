@@ -448,15 +448,5 @@
   "unlock_stake_requested": "Déverrouillage du Stake demandé",
   "unlockBeldexWallet": "Déverrouiller le portefeuille Beldex",
   "wallet_menu": "Menu",
-  "your_contributions": "Vos contributions",
-  "seed_language_chinese": "Chinois (simplifié)",
-  "seed_language_dutch": "Néerlandais",
-  "seed_language_english": "Anglais",
-  "seed_language_french": "Français",
-  "seed_language_german": "Allemand",
-  "seed_language_italian": "Italien",
-  "seed_language_japanese": "Japonais",
-  "seed_language_portuguese": "Portugais",
-  "seed_language_russian": "Russe",
-  "seed_language_spanish": "Espagnol"
+  "your_contributions": "Vos contributions"
 }

@@ -2455,66 +2455,6 @@ abstract class AppLocalizations {
   /// **'No route defined for {name}'**
   String router_no_route(Object name);
 
-  /// No description provided for @seed_language_chinese.
-  ///
-  /// In en, this message translates to:
-  /// **'Chinese'**
-  String get seed_language_chinese;
-
-  /// No description provided for @seed_language_dutch.
-  ///
-  /// In en, this message translates to:
-  /// **'Dutch'**
-  String get seed_language_dutch;
-
-  /// No description provided for @seed_language_english.
-  ///
-  /// In en, this message translates to:
-  /// **'English'**
-  String get seed_language_english;
-
-  /// No description provided for @seed_language_french.
-  ///
-  /// In en, this message translates to:
-  /// **'French'**
-  String get seed_language_french;
-
-  /// No description provided for @seed_language_german.
-  ///
-  /// In en, this message translates to:
-  /// **'German'**
-  String get seed_language_german;
-
-  /// No description provided for @seed_language_italian.
-  ///
-  /// In en, this message translates to:
-  /// **'Italian'**
-  String get seed_language_italian;
-
-  /// No description provided for @seed_language_japanese.
-  ///
-  /// In en, this message translates to:
-  /// **'Japanese'**
-  String get seed_language_japanese;
-
-  /// No description provided for @seed_language_portuguese.
-  ///
-  /// In en, this message translates to:
-  /// **'Portuguese'**
-  String get seed_language_portuguese;
-
-  /// No description provided for @seed_language_russian.
-  ///
-  /// In en, this message translates to:
-  /// **'Russian'**
-  String get seed_language_russian;
-
-  /// No description provided for @seed_language_spanish.
-  ///
-  /// In en, this message translates to:
-  /// **'Spanish'**
-  String get seed_language_spanish;
-
   /// No description provided for @seed_share.
   ///
   /// In en, this message translates to:
@@ -2874,6 +2814,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your Contributions'**
   String get your_contributions;
+
+  /// No description provided for @seed_language_chinese.
+  ///
+  /// In en, this message translates to:
+  /// **'Chinese (simplified)'**
+  String get seed_language_chinese;
+
+  /// No description provided for @seed_language_dutch.
+  ///
+  /// In en, this message translates to:
+  /// **'Dutch'**
+  String get seed_language_dutch;
+
+  /// No description provided for @seed_language_english.
+  ///
+  /// In en, this message translates to:
+  /// **'English'**
+  String get seed_language_english;
+
+  /// No description provided for @seed_language_french.
+  ///
+  /// In en, this message translates to:
+  /// **'French'**
+  String get seed_language_french;
+
+  /// No description provided for @seed_language_german.
+  ///
+  /// In en, this message translates to:
+  /// **'German'**
+  String get seed_language_german;
+
+  /// No description provided for @seed_language_italian.
+  ///
+  /// In en, this message translates to:
+  /// **'Italian'**
+  String get seed_language_italian;
+
+  /// No description provided for @seed_language_japanese.
+  ///
+  /// In en, this message translates to:
+  /// **'Japanese'**
+  String get seed_language_japanese;
+
+  /// No description provided for @seed_language_portuguese.
+  ///
+  /// In en, this message translates to:
+  /// **'Portuguese'**
+  String get seed_language_portuguese;
+
+  /// No description provided for @seed_language_russian.
+  ///
+  /// In en, this message translates to:
+  /// **'Russian'**
+  String get seed_language_russian;
+
+  /// No description provided for @seed_language_spanish.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish'**
+  String get seed_language_spanish;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
