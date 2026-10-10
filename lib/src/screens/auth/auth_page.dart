@@ -178,14 +178,24 @@ class AuthPageState extends State<AuthPage> {
             child: ButtonTheme(
               buttonColor: Colors.transparent,
               minWidth: double.minPositive,
-              child: TextButton(
-                  onPressed: () => Navigator.pop(context), child: SvgPicture.asset(
-                'assets/images/new-images/back_arrow.svg',
-                colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
-                fit: BoxFit.fill,
-                height: 15,
-                width: 15,
-              )),
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()
+                  ..scaleByDouble(
+                    Directionality.of(context) == TextDirection.rtl ? -1.0 : 1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                  ),
+                child: TextButton(
+                    onPressed: () => Navigator.pop(context), child: SvgPicture.asset(
+                  'assets/images/new-images/back_arrow.svg',
+                  colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
+                  fit: BoxFit.fill,
+                  height: 15,
+                  width: 15,
+                )),
+              ),
             ),
           )
               : SizedBox(

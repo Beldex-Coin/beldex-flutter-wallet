@@ -36,12 +36,22 @@ abstract class BasePage extends StatelessWidget {
     final _backButton = Container(
         height: 48,
         width: 48,
-        child: SvgPicture.asset(
-          'assets/images/new-images/back_arrow.svg',
-          colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
-          height: 48,
-          width: 48,
-          fit: BoxFit.fill,
+        child: Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.identity()
+            ..scaleByDouble(
+            Directionality.of(context) == TextDirection.rtl ? -1.0 : 1.0,
+            1.0,
+            1.0,
+            1.0,
+          ),
+          child: SvgPicture.asset(
+            'assets/images/new-images/back_arrow.svg',
+            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
+            height: 48,
+            width: 48,
+            fit: BoxFit.fill,
+          ),
         ));
     return Container(
       width: 60,
@@ -206,12 +216,22 @@ abstract class BasePage extends StatelessWidget {
       return null;
     }
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _backButton = SvgPicture.asset(
-      'assets/images/new-images/back_arrow.svg',
-      colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
-      fit: BoxFit.fill,
-      height: 15,
-      width: 15,
+    final _backButton = Transform(
+      alignment: Alignment.center,
+      transform: Matrix4.identity()
+        ..scaleByDouble(
+          Directionality.of(context) == TextDirection.rtl ? -1.0 : 1.0,
+          1.0,
+          1.0,
+          1.0,
+        ),
+      child: SvgPicture.asset(
+        'assets/images/new-images/back_arrow.svg',
+        colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
+        fit: BoxFit.fill,
+        height: 15,
+        width: 15,
+      ),
     );
     return Container(
       color: Colors.transparent,
