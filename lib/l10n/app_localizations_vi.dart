@@ -956,7 +956,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get transactions_by_date => 'Giao dịch theo ngày';
 
   @override
-  String get transferYourBdxMoreFasternWithFlashTransaction => 'Chuyển BDX nhanh hơn với Flash Transaction!';
+  String get transferYourBdxMoreFasternWithFlashTransaction => 'Chuyển BDX nhanh hơn với\n Flash Transaction!';
 
   @override
   String get tryAgain => 'Vui lòng thử lại sau một thời gian';

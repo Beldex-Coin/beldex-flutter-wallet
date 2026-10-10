@@ -956,7 +956,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get transactions_by_date => 'Транзакции по дате';
 
   @override
-  String get transferYourBdxMoreFasternWithFlashTransaction => 'Переводите BDX быстрее с помощью флеш-транзакций!';
+  String get transferYourBdxMoreFasternWithFlashTransaction => 'Переводите BDX быстрее с помощью\n флеш-транзакций!';
 
   @override
   String get tryAgain => 'Пожалуйста, попробуйте позже.';

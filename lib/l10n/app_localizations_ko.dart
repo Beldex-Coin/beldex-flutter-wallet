@@ -956,7 +956,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get transactions_by_date => '날짜별 거래';
 
   @override
-  String get transferYourBdxMoreFasternWithFlashTransaction => '플래시 트랜잭션으로 BDX를 더 빠르게 전송하세요!';
+  String get transferYourBdxMoreFasternWithFlashTransaction => '플래시 트랜잭션으로 BDX를 더 빠르게\n 전송하세요!';
 
   @override
   String get tryAgain => '잠시 후 다시 시도해 주세요.';

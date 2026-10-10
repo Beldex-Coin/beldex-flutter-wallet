@@ -956,7 +956,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get transactions_by_date => 'المعاملات حسب التاريخ';
 
   @override
-  String get transferYourBdxMoreFasternWithFlashTransaction => ' قم بتحويل BDX الخاص بك بشكل أسرع باستخدام المعاملة السريعة!';
+  String get transferYourBdxMoreFasternWithFlashTransaction => ' قم بتحويل BDX الخاص بك بشكل أسرع باستخدام\n المعاملة السريعة!';
 
   @override
   String get tryAgain => 'يرجى المحاولة مرة أخرى لاحقًا';

@@ -304,7 +304,7 @@
   "transactionInitiatedSuccessfully": "거래가 성공적으로 시작되었습니다",
   "transactions": "거래 내역",
   "transactions_by_date": "날짜별 거래",
-  "transferYourBdxMoreFasternWithFlashTransaction": "플래시 트랜잭션으로 BDX를 더 빠르게 전송하세요!",
+  "transferYourBdxMoreFasternWithFlashTransaction": "플래시 트랜잭션으로 BDX를 더 빠르게\n 전송하세요!",
   "tryAgain": "잠시 후 다시 시도해 주세요.",
   "twoDecimals": "2자리 (0.00)",
   "usePattern": "패턴 사용",
