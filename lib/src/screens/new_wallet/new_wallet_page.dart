@@ -169,14 +169,16 @@ class _WalletNameFormState extends State<WalletNameForm> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
                 child: Container(
-                  margin: EdgeInsets.only(left: 30),
+                  margin: const EdgeInsetsDirectional.only(start: 30),
                   child: Stack(
-                    alignment: Alignment.centerRight,
+                    alignment: AlignmentDirectional.centerEnd,
                     children: [
                       Observer(
                         builder: (context) {
                           return TextFormField(
                             enabled: !(walletCreationStore.state is WalletIsCreating),
+                            textDirection: Directionality.of(context),
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                               backgroundColor: Colors.transparent,
                               fontSize: 16.0,
@@ -230,7 +232,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                     );
                                 }
                               )
-                              : Container();
+                              : const SizedBox.shrink();
                         },
                       ),
                     ],
