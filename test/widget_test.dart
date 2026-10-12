@@ -1,30 +1,40 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+import 'package:beldex_wallet/l10n.dart';
+import 'package:beldex_wallet/src/screens/base_page.dart';
+import 'package:beldex_wallet/theme_changer.dart';
+import 'package:beldex_wallet/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
 
-import 'package:beldex_wallet/main.dart';
+class _TestPage extends BasePage {
+  @override
+  String getTitle(AppLocalizations t) => 'Language';
+
+  @override
+  Widget trailing(BuildContext context) => const SizedBox.shrink();
+
+  @override
+  Widget? leading(BuildContext context) => null;
+
+  @override
+  Widget body(BuildContext context) => const SizedBox.shrink();
+}
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(BeldexWalletApp());
+  testWidgets('page title does not apply a background color', (tester) async {
+    final themeChanger = ThemeChanger(Themes.darkTheme);
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.pumpWidget(
+      ChangeNotifierProvider<ThemeChanger>.value(
+        value: themeChanger,
+        child: MaterialApp(
+          theme: Themes.darkTheme,
+          home: _TestPage(),
+        ),
+      ),
+    );
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    final title = tester.widget<Text>(find.text('Language'));
+    expect(title.style?.backgroundColor, isNull);
   });
 }

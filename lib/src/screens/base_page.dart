@@ -77,7 +77,6 @@ abstract class BasePage extends StatelessWidget {
         : Text(
             title,
             style: TextStyle(
-                backgroundColor: Colors.transparent,
                 fontSize: 23.0,
                 fontWeight: FontWeight.w700,
                 color: Theme.of(context).primaryTextTheme.bodySmall?.color),
@@ -176,6 +175,9 @@ abstract class BasePage extends StatelessWidget {
         appBar: AppBar(
             toolbarHeight: 70,
             elevation: 0,
+            surfaceTintColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+            scrolledUnderElevation: 0,
             centerTitle: true,
             // systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: _isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
             // statusBarIconBrightness: Brightness.dark,
