@@ -114,7 +114,7 @@ class DashboardPage extends BasePage {
                 ? Color(0xff171720)
                 : Color(0xffffffff)),
         child: Container(
-            margin:EdgeInsets.only(left:15,right:15),
+            margin:EdgeInsetsDirectional.only(start:15,end:15),
             child:Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -128,7 +128,7 @@ class DashboardPage extends BasePage {
                       backgroundColor: settingsStore.isDarkTheme
                           ? const Color(0xff24242F)
                           : const Color(0xffEDEDED),
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -174,7 +174,7 @@ class DashboardPage extends BasePage {
                       backgroundColor: settingsStore.isDarkTheme
                           ? const Color(0xff24242F)
                           : const Color(0xffEDEDED),
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -353,8 +353,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                                        });
                                                  },
                                                  child: Padding(
-                                                   padding: const EdgeInsets.only(
-                                                       left: 5.0),
+                                                   padding: const EdgeInsetsDirectional.only(
+                                                       start: 5.0),
                                                    child: Icon(Icons.info_outline,
                                                        size: 15),
                                                  ),
@@ -379,7 +379,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                     Container(
                       height:_height * 0.65 / 3,
                       width:_width,
-                      margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+                      margin: EdgeInsetsDirectional.only(bottom: 10, start: 15, end: 15),
                       decoration: BoxDecoration(
                           color: settingsStore.isDarkTheme
                               ? Color(0xff272733)
@@ -389,8 +389,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
-                            margin: EdgeInsets.only(
-                                left: 15, right: 15, top: 15,),
+                            margin: EdgeInsetsDirectional.only(
+                                start: 15, end: 15, top: 15,),
                             child: Observer(
                                 key: _connectionStatusObserverKey,
                                 builder: (_) {
@@ -463,7 +463,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                           ),
                           Container(
                             margin:
-                            EdgeInsets.only(left: 15, right: 15),
+                            EdgeInsetsDirectional.only(start: 15, end: 15),
                             child: Observer(
                                 key: _balanceObserverKey,
                                 builder: (_) {
@@ -508,8 +508,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                           ),
                           Flexible(child:Container()),
                           Container(
-                            margin: EdgeInsets.only(
-                                left: 15.0, right: 15.0, bottom: 15),
+                            margin: EdgeInsetsDirectional.only(
+                                start: 15.0, end: 15.0, bottom: 15),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -552,7 +552,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                             : settingsStore.isDarkTheme
                                             ? Color(0xff333343)
                                             : Color(0xffE8E8E8),
-                                        padding: EdgeInsets.zero,
+                                        padding: EdgeInsetsDirectional.zero,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(16),
                                         ),
@@ -583,7 +583,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                       elevation: 0,
                                       fixedSize: Size.fromHeight(ScreenSize.buttonHeight020),
                                       backgroundColor: Color(0xff2979FB),
-                                      padding: EdgeInsets.zero,
+                                      padding: EdgeInsetsDirectional.zero,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                       ),
@@ -601,7 +601,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         walletStore.reconnect();
                       }
                         return Container(
-                          margin: EdgeInsets.only(left: 15.0, right: 15.0),
+                          margin: EdgeInsetsDirectional.only(start: 15.0, end: 15.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -636,7 +636,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                         : settingsStore.isDarkTheme
                                         ? Color(0xff333343)
                                         : Color(0xffE8E8E8),
-                                    padding: EdgeInsets.zero,
+                                    padding: EdgeInsetsDirectional.zero,
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                     ),
@@ -686,7 +686,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                           : settingsStore.isDarkTheme
                                           ? Color(0xff333343)
                                           : Color(0xffE8E8E8),
-                                      padding: EdgeInsets.zero,
+                                      padding: EdgeInsetsDirectional.zero,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(16),
                                       ),
@@ -704,9 +704,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
               );
             }
             return Container(
-              margin: EdgeInsets.only(left: 15, right: 15, bottom: 10,top:10,),
+              margin: EdgeInsetsDirectional.only(start: 15, end: 15, bottom: 10,top:10,),
               height: MediaQuery.sizeOf(context).height < 700 ? MediaQuery.sizeOf(context).height * 0.83 / 2 : MediaQuery.sizeOf(context).height * 0.4,
-              padding: EdgeInsets.only(top: 10, bottom: 10),
+              padding: EdgeInsetsDirectional.only(top: 10, bottom: 10),
               width: double.infinity,
               decoration: BoxDecoration(
                   color: settingsStore.isDarkTheme
@@ -731,7 +731,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         }
                             : null,
                         child: Container(
-                          padding: EdgeInsets.only(top: 15, bottom: 15, left: 20, right: 20),
+                          padding: EdgeInsetsDirectional.only(top: 15, bottom: 15, start: 20, end: 20),
                           decoration: BoxDecoration(
                             color: syncStatus(syncStore.status) ? settingsStore.isDarkTheme
                                 ? Color(0xff24242F)
@@ -785,7 +785,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                 borderRadius: BorderRadius.circular(20.0)),
             surfaceTintColor: Colors.transparent,
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsetsDirectional.all(12.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
