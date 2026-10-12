@@ -184,7 +184,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.only(left: 35.0, right: 35.0),
+                  padding: EdgeInsetsDirectional.only(start: 35.0, end: 35.0),
                   child: Column(
                     children: <Widget>[
                       Observer(builder: (_) {
@@ -196,7 +196,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.only(bottom: 10),
+                              margin: EdgeInsetsDirectional.only(bottom: 10),
                               height:
                                   MediaQuery.sizeOf(context).height * 0.60 / 3,
                               width:
@@ -207,14 +207,14 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                     ? Color(0xff1F1F28)
                                     : Color(0xffEDEDED),
                               ),
-                              padding: EdgeInsets.all(18),
+                              padding: EdgeInsetsDirectional.all(18),
                               child: RepaintBoundary(
                                 key: _globalKey,
                                 child: Container(
                                   decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(10)),
-                                  padding: EdgeInsets.all(10),
+                                  padding: EdgeInsetsDirectional.all(10),
                                   child: QrImage(
                                     data: walletStore.subaddress.address +
                                         walletStore.amountValue,
@@ -233,7 +233,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
+                                  padding: const EdgeInsetsDirectional.only(end: 8.0),
                                   child: Text(
                                     tr(context).walletAddress,
                                     style: TextStyle(
@@ -274,7 +274,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                               children: <Widget>[
                                 Expanded(
                                     child: Container(
-                                        padding: EdgeInsets.only(top: 20.0),
+                                        padding: EdgeInsetsDirectional.only(top: 20.0),
                                         child: Center(
                                             child: GestureDetector(
                                                 child: Text(
@@ -299,7 +299,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 20, left: 20, bottom: 15),
+                  margin: EdgeInsetsDirectional.only(top: 20, start: 20, bottom: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -311,7 +311,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                  padding: EdgeInsetsDirectional.only(start: 15.0, end: 15.0),
                   child: Form(
                       key: _formKey,
                       child: NewBeldexTextField(
@@ -351,8 +351,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                   child: Stack(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
-                            top: 10, left: 15.0, right: 15.0, bottom: 10),
+                        margin: EdgeInsetsDirectional.only(
+                            top: 10, start: 15.0, end: 15.0, bottom: 10),
                         decoration: BoxDecoration(
                             border: Border.all(
                               color: settingsStore.isDarkTheme
@@ -364,7 +364,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                           children: [
                             //SubAddressDropDownList(settingsStore: settingsStore,),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsetsDirectional.all(8.0),
                               child: GestureDetector(
                                   onTap: () async {
                                     await showDialog<void>(
@@ -383,8 +383,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             ),
                             SizedBox(height: 15),
                             Container(
-                              margin: EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 20),
+                              margin: EdgeInsetsDirectional.only(
+                                  start: 10, end: 10, bottom: 20),
                               child: GestureDetector(
                                 onTap: () {
                                   showDialog<void>(
@@ -399,7 +399,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Container(
-                                      margin: EdgeInsets.only(right: 10),
+                                      margin: EdgeInsetsDirectional.only(end: 10),
                                       width: 25.0,
                                       height: 25.0,
                                       child: SvgPicture.asset(
@@ -427,12 +427,12 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                 ),
                 SizedBox(height: MediaQuery.sizeOf(context).height * 0.20 / 3),
                 Container(
-                  margin: EdgeInsets.all(15),
+                  margin: EdgeInsetsDirectional.all(15),
                   child: InkWell(
                     onTap: () => _incrementCounter(
                         walletStore.subaddress.address, amountController.text),
                     child: Container(
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsetsDirectional.all(15),
                       decoration: BoxDecoration(
                           color: Color(0xff0BA70F),
                           borderRadius: BorderRadius.circular(10)),
@@ -441,7 +441,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                         children: [
                           Icon(Icons.share, color: Colors.white),
                           Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
+                            padding: const EdgeInsetsDirectional.only(start: 8.0),
                             child: Text(
                               tr(context).shareQr,
                               style: TextStyle(
@@ -482,7 +482,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.only(left: 35.0, right: 35.0),
+                  padding: EdgeInsetsDirectional.only(start: 35.0, end: 35.0),
                   child: Column(
                     children: <Widget>[
                       Row(
@@ -490,7 +490,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.only(bottom: 10),
+                            margin: EdgeInsetsDirectional.only(bottom: 10),
                             height:
                                 MediaQuery.sizeOf(context).height * 0.60 / 3,
                             width:
@@ -501,14 +501,14 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                   ? Color(0xff1F1F28)
                                   : Color(0xffEDEDED),
                             ),
-                            padding: EdgeInsets.all(18),
+                            padding: EdgeInsetsDirectional.all(18),
                             child: RepaintBoundary(
                               key: _globalKey,
                               child: Container(
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10)),
-                                padding: EdgeInsets.all(10),
+                                padding: EdgeInsetsDirectional.all(10),
                                 child: QrImage(
                                   data: receivePageChangeNotifier.currentAddress +
                                       receivePageChangeNotifier.amountValue,
@@ -525,7 +525,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
+                                padding: const EdgeInsetsDirectional.only(end: 8.0),
                                 child: Text(
                                   tr(context).walletAddress,
                                   style: TextStyle(
@@ -568,7 +568,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             children: <Widget>[
                               Expanded(
                                   child: Container(
-                                      padding: EdgeInsets.only(top: 20.0),
+                                      padding: EdgeInsetsDirectional.only(top: 20.0),
                                       child: Center(
                                           child: GestureDetector(
                                               child: Text(
@@ -591,7 +591,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 20, left: 20, bottom: 15),
+                  margin: EdgeInsetsDirectional.only(top: 20, start: 20, bottom: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -603,7 +603,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                  padding: EdgeInsetsDirectional.only(start: 15.0, end: 15.0),
                   child: Form(
                       key: _formKey,
                       child: NewBeldexTextField(
@@ -643,8 +643,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                   child: Stack(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
-                            top: 10, left: 15.0, right: 15.0, bottom: 10),
+                        margin: EdgeInsetsDirectional.only(
+                            top: 10, start: 15.0, end: 15.0, bottom: 10),
                         decoration: BoxDecoration(
                             border: Border.all(
                               color: settingsStore.isDarkTheme
@@ -656,7 +656,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                           children: [
                             //SubAddressDropDownList(settingsStore: settingsStore,),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsetsDirectional.all(8.0),
                               child: GestureDetector(
                                   onTap: () async {
                                    /* await showDialog<void>(
@@ -675,8 +675,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             ),
                             SizedBox(height: 15),
                             Container(
-                              margin: EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 20),
+                              margin: EdgeInsetsDirectional.only(
+                                  start: 10, end: 10, bottom: 20),
                               child: GestureDetector(
                                 onTap: () {
                                   /*showDialog<void>(
@@ -691,7 +691,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Container(
-                                      margin: EdgeInsets.only(right: 10),
+                                      margin: EdgeInsetsDirectional.only(end: 10),
                                       width: 25.0,
                                       height: 25.0,
                                       child: SvgPicture.asset(
@@ -719,12 +719,12 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                 ),
                 SizedBox(height: MediaQuery.sizeOf(context).height * 0.20 / 3),
                 Container(
-                  margin: EdgeInsets.all(15),
+                  margin: EdgeInsetsDirectional.all(15),
                   child: InkWell(
                     onTap: () => _incrementCounter(
                         receivePageChangeNotifier.currentAddress, amountController.text),
                     child: Container(
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsetsDirectional.all(15),
                       decoration: BoxDecoration(
                           color: Color(0xff0BA70F),
                           borderRadius: BorderRadius.circular(10)),
@@ -733,7 +733,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                         children: [
                           Icon(Icons.share, color: Colors.white),
                           Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
+                            padding: const EdgeInsetsDirectional.only(start: 8.0),
                             child: Text(
                               tr(context).shareQr,
                               style: TextStyle(
@@ -768,16 +768,16 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                     : Color(0xffEDEDED),
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 4.0, right: 6.0, top: 3.0, bottom: 5.0),
+                padding: const EdgeInsetsDirectional.only(
+                    start: 4.0, end: 6.0, top: 3.0, bottom: 5.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                        margin: EdgeInsets.all(8),
+                        margin: EdgeInsetsDirectional.all(8),
                         width: 20,
                         //height:mHeight*0.15/3,width: mHeight*0.20/3,
-                        // margin:EdgeInsets.only(right:mHeight*0.03/3,),
+                        // margin:EdgeInsetsDirectional.only(end:mHeight*0.03/3,),
                         child:
                             Icon(Icons.more_horiz, color: Colors.transparent)),
                     Expanded(
@@ -816,16 +816,16 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                     : Color(0xffEDEDED),
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 4.0, right: 6.0, top: 3.0, bottom: 5.0),
+                padding: const EdgeInsetsDirectional.only(
+                    start: 4.0, end: 6.0, top: 3.0, bottom: 5.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                        margin: EdgeInsets.all(8),
+                        margin: EdgeInsetsDirectional.all(8),
                         width: 20,
                         //height:mHeight*0.15/3,width: mHeight*0.20/3,
-                        // margin:EdgeInsets.only(right:mHeight*0.03/3,),
+                        // margin:EdgeInsetsDirectional.only(end:mHeight*0.03/3,),
                         child:
                         Icon(Icons.more_horiz, color: Colors.transparent)),
                     Expanded(
@@ -922,11 +922,11 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
               },
               child: Container(
                 constraints: BoxConstraints(minHeight: 200.0),
-                margin: EdgeInsets.only(
+                margin: EdgeInsetsDirectional.only(
                     top: mHeight * 2.080 / 3, //2.010
                     bottom: MediaQuery.sizeOf(context).height * 0.38 / 3,
-                    left: mHeight * 0.15 / 3,
-                    right: mHeight * 0.16 / 3),
+                    start: mHeight * 0.15 / 3,
+                    end: mHeight * 0.16 / 3),
                 child: Container(
                     height: MediaQuery.sizeOf(context).height * 0.70 / 3,
                     width: MediaQuery.sizeOf(context).width * 2.7 / 3,
@@ -939,7 +939,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                     child: Observer(
                       builder: (_) {
                         return ListView.builder(
-                            padding: EdgeInsets.zero,
+                            padding: EdgeInsetsDirectional.zero,
                             shrinkWrap: true,
                             itemCount: subAddressListStore.subaddresses.length,
                             itemBuilder: (BuildContext context, int i) {
@@ -972,8 +972,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                   child: Column(
                                     children: [
                                       Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        padding: EdgeInsets.all(10),
+                                        margin: EdgeInsetsDirectional.only(start: 10),
+                                        padding: EdgeInsetsDirectional.all(10),
                                         // decoration: BoxDecoration(
                                         //   border: Border(bottom: BorderSide(color: Colors.grey))
                                         // ),
@@ -1044,7 +1044,7 @@ class NewBeldexTextField extends StatelessWidget {
           side: BorderSide(width: 0.5, color: Colors.transparent),
           borderRadius: BorderRadius.circular(10)),
       child: Padding(
-        padding: const EdgeInsets.only(left: 25.0),
+        padding: const EdgeInsetsDirectional.only(start: 25.0),
         child: TextFormField(
           maxLength: 15,
           onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
@@ -1141,7 +1141,7 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
                   thumbVisibility: true,
                   controller: _controller,
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 5.0),
+                    padding: const EdgeInsetsDirectional.only(end: 5.0),
                     child: ListView.builder(
                         controller: _controller,
                         shrinkWrap: true,
@@ -1182,8 +1182,8 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
                                           borderRadius:
                                               BorderRadius.circular(15)),
                                       child: Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        padding: EdgeInsets.all(15),
+                                        margin: EdgeInsetsDirectional.only(start: 10),
+                                        padding: EdgeInsetsDirectional.all(15),
                                         child: Center(
                                           child: Text(
                                             label,
@@ -1199,8 +1199,8 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
                                       ),
                                     )
                                   : Container(
-                                      margin: EdgeInsets.only(left: 10),
-                                      padding: EdgeInsets.all(15),
+                                      margin: EdgeInsetsDirectional.only(start: 10),
+                                      padding: EdgeInsetsDirectional.all(15),
                                       child: Center(
                                         child: Text(
                                           label,
