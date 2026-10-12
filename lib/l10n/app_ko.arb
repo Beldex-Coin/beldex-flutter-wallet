@@ -448,5 +448,6 @@
   "unlock_stake_requested": "스테이킹 잠금 해제가 요청되었습니다",
   "unlockBeldexWallet": "Beldex 지갑 잠금 해제",
   "wallet_menu": "메뉴",
-  "your_contributions": "기여 내역"
+  "your_contributions": "기여 내역",
+  "order_creation_failed_error_message": "주문 생성에 실패했습니다"
 }

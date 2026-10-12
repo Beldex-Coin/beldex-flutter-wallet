@@ -448,5 +448,6 @@
   "unlock_stake_requested": "Stake kilidinin açılması istendi",
   "unlockBeldexWallet": "Beldex Cüzdanının Kilidini Aç",
   "wallet_menu": "Menü",
-  "your_contributions": "Katkılarınız"
+  "your_contributions": "Katkılarınız",
+  "order_creation_failed_error_message": "Emir oluşturulamadı"
 }

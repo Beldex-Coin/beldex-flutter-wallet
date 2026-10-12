@@ -1465,4 +1465,7 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
+
+  @override
+  String get order_creation_failed_error_message => '订单创建失败';
 }

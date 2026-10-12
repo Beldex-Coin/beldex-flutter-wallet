@@ -458,5 +458,6 @@
   "seed_language_japanese": "Japanese",
   "seed_language_portuguese": "Portuguese",
   "seed_language_russian": "Russian",
-  "seed_language_spanish": "Spanish"
+  "seed_language_spanish": "Spanish",
+  "order_creation_failed_error_message": "Order creation failed"
 }

@@ -448,5 +448,6 @@
   "unlock_stake_requested": "Запрошена разблокировка стейка",
   "unlockBeldexWallet": "Разблокировать кошелёк Beldex",
   "wallet_menu": "Меню",
-  "your_contributions": "Ваш вклад"
+  "your_contributions": "Ваш вклад",
+  "order_creation_failed_error_message": "Не удалось создать ордер"
 }

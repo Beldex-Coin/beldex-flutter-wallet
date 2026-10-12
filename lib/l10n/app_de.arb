@@ -448,5 +448,6 @@
   "unlock_stake_requested": "Stake Entsperrung angefragt",
   "unlockBeldexWallet": "Schalten Sie die Beldex-Wallet frei",
   "wallet_menu": "Menü",
-  "your_contributions": "Deine Anteile"
+  "your_contributions": "Deine Anteile",
+  "order_creation_failed_error_message": "Auftragserstellung fehlgeschlagen"
 }

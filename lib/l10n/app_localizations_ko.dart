@@ -1465,4 +1465,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
+
+  @override
+  String get order_creation_failed_error_message => '주문 생성에 실패했습니다';
 }

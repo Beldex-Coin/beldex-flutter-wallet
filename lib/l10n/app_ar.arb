@@ -448,5 +448,6 @@
   "unlock_stake_requested": "تم طلب إلغاء قفل الحصة",
   "unlockBeldexWallet": "إلغاء قفل محفظة Beldex",
   "wallet_menu": "القائمة",
-  "your_contributions": "مساهماتك"
+  "your_contributions": "مساهماتك",
+  "order_creation_failed_error_message": "فشل إنشاء الطلب"
 }

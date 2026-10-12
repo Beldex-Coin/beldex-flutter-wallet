@@ -2874,6 +2874,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Spanish'**
   String get seed_language_spanish;
+
+  /// No description provided for @order_creation_failed_error_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Order creation failed'**
+  String get order_creation_failed_error_message;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

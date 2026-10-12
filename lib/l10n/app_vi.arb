@@ -448,5 +448,6 @@
   "unlock_stake_requested": "Đã yêu cầu mở khóa stake",
   "unlockBeldexWallet": "Mở khóa ví Beldex",
   "wallet_menu": "Menu",
-  "your_contributions": "Đóng góp của bạn"
+  "your_contributions": "Đóng góp của bạn",
+  "order_creation_failed_error_message": "Tạo lệnh không thành công"
 }

@@ -448,5 +448,6 @@
   "unlock_stake_requested": "Déverrouillage du Stake demandé",
   "unlockBeldexWallet": "Déverrouiller le portefeuille Beldex",
   "wallet_menu": "Menu",
-  "your_contributions": "Vos contributions"
+  "your_contributions": "Vos contributions",
+  "order_creation_failed_error_message": "Échec de la création de l’ordre"
 }

@@ -1465,4 +1465,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
+
+  @override
+  String get order_creation_failed_error_message => '注文の作成に失敗しました';
 }

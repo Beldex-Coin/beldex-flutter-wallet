@@ -773,10 +773,13 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
       } else if (value?.error != null) {
         print('Status -> error ${value!.error!.message}');
         Navigator.of(context).pop();
-        final status = value.error?.message ?? "";
-        if(status.isNotEmpty) {
+        var errorMessage = value.error?.message ?? "";
+        if(errorMessage.isNotEmpty) {
+          if(errorMessage.contains("Order creation failed")){
+            errorMessage = tr(context).order_creation_failed_error_message;
+          }
           Fluttertoast.showToast(
-            msg: value.error!.message.toString(),
+            msg: errorMessage,
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             textColor: Colors.white,

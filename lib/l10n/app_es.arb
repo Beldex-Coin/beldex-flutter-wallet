@@ -448,5 +448,6 @@
   "unlock_stake_requested": "Se solicitó desbloquear el staking",
   "unlockBeldexWallet": "Desbloquear la cartera Beldex",
   "wallet_menu": "Menú",
-  "your_contributions": "Tus contribuciones"
+  "your_contributions": "Tus contribuciones",
+  "order_creation_failed_error_message": "Error al crear la orden"
 }
