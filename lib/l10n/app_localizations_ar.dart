@@ -33,7 +33,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get addAddress => 'إضافة عنوان';
 
   @override
-  String get addBns => 'إضافة BNSجارٍ جلب سجل BNS من الشبكة\n';
+  String get addBns => 'إضافة BNS';
 
   @override
   String get addNode => 'إضافة عقدة';
