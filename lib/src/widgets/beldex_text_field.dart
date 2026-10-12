@@ -36,7 +36,7 @@ class BeldexTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10)
       ),
       child: Padding(
-        padding: const EdgeInsets.only(left:25.0),
+        padding: const EdgeInsetsDirectional.only(start:25.0),
         child: TextFormField(
             onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
             enabled: enabled,

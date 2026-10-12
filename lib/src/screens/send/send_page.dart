@@ -258,7 +258,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                     color: Colors.transparent,
                     width: MediaQuery.sizeOf(context).width,
                     padding:
-                    EdgeInsets.only(top: 15, left: 25, right: 25, bottom: 10),
+                    EdgeInsetsDirectional.only(top: 15, start: 25, end: 25, bottom: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -348,7 +348,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                 ),
                 Padding(
                   padding:
-                  const EdgeInsets.only(top: 20.0, left: 5.0, right: 5.0),
+                  const EdgeInsetsDirectional.only(top: 20.0, start: 5.0, end: 5.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -379,7 +379,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                 Form(
                   key: _formKey,
                   child: Container(
-                    padding: EdgeInsets.only(top: 10, bottom: 30),
+                    padding: EdgeInsetsDirectional.only(top: 10, bottom: 30),
                     child: Column(children: <Widget>[
                       //Beldex Address
                       AddressTextField(
@@ -455,7 +455,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       Visibility(
                         visible: addressValidation,
                         child: Container(
-                            margin: EdgeInsets.only(left: 10),
+                            margin: EdgeInsetsDirectional.only(start: 10),
                             child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Text(
@@ -467,8 +467,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 ))),
                       ),
                       Container(
-                        margin: EdgeInsets.only(
-                          left: 7,
+                        margin: EdgeInsetsDirectional.only(
+                          start: 7,
                           top: 20,
                         ),
                         child: Row(
@@ -483,14 +483,14 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       ),
       
                       Container(
-                        margin: EdgeInsets.only(
+                        margin: EdgeInsetsDirectional.only(
                           top: 15,
-                          left: 5,
-                          right: 4,
+                          start: 5,
+                          end: 4,
                         ),
-                        padding: EdgeInsets.only(
-                          left: 25,
-                          right: 5,
+                        padding: EdgeInsetsDirectional.only(
+                          start: 25,
+                          end: 5,
                           top: 10,
                           bottom: 8,
                         ),
@@ -587,7 +587,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 ),
                                 const SizedBox(width: 8),
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
+                                  padding: const EdgeInsetsDirectional.only(end: 8.0),
                                   child: TextButton(
                                     onPressed: () {
                                       final maxAmount = belDexAmountToDouble(
@@ -605,7 +605,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                     style: TextButton.styleFrom(
                                       backgroundColor:
                                           Theme.of(context).textTheme.bodySmall?.decorationColor,
-                                      padding: EdgeInsets.symmetric(
+                                      padding: EdgeInsetsDirectional.symmetric(
                                           horizontal: 16, vertical: 0),
                                       minimumSize: Size(0, 32),
                                       shape: RoundedRectangleBorder(
@@ -638,8 +638,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                         maxWidth: MediaQuery.sizeOf(context)
                                                 .width -
                                             95),
-                                    margin: EdgeInsets.only(top: 20, bottom: 5),
-                                    padding: EdgeInsets.symmetric(
+                                    margin: EdgeInsetsDirectional.only(top: 20, bottom: 5),
+                                    padding: EdgeInsetsDirectional.symmetric(
                                         horizontal: 12, vertical: 4),
                                     decoration: BoxDecoration(
                                         borderRadius:
@@ -687,7 +687,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                               border: InputBorder.none,
                                               isDense: true,
                                               contentPadding:
-                                                  EdgeInsets.zero,
+                                                  EdgeInsetsDirectional.zero,
                                               hintStyle: TextStyle(
                                                 fontSize: 15.0,
                                                 fontWeight: FontWeight.w500,
@@ -715,7 +715,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       Visibility(
                         visible: amountValidation,
                         child: Container(
-                            margin: EdgeInsets.only(left: 10),
+                            margin: EdgeInsetsDirectional.only(start: 10),
                             child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: Row(
@@ -737,10 +737,10 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 ))),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(
+                        padding: const EdgeInsetsDirectional.only(
                           top: 10.0,
                           bottom: 10.0,
-                          left: 10.0,
+                          start: 10.0,
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -786,7 +786,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
             ),
             bottomSection: Observer(builder: (_) {
               return Container(
-                margin: EdgeInsets.only(left: 15, right: 15, top: 22),
+                margin: EdgeInsetsDirectional.only(start: 15, end: 15, top: 22),
                 child: InkWell(
                   onTap: syncStore.status is SyncedSyncStatus ||
                       syncStore.status.blocksLeft == 0
@@ -827,7 +827,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                   }
                       : null,
                   child: Container(
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsetsDirectional.all(15),
                     decoration: BoxDecoration(
                         color: Color(0xff0BA70F),
                         borderRadius: BorderRadius.circular(10)),
@@ -842,7 +842,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
+                          padding: const EdgeInsetsDirectional.only(start: 8.0),
                           child: Text(
                             tr(context).send,
                             style: TextStyle(
@@ -1018,7 +1018,7 @@ class _CommitTransactionLoaderState extends State<CommitTransactionLoader> {
                               : Color(0xff222222)),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15.0, left:8.0,right:8.0),
+                      padding: const EdgeInsetsDirectional.only(top: 15.0, start:8.0,end:8.0),
                       child: Text(
                         tr(context).initiatingTransactionDescription,
                         textAlign: TextAlign.center,

@@ -52,7 +52,7 @@ class AddressTextField extends StatelessWidget {
         FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9.-]')),
       ],
       suffixIcon: Padding(
-          padding: EdgeInsets.only(right: 5),
+          padding: EdgeInsetsDirectional.only(end: 5),
           child: SizedBox(
             width: prefixIconWidth * options.length +
                 (spaceBetweenPrefixIcons * options.length),
@@ -64,7 +64,7 @@ class AddressTextField extends StatelessWidget {
                   Container(
                     width: prefixIconWidth,
                     height: prefixIconHeight,
-                    padding: EdgeInsets.only(right: 8),
+                    padding: EdgeInsetsDirectional.only(end: 8),
                     child: InkWell(
                         onTap: () async => _saveAddress(context),
                         child: Container(
