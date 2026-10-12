@@ -192,8 +192,8 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
 
     return SafeArea(
         child: Container(
-          padding: Platform.isIOS ? EdgeInsets.only(left: 40.0, right: 40.0)
-          : EdgeInsets.only(left: 40.0, right: 40.0, bottom: 40.0),
+          padding: Platform.isIOS ? EdgeInsetsDirectional.only(start: 40.0, end: 40.0)
+          : EdgeInsetsDirectional.only(start: 40.0, end: 40.0, bottom: 40.0),
           child: Column(children: <Widget>[
             Platform.isIOS ?
             SizedBox.shrink()
@@ -202,7 +202,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
             ),
             Container(
               padding:
-              EdgeInsets.only(top: 10.0, bottom: 40.0, left: 40.0, right: 40.0),
+              EdgeInsetsDirectional.only(top: 10.0, bottom: 40.0, start: 40.0, end: 40.0),
               height: MediaQuery.sizeOf(context).height * 0.60 / 3,
               width: double.infinity,
               child: SvgPicture.asset(
@@ -239,7 +239,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                 : Colors.transparent,
                           )),
                       Container(
-                        margin: EdgeInsets.only(right: 5),
+                        margin: EdgeInsetsDirectional.only(end: 5),
                         width: 25,
                         child: Divider(
                           color: settingsStore.isDarkTheme
@@ -356,7 +356,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                                   : Color(0xffffffff),
                                               surfaceTintColor: Colors.transparent,
                                               content: Container(
-                                                margin: EdgeInsets.symmetric(
+                                                margin: EdgeInsetsDirectional.symmetric(
                                                     vertical: 20),
                                                 child: Column(
                                                   crossAxisAlignment:
@@ -432,8 +432,8 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                           index = 0;
                         } else if (index == 11) {
                           return Container(
-                            margin: EdgeInsets.only(
-                                left: marginLeft, right: marginRight),
+                            margin: EdgeInsetsDirectional.only(
+                                start: marginLeft, end: marginRight),
                             child: TextButton(
                                 onPressed: () => _pop(),
                                 child: SvgPicture.asset('assets/images/new-images/clear.svg', colorFilter: ColorFilter.mode(Theme.of(context)
@@ -447,8 +447,8 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                         }
 
                         return Container(
-                          margin: EdgeInsets.only(
-                              left: marginLeft, right: marginRight),
+                          margin: EdgeInsetsDirectional.only(
+                              start: marginLeft, end: marginRight),
                           child: TextButton(
                             onPressed: () => _push(index),
                             child: Text('$index',

@@ -17,9 +17,9 @@ class BaseRestoreWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        padding: EdgeInsets.only(
-          left: 20.0,
-          right: 20.0,
+        padding: EdgeInsetsDirectional.only(
+          start: 20.0,
+          end: 20.0,
         ),
         child: fixedLarge
             ? Column(

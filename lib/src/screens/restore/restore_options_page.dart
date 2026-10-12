@@ -31,7 +31,7 @@ class RestoreOptionsPage extends BasePage {
     return Column(
       children: [
         Card(
-          margin: EdgeInsets.only(left: 20,right: 20,top: 50),
+          margin: EdgeInsetsDirectional.only(start: 20,end: 20,top: 50),
           elevation:0,
           color:settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED), //Theme.of(context).cardColor,//Color.fromARGB(255, 40, 42, 51),
           shape: RoundedRectangleBorder(
@@ -43,7 +43,7 @@ class RestoreOptionsPage extends BasePage {
                   context, Routes.restoreWalletOptionsFromWelcome);
             },
             child: Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: const EdgeInsetsDirectional.all(30.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -62,7 +62,7 @@ class RestoreOptionsPage extends BasePage {
                   ),
                   SizedBox(width: 5,),
                   Container(
-                    padding: EdgeInsets.all(9),
+                    padding: EdgeInsetsDirectional.all(9),
                     decoration: BoxDecoration(
                         shape: BoxShape.circle,
                          color: Color(0xff1BB71E),

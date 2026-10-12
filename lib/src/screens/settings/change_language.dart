@@ -39,8 +39,8 @@ class ChangeLanguage extends BasePage {
                 // border: Border.all(color: Colors.grey),
                 borderRadius: BorderRadius.circular(10)),
             margin:
-                EdgeInsets.only(left: 20.0, right: 20.0, top: 20, bottom: 20.0),
-            padding: EdgeInsets.only(top: 18),
+                EdgeInsetsDirectional.only(start: 20.0, end: 20.0, top: 20, bottom: 20.0),
+            padding: EdgeInsetsDirectional.only(top: 18),
             child: Column(
               children: [
                 Text(
@@ -54,7 +54,7 @@ class ChangeLanguage extends BasePage {
                 SizedBox(
                   height: MediaQuery.sizeOf(context).height * 1 / 3, //200,
                   child: Container(
-                      margin: EdgeInsets.only(left: 20.0, right: 10.0),
+                      margin: EdgeInsetsDirectional.only(start: 20.0, end: 10.0),
                       //color: Color(0xff181820),
                       child: RawScrollbar(
                         controller: _controller,
@@ -65,12 +65,12 @@ class ChangeLanguage extends BasePage {
                         radius: Radius.circular(10.0),
                         thumbVisibility: false,
                         child: Container(
-                          margin: EdgeInsets.only(right: 8),
+                          margin: EdgeInsetsDirectional.only(end: 8),
                           color: settingsStore.isDarkTheme
                               ? Color(0xff272733)
                               : Color(0xffEDEDED),
                           child: Container(
-                            padding: EdgeInsets.only(right: 6),
+                            padding: EdgeInsetsDirectional.only(end: 6),
                             child: ListView.builder(
                               controller: _controller,
                               itemCount: languages.length,
@@ -109,7 +109,7 @@ class ChangeLanguage extends BasePage {
                                                       color:
                                                           Color(0xff0BA70F))),
                                               padding:
-                                                  const EdgeInsets.all(10.0),
+                                                  const EdgeInsetsDirectional.all(10.0),
                                               child: Center(
                                                 child: Text(
                                                   lang.name,
@@ -122,9 +122,9 @@ class ChangeLanguage extends BasePage {
                                               )),
                                         )
                                       : Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 10.0,
-                                              right: 10.0,
+                                          padding: const EdgeInsetsDirectional.only(
+                                              start: 10.0,
+                                              end: 10.0,
                                               top: 25.0,
                                               bottom: 25.0),
                                           child: Center(

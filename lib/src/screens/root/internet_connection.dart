@@ -85,7 +85,7 @@ Future<void> _checkConnectivity() async {
     //   mainAxisAlignment: MainAxisAlignment.center,
     //   children: [
     //     Padding(
-    //       padding: EdgeInsets.only(right:8.0),
+    //       padding: EdgeInsetsDirectional.only(end:8.0),
     //       child: Icon(Icons.wifi_off ,color: Color(0xffA0A0A0),),
     //     ),
     //     Text('You are currently offline',style: TextStyle(color: Color(0xffA0A0A0)),)

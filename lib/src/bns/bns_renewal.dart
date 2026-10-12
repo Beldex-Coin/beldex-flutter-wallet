@@ -130,7 +130,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
     return Container(
       width: MediaQuery.sizeOf(context).width,
       height: MediaQuery.sizeOf(context).height,
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsetsDirectional.all(10),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           color: settingsStore.isDarkTheme
@@ -149,13 +149,13 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
               //BNS Price
               Container(
                 width: MediaQuery.sizeOf(context).width,
-                margin: EdgeInsets.all(10),
+                margin: EdgeInsetsDirectional.all(10),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: settingsStore.isDarkTheme
                         ? Color(0xff32324a)
                         : Color(0xffDEDEDE)),
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsetsDirectional.all(10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -184,7 +184,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                     Container(
                       width: MediaQuery.sizeOf(context).width,
                       height: 50,
-                      margin: EdgeInsets.only(top: 10, bottom: 5),
+                      margin: EdgeInsetsDirectional.only(top: 10, bottom: 5),
                       child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: bnsPriceDetailsList.length,
@@ -205,7 +205,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                           color: settingsStore.isDarkTheme
                               ? Color(0xff3c3c51)
                               : Color(0xffFFFFFF)),
-                      padding: EdgeInsets.all(5),
+                      padding: EdgeInsetsDirectional.all(5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -273,7 +273,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
               ),
               //BNS Name
               Container(
-                margin: EdgeInsets.only(left: 15),
+                margin: EdgeInsetsDirectional.only(start: 15),
                 child: Text(tr(context).name,
                     style: TextStyle(
                         backgroundColor: Colors.transparent,
@@ -286,7 +286,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
               ),
               //BNS Name Field
               Container(
-                margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+                margin: EdgeInsetsDirectional.only(start: 10, end: 10, top: 5),
                 decoration: BoxDecoration(
                   color: settingsStore.isDarkTheme
                       ? Color(0xff24242F)
@@ -297,7 +297,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                           ? Color(0xff3c3c51)
                           : Color(0xffDADADA)),
                 ),
-                padding: EdgeInsets.only(left: 8, right: 5),
+                padding: EdgeInsetsDirectional.only(start: 8, end: 5),
                 child: TextFormField(
                   readOnly: true,
                   controller: _bnsNameController,
@@ -341,7 +341,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
               /*Visibility(
                 visible: bnsRenewalChangeNotifier.bnsNameFieldIsValid,
                 child: Container(
-                  margin: EdgeInsets.only(left: 15, bottom: 10),
+                  margin: EdgeInsetsDirectional.only(start: 15, bottom: 10),
                   child: Text(bnsRenewalChangeNotifier.bnsNameFieldErrorMessage,
                       style: TextStyle(
                           fontSize: 13.0,
@@ -377,9 +377,9 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
               child: Container(
                 alignment: Alignment.bottomCenter,
                 width: MediaQuery.sizeOf(context).width,
-                padding: EdgeInsets.all(10),
+                padding: EdgeInsetsDirectional.all(10),
                 margin:
-                EdgeInsets.only(top: 20, left: 40, right: 40, bottom: 30),
+                EdgeInsetsDirectional.only(top: 20, start: 40, end: 40, bottom: 30),
                 decoration: BoxDecoration(
                     color: Color(0xff00AD07),
                     borderRadius: BorderRadius.circular(10)),
@@ -492,8 +492,8 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
             color: settingsStore.isDarkTheme
                 ? Color(0xff3c3c51)
                 : Color(0xffFFFFFF)),
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.only(bottom: 5, left: 8, right: 8),
+        padding: EdgeInsetsDirectional.all(10),
+        margin: EdgeInsetsDirectional.only(bottom: 5, start: 8, end: 8),
         child: Text(
           bnsPriceDetailsListItem.year,
           style: TextStyle(

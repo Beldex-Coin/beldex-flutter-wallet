@@ -26,7 +26,7 @@ class DisclaimerPage extends BasePage {
   @override
   Widget body(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.only(left: 15, right: 15,top: 10),
+      padding: EdgeInsetsDirectional.only(start: 15, end: 15,top: 10),
       child: Column(
         children: <Widget>[
           Row(

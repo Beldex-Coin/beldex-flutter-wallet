@@ -149,7 +149,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
     return ScrollableWithBottomSection(
       content: Column(children: [
         Padding(
-          padding: EdgeInsets.only(left: 30, right: 20, top: 40),
+          padding: EdgeInsetsDirectional.only(start: 30, end: 20, top: 40),
           child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -158,7 +158,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
               )),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 10, right: 10, bottom: 15, top: 10),
+          padding: EdgeInsetsDirectional.only(start: 10, end: 10, bottom: 15, top: 10),
           child: Form(
               key: _formKey,
               child: Card(
@@ -248,8 +248,8 @@ class _WalletNameFormState extends State<WalletNameForm> {
                   : Color(0xffEDEDED),
               borderRadius: BorderRadius.circular(10)),
           margin:
-              EdgeInsets.only(left: 10.0, right: 10.0, top: 20, bottom: 20.0),
-          padding: EdgeInsets.only(top: 18),
+              EdgeInsetsDirectional.only(start: 10.0, end: 10.0, top: 20, bottom: 20.0),
+          padding: EdgeInsetsDirectional.only(top: 18),
           child: Column(
             children: [
               Text(
@@ -302,9 +302,9 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                             borderRadius:
                                                 BorderRadius.circular(12)),
                                         child: Container(
-                                            padding: const EdgeInsets.only(
-                                                // left: 10.0,
-                                                // right: 10.0,
+                                            padding: const EdgeInsetsDirectional.only(
+                                                // start: 10.0,
+                                                // end: 10.0,
                                                 top: 10.0,
                                                 bottom: 10.0),
                                             decoration: BoxDecoration(
@@ -324,9 +324,9 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                             )),
                                       )
                                     : Padding(
-                                        padding: const EdgeInsets.only(
-                                            // left: 10.0,
-                                            // right: 10.0,
+                                        padding: const EdgeInsetsDirectional.only(
+                                            // start: 10.0,
+                                            // end: 10.0,
                                             top: 18.0,
                                             bottom: 18.0),
                                         child: Center(
@@ -355,7 +355,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
         Observer(
           builder: (context) {
             return Padding(
-              padding: const EdgeInsets.only(left: 10.0, right: 10),
+              padding: const EdgeInsetsDirectional.only(start: 10.0, end: 10),
               child: SizedBox(
                 width: double.infinity,
                 child: LoadingPrimaryButton(

@@ -55,7 +55,7 @@ abstract class BasePage extends StatelessWidget {
         ));
     return Container(
       width: 60,
-      padding: EdgeInsets.only(left: 10,top: 4),
+      padding: EdgeInsetsDirectional.only(start: 10,top: 4),
       alignment: Alignment.centerLeft,
       child: SizedBox(
         height: 48,
@@ -184,16 +184,16 @@ abstract class BasePage extends StatelessWidget {
             // statusBarBrightness: Brightness.light
             // ),
             leading: Padding(
-                padding: EdgeInsets.only(top: 20.0, bottom: 5),
+                padding: EdgeInsetsDirectional.only(top: 20.0, bottom: 5),
                 child: leading(context) //trailing(context),
                 ),
             title: Padding(
-              padding: const EdgeInsets.only(top: 20.0, bottom: 5),
+              padding: const EdgeInsetsDirectional.only(top: 20.0, bottom: 5),
               child: middle(context),
             ),
             actions: <Widget>[
               Padding(
-                padding: const EdgeInsets.only(top: 20.0, bottom: 5),
+                padding: const EdgeInsetsDirectional.only(top: 20.0, bottom: 5),
                 child: trailing(context),
               )
             ],
@@ -207,7 +207,7 @@ abstract class BasePage extends StatelessWidget {
         body: SafeArea(child: body(context)),
         floatingActionButton: floatingActionButton(context),
         bottomNavigationBar: Padding(
-            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom),
+            padding: EdgeInsetsDirectional.only(bottom: MediaQuery.of(context).viewPadding.bottom),
             child: bottomNavigationBar(context)
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
@@ -237,7 +237,7 @@ abstract class BasePage extends StatelessWidget {
     );
     return Container(
       color: Colors.transparent,
-      padding: EdgeInsets.only(top: 4),
+      padding: EdgeInsetsDirectional.only(top: 4),
       alignment: Alignment.centerLeft,
       child: ButtonTheme(
         buttonColor: Colors.transparent,

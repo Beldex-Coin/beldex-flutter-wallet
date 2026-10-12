@@ -15,8 +15,8 @@ class FetchingBnsRecordDialogBox {
                   : Colors.white,
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.only(
-                    top: 15.0, left: 20, right: 20, bottom: 20),
+                padding: EdgeInsetsDirectional.only(
+                    top: 15.0, start: 20, end: 20, bottom: 20),
                 decoration: BoxDecoration(
                     color: settingsStore.isDarkTheme
                         ? Color(0xff272733)

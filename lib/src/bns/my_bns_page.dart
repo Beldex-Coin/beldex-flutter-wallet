@@ -82,8 +82,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
             .of(context)
             .size
             .width,
-        margin: EdgeInsets.all(10),
-        padding: EdgeInsets.all(10),
+        margin: EdgeInsetsDirectional.all(10),
+        padding: EdgeInsetsDirectional.all(10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: settingsStore.isDarkTheme
@@ -107,7 +107,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
             ),
             //Decrypt Record
             Container(
-              margin: EdgeInsets.only(left: 5, top: 10),
+              margin: EdgeInsetsDirectional.only(start: 5, top: 10),
               child: Text(tr(context).bnsAddRecord,
                   style: TextStyle(
                       backgroundColor: Colors.transparent,
@@ -120,7 +120,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
             ),
             //Decrypt Record Field
             Container(
-              margin: EdgeInsets.only(top: 5),
+              margin: EdgeInsetsDirectional.only(top: 5),
               decoration: BoxDecoration(
                 color: settingsStore.isDarkTheme
                     ? Color(0xff24242F)
@@ -131,7 +131,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                         ? Color(0xff3c3c51)
                         : Color(0xffDADADA)),
               ),
-              padding: EdgeInsets.only(left: 8, right: 5),
+              padding: EdgeInsetsDirectional.only(start: 8, end: 5),
               child: TextFormField(
                 focusNode: _focusNodeBnsName,
                 controller: _decryptRecordController,
@@ -253,9 +253,9 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                 child: Align(
                   alignment: Alignment.center,
                   child: Container(
-                    padding: EdgeInsets.only(
-                        top: 10, bottom: 10, left: 20, right: 20),
-                    margin: EdgeInsets.only(top: 10, bottom: 20),
+                    padding: EdgeInsetsDirectional.only(
+                        top: 10, bottom: 10, start: 20, end: 20),
+                    margin: EdgeInsetsDirectional.only(top: 10, bottom: 20),
                     decoration: BoxDecoration(
                         color: Color(0xff00AD07),
                         borderRadius: BorderRadius.circular(10)),
@@ -274,7 +274,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
             }),
             //BNS Records
             Container(
-              margin: EdgeInsets.only(left: 5, top: 10, bottom: 10),
+              margin: EdgeInsetsDirectional.only(start: 5, top: 10, bottom: 10),
               child: Text(tr(context).bnsRecords,
                   style: TextStyle(
                       backgroundColor: Colors.transparent,
@@ -309,7 +309,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                               textSelectionTheme: TextSelectionThemeData(
                                   selectionColor: Color(0xff0ba70f))),
                           child: Container(
-                            margin: EdgeInsets.only(bottom: 10.0),
+                            margin: EdgeInsetsDirectional.only(bottom: 10.0),
                             decoration: BoxDecoration(
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff32324A)
@@ -419,7 +419,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                 ),
                                 //Update Height
                                 Container(
-                                  margin: EdgeInsets.only(left: 16, right: 16),
+                                  margin: EdgeInsetsDirectional.only(start: 16, end: 16),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment
                                         .spaceBetween,
@@ -459,8 +459,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Container(
-                                    margin: EdgeInsets.only(
-                                        left: 16, right: 16),
+                                    margin: EdgeInsetsDirectional.only(
+                                        start: 16, end: 16),
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment
                                           .start,
@@ -501,8 +501,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -549,8 +549,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -599,8 +599,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -649,8 +649,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -699,8 +699,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -747,8 +747,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -793,8 +793,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -839,8 +839,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -885,8 +885,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -1037,8 +1037,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                           .size
                           .width,
                       height: 350,
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsetsDirectional.all(10),
+                      padding: EdgeInsetsDirectional.all(10),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: settingsStore.isDarkTheme

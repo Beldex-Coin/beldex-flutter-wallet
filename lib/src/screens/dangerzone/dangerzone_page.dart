@@ -46,7 +46,7 @@ class DangerZonePage extends BasePage {
             Container(
                 width: MediaQuery.sizeOf(context).width * 0.90 / 3,
                 height: MediaQuery.sizeOf(context).height * 0.50 / 3,
-                margin: EdgeInsets.only(bottom: 10),
+                margin: EdgeInsetsDirectional.only(bottom: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -54,7 +54,7 @@ class DangerZonePage extends BasePage {
                   ],
                 )),
             Container(
-              margin: EdgeInsets.all(10),
+              margin: EdgeInsetsDirectional.all(10),
               child: Text(
                 tr(context).important,
                 style: TextStyle(
@@ -67,7 +67,7 @@ class DangerZonePage extends BasePage {
               ),
             ),
             Container(
-                margin: EdgeInsets.all(10),
+                margin: EdgeInsetsDirectional.all(10),
                 child: Text(
                   tr(context).never_give_your(item),
                   style: TextStyle(
@@ -78,7 +78,7 @@ class DangerZonePage extends BasePage {
                   textAlign: TextAlign.center,
                 )),
             Container(
-                margin: EdgeInsets.all(10),
+                margin: EdgeInsetsDirectional.all(10),
                 child: Text(
                   tr(context).neverInputYourBeldexWalletItemIntoAnySoftwareOr(
                       item, appStore),
@@ -103,7 +103,7 @@ class DangerZonePage extends BasePage {
         ),
       ),
       Container(
-        margin: EdgeInsets.all(15),
+        margin: EdgeInsetsDirectional.all(15),
         child: PrimaryButton(
             onPressed: () => Navigator.popAndPushNamed(context, nextPage),
             text: tr(context).yes_im_sure,

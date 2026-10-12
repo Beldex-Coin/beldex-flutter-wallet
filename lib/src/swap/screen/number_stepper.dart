@@ -28,11 +28,11 @@ class NumberStepper extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Container(
-      padding: EdgeInsets.all(5),
+      padding: EdgeInsetsDirectional.all(5),
       // only(
       //   top: 20.0,
-      //   left: 24.0,
-      //   right: 24.0,
+      //   start: 24.0,
+      //   end: 24.0,
       // ),
       width: this.width,
       child: Row(
@@ -88,7 +88,7 @@ class NumberStepper extends StatelessWidget {
             Container(
               width: 23.0,
               height: 23.0,
-              margin: EdgeInsets.symmetric(horizontal: 5),
+              margin: EdgeInsetsDirectional.symmetric(horizontal: 5),
               decoration: BoxDecoration(
                 color: circleColor,
                 borderRadius: BorderRadius.all(Radius.circular(25.0)),
@@ -100,7 +100,7 @@ class NumberStepper extends StatelessWidget {
               child: getInnerElementOfStepper(i,settingsStore),
             ),
             (i + 1) == curStep ? Padding(
-              padding: const EdgeInsets.only(right:5.0),
+              padding: const EdgeInsetsDirectional.only(end:5.0),
               child: Text('${_titles(tr(context))[i]}',style: TextStyle(backgroundColor: Colors.transparent,color:settingsStore.isDarkTheme ? Colors.white : Colors.black,fontSize:16 ,fontWeight: FontWeight.w800),),
             ) : SizedBox.shrink()
           ],
@@ -131,7 +131,7 @@ class NumberStepper extends StatelessWidget {
           shape: BoxShape.circle,
           color: Color(0xff20D030),
         ),
-        margin: EdgeInsets.all(3),
+        margin: EdgeInsetsDirectional.all(3),
 
         child: Icon(
           Icons.check,
@@ -142,7 +142,7 @@ class NumberStepper extends StatelessWidget {
     }
     // else if(index == curStep){
     //   return Container(
-    //     margin: EdgeInsets.all(3),
+    //     margin: EdgeInsetsDirectional.all(3),
     //     decoration: BoxDecoration(
     //       shape: BoxShape.circle,
     //       color: Colors.grey,
@@ -163,7 +163,7 @@ class NumberStepper extends StatelessWidget {
     else if (index + 1 == curStep) {
       return
         Container(
-          margin: EdgeInsets.all(5),
+          margin: EdgeInsetsDirectional.all(5),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Color(0xffA9A9CD),

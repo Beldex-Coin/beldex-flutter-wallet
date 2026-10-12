@@ -31,7 +31,7 @@ class FaqPage extends BasePage {
           children: [
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(left: 15),
+                margin: EdgeInsetsDirectional.only(start: 15),
                 child: Text(
                   tr(context).howCanWenhelpYou,
                   softWrap: true,
@@ -47,7 +47,7 @@ class FaqPage extends BasePage {
             Container(
               width: 90,
               height: 100,
-              margin: EdgeInsets.only(right: 15),
+              margin: EdgeInsetsDirectional.only(end: 15),
               child: Image.asset('assets/images/new-images/faq.png'),
             )
           ],
@@ -72,7 +72,7 @@ class FaqPage extends BasePage {
                         dividerColor: Colors.transparent,),
                       child: Container(
                         margin:
-                            EdgeInsets.only(left: 15, right: 15.0, bottom: 8.0),
+                            EdgeInsetsDirectional.only(start: 15, end: 15.0, bottom: 8.0),
                         decoration: BoxDecoration(
                             border: Border.all(
                                 color: settingsStore.isDarkTheme
@@ -99,7 +99,7 @@ class FaqPage extends BasePage {
                                 Expanded(
                                     child: Container(
                                   padding:
-                                      EdgeInsets.only(left: 15.0, right: 15.0),
+                                      EdgeInsetsDirectional.only(start: 15.0, end: 15.0),
                                   child: Text(
                                     itemChild,
                                     textAlign: TextAlign.justify,

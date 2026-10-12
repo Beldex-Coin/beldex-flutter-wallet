@@ -24,7 +24,7 @@ class AccountListPage extends BasePage {
     final accounts = accountListStore.accounts;
 
     return Container(
-      padding: EdgeInsets.only(right:15),
+      padding: EdgeInsetsDirectional.only(end:15),
       child: IconButton(icon: SvgPicture.asset('assets/images/new-images/add_account.svg',width: 23,height: 23,),onPressed: () {
         showDialog<void>(context: context, builder: (_)=>CreateAccountDialog(accList: accounts,accountListStore: accountListStore,));
         accountListStore.updateAccountList();
@@ -56,8 +56,8 @@ class AccountListPage extends BasePage {
          color: settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED),
          borderRadius: BorderRadius.circular(10)
         ),
-          margin: EdgeInsets.only(top: 40, left: constants.leftPx, right: constants.rightPx),
-            padding: EdgeInsets.only(bottom: 10),
+          margin: EdgeInsetsDirectional.only(top: 40, start: constants.leftPx, end: constants.rightPx),
+            padding: EdgeInsetsDirectional.only(bottom: 10),
           child: Observer(builder: (_) {
             final accounts = accountListStore.accounts;
             return RawScrollbar(
@@ -76,7 +76,7 @@ class AccountListPage extends BasePage {
                       final isCurrent = walletStore.account.id == account.id;
 
                       return Container(
-                         padding: EdgeInsets.only(left:10,right:10,top:10),
+                         padding: EdgeInsetsDirectional.only(start:10,end:10,top:10),
                         decoration: BoxDecoration(  
                           color: settingsStore.isDarkTheme ? Color(0xff272733): Color(0xffEDEDED),
                           borderRadius: BorderRadius.circular(10)
@@ -115,7 +115,7 @@ class AccountListPage extends BasePage {
                                color:  settingsStore.isDarkTheme ? isCurrent ? Color(0xff383848) : Color(0xff1B1B23) : Color(0xffFFFFFF),
                                   borderRadius: BorderRadius.circular(10)),
                               child: Padding(
-                                padding:EdgeInsets.all(15),
+                                padding:EdgeInsetsDirectional.all(15),
                                 child:Text(
                                       account.label,
                                       textAlign: TextAlign.center,
@@ -158,7 +158,7 @@ class AccountListPage extends BasePage {
               widthFactor: 0.95,
               child: Container(
                 width:ScreenSize.screenWidth, //MediaQuery.sizeOf(context).width,
-                margin: EdgeInsets.all(20),
+                margin: EdgeInsetsDirectional.all(20),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -170,7 +170,7 @@ class AccountListPage extends BasePage {
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top:8.0),
+                      padding: const EdgeInsetsDirectional.only(top:8.0),
                       child: Text(
                         tr(context).doYouWantToChangeYournPrimaryAccount,
                         textAlign: TextAlign.center,
@@ -189,7 +189,7 @@ class AccountListPage extends BasePage {
                             onPressed: () =>Navigator.of(context).pop(false),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: settingsStore.isDarkTheme ? Color(0xff383848): Color(0xffE8E8E8),
-                              padding: EdgeInsets.all(10),
+                              padding: EdgeInsetsDirectional.all(10),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -211,7 +211,7 @@ class AccountListPage extends BasePage {
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xff0BA70F),
-                              padding: EdgeInsets.all(10),
+                              padding: EdgeInsetsDirectional.all(10),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),

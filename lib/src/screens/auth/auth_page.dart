@@ -173,7 +173,7 @@ class AuthPageState extends State<AuthPage> {
           leading: widget.closable
               ? Container(
             color: Colors.transparent,
-            padding: EdgeInsets.only(top: 15),
+            padding: EdgeInsetsDirectional.only(top: 15),
             alignment: Alignment.centerLeft,
             child: ButtonTheme(
               buttonColor: Colors.transparent,
@@ -202,7 +202,7 @@ class AuthPageState extends State<AuthPage> {
             width: 0,
           ),
           title: Padding(
-            padding: EdgeInsets.only(top: 20, bottom: 5),
+            padding: EdgeInsetsDirectional.only(top: 20, bottom: 5),
             child: Text(
               tr(context).enterPin,
               style: TextStyle(

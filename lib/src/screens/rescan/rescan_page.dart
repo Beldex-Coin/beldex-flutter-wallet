@@ -50,7 +50,7 @@ class RescanPage extends BasePage {
       child: ScrollableWithBottomSection(
         content:
             // Padding(
-            //   padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+            //   padding: EdgeInsetsDirectional.only(start: 20, end: 20, bottom: 20),
             //   child:
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -168,9 +168,9 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                       //Color.fromARGB(255, 40, 42, 51),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 20.0),
+                      margin: EdgeInsetsDirectional.only(top: 20.0),
                       child: Container(
-                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                        padding: EdgeInsetsDirectional.only(start: 30, top: 5, bottom: 5),
                         child: TextFormField(
                           textInputAction: TextInputAction.done,
                           style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
@@ -215,10 +215,10 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
                       //Color.fromARGB(255, 40, 42, 51),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 20.0),
+                      margin: EdgeInsetsDirectional.only(top: 20.0),
                       child: Container(
-                        padding: EdgeInsets.only(
-                            left: 30, top: 5, bottom: 5, right: 10),
+                        padding: EdgeInsetsDirectional.only(
+                            start: 30, top: 5, bottom: 5, end: 10),
                         child: InkWell(
                           onTap: () => selectDate(context,settingsStore),
                           child: IgnorePointer(
@@ -278,7 +278,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
               },
               child: Container(
                   height: 50,
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsetsDirectional.all(10),
                   decoration: BoxDecoration(
                       color: Color(0xff2979FB),
                       borderRadius: BorderRadius.circular(10)),

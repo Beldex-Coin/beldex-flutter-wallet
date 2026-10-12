@@ -63,7 +63,7 @@ class WalletMenu {
                   child: Container(
                     // height: MediaQuery.sizeOf(context).height*0.85/3,
                     child: Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsetsDirectional.all(15.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -80,7 +80,7 @@ class WalletMenu {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
+                            padding: const EdgeInsetsDirectional.only(top: 8.0),
                             child: Text(
                               tr(context)
                                   .makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate,
@@ -108,7 +108,7 @@ class WalletMenu {
                                       backgroundColor: settingsStore.isDarkTheme
                                           ? Color(0xff383848)
                                           : Color(0xffE8E8E8),
-                                      padding: EdgeInsets.all(10),
+                                      padding: EdgeInsetsDirectional.all(10),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -132,7 +132,7 @@ class WalletMenu {
                                 //       },
                                 //   child: Container(
                                 //       width: 80,
-                                //       padding: EdgeInsets.all(15),
+                                //       padding: EdgeInsetsDirectional.all(15),
                                 //         decoration: BoxDecoration(
                                 //            borderRadius: BorderRadius.circular(10),
                                 //              color: settingsStore.isDarkTheme ? Color(0xff383848) : Color(0xffE8E8E8),
@@ -176,7 +176,7 @@ class WalletMenu {
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xff0BA70F),
-                                      padding: EdgeInsets.all(10),
+                                      padding: EdgeInsetsDirectional.all(10),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -214,7 +214,7 @@ class WalletMenu {
                                 //       },
                                 //   child: Container(
                                 //      width: 80,
-                                //      padding: EdgeInsets.all(15),
+                                //      padding: EdgeInsetsDirectional.all(15),
                                 //      decoration: BoxDecoration(
                                 //        borderRadius: BorderRadius.circular(10),
                                 //         color: Color(0xff0BA70F),

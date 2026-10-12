@@ -262,7 +262,7 @@ void main() async {
           child: Scaffold(
               body: Container(
                   margin:
-                      EdgeInsets.only(top: 50, left: 20, right: 20, bottom: 20),
+                      EdgeInsetsDirectional.only(top: 50, start: 20, end: 20, bottom: 20),
                   child: Text(
                     'Error:--\n${e.toString()}',
                     style: TextStyle(

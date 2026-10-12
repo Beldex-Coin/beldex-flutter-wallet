@@ -23,7 +23,7 @@ class RestoreButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 20.0, bottom: 20.0),
+      margin: EdgeInsetsDirectional.only(top: 20.0, bottom: 20.0),
       decoration: BoxDecoration(
           color: Theme.of(context).textTheme.titleMedium?.backgroundColor,
           borderRadius: BorderRadius.all(Radius.circular(20.0)),
@@ -47,7 +47,7 @@ class RestoreButton extends StatelessWidget {
             Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(left: 20, right: 20, top: 20),
+                    padding: EdgeInsetsDirectional.only(start: 20, end: 20, top: 20),
                     child: AutoSizeText(
                       title,
                       textAlign: TextAlign.center,
@@ -58,7 +58,7 @@ class RestoreButton extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+                    padding: EdgeInsetsDirectional.only(start: 20, end: 20, top: 10),
                     child: AutoSizeText(
                       description,
                       textAlign: TextAlign.center,

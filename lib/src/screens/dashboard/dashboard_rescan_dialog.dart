@@ -38,7 +38,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
       surfaceTintColor: Colors.transparent,
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        margin: EdgeInsets.all(20),
+        margin: EdgeInsetsDirectional.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

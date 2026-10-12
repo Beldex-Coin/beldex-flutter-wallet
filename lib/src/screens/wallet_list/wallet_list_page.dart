@@ -79,9 +79,9 @@ class WalletListBodyState extends State<WalletListBody> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.all(15),
+            margin: EdgeInsetsDirectional.all(15),
             height: MediaQuery.sizeOf(context).height * 1.1 / 3,
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsetsDirectional.all(10),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: settingsStore.isDarkTheme
@@ -96,7 +96,7 @@ class WalletListBodyState extends State<WalletListBody> {
                   : Color(0xffC2C2C2),
               radius: Radius.circular(10.0),
               child: Container(
-                margin: EdgeInsets.only(right:8.0),
+                margin: EdgeInsetsDirectional.only(end:8.0),
                 child: Observer(
                   builder: (_) => ListView.builder(
                       controller: _controller,
@@ -123,7 +123,7 @@ class WalletListBodyState extends State<WalletListBody> {
                                     borderRadius: BorderRadius.circular(10)),
                                 child: Container(
                                   width: double.infinity,
-                                  padding: EdgeInsets.all(15.0),
+                                  padding: EdgeInsetsDirectional.all(15.0),
                                   decoration: BoxDecoration(
                                       color: settingsStore.isDarkTheme
                                           ? isCurrentWallet
@@ -152,7 +152,7 @@ class WalletListBodyState extends State<WalletListBody> {
           Column(children: <Widget>[
             SizedBox(height: 10),
             Container(
-              margin: EdgeInsets.only(left: 60.0, right: 60),
+              margin: EdgeInsetsDirectional.only(start: 60.0, end: 60),
               child: PrimaryButton(
                   onPressed: () => Navigator.of(context)
                       .pushNamed(Routes.restoreWalletOptions),
@@ -162,7 +162,7 @@ class WalletListBodyState extends State<WalletListBody> {
             ),
             SizedBox(height: 10),
             Container(
-              margin: EdgeInsets.only(left: 60.0, right: 60),
+              margin: EdgeInsetsDirectional.only(start: 60.0, end: 60),
               child: PrimaryButton(
                   onPressed: () =>
                       Navigator.of(context).pushNamed(Routes.newWallet),

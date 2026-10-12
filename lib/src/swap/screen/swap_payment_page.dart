@@ -194,7 +194,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
             width: MediaQuery.sizeOf(context).width,
@@ -214,7 +214,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               child: IntrinsicHeight(
                 child: Card(
                   margin:
-                      EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 15),
+                      EdgeInsetsDirectional.only(top: 15, start: 10, end: 10, bottom: 15),
                   elevation: 0,
                   color: settingsStore.isDarkTheme
                       ? Color(0xff24242f)
@@ -223,7 +223,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Container(
-                    padding: const EdgeInsets.all(15.0),
+                    padding: const EdgeInsetsDirectional.all(15.0),
                     width: _screenWidth,
                     height: double.infinity,
                     child: Column(
@@ -272,8 +272,8 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
         ),
         //You Send Details
         Container(
-            margin: EdgeInsets.only(top: 20, bottom: 10),
-            padding: EdgeInsets.all(10),
+            margin: EdgeInsetsDirectional.only(top: 20, bottom: 10),
+            padding: EdgeInsetsDirectional.all(10),
             decoration: BoxDecoration(
               color: settingsStore.isDarkTheme
                   ? Colors.transparent
@@ -318,7 +318,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
         Visibility(
           visible: minimumAmount.trim().isNotEmpty || maximumAmount.trim().isNotEmpty,
           child: Container(
-            margin: EdgeInsets.only(bottom: 10.0),
+            margin: EdgeInsetsDirectional.only(bottom: 10.0),
             decoration: BoxDecoration(
                 color: Color(0xff00AD07).withAlpha(25),
                 borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -337,7 +337,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                 }
               } : null,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsetsDirectional.all(8.0),
                 child: RichText(
                   textAlign: TextAlign.start,
                   text: TextSpan(
@@ -368,8 +368,8 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
         ),
         //You Get Details
         Container(
-            margin: EdgeInsets.only(bottom: 10),
-            padding: EdgeInsets.all(10),
+            margin: EdgeInsetsDirectional.only(bottom: 10),
+            padding: EdgeInsetsDirectional.all(10),
             decoration: BoxDecoration(
               color: settingsStore.isDarkTheme
                   ? Colors.transparent
@@ -440,7 +440,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                       : Color(0xff222222)),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10.0),
+              margin: EdgeInsetsDirectional.only(top: 10.0),
               height: 1,
               color: settingsStore.isDarkTheme
                   ? Color(0xff4F4F70)
@@ -477,7 +477,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                       : Color(0xff222222)),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10.0),
+              margin: EdgeInsetsDirectional.only(top: 10.0),
               height: 1,
               color: settingsStore.isDarkTheme
                   ? Color(0xff4F4F70)
@@ -514,7 +514,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                       : Color(0xff222222)),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10.0),
+              margin: EdgeInsetsDirectional.only(top: 10.0),
               height: 1,
               color: settingsStore.isDarkTheme
                   ? Color(0xff4F4F70)
@@ -553,7 +553,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                         : Color(0xff222222)),
               ),
               Container(
-                margin: EdgeInsets.only(top: 10.0),
+                margin: EdgeInsetsDirectional.only(top: 10.0),
                 height: 1,
                 color: settingsStore.isDarkTheme
                     ? Color(0xff4F4F70)
@@ -591,7 +591,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                       : Color(0xff222222)),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10.0, bottom: 30),
+              margin: EdgeInsetsDirectional.only(top: 10.0, bottom: 30),
               height: 1,
               color: settingsStore.isDarkTheme
                   ? Color(0xff4F4F70)
@@ -603,8 +603,8 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
         Visibility(
           visible: false,
           child: Container(
-            margin: EdgeInsets.only(top: 10, bottom: 30),
-            padding: EdgeInsets.all(10),
+            margin: EdgeInsetsDirectional.only(top: 10, bottom: 30),
+            padding: EdgeInsetsDirectional.all(10),
             decoration: BoxDecoration(
                 color: settingsStore.isDarkTheme
                     ? Colors.transparent
@@ -694,7 +694,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                   ? Color(0xff32324A)
                   : Color(0xffFFFFFF),
               padding:
-                  EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
+                  EdgeInsetsDirectional.only(top: 10, bottom: 10, start: 25, end: 25),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),

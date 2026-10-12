@@ -80,13 +80,13 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
-      padding: EdgeInsets.only(left: 20, right: 15, top: 10, bottom: 10),
+      padding: EdgeInsetsDirectional.only(start: 20, end: 15, top: 10, bottom: 10),
       child: ListView.separated(
           separatorBuilder: (context, index) => Container(
                 height: 1,
                 color: Theme.of(context).dividerTheme.color,
               ),
-          padding: EdgeInsets.only(left: 25, top: 10, right: 25, bottom: 15),
+          padding: EdgeInsetsDirectional.only(start: 25, top: 10, end: 25, bottom: 15),
           itemCount: _items.length,
           itemBuilder: (context, index) {
             final item = _items[index];

@@ -197,7 +197,7 @@ class SlideToActState extends State<SlideToAct> with TickerProviderStateMixin {
                                   }
                                 },
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(
+                                  padding: const EdgeInsetsDirectional.symmetric(
                                       horizontal: 8.0),
                                   child: Material(
                                     borderRadius: BorderRadius.circular(
@@ -207,7 +207,7 @@ class SlideToActState extends State<SlideToAct> with TickerProviderStateMixin {
                                             .primaryIconTheme
                                             .color,
                                     child: Container(
-                                      padding: EdgeInsets.all(
+                                      padding: EdgeInsetsDirectional.all(
                                           widget.sliderButtonIconPadding),
                                       child: Transform.rotate(
                                         angle: -pi * _progress,

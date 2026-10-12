@@ -74,7 +74,7 @@ class SettingsSwitchListRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: ListTile(
-          contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+          contentPadding: EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
           title: Text(title,
               style: TextStyle(
                   fontSize: 16.0,

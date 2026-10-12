@@ -226,7 +226,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
             width: MediaQuery.sizeOf(context).width,
@@ -246,7 +246,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
               child: IntrinsicHeight(
                 child: Card(
                   margin:
-                      EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 15),
+                      EdgeInsetsDirectional.only(top: 15, start: 10, end: 10, bottom: 15),
                   elevation: 0,
                   color: settingsStore.isDarkTheme
                       ? Color(0xff24242f)
@@ -255,7 +255,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Container(
-                    padding: const EdgeInsets.all(15.0),
+                    padding: const EdgeInsetsDirectional.all(15.0),
                     width: _screenWidth,
                     height: double.infinity,
                     child: exchangingScreen(
@@ -290,7 +290,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
         //Progress bar
         Container(
           height: 3,
-          margin: EdgeInsets.only(top: 20, bottom: 10),
+          margin: EdgeInsetsDirectional.only(top: 20, bottom: 10),
           child: LinearProgressIndicator(
             backgroundColor: settingsStore.isDarkTheme
                 ? Color(0xff32324A)
@@ -308,7 +308,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 //Confirming in progress Details
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
+                    padding: const EdgeInsetsDirectional.only(top: 5.0),
                     child: (_txStatus(responseData)?.isNotEmpty ?? false) &&
                         _txStatus(responseData) == "confirming"
                         ? SizedBox(
@@ -421,7 +421,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                   )
                 ]),
                 Container(
-                  margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  margin: EdgeInsetsDirectional.only(top: 10.0, bottom: 10.0),
                   height: 1,
                   color: settingsStore.isDarkTheme
                       ? Color(0xff8787A8)
@@ -430,7 +430,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 //Exchanging CurrencyFrom to CurrencyTo
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
+                    padding: const EdgeInsetsDirectional.only(top: 5.0),
                     child: (_txStatus(responseData)?.isNotEmpty ?? false) &&
                         _txStatus(responseData) == "exchanging"
                         ? SizedBox(
@@ -513,7 +513,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                   )
                 ]),
                 Container(
-                  margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  margin: EdgeInsetsDirectional.only(top: 10.0, bottom: 10.0),
                   height: 1,
                   color: settingsStore.isDarkTheme
                       ? Color(0xff8787A8)
@@ -522,7 +522,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 //Sending funds to your wallet
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
+                    padding: const EdgeInsetsDirectional.only(top: 5.0),
                     child: (_txStatus(responseData)?.isNotEmpty ?? false) &&
                         _txStatus(responseData) == "sending"
                         ? SizedBox(
@@ -603,8 +603,8 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
         //History Option Details
         Container(
           width: MediaQuery.sizeOf(context).width,
-          margin: EdgeInsets.only(top: 25, bottom: 10),
-          padding: EdgeInsets.all(15),
+          margin: EdgeInsetsDirectional.only(top: 25, bottom: 10),
+          padding: EdgeInsetsDirectional.all(15),
           decoration: BoxDecoration(
               color: settingsStore.isDarkTheme
                   ? Color(0xff32324A)
@@ -657,7 +657,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
         ),
         //Transaction Preview
         Container(
-          margin: EdgeInsets.only(left: 10.0, bottom: 10.0, top: 5.0),
+          margin: EdgeInsetsDirectional.only(start: 10.0, bottom: 10.0, top: 5.0),
           child: Text(
             tr(context).swap_transaction_preview,
             style: TextStyle(
@@ -738,8 +738,8 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                         children: [
                           TableRow(children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 15, left: 15, right: 15),
+                              padding: const EdgeInsetsDirectional.only(
+                                  top: 15, start: 15, end: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -793,8 +793,8 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                           ]),
                           TableRow(children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 15, left: 15, right: 15),
+                              padding: const EdgeInsetsDirectional.only(
+                                  top: 15, start: 15, end: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -822,8 +822,8 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                           ]),
                           TableRow(children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 15, left: 15, right: 15),
+                              padding: const EdgeInsetsDirectional.only(
+                                  top: 15, start: 15, end: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -851,8 +851,8 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                           ]),
                           TableRow(children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 15, left: 15, right: 15),
+                              padding: const EdgeInsetsDirectional.only(
+                                  top: 15, start: 15, end: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -882,8 +882,8 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                           ]),
                           TableRow(children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 15, left: 15, right: 15),
+                              padding: const EdgeInsetsDirectional.only(
+                                  top: 15, start: 15, end: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -912,7 +912,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                           ]),
                           TableRow(children: [
                             Padding(
-                              padding: const EdgeInsets.all(15),
+                              padding: const EdgeInsetsDirectional.all(15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -958,7 +958,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                         children: [
                           TableRow(children: [
                             Padding(
-                              padding: const EdgeInsets.all(15),
+                              padding: const EdgeInsetsDirectional.all(15),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [

@@ -51,7 +51,7 @@ class _MyScrollbarState extends State<MyScrollbar> {
       thickness: _kScrollbarThickness,
       radius: Radius.circular(20),
       fadeoutOpacityAnimation: const AlwaysStoppedAnimation<double>(1.0),
-      padding: EdgeInsets.only(top:15,right:15,bottom: 5,left: 5),
+      padding: EdgeInsetsDirectional.only(top:15,end:15,bottom: 5,start: 5),
       
     );
   }

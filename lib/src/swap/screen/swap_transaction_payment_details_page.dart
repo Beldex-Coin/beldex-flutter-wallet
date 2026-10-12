@@ -319,7 +319,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
             width: MediaQuery.sizeOf(context).width,
@@ -340,8 +340,8 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                   BoxConstraints(minHeight: constraints.maxHeight),
                   child: IntrinsicHeight(
                     child: Card(
-                      margin: EdgeInsets.only(
-                          top: 15, left: 10, right: 10, bottom: 15),
+                      margin: EdgeInsetsDirectional.only(
+                          top: 15, start: 10, end: 10, bottom: 15),
                       elevation: 0,
                       color: settingsStore.isDarkTheme
                           ? Color(0xff24242f)
@@ -350,7 +350,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Container(
-                        padding: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsetsDirectional.all(15.0),
                         width: _screenWidth,
                         height: double.infinity,
                         child: paymentSendFundsToTheAddressBelowScreen(settingsStore,responseData, createdTransactionDetails, syncStore, networkProvider),
@@ -381,8 +381,8 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
         ),
         //Amount Details
         Container(
-            margin: EdgeInsets.only(top: 20, bottom: 20),
-            padding: EdgeInsets.only(left: 10),
+            margin: EdgeInsetsDirectional.only(top: 20, bottom: 20),
+            padding: EdgeInsetsDirectional.only(start: 10),
             decoration: BoxDecoration(
               color: Colors.transparent,
               border: Border(
@@ -433,8 +433,8 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                                 arguments: {'flash': true, 'address': createdTransactionDetails?.payinAddress, 'amount': createdTransactionDetails?.amountFrom});
                             } : null ,
                           child: Container(
-                            padding: EdgeInsets.only(
-                                top: 5.0, bottom: 5.0, left: 10.0, right: 10.0),
+                            padding: EdgeInsetsDirectional.only(
+                                top: 5.0, bottom: 5.0, start: 10.0, end: 10.0),
                             decoration: BoxDecoration(
                               color: settingsStore.isDarkTheme
                                   ? Colors.transparent
@@ -480,7 +480,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
         //Transaction ID with Time Details
         Container(
             width: MediaQuery.sizeOf(context).width,
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsetsDirectional.all(10),
             decoration: BoxDecoration(
               color: settingsStore.isDarkTheme
                   ? Colors.transparent
@@ -546,8 +546,8 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
             )),
         Container(
             width: MediaQuery.sizeOf(context).width,
-            margin: EdgeInsets.only(bottom: 10),
-            padding: EdgeInsets.all(10),
+            margin: EdgeInsetsDirectional.only(bottom: 10),
+            padding: EdgeInsetsDirectional.all(10),
             decoration: BoxDecoration(
               color: settingsStore.isDarkTheme
                   ? Colors.transparent
@@ -665,8 +665,8 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                         },
                         child: Container(
                           width: 30.0,
-                          margin: EdgeInsets.only(left: 5, right: 5),
-                          padding: EdgeInsets.all(6),
+                          margin: EdgeInsetsDirectional.only(start: 5, end: 5),
+                          padding: EdgeInsetsDirectional.all(6),
                           decoration: BoxDecoration(
                               color: Color(0xff00AD07),
                               borderRadius:
@@ -689,7 +689,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                         },
                         child: Container(
                           width: 30.0,
-                          padding: EdgeInsets.all(6),
+                          padding: EdgeInsetsDirectional.all(6),
                           decoration: BoxDecoration(
                               color: settingsStore.isDarkTheme
                                   ? Color(0xff32324A)
@@ -723,8 +723,8 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
         //Time Remaining Details
         Container(
           width: MediaQuery.sizeOf(context).width,
-          margin: EdgeInsets.only(top: 20, bottom: 20),
-          padding: EdgeInsets.all(10),
+          margin: EdgeInsetsDirectional.only(top: 20, bottom: 20),
+          padding: EdgeInsetsDirectional.all(10),
           decoration: BoxDecoration(
               color: Color(0xff00AD07).withAlpha(25),
               borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -780,7 +780,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
         ),
         //Transaction Preview
         Container(
-          margin: EdgeInsets.only(left: 10.0, bottom: 10.0),
+          margin: EdgeInsetsDirectional.only(start: 10.0, bottom: 10.0),
           child: Text(
             tr(context).swap_transaction_preview,
             style: TextStyle(
@@ -825,7 +825,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                 //Floating Exchange Rate
                 TableRow(children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                    padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                     child: Text(
                       tr(context).youSend,
                       style: TextStyle(
@@ -838,7 +838,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                   ),
                   Padding(
                     padding:
-                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                    const EdgeInsetsDirectional.only(top: 10.0, start: 10.0, end: 10.0),
                     child: Text(
                       '${toStringAsFixed(createdTransactionDetails!.amountFrom)} ${createdTransactionDetails.currencyFrom.toUpperCase()}',
                       style: TextStyle(
@@ -852,7 +852,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                 ]),
                 TableRow(children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                    padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                     child: Text(
                       tr(context).swap_exchange_rate,
                       style: TextStyle(
@@ -865,7 +865,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                   ),
                   Padding(
                     padding:
-                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                    const EdgeInsetsDirectional.only(top: 10.0, start: 10.0, end: 10.0),
                     child: Text(
                       '1 ${createdTransactionDetails.currencyFrom.toUpperCase()} ~ ${toStringAsFixed(responseData?.result![0].rate)} ${createdTransactionDetails.currencyTo.toUpperCase()}',
                       style: TextStyle(
@@ -879,7 +879,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                 ]),
                 TableRow(children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                    padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                     child: Text(
                       tr(context).swap_service_fee,
                       style: TextStyle(
@@ -892,7 +892,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                   ),
                   Padding(
                     padding:
-                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                    const EdgeInsetsDirectional.only(top: 10.0, start: 10.0, end: 10.0),
                     child: Text(
                       '${toStringAsFixed(createdTransactionDetails.platformFee)} ${createdTransactionDetails.currencyTo.toUpperCase()}',
                       style: TextStyle(
@@ -906,7 +906,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                 ]),
                 TableRow(children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                    padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                     child: Text(
                       tr(context).swap_network_fee,
                       style: TextStyle(
@@ -918,7 +918,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsetsDirectional.all(10.0),
                     child: Text(
                       '${toStringAsFixed(createdTransactionDetails.networkFee)} ${createdTransactionDetails.currencyTo.toUpperCase()}',
                       style: TextStyle(
@@ -933,7 +933,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
 
                 TableRow(children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                    padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                     child: Text(
                       tr(context).swap_confirmations,
                       style: TextStyle(
@@ -945,7 +945,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsetsDirectional.all(10.0),
                     child: Text(
                       formatBlockConfirmations(tr(context), responseData?.result![0].payinConfirmations),
                       style: TextStyle(
@@ -962,7 +962,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                 if (false)
                   TableRow(children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                      padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                       child: Text(
                         'Fixed rate',
                         style: TextStyle(
@@ -975,7 +975,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     ),
                     Padding(
                       padding:
-                      const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                      const EdgeInsetsDirectional.only(top: 10.0, start: 10.0, end: 10.0),
                       child: Column(
                         children: [
                           Text('1 ETH ~ 2,518.97904761 XRP',
@@ -999,7 +999,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                 if (false)
                   TableRow(children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                      padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                       child: Text(
                         'Network fee',
                         style: TextStyle(
@@ -1011,7 +1011,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsetsDirectional.all(10.0),
                       child: Text(
                         'All fees included in the rate',
                         style: TextStyle(
@@ -1044,7 +1044,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                 TableRow(children: [
                   Padding(
                     padding:
-                    const EdgeInsets.only(top: 10.0, left: 10.0, bottom: 10.0),
+                    const EdgeInsetsDirectional.only(top: 10.0, start: 10.0, bottom: 10.0),
                     child: Text(
                       tr(context).swap_you_get,
                       style: TextStyle(
@@ -1056,7 +1056,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsetsDirectional.all(10.0),
                     child: Text(
                       '~ ${toStringAsFixed(createdTransactionDetails.amountTo)} ${createdTransactionDetails.currencyTo.toUpperCase()}',
                       style: TextStyle(

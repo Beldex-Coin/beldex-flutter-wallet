@@ -216,8 +216,8 @@ Coins bdxCoin = Coins('BDX', 'Beldex', "", 'beldex', 'BDX');
 Widget PairsWidget({required SettingsStore settingsStore, required String? from, required String? to}) {
   return Center(
     child: Container(
-      margin: EdgeInsets.only(bottom: 10, top: 5),
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      margin: EdgeInsetsDirectional.only(bottom: 10, top: 5),
+      padding: EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 5),
       decoration: BoxDecoration(
         color: settingsStore.isDarkTheme ? Color(0xff333343) : Color(0xffffffff),
         borderRadius:BorderRadius.all(Radius.circular(6)),
@@ -269,8 +269,8 @@ Widget networkWidget(BuildContext context, SettingsStore settingsStore, String? 
   return Flexible(
     flex: 1,
     child: Container(
-      margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
-      padding: EdgeInsets.all(10),
+      margin: EdgeInsetsDirectional.only(start: 3, top: 3, bottom: 3),
+      padding: EdgeInsetsDirectional.all(10),
       decoration: BoxDecoration(
           border: Border.all(
             color: settingsStore.isDarkTheme

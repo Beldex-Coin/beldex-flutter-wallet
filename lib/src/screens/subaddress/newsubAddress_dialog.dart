@@ -67,7 +67,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
               key: _formKey,
               child: Container(
                 width: MediaQuery.sizeOf(context).width,
-                margin: EdgeInsets.all(20),
+                margin: EdgeInsetsDirectional.all(20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -89,7 +89,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                             borderSide: BorderSide(color: Colors.red),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                          contentPadding: EdgeInsetsDirectional.symmetric(horizontal: 8),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),

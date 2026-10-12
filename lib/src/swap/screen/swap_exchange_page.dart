@@ -290,7 +290,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
             width: MediaQuery.sizeOf(context).width,
@@ -310,8 +310,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   BoxConstraints(minHeight: constraints.maxHeight),
                   child: IntrinsicHeight(
                     child: Card(
-                      margin: EdgeInsets.only(
-                          top: 15, left: 10, right: 10, bottom: 15),
+                      margin: EdgeInsetsDirectional.only(
+                          top: 15, start: 10, end: 10, bottom: 15),
                       elevation: 0,
                       color: settingsStore.isDarkTheme
                           ? Color(0xff24242f)
@@ -320,7 +320,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: Container(
-                        padding: const EdgeInsets.all(15.0),
+                        padding: const EdgeInsetsDirectional.all(15.0),
                         width: _screenWidth,
                         height: double.infinity,
                         child: Column(
@@ -349,7 +349,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
             width: MediaQuery.sizeOf(context).width,
@@ -371,8 +371,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                       BoxConstraints(minHeight: constraints.maxHeight),
                       child: IntrinsicHeight(
                         child: Card(
-                          margin: EdgeInsets.only(
-                              top: 15, left: 10, right: 10, bottom: 15),
+                          margin: EdgeInsetsDirectional.only(
+                              top: 15, start: 10, end: 10, bottom: 15),
                           elevation: 0,
                           color: settingsStore.isDarkTheme
                               ? Color(0xff24242f)
@@ -381,7 +381,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Container(
-                            padding: const EdgeInsets.all(15.0),
+                            padding: const EdgeInsetsDirectional.all(15.0),
                             width: _screenWidth,
                             height: double.infinity,
                             child: Column(
@@ -401,8 +401,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                       BoxConstraints(minHeight: constraints.maxHeight),
                       child: IntrinsicHeight(
                         child: Card(
-                          margin: EdgeInsets.only(
-                              top: 15, left: 10, right: 10, bottom: 15),
+                          margin: EdgeInsetsDirectional.only(
+                              top: 15, start: 10, end: 10, bottom: 15),
                           elevation: 0,
                           color: settingsStore.isDarkTheme
                               ? Color(0xFF24242F).withValues(alpha: 0.7)
@@ -411,14 +411,14 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Container(
-                            padding: const EdgeInsets.all(15.0),
+                            padding: const EdgeInsetsDirectional.all(15.0),
                             width: _screenWidth,
                             height: double.infinity,
                             child: SizedBox(
                               height: 70,
                               child: Center(
                                 child: Container(
-                                    padding: EdgeInsets.all(10),
+                                    padding: EdgeInsetsDirectional.all(10),
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         color: settingsStore.isDarkTheme ? Color(0xff30303F) : Color(0xfff3f3f3)
@@ -440,8 +440,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 
   Widget underMaintenance(SettingsStore settingsStore, double _screenWidth) {
     return Card(
-      margin: EdgeInsets.only(
-          top: 15, left: 10, right: 10, bottom: 15),
+      margin: EdgeInsetsDirectional.only(
+          top: 15, start: 10, end: 10, bottom: 15),
       elevation: 0,
       color: settingsStore.isDarkTheme
           ? Color(0xff24242f)
@@ -450,7 +450,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         borderRadius: BorderRadius.circular(15),
       ),
       child: Container(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsetsDirectional.all(15.0),
         width: _screenWidth,
         height: double.infinity,
         child: underMaintenanceScreen(_screenWidth, settingsStore),
@@ -483,10 +483,10 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         callGetExchangeAmountApi(getCurrenciesFullProvider, getPairsParamsProvider,getExchangeAmountProvider,networkProvider);
       } : null,
       child: Padding(
-        padding: EdgeInsets.only(left: 20.0, right: 20.0),
+        padding: EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
         child: Container(
             width: MediaQuery.sizeOf(context).width,
-            padding: EdgeInsets.only(top: 5, bottom: 5),
+            padding: EdgeInsetsDirectional.only(top: 5, bottom: 5),
             child: Observer(
               builder: (_) => Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -525,7 +525,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                             ),
                             WidgetSpan(
                               child: Container(
-                                padding: EdgeInsets.only(left:2, right: 2),
+                                padding: EdgeInsetsDirectional.only(start:2, end: 2),
                                 decoration: BoxDecoration(
                                   color: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
                                   borderRadius: BorderRadius.circular(5),
@@ -577,10 +577,10 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
         callGetExchangeAmountApi(getCurrenciesFullProvider, getPairsParamsProvider, getExchangeAmountProvider,networkProvider);
       } : null,
       child: Padding(
-        padding: EdgeInsets.only(left: 10.0, right: 10.0),
+        padding: EdgeInsetsDirectional.only(start: 10.0, end: 10.0),
         child: Container(
             width: MediaQuery.sizeOf(context).width,
-            padding: EdgeInsets.only(top: 5, bottom: 5),
+            padding: EdgeInsetsDirectional.only(top: 5, bottom: 5),
             child: Observer(
               builder: (_) => Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -619,7 +619,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                             ),
                             WidgetSpan(
                               child: Container(
-                                padding: EdgeInsets.only(left:2, right: 2),
+                                padding: EdgeInsetsDirectional.only(start:2, end: 2),
                                 decoration: BoxDecoration(
                                   color: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
                                   borderRadius: BorderRadius.circular(5),
@@ -747,7 +747,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             ),
             //You send title
             Container(
-              margin: EdgeInsets.only(top: 20, left: 10, bottom: 10),
+              margin: EdgeInsetsDirectional.only(top: 20, start: 10, bottom: 10),
               child: Text(
                 tr(context).youSend,
                 textAlign: TextAlign.start,
@@ -762,8 +762,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             ),
             //You send TextFormField
             Container(
-              margin: EdgeInsets.only(bottom: 10),
-              padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
+              margin: EdgeInsetsDirectional.only(bottom: 10),
+              padding: EdgeInsetsDirectional.only(start: 10, end: 5, top: 5, bottom: 5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: settingsStore.isDarkTheme
@@ -883,8 +883,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                       },
                       child: Container(
                         width: 150.0,
-                        margin: EdgeInsets.only(left: 3),
-                        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
+                        margin: EdgeInsetsDirectional.only(start: 3),
+                        padding: EdgeInsetsDirectional.symmetric(horizontal: 5, vertical: 6),
                         decoration: BoxDecoration(
                             color: settingsStore.isDarkTheme
                                 ? Color(0xff333343)
@@ -939,7 +939,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   child: Flexible(
                     child: Container(
                       width: double.infinity,
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsetsDirectional.all(10),
                       decoration: BoxDecoration(
                           color: Colors.red.withAlpha(25),
                           borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -961,7 +961,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   visible: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider) || validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider),
                   child: Flexible(
                     child: Container(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsetsDirectional.all(10),
                       decoration: BoxDecoration(
                           color: Color(0xff00AD07).withAlpha(25),
                           borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -1030,7 +1030,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         });
                       } : null,
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsetsDirectional.all(10),
                         decoration: BoxDecoration(
                             color: settingsStore.isDarkTheme
                                 ? Color(0xff333343)
@@ -1053,7 +1053,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             ),
             //You get title
             Container(
-              margin: EdgeInsets.only(top: 10, left: 10, bottom: 10),
+              margin: EdgeInsetsDirectional.only(top: 10, start: 10, bottom: 10),
               child: Text(
                 tr(context).youGet,
                 textAlign: TextAlign.start,
@@ -1068,8 +1068,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             ),
             //You get TextFormField
             Container(
-              margin: EdgeInsets.only(bottom: 10),
-              padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
+              margin: EdgeInsetsDirectional.only(bottom: 10),
+              padding: EdgeInsetsDirectional.only(start: 10, end: 5, top: 5, bottom: 5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: settingsStore.isDarkTheme
@@ -1130,8 +1130,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                       },
                       child: Container(
                         width: 150.0,
-                        margin: EdgeInsets.only(left: 3),
-                        padding: EdgeInsets.symmetric(horizontal: 5, vertical: 6),
+                        margin: EdgeInsetsDirectional.only(start: 3),
+                        padding: EdgeInsetsDirectional.symmetric(horizontal: 5, vertical: 6),
                         decoration: BoxDecoration(
                             color: settingsStore.isDarkTheme
                                 ? Color(0xff333343)
@@ -1178,8 +1178,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             ),
             //Floating Exchange Rate Card
             Container(
-                margin: EdgeInsets.only(bottom: 10),
-                padding: EdgeInsets.all(10),
+                margin: EdgeInsetsDirectional.only(bottom: 10),
+                padding: EdgeInsetsDirectional.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: settingsStore.isDarkTheme
@@ -1195,7 +1195,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                     Container(
                       width: 30,
                       height: 30,
-                      padding: EdgeInsets.all(5),
+                      padding: EdgeInsetsDirectional.all(5),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: settingsStore.isDarkTheme
@@ -1246,8 +1246,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 )),
             //Fixed Exchange Rate Card
             /*Container(
-                margin: EdgeInsets.only(bottom: 10),
-                padding: EdgeInsets.all(10),
+                margin: EdgeInsetsDirectional.only(bottom: 10),
+                padding: EdgeInsetsDirectional.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: settingsStore.isDarkTheme
@@ -1265,7 +1265,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         Container(
                           width: 30,
                           height: 30,
-                          padding: EdgeInsets.all(5),
+                          padding: EdgeInsetsDirectional.all(5),
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: settingsStore.isDarkTheme
@@ -1313,8 +1313,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 )),*/
             //Floating and Fixed Exchange Rate Info
             Container(
-                margin: EdgeInsets.only(bottom: 20),
-                padding: EdgeInsets.all(10),
+                margin: EdgeInsetsDirectional.only(bottom: 20),
+                padding: EdgeInsetsDirectional.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: Colors.transparent,
@@ -1329,7 +1329,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 3.0),
+                      padding: const EdgeInsetsDirectional.only(top: 3.0),
                       child: Icon(Icons.info_outline,
                           size: 15,
                           color: settingsStore.isDarkTheme
@@ -1386,7 +1386,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                           ? Color(0xff32324A)
                           : Color(0xffFFFFFF),
                   padding:
-                      EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
+                      EdgeInsetsDirectional.only(top: 10, bottom: 10, start: 50, end: 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -1412,9 +1412,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             _searchYouGetCoinsSetState = setState;
             return Container(
               height: 200,
-              margin: EdgeInsets.only(
-                  top: 275, left: MediaQuery.sizeOf(context).width / 4),
-              padding: EdgeInsets.all(10),
+              margin: EdgeInsetsDirectional.only(
+                  top: 275, start: MediaQuery.sizeOf(context).width / 4),
+              padding: EdgeInsetsDirectional.all(10),
               decoration: BoxDecoration(
                   color: settingsStore.isDarkTheme
                       ? Color(0xff272733)
@@ -1423,7 +1423,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsetsDirectional.all(8.0),
                     child: TextField(
                       style: TextStyle(fontSize: 14),
                       controller: searchYouGetCoinsController,
@@ -1451,8 +1451,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                 : () {
                                     searchYouGetCoinsController.clear();
                                   }),
-                        contentPadding: EdgeInsets.only(
-                            left: 10, top: 5, bottom: 5, right: 10),
+                        contentPadding: EdgeInsetsDirectional.only(
+                            start: 10, top: 5, bottom: 5, end: 10),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
@@ -1470,7 +1470,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   ),
                   Expanded(
                     child: Container(
-                        padding: EdgeInsets.only(right: 10),
+                        padding: EdgeInsetsDirectional.only(end: 10),
                         child: Observer(
                           builder: (_) {
                             return RawScrollbar(
@@ -1512,9 +1512,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             _searchYouSendCoinsSetState = setState;
             return Container(
               height: 200,
-              margin: EdgeInsets.only(
-                  top: 130, left: MediaQuery.sizeOf(context).width / 4),
-              padding: EdgeInsets.all(10),
+              margin: EdgeInsetsDirectional.only(
+                  top: 130, start: MediaQuery.sizeOf(context).width / 4),
+              padding: EdgeInsetsDirectional.all(10),
               decoration: BoxDecoration(
                   color: settingsStore.isDarkTheme
                       ? Color(0xff272733)
@@ -1523,7 +1523,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               child: Column(
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsetsDirectional.all(8.0),
                     child: TextField(
                       style: TextStyle(fontSize: 14),
                       controller: searchYouSendCoinsController,
@@ -1551,8 +1551,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                 : () {
                                     searchYouSendCoinsController.clear();
                                   }),
-                        contentPadding: EdgeInsets.only(
-                            left: 10, top: 5, bottom: 5, right: 10),
+                        contentPadding: EdgeInsetsDirectional.only(
+                            start: 10, top: 5, bottom: 5, end: 10),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide(
@@ -1570,7 +1570,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   ),
                   Expanded(
                     child: Container(
-                        padding: EdgeInsets.only(right: 10),
+                        padding: EdgeInsetsDirectional.only(end: 10),
                         child: Observer(
                           builder: (_) {
                             return RawScrollbar(
@@ -1641,7 +1641,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             ),
             //You send title
             Container(
-              margin: EdgeInsets.only(top: 20, left: 10, bottom: 10),
+              margin: EdgeInsetsDirectional.only(top: 20, start: 10, bottom: 10),
               child: Text(
                 tr(context).youSend,
                 textAlign: TextAlign.start,
@@ -1656,8 +1656,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             ),
             //You send TextFormField
             Container(
-              margin: EdgeInsets.only(bottom: 10),
-              padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
+              margin: EdgeInsetsDirectional.only(bottom: 10),
+              padding: EdgeInsetsDirectional.only(start: 10, end: 5, top: 5, bottom: 5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: settingsStore.isDarkTheme
@@ -1712,8 +1712,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   Container(
                     width: 125.0,
                     height: 40,
-                    margin: EdgeInsets.only(left: 3),
-                    padding: EdgeInsets.only(left: 5, right: 5),
+                    margin: EdgeInsetsDirectional.only(start: 3),
+                    padding: EdgeInsetsDirectional.only(start: 5, end: 5),
                     decoration: BoxDecoration(
                         color: settingsStore.isDarkTheme
                             ? Color(0xff333343)
@@ -1765,7 +1765,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 Container(),
                 SizedBox(width: 5,),
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsetsDirectional.all(10),
                   decoration: BoxDecoration(
                       color: settingsStore.isDarkTheme
                           ? Color(0xff333343)
@@ -1787,7 +1787,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             ),
             //You get title
             Container(
-              margin: EdgeInsets.only(top: 10, left: 10, bottom: 10),
+              margin: EdgeInsetsDirectional.only(top: 10, start: 10, bottom: 10),
               child: Text(
                 tr(context).youGet,
                 textAlign: TextAlign.start,
@@ -1802,8 +1802,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             ),
             //You get TextFormField
             Container(
-              margin: EdgeInsets.only(bottom: 10),
-              padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
+              margin: EdgeInsetsDirectional.only(bottom: 10),
+              padding: EdgeInsetsDirectional.only(start: 10, end: 5, top: 5, bottom: 5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: settingsStore.isDarkTheme
@@ -1855,8 +1855,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   Container(
                     width: 125.0,
                     height: 40,
-                    margin: EdgeInsets.only(left: 3),
-                    padding: EdgeInsets.only(left: 5, right: 5),
+                    margin: EdgeInsetsDirectional.only(start: 3),
+                    padding: EdgeInsetsDirectional.only(start: 5, end: 5),
                     decoration: BoxDecoration(
                         color: settingsStore.isDarkTheme
                             ? Color(0xff333343)
@@ -1903,8 +1903,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             ),
             //Floating Exchange Rate Card
             Container(
-                margin: EdgeInsets.only(bottom: 10),
-                padding: EdgeInsets.all(10),
+                margin: EdgeInsetsDirectional.only(bottom: 10),
+                padding: EdgeInsetsDirectional.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: settingsStore.isDarkTheme
@@ -1920,7 +1920,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                     Container(
                       width: 30,
                       height: 30,
-                      padding: EdgeInsets.all(5),
+                      padding: EdgeInsetsDirectional.all(5),
                       decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           color: settingsStore.isDarkTheme
@@ -1971,8 +1971,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 )),
             //Floating and Fixed Exchange Rate Info
             Container(
-                margin: EdgeInsets.only(bottom: 20),
-                padding: EdgeInsets.all(10),
+                margin: EdgeInsetsDirectional.only(bottom: 20),
+                padding: EdgeInsetsDirectional.all(10),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: Colors.transparent,
@@ -1987,7 +1987,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 3.0),
+                      padding: const EdgeInsetsDirectional.only(top: 3.0),
                       child: Icon(Icons.info_outline,
                           size: 15,
                           color: settingsStore.isDarkTheme
@@ -2021,7 +2021,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                       ? Color(0xff32324A)
                       : Color(0xffFFFFFF),
                   padding:
-                  EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
+                  EdgeInsetsDirectional.only(top: 10, bottom: 10, start: 50, end: 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

@@ -16,7 +16,7 @@ class NewNavListTrailing extends StatelessWidget {
   Widget build(BuildContext context) {
      final settingsStore = Provider.of<SettingsStore>(context);
     return Card(
-      margin: EdgeInsets.only(left: constants.leftPx,right: constants.rightPx,top: 20),
+      margin: EdgeInsetsDirectional.only(start: constants.leftPx,end: constants.rightPx,top: 20),
       elevation:0,
       color: settingsStore.isDarkTheme ? Color(0xff171720): Color(0xffffffff),
       shape: RoundedRectangleBorder(
@@ -29,7 +29,7 @@ class NewNavListTrailing extends StatelessWidget {
             highlightColor:Colors.transparent,
           ),
           child: ListTile(
-            contentPadding: EdgeInsets.only(left: 10.0, right: 10.0),
+            contentPadding: EdgeInsetsDirectional.only(start: 10.0, end: 10.0),
             leading: leading,
             title: Text(text!,
                 style: TextStyle(

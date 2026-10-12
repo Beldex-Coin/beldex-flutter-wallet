@@ -91,7 +91,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
     return ScrollableWithBottomSection(
       contentPadding: EdgeInsets.all(0),
       content: Container(
-        padding: EdgeInsets.only(left: 30.0, right: 30.0, bottom: 30.0),
+        padding: EdgeInsetsDirectional.only(start: 30.0, end: 30.0, bottom: 30.0),
         child: Container(child: Observer(
           builder: (_) {
             _isSeed = walletSeedStore.seed;
@@ -99,7 +99,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
             return Center(
               child: _isSeed == '' || _isSeed == null
                   ? Padding(
-                      padding: EdgeInsets.only(top: _height * 1 / 3),
+                      padding: EdgeInsetsDirectional.only(top: _height * 1 / 3),
                       child: RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
@@ -134,8 +134,8 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.only(
-                                    left: 10.0, right: 10.0),
+                                padding: const EdgeInsetsDirectional.only(
+                                    start: 10.0, end: 10.0),
                                 child: RichText(
                                   textAlign: TextAlign.center,
                                   text: TextSpan(
@@ -180,7 +180,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                   //     MediaQuery.sizeOf(context).height *
                                   //         0.50 /
                                   //         3,
-                                  padding: EdgeInsets.all(15),
+                                  padding: EdgeInsetsDirectional.all(15),
                                   decoration: BoxDecoration(
                                       color: settingsStore.isDarkTheme
                                           ? Color(0xff272733)
@@ -205,7 +205,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                 height: _height * 0.10 / 3,
                               ),
                               Padding(
-                                padding: const EdgeInsets.all(15.0),
+                                padding: const EdgeInsetsDirectional.all(15.0),
                                 child: !widget.showSeed
                                     ? Row(
                                         children: [
@@ -240,7 +240,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                               0xffE8E8E8)
                                                       : Color(0xff0BA70F),
                                                   padding:
-                                                      EdgeInsets.all(12),
+                                                      EdgeInsetsDirectional.all(12),
                                                   shape:
                                                       RoundedRectangleBorder(
                                                     borderRadius:
@@ -274,9 +274,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                         )),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsets
-                                                                  .only(
-                                                              left: 8.0),
+                                                          const EdgeInsetsDirectional.only(start: 8.0),
                                                       child: Icon(
                                                         Icons.copy,
                                                         color: isCopied
@@ -304,7 +302,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               style:
                                                   ElevatedButton.styleFrom(
                                                 backgroundColor: Color(0xff2979FB),
-                                                padding: EdgeInsets.all(12),
+                                                padding: EdgeInsetsDirectional.all(12),
                                                 shape:
                                                     RoundedRectangleBorder(
                                                   borderRadius:
@@ -346,7 +344,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               style:
                                                   ElevatedButton.styleFrom(
                                                 backgroundColor: Color(0xff0BA70F),
-                                                padding: EdgeInsets.all(12),
+                                                padding: EdgeInsetsDirectional.all(12),
                                                 shape:
                                                     RoundedRectangleBorder(
                                                   borderRadius:
@@ -373,9 +371,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                         )),
                                                     Padding(
                                                       padding:
-                                                          const EdgeInsets
-                                                                  .only(
-                                                              left: 8.0),
+                                                          const EdgeInsetsDirectional.only(start: 8.0),
                                                       child: Icon(
                                                         Icons.copy,
                                                         color: Colors.white,
@@ -396,7 +392,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               style:
                                                   ElevatedButton.styleFrom(
                                                 backgroundColor: Color(0xff2979FB),
-                                                padding: EdgeInsets.all(12),
+                                                padding: EdgeInsetsDirectional.all(12),
                                                 shape:
                                                     RoundedRectangleBorder(
                                                   borderRadius:
@@ -429,7 +425,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
       bottomSection:  Column(children: [
         !widget.showSeed && !isCopied || _isSeed != null
             ? Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsetsDirectional.all(8.0),
           child: Text(
             tr(context).copyAndSaveTheSeedToContinue,
             style: TextStyle(backgroundColor: Colors.transparent,fontSize: 15),
@@ -440,7 +436,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
           Expanded(
             child: !widget.showSeed || _isSeed != null
                 ? Container(
-              margin: EdgeInsets.all(10),
+              margin: EdgeInsetsDirectional.all(10),
               child: ElevatedButton(
                 onPressed: isCopied
                     ? () {
@@ -455,7 +451,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                       : settingsStore.isDarkTheme
                       ? Color(0xff272733)
                       : Color(0xffE8E8E8),
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsetsDirectional.all(15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
@@ -473,12 +469,12 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
               ),
             )
                 : Container(
-              margin: EdgeInsets.all(10),
+              margin: EdgeInsetsDirectional.all(10),
               child: ElevatedButton(
                 onPressed: () => Navigator.of(context).pop(),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xff0BA70F),
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsetsDirectional.all(15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

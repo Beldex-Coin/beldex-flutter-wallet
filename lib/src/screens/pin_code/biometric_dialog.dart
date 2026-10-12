@@ -64,7 +64,7 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
           child: Container(
-            // margin: EdgeInsets.all(10),
+            // margin: EdgeInsetsDirectional.all(10),
             // decoration: BoxDecoration(color: Color(0xff171720).withValues(alpha: 0.55)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -79,8 +79,8 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
                     child: Container(
                         height:
                         MediaQuery.sizeOf(context).height * 1 / 3,
-                        margin: EdgeInsets.only(
-                            left: 10, right: 10, bottom: 10, top: 10),
+                        margin: EdgeInsetsDirectional.only(
+                            start: 10, end: 10, bottom: 10, top: 10),
                         decoration: BoxDecoration(
                           color: settingsStore.isDarkTheme
                               ? Color(0xff272733)
@@ -88,7 +88,7 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         padding:
-                        EdgeInsets.only(top: 20, left: 15, right: 15),
+                        EdgeInsetsDirectional.only(top: 20, start: 15, end: 15),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -96,8 +96,8 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 5, bottom: 8.0),
+                                  padding: const EdgeInsetsDirectional.only(
+                                      start: 5, bottom: 8.0),
                                   child: Text(
                                     tr(context).unlockBeldexWallet,
                                     style: TextStyle(
@@ -130,7 +130,7 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
                                           : Color(0xff303030)),
                                 )),
                             Container(
-                                margin: EdgeInsets.only(
+                                margin: EdgeInsetsDirectional.only(
                                     top: MediaQuery.of(context)
                                         .size
                                         .height *
@@ -147,7 +147,7 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
                                       3,
                                 )),
                             Container(
-                                padding: EdgeInsets.only(top: 10),
+                                padding: EdgeInsetsDirectional.only(top: 10),
                                 child: Text(
                                   tr(context).touchTheFingerprintSensor,
                                   style: TextStyle(
@@ -161,8 +161,8 @@ class BeldexBioDialogState extends State<BeldexBioDialog> {
                                 MainAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 5,
+                                    padding: EdgeInsetsDirectional.only(
+                                        start: 5,
                                         bottom: 8.0,
                                         top: MediaQuery.of(context)
                                             .size

@@ -4,7 +4,6 @@ import 'package:ffi/ffi.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
 import 'package:beldex_coin/src/exceptions/creation_transaction_exception.dart';
 import 'package:beldex_coin/src/beldex_api.dart';
-import 'package:beldex_coin/src/structs/ut8_box.dart';
 import 'package:beldex_coin/src/util/signatures.dart';
 import 'package:beldex_coin/src/util/types.dart';
 

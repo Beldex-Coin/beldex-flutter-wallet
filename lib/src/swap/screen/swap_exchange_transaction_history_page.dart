@@ -139,8 +139,8 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
       return ConstrainedBox(
         constraints: BoxConstraints(minHeight: constraints.maxHeight),
         child: Card(
-          margin: EdgeInsets.only(
-              top: 15, left: 10, right: 10, bottom: 15),
+          margin: EdgeInsetsDirectional.only(
+              top: 15, start: 10, end: 10, bottom: 15),
           elevation: 0,
           color: settingsStore.isDarkTheme
               ? Color(0xff24242f)
@@ -149,7 +149,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
             borderRadius: BorderRadius.circular(15),
           ),
           child: Container(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsetsDirectional.all(15.0),
             width: _screenWidth,
             child: transactionHistoryScreen(
                 _screenWidth,
@@ -246,7 +246,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
               builder: (context, swapTransactionExpansionStatusChangeNotifier, child) {
                 final isExpanded = swapTransactionExpansionStatusChangeNotifier.isExpanded(index);
                 return Container(
-                  margin: EdgeInsets.only(top: 10, bottom: 10),
+                  margin: EdgeInsetsDirectional.only(top: 10, bottom: 10),
                   width: MediaQuery.sizeOf(context).width,
                   child: ExpansionTile(
                       initiallyExpanded: isExpanded,
@@ -255,8 +255,8 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                       },
                       trailing: swapTransactionExpansionStatusChangeNotifier.getStatus(index) != null ?
                       swapTransactionExpansionStatusChangeNotifier.getStatus(index)! ? trailingIcon(90, settingsStore) : trailingIcon(270, settingsStore) : trailingIcon(270, settingsStore),
-                      childrenPadding: EdgeInsets.zero,
-                      tilePadding: EdgeInsets.only(left: 0, right: 0),
+                      childrenPadding: EdgeInsetsDirectional.zero,
+                      tilePadding: EdgeInsetsDirectional.only(start: 0, end: 0),
                       collapsedIconColor: settingsStore.isDarkTheme ? Colors.white : Color(0xFF222222),
                       iconColor: settingsStore.isDarkTheme ? Colors.white : Color(0xFF222222),
                       title: swapTransactionExpansionStatusChangeNotifier.getStatus(index) != null ?
@@ -291,7 +291,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                             ),
                             Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 10),
+                                  padding: const EdgeInsetsDirectional.only(start: 10),
                                   child: false
                                       ? Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -349,7 +349,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                        expansionTile(result, settingsStore) : expansionTile(result, settingsStore),
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(top: 8.0),
+                          margin: EdgeInsetsDirectional.only(top: 8.0),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -625,7 +625,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
         Expanded(
           child: ListView.builder(
               key: _listKey,
-              padding: EdgeInsets.only(bottom: 15),
+              padding: EdgeInsetsDirectional.only(bottom: 15),
               itemCount: transactions.length,
               itemBuilder: (context, index) {
                 if(rows.length-1 != transactions.length) {
@@ -683,7 +683,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
           ),
           Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: 10),
+                padding: const EdgeInsetsDirectional.only(start: 10),
                 child: false
                     ? Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

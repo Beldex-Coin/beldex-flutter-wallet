@@ -28,7 +28,7 @@ class SubaddressListPage extends BasePage {
     final notCurrentColor = Theme.of(context).dialogTheme.backgroundColor;
 
     return Container(
-        padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
+        padding: EdgeInsetsDirectional.only(top: 20.0, bottom: 20.0),
         child: Observer(
           builder: (_) => ListView.separated(
               separatorBuilder: (_, __) => Divider(

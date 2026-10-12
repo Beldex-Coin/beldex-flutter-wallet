@@ -59,8 +59,8 @@ class DateSectionRow extends StatelessWidget {
     }
 
     return Container(
-        padding: const EdgeInsets.only(top: 15, bottom: 0,left:10),
-        margin: EdgeInsets.only(left:18,right:18),
+        padding: const EdgeInsetsDirectional.only(top: 15, bottom: 0,start:10),
+        margin: EdgeInsetsDirectional.only(start:18,end:18),
         decoration: BoxDecoration(
             borderRadius: index == 0 ? BorderRadius.only(topLeft: Radius.circular(8.0,),topRight: Radius.circular(8.0,)) : BorderRadius.circular(0),
             color: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED)

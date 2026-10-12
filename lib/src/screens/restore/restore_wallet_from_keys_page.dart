@@ -132,9 +132,9 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           : Color(0xffEDEDED),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 8.0),
+                      margin: EdgeInsetsDirectional.only(top: 8.0),
                       child: Container(
-                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                        padding: EdgeInsetsDirectional.only(start: 30, top: 5, bottom: 5),
                         child: Observer(
                           builder: (context) {
                             return TextFormField(
@@ -173,9 +173,9 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           : Color(0xffEDEDED),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 8.0),
+                      margin: EdgeInsetsDirectional.only(top: 8.0),
                       child: Container(
-                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                        padding: EdgeInsetsDirectional.only(start: 30, top: 5, bottom: 5),
                         child: Observer(
                             builder: (context) {
                             return TextFormField(
@@ -216,9 +216,9 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           : Color(0xffEDEDED),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 8.0),
+                      margin: EdgeInsetsDirectional.only(top: 8.0),
                       child: Container(
-                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                        padding: EdgeInsetsDirectional.only(start: 30, top: 5, bottom: 5),
                         child: Observer(
                             builder: (context) {
                             return TextFormField(
@@ -257,9 +257,9 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           : Color(0xffEDEDED),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 8.0),
+                      margin: EdgeInsetsDirectional.only(top: 8.0),
                       child: Container(
-                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                        padding: EdgeInsetsDirectional.only(start: 30, top: 5, bottom: 5),
                         child: Observer(
                             builder: (context) {
                             return TextFormField(
@@ -289,7 +289,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 20),
+                  margin: EdgeInsetsDirectional.only(top: 20),
                   width: MediaQuery.sizeOf(context).width * 1.5 / 3,
                   child: Divider(
                     height: 3,
@@ -389,9 +389,9 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                       color: Theme.of(context).cardColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 20.0),
+                      margin: EdgeInsetsDirectional.only(top: 20.0),
                       child: Container(
-                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                        padding: EdgeInsetsDirectional.only(start: 30, top: 5, bottom: 5),
                         child: Observer(
                             builder: (context) {
                             return TextFormField(
@@ -437,10 +437,10 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                       color: Theme.of(context).cardColor,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 20.0),
+                      margin: EdgeInsetsDirectional.only(top: 20.0),
                       child: Container(
-                        padding: EdgeInsets.only(
-                            left: 30, top: 5, bottom: 5, right: 10),
+                        padding: EdgeInsetsDirectional.only(
+                            start: 30, top: 5, bottom: 5, end: 10),
                         child: InkWell(
                           onTap: () {
                             if(!(walletRestorationStore.state is WalletIsRestoring)) {
@@ -509,7 +509,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
               style: ElevatedButton.styleFrom(
                 alignment: Alignment.center,
                 backgroundColor: Color(0xff2979FB),
-                padding: EdgeInsets.all(12),
+                padding: EdgeInsetsDirectional.all(12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

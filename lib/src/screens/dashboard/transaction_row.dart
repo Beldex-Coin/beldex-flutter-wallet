@@ -46,7 +46,7 @@ class TransactionRow extends StatelessWidget {
     return InkWell(
         // onTap: onTap,
         child: Container(
-      margin: EdgeInsets.only(left: 18, right: 18),
+      margin: EdgeInsetsDirectional.only(start: 18, end: 18),
       decoration: BoxDecoration(
         //color: Color(0xff24242F),
         color:
@@ -95,14 +95,14 @@ class TransactionRow extends StatelessWidget {
                               colorFilter: ColorFilter.mode(Color(0xffAFAFBE), BlendMode.srcIn),
                               //fit:BoxFit.cover
                             ) : Padding(
-                                    padding: EdgeInsets.all(5),
+                                    padding: EdgeInsetsDirectional.all(5),
                                     child: SvgPicture.asset(
                                       'assets/images/new-images/outgoing_red.svg',
                                     ),
                                   )),
                         Expanded(
                             child: Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          padding: const EdgeInsetsDirectional.only(start: 10, end: 10),
                           child: Column(
                             children: <Widget>[
                               Row(
@@ -157,7 +157,7 @@ class TransactionRow extends StatelessWidget {
                 ),
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsetsDirectional.all(8.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,7 +172,7 @@ class TransactionRow extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0, top: 10),
+                            padding: const EdgeInsetsDirectional.only(start: 8.0, top: 10),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
@@ -213,9 +213,9 @@ class TransactionRow extends StatelessWidget {
                                       },
                                       child: Container(
                                           //height:20,width:40,
-                                          padding: EdgeInsets.only(
-                                              left: 20.0,
-                                              right: 10,
+                                          padding: EdgeInsetsDirectional.only(
+                                              start: 20.0,
+                                              end: 10,
                                               top: 10,
                                               bottom: 10),
                                           child: Icon(
@@ -242,7 +242,7 @@ class TransactionRow extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Padding(
-                              padding: const EdgeInsets.only(left: 8.0, top: 10),
+                              padding: const EdgeInsetsDirectional.only(start: 8.0, top: 10),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
@@ -275,9 +275,9 @@ class TransactionRow extends StatelessWidget {
                                           );
                                         },
                                         child: Container(
-                                            padding: EdgeInsets.only(
-                                                left: 20.0,
-                                                right: 10,
+                                            padding: EdgeInsetsDirectional.only(
+                                                start: 20.0,
+                                                end: 10,
                                                 bottom: 10),
                                             child: Icon(
                                               Icons.copy,
@@ -305,7 +305,7 @@ class TransactionRow extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsetsDirectional.all(8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -331,7 +331,7 @@ class TransactionRow extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsetsDirectional.all(8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -343,7 +343,7 @@ class TransactionRow extends StatelessWidget {
                                   //crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Container(
-                                        padding: EdgeInsets.only(bottom: 5.0),
+                                        padding: EdgeInsetsDirectional.only(bottom: 5.0),
                                         child: Text('${transaction.height}')),
                                   ],
                                 )
@@ -361,7 +361,7 @@ class TransactionRow extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsetsDirectional.all(8.0),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -381,7 +381,7 @@ class TransactionRow extends StatelessWidget {
                         settingsStore.shouldSaveRecipientAddress &&
                                 transaction.recipientAddress != null
                             ? Container(
-                                margin: EdgeInsets.only(top: 10),
+                                margin: EdgeInsetsDirectional.only(top: 10),
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                       color: settingsStore.isDarkTheme
@@ -396,8 +396,8 @@ class TransactionRow extends StatelessWidget {
                                           MainAxisAlignment.start,
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.only(
-                                              left: 8.0, top: 10),
+                                          padding: const EdgeInsetsDirectional.only(
+                                              start: 8.0, top: 10),
                                           child: Text(
                                               tr(context)
                                                   .transaction_details_recipient_address,
@@ -408,7 +408,7 @@ class TransactionRow extends StatelessWidget {
                                       ],
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 8.0),
+                                      padding: const EdgeInsetsDirectional.only(start: 8.0),
                                       child: Row(
                                         children: [
                                           Expanded(
@@ -432,9 +432,9 @@ class TransactionRow extends StatelessWidget {
                                             },
                                             child: Container(
                                                 //height:20,width:40,
-                                                padding: EdgeInsets.only(
-                                                    left: 20.0,
-                                                    right: 10,
+                                                padding: EdgeInsetsDirectional.only(
+                                                    start: 20.0,
+                                                    end: 10,
                                                     top: 10,
                                                     bottom: 10),
                                                 child: Icon(
@@ -457,7 +457,7 @@ class TransactionRow extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            padding: const EdgeInsetsDirectional.only(start: 15.0, end: 15.0),
             child: Divider(
               height: 2,
             ),

@@ -14,11 +14,11 @@ Future<T?> presentPicker<T extends Object>(
       builder: (BuildContext context) {
         return BeldexDialog(
             body: Container(
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsetsDirectional.all(30),
               child: Column(
                 children: [
                   Padding(
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsetsDirectional.all(15),
                       child: Text(tr(context).please_select,
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -30,7 +30,7 @@ Future<T?> presentPicker<T extends Object>(
                                   .bodySmall!
                                   .color))),
                   Padding(
-                    padding: EdgeInsets.only(top: 15, bottom: 30),
+                    padding: EdgeInsetsDirectional.only(top: 15, bottom: 30),
                     child: Container(
                       height: 180.0,
                       child: CupertinoPicker(

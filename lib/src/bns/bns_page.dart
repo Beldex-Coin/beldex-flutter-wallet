@@ -12,7 +12,6 @@ import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:beldex_wallet/src/widgets/bns_initiating_transaction_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:beldex_wallet/src/stores/balance/balance_store.dart';
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';

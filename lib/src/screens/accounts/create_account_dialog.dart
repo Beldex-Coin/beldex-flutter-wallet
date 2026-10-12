@@ -102,7 +102,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
             surfaceTintColor: Colors.transparent,
             child: Container(
               width: MediaQuery.sizeOf(context).width,
-              margin: EdgeInsets.all(20),
+              margin: EdgeInsetsDirectional.all(20),
               child: Form(
                 key: _formKey,
                 child: Column(
@@ -122,7 +122,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                         decoration: InputDecoration(
                           hintText: tr(context).accountName,
                           hintStyle: TextStyle(backgroundColor:Colors.transparent,color: Color(0xff77778B)),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                          contentPadding: EdgeInsetsDirectional.symmetric(horizontal: 8),
                           errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red),
                           errorBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.red),

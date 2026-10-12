@@ -115,7 +115,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
             width: MediaQuery.sizeOf(context).width,
@@ -135,7 +135,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
                       child: IntrinsicHeight(
                         child: Card(
                           margin:
-                          EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 15),
+                          EdgeInsetsDirectional.only(top: 15, start: 10, end: 10, bottom: 15),
                           elevation: 0,
                           color: settingsStore.isDarkTheme
                               ? Color(0xff24242f)
@@ -144,7 +144,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Container(
-                            padding: const EdgeInsets.all(15.0),
+                            padding: const EdgeInsetsDirectional.all(15.0),
                             width: _screenWidth,
                             height: double.infinity,
                             child: exchangeNotPaidScreen(settingsStore, networkProvider),
@@ -166,7 +166,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
         //Not Paid Details
         Container(
           width: MediaQuery.sizeOf(context).width,
-          margin: EdgeInsets.only(left: 5, right: 5),
+          margin: EdgeInsetsDirectional.only(start: 5, end: 5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -205,8 +205,8 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
               //Transaction ID Details
               Container(
                   width: MediaQuery.sizeOf(context).width,
-                  margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsetsDirectional.only(top: 10.0, bottom: 10.0),
+                  padding: EdgeInsetsDirectional.all(10),
                   decoration: BoxDecoration(
                     color: settingsStore.isDarkTheme
                         ? Colors.transparent
@@ -282,7 +282,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
                   //Amount from and Amount To Details
                   TableRow(children: [
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: const EdgeInsetsDirectional.only(
                         top: 10.0,
                       ),
                       child: Column(
@@ -313,7 +313,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                      padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -347,7 +347,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
               //Recipient Address Details
               Container(
                 width: MediaQuery.sizeOf(context).width,
-                margin: EdgeInsets.only(top: 10),
+                margin: EdgeInsetsDirectional.only(top: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -380,8 +380,8 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
         ),
         //Not Paid Warning Info
         Container(
-            margin: EdgeInsets.only(top: 20, bottom: 20),
-            padding: EdgeInsets.all(10),
+            margin: EdgeInsetsDirectional.only(top: 20, bottom: 20),
+            padding: EdgeInsetsDirectional.all(10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: Color(0xff00AD07).withAlpha(25),
@@ -394,7 +394,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 3.0),
+                  padding: const EdgeInsetsDirectional.only(top: 3.0),
                   child: Icon(Icons.info_outline,
                       size: 15,
                       color: settingsStore.isDarkTheme
@@ -439,7 +439,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xff0BA70F),
               padding:
-              EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
+              EdgeInsetsDirectional.only(top: 10, bottom: 10, start: 50, end: 50),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),

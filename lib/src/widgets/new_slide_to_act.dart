@@ -166,7 +166,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
                             shape: CircleBorder(),
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(
+                            padding: EdgeInsetsDirectional.all(
                                 8.0 * animationController!.value),
                             child: child,
                           ),
@@ -194,12 +194,12 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
                               }
                             },
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
+                              padding: const EdgeInsetsDirectional.symmetric(
                                   horizontal: 55.0),
                               child: ClipOval(
                                 clipBehavior: Clip.antiAlias,
                                 child: Container(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding: EdgeInsetsDirectional.all(8.0),
                                   decoration: BoxDecoration(
                                     gradient: LinearGradient(
                                         colors: [
@@ -222,7 +222,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
                                       width: 75,
 // this width forces the container to be a circle
                                       height: 75,
-                                      padding: EdgeInsets.all(20),
+                                      padding: EdgeInsetsDirectional.all(20),
                                       decoration: BoxDecoration(
                                         color: Theme.of(context)
                                             .colorScheme.background,

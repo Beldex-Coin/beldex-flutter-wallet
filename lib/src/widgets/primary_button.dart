@@ -30,7 +30,7 @@ class PrimaryButton extends StatelessWidget {
             backgroundColor: isDisabled
                 ? Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor
                 : color,
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsetsDirectional.all(15),
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: borderColor!),
                 borderRadius: BorderRadius.circular(10.0)),
@@ -76,8 +76,8 @@ class PrimaryButtonWelcome extends StatelessWidget {
             backgroundColor: isDisabled
                 ? Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor
                 : color,
-            padding: EdgeInsets.only(
-                top: 13, bottom: 13, left: 42, right: 42),
+            padding: EdgeInsetsDirectional.only(
+                top: 13, bottom: 13, start: 42, end: 42),
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: borderColor!),
                 borderRadius: BorderRadius.circular(10.0)),
@@ -122,7 +122,7 @@ class PrimaryButtonNode extends StatelessWidget {
             backgroundColor: isDisabled
                 ? Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor
                 : color,
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsetsDirectional.all(15),
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: borderColor),
                 borderRadius: BorderRadius.circular(10.0)),
@@ -164,7 +164,7 @@ class LoadingPrimaryButton extends StatelessWidget {
         onPressed: (isLoading || isDisabled) ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsetsDirectional.all(15),
           shape: RoundedRectangleBorder(
               side: BorderSide(color: borderColor),
               borderRadius: BorderRadius.circular(10.0)),
@@ -210,7 +210,7 @@ class PrimaryIconButton extends StatelessWidget {
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: color,
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsetsDirectional.all(15),
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: borderColor),
                 borderRadius: BorderRadius.circular(10.0)),
@@ -271,7 +271,7 @@ class PrimaryImageButton extends StatelessWidget {
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: color,
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsetsDirectional.all(15),
             shape: RoundedRectangleBorder(
                 side: BorderSide(color: borderColor),
                 borderRadius: BorderRadius.circular(12.0)),

@@ -83,7 +83,7 @@ class Picker<Item extends Object> extends StatelessWidget {
                             },
                             child: Container(
                               color: Colors.transparent,
-                              padding: EdgeInsets.only(top: 18, bottom: 18),
+                              padding: EdgeInsetsDirectional.only(top: 18, bottom: 18),
                               child: Center(
                                   child: Text(
                                 item.toString(),

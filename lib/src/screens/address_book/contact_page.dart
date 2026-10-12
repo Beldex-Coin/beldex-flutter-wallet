@@ -116,7 +116,7 @@ class ContactFormState extends State<ContactForm> {
                     borderRadius: BorderRadius.circular(10)
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left:25.0),
+                  padding: const EdgeInsetsDirectional.only(start:25.0),
                   child:TextFormField(
                     controller: _contactNameController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -153,7 +153,7 @@ class ContactFormState extends State<ContactForm> {
                     borderRadius: BorderRadius.circular(10)
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.only(left:25.0),
+                  padding: const EdgeInsetsDirectional.only(start:25.0),
                   child:TextFormField(
                     controller: _addressController,
                     inputFormatters: [
@@ -185,7 +185,7 @@ class ContactFormState extends State<ContactForm> {
                         suffixIcon: Container(
                             width: 20.0,
                             height: 20.0,
-                            padding: EdgeInsets.all(10),
+                            padding: EdgeInsetsDirectional.all(10),
                             child: InkWell(
                               onTap: () async => _presentQRScanner(context,_addressController),
                               child: SvgPicture.asset(
@@ -229,7 +229,7 @@ class ContactFormState extends State<ContactForm> {
                     backgroundColor: settingsStore.isDarkTheme
                         ? Color(0xff383848)
                         : Color(0xffE8E8E8),
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsetsDirectional.all(15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -292,7 +292,7 @@ class ContactFormState extends State<ContactForm> {
                                     child: Container(
                                       constraints: BoxConstraints(minHeight: 170),
                                       child: Padding(
-                                        padding: const EdgeInsets.all(12.0),
+                                        padding: const EdgeInsetsDirectional.all(12.0),
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
@@ -357,7 +357,7 @@ class ContactFormState extends State<ContactForm> {
                         },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff0BA70F),
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsetsDirectional.all(15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),

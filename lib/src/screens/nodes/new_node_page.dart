@@ -79,7 +79,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(13.0),
+                  padding: const EdgeInsetsDirectional.all(13.0),
                   child: Text(tr(context).checkingNodeConnection,
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
@@ -117,7 +117,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
         content: Form(
             key: _formKey,
             child: Container(
-                margin: EdgeInsets.only(top: 50, left: 15, right: 15),
+                margin: EdgeInsetsDirectional.only(top: 50, start: 15, end: 15),
                 decoration: BoxDecoration(
                     border: Border.all(
                         color: settingsStore.isDarkTheme
@@ -127,20 +127,20 @@ class NewNodeFormState extends State<NewNodePageForm> {
                     color: settingsStore.isDarkTheme
                         ? Color(0xff24242F)
                         : Color(0xffEDEDED)),
-                padding: EdgeInsets.only(
+                padding: EdgeInsetsDirectional.only(
                   top: 10,
                 ),
                 child: Column(
                   children: <Widget>[
                     Padding(
-                      padding: const EdgeInsets.all(15.0),
+                      padding: const EdgeInsetsDirectional.all(15.0),
                       child: Text(tr(context).addNode,
                           style: TextStyle(
                               backgroundColor: Colors.transparent,
                               fontWeight: FontWeight.bold, fontSize: 19)),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
+                      padding: const EdgeInsetsDirectional.only(start: 20, end: 20),
                       child: TextFormField(
                           controller: _nodeAddressController,
                           decoration: InputDecoration(
@@ -155,7 +155,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                 borderSide: BorderSide(color: Colors.red),
                                 borderRadius: BorderRadius.circular(8),
                               ),
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: EdgeInsetsDirectional.symmetric(
                                   horizontal: 8, vertical: 10),
                               border: OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.transparent),
@@ -176,7 +176,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                     ),
                     Padding(
                       padding:
-                          const EdgeInsets.only(top: 8.0, left: 20, right: 20),
+                          const EdgeInsetsDirectional.only(top: 8.0, start: 20, end: 20),
                       child: TextFormField(
                           controller: _nodePortController,
                           keyboardType:
@@ -198,7 +198,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff77778B)
                                       : Color(0xff77778B)),
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: EdgeInsetsDirectional.symmetric(
                                   horizontal: 8, vertical: 10),
                               errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red),
                               errorBorder: OutlineInputBorder(
@@ -223,7 +223,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                     ),
                     Padding(
                       padding:
-                          const EdgeInsets.only(top: 8.0, left: 20, right: 20),
+                          const EdgeInsetsDirectional.only(top: 8.0, start: 20, end: 20),
                       child: TextFormField(
                           controller: _nodenameController,
                           decoration: InputDecoration(
@@ -234,7 +234,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
                             contentPadding:
-                                EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                                EdgeInsetsDirectional.symmetric(horizontal: 8, vertical: 10),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: settingsStore.isDarkTheme
@@ -254,7 +254,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                     ),
                     Padding(
                       padding:
-                          const EdgeInsets.only(top: 8.0, left: 20, right: 20),
+                          const EdgeInsetsDirectional.only(top: 8.0, start: 20, end: 20),
                       child: TextFormField(
                           controller: _loginController,
                           decoration: InputDecoration(
@@ -265,7 +265,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
                             contentPadding:
-                                EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                                EdgeInsetsDirectional.symmetric(horizontal: 8, vertical: 10),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: settingsStore.isDarkTheme
@@ -285,7 +285,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                     ),
                     Padding(
                       padding:
-                          const EdgeInsets.only(top: 8.0, left: 20, right: 20),
+                          const EdgeInsetsDirectional.only(top: 8.0, start: 20, end: 20),
                       child: TextFormField(
                           controller: _passwordController,
                           decoration: InputDecoration(
@@ -296,7 +296,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
                             contentPadding:
-                                EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                                EdgeInsetsDirectional.symmetric(horizontal: 8, vertical: 10),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: settingsStore.isDarkTheme
@@ -320,9 +320,9 @@ class NewNodeFormState extends State<NewNodePageForm> {
                             height: 10,
                           )
                         : Container(
-                            padding: EdgeInsets.only(left: 20, right: 20),
-                            margin: EdgeInsets.only(
-                                left: 20, right: 20, top: 10, bottom: 10),
+                            padding: EdgeInsetsDirectional.only(start: 20, end: 20),
+                            margin: EdgeInsetsDirectional.only(
+                                start: 20, end: 20, top: 10, bottom: 10),
                             height: MediaQuery.sizeOf(context).height * 0.20 / 3,
                             decoration: BoxDecoration(
                                 color: settingsStore.isDarkTheme
@@ -344,7 +344,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                     ? Center(
                                         child: Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 10.0),
+                                            const EdgeInsetsDirectional.only(start: 10.0),
                                         child: Text(tr(context).checking,
                                             style: TextStyle(
                                               backgroundColor: Colors.transparent,
@@ -359,7 +359,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                       ))
                                     : Padding(
                                         padding:
-                                            const EdgeInsets.only(left: 10.0),
+                                            const EdgeInsetsDirectional.only(start: 10.0),
                                         child: Text(
                                             newNodePageChangeNotifier
                                                     .isNodeChecked
@@ -382,7 +382,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                             )),
                     Container(
                       height: MediaQuery.sizeOf(context).height * 0.26 / 3,
-                      padding: EdgeInsets.only(left: 15.0, right: 15),
+                      padding: EdgeInsetsDirectional.only(start: 15.0, end: 15),
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: settingsStore.isDarkTheme
@@ -396,7 +396,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                              padding: const EdgeInsets.only(left: 8.0),
+                              padding: const EdgeInsetsDirectional.only(start: 8.0),
                               child: GestureDetector(
                                   onTap: () async {
                                     if (!(_formKey.currentState?.validate() ?? false)) {
@@ -438,7 +438,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                               ),
                           Row(children: [
                             Padding(
-                              padding: const EdgeInsets.all(10.0),
+                              padding: const EdgeInsetsDirectional.all(10.0),
                               child: GestureDetector(
                                   onTap: () {
                                     Navigator.pop(context);
@@ -459,7 +459,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                                   3))),
                             ),
                             Padding(
-                              padding: const EdgeInsets.all(10.0),
+                              padding: const EdgeInsetsDirectional.all(10.0),
                               child: GestureDetector(
                                   onTap: newNodePageChangeNotifier.isNodeChecked
                                       ? () async {

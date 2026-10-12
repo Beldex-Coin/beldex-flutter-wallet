@@ -526,7 +526,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                             .clear();
                                                       }),
                                                   contentPadding:
-                                                  EdgeInsets.fromLTRB(
+                                                  EdgeInsetsDirectional.fromSTEB(
                                                           20.0,
                                                           15.0,
                                                           20.0,

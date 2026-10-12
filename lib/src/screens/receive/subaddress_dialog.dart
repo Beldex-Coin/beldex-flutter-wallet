@@ -57,8 +57,8 @@ class AddSubAddress extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
                       height: MediaQuery.sizeOf(context).height * 1 / 3,
-                      margin: EdgeInsets.only(
-                          left: 10, right: 10, bottom: 10, top: 10),
+                      margin: EdgeInsetsDirectional.only(
+                          start: 10, end: 10, bottom: 10, top: 10),
                       decoration: BoxDecoration(
                         color: Color(0xff272733),
                         borderRadius: BorderRadius.circular(10),
@@ -68,7 +68,7 @@ class AddSubAddress extends StatelessWidget {
                         children: [
                           Padding(
                             padding:
-                                const EdgeInsets.only(left: 40.0, right: 40),
+                                const EdgeInsetsDirectional.only(start: 40.0, end: 40),
                             child: Form(
                                 key: _formKey,
                                 child: Stack(children: <Widget>[

@@ -6,8 +6,8 @@ import '../../l10n.dart';
 
 Widget noInternet(SettingsStore settingsStore, double _screenWidth, AppLocalizations t) {
   return Card(
-    margin: EdgeInsets.only(
-        top: 15, left: 10, right: 10, bottom: 15),
+    margin: EdgeInsetsDirectional.only(
+        top: 15, start: 10, end: 10, bottom: 15),
     elevation: 0,
     color: settingsStore.isDarkTheme
         ? Color(0xff24242f)

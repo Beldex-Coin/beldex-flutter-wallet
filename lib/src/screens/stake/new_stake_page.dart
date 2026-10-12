@@ -121,15 +121,15 @@ class NewStakeFormState extends State<NewStakeForm>
               elevation: 2,
               color: Theme.of(context).cardColor,
               //Color.fromARGB(255, 40, 42, 51),
-              margin: EdgeInsets.only(
-                  left: constants.leftPx, right: constants.rightPx, top: 30),
+              margin: EdgeInsetsDirectional.only(
+                  start: constants.leftPx, end: constants.rightPx, top: 30),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15)),
               child: Container(
                 color: Colors.transparent,
                 width: MediaQuery.sizeOf(context).width,
                 padding:
-                    EdgeInsets.only(top: 25, left: 25, right: 25, bottom: 10),
+                    EdgeInsetsDirectional.only(top: 25, start: 25, end: 25, bottom: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -185,7 +185,7 @@ class NewStakeFormState extends State<NewStakeForm>
               ),
             ),
             /* Container(
-              padding: EdgeInsets.only(left: 18, right: 18),
+              padding: EdgeInsetsDirectional.only(start: 18, end: 18),
               decoration: BoxDecoration(
                   color: Theme.of(context).backgroundColor,
                   boxShadow: [
@@ -261,9 +261,9 @@ class NewStakeFormState extends State<NewStakeForm>
             Form(
               key: _formKey,
               child: Container(
-                padding: EdgeInsets.only(
-                    left: constants.leftPx,
-                    right: constants.rightPx,
+                padding: EdgeInsetsDirectional.only(
+                    start: constants.leftPx,
+                    end: constants.rightPx,
                     top: 25,
                     bottom: 30),
                 child: Column(children: <Widget>[
@@ -280,7 +280,7 @@ class NewStakeFormState extends State<NewStakeForm>
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 20),
+                    padding: const EdgeInsetsDirectional.only(top: 20),
                     child: Card(
                       elevation: 2,
                       color: Theme.of(context)
@@ -288,7 +288,7 @@ class NewStakeFormState extends State<NewStakeForm>
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 25.0),
+                        padding: const EdgeInsetsDirectional.only(start: 25.0),
                         child: TextFormField(
                             style: TextStyle(
                                 fontSize: 18.0,
@@ -317,7 +317,7 @@ class NewStakeFormState extends State<NewStakeForm>
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+                    padding: const EdgeInsetsDirectional.only(top: 20.0, bottom: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
@@ -388,7 +388,7 @@ class NewStakeFormState extends State<NewStakeForm>
                     shape: CircleBorder(),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(8.0 * animationController.value),
+                    padding: EdgeInsetsDirectional.all(8.0 * animationController.value),
                     child: child,
                   ),
                 );
@@ -445,7 +445,7 @@ class NewStakeFormState extends State<NewStakeForm>
                             ClipOval(
                               clipBehavior: Clip.antiAlias,
                               child: Container(
-                                padding: EdgeInsets.all(8.0),
+                                padding: EdgeInsetsDirectional.all(8.0),
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(colors: [
                                     Colors.green.shade600,
@@ -464,7 +464,7 @@ class NewStakeFormState extends State<NewStakeForm>
                                     width: 75,
 // this width forces the container to be a circle
                                     height: 75,
-                                    padding: EdgeInsets.all(20),
+                                    padding: EdgeInsetsDirectional.all(20),
                                     decoration: BoxDecoration(
                                       color: Theme.of(context).backgroundColor,
                                       border: Border.all(

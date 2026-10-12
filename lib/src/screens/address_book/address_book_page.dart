@@ -29,7 +29,7 @@ class AddressBookPage extends BasePage {
     if (!isEditable) return null;
     final addressBookStore = Provider.of<AddressBookStore>(context);
     return Container(
-      margin: EdgeInsets.only(right: 15),
+      margin: EdgeInsetsDirectional.only(end: 15),
       child: IconButton(
         icon: SvgPicture.asset('assets/images/new-images/menu_add_address.svg'),
         onPressed: () async {
@@ -92,8 +92,8 @@ class AddressBookPage extends BasePage {
                                 MediaQuery.sizeOf(context).height * 0.55 / 3,
                             width: double.infinity,
                             margin:
-                                EdgeInsets.only(left: 15, right: 15, top: 10),
-                            padding: EdgeInsets.all(10),
+                                EdgeInsetsDirectional.only(start: 15, end: 15, top: 10),
+                            padding: EdgeInsetsDirectional.all(10),
                             decoration: BoxDecoration(
                                 border: Border.all(
                                   color: Color(0xffDADADA),
@@ -114,8 +114,8 @@ class AddressBookPage extends BasePage {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 8.0,
+                                        padding: const EdgeInsetsDirectional.only(
+                                          start: 8.0,
                                         ),
                                         child: Text(
                                           contact.name,
@@ -138,7 +138,7 @@ class AddressBookPage extends BasePage {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding: const EdgeInsetsDirectional.all(8.0),
                                   child: Text(contact.address,
                                       style: TextStyle(
                                           fontSize: MediaQuery.of(context)
@@ -207,9 +207,9 @@ class AddressBookPage extends BasePage {
                                     0.55 /
                                     3,
                                 width: double.infinity,
-                                margin: EdgeInsets.only(
-                                    left: 15.0, right: 15, top: 10),
-                                padding: EdgeInsets.all(10),
+                                margin: EdgeInsetsDirectional.only(
+                                    start: 15.0, end: 15, top: 10),
+                                padding: EdgeInsetsDirectional.all(10),
                                 decoration: BoxDecoration(
                                     border: Border.all(
                                       color: Color(0xffDADADA),
@@ -231,8 +231,8 @@ class AddressBookPage extends BasePage {
                                         children: [
                                           Expanded(
                                             child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 8.0,
+                                              padding: const EdgeInsetsDirectional.only(
+                                                start: 8.0,
                                               ),
                                               child: Text(
                                                 contact.name,
@@ -266,7 +266,7 @@ class AddressBookPage extends BasePage {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.all(8.0),
+                                      padding: const EdgeInsetsDirectional.all(8.0),
                                       child: Text(contact.address,
                                           style: TextStyle(
                                               fontSize: MediaQuery.of(context)

@@ -2,7 +2,6 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
-import 'package:beldex_coin/src/structs/ut8_box.dart';
 import 'package:beldex_coin/src/structs/status_and_error.dart';
 
 typedef CreateWallet = status_and_error Function(

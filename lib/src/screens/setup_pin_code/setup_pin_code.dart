@@ -81,7 +81,7 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                 child: Container(
                   height: 170,
                   child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsetsDirectional.all(12.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -145,7 +145,7 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                 child: Container(
                   height: 170,
                   child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsetsDirectional.all(12.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

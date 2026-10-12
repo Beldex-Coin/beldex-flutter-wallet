@@ -19,8 +19,8 @@ void showSwapInitiatingTransactionDialog(BuildContext context, SettingsStore set
             children: [
               // Blurred card container
               Container(
-                margin: const EdgeInsets.only(top: 30),
-                padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
+                margin: const EdgeInsetsDirectional.only(top: 30),
+                padding: const EdgeInsetsDirectional.fromSTEB(20, 40, 20, 20),
                 decoration: BoxDecoration(
                   color:  settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xfff3f3f3),
                   borderRadius: BorderRadius.circular(16),
@@ -53,7 +53,7 @@ void showSwapInitiatingTransactionDialog(BuildContext context, SettingsStore set
 
               // Circular loader icon
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsetsDirectional.all(12),
                 decoration: BoxDecoration(
                   color: settingsStore.isDarkTheme ? Color(0xff30303F) : Color(0xffF3F3F3),
                   shape: BoxShape.circle,

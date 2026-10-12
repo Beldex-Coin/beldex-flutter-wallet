@@ -101,7 +101,7 @@ class _RestoreFromSeedDetailsFormState
       },
       child: ScrollableWithBottomSection(
         contentPadding:
-            EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0, top: 10),
+        EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0, top: 10),
         content: Form(
           key: _formKey,
           child: Column(

@@ -147,7 +147,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
             width: MediaQuery.sizeOf(context).width,
@@ -167,7 +167,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       child: IntrinsicHeight(
                         child: Card(
                           margin:
-                          EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 15),
+                          EdgeInsetsDirectional.only(top: 15, start: 10, end: 10, bottom: 15),
                           elevation: 0,
                           color: settingsStore.isDarkTheme
                               ? Color(0xff24242f)
@@ -176,7 +176,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Container(
-                            padding: const EdgeInsets.all(15.0),
+                            padding: const EdgeInsetsDirectional.all(15.0),
                             width: _screenWidth,
                             height: double.infinity,
                             child: exchangeCompletedScreen(settingsStore, transactionModel, networkProvider),
@@ -198,7 +198,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
         //Completed Details
         Container(
           width: MediaQuery.sizeOf(context).width,
-          margin: EdgeInsets.only(left: 6, right: 6, top: 20, bottom: 20),
+          margin: EdgeInsetsDirectional.only(start: 6, end: 6, top: 20, bottom: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -227,8 +227,8 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
               //Transaction ID Details
               Container(
                   width: MediaQuery.sizeOf(context).width,
-                  margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsetsDirectional.only(top: 10.0, bottom: 10.0),
+                  padding: EdgeInsetsDirectional.all(10),
                   decoration: BoxDecoration(
                     color: settingsStore.isDarkTheme
                         ? Colors.transparent
@@ -304,7 +304,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                   //Amount from and Amount To Details
                   TableRow(children: [
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: const EdgeInsetsDirectional.only(
                         top: 10.0,
                       ),
                       child: Column(
@@ -335,7 +335,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                      padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -367,7 +367,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                   //Received Time and Amount Sent Details
                   TableRow(children: [
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: const EdgeInsetsDirectional.only(
                         top: 10.0,
                       ),
                       child: Column(
@@ -398,7 +398,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                      padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -430,7 +430,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                   //Exchange Rate and Network fee Details
                   TableRow(children: [
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: const EdgeInsetsDirectional.only(
                         top: 10.0,
                       ),
                       child: Column(
@@ -461,7 +461,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                      padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -495,7 +495,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
               //Recipient Address Details
               Container(
                 width: MediaQuery.sizeOf(context).width,
-                margin: EdgeInsets.only(top: 10),
+                margin: EdgeInsetsDirectional.only(top: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -526,7 +526,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
               //Memo Details
               Container(
                 width: MediaQuery.sizeOf(context).width,
-                margin: EdgeInsets.only(top: 10),
+                margin: EdgeInsetsDirectional.only(top: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -562,7 +562,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
             //Input Hash and Output Hash
             TableRow(children: [
               Container(
-                margin: EdgeInsets.only(right: 5),
+                margin: EdgeInsetsDirectional.only(end: 5),
                 child: ElevatedButton(
                   onPressed: () {
                     showAlertDialog(context, transactionModel.result![0].payinHash!, transactionModel.result![0].payoutHash!);
@@ -571,7 +571,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                     backgroundColor: settingsStore.isDarkTheme
                         ? Color(0xff242433)
                         : Color(0xffDADADA),
-                    padding: EdgeInsets.only(
+                    padding: EdgeInsetsDirectional.only(
                       top: 10,
                       bottom: 10,
                     ),
@@ -618,7 +618,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
             //Open History and New Transaction
             TableRow(children: [
               Container(
-                margin: EdgeInsets.only(right: 5),
+                margin: EdgeInsetsDirectional.only(end: 5),
                 child: ElevatedButton(
                   onPressed: () {
                     if(networkProvider.isConnected) {
@@ -639,7 +639,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                     backgroundColor: settingsStore.isDarkTheme
                         ? Color(0xff32324A)
                         : Color(0xffFFFFFF),
-                    padding: EdgeInsets.only(
+                    padding: EdgeInsetsDirectional.only(
                       top: 10,
                       bottom: 10,
                     ),
@@ -658,7 +658,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 5),
+                margin: EdgeInsetsDirectional.only(start: 5),
                 child: ElevatedButton(
                   onPressed: () {
                     if(networkProvider.isConnected) {
@@ -677,7 +677,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff0BA70F),
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    padding: EdgeInsetsDirectional.only(top: 10, bottom: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),

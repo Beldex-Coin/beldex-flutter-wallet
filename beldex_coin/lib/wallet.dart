@@ -140,7 +140,6 @@ class SyncListener {
   Timer? _updateSyncInfoTimer;
   int _cachedBlockchainHeight = 0;
   int _lastKnownBlockHeight = 0;
-  int _initialSyncHeight = 0;
 
   Future<int> getNodeHeightOrUpdate(int baseHeight) async {
     if (_cachedBlockchainHeight < baseHeight || _cachedBlockchainHeight == 0) {
@@ -153,7 +152,6 @@ class SyncListener {
   void start() {
     _cachedBlockchainHeight = 0;
     _lastKnownBlockHeight = 0;
-    _initialSyncHeight = 0;
     _updateSyncInfoTimer ??=
         Timer.periodic(Duration(milliseconds: 1200), (_) async {
 

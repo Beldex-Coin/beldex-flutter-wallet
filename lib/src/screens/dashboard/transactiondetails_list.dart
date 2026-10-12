@@ -62,7 +62,7 @@ class TransactionDetailsListBodyState
                   : Color(0xffffffff),
               leading: Container(
                 color: Colors.transparent,
-                padding: EdgeInsets.only(top: 10),
+                padding: EdgeInsetsDirectional.only(top: 10),
                 alignment: Alignment.centerLeft,
                 child: ButtonTheme(
                   buttonColor: Colors.transparent,
@@ -89,7 +89,7 @@ class TransactionDetailsListBodyState
               ),
               centerTitle: true,
               title: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
+                padding: const EdgeInsetsDirectional.only(top: 8.0),
                 child: Text(
                   tr(context).transactions,
                   style: TextStyle(backgroundColor:Colors.transparent,fontSize: 18, fontWeight: FontWeight.w700),
@@ -98,7 +98,7 @@ class TransactionDetailsListBodyState
               actions: [
                 Container(
                   margin:
-                      EdgeInsets.only(left: 15, right: 0, bottom: 15.0, top: 8),
+                      EdgeInsetsDirectional.only(start: 15, end: 0, bottom: 15.0, top: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     //color: Colors.yellow,
@@ -108,7 +108,7 @@ class TransactionDetailsListBodyState
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(right: 20, top: 10),
+                        padding: EdgeInsetsDirectional.only(end: 20, top: 10),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -256,7 +256,7 @@ class TransactionDetailsListBodyState
                               : Color(0xffEDEDED),
                 borderRadius: BorderRadius.circular(10)
               ),
-              margin: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: MediaQuery.of(context).viewPadding.bottom),
+              margin: EdgeInsetsDirectional.only(top: 10, start: 10, end: 10, bottom: MediaQuery.of(context).viewPadding.bottom),
               child: ListView.builder(
                   key: _listKey,
                   itemCount: itemsCount,
@@ -274,8 +274,8 @@ class TransactionDetailsListBodyState
                     if (index < 0 || index >= items.length) {
                       return Container(
                         height: MediaQuery.sizeOf(context).height * 2.6 / 3,
-                        margin: EdgeInsets.only(
-                            top: 8.0, bottom: 10.0, right: 15.0, left: 15.0),
+                        margin: EdgeInsetsDirectional.only(
+                            top: 8.0, bottom: 10.0, end: 15.0, start: 15.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           color: settingsStore.isDarkTheme
@@ -292,7 +292,7 @@ class TransactionDetailsListBodyState
                                     'assets/images/new-images/notrans_white.svg'),
                             Padding(
                               padding:
-                                  const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                                  const EdgeInsetsDirectional.only(top: 8.0, bottom: 8.0),
                               child: Text(
                                 tr(context).noTransactionsYet,
                                 style: TextStyle(backgroundColor:Colors.transparent,
@@ -363,7 +363,7 @@ class TransactionDetailsListBodyState
               child: Container(
                 height: 170,
                 child: Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsetsDirectional.all(12.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,

@@ -32,12 +32,12 @@ class ScrollableWithBottomSectionState
             children: <Widget>[
               Padding(
                 padding: widget.contentPadding ??
-                    EdgeInsets.only(left: 20, right: 20),
+                    EdgeInsetsDirectional.only(start: 20, end: 20),
                 child: widget.content,
               ),
               Padding(
                   padding: widget.bottomSectionPadding ??
-                      EdgeInsets.only(bottom: 20, right: 20, left: 20),
+                      EdgeInsetsDirectional.only(bottom: 20, end: 20, start: 20),
                   child: widget.bottomSection)
             ],
           ),

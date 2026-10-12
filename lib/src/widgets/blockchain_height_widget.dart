@@ -45,9 +45,9 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                   ),
-                  margin: EdgeInsets.only(top: 20.0),
+                  margin: EdgeInsetsDirectional.only(top: 20.0),
                   child: Container(
-                    padding: EdgeInsets.only(left: 30,top:5,bottom: 5),
+                    padding: EdgeInsetsDirectional.only(start: 30,top:5,bottom: 5),
               child: TextFormField(
                 style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
                   controller: restoreHeightController,
@@ -80,9 +80,9 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)
                   ),
-                  margin: EdgeInsets.only(top: 20.0),
+                  margin: EdgeInsetsDirectional.only(top: 20.0),
                   child: Container(
-                    padding: EdgeInsets.only(left: 30,top:5,bottom:5,right:10),
+                    padding: EdgeInsetsDirectional.only(start: 30,top:5,bottom:5,end:10),
               child: InkWell(
                   onTap: () => selectDate(context,settingsStore),
                   child: IgnorePointer(
@@ -130,7 +130,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
           },
           child: Container(
             height:50,
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsetsDirectional.all(10),
             decoration: BoxDecoration(
               color:Color(0xff2979FB),
               borderRadius: BorderRadius.circular(10)

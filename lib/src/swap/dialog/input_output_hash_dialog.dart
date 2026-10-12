@@ -35,7 +35,7 @@ class InputOutputDialog extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
         child: Container(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsetsDirectional.all(15),
           decoration:
           BoxDecoration(color: Color(0xff171720).withValues(alpha: 0.55)),
           child: Column(
@@ -43,7 +43,7 @@ class InputOutputDialog extends StatelessWidget {
             children: [
               Container(
                   width: double.infinity,
-                  padding: EdgeInsets.only(top:15, bottom: 15, left: 10, right: 10),
+                  padding: EdgeInsetsDirectional.only(top:15, bottom: 15, start: 10, end: 10),
                   decoration: BoxDecoration(
                       color: settingsStore.isDarkTheme ? Color(0xFF272733) : Colors.white,
                       borderRadius: BorderRadius.circular(10)),
@@ -61,15 +61,15 @@ class InputOutputDialog extends StatelessWidget {
                         decoration: BoxDecoration(
                             color: settingsStore.isDarkTheme ? Color(0xFF383848) : Color(0xFFEDEDED),
                             borderRadius: BorderRadius.circular(10)),
-                        margin: EdgeInsets.only(top: 15, left: 8, right: 8, bottom: 8),
+                        margin: EdgeInsetsDirectional.only(top: 15, start: 8, end: 8, bottom: 8),
                         child: Column(
                           children: [
                             Padding(
-                                padding: EdgeInsets.only(top: 10, bottom: 15),
+                                padding: EdgeInsetsDirectional.only(top: 10, bottom: 15),
                                 child: Column(
                                   children: [
                                     Container(
-                                      margin: EdgeInsets.only(left: 10, right: 15),
+                                      margin: EdgeInsetsDirectional.only(start: 10, end: 15),
                                       child:  Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
@@ -102,8 +102,8 @@ class InputOutputDialog extends StatelessWidget {
                                       ),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(top: 8, bottom: 15, left: 10, right: 10),
-                                      padding: EdgeInsets.all(5),
+                                      margin: EdgeInsetsDirectional.only(top: 8, bottom: 15, start: 10, end: 10),
+                                      padding: EdgeInsetsDirectional.all(5),
                                       decoration: BoxDecoration(
                                           color: settingsStore.isDarkTheme ? Color(0xFF47475E) : Colors.white,
                                           borderRadius: BorderRadius.circular(10)),
@@ -116,7 +116,7 @@ class InputOutputDialog extends StatelessWidget {
                                               color: settingsStore.isDarkTheme ? Color(0xFFFFFFFF) : Color(0xFF222222))),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(left: 10, right: 15),
+                                      margin: EdgeInsetsDirectional.only(start: 10, end: 15),
                                       child:  Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
@@ -149,8 +149,8 @@ class InputOutputDialog extends StatelessWidget {
                                       ),
                                     ),
                                     Container(
-                                      margin: EdgeInsets.only(top: 8, left: 10, right: 10),
-                                      padding: EdgeInsets.all(5),
+                                      margin: EdgeInsetsDirectional.only(top: 8, start: 10, end: 10),
+                                      padding: EdgeInsetsDirectional.all(5),
                                       decoration: BoxDecoration(
                                           color: settingsStore.isDarkTheme ? Color(0xFF47475E) : Colors.white,
                                           borderRadius: BorderRadius.circular(10)),

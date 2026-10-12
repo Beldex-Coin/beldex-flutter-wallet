@@ -52,7 +52,7 @@ class ChangelogPage extends BasePage {
                     selectionColor: Colors.green
                   )),
               child: Container(
-                    margin: EdgeInsets.only(left:15,right:15.0,bottom:8.0),
+                    margin: EdgeInsetsDirectional.only(start:15,end:15.0,bottom:8.0),
                     decoration: BoxDecoration(
                       border: Border.all(color: settingsStore.isDarkTheme ? Color(0xff434359) : Color(0xffDADADA)),
                       borderRadius: BorderRadius.circular(10)
@@ -67,7 +67,7 @@ class ChangelogPage extends BasePage {
                       children: <Widget>[
                         Expanded(
                             child: Container(
-                                padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                                padding: EdgeInsetsDirectional.only(start: 15.0, end: 15.0),
                                 child: Text('$versionChangesText\n')))
                       ],
                     )
