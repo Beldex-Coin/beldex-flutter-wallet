@@ -84,7 +84,6 @@ dependencies:
   fluttertoast: ^9.0.0
   #esys_flutter_share: ^1.0.2
   #date_range_picker: ^1.0.7
-  custom_date_range_picker:
   dio: ^5.4.0
   #screen: ^0.0.5
   #floating_snackbar: any

@@ -66,6 +66,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get appstore => 'AppStore';
 
   @override
+  String get apply => '적용';
+
+  @override
   String get are_you_sure => '정말로 종료하시겠습니까?';
 
   @override
@@ -451,6 +454,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get floatingRateDescription => '변동 환율은 시장 상황에 따라 언제든지 변경될 수 있으며,예상보다 더 많거나 적은 암호화폐를 받을 수 있습니다.';
+
+  @override
+  String get fromDate => '시작';
 
   @override
   String get fourDecimals => '4자리 (0.0000)';
@@ -1397,6 +1403,9 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get title_stakes => '스테이킹';
+
+  @override
+  String get toDate => '종료';
 
   @override
   String get today => '오늘';

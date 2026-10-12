@@ -418,7 +418,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
         initialEntryMode:DatePickerEntryMode.calendarOnly,
         context: context,
         initialDate: now.subtract(Duration(days: 1)),
-        firstDate: DateTime(2014, DateTime.april),
+        firstDate: DateTime(2018, DateTime.april),
         lastDate: now);
 
     if (date != null) {

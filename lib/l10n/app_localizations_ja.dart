@@ -66,6 +66,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get appstore => 'AppStore';
 
   @override
+  String get apply => '適用';
+
+  @override
   String get are_you_sure => 'よろしいですか？';
 
   @override
@@ -451,6 +454,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get floatingRateDescription => '変動レートは市場状況によりいつでも変動する可能性があり、予想より多くまたは少ない暗号資産を受け取る場合があります。';
+
+  @override
+  String get fromDate => '開始';
 
   @override
   String get fourDecimals => '4桁 - 0.0000';
@@ -1397,6 +1403,9 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get title_stakes => 'ステーク';
+
+  @override
+  String get toDate => '終了';
 
   @override
   String get today => '今日';

@@ -66,6 +66,9 @@ class AppLocalizationsFr extends AppLocalizations {
   String get appstore => 'AppStore';
 
   @override
+  String get apply => 'Appliquer';
+
+  @override
   String get are_you_sure => 'Es-tu sûr?';
 
   @override
@@ -451,6 +454,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get floatingRateDescription => 'Le taux flottant peut changer à tout moment en raison des conditions du marché, vous pourriez recevoir plus ou moins de crypto que prévu.';
+
+  @override
+  String get fromDate => 'Du';
 
   @override
   String get fourDecimals => '4 - Four (0.0000)';
@@ -1397,6 +1403,9 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get title_stakes => 'Stakes';
+
+  @override
+  String get toDate => 'Au';
 
   @override
   String get today => 'Aujourd’hui';

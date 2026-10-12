@@ -66,6 +66,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get appstore => 'AppStore';
 
   @override
+  String get apply => 'Áp dụng';
+
+  @override
   String get are_you_sure => 'Xác nhận?';
 
   @override
@@ -451,6 +454,9 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get floatingRateDescription => 'Tỷ giá có thể thay đổi bất cứ lúc nào do điều kiện thị trường, vì vậy bạn có thể nhận được nhiều hoặc ít crypto hơn dự kiến.';
+
+  @override
+  String get fromDate => 'Từ';
 
   @override
   String get fourDecimals => '4 - Bốn (0.0000)';
@@ -1397,6 +1403,9 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get title_stakes => 'Các khoản stake';
+
+  @override
+  String get toDate => 'Đến';
 
   @override
   String get today => 'Hôm nay';

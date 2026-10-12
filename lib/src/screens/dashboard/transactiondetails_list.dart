@@ -1,5 +1,5 @@
 //import 'package:date_range_picker/date_range_picker.dart' as date_rage_picker;
-import 'package:custom_date_range_picker/custom_date_range_picker.dart';
+import '../../widgets/custom_date_range_picker/custom_date_range_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -215,12 +215,11 @@ class TransactionDetailsListBodyState
                                                 .transactions_by_date,style: TextStyle(backgroundColor: Colors.transparent),)),
                                       ],
                                       onSelected: (item) {
-                                        print('item length --> $item');
                                         if (item == 2) {
                                           showCustomDateRangePicker(
                                             context,
                                             dismissible: false,
-                                            minimumDate: DateTime(2018),
+                                            minimumDate: DateTime(2018, DateTime.april),
                                             maximumDate: DateTime.now(),
                                             onApplyClick: (DateTime start,DateTime end){
                                               actionListStore.transactionFilterStore.changeStartDate(start);

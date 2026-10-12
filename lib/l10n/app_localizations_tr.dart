@@ -66,6 +66,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get appstore => 'AppStore';
 
   @override
+  String get apply => 'Uygula';
+
+  @override
   String get are_you_sure => 'Emin misiniz?';
 
   @override
@@ -451,6 +454,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get floatingRateDescription => 'Değişken oran, piyasa koşullarına bağlı olarak herhangi bir anda değişebilir, bu nedenle beklediğinizden daha fazla veya daha az kripto alabilirsiniz.';
+
+  @override
+  String get fromDate => 'Başlangıç';
 
   @override
   String get fourDecimals => '4 - Dört (0.0000)';
@@ -1397,6 +1403,9 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get title_stakes => 'Stake\'ler';
+
+  @override
+  String get toDate => 'Bitiş';
 
   @override
   String get today => 'Bugün';

@@ -66,6 +66,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get appstore => 'AppStore';
 
   @override
+  String get apply => 'Применить';
+
+  @override
   String get are_you_sure => 'Вы уверены?';
 
   @override
@@ -451,6 +454,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get floatingRateDescription => 'Плавающий курс может измениться в любой момент в зависимости от рыночных условий, поэтому вы можете получить больше или меньше криптовалюты, чем ожидалось.';
+
+  @override
+  String get fromDate => 'От';
 
   @override
   String get fourDecimals => '4 — Четыре (0.0000)';
@@ -1397,6 +1403,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get title_stakes => 'Стейки';
+
+  @override
+  String get toDate => 'До';
 
   @override
   String get today => 'Сегодня';

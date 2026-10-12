@@ -66,6 +66,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get appstore => 'AppStore';
 
   @override
+  String get apply => 'تطبيق';
+
+  @override
   String get are_you_sure => 'هل أنت متأكد؟';
 
   @override
@@ -451,6 +454,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get floatingRateDescription => 'يمكن أن يتغير السعر العائم في أي وقت\nبسبب ظروف السوق، لذلك قد\nتتلقى عملات رقمية أكثر أو أقل من المتوقع';
+
+  @override
+  String get fromDate => 'من';
 
   @override
   String get fourDecimals => ' 4 - أربعة (0.0000)';
@@ -1397,6 +1403,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get title_stakes => 'الحصص';
+
+  @override
+  String get toDate => 'إلى';
 
   @override
   String get today => 'اليوم';

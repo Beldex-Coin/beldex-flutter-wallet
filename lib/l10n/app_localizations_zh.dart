@@ -66,6 +66,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get appstore => 'AppStore';
 
   @override
+  String get apply => '应用';
+
+  @override
   String get are_you_sure => '您确定吗？';
 
   @override
@@ -451,6 +454,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get floatingRateDescription => '由于市场情况，浮动汇率可能随时发生变化，因此您实际收到的加密货币可能多于或少于预期。';
+
+  @override
+  String get fromDate => '开始';
 
   @override
   String get fourDecimals => '4 - 四位 (0.0000)';
@@ -1397,6 +1403,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get title_stakes => '质押';
+
+  @override
+  String get toDate => '结束';
 
   @override
   String get today => '今天';

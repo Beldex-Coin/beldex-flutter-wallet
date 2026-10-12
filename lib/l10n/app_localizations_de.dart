@@ -66,6 +66,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get appstore => 'AppStore';
 
   @override
+  String get apply => 'Anwenden';
+
+  @override
   String get are_you_sure => 'Sind Sie sicher?';
 
   @override
@@ -451,6 +454,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get floatingRateDescription => 'Der schwankende Kurs kann sich jederzeit aufgrund der Marktbedingungen ändern, sodass Sie möglicherweise mehr oder weniger Krypto erhalten als erwartet.';
+
+  @override
+  String get fromDate => 'Von';
 
   @override
   String get fourDecimals => '4 - Vier (0.0000)';
@@ -1397,6 +1403,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get title_stakes => 'Stakes';
+
+  @override
+  String get toDate => 'Bis';
 
   @override
   String get today => 'Heute';

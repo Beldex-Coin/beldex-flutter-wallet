@@ -229,6 +229,12 @@ abstract class AppLocalizations {
   /// **'AppStore'**
   String get appstore;
 
+  /// No description provided for @apply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get apply;
+
   /// No description provided for @are_you_sure.
   ///
   /// In en, this message translates to:
@@ -966,6 +972,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The floating rate can change at any point due to market conditions, so you might receive more or less crypto than expected.'**
   String get floatingRateDescription;
+
+  /// No description provided for @fromDate.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get fromDate;
 
   /// No description provided for @fourDecimals.
   ///
@@ -2742,6 +2754,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Stakes'**
   String get title_stakes;
+
+  /// No description provided for @toDate.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get toDate;
 
   /// No description provided for @today.
   ///
