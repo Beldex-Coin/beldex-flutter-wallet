@@ -113,6 +113,7 @@ class ChangeLanguage extends BasePage {
                                               child: Center(
                                                 child: Text(
                                                   lang.name,
+                                                  textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       fontSize: 19,
                                                       fontWeight:
@@ -129,6 +130,7 @@ class ChangeLanguage extends BasePage {
                                           child: Center(
                                             child: Text(
                                               lang.name,
+                                              textAlign: TextAlign.center,
                                               style: TextStyle(
                                                   fontSize: 19,
                                                   color: Colors.grey[800],
