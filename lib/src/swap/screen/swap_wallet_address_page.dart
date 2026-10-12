@@ -238,7 +238,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
             width: MediaQuery.sizeOf(context).width,
@@ -258,7 +258,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               child: IntrinsicHeight(
                 child: Card(
                   margin:
-                      EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 15),
+                      EdgeInsetsDirectional.only(top: 15, start: 10, end: 10, bottom: 15),
                   elevation: 0,
                   color: settingsStore.isDarkTheme
                       ? Color(0xff24242f)
@@ -267,7 +267,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Container(
-                    padding: const EdgeInsets.all(15.0),
+                    padding: const EdgeInsetsDirectional.all(15.0),
                     width: _screenWidth,
                     height: double.infinity,
                     child: walletAddressScreen(settingsStore,
@@ -304,7 +304,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         ),
         //Recipient Address Title / Destination wallet Address Title
         Container(
-          margin: EdgeInsets.only(top: 15, bottom: 10),
+          margin: EdgeInsetsDirectional.only(top: 15, bottom: 10),
           child: Text(
             tr(context).transaction_details_recipient_address,
             //'Destination wallet Address',
@@ -318,8 +318,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(bottom: 10,),
-          padding: EdgeInsets.all(10),
+          margin: EdgeInsetsDirectional.only(bottom: 10,),
+          padding: EdgeInsetsDirectional.all(10),
           decoration: BoxDecoration(
               border: Border.all(
                   color: settingsStore.isDarkTheme
@@ -331,7 +331,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 3.0),
+                padding: const EdgeInsetsDirectional.only(top: 3.0),
                 child: Icon(Icons.info_outline, size: 15, color: settingsStore.isDarkTheme
                     ? Color(0xffD1D1D3)
                     : Color(0xff737373)),
@@ -380,7 +380,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             return Column(
               children: [
                 Container(
-                  padding: EdgeInsets.only(left: 5, right: 5),
+                  padding: EdgeInsetsDirectional.only(start: 5, end: 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     color: settingsStore.isDarkTheme
@@ -408,8 +408,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         prefixIcon: Container(
-                            margin: EdgeInsets.only(right: 3, top: 5, bottom: 3,),
-                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsetsDirectional.only(end: 3, top: 5, bottom: 3,),
+                            padding: EdgeInsetsDirectional.all(10),
                             decoration: BoxDecoration(
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff333343)
@@ -431,16 +431,16 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                             ? Container(
                                 width: 15.0,
                                 height: 15.0,
-                                margin: EdgeInsets.all(10),
-                                padding: EdgeInsets.all(0),
+                                margin: EdgeInsetsDirectional.all(10),
+                                padding: EdgeInsetsDirectional.all(0),
                                 child: circularProgressBar(Color(0xff0BA70F), 2.0))
                             : InkWell(
                                 onTap: () async => _presentQRScanner(
                                     context, validateAddressProvider,to, ),
                                 child: Container(
                                   width: 10,
-                                  margin: EdgeInsets.only(top: 5, bottom: 3, left: 3),
-                                  padding: EdgeInsets.all(10),
+                                  margin: EdgeInsetsDirectional.only(top: 5, bottom: 3, start: 3),
+                                  padding: EdgeInsetsDirectional.all(10),
                                   decoration: BoxDecoration(
                                       color: settingsStore.isDarkTheme
                                           ? Color(0xff333343)
@@ -505,7 +505,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         Visibility(
           visible: _showRefundAddress,
           child: Container(
-            margin: EdgeInsets.only(top: 10, left: 10, bottom: 10),
+            margin: EdgeInsetsDirectional.only(top: 10, start: 10, bottom: 10),
             child: Text(
               tr(context).swap_refund_wallet_address,
               textAlign: TextAlign.start,
@@ -533,8 +533,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               return Column(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(bottom: 5),
-                    padding: EdgeInsets.only(left: 5, right: 5),
+                    margin: EdgeInsetsDirectional.only(bottom: 5),
+                    padding: EdgeInsetsDirectional.only(start: 5, end: 5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: settingsStore.isDarkTheme
@@ -560,8 +560,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           prefixIcon: Container(
-                              margin: EdgeInsets.only(right: 3, top: 5, bottom: 3),
-                              padding: EdgeInsets.all(10),
+                              margin: EdgeInsetsDirectional.only(end: 3, top: 5, bottom: 3),
+                              padding: EdgeInsetsDirectional.all(10),
                               decoration: BoxDecoration(
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff333343)
@@ -582,16 +582,16 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                               ? Container(
                                   width: 15.0,
                                   height: 15.0,
-                                  margin: EdgeInsets.all(10),
-                                  padding: EdgeInsets.all(0),
+                                  margin: EdgeInsetsDirectional.all(10),
+                                  padding: EdgeInsetsDirectional.all(0),
                                   child: circularProgressBar(Color(0xff0BA70F), 2.0))
                               : InkWell(
                                   onTap: () async => _presentRefundQRScanner(
                                       context, refundValidator, from ?? ''),
                                   child: Container(
                                     width: 10,
-                                    margin: EdgeInsets.only(top: 5, bottom: 3, left: 3),
-                                    padding: EdgeInsets.all(10),
+                                    margin: EdgeInsetsDirectional.only(top: 5, bottom: 3, start: 3),
+                                    padding: EdgeInsetsDirectional.all(10),
                                     decoration: BoxDecoration(
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff333343)
@@ -639,7 +639,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                     child: Align(
                       alignment: Alignment.topLeft,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 10, top: 5),
+                        padding: const EdgeInsetsDirectional.only(start: 10, top: 5),
                         child: Text(
                           refundValidator.getErrorMessage(),
                           style: TextStyle(
@@ -665,8 +665,8 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                 Visibility(
                   visible: _exchangeData.extraIdName != null && _exchangeData.extraIdName!.isNotEmpty,
                   child: Container(
-                      margin: EdgeInsets.only(bottom: 20),
-                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsetsDirectional.only(bottom: 20),
+                      padding: EdgeInsetsDirectional.all(10),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
                         color: Colors.transparent,
@@ -683,7 +683,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(top: 3.0),
+                                padding: const EdgeInsetsDirectional.only(top: 3.0),
                                 child: Icon(Icons.info_outline,
                                     size: 15,
                                     color: settingsStore.isDarkTheme
@@ -756,7 +756,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                   child: Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(left: 10, right: 5, top: 5, bottom: 5),
+                        padding: EdgeInsetsDirectional.only(start: 10, end: 5, top: 5, bottom: 5),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: settingsStore.isDarkTheme
@@ -829,7 +829,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         Visibility(
           visible: minimumAmount.trim().isNotEmpty || maximumAmount.trim().isNotEmpty,
           child: Container(
-            margin: EdgeInsets.only(bottom: 5.0, top: 5.0),
+            margin: EdgeInsetsDirectional.only(bottom: 5.0, top: 5.0),
             decoration: BoxDecoration(
                 color: Color(0xff00AD07).withAlpha(25),
                 borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -848,7 +848,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                 }
               } : null,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsetsDirectional.all(8.0),
                 child: RichText(
                   textAlign: TextAlign.start,
                   text: TextSpan(
@@ -879,7 +879,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         ),
         //Transaction Preview
         Container(
-          margin: EdgeInsets.only(left: 10.0, bottom: 10.0, top: 5.0),
+          margin: EdgeInsetsDirectional.only(start: 10.0, bottom: 10.0, top: 5.0),
           child: Text(
             tr(context).swap_transaction_preview,
             style: TextStyle(
@@ -921,7 +921,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             //Floating Exchange Rate
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                 child: Text(
                   tr(context).youSend,
                   style: TextStyle(
@@ -934,7 +934,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                    const EdgeInsetsDirectional.only(top: 10.0, start: 10.0, end: 10.0),
                 child: Text(
                   '$sendAmount ${from.toUpperCase()}',
                   style: TextStyle(
@@ -948,7 +948,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             ]),
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                 child: Text(
                   tr(context).swap_exchange_rate,
                   style: TextStyle(
@@ -961,7 +961,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                    const EdgeInsetsDirectional.only(top: 10.0, start: 10.0, end: 10.0),
                 child: Text(
                   '1 ${from.toUpperCase()} ~ $exchangeRate ${to.toUpperCase()}',
                   style: TextStyle(
@@ -975,7 +975,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             ]),
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                 child: Text(
                   tr(context).swap_service_fee,
                   style: TextStyle(
@@ -988,7 +988,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                    const EdgeInsetsDirectional.only(top: 10.0, start: 10.0, end: 10.0),
                 child: Text(
                   '$serviceFee ${to.toUpperCase()}',
                   style: TextStyle(
@@ -1002,7 +1002,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             ]),
             TableRow(children: [
               Padding(
-                padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                 child: Text(
                   tr(context).swap_network_fee,
                   style: TextStyle(
@@ -1014,7 +1014,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsetsDirectional.all(10.0),
                 child: Text(
                   '$networkFee ${to.toUpperCase()}',
                   style: TextStyle(
@@ -1031,7 +1031,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             if (false)
               TableRow(children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                  padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                   child: Text(
                     'Fixed rate',
                     style: TextStyle(
@@ -1044,7 +1044,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
+                      const EdgeInsetsDirectional.only(top: 10.0, start: 10.0, end: 10.0),
                   child: Column(
                     children: [
                       Text('1 ETH ~ 2,518.97904761 XRP',
@@ -1068,7 +1068,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             if (false)
               TableRow(children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                  padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
                   child: Text(
                     'Network fee',
                     style: TextStyle(
@@ -1080,7 +1080,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsetsDirectional.all(10.0),
                   child: Text(
                     'All fees included in the rate',
                     style: TextStyle(
@@ -1113,7 +1113,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             TableRow(children: [
               Padding(
                 padding:
-                    const EdgeInsets.only(top: 10.0, left: 10.0, bottom: 10.0),
+                    const EdgeInsetsDirectional.only(top: 10.0, start: 10.0, bottom: 10.0),
                 child: Text(
                   tr(context).swap_you_get,
                   style: TextStyle(
@@ -1125,7 +1125,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsetsDirectional.all(10.0),
                 child: Text(
                   '~ $getAmount ${to.toUpperCase()}',
                   style: TextStyle(
@@ -1142,7 +1142,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
 
         Container(
           margin:
-              EdgeInsets.only(top: 10.0, left: 5.0, right: 5.0, bottom: 10.0),
+              EdgeInsetsDirectional.only(top: 10.0, start: 5.0, end: 5.0, bottom: 10.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1255,7 +1255,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                           ? Color(0xff32324A)
                           : Color(0xffFFFFFF),
                       padding:
-                      EdgeInsets.only(top: 10, bottom: 10, left: 50, right: 50),
+                      EdgeInsetsDirectional.only(top: 10, bottom: 10, start: 50, end: 50),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
