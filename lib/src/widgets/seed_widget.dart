@@ -179,7 +179,7 @@ class SeedWidgetState extends State<SeedWidget> {
       alignment: Alignment.center,
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Container(
-          margin: EdgeInsets.only(left: 10, right: 10),
+          margin: EdgeInsetsDirectional.only(start: 10, end: 10),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -190,7 +190,7 @@ class SeedWidgetState extends State<SeedWidget> {
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
                     height: MediaQuery.sizeOf(context).height * 1 / 3,
-                    padding: EdgeInsets.all(16),
+                    padding: EdgeInsetsDirectional.all(16),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -262,8 +262,8 @@ class SeedWidgetState extends State<SeedWidget> {
                                 backgroundColor: settingsStore.isDarkTheme
                                     ? Color(0xff333343)
                                     : Color(0xffDADADA),
-                                padding: EdgeInsets.only(
-                                    top: 11, bottom: 11, left: 25, right: 25),
+                                padding: EdgeInsetsDirectional.only(
+                                    top: 11, bottom: 11, start: 25, end: 25),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
@@ -306,8 +306,8 @@ class SeedWidgetState extends State<SeedWidget> {
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
                                 backgroundColor: Color(0xff2979FB),
-                                padding: EdgeInsets.only(
-                                    top: 11, bottom: 11, left: 25, right: 25),
+                                padding: EdgeInsetsDirectional.only(
+                                    top: 11, bottom: 11, start: 25, end: 25),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),

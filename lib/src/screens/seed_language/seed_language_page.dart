@@ -74,8 +74,8 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
                     : Color(0xffEDEDED),
                 borderRadius: BorderRadius.circular(15)),
             margin:
-                EdgeInsets.only(left: 10.0, right: 10.0, top: 20, bottom: 20.0),
-            padding: EdgeInsets.only(top: 18),
+                EdgeInsetsDirectional.only(start: 10.0, end: 10.0, top: 20, bottom: 20.0),
+            padding: EdgeInsetsDirectional.only(top: 18),
             child: Column(
               children: [
                 Text(
@@ -89,7 +89,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
                 SizedBox(
                   height: MediaQuery.sizeOf(context).height * 1.3 / 3, //200,
                   child: Container(
-                      margin: EdgeInsets.only(left: 20.0, right: 10.0),
+                      margin: EdgeInsetsDirectional.only(start: 20.0, end: 10.0),
                       color: settingsStore.isDarkTheme
                           ? Color(0xff181820)
                           : Color(0xffD4D4D4),
@@ -102,7 +102,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
                         radius: Radius.circular(10.0),
                         thumbVisibility: true,
                         child: Container(
-                          margin: EdgeInsets.only(right: 8),
+                          margin: EdgeInsetsDirectional.only(end: 8),
                           color: settingsStore.isDarkTheme
                               ? Color(0xff272733)
                               : Color(0xffEDEDED),
@@ -126,7 +126,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
                                               borderRadius:
                                                   BorderRadius.circular(12)),
                                           child: Container(
-                                              padding: const EdgeInsets.only(
+                                              padding: const EdgeInsetsDirectional.only(
                                                   top: 10.0, bottom: 10.0),
                                               decoration: BoxDecoration(
                                                   border: Border.all(
@@ -145,7 +145,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
                                               )),
                                         )
                                       : Padding(
-                                          padding: const EdgeInsets.only(
+                                          padding: const EdgeInsetsDirectional.only(
                                               top: 18.0, bottom: 18.0),
                                           child: Center(
                                             child: Text(
@@ -168,7 +168,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
         ],
       ),
       bottomSection: Padding(
-        padding: const EdgeInsets.only(left: 10.0, right: 10),
+        padding: const EdgeInsetsDirectional.only(start: 10.0, end: 10),
         child: PrimaryButton(
             onPressed: () {
               if (_selectedIndex == 0) {
