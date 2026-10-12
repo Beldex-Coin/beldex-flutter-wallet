@@ -152,7 +152,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                     unselectedLabelColor: settingsStore.isDarkTheme
                         ? Color(0xff77778B)
                         : Color(0xffA8A8A8),
-                    labelPadding: EdgeInsets.all(5),
+                    labelPadding: EdgeInsetsDirectional.all(5),
                     labelStyle: TextStyle(
                         backgroundColor: Colors.transparent,
                         fontSize: 17.0,
@@ -197,7 +197,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        margin: EdgeInsets.all(10),
+        margin: EdgeInsetsDirectional.all(10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: settingsStore.isDarkTheme
@@ -211,7 +211,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             //BNS Description
             Container(
               width: MediaQuery.sizeOf(context).width,
-              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+              margin: EdgeInsetsDirectional.only(top: 10, start: 10, end: 10),
               child: Text(tr(context).bnsPurchaseDescription,
                   style: TextStyle(
                       fontSize: 13.0,
@@ -224,13 +224,13 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             //BNS Price
             Container(
               width: MediaQuery.sizeOf(context).width,
-              margin: EdgeInsets.all(10),
+              margin: EdgeInsetsDirectional.all(10),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: settingsStore.isDarkTheme
                       ? Color(0xff32324a)
                       : Color(0xffDEDEDE)),
-              padding: EdgeInsets.all(10),
+              padding: EdgeInsetsDirectional.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -257,7 +257,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                   Container(
                     width: MediaQuery.sizeOf(context).width,
                     height: 50,
-                    margin: EdgeInsets.only(top: 10, bottom: 5),
+                    margin: EdgeInsetsDirectional.only(top: 10, bottom: 5),
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: bnsPriceDetailsList.length,
@@ -278,7 +278,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                         color: settingsStore.isDarkTheme
                             ? Color(0xff3c3c51)
                             : Color(0xffFFFFFF)),
-                    padding: EdgeInsets.all(5),
+                    padding: EdgeInsetsDirectional.all(5),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -342,7 +342,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             ),
             //BNS Name
             Container(
-              margin: EdgeInsets.only(left: 15),
+              margin: EdgeInsetsDirectional.only(start: 15),
               child: Text(tr(context).name,
                   style: TextStyle(
                       fontSize: 13.0,
@@ -354,7 +354,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             ),
             //BNS Name Field
             Container(
-              margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+              margin: EdgeInsetsDirectional.only(start: 10, end: 10, top: 5),
               decoration: BoxDecoration(
                 color: settingsStore.isDarkTheme
                     ? Color(0xff24242F)
@@ -365,7 +365,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                         ? Color(0xff3c3c51)
                         : Color(0xffDADADA)),
               ),
-              padding: EdgeInsets.only(left: 8, right: 5),
+              padding: EdgeInsetsDirectional.only(start: 8, end: 5),
               child: TextFormField(
                 focusNode: _focusNodeBnsName,
                 controller: _bnsNameController,
@@ -408,7 +408,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             Visibility(
               visible: buyBnsChangeNotifier.bnsNameFieldIsValid,
               child: Container(
-                margin: EdgeInsets.only(left: 15, bottom: 10),
+                margin: EdgeInsetsDirectional.only(start: 15, bottom: 10),
                 child: Text(buyBnsChangeNotifier.bnsNameFieldErrorMessage,
                     style: TextStyle(
                         backgroundColor: Colors.transparent,
@@ -420,7 +420,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             ),
             //BNS Owner Name
             Container(
-              margin: EdgeInsets.only(left: 15, top: 10),
+              margin: EdgeInsetsDirectional.only(start: 15, top: 10),
               child: Text(tr(context).bnsOwnerOptional,
                   style: TextStyle(
                       backgroundColor: Colors.transparent,
@@ -433,7 +433,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             ),
             //BNS Owner Name Field
             Container(
-              margin: EdgeInsets.only(left: 10, right: 10, top: 5),
+              margin: EdgeInsetsDirectional.only(start: 10, end: 10, top: 5),
               decoration: BoxDecoration(
                 color: settingsStore.isDarkTheme
                     ? Color(0xff24242F)
@@ -444,7 +444,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                         ? Color(0xff3c3c51)
                         : Color(0xffDADADA)),
               ),
-              padding: EdgeInsets.only(left: 8, right: 5),
+              padding: EdgeInsetsDirectional.only(start: 8, end: 5),
               child: TextFormField(
                 focusNode: _focusNodeBnsOwner,
                 controller: _bnsOwnerNameController,
@@ -469,7 +469,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             ),
             //BNS Backup Owner Name
            /* Container(
-              margin: EdgeInsets.only(left: 15, top: 10),
+              margin: EdgeInsetsDirectional.only(start: 15, top: 10),
               child: Text('Backup Owner (optional)',
                   style: TextStyle(
                       fontSize: 13.0,
@@ -481,7 +481,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             ),*/
             //BNS Backup Owner Name Field
             /*Container(
-              margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 10),
+              margin: EdgeInsetsDirectional.only(start: 10, end: 10, top: 5, bottom: 10),
               decoration: BoxDecoration(
                 color: settingsStore.isDarkTheme
                     ? Color(0xff24242F)
@@ -492,7 +492,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                         ? Color(0xff3c3c51)
                         : Color(0xffDADADA)),
               ),
-              padding: EdgeInsets.only(left: 8, right: 5),
+              padding: EdgeInsetsDirectional.only(start: 8, end: 5),
               child: TextFormField(
                 controller: _bnsBackUpOwnerNameController,
                 style: TextStyle(fontSize: 14.0),
@@ -515,13 +515,13 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             ),*/
             Container(
               width: MediaQuery.sizeOf(context).width,
-              margin: EdgeInsets.all(10),
+              margin: EdgeInsetsDirectional.all(10),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: settingsStore.isDarkTheme
                       ? Color(0xff32324a)
                       : Color(0xffDEDEDE)),
-              padding: EdgeInsets.all(5),
+              padding: EdgeInsetsDirectional.all(5),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -567,7 +567,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                     visible:
                         buyBnsChangeNotifier.bnsPurchaseOptions[0].selected,
                     child: Container(
-                      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                      margin: EdgeInsetsDirectional.only(start: 10, end: 10, top: 10),
                       decoration: BoxDecoration(
                         color: settingsStore.isDarkTheme
                             ? Color(0xff24242F)
@@ -578,7 +578,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                                 ? Color(0xff3c3c51)
                                 : Color(0xffDADADA)),
                       ),
-                      padding: EdgeInsets.only(left: 8, right: 5, bottom: 15),
+                      padding: EdgeInsetsDirectional.only(start: 8, end: 5, bottom: 15),
                       child: TextFormField(
                         focusNode: _focusNodeWalletAddress,
                         controller: _walletAddressController,
@@ -613,7 +613,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                         buyBnsChangeNotifier.bnsPurchaseOptions[0].selected &&
                             buyBnsChangeNotifier.walletAddressFieldIsValid,
                     child: Container(
-                      margin: EdgeInsets.only(left: 15, bottom: 10),
+                      margin: EdgeInsetsDirectional.only(start: 15, bottom: 10),
                       child: Text(
                           buyBnsChangeNotifier.walletAddressFieldErrorMessage,
                           style: TextStyle(
@@ -628,7 +628,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                     visible:
                         buyBnsChangeNotifier.bnsPurchaseOptions[1].selected,
                     child: Container(
-                      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                      margin: EdgeInsetsDirectional.only(start: 10, end: 10, top: 10),
                       decoration: BoxDecoration(
                         color: settingsStore.isDarkTheme
                             ? Color(0xff24242F)
@@ -639,7 +639,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                                 ? Color(0xff3c3c51)
                                 : Color(0xffDADADA)),
                       ),
-                      padding: EdgeInsets.only(left: 8, right: 5, bottom: 15),
+                      padding: EdgeInsetsDirectional.only(start: 8, end: 5, bottom: 15),
                       child: TextFormField(
                         focusNode: _focusNodeBchatId,
                         controller: _bChatIdController,
@@ -675,7 +675,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                         buyBnsChangeNotifier.bnsPurchaseOptions[1].selected &&
                             buyBnsChangeNotifier.bchatIdFieldIsValid,
                     child: Container(
-                      margin: EdgeInsets.only(left: 15, bottom: 10),
+                      margin: EdgeInsetsDirectional.only(start: 15, bottom: 10),
                       child: Text(buyBnsChangeNotifier.bchatIdFieldErrorMessage,
                           style: TextStyle(
                               backgroundColor: Colors.transparent,
@@ -689,7 +689,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                     visible:
                         buyBnsChangeNotifier.bnsPurchaseOptions[2].selected,
                     child: Container(
-                      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                      margin: EdgeInsetsDirectional.only(start: 10, end: 10, top: 10),
                       decoration: BoxDecoration(
                         color: settingsStore.isDarkTheme
                             ? Color(0xff24242F)
@@ -700,7 +700,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                                 ? Color(0xff3c3c51)
                                 : Color(0xffDADADA)),
                       ),
-                      padding: EdgeInsets.only(left: 8, right: 5, bottom: 15),
+                      padding: EdgeInsetsDirectional.only(start: 8, end: 5, bottom: 15),
                       child: TextFormField(
                         focusNode: _focusNodeBelnetId,
                         controller: _belnetIdController,
@@ -732,7 +732,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                         buyBnsChangeNotifier.bnsPurchaseOptions[2].selected &&
                             buyBnsChangeNotifier.belnetIdFieldIsValid,
                     child: Container(
-                      margin: EdgeInsets.only(left: 15, bottom: 10),
+                      margin: EdgeInsetsDirectional.only(start: 15, bottom: 10),
                       child: Text(
                           buyBnsChangeNotifier.belnetIdFieldErrorMessage,
                           style: TextStyle(
@@ -747,7 +747,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                     visible:
                     buyBnsChangeNotifier.bnsPurchaseOptions[3].selected,
                     child: Container(
-                      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                      margin: EdgeInsetsDirectional.only(start: 10, end: 10, top: 10),
                       decoration: BoxDecoration(
                         color: settingsStore.isDarkTheme
                             ? Color(0xff24242F)
@@ -758,7 +758,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                                 ? Color(0xff3c3c51)
                                 : Color(0xffDADADA)),
                       ),
-                      padding: EdgeInsets.only(left: 8, right: 5, bottom: 15),
+                      padding: EdgeInsetsDirectional.only(start: 8, end: 5, bottom: 15),
                       child: TextFormField(
                         focusNode: _focusNodeEthAddress,
                         controller: _ethAddressController,
@@ -795,7 +795,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                     buyBnsChangeNotifier.bnsPurchaseOptions[3].selected &&
                         buyBnsChangeNotifier.ethAddressFieldIsValid,
                     child: Container(
-                      margin: EdgeInsets.only(left: 15),
+                      margin: EdgeInsetsDirectional.only(start: 15),
                       child: Text(
                           buyBnsChangeNotifier.ethAddressFieldErrorMessage,
                           style: TextStyle(
@@ -808,7 +808,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                   ),
                   Container(
                       margin:
-                      EdgeInsets.only(top:10, bottom: 10, left: 10, right: 10),
+                      EdgeInsetsDirectional.only(top:10, bottom: 10, start: 10, end: 10),
                       child: RichText(
                         textAlign: TextAlign.start,
                         text: TextSpan(
@@ -871,9 +871,9 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                     : null,
                 child: Container(
                   width: MediaQuery.sizeOf(context).width,
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsetsDirectional.all(10),
                   margin:
-                      EdgeInsets.only(top: 20, left: 40, right: 40, bottom: 30),
+                      EdgeInsetsDirectional.only(top: 20, start: 40, end: 40, bottom: 30),
                   decoration: BoxDecoration(
                       color: Color(0xff00AD07),
                       borderRadius: BorderRadius.circular(10)),
@@ -1126,8 +1126,8 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             color: settingsStore.isDarkTheme
                 ? Color(0xff3c3c51)
                 : Color(0xffFFFFFF)),
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.only(bottom: 5, left: 8, right: 8),
+        padding: EdgeInsetsDirectional.all(10),
+        margin: EdgeInsetsDirectional.only(bottom: 5, start: 8, end: 8),
         child: Text(
           bnsPriceDetailsListItem.year,
           style: TextStyle(
@@ -1183,7 +1183,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             color: settingsStore.isDarkTheme
                 ? Color(0xff3c3c51)
                 : Color(0xffFFFFFF)),
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsetsDirectional.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
