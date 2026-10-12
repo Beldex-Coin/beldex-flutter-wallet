@@ -452,5 +452,7 @@
   "unlockBeldexWallet": "解锁 Beldex 钱包",
   "wallet_menu": "菜单",
   "your_contributions": "您的贡献",
-  "order_creation_failed_error_message": "订单创建失败"
+  "order_creation_failed_error_message": "订单创建失败",
+  "flash_on": "开启 Flash",
+  "flash_off": "关闭 Flash"
 }

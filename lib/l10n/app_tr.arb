@@ -452,5 +452,7 @@
   "unlockBeldexWallet": "Beldex Cüzdanının Kilidini Aç",
   "wallet_menu": "Menü",
   "your_contributions": "Katkılarınız",
-  "order_creation_failed_error_message": "Emir oluşturulamadı"
+  "order_creation_failed_error_message": "Emir oluşturulamadı",
+  "flash_on": "Flash'i Aç",
+  "flash_off": "Flash'i Kapat"
 }

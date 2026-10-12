@@ -2833,6 +2833,12 @@ abstract class AppLocalizations {
   /// **'Your Contributions'**
   String get your_contributions;
 
+  /// No description provided for @order_creation_failed_error_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Order creation failed'**
+  String get order_creation_failed_error_message;
+
   /// No description provided for @seed_language_chinese.
   ///
   /// In en, this message translates to:
@@ -2893,11 +2899,17 @@ abstract class AppLocalizations {
   /// **'Spanish'**
   String get seed_language_spanish;
 
-  /// No description provided for @order_creation_failed_error_message.
+  /// No description provided for @flash_on.
   ///
   /// In en, this message translates to:
-  /// **'Order creation failed'**
-  String get order_creation_failed_error_message;
+  /// **'Flash On'**
+  String get flash_on;
+
+  /// No description provided for @flash_off.
+  ///
+  /// In en, this message translates to:
+  /// **'Flash Off'**
+  String get flash_off;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

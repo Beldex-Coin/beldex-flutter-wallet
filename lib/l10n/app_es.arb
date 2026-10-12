@@ -452,5 +452,7 @@
   "unlockBeldexWallet": "Desbloquear la cartera Beldex",
   "wallet_menu": "Menú",
   "your_contributions": "Tus contribuciones",
-  "order_creation_failed_error_message": "Error al crear la orden"
+  "order_creation_failed_error_message": "Error al crear la orden",
+  "flash_on": "Activar Flash",
+  "flash_off": "Desactivar Flash"
 }

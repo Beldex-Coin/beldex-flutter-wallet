@@ -380,7 +380,7 @@ class ContactFormState extends State<ContactForm> {
 
   Future<void> _presentQRScanner(BuildContext context, TextEditingController controller) async {
     try {
-      final code = await presentQRScanner();
+      final code = await presentQRScanner(context);
       final uri = Uri.parse(code!);
       var address = '';
 

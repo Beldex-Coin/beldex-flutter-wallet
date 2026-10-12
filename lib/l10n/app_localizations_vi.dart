@@ -1446,6 +1446,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get your_contributions => 'Đóng góp của bạn';
 
   @override
+  String get order_creation_failed_error_message => 'Tạo lệnh không thành công';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1476,5 +1479,8 @@ class AppLocalizationsVi extends AppLocalizations {
   String get seed_language_spanish => 'Spanish';
 
   @override
-  String get order_creation_failed_error_message => 'Tạo lệnh không thành công';
+  String get flash_on => 'Bật Flash';
+
+  @override
+  String get flash_off => 'Tắt Flash';
 }

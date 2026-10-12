@@ -232,7 +232,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
 
   Future<void> _presentQRScanner(BuildContext context) async {
     try {
-      final code = await presentQRScanner();
+      final code = await presentQRScanner(context);
       final uri = Uri.parse(code!);
       var address = '';
       var amount = '';

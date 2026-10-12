@@ -1,40 +1,33 @@
 import 'package:beldex_wallet/l10n.dart';
-import 'package:beldex_wallet/src/screens/base_page.dart';
-import 'package:beldex_wallet/theme_changer.dart';
-import 'package:beldex_wallet/themes.dart';
+import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
-
-class _TestPage extends BasePage {
-  @override
-  String getTitle(AppLocalizations t) => 'Language';
-
-  @override
-  Widget trailing(BuildContext context) => const SizedBox.shrink();
-
-  @override
-  Widget? leading(BuildContext context) => null;
-
-  @override
-  Widget body(BuildContext context) => const SizedBox.shrink();
-}
 
 void main() {
-  testWidgets('page title does not apply a background color', (tester) async {
-    final themeChanger = ThemeChanger(Themes.darkTheme);
-
+  testWidgets('qr scanner uses the active locale for its labels', (tester) async {
     await tester.pumpWidget(
-      ChangeNotifierProvider<ThemeChanger>.value(
-        value: themeChanger,
-        child: MaterialApp(
-          theme: Themes.darkTheme,
-          home: _TestPage(),
+      MaterialApp(
+        locale: const Locale('ru'),
+        supportedLocales: AppLocalizations.supportedLocales,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        home: Builder(
+          builder: (context) {
+            final options = buildScanOptions(context);
+            final translations = tr(context);
+
+            return Scaffold(
+              body: Text(
+                '${options.android.appBarTitle}|${options.strings['cancel']}|${options.strings['flash_on']}|${translations.transaction_priority_blink}',
+              ),
+            );
+          },
         ),
       ),
     );
 
-    final title = tester.widget<Text>(find.text('Language'));
-    expect(title.style?.backgroundColor, isNull);
+    final text = tester.widget<Text>(find.byType(Text));
+    expect(text.data, contains('Кошелёк Beldex'));
+    expect(text.data, contains('Отмена'));
+    expect(text.data, contains('Flash'));
   });
 }

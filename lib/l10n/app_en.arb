@@ -452,6 +452,7 @@
   "unlockBeldexWallet": "Unlock Beldex Wallet",
   "wallet_menu": "Menu",
   "your_contributions": "Your Contributions",
+  "order_creation_failed_error_message": "Order creation failed",
   "seed_language_chinese": "Chinese (simplified)",
   "seed_language_dutch": "Dutch",
   "seed_language_english": "English",
@@ -462,5 +463,6 @@
   "seed_language_portuguese": "Portuguese",
   "seed_language_russian": "Russian",
   "seed_language_spanish": "Spanish",
-  "order_creation_failed_error_message": "Order creation failed"
+  "flash_on": "Flash On",
+  "flash_off": "Flash Off"
 }

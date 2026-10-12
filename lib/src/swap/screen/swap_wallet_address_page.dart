@@ -1282,7 +1282,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   Future<void> _presentQRScanner(BuildContext context,
       ValidateAddressProvider validateAddressProvider, String to) async {
     try {
-      final code = await presentQRScanner();
+      final code = await presentQRScanner(context);
       final uri = Uri.parse(code!);
       var address = '';
 
@@ -1306,7 +1306,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   Future<void> _presentRefundQRScanner(BuildContext context,
       RefundValidateAddressProvider refundValidator, String from) async {
     try {
-      final code = await presentQRScanner();
+      final code = await presentQRScanner(context);
       final uri = Uri.parse(code!);
       final address = uri.path;
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {

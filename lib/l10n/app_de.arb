@@ -452,5 +452,7 @@
   "unlockBeldexWallet": "Schalten Sie die Beldex-Wallet frei",
   "wallet_menu": "Menü",
   "your_contributions": "Deine Anteile",
-  "order_creation_failed_error_message": "Auftragserstellung fehlgeschlagen"
+  "order_creation_failed_error_message": "Auftragserstellung fehlgeschlagen",
+  "flash_on": "Flash aktivieren",
+  "flash_off": "Flash deaktivieren"
 }

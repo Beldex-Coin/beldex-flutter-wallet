@@ -1446,6 +1446,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get your_contributions => 'Tus contribuciones';
 
   @override
+  String get order_creation_failed_error_message => 'Error al crear la orden';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1476,5 +1479,8 @@ class AppLocalizationsEs extends AppLocalizations {
   String get seed_language_spanish => 'Spanish';
 
   @override
-  String get order_creation_failed_error_message => 'Error al crear la orden';
+  String get flash_on => 'Activar Flash';
+
+  @override
+  String get flash_off => 'Desactivar Flash';
 }
