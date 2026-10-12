@@ -1100,12 +1100,12 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         buyBnsChangeNotifier.setBnsNameFieldIsValid(true);
       });
-      errorMessage = 'Invalid BNS Name';
+      errorMessage = tr(context).bnsInvalidName;
     } else if (value.isNotEmpty && value.characters.last == '-') {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         buyBnsChangeNotifier.setBnsNameFieldIsValid(true);
       });
-      errorMessage = 'Invalid BNS Name';
+      errorMessage = tr(context).bnsInvalidName;
     } else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         buyBnsChangeNotifier.setBnsNameFieldIsValid(false);

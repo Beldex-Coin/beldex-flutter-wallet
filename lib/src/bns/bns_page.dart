@@ -974,17 +974,17 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         buyBnsChangeNotifier.setBnsNameFieldIsValid(true);
       });
-      errorMessage = 'Please fill in this field';
+      errorMessage = tr(context).bnsPleaseFillField;
     } else if (value.isNotEmpty && value.characters.first == '-') {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         buyBnsChangeNotifier.setBnsNameFieldIsValid(true);
       });
-      errorMessage = 'Invalid BNS Name';
+      errorMessage = tr(context).bnsInvalidName;
     } else if (value.isNotEmpty && value.characters.last == '-') {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         buyBnsChangeNotifier.setBnsNameFieldIsValid(true);
       });
-      errorMessage = 'Invalid BNS Name';
+      errorMessage = tr(context).bnsInvalidName;
     } else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         buyBnsChangeNotifier.setBnsNameFieldIsValid(false);
