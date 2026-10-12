@@ -256,35 +256,52 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
             if (widget.hasLengthSwitcher) ...[
               Container(
                 width: 220,
-                margin: EdgeInsets.only(top: 8.0, left: 25, right: 25),
+                margin: const EdgeInsetsDirectional.only(
+                  top: 8.0,
+                  start: 25.0,
+                  end: 25.0,
+                ),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xff272733)
-                        : Color(0xffEDEDED)),
+                  borderRadius: BorderRadius.circular(10),
+                  color: settingsStore.isDarkTheme
+                      ? const Color(0xff272733)
+                      : const Color(0xffEDEDED),
+                ),
                 child: TextButton(
-                  //FlatButton
-                    onPressed: () {
-                      changePinLength(pinLength == 4 ? 6 : 4);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
+                  onPressed: () {
+                    changePinLength(pinLength == 4 ? 6 : 4);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Text(
                           _changePinLengthText(tr(context)),
+                          textAlign: TextAlign.center,
+                          softWrap: true,
                           style: TextStyle(
-                              backgroundColor: Colors.transparent,
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.w800,
-                              color:
-                              Theme.of(context).primaryTextTheme.bodySmall?.color),
+                            backgroundColor: Colors.transparent,
+                            fontSize: 17.0,
+                            fontWeight: FontWeight.w800,
+                            color: Theme.of(context)
+                                .primaryTextTheme
+                                .bodySmall
+                                ?.color,
+                          ),
                         ),
-                        Icon(Icons.keyboard_arrow_right,
-                            color: settingsStore.isDarkTheme
-                                ? Colors.white
-                                : Colors.black)
-                      ],
-                    )),
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(
+                        Directionality.of(context) == TextDirection.rtl
+                            ? Icons.keyboard_arrow_left
+                            : Icons.keyboard_arrow_right,
+                        color: settingsStore.isDarkTheme
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                    ],
+                  ),
+                ),
               )
             ],
             Flexible(
