@@ -14,7 +14,7 @@ class SettingsTextListRow extends StatelessWidget {
         highlightColor:  Colors.grey,
       ),
       child: ListTile(
-        contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+        contentPadding: EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
         trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,color: Color(0xff3F3F4D),),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

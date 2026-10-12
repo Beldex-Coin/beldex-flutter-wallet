@@ -135,7 +135,7 @@ class SettingsFormState extends State<SettingsForm> {
                 highlightColor:  Colors.grey,
               ),
               child: ListTile(
-                contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+                contentPadding: EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
                 trailing: Icon(Icons.arrow_forward_ios_rounded,size: 20,color: Color(0xff3F3F4D),),
                 title: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -186,7 +186,7 @@ class SettingsFormState extends State<SettingsForm> {
                                     MediaQuery.sizeOf(context).height *
                                         0.90 /
                                         3,
-                                padding: EdgeInsets.all(10),
+                                padding: EdgeInsetsDirectional.all(10),
                                 decoration: BoxDecoration(
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xff272733)
@@ -199,7 +199,7 @@ class SettingsFormState extends State<SettingsForm> {
                                       children: [
                                         Padding(
                                           padding:
-                                              const EdgeInsets.all(8.0),
+                                              const EdgeInsetsDirectional.all(8.0),
                                           child: Text(
                                             tr(context).settings_display_balance_as,
                                             style: TextStyle(
@@ -296,8 +296,8 @@ class SettingsFormState extends State<SettingsForm> {
                                       ],
                                     ),
                                     Container(
-                                        margin: EdgeInsets.only(
-                                            top: 7, right: 10),
+                                        margin: EdgeInsetsDirectional.only(
+                                            top: 7, end: 10),
                                         alignment: Alignment.topRight,
                                         child: InkWell(
                                           onTap: () {
@@ -347,7 +347,7 @@ class SettingsFormState extends State<SettingsForm> {
                                     MediaQuery.sizeOf(context).height *
                                         1 /
                                         3,
-                                padding: EdgeInsets.all(10),
+                                padding: EdgeInsetsDirectional.all(10),
                                 decoration: BoxDecoration(
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xff272733)
@@ -360,7 +360,7 @@ class SettingsFormState extends State<SettingsForm> {
                                       children: [
                                         Padding(
                                           padding:
-                                              const EdgeInsets.all(8.0),
+                                              const EdgeInsetsDirectional.all(8.0),
                                           child: Text(
                                             t.settings_balance_detail,
                                             style: TextStyle(
@@ -372,9 +372,9 @@ class SettingsFormState extends State<SettingsForm> {
                                         ),
                                         Expanded(
                                           child: RawScrollbar(
-                                            padding: EdgeInsets.only(
-                                                left: 5,
-                                                right: 5,
+                                            padding: EdgeInsetsDirectional.only(
+                                                start: 5,
+                                                end: 5,
                                                 top: 10,
                                                 bottom: 10),
                                             controller: _scrollController,
@@ -417,8 +417,8 @@ class SettingsFormState extends State<SettingsForm> {
                                       ],
                                     ),
                                     Container(
-                                        margin: EdgeInsets.only(
-                                            top: 7, right: 10),
+                                        margin: EdgeInsetsDirectional.only(
+                                            top: 7, end: 10),
                                         alignment: Alignment.topRight,
                                         child: InkWell(
                                           onTap: () {
@@ -476,7 +476,7 @@ class SettingsFormState extends State<SettingsForm> {
                                             .height *
                                         1 /
                                         3,
-                                    padding: EdgeInsets.all(10),
+                                    padding: EdgeInsetsDirectional.all(10),
                                     decoration: BoxDecoration(
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff272733)
@@ -489,7 +489,7 @@ class SettingsFormState extends State<SettingsForm> {
                                           children: [
                                             Padding(
                                               padding:
-                                                  EdgeInsets.all(8.0),
+                                                  EdgeInsetsDirectional.all(8.0),
                                               child: Text(
                                                 t.settings_currency,
                                                 style: TextStyle(
@@ -502,7 +502,7 @@ class SettingsFormState extends State<SettingsForm> {
                                             ),
                                             Padding(
                                               padding:
-                                                  EdgeInsets.all(8.0),
+                                                  EdgeInsetsDirectional.all(8.0),
                                               child: TextField(
                                                 controller:
                                                     searchCurrencyController,
@@ -526,7 +526,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                             .clear();
                                                       }),
                                                   contentPadding:
-                                                      EdgeInsets.fromLTRB(
+                                                  EdgeInsets.fromLTRB(
                                                           20.0,
                                                           15.0,
                                                           20.0,
@@ -553,8 +553,8 @@ class SettingsFormState extends State<SettingsForm> {
                                             Expanded(
                                               child: Container(
                                                   padding:
-                                                      EdgeInsets.only(
-                                                          right: 10),
+                                                      EdgeInsetsDirectional.only(
+                                                          end: 10),
                                                   child: Observer(
                                                     builder: (_) {
                                                       return RawScrollbar(
@@ -598,8 +598,8 @@ class SettingsFormState extends State<SettingsForm> {
                                           ],
                                         ),
                                         Container(
-                                            margin: EdgeInsets.only(
-                                                top: 7, right: 10),
+                                            margin: EdgeInsetsDirectional.only(
+                                                top: 7, end: 10),
                                             alignment: Alignment.topRight,
                                             child: InkWell(
                                               onTap: () {
@@ -648,7 +648,7 @@ class SettingsFormState extends State<SettingsForm> {
                                     MediaQuery.sizeOf(context).height *
                                         0.75 /
                                         3,
-                                padding: EdgeInsets.all(10),
+                                padding: EdgeInsetsDirectional.all(10),
                                 decoration: BoxDecoration(
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xff272733)
@@ -661,7 +661,7 @@ class SettingsFormState extends State<SettingsForm> {
                                       children: [
                                         Padding(
                                           padding:
-                                              const EdgeInsets.all(8.0),
+                                              const EdgeInsetsDirectional.all(8.0),
                                           child: Text(
                                             tr(context).settings_fee_priority,
                                             style: TextStyle(
@@ -698,9 +698,9 @@ class SettingsFormState extends State<SettingsForm> {
                                                 },
                                                 child: Padding(
                                                   padding:
-                                                      EdgeInsets.only(
-                                                          left: 20.0,
-                                                          right: 20.0),
+                                                      EdgeInsetsDirectional.only(
+                                                          start: 20.0,
+                                                          end: 20.0),
                                                   child: Card(
                                                     shape: RoundedRectangleBorder(
                                                         borderRadius:
@@ -761,8 +761,8 @@ class SettingsFormState extends State<SettingsForm> {
                                       ],
                                     ),
                                     Container(
-                                        margin: EdgeInsets.only(
-                                            top: 7, right: 10),
+                                        margin: EdgeInsetsDirectional.only(
+                                            top: 7, end: 10),
                                         alignment: Alignment.topRight,
                                         child: InkWell(
                                           onTap: () {
@@ -806,7 +806,7 @@ class SettingsFormState extends State<SettingsForm> {
                     highlightColor: Colors.grey,
                   ),
                   child: ListTile(
-                    contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    contentPadding: EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
                     title: Text(t.settings_change_pin,
                         style: TextStyle(
                             fontSize: 16.0,
@@ -842,7 +842,7 @@ class SettingsFormState extends State<SettingsForm> {
                     highlightColor: Colors.grey,
                   ),
                   child: ListTile(
-                    contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    contentPadding: EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
                     title: Text(t.change_language,
                         style: TextStyle(
                             fontSize: 16.0,
@@ -882,7 +882,7 @@ class SettingsFormState extends State<SettingsForm> {
                     highlightColor: Colors.grey,
                   ),
                   child: ListTile(
-                    contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    contentPadding: EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
                     title: Text(t.settings_terms_and_conditions,
                         style: TextStyle(
                             fontSize: 16.0,
@@ -905,7 +905,7 @@ class SettingsFormState extends State<SettingsForm> {
                     highlightColor: Colors.grey,
                   ),
                   child: ListTile(
-                    contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    contentPadding: EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
                     title: Text(t.faq,
                         style: TextStyle(
                             fontSize: 16.0,
@@ -928,7 +928,7 @@ class SettingsFormState extends State<SettingsForm> {
                     highlightColor: Colors.grey,
                   ),
                   child: ListTile(
-                    contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+                    contentPadding: EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
                     title: Text(t.changelog,
                         style: TextStyle(
                             fontSize: 16.0,
@@ -953,7 +953,7 @@ class SettingsFormState extends State<SettingsForm> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                      padding: EdgeInsets.only(right: 10, left: 10),
+                      padding: EdgeInsetsDirectional.only(end: 10, start: 10),
                       child: GestureDetector(
                           onTap: () async {
                             await methodChannelPlatform.invokeMethod("email",<String, dynamic>{
@@ -963,7 +963,7 @@ class SettingsFormState extends State<SettingsForm> {
                           child: SvgPicture.asset(
                               'assets/images/new-images/mail.svg'))),
                   Padding(
-                    padding: const EdgeInsets.only(right: 10.0, left: 10),
+                    padding: const EdgeInsetsDirectional.only(end: 10.0, start: 10),
                     child: GestureDetector(
                         onTap: () async {
                           await openUrl(methodChannelPlatform: methodChannelPlatform, url: _githubUrl);
@@ -972,7 +972,7 @@ class SettingsFormState extends State<SettingsForm> {
                             'assets/images/new-images/github.svg')),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 20.0, left: 10),
+                    padding: const EdgeInsetsDirectional.only(end: 20.0, start: 10),
                     child: GestureDetector(
                         onTap: () async {
                           await openUrl(methodChannelPlatform: methodChannelPlatform, url: _telegramUrl);
@@ -1020,7 +1020,7 @@ class SettingsFormState extends State<SettingsForm> {
         Navigator.pop(context);
       },
       child: Padding(
-        padding: EdgeInsets.only(left: 20.0, right: 20.0),
+        padding: EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
         child: Card(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -1030,7 +1030,7 @@ class SettingsFormState extends State<SettingsForm> {
               : Color(0xff2979FB),
           child: Container(
               width: MediaQuery.sizeOf(context).width,
-              padding: EdgeInsets.only(top: 10, bottom: 10),
+              padding: EdgeInsetsDirectional.only(top: 10, bottom: 10),
               child: Observer(
                 builder: (_) => Text(
                   AmountDetail.all[index].getTitle(tr(context)),
@@ -1062,7 +1062,7 @@ class SettingsFormState extends State<SettingsForm> {
         Navigator.pop(context);
       },
       child: Padding(
-        padding: EdgeInsets.only(left: 20.0, right: 20.0),
+        padding: EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
         child: Card(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -1073,7 +1073,7 @@ class SettingsFormState extends State<SettingsForm> {
               : Colors.transparent,
           child: Container(
               width: MediaQuery.sizeOf(context).width,
-              padding: EdgeInsets.only(top: 15, bottom: 15),
+              padding: EdgeInsetsDirectional.only(top: 15, bottom: 15),
               child: Observer(
                 builder: (_) => Text(
                   FiatCurrency.all[index].toString(),

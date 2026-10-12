@@ -59,9 +59,9 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
           physics: NeverScrollableScrollPhysics(),
           children: [
             Container(
-              margin: EdgeInsets.only(
-                  left: constants.leftPx),
-              padding: EdgeInsets.only(left: 10),
+              margin: EdgeInsetsDirectional.only(
+                  start: constants.leftPx),
+              padding: EdgeInsetsDirectional.only(start: 10),
               child: Text(
                 tr(context).wallet,
                 style: TextStyle(fontSize: 20.0, color: Color(0xff737385), fontWeight: FontWeight.w500),
@@ -89,10 +89,10 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
                 onTap: () => Navigator.of(context).pushNamed(Routes.settings)),
 
             Container(
-              margin: EdgeInsets.only(
-                  left: constants.leftPx,
+              margin: EdgeInsetsDirectional.only(
+                  start: constants.leftPx,
                   top: MediaQuery.sizeOf(context).width * 0.3 / 3),
-              padding: EdgeInsets.only(left: 10),
+              padding: EdgeInsetsDirectional.only(start: 10),
               child: Text(
                 tr(context).account,
                 style: TextStyle(fontSize: 20.0, color: Color(0xff737385), fontWeight: FontWeight.w500),
@@ -139,10 +139,10 @@ class ProfilePageBodyState extends State<ProfilePageBody> {
             ),
             //Important -->
             Container(
-              margin: EdgeInsets.only(
-                  left: constants.leftPx,
+              margin: EdgeInsetsDirectional.only(
+                  start: constants.leftPx,
                   top: MediaQuery.sizeOf(context).width * 0.3 / 3),
-              padding: EdgeInsets.only(left: 10),
+              padding: EdgeInsetsDirectional.only(start: 10),
               child: Text(
                 tr(context).seedKeys,
                 style: TextStyle(fontSize: 20.0, color: Color(0xff737385), fontWeight: FontWeight.w500),

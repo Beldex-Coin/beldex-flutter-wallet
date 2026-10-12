@@ -15,7 +15,7 @@ class NewNavListHeader extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 20.0),
         Container(
-          padding: EdgeInsets.only(left: 20.0),
+          padding: EdgeInsetsDirectional.only(start: 20.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
