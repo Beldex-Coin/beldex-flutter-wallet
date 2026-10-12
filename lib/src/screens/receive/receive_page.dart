@@ -61,19 +61,54 @@ class ReceiveBody extends StatefulWidget {
 class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
   final amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool isExpand = false;
-  bool isOpen = false;
   OverlayEntry? overlayEntry;
-  GlobalKey globalKey = GlobalKey();
-  bool _isOverlayVisible = false;
+  bool _addressLoaded = false;
 
   @override
   void initState() {
     super.initState();
+    amountController.addListener(_onAmountChanged);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    getSubAddress(context);
+    if (_addressLoaded) return;
+    _addressLoaded = true;
+    final receivePageChangeNotifier =
+        Provider.of<ReceivePageChangeNotifier>(context, listen: false);
+    getCurrentAddress().then((value) {
+      if (!mounted) return;
+      receivePageChangeNotifier.setCurrentAddress(value);
+    });
+  }
+
+  void _onAmountChanged() {
+    final syncStore = Provider.of<SyncStore>(context, listen: false);
+    final isSynced = syncStore.status is SyncedSyncStatus ||
+        syncStore.status.blocksLeft == 0;
+    if (isSynced) {
+      final walletStore = Provider.of<WalletStore>(context, listen: false);
+      if (_formKey.currentState?.validate() ?? false) {
+        walletStore.onChangedAmountValue(amountController.text);
+      } else {
+        walletStore.onChangedAmountValue('');
+      }
+    } else {
+      final receivePageChangeNotifier =
+          Provider.of<ReceivePageChangeNotifier>(context, listen: false);
+      if (_formKey.currentState?.validate() ?? false) {
+        onChangedAmountValue(amountController.text, receivePageChangeNotifier);
+      } else {
+        onChangedAmountValue('', receivePageChangeNotifier);
+      }
+    }
   }
 
   @override
   void dispose() {
+    amountController.removeListener(_onAmountChanged);
     amountController.dispose();
     super.dispose();
   }
@@ -134,13 +169,6 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
     final walletStore = Provider.of<WalletStore>(context);
     final subAddressListStore = Provider.of<SubaddressListStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    amountController.addListener(() {
-      if (_formKey.currentState?.validate() ?? false) {
-        walletStore.onChangedAmountValue(amountController.text);
-      } else {
-        walletStore.onChangedAmountValue('');
-      }
-    });
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -438,21 +466,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
 
   Widget bodyContainerWithoutWallet() {
     final receivePageChangeNotifier = Provider.of<ReceivePageChangeNotifier>(context);
-    getCurrentAddress().then((value){
-     receivePageChangeNotifier.setCurrentAddress(value);
-     setState(() {});
-    });
     final settingsStore = Provider.of<SettingsStore>(context);
-    amountController.addListener(() {
-      if (_formKey.currentState?.validate() ?? false) {
-        onChangedAmountValue(amountController.text,receivePageChangeNotifier);
-      } else {
-        onChangedAmountValue('',receivePageChangeNotifier);
-      }
-    });
-    if (amountController.text.isEmpty) {
-      onChangedAmountValue('',receivePageChangeNotifier);
-    }
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -744,7 +758,6 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
 
   Widget displayContainerWithWallet(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    getSubAddress(context);
     return Stack(
       children: [
         Container(
@@ -1218,21 +1231,21 @@ class ReceivePageChangeNotifier with ChangeNotifier {
   String currentAddress = '';
 
   void setAmountValue(String amountValue) {
+    if (this.amountValue == amountValue) return;
     this.amountValue = amountValue;
     notifyListeners();
   }
 
   void setIsValid(bool status) {
     isValid = status;
-    notifyListeners();
   }
 
   void setErrorMessage(String errorMessage) {
     this.errorMessage = errorMessage;
-    notifyListeners();
   }
 
   void setCurrentAddress(String address){
+    if (currentAddress == address) return;
     currentAddress = address;
     notifyListeners();
   }
