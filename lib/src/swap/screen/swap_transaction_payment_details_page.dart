@@ -34,7 +34,7 @@ class SwapTransactionPaymentDetailsPage extends BasePage {
   bool get isModalBackButton => false;
 
   @override
-  String getTitle(AppLocalizations t) => 'Swap';
+  String getTitle(AppLocalizations t) => t.swap;
 
   @override
   Color get textColor => Colors.white;
