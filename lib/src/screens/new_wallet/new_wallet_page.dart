@@ -263,7 +263,10 @@ class _WalletNameFormState extends State<WalletNameForm> {
               SizedBox(
                 height: MediaQuery.sizeOf(context).height * 1.2 / 3, //200,
                 child: Container(
-                    margin: EdgeInsets.only(left: 20.0, right: 10.0),
+                    margin: const EdgeInsetsDirectional.only(
+                      start: 20.0,
+                      end: 10.0,
+                    ),
                     color: settingsStore.isDarkTheme
                         ? Color(0xff181820)
                         : Color(0xffD4D4D4),
@@ -276,7 +279,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                       radius: Radius.circular(10.0),
                       thumbVisibility: true,
                       child: Container(
-                        margin: EdgeInsets.only(right: 8),
+                        margin: const EdgeInsetsDirectional.only(end: 8),
                         color: settingsStore.isDarkTheme
                             ? Color(0xff272733)
                             : Color(0xffEDEDED),
