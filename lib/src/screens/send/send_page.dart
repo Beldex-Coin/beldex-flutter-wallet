@@ -769,7 +769,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       SizedBox(
                         width: double.infinity,
                         child: Text(
-                            '${isFlashTransaction == true ? tr(context).flashTransactionPriority(settingsStore.transactionPriority.toString()) : tr(context).send_priority(settingsStore.transactionPriority.toString())}',
+                            '${isFlashTransaction == true ? tr(context).flashTransactionPriority(settingsStore.transactionPriority.getTitle(tr(context)).toString()) : tr(context).send_priority(settingsStore.transactionPriority.getTitle(tr(context)).toString())}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               backgroundColor: Colors.transparent,

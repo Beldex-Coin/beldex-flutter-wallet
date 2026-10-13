@@ -734,7 +734,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                               Text(
                                                             BeldexTransactionPriority
                                                                 .all[
-                                                                    index]
+                                                                    index].getTitle(tr(context))
                                                                 .toString(),
                                                             textAlign:
                                                                 TextAlign
@@ -780,7 +780,7 @@ class SettingsFormState extends State<SettingsForm> {
                   title: t.settings_fee_priority,
                   widget: Observer(
                       builder: (_) => Text(
-                            settingsStore.transactionPriority.toString(),
+                            settingsStore.transactionPriority.getTitle(tr(context)).toString(),
                             textAlign: TextAlign.right,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
