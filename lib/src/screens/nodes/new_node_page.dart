@@ -320,66 +320,67 @@ class NewNodeFormState extends State<NewNodePageForm> {
                             height: 10,
                           )
                         : Container(
-                            padding: EdgeInsetsDirectional.only(start: 20, end: 20),
-                            margin: EdgeInsetsDirectional.only(
-                                start: 20, end: 20, top: 10, bottom: 10),
-                            height: MediaQuery.sizeOf(context).height * 0.20 / 3,
-                            decoration: BoxDecoration(
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xff333343)
-                                    : Colors.white,
-                                borderRadius: BorderRadius.circular(10)),
-                            child: Row(
-                              children: [
-                                Text(
-                                  tr(context).testResult,
-                                  style: TextStyle(
-                                    backgroundColor: Colors.transparent,
-                                    fontSize: MediaQuery.sizeOf(context).height *
-                                        0.06 /
-                                        3,
-                                  ),
-                                ),
-                                newNodePageChangeNotifier.canLoad
-                                    ? Center(
-                                        child: Padding(
-                                        padding:
-                                            const EdgeInsetsDirectional.only(start: 10.0),
-                                        child: Text(tr(context).checking,
-                                            style: TextStyle(
-                                              backgroundColor: Colors.transparent,
-                                              color: Color(0xff2979FB),
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.06 /
-                                                  3,
-                                            )),
-                                      ))
-                                    : Padding(
-                                        padding:
-                                            const EdgeInsetsDirectional.only(start: 10.0),
-                                        child: Text(
-                                            newNodePageChangeNotifier
-                                                    .isNodeChecked
-                                                ? tr(context).success
-                                                : tr(context).connectionFailed,
-                                            style: TextStyle(
-                                              color: !newNodePageChangeNotifier
-                                                      .isNodeChecked
-                                                  ? Colors.red
-                                                  : Color(0xff1AB51E),
-                                              fontWeight: FontWeight.w800,
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .height *
-                                                  0.06 /
-                                                  3,
-                                            )),
-                                      )
-                              ],
-                            )),
+                      padding: const EdgeInsetsDirectional.only(start: 20, end: 20),
+                      margin: const EdgeInsetsDirectional.only(
+                        start: 20,
+                        end: 20,
+                        top: 10,
+                        bottom: 10,
+                      ),
+                      height: MediaQuery.sizeOf(context).height * 0.20 / 3,
+                      decoration: BoxDecoration(
+                        color: settingsStore.isDarkTheme
+                            ? const Color(0xff333343)
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              tr(context).testResult,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                backgroundColor: Colors.transparent,
+                                fontSize: MediaQuery.sizeOf(context).height * 0.06 / 3,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Flexible(
+                            child: newNodePageChangeNotifier.canLoad
+                                ? Text(
+                              tr(context).checking,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                backgroundColor: Colors.transparent,
+                                color: const Color(0xff2979FB),
+                                fontWeight: FontWeight.w800,
+                                fontSize: MediaQuery.sizeOf(context).height * 0.06 / 3,
+                              ),
+                            )
+                                : Text(
+                              newNodePageChangeNotifier.isNodeChecked
+                                  ? tr(context).success
+                                  : tr(context).connectionFailed,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.end,
+                              style: TextStyle(
+                                color: newNodePageChangeNotifier.isNodeChecked
+                                    ? const Color(0xff1AB51E)
+                                    : Colors.red,
+                                fontWeight: FontWeight.w800,
+                                fontSize: MediaQuery.sizeOf(context).height * 0.06 / 3,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     Container(
                       height: MediaQuery.sizeOf(context).height * 0.26 / 3,
                       padding: EdgeInsetsDirectional.only(start: 15.0, end: 15),
