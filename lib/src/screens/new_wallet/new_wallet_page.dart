@@ -171,7 +171,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                 child: Container(
                   margin: const EdgeInsetsDirectional.only(start: 30),
                   child: Stack(
-                    alignment: AlignmentDirectional.centerEnd,
+                    alignment: AlignmentDirectional.topEnd,
                     children: [
                       Observer(
                         builder: (context) {
@@ -198,14 +198,26 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                       ? Color(0xff747474)
                                       : Color(0xff6F6F6F)),
                               hintText: tr(context).enterWalletName_,
-                              errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 1),
+                              errorStyle: const TextStyle(
+                                backgroundColor: Colors.transparent,
+                                color: Colors.red,
+                                fontSize: 12,
+                                height: 1.3,
+                              ),
+                              errorMaxLines: 3,
+                              contentPadding: const EdgeInsetsDirectional.only(
+                                start: 0,
+                                end: 48,
+                                top: 12,
+                                bottom: 12,
+                              ),
                             ),
                             validator: (value) {
                               final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
-                              if (!pattern.hasMatch(value!)) {
+                              if (!pattern.hasMatch(value ?? '')) {
                                 return tr(context).enterValidNameUpto15Characters;
                               } else {
-                                walletCreationStore.validateWalletName(value,tr(context));
+                                walletCreationStore.validateWalletName(value!,tr(context));
                                 return walletCreationStore.errorMessage;
                               }
                             },
@@ -216,21 +228,24 @@ class _WalletNameFormState extends State<WalletNameForm> {
                         valueListenable: _isTextFieldNotEmpty,
                         builder: (context, isNotEmpty, child) {
                           return isNotEmpty
-                              ? Observer(
-                                builder: (context) {
-                                  return IconButton(
-                                      icon: Icon(
-                                        Icons.clear,
-                                        color: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodySmall!
-                                            .color,
-                                      ),
-                                      onPressed: !(walletCreationStore.state is WalletIsCreating) ? () {
-                                        nameController.clear();
-                                      } : null,
-                                    );
-                                }
+                              ? Padding(
+                                padding: const EdgeInsetsDirectional.only(top: 0),
+                                child: Observer(
+                                  builder: (context) {
+                                    return IconButton(
+                                        icon: Icon(
+                                          Icons.clear,
+                                          color: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodySmall!
+                                              .color,
+                                        ),
+                                        onPressed: !(walletCreationStore.state is WalletIsCreating) ? () {
+                                          nameController.clear();
+                                        } : null,
+                                      );
+                                  }
+                                ),
                               )
                               : const SizedBox.shrink();
                         },
