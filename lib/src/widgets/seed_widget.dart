@@ -250,66 +250,90 @@ class SeedWidgetState extends State<SeedWidget> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            ElevatedButton(
-                              onPressed: () {
-                                _seedController.clear();
-                                setState(() {
-                                  wordCount = 0;
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                backgroundColor: settingsStore.isDarkTheme
-                                    ? Color(0xff333343)
-                                    : Color(0xffDADADA),
-                                padding: EdgeInsetsDirectional.only(
-                                    top: 11, bottom: 11, start: 25, end: 25),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                            Flexible(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  _seedController.clear();
+                                  setState(() {
+                                    wordCount = 0;
+                                  });
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  backgroundColor: settingsStore.isDarkTheme
+                                      ? const Color(0xff333343)
+                                      : const Color(0xffDADADA),
+                                  padding: const EdgeInsetsDirectional.only(
+                                    top: 11,
+                                    bottom: 11,
+                                    start: 16,
+                                    end: 16,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Text(
+                                  tr(context).clear,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: settingsStore.isDarkTheme
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
                                 ),
                               ),
-                              child: Text(tr(context).clear,
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: settingsStore.isDarkTheme
-                                          ? Colors.white
-                                          : Colors.black)),
                             ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            ElevatedButton.icon(
-                              icon: Icon(
-                                Icons.paste,
-                                size: 14,
-                                color: Colors.white,
-                              ),
-                              onPressed: () async {
-                                await Clipboard.getData('text/plain').then(
-                                        (clipboard) => replaceText(clipboard?.text ?? ""));
-                                setState(() {
-                                  wordCount = _seedController.text
-                                      .split(' ')
-                                      .where((word) => word.isNotEmpty)
-                                      .toList()
-                                      .length;
-                                });
-                              },
-                              label: Text(tr(context).paste,
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white)),
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                backgroundColor: Color(0xff2979FB),
-                                padding: EdgeInsetsDirectional.only(
-                                    top: 11, bottom: 11, start: 25, end: 25),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                            const SizedBox(width: 10),
+                            Flexible(
+                              child: ElevatedButton.icon(
+                                icon: const Icon(
+                                  Icons.paste,
+                                  size: 14,
+                                  color: Colors.white,
+                                ),
+                                onPressed: () async {
+                                  final clipboard = await Clipboard.getData('text/plain');
+                                  replaceText(clipboard?.text ?? "");
+
+                                  setState(() {
+                                    wordCount = _seedController.text
+                                        .split(' ')
+                                        .where((word) => word.isNotEmpty)
+                                        .length;
+                                  });
+                                },
+                                label: Text(
+                                  tr(context).paste,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  backgroundColor: const Color(0xff2979FB),
+                                  padding: const EdgeInsetsDirectional.only(
+                                    top: 11,
+                                    bottom: 11,
+                                    start: 16,
+                                    end: 16,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
                               ),
                             ),

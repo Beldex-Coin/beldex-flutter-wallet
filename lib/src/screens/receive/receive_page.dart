@@ -974,9 +974,6 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                       Container(
                                         margin: EdgeInsetsDirectional.only(start: 10),
                                         padding: EdgeInsetsDirectional.all(10),
-                                        // decoration: BoxDecoration(
-                                        //   border: Border(bottom: BorderSide(color: Colors.grey))
-                                        // ),
                                         child: Text(
                                           label,
                                           textAlign: TextAlign.center,
@@ -985,7 +982,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                               fontSize: 16.0,
                                               fontWeight: FontWeight.w700,
                                               color: Color(
-                                                  0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
+                                                  0xff0BA70F)
                                               ),
                                         ),
                                       ),

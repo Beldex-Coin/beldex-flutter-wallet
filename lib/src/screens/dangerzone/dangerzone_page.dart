@@ -90,6 +90,7 @@ class DangerZonePage extends BasePage {
                   textAlign: TextAlign.center,
                 )),
             Container(
+              margin: EdgeInsetsDirectional.only(start:10, end: 10),
               child: Text(
                 tr(context).dangerzone_warning(appStore, item),
                 style: TextStyle(
@@ -97,6 +98,7 @@ class DangerZonePage extends BasePage {
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).primaryTextTheme.bodySmall?.color,
                 ),
+                textAlign: TextAlign.center,
               ),
             )
           ]),
