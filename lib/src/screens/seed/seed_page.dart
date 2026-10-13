@@ -239,13 +239,12 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                           : Color(
                                                               0xffE8E8E8)
                                                       : Color(0xff0BA70F),
-                                                  padding:
-                                                      EdgeInsetsDirectional.all(12),
-                                                  shape:
-                                                      RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius
-                                                            .circular(10),
+                                                  padding: const EdgeInsets.symmetric(
+                                                    horizontal: 8,
+                                                    vertical: 12,
+                                                  ),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(10),
                                                   ),
                                                 ),
                                                 child: Row(
@@ -297,27 +296,34 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                             flex: 1,
                                             child: ElevatedButton(
                                               onPressed: () {
-                                                Share.share(_seed,subject: tr(context).seed_share,);
+                                                Share.share(
+                                                  _seed,
+                                                  subject: tr(context).seed_share,
+                                                );
                                               },
-                                              style:
-                                                  ElevatedButton.styleFrom(
-                                                backgroundColor: Color(0xff2979FB),
-                                                padding: EdgeInsetsDirectional.all(12),
-                                                shape:
-                                                    RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10),
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: const Color(0xff2979FB),
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 8,
+                                                  vertical: 12,
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(10),
                                                 ),
                                               ),
                                               child: Text(
-                                                  tr(context).save,
-                                                  style: TextStyle(
-                                                      backgroundColor: Colors.transparent,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white)),
+                                                tr(context).save,
+                                                maxLines: 1,
+                                                softWrap: false,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                  backgroundColor: Colors.transparent,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -344,13 +350,13 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               style:
                                                   ElevatedButton.styleFrom(
                                                 backgroundColor: Color(0xff0BA70F),
-                                                padding: EdgeInsetsDirectional.all(12),
-                                                shape:
-                                                    RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10),
-                                                ),
+                                                    padding: const EdgeInsets.symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 12,
+                                                    ),
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                    ),
                                               ),
                                               child: Row(
                                                   mainAxisAlignment:
@@ -387,29 +393,36 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                             flex: 1,
                                             child: ElevatedButton(
                                               onPressed: () {
-                                                Share.share(_seed,subject: tr(context).seed_share);
+                                                Share.share(
+                                                  _seed,
+                                                  subject: tr(context).seed_share,
+                                                );
                                               },
-                                              style:
-                                                  ElevatedButton.styleFrom(
-                                                backgroundColor: Color(0xff2979FB),
-                                                padding: EdgeInsetsDirectional.all(12),
-                                                shape:
-                                                    RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          10),
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: const Color(0xff2979FB),
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 8,
+                                                  vertical: 12,
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(10),
                                                 ),
                                               ),
                                               child: Text(
-                                                  tr(context).save,
-                                                  style: TextStyle(
-                                                      backgroundColor: Colors.transparent,
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Colors.white)),
+                                                tr(context).save,
+                                                maxLines: 1,
+                                                softWrap: false,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                  backgroundColor: Colors.transparent,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                          )
                                         ],
                                       ),
                               ),
