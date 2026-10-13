@@ -67,8 +67,20 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
       surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       title: Center(
-          child: Text('${widget.title}',
-              style: TextStyle(color: settingsStore.isDarkTheme ? Colors.white : Colors.black, backgroundColor: Colors.transparent,fontWeight: FontWeight.w800))),
+        child: Text(
+          widget.title,
+          maxLines: 1,
+          softWrap: false,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+            backgroundColor: Colors.transparent,
+            fontWeight: FontWeight.w800,
+            fontSize: 18,
+          ),
+        ),
+      ),
       backgroundColor:
           settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
       content: Column(
