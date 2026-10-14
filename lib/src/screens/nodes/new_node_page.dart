@@ -81,6 +81,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                 Padding(
                   padding: const EdgeInsetsDirectional.all(13.0),
                   child: Text(tr(context).checkingNodeConnection,
+                      textAlign: TextAlign.center,
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
                 )
