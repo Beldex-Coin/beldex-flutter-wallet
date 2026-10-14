@@ -85,26 +85,28 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final walletSeedStore = Provider.of<WalletSeedStore>(context);
-    String _seed;
-    String? _isSeed;
+    String? _seed;
     final _height = MediaQuery.sizeOf(context).height;
     return ScrollableWithBottomSection(
       contentPadding: EdgeInsets.all(0),
       content: Container(
         padding: EdgeInsetsDirectional.only(start: 30.0, end: 30.0, bottom: 30.0),
-        child: Container(child: Observer(
+        child: Observer(
           builder: (_) {
-            _isSeed = walletSeedStore.seed;
+            _seed = walletSeedStore.seed;
             final isLoading = walletSeedStore.isLoading;
 
             if (isLoading) {
               return Center(
-                child: SizedBox(
-                  width: 42,
-                  height: 42,
-                  child: CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      const Color(0xff0BA70F),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.only(top: _height * 1 / 3),
+                  child: SizedBox(
+                    width: 42,
+                    height: 42,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        const Color(0xff0BA70F),
+                      ),
                     ),
                   ),
                 ),
@@ -112,7 +114,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
             }
 
             return Center(
-              child: _isSeed == '' || _isSeed == null
+              child: _seed == '' || _seed == null
                   ? Padding(
                       padding: EdgeInsetsDirectional.only(top: _height * 1 / 3),
                       child: RichText(
@@ -142,340 +144,337 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         SizedBox(height: _height * 0.20 / 3),
-                        Observer(builder: (_) {
-                          _seed = walletSeedStore.seed;
-                          return Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsetsDirectional.only(
-                                    start: 10.0, end: 10.0),
-                                child: RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                      text: tr(context).note,
-                                      style: TextStyle(
-                                          backgroundColor: Colors.transparent,
-                                          color: Color(0xffFF3131),
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.w400),
-                                      children: [
-                                        TextSpan(
-                                            text: ' ${tr(context).neverShareYourSeedToAnyoneCheckYourSurroundingsTo}',
-                                            style: TextStyle(
-                                                backgroundColor: Colors.transparent,
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w400,
-                                                color: settingsStore
-                                                        .isDarkTheme
-                                                    ? Color(0xffD9D9D9)
-                                                    : Color(0xff909090)))
-                                      ]),
-                                ),
-                              ),
-                              SizedBox(
-                                height: _height * 0.10 / 3,
-                              ),
-                              Text(
-                                walletSeedStore.name,
-                                style: TextStyle(
-                                  backgroundColor: Colors.transparent,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 20,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                  // height:
-                                  //     MediaQuery.sizeOf(context).height *
-                                  //         0.50 /
-                                  //         3,
-                                  padding: EdgeInsetsDirectional.all(15),
-                                  decoration: BoxDecoration(
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xff272733)
-                                          : Color(0xffEDEDED),
-                                      borderRadius:
-                                          BorderRadius.circular(10.0)),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsetsDirectional.only(
+                                  start: 10.0, end: 10.0),
+                              child: RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                    text: tr(context).note,
+                                    style: TextStyle(
+                                        backgroundColor: Colors.transparent,
+                                        color: Color(0xffFF3131),
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400),
                                     children: [
-                                      Text(walletSeedStore.seed,
-                                          textAlign: TextAlign.center,
+                                      TextSpan(
+                                          text: ' ${tr(context).neverShareYourSeedToAnyoneCheckYourSurroundingsTo}',
                                           style: TextStyle(
                                               backgroundColor: Colors.transparent,
                                               fontSize: 15,
-                                              color:
-                                                  settingsStore.isDarkTheme
-                                                      ? Color(0xffE2E2E2)
-                                                      : Color(0xff373737))),
-                                    ],
-                                  )),
-                              SizedBox(
-                                height: _height * 0.10 / 3,
+                                              fontWeight: FontWeight.w400,
+                                              color: settingsStore
+                                                  .isDarkTheme
+                                                  ? Color(0xffD9D9D9)
+                                                  : Color(0xff909090)))
+                                    ]),
                               ),
-                              Padding(
-                                padding: const EdgeInsetsDirectional.only(start:10.0, top: 15.0, end:10.0, bottom: 10.0),
-                                child: !widget.showSeed
-                                    ? Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: ElevatedButton(
-                                                onPressed: !isCopied
-                                                    ? () async {
-                                                        setState(() {
-                                                          isCopied = true;
-                                                        });
-                                                        await ClipboardHelper.copyWithAutoClear(_seed);
-                                                        await Fluttertoast.showToast(
-                                                          msg: tr(context)
-                                                              .copied,
-                                                           toastLength: Toast.LENGTH_SHORT,
-                                                           gravity: ToastGravity.BOTTOM,
-                                                          // Toast gravity (top, center, or bottom)
-                                                          textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
-                                                          backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900, // Background color
-                                                        );
-                                                      }
-                                                    : null,
-                                                style: ElevatedButton
-                                                    .styleFrom(
-                                                  backgroundColor: isCopied
-                                                      ? settingsStore
-                                                              .isDarkTheme
-                                                          ? Color(
-                                                              0xff272733)
-                                                          : Color(
-                                                              0xffE8E8E8)
-                                                      : Color(0xff0BA70F),
-                                                  minimumSize: const Size.fromHeight(58),
-                                                  padding: const EdgeInsets.symmetric(
-                                                    horizontal: 8,
-                                                    vertical: 12,
-                                                  ),
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(10),
-                                                  ),
-                                                ),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .center,
-                                                  children: [
-                                                    Flexible(
-                                                      child: Text(
-                                                          tr(context)
-                                                              .copySeed,
-                                                          softWrap: true,
-                                                          overflow:
-                                                              TextOverflow
-                                                                  .visible,
-                                                          maxLines: 2,
-                                                          textAlign:
-                                                              TextAlign
-                                                                  .center,
-                                                          style: TextStyle(
-                                                            backgroundColor: Colors.transparent,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold,
-                                                            color: isCopied
-                                                                ? settingsStore
-                                                                        .isDarkTheme
-                                                                    ? Color(
-                                                                        0xff6C6C78)
-                                                                    : Color(
-                                                                        0xffB2B2B6)
-                                                                : Colors
-                                                                    .white,
-                                                          )),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional.only(start: 8.0),
-                                                      child: Icon(
-                                                        Icons.copy,
-                                                        color: isCopied
-                                                            ? settingsStore
-                                                                    .isDarkTheme
-                                                                ? Color(
-                                                                    0xff6C6C78)
-                                                                : Color(
-                                                                    0xffB2B2B6)
-                                                            : Colors.white,
-                                                      ),
-                                                    )
-                                                  ],
-                                                )),
+                            ),
+                            SizedBox(
+                              height: _height * 0.10 / 3,
+                            ),
+                            Text(
+                              walletSeedStore.name,
+                              style: TextStyle(
+                                backgroundColor: Colors.transparent,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 20,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Container(
+                              // height:
+                              //     MediaQuery.sizeOf(context).height *
+                              //         0.50 /
+                              //         3,
+                                padding: EdgeInsetsDirectional.all(15),
+                                decoration: BoxDecoration(
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff272733)
+                                        : Color(0xffEDEDED),
+                                    borderRadius:
+                                    BorderRadius.circular(10.0)),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(walletSeedStore.seed,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            backgroundColor: Colors.transparent,
+                                            fontSize: 15,
+                                            color:
+                                            settingsStore.isDarkTheme
+                                                ? Color(0xffE2E2E2)
+                                                : Color(0xff373737))),
+                                  ],
+                                )),
+                            SizedBox(
+                              height: _height * 0.10 / 3,
+                            ),
+                            Padding(
+                              padding: const EdgeInsetsDirectional.only(start:10.0, top: 15.0, end:10.0, bottom: 10.0),
+                              child: !widget.showSeed
+                                  ? Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: ElevatedButton(
+                                        onPressed: !isCopied
+                                            ? () async {
+                                          setState(() {
+                                            isCopied = true;
+                                          });
+                                          await ClipboardHelper.copyWithAutoClear(_seed!);
+                                          await Fluttertoast.showToast(
+                                            msg: tr(context)
+                                                .copied,
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            // Toast gravity (top, center, or bottom)
+                                            textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                            backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900, // Background color
+                                          );
+                                        }
+                                            : null,
+                                        style: ElevatedButton
+                                            .styleFrom(
+                                          backgroundColor: isCopied
+                                              ? settingsStore
+                                              .isDarkTheme
+                                              ? Color(
+                                              0xff272733)
+                                              : Color(
+                                              0xffE8E8E8)
+                                              : Color(0xff0BA70F),
+                                          minimumSize: const Size.fromHeight(58),
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 8,
+                                            vertical: 12,
                                           ),
-                                          SizedBox(
-                                            width: 10,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
                                           ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                Share.share(
-                                                  _seed,
-                                                  subject: tr(context).seed_share,
-                                                );
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor: const Color(0xff2979FB),
-                                                minimumSize: const Size.fromHeight(58),
-                                                padding: const EdgeInsets.symmetric(
-                                                  horizontal: 8,
-                                                  vertical: 12,
-                                                ),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                              ),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment
+                                              .center,
+                                          children: [
+                                            Flexible(
                                               child: Text(
-                                                tr(context).save,
-                                                maxLines: 2,
-                                                softWrap: false,
-                                                overflow: TextOverflow.visible,
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                  backgroundColor: Colors.transparent,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
+                                                  tr(context)
+                                                      .copySeed,
+                                                  softWrap: true,
+                                                  overflow:
+                                                  TextOverflow
+                                                      .visible,
+                                                  maxLines: 2,
+                                                  textAlign:
+                                                  TextAlign
+                                                      .center,
+                                                  style: TextStyle(
+                                                    backgroundColor: Colors.transparent,
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                    FontWeight
+                                                        .bold,
+                                                    color: isCopied
+                                                        ? settingsStore
+                                                        .isDarkTheme
+                                                        ? Color(
+                                                        0xff6C6C78)
+                                                        : Color(
+                                                        0xffB2B2B6)
+                                                        : Colors
+                                                        .white,
+                                                  )),
                                             ),
-                                          ),
-                                        ],
-                                      )
-                                    : Row(
-                                        children: [
-                                          Expanded(
-                                            flex: 2,
-                                            child: ElevatedButton(
-                                              onPressed: () async {
-                                                setState(() {
-                                                  isCopied = true;
-                                                });
-                                                await ClipboardHelper.copyWithAutoClear(_seed);
-                                                await Fluttertoast.showToast(
-                                                  msg: tr(context).copied,
-                                                   toastLength: Toast.LENGTH_SHORT,
-                                                   gravity: ToastGravity.BOTTOM,
-                                                  // Toast gravity (top, center, or bottom)
-                                                  textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
-                                                  backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
-                                                );
-                                              },
-                                              style:
-                                                  ElevatedButton.styleFrom(
-                                                backgroundColor: Color(0xff0BA70F),
-                                                    minimumSize: const Size.fromHeight(58),
-                                                    padding: const EdgeInsets.symmetric(
-                                                      horizontal: 8,
-                                                      vertical: 12,
-                                                    ),
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.circular(10),
-                                                    ),
+                                            Padding(
+                                              padding:
+                                              const EdgeInsetsDirectional.only(start: 8.0),
+                                              child: Icon(
+                                                Icons.copy,
+                                                color: isCopied
+                                                    ? settingsStore
+                                                    .isDarkTheme
+                                                    ? Color(
+                                                    0xff6C6C78)
+                                                    : Color(
+                                                    0xffB2B2B6)
+                                                    : Colors.white,
                                               ),
-                                              child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .center,
-                                                  children: [
-                                                    Flexible(
-                                                      child: Text(
-                                                          tr(context)
-                                                              .copySeed,
-                                                          softWrap: true,
-                                                          overflow:
-                                                              TextOverflow
-                                                                  .visible,
-                                                          maxLines: 2,
-                                                          textAlign:
-                                                              TextAlign
-                                                                  .center,
-                                                          style: TextStyle(
-                                                            backgroundColor: Colors.transparent,
-                                                            fontSize: 16,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold,
-                                                            color:
-                                                                Colors.white,
-                                                          )),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional.only(start: 8.0),
-                                                      child: Icon(
-                                                        Icons.copy,
-                                                        color: Colors.white,
-                                                      ),
-                                                    )
-                                                  ]),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Expanded(
-                                            flex: 1,
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                Share.share(
-                                                  _seed,
-                                                  subject: tr(context).seed_share,
-                                                );
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor: const Color(0xff2979FB),
-                                                minimumSize: const Size.fromHeight(58),
-                                                padding: const EdgeInsets.symmetric(
-                                                  horizontal: 8,
-                                                  vertical: 12,
-                                                ),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                              ),
-                                              child: Text(
-                                                tr(context).save,
-                                                maxLines: 2,
-                                                softWrap: false,
-                                                overflow: TextOverflow.visible,
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                  backgroundColor: Colors.transparent,
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            ),
-                                          )
-                                        ],
+                                            )
+                                          ],
+                                        )),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Share.share(
+                                          _seed!,
+                                          subject: tr(context).seed_share,
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color(0xff2979FB),
+                                        minimumSize: const Size.fromHeight(58),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                          vertical: 12,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
                                       ),
+                                      child: Text(
+                                        tr(context).save,
+                                        maxLines: 2,
+                                        softWrap: false,
+                                        overflow: TextOverflow.visible,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                                  : Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        setState(() {
+                                          isCopied = true;
+                                        });
+                                        await ClipboardHelper.copyWithAutoClear(_seed!);
+                                        await Fluttertoast.showToast(
+                                          msg: tr(context).copied,
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          // Toast gravity (top, center, or bottom)
+                                          textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
+                                          backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                                        );
+                                      },
+                                      style:
+                                      ElevatedButton.styleFrom(
+                                        backgroundColor: Color(0xff0BA70F),
+                                        minimumSize: const Size.fromHeight(58),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                          vertical: 12,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      child: Row(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment
+                                              .center,
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                  tr(context)
+                                                      .copySeed,
+                                                  softWrap: true,
+                                                  overflow:
+                                                  TextOverflow
+                                                      .visible,
+                                                  maxLines: 2,
+                                                  textAlign:
+                                                  TextAlign
+                                                      .center,
+                                                  style: TextStyle(
+                                                    backgroundColor: Colors.transparent,
+                                                    fontSize: 16,
+                                                    fontWeight:
+                                                    FontWeight
+                                                        .bold,
+                                                    color:
+                                                    Colors.white,
+                                                  )),
+                                            ),
+                                            Padding(
+                                              padding:
+                                              const EdgeInsetsDirectional.only(start: 8.0),
+                                              child: Icon(
+                                                Icons.copy,
+                                                color: Colors.white,
+                                              ),
+                                            )
+                                          ]),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        Share.share(
+                                          _seed!,
+                                          subject: tr(context).seed_share,
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color(0xff2979FB),
+                                        minimumSize: const Size.fromHeight(58),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                          vertical: 12,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(10),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        tr(context).save,
+                                        maxLines: 2,
+                                        softWrap: false,
+                                        overflow: TextOverflow.visible,
+                                        textAlign: TextAlign.center,
+                                        style: const TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
-                            ],
-                          );
-                        }),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
             );
           },
-        )),
+        ),
       ),
       bottomSection:  Column(children: [
-        !widget.showSeed && !isCopied || _isSeed != null
+        !widget.showSeed && !isCopied || _seed != null
             ? Padding(
           padding: const EdgeInsetsDirectional.all(8.0),
           child: Text(
@@ -486,7 +485,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
             : Container(),
         Row(children: [
           Expanded(
-            child: !widget.showSeed || _isSeed != null
+            child: !widget.showSeed || _seed != null
                 ? Container(
               margin: EdgeInsetsDirectional.all(10),
               child: ElevatedButton(
