@@ -280,7 +280,7 @@ abstract class AppLocalizations {
   /// No description provided for @availableBdx.
   ///
   /// In en, this message translates to:
-  /// **'Available BDX : '**
+  /// **'Available BDX :'**
   String get availableBdx;
 
   /// No description provided for @bdx.

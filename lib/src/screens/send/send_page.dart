@@ -314,10 +314,12 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                               children: <Widget>[
                                 SizedBox(height: 10),
                                 Row(
+                                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                                  textBaseline: TextBaseline.alphabetic,
                                   children: [
                                     Flexible(
                                       flex: 1,
-                                      child: Text(tr(context).availableBdx,
+                                      child: Text('${tr(context).availableBdx} ',
                                           style: TextStyle(
                                             backgroundColor: Colors.transparent,
                                             color: Theme.of(context)

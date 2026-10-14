@@ -26,7 +26,7 @@
   "auth_store_incorrect_password": "Code PIN incorrect",
   "authenticated": "Authentifié",
   "available_balance": "Solde disponible",
-  "availableBdx": "BDX disponibles : ",
+  "availableBdx": "BDX disponibles :",
   "bdx": "BDX",
   "biometric_auth_reason": "Scannez votre empreinte digitale pour vous authentifier",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "La fonctionnalité biométrique est actuellement désactivée. Veuillez activer la fonctionnalité d'authentification biométrique dans les paramètres de l'application.",

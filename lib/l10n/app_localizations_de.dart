@@ -90,7 +90,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get available_balance => 'Verfügbarer Saldo';
 
   @override
-  String get availableBdx => 'Verfügbares BDX : ';
+  String get availableBdx => 'Verfügbares BDX :';
 
   @override
   String get bdx => 'BDX';

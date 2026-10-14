@@ -26,7 +26,7 @@
   "auth_store_incorrect_password": "Falsches PIN",
   "authenticated": "Authentifiziert",
   "available_balance": "Verfügbarer Saldo",
-  "availableBdx": "Verfügbares BDX : ",
+  "availableBdx": "Verfügbares BDX :",
   "bdx": "BDX",
   "biometric_auth_reason": "Scannen Sie Ihren Fingerabdruck zur Authentifizierung",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "Biometrische Funktion derzeit deaktiviert. Bitte aktivieren Sie die biometrische Authentifizierungsfunktion in den App-Einstellungen",
