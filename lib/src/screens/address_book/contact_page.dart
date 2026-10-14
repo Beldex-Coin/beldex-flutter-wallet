@@ -110,14 +110,13 @@ class ContactFormState extends State<ContactForm> {
             children: <Widget>[
               SizedBox(height: 14.0),
               Card(
-                elevation:0,
+                elevation: 0,
                 color: Theme.of(context).cardColor,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
-                ),
+                    borderRadius: BorderRadius.circular(10)),
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.only(start:25.0),
-                  child:TextFormField(
+                  padding: const EdgeInsetsDirectional.only(start: 25.0),
+                  child: TextFormField(
                     controller: _contactNameController,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
@@ -129,79 +128,120 @@ class ContactFormState extends State<ContactForm> {
                       if (_checkName(value)) {
                         return tr(context).thisNameAlreadyExist;
                       }
-                      addressBookStore.validateContactName(value,tr(context));
-                      if(addressBookStore.errorMessage?.isNotEmpty ?? false) {
+                      addressBookStore.validateContactName(value, tr(context));
+                      if (addressBookStore.errorMessage?.isNotEmpty ?? false) {
                         return addressBookStore.errorMessage;
-                      }else{
+                      } else {
                         return null;
                       }
                     },
                     decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintStyle:
-                        TextStyle(backgroundColor:Colors.transparent,fontSize: 16.0, color: Colors.grey.withValues(alpha: 0.6),fontWeight: FontWeight.bold),
-                        hintText: tr(context).enterName,
-                        errorStyle: TextStyle(backgroundColor:Colors.transparent,color: BeldexPalette.red)),
+                      border: InputBorder.none,
+                      hintStyle: TextStyle(
+                          backgroundColor: Colors.transparent,
+                          fontSize: 16.0,
+                          color: Colors.grey.withValues(alpha: 0.6),
+                          fontWeight: FontWeight.bold),
+                      hintText: tr(context).enterName,
+                      errorStyle: const TextStyle(
+                        backgroundColor: Colors.transparent,
+                        color: Colors.red,
+                        fontSize: 12,
+                        height: 1.3,
+                      ),
+                      errorMaxLines: 3,
+                      contentPadding: const EdgeInsetsDirectional.only(
+                        start: 0,
+                        end: 48,
+                        top: 12,
+                        bottom: 12,
+                      ),
+                    ),
                   ),
                 ),
               ),
               SizedBox(height: 14.0),
               Card(
-                elevation:0,
+                elevation: 0,
                 color: Theme.of(context).cardColor,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)
-                ),
+                    borderRadius: BorderRadius.circular(10)),
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.only(start:25.0),
-                  child:TextFormField(
+                  padding: const EdgeInsetsDirectional.only(start: 25.0),
+                  child: TextFormField(
                     controller: _addressController,
                     inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9.-]')),
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'[a-zA-Z0-9.-]')),
                     ],
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
-                      if(value?.isEmpty ?? false || value == ''){
+                      if (value?.isEmpty ?? false || value == '') {
                         return tr(context).addressShouldNotBeEmpty;
-                      }else
-                      {
-                        if(widget.contact.name.isEmpty && widget.contact.address.isEmpty){
+                      } else {
+                        if (widget.contact.name.isEmpty &&
+                            widget.contact.address.isEmpty) {
                           for (var items in addressBookStore.contactList) {
                             if (items.address.contains(value!)) {
                               return tr(context).theAddressAlreadyExist;
                             }
                           }
                         }
-                        addressBookStore.validateAddress(value!, cryptoCurrency: _selectedCrypto,t:tr(context));
-                        if(addressBookStore.errorMessage?.isNotEmpty ?? false) {
+                        addressBookStore.validateAddress(value!,
+                            cryptoCurrency: _selectedCrypto, t: tr(context));
+                        if (addressBookStore.errorMessage?.isNotEmpty ??
+                            false) {
                           return addressBookStore.errorMessage;
-                        }else{
+                        } else {
                           return null;
                         }
                       }
                     },
                     decoration: InputDecoration(
-                        border: InputBorder.none,
-                        suffixIcon: Container(
-                            width: 20.0,
-                            height: 20.0,
-                            padding: EdgeInsetsDirectional.all(10),
-                            child: InkWell(
-                              onTap: () async => _presentQRScanner(context,_addressController),
-                              child: SvgPicture.asset(
-                                'assets/images/qr_code_svg.svg',
-                                width: 20,
-                                height: 20,
-                                  colorFilter: ColorFilter.mode(Theme.of(context).primaryTextTheme.bodySmall?.color ?? Colors.green, BlendMode.srcIn),
-                                placeholderBuilder: (context) {
-                                  return Icon(Icons.image);
-                                },
-                              ),
-                            )),
-                        hintStyle:
-                        TextStyle(backgroundColor:Colors.transparent,fontSize: 16.0, color: Colors.grey.withValues(alpha: 0.6),fontWeight: FontWeight.bold),
-                        hintText: tr(context).enterAddress,
-                        errorStyle: TextStyle(backgroundColor:Colors.transparent,color: BeldexPalette.red)),
+                      border: InputBorder.none,
+                      suffixIcon: Container(
+                          width: 20.0,
+                          height: 20.0,
+                          padding: EdgeInsetsDirectional.all(10),
+                          child: InkWell(
+                            onTap: () async =>
+                                _presentQRScanner(context, _addressController),
+                            child: SvgPicture.asset(
+                              'assets/images/qr_code_svg.svg',
+                              width: 20,
+                              height: 20,
+                              colorFilter: ColorFilter.mode(
+                                  Theme.of(context)
+                                          .primaryTextTheme
+                                          .bodySmall
+                                          ?.color ??
+                                      Colors.green,
+                                  BlendMode.srcIn),
+                              placeholderBuilder: (context) {
+                                return Icon(Icons.image);
+                              },
+                            ),
+                          )),
+                      hintStyle: TextStyle(
+                          backgroundColor: Colors.transparent,
+                          fontSize: 16.0,
+                          color: Colors.grey.withValues(alpha: 0.6),
+                          fontWeight: FontWeight.bold),
+                      hintText: tr(context).enterAddress,
+                      errorStyle: const TextStyle(
+                        backgroundColor: Colors.transparent,
+                        color: Colors.red,
+                        fontSize: 12,
+                        height: 1.3,
+                      ),
+                      errorMaxLines: 3,
+                      contentPadding: const EdgeInsetsDirectional.only(
+                        start: 0,
+                        end: 48,
+                        top: 12,
+                        bottom: 12,
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -220,11 +260,10 @@ class ContactFormState extends State<ContactForm> {
                     setState(() {
                       _selectedCrypto = CryptoCurrency.xmr;
                       _contactNameController.text = '';
-                      _currencyTypeController.text =
-                          _selectedCrypto.toString();
+                      _currencyTypeController.text = _selectedCrypto.toString();
                       _addressController.text = '';
                     });
-                    },
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: settingsStore.isDarkTheme
                         ? Color(0xff383848)
@@ -254,107 +293,109 @@ class ContactFormState extends State<ContactForm> {
                 flex: 1,
                 child: ElevatedButton(
                   onPressed: () async {
-                          if (!(_formKey.currentState?.validate() ?? false)) {
-                            return;
-                          }
-                          try {
-                            if (widget.contact.name.isEmpty && widget.contact.address.isEmpty) {
-                              final newContact = Contact(
-                                  name: _contactNameController.text,
-                                  address: _addressController.text,
-                                  //type: _selectedCrypto
-                              );
+                    if (!(_formKey.currentState?.validate() ?? false)) {
+                      return;
+                    }
+                    try {
+                      if (widget.contact.name.isEmpty &&
+                          widget.contact.address.isEmpty) {
+                        final newContact = Contact(
+                          name: _contactNameController.text,
+                          address: _addressController.text,
+                          //type: _selectedCrypto
+                        );
 
-                              await addressBookStore.add(contact: newContact);
-                            } else {
-                              widget.contact?.name = _contactNameController.text;
-                              widget.contact?.address = _addressController.text;
-                              /*widget.contact.updateCryptoCurrency(
+                        await addressBookStore.add(contact: newContact);
+                      } else {
+                        widget.contact?.name = _contactNameController.text;
+                        widget.contact?.address = _addressController.text;
+                        /*widget.contact.updateCryptoCurrency(
                                   currency: _selectedCrypto);*/
 
-                              await addressBookStore.update(
-                                  contact: widget.contact!);
-                            }
-                            Navigator.pop(context);
-                          } catch (e) {
-                            await showDialog<void>(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
-                                  return Dialog(
-                                    elevation: 0,
-                                    backgroundColor:
-                                        Theme.of(context).cardTheme.color,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20.0)),
-                                    surfaceTintColor: Colors.transparent,
-                                    child: Container(
-                                      constraints: BoxConstraints(minHeight: 170),
-                                      child: Padding(
-                                        padding: const EdgeInsetsDirectional.all(12.0),
-                                        child: Column(
+                        await addressBookStore.update(contact: widget.contact!);
+                      }
+                      Navigator.pop(context);
+                    } catch (e) {
+                      await showDialog<void>(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (BuildContext context) {
+                            return Dialog(
+                              elevation: 0,
+                              backgroundColor:
+                                  Theme.of(context).cardTheme.color,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              surfaceTintColor: Colors.transparent,
+                              child: Container(
+                                constraints: BoxConstraints(minHeight: 170),
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsetsDirectional.all(12.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        e.toString(),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            backgroundColor: Colors.transparent,
+                                            fontSize: 15),
+                                      ),
+                                      SizedBox(
+                                        height: 50,
+                                      ),
+                                      Center(
+                                        child: Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              e.toString(),
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(backgroundColor: Colors.transparent,fontSize: 15),
+                                            SizedBox(
+                                              width: 45,
                                             ),
                                             SizedBox(
-                                              height: 50,
-                                            ),
-                                            Center(
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  SizedBox(
-                                                    width: 45,
+                                              width: 45,
+                                              child: TextButton(
+                                                style: TextButton.styleFrom(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10)),
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                          .cardTheme
+                                                          .shadowColor,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pop(true);
+                                                },
+                                                child: Text(
+                                                  tr(context).ok,
+                                                  style: TextStyle(
+                                                    backgroundColor:
+                                                        Colors.transparent,
+                                                    color: Theme.of(context)
+                                                        .primaryTextTheme
+                                                        .bodySmall
+                                                        ?.color,
                                                   ),
-                                                  SizedBox(
-                                                    width: 45,
-                                                    child: TextButton(
-                                                      style:
-                                                          TextButton.styleFrom(
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        10)),
-                                                        backgroundColor:
-                                                            Theme.of(context)
-                                                                .cardTheme
-                                                                .shadowColor,
-                                                      ),
-                                                      onPressed: () {
-                                                        Navigator.of(context)
-                                                            .pop(true);
-                                                      },
-                                                      child: Text(
-                                                        tr(context).ok,
-                                                        style: TextStyle(
-                                                          backgroundColor: Colors.transparent,
-                                                          color: Theme.of(context).primaryTextTheme.bodySmall?.color,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
+                                                ),
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
-                                      ),
-                                    ),
-                                  );
-                                });
-                          }
-                        },
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
+                          });
+                    }
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff0BA70F),
                     padding: EdgeInsetsDirectional.all(15),
@@ -378,7 +419,8 @@ class ContactFormState extends State<ContactForm> {
         ));
   }
 
-  Future<void> _presentQRScanner(BuildContext context, TextEditingController controller) async {
+  Future<void> _presentQRScanner(
+      BuildContext context, TextEditingController controller) async {
     try {
       final code = await presentQRScanner(context);
       final uri = Uri.parse(code!);
