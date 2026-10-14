@@ -102,7 +102,7 @@ class FaqPage extends BasePage {
                                       EdgeInsetsDirectional.only(start: 15.0, end: 15.0),
                                   child: Text(
                                     itemChild,
-                                    textAlign: TextAlign.justify,
+                                    textAlign: TextAlign.start,
                                     style: TextStyle(backgroundColor: Colors.transparent,fontSize: 12),
                                   ),
                                 ))
