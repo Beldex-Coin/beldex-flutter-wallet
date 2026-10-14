@@ -95,7 +95,22 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
         child: Container(child: Observer(
           builder: (_) {
             _isSeed = walletSeedStore.seed;
-            // _isSeed = null;
+            final isLoading = walletSeedStore.isLoading;
+
+            if (isLoading) {
+              return Center(
+                child: SizedBox(
+                  width: 42,
+                  height: 42,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      const Color(0xff0BA70F),
+                    ),
+                  ),
+                ),
+              );
+            }
+
             return Center(
               child: _isSeed == '' || _isSeed == null
                   ? Padding(
