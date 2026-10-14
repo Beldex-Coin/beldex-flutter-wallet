@@ -207,7 +207,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                               errorMaxLines: 3,
                               contentPadding: const EdgeInsetsDirectional.only(
                                 start: 0,
-                                end: 48,
+                                end: 8,
                                 top: 12,
                                 bottom: 12,
                               ),
