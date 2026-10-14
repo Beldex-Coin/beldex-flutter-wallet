@@ -454,5 +454,6 @@
   "your_contributions": "Suas contribuições",
   "order_creation_failed_error_message": "주문 생성에 실패했습니다",
   "flash_on": "Ativar Flash",
-  "flash_off": "Desativar Flash"
+  "flash_off": "Desativar Flash",
+  "address_copied": "Endereço copiado"
 }

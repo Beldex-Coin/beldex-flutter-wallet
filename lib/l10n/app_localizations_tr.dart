@@ -1449,6 +1449,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get order_creation_failed_error_message => 'Emir oluşturulamadı';
 
   @override
+  String get flash_on => 'Flash\'i Aç';
+
+  @override
+  String get flash_off => 'Flash\'i Kapat';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1479,8 +1485,5 @@ class AppLocalizationsTr extends AppLocalizations {
   String get seed_language_spanish => 'Spanish';
 
   @override
-  String get flash_on => 'Flash\'i Aç';
-
-  @override
-  String get flash_off => 'Flash\'i Kapat';
+  String get address_copied => 'Adres Kopyalandı';
 }

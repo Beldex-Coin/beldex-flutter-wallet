@@ -1449,6 +1449,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get order_creation_failed_error_message => '주문 생성에 실패했습니다';
 
   @override
+  String get flash_on => 'Flash 켜기';
+
+  @override
+  String get flash_off => 'Flash 끄기';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1479,8 +1485,5 @@ class AppLocalizationsKo extends AppLocalizations {
   String get seed_language_spanish => 'Spanish';
 
   @override
-  String get flash_on => 'Flash 켜기';
-
-  @override
-  String get flash_off => 'Flash 끄기';
+  String get address_copied => '주소가 복사되었습니다';
 }

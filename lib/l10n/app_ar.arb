@@ -454,5 +454,6 @@
   "your_contributions": "مساهماتك",
   "order_creation_failed_error_message": "فشل إنشاء الطلب",
   "flash_on": "تفعيل Flash",
-  "flash_off": "إيقاف Flash"
+  "flash_off": "إيقاف Flash",
+  "address_copied": "تم نسخ العنوان"
 }

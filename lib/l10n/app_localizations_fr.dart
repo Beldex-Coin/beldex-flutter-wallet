@@ -1449,6 +1449,12 @@ class AppLocalizationsFr extends AppLocalizations {
   String get order_creation_failed_error_message => 'Échec de la création de l’ordre';
 
   @override
+  String get flash_on => 'Activer Flash';
+
+  @override
+  String get flash_off => 'Désactiver Flash';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1479,8 +1485,5 @@ class AppLocalizationsFr extends AppLocalizations {
   String get seed_language_spanish => 'Spanish';
 
   @override
-  String get flash_on => 'Activer Flash';
-
-  @override
-  String get flash_off => 'Désactiver Flash';
+  String get address_copied => 'Adresse copiée';
 }

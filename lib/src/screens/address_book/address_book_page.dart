@@ -251,7 +251,7 @@ class AddressBookPage extends BasePage {
                                             onPressed: () async {
                                               await ClipboardHelper.copyWithAutoClear(contact.address);
                                               await Fluttertoast.showToast(
-                                                msg: 'Address Copied',
+                                                msg: tr(context).address_copied,
                                                 toastLength: Toast.LENGTH_SHORT,
                                                 gravity: ToastGravity.BOTTOM,
                                                 textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,

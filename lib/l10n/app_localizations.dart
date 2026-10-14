@@ -2839,6 +2839,18 @@ abstract class AppLocalizations {
   /// **'Order creation failed'**
   String get order_creation_failed_error_message;
 
+  /// No description provided for @flash_on.
+  ///
+  /// In en, this message translates to:
+  /// **'Flash On'**
+  String get flash_on;
+
+  /// No description provided for @flash_off.
+  ///
+  /// In en, this message translates to:
+  /// **'Flash Off'**
+  String get flash_off;
+
   /// No description provided for @seed_language_chinese.
   ///
   /// In en, this message translates to:
@@ -2899,17 +2911,11 @@ abstract class AppLocalizations {
   /// **'Spanish'**
   String get seed_language_spanish;
 
-  /// No description provided for @flash_on.
+  /// No description provided for @address_copied.
   ///
   /// In en, this message translates to:
-  /// **'Flash On'**
-  String get flash_on;
-
-  /// No description provided for @flash_off.
-  ///
-  /// In en, this message translates to:
-  /// **'Flash Off'**
-  String get flash_off;
+  /// **'Address Copied'**
+  String get address_copied;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

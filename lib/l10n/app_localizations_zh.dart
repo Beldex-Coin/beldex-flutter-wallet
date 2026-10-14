@@ -1449,6 +1449,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get order_creation_failed_error_message => '订单创建失败';
 
   @override
+  String get flash_on => '开启 Flash';
+
+  @override
+  String get flash_off => '关闭 Flash';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1479,8 +1485,5 @@ class AppLocalizationsZh extends AppLocalizations {
   String get seed_language_spanish => 'Spanish';
 
   @override
-  String get flash_on => '开启 Flash';
-
-  @override
-  String get flash_off => '关闭 Flash';
+  String get address_copied => '地址已复制';
 }

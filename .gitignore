@@ -41,6 +41,11 @@
 android/app/release/
 android/app/.cxx/
 
+# Android release signing keys
+*.jks
+*.keystore
+android/key.properties
+
 # iOS/XCode related
 **/ios/**/*.mode1v3
 **/ios/**/*.mode2v3
@@ -81,8 +86,6 @@ android/app/.externalNativeBuild/
 
 # Generated dart files
 **/*.g.dart
-
-android/key.properties
 
 **/tool/.secrets-prod.json
 **/lib/.secrets.g.dart

@@ -454,5 +454,6 @@
   "your_contributions": "Ваш вклад",
   "order_creation_failed_error_message": "Не удалось создать ордер",
   "flash_on": "Включить Flash",
-  "flash_off": "Выключить Flash"
+  "flash_off": "Выключить Flash",
+  "address_copied": "Адрес скопирован"
 }

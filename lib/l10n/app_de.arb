@@ -454,5 +454,6 @@
   "your_contributions": "Deine Anteile",
   "order_creation_failed_error_message": "Auftragserstellung fehlgeschlagen",
   "flash_on": "Flash aktivieren",
-  "flash_off": "Flash deaktivieren"
+  "flash_off": "Flash deaktivieren",
+  "address_copied": "Adresse kopiert"
 }

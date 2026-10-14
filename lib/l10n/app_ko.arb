@@ -454,5 +454,6 @@
   "your_contributions": "기여 내역",
   "order_creation_failed_error_message": "주문 생성에 실패했습니다",
   "flash_on": "Flash 켜기",
-  "flash_off": "Flash 끄기"
+  "flash_off": "Flash 끄기",
+  "address_copied": "주소가 복사되었습니다"
 }
