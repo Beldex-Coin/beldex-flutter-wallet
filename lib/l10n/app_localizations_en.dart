@@ -285,7 +285,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bnsYearTwoShort => '2 Yrs';
 
   @override
-  String get bnsYouSave => 'You Save ';
+  String get bnsYouSave => 'You Save';
 
   @override
   String get buyBns => 'Buy BNS';

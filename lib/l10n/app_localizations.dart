@@ -646,7 +646,7 @@ abstract class AppLocalizations {
   /// No description provided for @bnsYouSave.
   ///
   /// In en, this message translates to:
-  /// **'You Save '**
+  /// **'You Save'**
   String get bnsYouSave;
 
   /// No description provided for @buyBns.

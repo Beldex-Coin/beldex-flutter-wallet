@@ -312,7 +312,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                             ? RichText(
                                 textAlign: TextAlign.start,
                                 text: TextSpan(
-                                    text: tr(context).bnsYouSave,
+                                    text: '${tr(context).bnsYouSave} ',
                                     style: TextStyle(
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xffFFFFFF)
