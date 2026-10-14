@@ -205,7 +205,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                 height: _height * 0.10 / 3,
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.all(15.0),
+                                padding: const EdgeInsetsDirectional.only(start:10.0, top: 15.0, end:10.0, bottom: 10.0),
                                 child: !widget.showSeed
                                     ? Row(
                                         children: [
@@ -239,6 +239,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                           : Color(
                                                               0xffE8E8E8)
                                                       : Color(0xff0BA70F),
+                                                  minimumSize: const Size.fromHeight(58),
                                                   padding: const EdgeInsets.symmetric(
                                                     horizontal: 8,
                                                     vertical: 12,
@@ -252,25 +253,35 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                       MainAxisAlignment
                                                           .center,
                                                   children: [
-                                                    Text(
-                                                        tr(context)
-                                                            .copySeed,
-                                                        style: TextStyle(
-                                                          backgroundColor: Colors.transparent,
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight
-                                                                  .bold,
-                                                          color: isCopied
-                                                              ? settingsStore
-                                                                      .isDarkTheme
-                                                                  ? Color(
-                                                                      0xff6C6C78)
-                                                                  : Color(
-                                                                      0xffB2B2B6)
-                                                              : Colors
-                                                                  .white,
-                                                        )),
+                                                    Flexible(
+                                                      child: Text(
+                                                          tr(context)
+                                                              .copySeed,
+                                                          softWrap: true,
+                                                          overflow:
+                                                              TextOverflow
+                                                                  .visible,
+                                                          maxLines: 2,
+                                                          textAlign:
+                                                              TextAlign
+                                                                  .center,
+                                                          style: TextStyle(
+                                                            backgroundColor: Colors.transparent,
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold,
+                                                            color: isCopied
+                                                                ? settingsStore
+                                                                        .isDarkTheme
+                                                                    ? Color(
+                                                                        0xff6C6C78)
+                                                                    : Color(
+                                                                        0xffB2B2B6)
+                                                                : Colors
+                                                                    .white,
+                                                          )),
+                                                    ),
                                                     Padding(
                                                       padding:
                                                           const EdgeInsetsDirectional.only(start: 8.0),
@@ -303,6 +314,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               },
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: const Color(0xff2979FB),
+                                                minimumSize: const Size.fromHeight(58),
                                                 padding: const EdgeInsets.symmetric(
                                                   horizontal: 8,
                                                   vertical: 12,
@@ -313,9 +325,9 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               ),
                                               child: Text(
                                                 tr(context).save,
-                                                maxLines: 1,
+                                                maxLines: 2,
                                                 softWrap: false,
-                                                overflow: TextOverflow.ellipsis,
+                                                overflow: TextOverflow.visible,
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(
                                                   backgroundColor: Colors.transparent,
@@ -350,6 +362,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               style:
                                                   ElevatedButton.styleFrom(
                                                 backgroundColor: Color(0xff0BA70F),
+                                                    minimumSize: const Size.fromHeight(58),
                                                     padding: const EdgeInsets.symmetric(
                                                       horizontal: 8,
                                                       vertical: 12,
@@ -363,18 +376,28 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                       MainAxisAlignment
                                                           .center,
                                                   children: [
-                                                    Text(
-                                                        tr(context)
-                                                            .copySeed,
-                                                        style: TextStyle(
-                                                          backgroundColor: Colors.transparent,
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight
-                                                                  .bold,
-                                                          color:
-                                                              Colors.white,
-                                                        )),
+                                                    Flexible(
+                                                      child: Text(
+                                                          tr(context)
+                                                              .copySeed,
+                                                          softWrap: true,
+                                                          overflow:
+                                                              TextOverflow
+                                                                  .visible,
+                                                          maxLines: 2,
+                                                          textAlign:
+                                                              TextAlign
+                                                                  .center,
+                                                          style: TextStyle(
+                                                            backgroundColor: Colors.transparent,
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold,
+                                                            color:
+                                                                Colors.white,
+                                                          )),
+                                                    ),
                                                     Padding(
                                                       padding:
                                                           const EdgeInsetsDirectional.only(start: 8.0),
@@ -400,6 +423,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               },
                                               style: ElevatedButton.styleFrom(
                                                 backgroundColor: const Color(0xff2979FB),
+                                                minimumSize: const Size.fromHeight(58),
                                                 padding: const EdgeInsets.symmetric(
                                                   horizontal: 8,
                                                   vertical: 12,
@@ -410,9 +434,9 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               ),
                                               child: Text(
                                                 tr(context).save,
-                                                maxLines: 1,
+                                                maxLines: 2,
                                                 softWrap: false,
-                                                overflow: TextOverflow.ellipsis,
+                                                overflow: TextOverflow.visible,
                                                 textAlign: TextAlign.center,
                                                 style: const TextStyle(
                                                   backgroundColor: Colors.transparent,

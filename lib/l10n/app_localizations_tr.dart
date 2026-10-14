@@ -329,7 +329,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get copyAndSaveTheSeedToContinue => 'Seed’i kopyalayın ve kaydedin, devam etmek için';
 
   @override
-  String get copySeed => 'Копировать seed-фразу';
+  String get copySeed => 'Seed\'i Kopyala';
 
   @override
   String get create_new => 'Yeni Cüzdan Oluştur';
