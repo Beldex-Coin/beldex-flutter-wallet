@@ -195,8 +195,7 @@ class Router {
               )
             ],
             child: SetupPinCodePage(
-              onPinCodeSetup: (context, pin) =>
-                  callback == null ? null : callback(context, pin)!,
+              onPinCodeSetup: callback ?? (_, __) {},
             ),
           );
         });

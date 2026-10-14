@@ -9,9 +9,11 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import '../../../l10n.dart';
 
 class SetupPinCodePage extends BasePage {
-  SetupPinCodePage({this.onPinCodeSetup});
+  SetupPinCodePage({Function(BuildContext, String)? onPinCodeSetup})
+      : onPinCodeSetup = onPinCodeSetup ??
+            ((BuildContext _, String __) {});
 
-  final Function(BuildContext, String)? onPinCodeSetup;
+  final Function(BuildContext, String) onPinCodeSetup;
 
   @override
   String getTitle(AppLocalizations t) => t.setup_pin;
@@ -28,7 +30,7 @@ class SetupPinCodePage extends BasePage {
 
   @override
   Widget body(BuildContext context) =>
-      SetupPinCodeForm(onPinCodeSetup: onPinCodeSetup!, hasLengthSwitcher: true);
+      SetupPinCodeForm(onPinCodeSetup: onPinCodeSetup, hasLengthSwitcher: true);
 }
 
 class SetupPinCodeForm extends PinCodeWidget {
