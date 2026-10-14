@@ -371,9 +371,13 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             if (validateAddressProvider.loading == false) {
               if (validateAddressProvider.data != null) {
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                  final message = validateAddressProvider.data?.message;
+                  final localizedMessage = (message == null || message.trim().isEmpty)
+                      ? tr(context).invalidAddress
+                      : message;
                   validateAddressProvider.setSuccessState(
                       validateAddressProvider.data?.result ?? false);
-                  validateAddressProvider.setErrorMessage(validateAddressProvider.data?.message ?? '');
+                  validateAddressProvider.setErrorMessage(localizedMessage);
                 });
               }
             }
@@ -526,8 +530,12 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               _refundValidateAddressProvider = refundValidator;
               if (refundValidator.loading == false && refundValidator.data != null) {
                 WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+                  final message = refundValidator.data?.message;
+                  final localizedMessage = (message == null || message.trim().isEmpty)
+                      ? tr(context).invalidAddress
+                      : message;
                   refundValidator.setSuccessState(refundValidator.data?.result ?? false);
-                  refundValidator.setErrorMessage(refundValidator.data?.message ?? '');
+                  refundValidator.setErrorMessage(localizedMessage);
                 });
               }
               return Column(
