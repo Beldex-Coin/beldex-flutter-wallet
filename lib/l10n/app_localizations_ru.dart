@@ -168,7 +168,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get bnsEthAddress => 'ETH-адрес';
 
   @override
-  String get bnsEthAddressDescription => 'наш ETH-адрес совместим\n со всеми EVM-сетями';
+  String get bnsEthAddressDescription => 'наш ETH-адрес совместим со всеми EVM-сетями';
 
   @override
   String get bnsExpirationHeight => 'Высота истечения';
@@ -204,7 +204,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get bnsNewOwnerHint => 'Введите адрес кошелька нового владельца';
 
   @override
-  String get bnsNoteLabel => 'Примечание: ';
+  String get bnsNoteLabel => 'Примечание :';
 
   @override
   String get bnsOwnerAndBackupDifferent => 'Адрес владельца и резервный адрес должны отличаться.';

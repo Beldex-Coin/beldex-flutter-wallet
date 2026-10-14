@@ -60,7 +60,7 @@
   "bnsNameHint": "Beldex Name Service üzerinden satın alınacak isim",
   "bnsNameIsTaken": "BNS adı zaten kullanılıyor. Farklı bir ad seçin.",
   "bnsNewOwnerHint": "Yeni sahibin cüzdan adresini girin",
-  "bnsNoteLabel": "Not: ",
+  "bnsNoteLabel": "Not :",
   "bnsOwnerAndBackupDifferent": "Sahip ve yedek adresler farklı olmalıdır.",
   "bnsOwnerHint": "Sahibin cüzdan adresi",
   "bnsOwnerLabel": "Sahip",

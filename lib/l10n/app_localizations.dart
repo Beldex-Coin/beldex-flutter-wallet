@@ -484,7 +484,7 @@ abstract class AppLocalizations {
   /// No description provided for @bnsNoteLabel.
   ///
   /// In en, this message translates to:
-  /// **'Note : '**
+  /// **'Note :'**
   String get bnsNoteLabel;
 
   /// No description provided for @bnsOwnerAndBackupDifferent.

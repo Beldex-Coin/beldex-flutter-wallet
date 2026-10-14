@@ -204,7 +204,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get bnsNewOwnerHint => 'Yeni sahibin cüzdan adresini girin';
 
   @override
-  String get bnsNoteLabel => 'Not: ';
+  String get bnsNoteLabel => 'Not :';
 
   @override
   String get bnsOwnerAndBackupDifferent => 'Sahip ve yedek adresler farklı olmalıdır.';

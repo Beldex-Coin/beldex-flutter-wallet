@@ -168,7 +168,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get bnsEthAddress => 'Endereço ETH';
 
   @override
-  String get bnsEthAddressDescription => 'Nosso endereço ETH é compatível\n com todas as redes EVM';
+  String get bnsEthAddressDescription => 'Nosso endereço ETH é compatível com todas as redes EVM';
 
   @override
   String get bnsExpirationHeight => 'Altura de expiração';
@@ -204,7 +204,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get bnsNewOwnerHint => 'Insira o endereço da carteira do novo proprietário';
 
   @override
-  String get bnsNoteLabel => 'Nota: Nosso endereço ETH é compatível\n com todas as redes EVM';
+  String get bnsNoteLabel => 'Nota :';
 
   @override
   String get bnsOwnerAndBackupDifferent => 'O endereço do proprietário e o endereço de backup devem ser diferentes.';

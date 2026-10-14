@@ -60,7 +60,7 @@
   "bnsNameHint": "El nombre a comprar a través del Beldex Name Service",
   "bnsNameIsTaken": "El nombre de BNS ya está en uso. Elige otro.",
   "bnsNewOwnerHint": "Introduce la dirección de billetera del nuevo propietario",
-  "bnsNoteLabel": "Nota: ",
+  "bnsNoteLabel": "Nota :",
   "bnsOwnerAndBackupDifferent": "La dirección del propietario y la de respaldo deben ser diferentes.",
   "bnsOwnerHint": "La dirección de billetera del propietario",
   "bnsOwnerLabel": "Propietario",

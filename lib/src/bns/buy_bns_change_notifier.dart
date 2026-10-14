@@ -1,3 +1,4 @@
+import 'package:beldex_wallet/l10n.dart';
 import 'package:flutter/material.dart';
 
 import 'bns_purchase_options.dart';
@@ -21,11 +22,26 @@ class BuyBnsChangeNotifier extends ChangeNotifier{
   String ethAddressFieldErrorMessage = '';
 
   List<BnsPurchaseOptions> bnsPurchaseOptions = [
-    BnsPurchaseOptions('Wallet Address', true),
-    BnsPurchaseOptions('BChat ID', false),
-    BnsPurchaseOptions('Belnet ID', false),
-    BnsPurchaseOptions('ETH Address', false)
+    BnsPurchaseOptions('', true),
+    BnsPurchaseOptions('', false),
+    BnsPurchaseOptions('', false),
+    BnsPurchaseOptions('', false),
   ];
+
+  void setLocalizedPurchaseOptions(AppLocalizations localizations) {
+    final localizedOptions = [
+      localizations.walletAddress,
+      localizations.bnsBchatId,
+      localizations.bnsBelnetId,
+      localizations.bnsEthAddress,
+    ];
+
+    for (var i = 0; i < localizedOptions.length; i++) {
+      if (i < bnsPurchaseOptions.length) {
+        bnsPurchaseOptions[i].title = localizedOptions[i];
+      }
+    }
+  }
 
   void setSelectedBnsPriceIndex(int selectedBnsPriceIndex) {
     this.selectedBnsPriceIndex = selectedBnsPriceIndex;

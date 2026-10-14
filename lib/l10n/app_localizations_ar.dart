@@ -204,7 +204,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bnsNewOwnerHint => 'أدخل عنوان المحفظة للمالك الجديد';
 
   @override
-  String get bnsNoteLabel => 'ملاحظة: ';
+  String get bnsNoteLabel => 'ملاحظة :';
 
   @override
   String get bnsOwnerAndBackupDifferent => 'يجب أن يكون عنوان المالك وعنوان النسخة الاحتياطية مختلفين.';

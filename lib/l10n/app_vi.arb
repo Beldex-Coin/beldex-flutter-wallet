@@ -60,7 +60,7 @@
   "bnsNameHint": "Tên cần mua thông qua Dịch vụ Tên Beldex",
   "bnsNameIsTaken": "Tên BNS đã được sử dụng. Hãy chọn tên khác.",
   "bnsNewOwnerHint": "Nhập địa chỉ ví của chủ sở hữu mới",
-  "bnsNoteLabel": "Ghi chú:",
+  "bnsNoteLabel": "Ghi chú :",
   "bnsOwnerAndBackupDifferent": "Địa chỉ chủ sở hữu và địa chỉ dự phòng phải khác nhau.",
   "bnsOwnerHint": "Địa chỉ ví của chủ sở hữu",
   "bnsOwnerLabel": "Chủ sở hữu",

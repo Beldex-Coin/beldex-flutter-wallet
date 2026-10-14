@@ -204,7 +204,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get bnsNewOwnerHint => 'Nhập địa chỉ ví của chủ sở hữu mới';
 
   @override
-  String get bnsNoteLabel => 'Ghi chú:';
+  String get bnsNoteLabel => 'Ghi chú :';
 
   @override
   String get bnsOwnerAndBackupDifferent => 'Địa chỉ chủ sở hữu và địa chỉ dự phòng phải khác nhau.';

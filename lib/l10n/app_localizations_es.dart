@@ -204,7 +204,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get bnsNewOwnerHint => 'Introduce la dirección de billetera del nuevo propietario';
 
   @override
-  String get bnsNoteLabel => 'Nota: ';
+  String get bnsNoteLabel => 'Nota :';
 
   @override
   String get bnsOwnerAndBackupDifferent => 'La dirección del propietario y la de respaldo deben ser diferentes.';

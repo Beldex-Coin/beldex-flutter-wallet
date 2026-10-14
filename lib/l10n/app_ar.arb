@@ -60,7 +60,7 @@
   "bnsNameHint": " الاسم الذي تريد شراؤه عبر خدمة Beldex Name Service",
   "bnsNameIsTaken": "اسم BNS مستخدم بالفعل. اختر اسمًا مختلفًا.",
   "bnsNewOwnerHint": "أدخل عنوان المحفظة للمالك الجديد",
-  "bnsNoteLabel": "ملاحظة: ",
+  "bnsNoteLabel": "ملاحظة :",
   "bnsOwnerAndBackupDifferent": "يجب أن يكون عنوان المالك وعنوان النسخة الاحتياطية مختلفين.",
   "bnsOwnerHint": "عنوان المحفظة للمالك",
   "bnsOwnerLabel": "المالك",

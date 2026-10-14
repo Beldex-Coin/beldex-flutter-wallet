@@ -204,7 +204,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get bnsNewOwnerHint => '새 소유자의 지갑 주소를 입력하세요';
 
   @override
-  String get bnsNoteLabel => '참고: ';
+  String get bnsNoteLabel => '참고 :';
 
   @override
   String get bnsOwnerAndBackupDifferent => '소유자 주소와 백업 주소는 서로 달라야 합니다.';

@@ -204,7 +204,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get bnsNewOwnerHint => 'Geben Sie die Wallet-Adresse des neuen Eigentümers ein';
 
   @override
-  String get bnsNoteLabel => 'Hinweis: ';
+  String get bnsNoteLabel => 'Hinweis :';
 
   @override
   String get bnsOwnerAndBackupDifferent => 'Die Besitzer- und Backup-Adresse müssen unterschiedlich sein.';

@@ -204,7 +204,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get bnsNewOwnerHint => 'Entrez l\'adresse du portefeuille du nouveau propriétaire';
 
   @override
-  String get bnsNoteLabel => 'Remarque : ';
+  String get bnsNoteLabel => 'Remarque :';
 
   @override
   String get bnsOwnerAndBackupDifferent => 'L’adresse du propriétaire et l’adresse de sauvegarde doivent être différentes.';

@@ -122,6 +122,8 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
     sendStore.settingsStore = settingsStore;
     final walletStore = Provider.of<WalletStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
+    final buyBnsChangeNotifier = Provider.of<BuyBnsChangeNotifier>(context, listen: false);
+    buyBnsChangeNotifier.setLocalizedPurchaseOptions(tr(context));
     bnsPriceDetailsList = getBnsPriceDetailsList(context);
     _setEffects(context);
     return KeyboardDetection(
@@ -811,7 +813,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                       child: RichText(
                         textAlign: TextAlign.start,
                         text: TextSpan(
-                            text: tr(context).bnsNoteLabel,
+                            text: '${tr(context).bnsNoteLabel} ',
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 fontSize: 13,
@@ -1170,6 +1172,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
       },
       child: Container(
         width: MediaQuery.sizeOf(context).width < 600 ? MediaQuery.sizeOf(context).width/2.5 : 180,
+        height: 48,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
@@ -1184,6 +1187,7 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                 : Color(0xffFFFFFF)),
         padding: EdgeInsetsDirectional.all(10),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Theme(
@@ -1205,15 +1209,23 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
             SizedBox(
               width: 10,
             ),
-            Text(
-              bnsPurchaseOption.title,
-              style: TextStyle(
-                  color: settingsStore.isDarkTheme
-                      ? Color(0xffFFFFFF)
-                      : Color(0xff000000),
-                  fontWeight: FontWeight.w300,
-                  fontSize: 12.0,
-                  fontFamily: 'OpenSans'),
+            Expanded(
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  bnsPurchaseOption.title,
+                  maxLines: 2,
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
+                  style: TextStyle(
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xffFFFFFF)
+                          : Color(0xff000000),
+                      fontWeight: FontWeight.w300,
+                      fontSize: 12.0,
+                      fontFamily: 'OpenSans'),
+                ),
+              ),
             ),
           ],
         ),

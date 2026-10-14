@@ -60,7 +60,7 @@
   "bnsNameHint": "Der Name, der über den Beldex Name Service gekauft werden soll",
   "bnsNameIsTaken": "Der BNS-Name ist bereits vergeben. Wählen Sie einen anderen Namen.",
   "bnsNewOwnerHint": "Geben Sie die Wallet-Adresse des neuen Eigentümers ein",
-  "bnsNoteLabel": "Hinweis: ",
+  "bnsNoteLabel": "Hinweis :",
   "bnsOwnerAndBackupDifferent": "Die Besitzer- und Backup-Adresse müssen unterschiedlich sein.",
   "bnsOwnerHint": "Die Wallet-Adresse des Besitzers",
   "bnsOwnerLabel": "Besitzer",
