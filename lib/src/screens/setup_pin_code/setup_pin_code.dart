@@ -98,14 +98,16 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                         ),
                         Center(
                           child: SizedBox(
-                            width: 70,
+                            width: 110, // Increased width for Turkish translations
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  backgroundColor: Color(
-                                      0xff0BA70F) //Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
-                                  ),
+                                minimumSize: const Size(110, 40),
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                backgroundColor: const Color(0xff0BA70F),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                                 widget.onPinCodeSetup(context, pin);
@@ -113,11 +115,16 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                               },
                               child: Text(
                                 tr(context).ok,
-                                style: TextStyle(
-                                    backgroundColor: Colors.transparent,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    color: Color(0xffffffff)),
+                                maxLines: 1,
+                                softWrap: false,
+                                overflow: TextOverflow.visible,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  backgroundColor: Colors.transparent,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Color(0xffffffff),
+                                ),
                               ),
                             ),
                           ),
