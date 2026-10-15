@@ -1060,7 +1060,7 @@ abstract class AppLocalizations {
   /// No description provided for @makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate.
   ///
   /// In en, this message translates to:
-  /// **'Make sure to take backup of your\nrecovery Seed, wallet address\nand private keys'**
+  /// **'Make sure to take backup of your recovery Seed, wallet address and private keys'**
   String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate;
 
   /// No description provided for @max.
@@ -2152,7 +2152,7 @@ abstract class AppLocalizations {
   /// No description provided for @youAreAboutToDeletenYourWallet.
   ///
   /// In en, this message translates to:
-  /// **'You are about to delete\n your wallet!'**
+  /// **'You are about to delete your wallet!'**
   String get youAreAboutToDeletenYourWallet;
 
   /// No description provided for @youCantViewTheSeedBecauseYouveRestoredUsingKeys.

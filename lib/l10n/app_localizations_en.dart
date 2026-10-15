@@ -498,7 +498,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadingTheWalletDescription => 'Please don\'t close this window or navigate to another app until we load the wallet';
 
   @override
-  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Make sure to take backup of your\nrecovery Seed, wallet address\nand private keys';
+  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Make sure to take backup of your recovery Seed, wallet address and private keys';
 
   @override
   String get max => 'Max';
@@ -1070,7 +1070,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get yesterday => 'Yesterday';
 
   @override
-  String get youAreAboutToDeletenYourWallet => 'You are about to delete\n your wallet!';
+  String get youAreAboutToDeletenYourWallet => 'You are about to delete your wallet!';
 
   @override
   String get youCantViewTheSeedBecauseYouveRestoredUsingKeys => 'You can\'t view the seed because you\'ve restored using keys';

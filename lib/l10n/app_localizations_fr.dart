@@ -498,7 +498,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get loadingTheWalletDescription => 'Veuillez ne pas fermer cette fenêtre ni accéder à une autre application tant que nous n\'avons pas chargé le portefeuille.';
 
   @override
-  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Assurez-vous de faire une sauvegarde de votre\ngraine de récupération, adresse du portefeuille\net clés privées';
+  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Assurez-vous de faire une sauvegarde de votre graine de récupération, adresse du portefeuille et clés privées';
 
   @override
   String get max => 'Max.';
@@ -1070,7 +1070,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get yesterday => 'hier';
 
   @override
-  String get youAreAboutToDeletenYourWallet => 'Vous êtes sur le point de supprimer\n ton portefeuille!';
+  String get youAreAboutToDeletenYourWallet => 'Vous êtes sur le point de supprimer ton portefeuille!';
 
   @override
   String get youCantViewTheSeedBecauseYouveRestoredUsingKeys => 'Vous ne pouvez pas afficher la graine, car vous avez effectué une restauration à l\'aide de clés';

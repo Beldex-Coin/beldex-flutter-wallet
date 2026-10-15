@@ -72,6 +72,7 @@ class WalletMenu {
                           Text(
                             tr(context).youAreAboutToDeletenYourWallet,
                             textAlign: TextAlign.center,
+                            textDirection: Directionality.of(context),
                             style: TextStyle(
                               backgroundColor: Colors.transparent,
                               fontSize: 18,
@@ -86,6 +87,7 @@ class WalletMenu {
                                   .makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate,
                               // 'Make sure to take a backup of your Mnemonic seed, wallet address and private keys',
                               textAlign: TextAlign.center,
+                              textDirection: Directionality.of(context),
                               style: TextStyle(
                                   backgroundColor: Colors.transparent,
                                   fontSize: 16,

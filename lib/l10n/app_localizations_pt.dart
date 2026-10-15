@@ -498,7 +498,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get loadingTheWalletDescription => 'Por favor, não feche esta janela nem\n navegue para outro aplicativo até que\n a carteira seja carregada';
 
   @override
-  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Certifique-se de fazer backup da sua\n seed de recuperação, endereço da carteira\n e chaves privadas';
+  String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Certifique-se de fazer backup da sua seed de recuperação, endereço da carteira e chaves privadas';
 
   @override
   String get max => 'Máx.';
