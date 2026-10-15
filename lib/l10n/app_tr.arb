@@ -344,6 +344,7 @@
   "changePinLength": "{value} haneli PİN’e geç",
   "pleaseEnterAValidHeight": "Lütfen geçerli bir height girin",
   "invalidAddress": "Geçersiz adres",
+  "invalidDestinationAddress": "Geçersiz hedef adresi",
   "exchangePair": "İşlem Çifti",
   "payment": "Ödeme",
   "bnsConfirmUpdate": "Güncelleme Onayı",

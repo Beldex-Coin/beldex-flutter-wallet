@@ -1090,6 +1090,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get invalidAddress => 'Dirección no válida';
 
   @override
+  String get invalidDestinationAddress => 'Dirección de destino no válida';
+
+  @override
   String get exchangePair => 'Par de intercambio';
 
   @override

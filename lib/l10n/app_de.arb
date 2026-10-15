@@ -344,6 +344,7 @@
   "changePinLength": "Wechseln zu {value}-stelliger PIN",
   "pleaseEnterAValidHeight": "Bitte geben Sie eine gültige Höhe ein",
   "invalidAddress": "Ungültige Adresse",
+  "invalidDestinationAddress": "Ungültige Zieladresse",
   "exchangePair": "Handelspaar",
   "payment": "Zahlung",
   "bnsConfirmUpdate": "Eigentümer aktualisieren",

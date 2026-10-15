@@ -1090,6 +1090,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get invalidAddress => 'Địa chỉ không hợp lệ';
 
   @override
+  String get invalidDestinationAddress => 'Địa chỉ đích không hợp lệ';
+
+  @override
   String get exchangePair => 'Cặp giao dịch';
 
   @override

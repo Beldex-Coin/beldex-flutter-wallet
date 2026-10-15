@@ -344,6 +344,7 @@
   "changePinLength": "Переключиться на {value}-значный PIN-код",
   "pleaseEnterAValidHeight": "Пожалуйста, введите корректную высоту блока",
   "invalidAddress": "Недопустимый адрес",
+  "invalidDestinationAddress": "Неверный адрес получателя",
   "exchangePair": "Торговая пара",
   "payment": "Оплата",
   "bnsConfirmUpdate": "Подтверждение обновления",

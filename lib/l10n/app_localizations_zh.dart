@@ -1090,6 +1090,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get invalidAddress => '地址无效';
 
   @override
+  String get invalidDestinationAddress => '无效的目标地址';
+
+  @override
   String get exchangePair => '交易对';
 
   @override

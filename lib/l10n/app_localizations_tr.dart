@@ -1090,6 +1090,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get invalidAddress => 'Geçersiz adres';
 
   @override
+  String get invalidDestinationAddress => 'Geçersiz hedef adresi';
+
+  @override
   String get exchangePair => 'İşlem Çifti';
 
   @override

@@ -344,6 +344,7 @@
   "changePinLength": "Chuyển sang PIN {value} chữ số",
   "pleaseEnterAValidHeight": "Vui lòng nhập chiều cao hợp lệ",
   "invalidAddress": "Địa chỉ không hợp lệ",
+  "invalidDestinationAddress": "Địa chỉ đích không hợp lệ",
   "exchangePair": "Cặp giao dịch",
   "payment": "Thanh toán",
   "bnsConfirmUpdate": "Xác nhận cập nhật",

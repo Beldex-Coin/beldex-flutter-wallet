@@ -1090,6 +1090,9 @@ class AppLocalizationsJa extends AppLocalizations {
   String get invalidAddress => '無効なアドレス';
 
   @override
+  String get invalidDestinationAddress => '無効な宛先アドレス';
+
+  @override
   String get exchangePair => '取引ペア';
 
   @override

@@ -902,6 +902,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
         var errorMessage = state.error;
         if (state.error.contains('Failed to get output distribution')) {
           errorMessage = tr(context).failedToGetOutputDistribution;
+        } else if(state.error.contains("Invalid Destination address")) {
+          errorMessage = tr(context).invalidDestinationAddress;
         }
         showSimpleBeldexDialog(context, tr(context).alert, errorMessage,
             onPressed: (_) => Navigator.of(context).pop(),

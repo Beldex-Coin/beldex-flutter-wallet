@@ -344,6 +344,7 @@
   "changePinLength": "التبديل إلى رمز PIN مكوّن من {value} أرقام",
   "pleaseEnterAValidHeight": "يرجى إدخال رقم كتلة صالح",
   "invalidAddress": "عنوان غير صالح",
+  "invalidDestinationAddress": "عنوان الوجهة غير صالح",
   "exchangePair": "زوج التبادل",
   "payment": "الدفع",
   "bnsConfirmUpdate": "تأكيد التحديث",

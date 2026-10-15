@@ -344,6 +344,7 @@
   "changePinLength": "{value}자리 PIN으로 전환",
   "pleaseEnterAValidHeight": "유효한 높이를 입력하세요",
   "invalidAddress": "잘못된 주소",
+  "invalidDestinationAddress": "유효하지 않은 대상 주소",
   "exchangePair": "환전 쌍",
   "payment": "결제",
   "bnsConfirmUpdate": "업데이트 확인",

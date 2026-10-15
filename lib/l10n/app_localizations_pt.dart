@@ -1090,6 +1090,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get invalidAddress => 'Endereço inválido';
 
   @override
+  String get invalidDestinationAddress => 'Endereço de destino inválido';
+
+  @override
   String get exchangePair => 'Par de troca';
 
   @override

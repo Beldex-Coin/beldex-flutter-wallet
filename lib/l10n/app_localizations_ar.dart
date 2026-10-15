@@ -1090,6 +1090,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get invalidAddress => 'عنوان غير صالح';
 
   @override
+  String get invalidDestinationAddress => 'عنوان الوجهة غير صالح';
+
+  @override
   String get exchangePair => 'زوج التبادل';
 
   @override

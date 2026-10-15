@@ -344,6 +344,7 @@
   "changePinLength": "切换到 {value} 位 PIN",
   "pleaseEnterAValidHeight": "请输入有效的区块高度",
   "invalidAddress": "地址无效",
+  "invalidDestinationAddress": "无效的目标地址",
   "exchangePair": "交易对",
   "payment": "支付",
   "bnsConfirmUpdate": "确认更新",

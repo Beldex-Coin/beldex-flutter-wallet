@@ -1090,6 +1090,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get invalidAddress => 'Недопустимый адрес';
 
   @override
+  String get invalidDestinationAddress => 'Неверный адрес получателя';
+
+  @override
   String get exchangePair => 'Торговая пара';
 
   @override

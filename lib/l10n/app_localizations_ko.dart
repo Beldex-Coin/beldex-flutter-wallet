@@ -1090,6 +1090,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get invalidAddress => '잘못된 주소';
 
   @override
+  String get invalidDestinationAddress => '유효하지 않은 대상 주소';
+
+  @override
   String get exchangePair => '환전 쌍';
 
   @override

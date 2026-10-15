@@ -344,6 +344,7 @@
   "changePinLength": "{value}桁のPINに切り替え",
   "pleaseEnterAValidHeight": "有効なブロック高を入力してください",
   "invalidAddress": "無効なアドレス",
+  "invalidDestinationAddress": "無効な宛先アドレス",
   "exchangePair": "取引ペア",
   "payment": "支払い",
   "bnsConfirmUpdate": "更新の確認",

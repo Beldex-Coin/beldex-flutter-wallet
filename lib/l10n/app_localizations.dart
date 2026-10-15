@@ -2185,6 +2185,12 @@ abstract class AppLocalizations {
   /// **'Invalid address'**
   String get invalidAddress;
 
+  /// No description provided for @invalidDestinationAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid Destination address'**
+  String get invalidDestinationAddress;
+
   /// No description provided for @exchangePair.
   ///
   /// In en, this message translates to:

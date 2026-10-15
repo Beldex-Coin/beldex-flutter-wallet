@@ -1090,6 +1090,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get invalidAddress => 'Invalid address';
 
   @override
+  String get invalidDestinationAddress => 'Invalid Destination address';
+
+  @override
   String get exchangePair => 'Exchange Pair';
 
   @override
