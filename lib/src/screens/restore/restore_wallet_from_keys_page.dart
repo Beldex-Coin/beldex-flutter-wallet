@@ -134,7 +134,12 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           borderRadius: BorderRadius.circular(10)),
                       margin: EdgeInsetsDirectional.only(top: 8.0),
                       child: Container(
-                        padding: EdgeInsetsDirectional.only(start: 30, top: 5, bottom: 5),
+                        padding: const EdgeInsetsDirectional.only(
+                          start: 16,
+                          end: 12,
+                          top: 5,
+                          bottom: 5,
+                        ),
                         child: Observer(
                           builder: (context) {
                             return TextFormField(
@@ -150,7 +155,13 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                                         ? Color(0xff77778B)
                                         : Color(0xff77778B)),
                                 hintText: tr(context).enterWalletName_,
-                                errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
+                                  errorStyle: const TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    height: 1.3,
+                                  ),
+                                  errorMaxLines: 3,
                               ),
                               validator: (value) {
                                 walletRestorationStore.validateWalletName(value!,tr(context));
@@ -175,7 +186,12 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           borderRadius: BorderRadius.circular(10)),
                       margin: EdgeInsetsDirectional.only(top: 8.0),
                       child: Container(
-                        padding: EdgeInsetsDirectional.only(start: 30, top: 5, bottom: 5),
+                        padding: const EdgeInsetsDirectional.only(
+                          start: 16,
+                          end: 12,
+                          top: 5,
+                          bottom: 5,
+                        ),
                         child: Observer(
                             builder: (context) {
                             return TextFormField(
@@ -193,7 +209,13 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                                         ? Color(0xff77778B)
                                         : Color(0xff77778B)),
                                 hintText: tr(context).restore_address,
-                                errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
+                                  errorStyle: const TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    height: 1.3,
+                                  ),
+                                  errorMaxLines: 3,
                               ),
                               validator: (value) {
                                 walletRestorationStore.validateAddress(value!,t:tr(context));
@@ -218,7 +240,12 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           borderRadius: BorderRadius.circular(10)),
                       margin: EdgeInsetsDirectional.only(top: 8.0),
                       child: Container(
-                        padding: EdgeInsetsDirectional.only(start: 30, top: 5, bottom: 5),
+                        padding: const EdgeInsetsDirectional.only(
+                          start: 16,
+                          end: 12,
+                          top: 5,
+                          bottom: 5,
+                        ),
                         child: Observer(
                             builder: (context) {
                             return TextFormField(
@@ -234,7 +261,13 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                                         ? Color(0xff77778B)
                                         : Color(0xff77778B)),
                                 hintText: tr(context).view_key_private,
-                                errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
+                                  errorStyle: const TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    height: 1.3,
+                                  ),
+                                  errorMaxLines: 3,
                               ),
                               validator: (value) {
                                 walletRestorationStore.validateKeys(value!,tr(context));
@@ -259,7 +292,12 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           borderRadius: BorderRadius.circular(10)),
                       margin: EdgeInsetsDirectional.only(top: 8.0),
                       child: Container(
-                        padding: EdgeInsetsDirectional.only(start: 30, top: 5, bottom: 5),
+                        padding: const EdgeInsetsDirectional.only(
+                          start: 16,
+                          end: 12,
+                          top: 5,
+                          bottom: 5,
+                        ),
                         child: Observer(
                             builder: (context) {
                             return TextFormField(
@@ -275,7 +313,13 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                                         ? Color(0xff77778B)
                                         : Color(0xff77778B)),
                                 hintText: tr(context).spend_key_private,
-                                errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
+                                  errorStyle: const TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    height: 1.3,
+                                  ),
+                                  errorMaxLines: 3,
                               ),
                               validator: (value) {
                                 walletRestorationStore.validateKeys(value!,tr(context));

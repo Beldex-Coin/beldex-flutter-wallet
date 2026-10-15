@@ -406,7 +406,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get enterYourPin => 'Entrez votre code PIN';
 
   @override
-  String get error_text_address => 'Invalid BDX address';
+  String get error_text_address => 'Adresse BDX invalide';
 
   @override
   String get error_text_contact_name => 'Dans le nom du contact, les symboles ` , \' \" ne doivent pas être inclus\net doit comporter entre 1 et 32 ​​caractères';
