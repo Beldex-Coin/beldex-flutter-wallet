@@ -1,18 +1,10 @@
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class NumberStepper extends StatelessWidget {
-  final double width;
-  final int totalSteps;
-  final int curStep;
-  final Color stepCompleteColor;
-  final Color currentStepColor;
-  final Color inactiveColor;
-  final double lineWidth;
-  NumberStepper({
+  const NumberStepper({
     Key? key,
     required this.width,
     required this.curStep,
@@ -24,85 +16,109 @@ class NumberStepper extends StatelessWidget {
   })  : assert(curStep > 0 == true && curStep <= totalSteps + 1),
         super(key: key);
 
+  final double width;
+  final int totalSteps;
+  final int curStep;
+  final Color stepCompleteColor;
+  final Color currentStepColor;
+  final Color inactiveColor;
+  final double lineWidth;
+
   @override
   Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final availableWidth = width > 0
+            ? width.clamp(0.0, constraints.maxWidth)
+            : constraints.maxWidth;
 
-    return Container(
-      padding: EdgeInsetsDirectional.all(5),
-      // only(
-      //   top: 20.0,
-      //   start: 24.0,
-      //   end: 24.0,
-      // ),
-      width: this.width,
-      child: Row(
-        children: _steps(context),
-      ),
+        return Container(
+          padding: const EdgeInsetsDirectional.all(5),
+          width: availableWidth,
+          child: Row(
+            children: _steps(context),
+          ),
+        );
+      },
     );
   }
 
   Color getCircleColor(int i) {
-    Color color;
+    final Color color;
     if (i + 1 < curStep) {
-      color =Color(0xff32324A); //currentStepColor; //stepCompleteColor;
-    } else if (i + 1 == curStep)
-      color = Color(0xff32324A); //currentStepColor;
-    else
-      color = Color(0xff32324A); // Colors.white;
+      color = const Color(0xff32324A); //currentStepColor; //stepCompleteColor;
+    } else if (i + 1 == curStep) {
+      color = const Color(0xff32324A); //currentStepColor;
+    } else {
+      color = const Color(0xff32324A); // Colors.white;
+    }
     return color;
   }
 
   Color getBorderColor(int i) {
-    Color color;
+    final Color color;
     if (i + 1 < curStep) {
       color = stepCompleteColor;
-    } else if (i + 1 == curStep)
-      color = Color(0xff32324A); //currentStepColor;
-    else
-      color = Color(0xff32324A);//inactiveColor;
+    } else if (i + 1 == curStep) {
+      color = const Color(0xff32324A); //currentStepColor;
+    } else {
+      color = const Color(0xff32324A); //inactiveColor;
+    }
 
     return color;
   }
 
   Color? getLineColor(int i) {
-    var color =
-    curStep > i + 1 ? Colors.blue.withValues(alpha: 0.4) : Colors.grey[200];
+    final color =
+        curStep > i + 1 ? Colors.blue.withValues(alpha: 0.4) : Colors.grey[200];
     return color;
   }
   List<String> _titles(AppLocalizations t) =>
       [t.exchangePair, t.walletAddress, t.payment, t.exchange];
   List<Widget> _steps(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    var list = <Widget>[];
+    final list = <Widget>[];
     for (int i = 0; i < totalSteps; i++) {
       //colors according to state
 
-      var circleColor = getCircleColor(i);
-      var borderColor = getBorderColor(i);
-      var lineColor = getLineColor(i);
+      final circleColor = getCircleColor(i);
 
       // step circles
       list.add(
         Row(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               width: 23.0,
               height: 23.0,
-              margin: EdgeInsetsDirectional.symmetric(horizontal: 5),
+              margin: const EdgeInsetsDirectional.symmetric(horizontal: 5),
               decoration: BoxDecoration(
                 color: circleColor,
-                borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(25.0)),
                 border: Border.all(
-                  color:Color(0xff32324A), //borderColor,
+                  color: const Color(0xff32324A), //borderColor,
                   width: 1.0,
                 ),
               ),
-              child: getInnerElementOfStepper(i,settingsStore),
+              child: getInnerElementOfStepper(i, settingsStore),
             ),
-            (i + 1) == curStep ? Padding(
-              padding: const EdgeInsetsDirectional.only(end:5.0),
-              child: Text('${_titles(tr(context))[i]}',style: TextStyle(backgroundColor: Colors.transparent,color:settingsStore.isDarkTheme ? Colors.white : Colors.black,fontSize:16 ,fontWeight: FontWeight.w800),),
-            ) : SizedBox.shrink()
+            if ((i + 1) == curStep)
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.only(end: 5.0),
+                  child: Text(
+                    _titles(tr(context))[i],
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      backgroundColor: Colors.transparent,
+                      color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       );
