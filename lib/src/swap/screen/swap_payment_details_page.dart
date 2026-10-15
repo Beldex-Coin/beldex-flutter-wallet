@@ -1052,7 +1052,7 @@ class _SwapPaymentDetailsHomeState extends State<SwapPaymentDetailsHome> {
                               padding:
                               const EdgeInsetsDirectional.only(top: 10.0, start: 10.0, bottom: 10.0),
                               child: Text(
-                                'You Get',
+                                tr(context).swap_you_get,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
