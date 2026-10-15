@@ -924,7 +924,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Name ',
+                                    tr(context).name,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -956,7 +956,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Year',
+                                    tr(context).bnsYearLabel,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
