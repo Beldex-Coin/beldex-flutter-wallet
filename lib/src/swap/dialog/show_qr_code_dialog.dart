@@ -12,7 +12,7 @@ Future showQRCodeDialog(BuildContext context, SettingsStore settingsStore, Strin
     content: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text('Recipient Address',
+        Text(tr(context).transaction_details_recipient_address,
             style: TextStyle(
                 color: settingsStore.isDarkTheme
                     ? Color(0xffffffff)
