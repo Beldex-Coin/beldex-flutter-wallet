@@ -127,7 +127,7 @@
   "enterWalletName_": "Cüzdan adını girin",
   "enterYourPin": "PIN’inizi Girin",
   "error_text_address": "Geçersiz BDX adresi",
-  "error_text_contact_name": "Kişi adı '', \"\" sembollerini içeremez\n ve 1 ile 32 karakter arasında olmalıdır",
+  "error_text_contact_name": "Kişi adı '', \"\" sembollerini içeremez ve 1 ile 32 karakter arasında olmalıdır",
   "error_text_keys": "Cüzdan anahtarları yalnızca 64 karakterlik hex değer içerebilir",
   "error_text_node_address": "Lütfen bir IPv4 adresi girin",
   "error_text_node_port": "Düğüm portu yalnızca 0 ile 65535 arasındaki sayıları içerebilir",

@@ -409,7 +409,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get error_text_address => 'Địa chỉ BDX không hợp lệ';
 
   @override
-  String get error_text_contact_name => 'Tên liên hệ không được chứa ký tự \' , \"\n và phải có độ dài từ 1 đến 32 ký tự';
+  String get error_text_contact_name => 'Tên liên hệ không được chứa ký tự \' , \" và phải có độ dài từ 1 đến 32 ký tự';
 
   @override
   String get error_text_keys => 'Khóa ví chỉ được chứa 64 ký tự dạng hex';

@@ -409,7 +409,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get error_text_address => 'Invalid BDX address';
 
   @override
-  String get error_text_contact_name => 'Contact name can\'t contain ` , \' \" symbols\nand must be between 1 and 32 characters long';
+  String get error_text_contact_name => 'Contact name can\'t contain ` , \' \" symbols and must be between 1 and 32 characters long';
 
   @override
   String get error_text_keys => 'Wallet keys can only contain 64 chars in hex';

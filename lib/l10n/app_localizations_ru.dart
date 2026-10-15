@@ -409,7 +409,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get error_text_address => 'Недействительный адрес BDX';
 
   @override
-  String get error_text_contact_name => 'Имя контакта не может содержать символы «\'» или «\"»\n и должно быть длиной от 1 до 32 символов';
+  String get error_text_contact_name => 'Имя контакта не может содержать символы «\'» или «\"» и должно быть длиной от 1 до 32 символов';
 
   @override
   String get error_text_keys => 'Ключи кошелька должны содержать 64 символа в шестнадцатеричном формате';

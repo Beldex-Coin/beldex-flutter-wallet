@@ -127,7 +127,7 @@
   "enterWalletName_": "ウォレット名を入力",
   "enterYourPin": "PINを入力してください",
   "error_text_address": "無効なBDXアドレスです",
-  "error_text_contact_name": "連絡先名には ' \" 記号を含めることはできません\n 1～32文字で入力してください",
+  "error_text_contact_name": "連絡先名には ' \" 記号を含めることはできません 1～32文字で入力してください",
   "error_text_keys": "ウォレットキーは16進数で64文字のみ使用できます",
   "error_text_node_address": "IPv4アドレスを入力してください",
   "error_text_node_port": "ノードポートには0から65535までの数字のみ入力できます",

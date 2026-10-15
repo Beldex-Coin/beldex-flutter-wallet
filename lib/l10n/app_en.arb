@@ -127,7 +127,7 @@
   "enterWalletName_": "Enter wallet name",
   "enterYourPin": "Enter Your PIN",
   "error_text_address": "Invalid BDX address",
-  "error_text_contact_name": "Contact name can't contain ` , ' \" symbols\nand must be between 1 and 32 characters long",
+  "error_text_contact_name": "Contact name can't contain ` , ' \" symbols and must be between 1 and 32 characters long",
   "error_text_keys": "Wallet keys can only contain 64 chars in hex",
   "error_text_node_address": "Please enter a iPv4 address",
   "error_text_node_port": "Node port can only contain numbers between 0 and 65535",

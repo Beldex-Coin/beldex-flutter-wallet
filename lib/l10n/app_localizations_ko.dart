@@ -409,7 +409,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get error_text_address => '유효하지 않은 BDX 주소입니다';
 
   @override
-  String get error_text_contact_name => '연락처 이름에는 \' , \" 기호를 포함할 수 없으며\n 1자 이상 32자 이하이어야 합니다';
+  String get error_text_contact_name => '연락처 이름에는 \' , \" 기호를 포함할 수 없으며 1자 이상 32자 이하이어야 합니다';
 
   @override
   String get error_text_keys => '지갑 키는 16진수 64자만 포함할 수 있습니다';

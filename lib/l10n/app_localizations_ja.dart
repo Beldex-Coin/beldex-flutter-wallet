@@ -409,7 +409,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get error_text_address => '無効なBDXアドレスです';
 
   @override
-  String get error_text_contact_name => '連絡先名には \' \" 記号を含めることはできません\n 1～32文字で入力してください';
+  String get error_text_contact_name => '連絡先名には \' \" 記号を含めることはできません 1～32文字で入力してください';
 
   @override
   String get error_text_keys => 'ウォレットキーは16進数で64文字のみ使用できます';

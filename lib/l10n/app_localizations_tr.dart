@@ -409,7 +409,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get error_text_address => 'Geçersiz BDX adresi';
 
   @override
-  String get error_text_contact_name => 'Kişi adı \'\', \"\" sembollerini içeremez\n ve 1 ile 32 karakter arasında olmalıdır';
+  String get error_text_contact_name => 'Kişi adı \'\', \"\" sembollerini içeremez ve 1 ile 32 karakter arasında olmalıdır';
 
   @override
   String get error_text_keys => 'Cüzdan anahtarları yalnızca 64 karakterlik hex değer içerebilir';

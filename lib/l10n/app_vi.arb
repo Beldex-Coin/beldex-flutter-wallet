@@ -127,7 +127,7 @@
   "enterWalletName_": "Nhập tên ví",
   "enterYourPin": "Nhập mã PIN của bạn",
   "error_text_address": "Địa chỉ BDX không hợp lệ",
-  "error_text_contact_name": "Tên liên hệ không được chứa ký tự ' , \"\n và phải có độ dài từ 1 đến 32 ký tự",
+  "error_text_contact_name": "Tên liên hệ không được chứa ký tự ' , \" và phải có độ dài từ 1 đến 32 ký tự",
   "error_text_keys": "Khóa ví chỉ được chứa 64 ký tự dạng hex",
   "error_text_node_address": "Vui lòng nhập địa chỉ IPv4 hợp lệ",
   "error_text_node_port": "Cổng node chỉ có thể chứa các số từ 0 đến 65535",

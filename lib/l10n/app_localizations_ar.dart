@@ -409,7 +409,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get error_text_address => ' عنوان BDX غير صالح';
 
   @override
-  String get error_text_contact_name => 'لا يجوز أن يحتوي اسم جهة الاتصال على الرموز \' و \"\nويجب أن يتراوح طوله بين 1 و 32\nحرفاً';
+  String get error_text_contact_name => 'لا يجوز أن يحتوي اسم جهة الاتصال على الرموز \' و \"ويجب أن يتراوح طوله بين 1 و 32حرفاً';
 
   @override
   String get error_text_keys => ' يجب أن تحتوي مفاتيح المحفظة على 64 حرفًا سداسيًا فقط';

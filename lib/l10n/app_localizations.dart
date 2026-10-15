@@ -886,7 +886,7 @@ abstract class AppLocalizations {
   /// No description provided for @error_text_contact_name.
   ///
   /// In en, this message translates to:
-  /// **'Contact name can\'t contain ` , \' \" symbols\nand must be between 1 and 32 characters long'**
+  /// **'Contact name can\'t contain ` , \' \" symbols and must be between 1 and 32 characters long'**
   String get error_text_contact_name;
 
   /// No description provided for @error_text_keys.
