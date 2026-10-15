@@ -458,10 +458,13 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                         visible: addressValidation,
                         child: Container(
                             margin: EdgeInsetsDirectional.only(start: 10),
+                            width: double.infinity,
                             child: Align(
-                                alignment: Alignment.centerLeft,
+                                alignment: AlignmentDirectional.centerStart,
                                 child: Text(
                                   addressErrorMessage,
+                                  textAlign: TextAlign.start,
+                                  textDirection: Directionality.of(context),
                                   style: TextStyle(
                                     backgroundColor: Colors.transparent,
                                     color: Colors.red,
@@ -718,24 +721,17 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                         visible: amountValidation,
                         child: Container(
                             margin: EdgeInsetsDirectional.only(start: 10),
+                            width: double.infinity,
                             child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Row(
-                                  children: [
-                                    // Expanded(
-                                    //     flex: 2,
-                                    //     child: Container()),
-                                    Expanded(
-                                      flex: 4,
-                                      child: Text(
-                                        amountErrorMessage,
-                                        style: TextStyle(
-                                          backgroundColor: Colors.transparent,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                alignment: AlignmentDirectional.centerStart,
+                                child: Text(
+                                  amountErrorMessage,
+                                  textAlign: TextAlign.start,
+                                  textDirection: Directionality.of(context),
+                                  style: TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: Colors.red,
+                                  ),
                                 ))),
                       ),
                       Padding(
