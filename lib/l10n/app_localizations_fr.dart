@@ -962,7 +962,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get transactions_by_date => 'transactions par date';
 
   @override
-  String get transferYourBdxMoreFasternWithFlashTransaction => 'Transférez votre BDX plus rapidement avec\n Transaction Flash!';
+  String get transferYourBdxMoreFasternWithFlashTransaction => 'Transférez votre BDX plus rapidement\n avec Transaction Flash!';
 
   @override
   String get tryAgain => 'Veuillez réessayer après quelques instants.';
