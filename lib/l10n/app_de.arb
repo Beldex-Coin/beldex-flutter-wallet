@@ -31,6 +31,7 @@
   "authentication_required": "Authentifizierung erforderlich",
   "verify_identity": "Identität überprüfen",
   "biometric_auth_reason": "Scannen Sie Ihren Fingerabdruck zur Authentifizierung",
+  "not_enough_money_to_transfer": "Nicht genug Geld zum Überweisen.\nVerfügbares Guthaben: {balance} BDX.\nZu sendender Betrag: {amount} BDX.",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "Biometrische Funktion derzeit deaktiviert. Bitte aktivieren Sie die biometrische Authentifizierungsfunktion in den App-Einstellungen",
   "blockConfirmed": "{count} Block",
   "blockRemaining": "Noch {status} Block",

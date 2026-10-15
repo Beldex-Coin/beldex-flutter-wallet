@@ -105,6 +105,11 @@ class AppLocalizationsVi extends AppLocalizations {
   String get verify_identity => 'Xác minh danh tính';
 
   @override
+  String not_enough_money_to_transfer(Object amount, Object balance) {
+    return 'Không đủ tiền để chuyển khoản.\nSố dư khả dụng: $balance BDX.\nSố tiền cần gửi: $amount BDX.';
+  }
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Tính năng sinh trắc học hiện đang bị tắt.\n Vui lòng bật tính năng xác thực sinh trắc học trong phần cài đặt của ứng dụng.';
 
   @override

@@ -105,6 +105,11 @@ class AppLocalizationsZh extends AppLocalizations {
   String get verify_identity => '验证身份';
 
   @override
+  String not_enough_money_to_transfer(Object amount, Object balance) {
+    return '余额不足，无法转账。\n可用余额: $balance BDX.\n发送金额: $amount BDX.';
+  }
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => '生物识别功能当前已禁用。\n 请在应用设置中启用\n 生物识别认证功能';
 
   @override

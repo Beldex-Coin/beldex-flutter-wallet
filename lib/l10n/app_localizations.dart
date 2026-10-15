@@ -307,6 +307,12 @@ abstract class AppLocalizations {
   /// **'Verify identity'**
   String get verify_identity;
 
+  /// No description provided for @not_enough_money_to_transfer.
+  ///
+  /// In en, this message translates to:
+  /// **'Not enough money to transfer.\nAvailable balance: {balance} BDX.\nAmount to send: {amount} BDX.'**
+  String not_enough_money_to_transfer(Object amount, Object balance);
+
   /// No description provided for @biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside.
   ///
   /// In en, this message translates to:

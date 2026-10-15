@@ -31,6 +31,7 @@
   "authentication_required": "Se requiere autenticación",
   "verify_identity": "Verificar identidad",
   "biometric_auth_reason": "Escanea tu huella dactilar para autenticarte",
+  "not_enough_money_to_transfer": "No hay suficiente dinero para transferir.\nSaldo disponible: {balance} BDX.\nMonto a enviar: {amount} BDX.",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "La función biométrica está actualmente deshabilitada. Por favor, habilita la autenticación biométrica en la configuración de la aplicación",
   "blockConfirmed": "{count} bloque",
   "blockRemaining": "Queda {status} bloque",

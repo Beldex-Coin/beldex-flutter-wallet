@@ -105,6 +105,11 @@ class AppLocalizationsJa extends AppLocalizations {
   String get verify_identity => '本人確認';
 
   @override
+  String not_enough_money_to_transfer(Object amount, Object balance) {
+    return '送金するための残高が不足しています。\n利用可能残高: $balance BDX.\n送金額: $amount BDX.';
+  }
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => '現在、生体認証機能は無効になっています。\n 　　　　　　アプリの設定で生体認証機能を\n 　　　　　　有効にしてください';
 
   @override

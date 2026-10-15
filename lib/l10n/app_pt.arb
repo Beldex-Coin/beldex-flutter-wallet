@@ -31,6 +31,7 @@
   "authentication_required": "Autenticação necessária",
   "verify_identity": "Verificar identidade",
   "biometric_auth_reason": "Digitalize sua impressão digital para autenticar",
+  "not_enough_money_to_transfer": "Não há dinheiro suficiente para transferir.\nSaldo disponível: {balance} BDX.\nValor a enviar: {amount} BDX.",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "Recurso biométrico atualmente desativado.\n Por favor, ative a autenticação biométrica\n nas configurações do aplicativo",
   "blockConfirmed": "{count} bloco",
   "blockRemaining": "Resta {status} bloco",

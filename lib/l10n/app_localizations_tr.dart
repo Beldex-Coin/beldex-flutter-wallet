@@ -105,6 +105,11 @@ class AppLocalizationsTr extends AppLocalizations {
   String get verify_identity => 'Kimliği doğrula';
 
   @override
+  String not_enough_money_to_transfer(Object amount, Object balance) {
+    return 'Transfer için yeterli bakiyeniz yok.\nKullanılabilir bakiye: $balance BDX.\nGönderilecek tutar: $amount BDX.';
+  }
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Biyometrik özellik şu anda devre dışı.\n Lütfen uygulama ayarlarından biyometrik doğrulama özelliğini etkinleştirin.';
 
   @override

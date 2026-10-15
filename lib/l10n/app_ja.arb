@@ -31,6 +31,7 @@
   "authentication_required": "認証が必要です",
   "verify_identity": "本人確認",
   "biometric_auth_reason": "認証するには指紋をスキャンしてください",
+  "not_enough_money_to_transfer": "送金するための残高が不足しています。\n利用可能残高: {balance} BDX.\n送金額: {amount} BDX.",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "現在、生体認証機能は無効になっています。\n 　　　　　　アプリの設定で生体認証機能を\n 　　　　　　有効にしてください",
   "blockConfirmed": "{count}ブロック",
   "blockRemaining": "残り{status}ブロック",

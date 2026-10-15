@@ -105,6 +105,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get verify_identity => 'Verify identity';
 
   @override
+  String not_enough_money_to_transfer(Object amount, Object balance) {
+    return 'Not enough money to transfer.\nAvailable balance: $balance BDX.\nAmount to send: $amount BDX.';
+  }
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Biometric feature currently disabled.Kindly enable allow biometric authentication feature inside the app settings';
 
   @override

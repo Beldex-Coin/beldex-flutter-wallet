@@ -31,6 +31,7 @@
   "authentication_required": "Authentification requise",
   "verify_identity": "Vérifier l'identité",
   "biometric_auth_reason": "Scannez votre empreinte digitale pour vous authentifier",
+  "not_enough_money_to_transfer": "Pas assez d'argent pour effectuer le transfert.\nSolde disponible : {balance} BDX.\nMontant à envoyer : {amount} BDX.",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "La fonctionnalité biométrique est actuellement désactivée. Veuillez activer la fonctionnalité d'authentification biométrique dans les paramètres de l'application.",
   "blockConfirmed": "{count} Bloc",
   "blockRemaining": "{status} bloc restant",

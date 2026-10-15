@@ -31,6 +31,7 @@
   "authentication_required": "需要进行身份验证",
   "verify_identity": "验证身份",
   "biometric_auth_reason": "扫描您的指纹以进行身份验证",
+  "not_enough_money_to_transfer": "余额不足，无法转账。\n可用余额: {balance} BDX.\n发送金额: {amount} BDX.",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "生物识别功能当前已禁用。\n 请在应用设置中启用\n 生物识别认证功能",
   "blockConfirmed": "{count} 个区块",
   "blockRemaining": "剩余 {status} 个区块",

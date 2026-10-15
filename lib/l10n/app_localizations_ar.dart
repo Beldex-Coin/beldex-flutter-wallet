@@ -105,6 +105,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get verify_identity => 'تحقق من الهوية';
 
   @override
+  String not_enough_money_to_transfer(Object amount, Object balance) {
+    return 'ليس لديك أموال كافية للتحويل.\nالرصيد المتاح: $balance BDX.\nالمبلغ المطلوب إرساله: $amount BDX.';
+  }
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'ميزة القياسات الحيوية معطّلة حاليًا.\n يرجى تمكين ميزة المصادقة البيومترية\n من داخل إعدادات التطبيق';
 
   @override

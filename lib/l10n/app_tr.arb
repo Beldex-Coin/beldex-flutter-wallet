@@ -31,6 +31,7 @@
   "authentication_required": "Kimlik doğrulama gerekli",
   "verify_identity": "Kimliği doğrula",
   "biometric_auth_reason": "Kimlik doğrulamak için parmak izinizi tarayın",
+  "not_enough_money_to_transfer": "Transfer için yeterli bakiyeniz yok.\nKullanılabilir bakiye: {balance} BDX.\nGönderilecek tutar: {amount} BDX.",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "Biyometrik özellik şu anda devre dışı.\n Lütfen uygulama ayarlarından biyometrik doğrulama özelliğini etkinleştirin.",
   "blockConfirmed": "{count} Blok",
   "blockRemaining": "{status} Blok Kaldı",

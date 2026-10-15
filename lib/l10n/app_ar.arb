@@ -31,6 +31,7 @@
   "authentication_required": "المصادقة مطلوبة",
   "verify_identity": "تحقق من الهوية",
   "biometric_auth_reason": "امسح بصمة إصبعك للمصادقة",
+  "not_enough_money_to_transfer": "ليس لديك أموال كافية للتحويل.\nالرصيد المتاح: {balance} BDX.\nالمبلغ المطلوب إرساله: {amount} BDX.",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "ميزة القياسات الحيوية معطّلة حاليًا.\n يرجى تمكين ميزة المصادقة البيومترية\n من داخل إعدادات التطبيق",
   "blockConfirmed": "{count} كتلة",
   "blockRemaining": "متبقي {status} كتلة",

@@ -31,6 +31,7 @@
   "authentication_required": "Требуется аутентификация",
   "verify_identity": "Подтвердить личность",
   "biometric_auth_reason": "Отсканируйте отпечаток пальца для аутентификации",
+  "not_enough_money_to_transfer": "Недостаточно средств для перевода.\nДоступный баланс: {balance} BDX.\nСумма к отправке: {amount} BDX.",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "Биометрическая функция в настоящее время отключена.\n Пожалуйста, включите биометрическую аутентификацию\n в настройках приложения",
   "blockConfirmed": "{count} блок",
   "blockRemaining": "Остался {status} блок",

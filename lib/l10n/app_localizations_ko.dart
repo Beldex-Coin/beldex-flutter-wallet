@@ -105,6 +105,11 @@ class AppLocalizationsKo extends AppLocalizations {
   String get verify_identity => '신원을 확인하세요';
 
   @override
+  String not_enough_money_to_transfer(Object amount, Object balance) {
+    return '이체할 돈이 부족합니다.\n사용 가능 잔액: $balance BDX.\n보낼 금액: $amount BDX.';
+  }
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => '생체 인증 기능이 현재 비활성화되어 있습니다.\n앱 설정에서 생체 인증 허용 기능을 활성화해 주세요.';
 
   @override

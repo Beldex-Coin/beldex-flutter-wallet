@@ -227,6 +227,7 @@ class SimpleBeldexDialog extends StatelessWidget {
                       padding: EdgeInsetsDirectional.all(10),
                       child: Text(title,
                           textAlign: TextAlign.center,
+                          textDirection: Directionality.of(context),
                           style: TextStyle(
                               backgroundColor: Colors.transparent,
                               fontSize: 18,
@@ -240,6 +241,7 @@ class SimpleBeldexDialog extends StatelessWidget {
                   padding: EdgeInsetsDirectional.only(top: 10, bottom: 15),
                   child: Text(body,
                       textAlign: TextAlign.center,
+                      textDirection: Directionality.of(context),
                       style: TextStyle(
                           backgroundColor: Colors.transparent,
                           fontSize: 15,

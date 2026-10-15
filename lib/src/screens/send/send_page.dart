@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:beldex_wallet/src/domain/common/contact.dart';
+import 'package:intl/intl.dart';
 import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:beldex_wallet/src/widgets/common_loader.dart';
@@ -82,6 +83,31 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   final _focusNodeAmount = FocusNode();
   bool _effectsInstalled = false;
   final _formKey = GlobalKey<FormState>();
+
+  String _formatBeldexDisplayAmount(String value) {
+    final normalized = value.replaceAll(',', '.').trim();
+    final parsed = double.tryParse(normalized);
+    if (parsed == null) {
+      return normalized;
+    }
+
+    final formatter = NumberFormat.decimalPattern('en_us')
+      ..minimumFractionDigits = 0
+      ..maximumFractionDigits = 9;
+    return formatter.format(parsed);
+  }
+
+  String _localizedNotEnoughFundsError(String error, AppLocalizations l10n) {
+    final balanceMatch = RegExp(r'overall balance only\s+([0-9.,]+)', caseSensitive: false)
+        .firstMatch(error);
+    final amountMatch = RegExp(r'sent amount\s+([0-9.,]+)', caseSensitive: false)
+        .firstMatch(error);
+
+    final balance = _formatBeldexDisplayAmount(balanceMatch?.group(1) ?? '0');
+    final amount = _formatBeldexDisplayAmount(amountMatch?.group(1) ?? '0');
+
+    return l10n.not_enough_money_to_transfer(amount, balance);
+  }
 
   //
   //var controller = StreamController<double>.broadcast();
@@ -902,8 +928,12 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
         var errorMessage = state.error;
         if (state.error.contains('Failed to get output distribution')) {
           errorMessage = tr(context).failedToGetOutputDistribution;
-        } else if(state.error.contains("Invalid Destination address")) {
+        } else if (state.error.contains("Invalid Destination address")) {
           errorMessage = tr(context).invalidDestinationAddress;
+        } else if (state.error.contains('Not enough money to transfer') ||
+            state.error.contains('overall balance only') ||
+            state.error.contains('sent amount')) {
+          errorMessage = _localizedNotEnoughFundsError(state.error, tr(context));
         }
         showSimpleBeldexDialog(context, tr(context).alert, errorMessage,
             onPressed: (_) => Navigator.of(context).pop(),

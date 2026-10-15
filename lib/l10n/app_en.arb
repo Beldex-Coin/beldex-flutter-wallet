@@ -31,6 +31,7 @@
   "biometric_auth_reason": "Scan your fingerprint to authenticate",
   "authentication_required": "Authentication required",
   "verify_identity": "Verify identity",
+  "not_enough_money_to_transfer": "Not enough money to transfer.\nAvailable balance: {balance} BDX.\nAmount to send: {amount} BDX.",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "Biometric feature currently disabled.Kindly enable allow biometric authentication feature inside the app settings",
   "blockConfirmed": "{count} Block",
   "blockRemaining": "{status} Block Remaining",

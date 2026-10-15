@@ -105,6 +105,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get verify_identity => 'Подтвердить личность';
 
   @override
+  String not_enough_money_to_transfer(Object amount, Object balance) {
+    return 'Недостаточно средств для перевода.\nДоступный баланс: $balance BDX.\nСумма к отправке: $amount BDX.';
+  }
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Биометрическая функция в настоящее время отключена.\n Пожалуйста, включите биометрическую аутентификацию\n в настройках приложения';
 
   @override
