@@ -77,6 +77,7 @@ abstract class BasePage extends StatelessWidget {
         : Text(
             title,
             style: TextStyle(
+              backgroundColor: Colors.transparent,
                 fontSize: 23.0,
                 fontWeight: FontWeight.w700,
                 color: Theme.of(context).primaryTextTheme.bodySmall?.color),
