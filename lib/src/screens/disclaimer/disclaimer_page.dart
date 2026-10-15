@@ -75,8 +75,8 @@ class DisclaimerPage extends BasePage {
         return 'assets/text/terms_and_cond_es.txt';
       case 'fr':
         return 'assets/text/terms_and_cond_fr.txt';
-      case 'jp':
-        return 'assets/text/terms_and_cond_jp.txt';
+      case 'ja':
+        return 'assets/text/terms_and_cond_ja.txt';
       case 'ko':
         return 'assets/text/terms_and_cond_ko.txt';
       case 'pt':

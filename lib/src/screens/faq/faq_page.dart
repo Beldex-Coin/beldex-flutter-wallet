@@ -138,8 +138,8 @@ class FaqPage extends BasePage {
         return 'assets/faq/faq_es.json';
       case 'fr':
         return 'assets/faq/faq_fr.json';
-      case 'jp':
-        return 'assets/faq/faq_jp.json';
+      case 'ja':
+        return 'assets/faq/faq_ja.json';
       case 'ko':
         return 'assets/faq/faq_ko.json';
       case 'pt':
