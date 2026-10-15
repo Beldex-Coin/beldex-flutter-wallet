@@ -362,7 +362,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                              : Container()*/
                                   ],
                                 ),
-                                descriptionText.isNotEmpty ? Text(descriptionText,
+                                descriptionText.isEmpty ? Text(descriptionText,
+                                    textAlign: TextAlign.center,
+                                    textDirection: Directionality.of(context),
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 11,
