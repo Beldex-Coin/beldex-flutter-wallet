@@ -404,145 +404,157 @@ class NewNodeFormState extends State<NewNodePageForm> {
                     ),
                     Container(
                       height: MediaQuery.sizeOf(context).height * 0.26 / 3,
-                      padding: EdgeInsetsDirectional.only(start: 15.0, end: 15),
+                      padding: const EdgeInsetsDirectional.only(
+                        start: 15.0,
+                        end: 15.0,
+                      ),
                       width: double.infinity,
                       decoration: BoxDecoration(
                         color: settingsStore.isDarkTheme
-                            ? Color(0xff333343)
+                            ? const Color(0xff333343)
                             : Colors.white,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10)),
+                        borderRadius: const BorderRadiusDirectional.only(
+                          bottomStart: Radius.circular(10),
+                          bottomEnd: Radius.circular(10),
+                        ),
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                              padding: const EdgeInsetsDirectional.only(start: 8.0),
+                          // Test button
+                          Expanded(
+                            child: Align(
+                              alignment: AlignmentDirectional.centerStart,
                               child: GestureDetector(
-                                  onTap: () async {
-                                    if (!(_formKey.currentState?.validate() ?? false)) {
-                                      return;
-                                    } else {
-                                      _loading(true);
-                                      newNodePageChangeNotifier
-                                          .setTestMode('testing');
-                                      newNodePageChangeNotifier.setCanLoad(true);
-                                      final nodeWithPort =
-                                          '${_nodeAddressController.text}:${_nodePortController.text}'; //'194.5.152.31:19091'
-                                      final isMainnet = await TestMainNetNode(
-                                              uri: nodeWithPort,
-                                              login: _loginController.text,
-                                              password: _passwordController.text)
-                                          .isMainNet();
-                                      final isNodeChecked1 = await NodeForTest()
-                                          .isWorkingNode(nodeWithPort);
-                                      newNodePageChangeNotifier
-                                          .setIsMainnet(isMainnet);
-                                      newNodePageChangeNotifier
-                                          .setTestMode('done');
-                                      newNodePageChangeNotifier
-                                          .setIsNodeChecked(isNodeChecked1);
-                                      newNodePageChangeNotifier.setCanLoad(false);
-                                      _loading(false);
-                                    }
-                                  },
-                                  child: Text(tr(context).test,
-                                      style: TextStyle(
-                                        backgroundColor: Colors.transparent,
-                                        fontSize:
-                                            MediaQuery.sizeOf(context).height *
-                                                0.07 /
-                                                3,
-                                        fontWeight: FontWeight.bold,
-                                      )))
-                              //})
+                                onTap: () async {
+                                  if (!(_formKey.currentState?.validate() ?? false)) {
+                                    return;
+                                  }
+
+                                  _loading(true);
+                                  try {
+                                    newNodePageChangeNotifier.setTestMode('testing');
+                                    newNodePageChangeNotifier.setCanLoad(true);
+
+                                    final nodeWithPort =
+                                        '${_nodeAddressController.text}:${_nodePortController.text}';
+
+                                    final isMainnet = await TestMainNetNode(
+                                      uri: nodeWithPort,
+                                      login: _loginController.text,
+                                      password: _passwordController.text,
+                                    ).isMainNet();
+
+                                    final isNodeChecked1 =
+                                    await NodeForTest().isWorkingNode(nodeWithPort);
+
+                                    newNodePageChangeNotifier.setIsMainnet(isMainnet);
+                                    newNodePageChangeNotifier.setTestMode('done');
+                                    newNodePageChangeNotifier
+                                        .setIsNodeChecked(isNodeChecked1);
+                                    newNodePageChangeNotifier.setCanLoad(false);
+                                  } finally {
+                                    newNodePageChangeNotifier.setCanLoad(false);
+                                    _loading(false);
+                                  }
+                                },
+                                child: Text(
+                                  tr(context).test,
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: MediaQuery.sizeOf(context).height * 0.07 / 3,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                          Row(children: [
-                            Padding(
-                              padding: const EdgeInsetsDirectional.all(10.0),
-                              child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                    _nodeAddressController.text = '';
-                                    _nodePortController.text = '';
-                                    _loginController.text = '';
-                                    _passwordController.text = '';
-                                  },
-                                  child: Text(tr(context).cancel,
-                                      style: TextStyle(
-                                          backgroundColor: Colors.transparent,
-                                          color: settingsStore.isDarkTheme
-                                              ? Color(0xffB9B9B9)
-                                              : Color(0xff9292A7),
-                                          fontSize:
-                                              MediaQuery.sizeOf(context).height *
-                                                  0.07 /
-                                                  3))),
                             ),
-                            Padding(
-                              padding: const EdgeInsetsDirectional.all(10.0),
-                              child: GestureDetector(
-                                  onTap: newNodePageChangeNotifier.isNodeChecked
-                                      ? () async {
-                                          if (!(_formKey.currentState?.validate() ?? false)) {
-                                            return;
-                                          }
-                                          if (newNodePageChangeNotifier
-                                              .isMainnet) {
-                                            var status = false;
-                                            for (var i = 0;
-                                                i < nodeList.nodes!.length;
-                                                i++) {
-                                              if (nodeList.nodes![i].uri.contains(
-                                                  '${_nodeAddressController.text}:${_nodePortController.text}')) {
-                                                status = true;
-                                                await Fluttertoast.showToast(msg: tr(context).nodeAlreadyExists,
-                                               toastLength: Toast.LENGTH_SHORT,
-                                               gravity: ToastGravity.BOTTOM,
-                                                  textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,
-                                                  backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
-                                                );
-                                                return;
-                                              }
-                                            }
-                                            if (!status) {
-                                              await nodeList.addNode(
-                                                  address:
-                                                      _nodeAddressController.text,
-                                                  port: _nodePortController.text,
-                                                  login: _loginController.text,
-                                                  password:
-                                                      _passwordController.text);
-                                            }
-                                            Navigator.of(context).pop();
-                                          } else {
-                                            await Fluttertoast.showToast(
-                                              msg: tr(context).pleaseAddAMainnetNode,
-                                              toastLength: Toast.LENGTH_SHORT,
-                                              gravity: ToastGravity.BOTTOM, // Toast gravity (top, center, or bottom)
-                                              textColor: Colors.white, // Text color // Background color
-                                            );
-                                          }
-                                        }
-                                      : null,
-                                  child: Text(
-                                    tr(context).add,
-                                    style: TextStyle(
-                                        fontSize:
-                                            MediaQuery.sizeOf(context).height *
-                                                0.07 /
-                                                3,
-                                        fontWeight: FontWeight.bold,
-                                        color: newNodePageChangeNotifier
-                                                .isNodeChecked
-                                            ? Color(0xff1AB51E)
-                                            : settingsStore.isDarkTheme
-                                                ? Color(0xffB9B9B9)
-                                                : Color(0xff9292A7)),
-                                  )),
-                            )
-                          ])
+                          ),
+
+                          // Cancel button
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                              _nodeAddressController.clear();
+                              _nodePortController.clear();
+                              _loginController.clear();
+                              _passwordController.clear();
+                            },
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.all(10.0),
+                              child: Text(
+                                tr(context).cancel,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: settingsStore.isDarkTheme
+                                      ? const Color(0xffB9B9B9)
+                                      : const Color(0xff9292A7),
+                                  fontSize: MediaQuery.sizeOf(context).height * 0.07 / 3,
+                                ),
+                              ),
+                            ),
+                          ),
+
+                          // Add button
+                          GestureDetector(
+                            onTap: newNodePageChangeNotifier.isNodeChecked
+                                ? () async {
+                              if (!(_formKey.currentState?.validate() ?? false)) {
+                                return;
+                              }
+                              if (newNodePageChangeNotifier
+                                  .isMainnet) {
+                                var status = false;
+                                for (var i = 0;
+                                i < nodeList.nodes!.length;
+                                i++) {
+                                  if (nodeList.nodes![i].uri.contains(
+                                      '${_nodeAddressController.text}:${_nodePortController.text}')) {
+                                    status = true;
+                                    await Fluttertoast.showToast(msg: tr(context).nodeAlreadyExists,
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,
+                                      backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                                    );
+                                    return;
+                                  }
+                                }
+                                if (!status) {
+                                  await nodeList.addNode(
+                                      address:
+                                      _nodeAddressController.text,
+                                      port: _nodePortController.text,
+                                      login: _loginController.text,
+                                      password:
+                                      _passwordController.text);
+                                }
+                                Navigator.of(context).pop();
+                              } else {
+                                await Fluttertoast.showToast(
+                                  msg: tr(context).pleaseAddAMainnetNode,
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM, // Toast gravity (top, center, or bottom)
+                                  textColor: Colors.white, // Text color // Background color
+                                );
+                              }
+                            }
+                                : null,
+                            child: Padding(
+                              padding: const EdgeInsetsDirectional.only(end:5.0, top: 10.0, bottom: 10.0),
+                              child: Text(
+                                tr(context).add,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: MediaQuery.sizeOf(context).height * 0.07 / 3,
+                                  fontWeight: FontWeight.bold,
+                                  color: newNodePageChangeNotifier.isNodeChecked
+                                      ? const Color(0xff1AB51E)
+                                      : settingsStore.isDarkTheme
+                                      ? const Color(0xffB9B9B9)
+                                      : const Color(0xff9292A7),
+                                ),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     )
