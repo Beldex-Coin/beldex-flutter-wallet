@@ -220,7 +220,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                               height: _height * 0.10 / 3,
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.only(start:10.0, top: 15.0, end:10.0, bottom: 10.0),
+                              padding: const EdgeInsetsDirectional.only(start:8.0, top: 15.0, end:8.0, bottom: 10.0),
                               child: !widget.showSeed
                                   ? Row(
                                 children: [
@@ -256,8 +256,8 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                               : Color(0xff0BA70F),
                                           minimumSize: const Size.fromHeight(58),
                                           padding: const EdgeInsets.symmetric(
-                                            horizontal: 8,
-                                            vertical: 12,
+                                            horizontal: 4,
+                                            vertical: 9,
                                           ),
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(10),
@@ -282,7 +282,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                       .center,
                                                   style: TextStyle(
                                                     backgroundColor: Colors.transparent,
-                                                    fontSize: 16,
+                                                    fontSize: 14,
                                                     fontWeight:
                                                     FontWeight
                                                         .bold,
@@ -316,7 +316,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                         )),
                                   ),
                                   SizedBox(
-                                    width: 10,
+                                    width: 8,
                                   ),
                                   Expanded(
                                     flex: 1,
@@ -331,8 +331,8 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                         backgroundColor: const Color(0xff2979FB),
                                         minimumSize: const Size.fromHeight(58),
                                         padding: const EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                          vertical: 12,
+                                          horizontal: 4,
+                                          vertical: 9,
                                         ),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10),
@@ -379,8 +379,8 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                         backgroundColor: Color(0xff0BA70F),
                                         minimumSize: const Size.fromHeight(58),
                                         padding: const EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                          vertical: 12,
+                                          horizontal: 4,
+                                          vertical: 9,
                                         ),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10),
@@ -405,7 +405,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                                       .center,
                                                   style: TextStyle(
                                                     backgroundColor: Colors.transparent,
-                                                    fontSize: 16,
+                                                    fontSize: 14,
                                                     fontWeight:
                                                     FontWeight
                                                         .bold,
@@ -425,7 +425,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 10,
+                                    width: 8,
                                   ),
                                   Expanded(
                                     flex: 1,
@@ -440,8 +440,8 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                         backgroundColor: const Color(0xff2979FB),
                                         minimumSize: const Size.fromHeight(58),
                                         padding: const EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                          vertical: 12,
+                                          horizontal: 4,
+                                          vertical: 9,
                                         ),
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(10),
