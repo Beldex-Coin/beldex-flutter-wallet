@@ -1375,6 +1375,18 @@ class AppLocalizationsZh extends AppLocalizations {
   String get swap_sending_funds_to_wallet => '正在向您的钱包发送资金';
 
   @override
+  String get swap_status_new => '新建';
+
+  @override
+  String get swap_status_waiting => '等待中';
+
+  @override
+  String get swap_status_confirming => '确认中';
+
+  @override
+  String get swap_status_refunded => '已退款';
+
+  @override
   String get swap_you_can_initiate_new_transaction => '您可以发起新的交易。您可以随时在交易历史记录中查看此交易的状态。';
 
   @override

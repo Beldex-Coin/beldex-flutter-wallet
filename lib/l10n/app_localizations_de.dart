@@ -1375,6 +1375,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get swap_sending_funds_to_wallet => 'Gelder werden an Ihre Wallet gesendet';
 
   @override
+  String get swap_status_new => 'Neu';
+
+  @override
+  String get swap_status_waiting => 'Wartend';
+
+  @override
+  String get swap_status_confirming => 'Wird bestätigt';
+
+  @override
+  String get swap_status_refunded => 'Erstattet';
+
+  @override
   String get swap_you_can_initiate_new_transaction => 'Sie können eine neue Transaktion starten. Sie können den Status dieser Transaktion jederzeit in der Transaktion anzeigen ';
 
   @override

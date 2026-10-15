@@ -1375,6 +1375,18 @@ class AppLocalizationsPt extends AppLocalizations {
   String get swap_sending_funds_to_wallet => 'Enviando fundos para sua carteira';
 
   @override
+  String get swap_status_new => 'Novo';
+
+  @override
+  String get swap_status_waiting => 'Aguardando';
+
+  @override
+  String get swap_status_confirming => 'Confirmando';
+
+  @override
+  String get swap_status_refunded => 'Reembolsado';
+
+  @override
   String get swap_you_can_initiate_new_transaction => 'Você pode iniciar uma nova transação. Você pode verificar o status desta transação a qualquer momento no histórico de transações.';
 
   @override

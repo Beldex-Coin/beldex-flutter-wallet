@@ -1375,6 +1375,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get swap_sending_funds_to_wallet => 'Sending funds to your wallet';
 
   @override
+  String get swap_status_new => 'New';
+
+  @override
+  String get swap_status_waiting => 'Waiting';
+
+  @override
+  String get swap_status_confirming => 'Confirming';
+
+  @override
+  String get swap_status_refunded => 'Refunded';
+
+  @override
   String get swap_you_can_initiate_new_transaction => 'You can initiate a new transaction. You can always check the status of this transaction in transaction ';
 
   @override

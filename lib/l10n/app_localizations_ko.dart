@@ -1375,6 +1375,18 @@ class AppLocalizationsKo extends AppLocalizations {
   String get swap_sending_funds_to_wallet => '지갑으로 자금을 보내는 중';
 
   @override
+  String get swap_status_new => '신규';
+
+  @override
+  String get swap_status_waiting => '대기 중';
+
+  @override
+  String get swap_status_confirming => '확인 중';
+
+  @override
+  String get swap_status_refunded => '환불됨';
+
+  @override
   String get swap_you_can_initiate_new_transaction => '새 거래를 시작할 수 있습니다. 이 거래의 상태는 언제든지 거래 내역에서 확인할 수 있습니다.';
 
   @override

@@ -2695,6 +2695,30 @@ abstract class AppLocalizations {
   /// **'Sending funds to your wallet'**
   String get swap_sending_funds_to_wallet;
 
+  /// No description provided for @swap_status_new.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get swap_status_new;
+
+  /// No description provided for @swap_status_waiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting'**
+  String get swap_status_waiting;
+
+  /// No description provided for @swap_status_confirming.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirming'**
+  String get swap_status_confirming;
+
+  /// No description provided for @swap_status_refunded.
+  ///
+  /// In en, this message translates to:
+  /// **'Refunded'**
+  String get swap_status_refunded;
+
   /// No description provided for @swap_you_can_initiate_new_transaction.
   ///
   /// In en, this message translates to:

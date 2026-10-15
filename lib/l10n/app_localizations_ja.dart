@@ -1375,6 +1375,18 @@ class AppLocalizationsJa extends AppLocalizations {
   String get swap_sending_funds_to_wallet => 'ウォレットに資金を送信しています';
 
   @override
+  String get swap_status_new => '新規';
+
+  @override
+  String get swap_status_waiting => '待機中';
+
+  @override
+  String get swap_status_confirming => '確認中';
+
+  @override
+  String get swap_status_refunded => '返金済み';
+
+  @override
   String get swap_you_can_initiate_new_transaction => '新しい取引を開始できます。この取引のステータスはいつでも取引履歴で確認できます。';
 
   @override

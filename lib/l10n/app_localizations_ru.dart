@@ -1375,6 +1375,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get swap_sending_funds_to_wallet => 'Отправка средств на ваш кошелёк';
 
   @override
+  String get swap_status_new => 'Новый';
+
+  @override
+  String get swap_status_waiting => 'Ожидание';
+
+  @override
+  String get swap_status_confirming => 'Подтверждение';
+
+  @override
+  String get swap_status_refunded => 'Возвращено';
+
+  @override
   String get swap_you_can_initiate_new_transaction => 'Вы можете начать новую транзакцию. Вы всегда можете проверить статус этой транзакции в истории транзакций.';
 
   @override

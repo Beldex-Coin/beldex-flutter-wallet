@@ -1375,6 +1375,18 @@ class AppLocalizationsVi extends AppLocalizations {
   String get swap_sending_funds_to_wallet => 'Đang gửi tiền vào ví của bạn';
 
   @override
+  String get swap_status_new => 'Mới';
+
+  @override
+  String get swap_status_waiting => 'Đang chờ';
+
+  @override
+  String get swap_status_confirming => 'Đang xác nhận';
+
+  @override
+  String get swap_status_refunded => 'Đã hoàn tiền';
+
+  @override
   String get swap_you_can_initiate_new_transaction => 'Bạn có thể bắt đầu một giao dịch mới. Bạn luôn có thể kiểm tra trạng thái của giao dịch này trong lịch sử giao dịch.';
 
   @override

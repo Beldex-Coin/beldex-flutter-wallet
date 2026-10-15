@@ -1375,6 +1375,18 @@ class AppLocalizationsTr extends AppLocalizations {
   String get swap_sending_funds_to_wallet => 'Cüzdanınıza para gönderiliyor';
 
   @override
+  String get swap_status_new => 'Yeni';
+
+  @override
+  String get swap_status_waiting => 'Bekliyor';
+
+  @override
+  String get swap_status_confirming => 'Onaylanıyor';
+
+  @override
+  String get swap_status_refunded => 'İade edildi';
+
+  @override
   String get swap_you_can_initiate_new_transaction => 'Yeni bir işlem başlatabilirsiniz. Bu işlemin durumunu istediğiniz zaman işlem geçmişinden kontrol edebilirsiniz.';
 
   @override

@@ -9,7 +9,6 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/database/swap_txn_history.dart';
 import 'package:beldex_wallet/src/swap/provider/swap_transaction_expansion_status_change_notifier.dart';
 import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
-import 'package:beldex_wallet/src/util/generate_name.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +21,7 @@ import '../../stores/wallet/wallet_store.dart';
 import '../../widgets/no_transactions_yet.dart';
 import '../database/swap_transaction_history_model.dart';
 import '../util/data_class.dart';
+import '../util/swap_status_label.dart';
 import '../util/utils.dart';
 import 'package:csv/csv.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -473,7 +473,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xffAFAFBE)
                                               : Color(0xff737373))),
-                                  Text(result.txnStatus.capitalized(),
+                                  SwapStatusLabel(result.txnStatus,
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 12,
@@ -776,8 +776,8 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                               : Color(0xff737373)))
                                 ]),
                           ),
-                          Text(
-                              result.txnStatus.capitalized(),
+                          SwapStatusLabel(
+                              result.txnStatus,
                               style: TextStyle(
                                   backgroundColor:
                                   Colors.transparent,
