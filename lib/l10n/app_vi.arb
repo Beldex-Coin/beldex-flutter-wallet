@@ -28,6 +28,8 @@
   "available_balance": "Số dư khả dụng",
   "availableBdx": "BDX khả dụng :",
   "bdx": "BDX",
+  "authentication_required": "Yêu cầu xác thực",
+  "verify_identity": "Xác minh danh tính",
   "biometric_auth_reason": "Quét dấu vân tay để xác thực",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "Tính năng sinh trắc học hiện đang bị tắt.\n Vui lòng bật tính năng xác thực sinh trắc học trong phần cài đặt của ứng dụng.",
   "blockConfirmed": "{count} khối",

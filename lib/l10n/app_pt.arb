@@ -28,6 +28,8 @@
   "available_balance": "Saldo disponível",
   "availableBdx": "BDX disponível :",
   "bdx": "BDX",
+  "authentication_required": "Autenticação necessária",
+  "verify_identity": "Verificar identidade",
   "biometric_auth_reason": "Digitalize sua impressão digital para autenticar",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "Recurso biométrico atualmente desativado.\n Por favor, ative a autenticação biométrica\n nas configurações do aplicativo",
   "blockConfirmed": "{count} bloco",

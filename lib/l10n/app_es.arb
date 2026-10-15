@@ -28,6 +28,8 @@
   "available_balance": "Saldo disponible",
   "availableBdx": "BDX disponible :",
   "bdx": "BDX",
+  "authentication_required": "Se requiere autenticación",
+  "verify_identity": "Verificar identidad",
   "biometric_auth_reason": "Escanea tu huella dactilar para autenticarte",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "La función biométrica está actualmente deshabilitada. Por favor, habilita la autenticación biométrica en la configuración de la aplicación",
   "blockConfirmed": "{count} bloque",

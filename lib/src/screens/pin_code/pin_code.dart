@@ -211,9 +211,11 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
               ),
             ),
             Text(title.isNotEmpty ? title : tr(context).enterYourPin,
+                textAlign: TextAlign.center,
+                textDirection: Directionality.of(context),
                 style: TextStyle(
                     backgroundColor: Colors.transparent,
-                    fontSize: 19,
+                    fontSize: 17,
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).primaryTextTheme.bodySmall?.color)),
             Spacer(flex: 1),

@@ -99,6 +99,12 @@ class AppLocalizationsKo extends AppLocalizations {
   String get biometric_auth_reason => '인증하려면 지문을 스캔하세요';
 
   @override
+  String get authentication_required => '인증이 필요합니다';
+
+  @override
+  String get verify_identity => '신원을 확인하세요';
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => '생체 인증 기능이 현재 비활성화되어 있습니다.\n앱 설정에서 생체 인증 허용 기능을 활성화해 주세요.';
 
   @override

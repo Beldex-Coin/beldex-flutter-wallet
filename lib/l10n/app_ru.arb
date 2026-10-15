@@ -28,6 +28,8 @@
   "available_balance": "Доступный баланс",
   "availableBdx": "Доступный баланс BDX :",
   "bdx": "BDX",
+  "authentication_required": "Требуется аутентификация",
+  "verify_identity": "Подтвердить личность",
   "biometric_auth_reason": "Отсканируйте отпечаток пальца для аутентификации",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "Биометрическая функция в настоящее время отключена.\n Пожалуйста, включите биометрическую аутентификацию\n в настройках приложения",
   "blockConfirmed": "{count} блок",

@@ -99,6 +99,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get biometric_auth_reason => 'Отсканируйте отпечаток пальца для аутентификации';
 
   @override
+  String get authentication_required => 'Требуется аутентификация';
+
+  @override
+  String get verify_identity => 'Подтвердить личность';
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Биометрическая функция в настоящее время отключена.\n Пожалуйста, включите биометрическую аутентификацию\n в настройках приложения';
 
   @override

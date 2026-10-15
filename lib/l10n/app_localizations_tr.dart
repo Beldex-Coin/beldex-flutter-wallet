@@ -99,6 +99,12 @@ class AppLocalizationsTr extends AppLocalizations {
   String get biometric_auth_reason => 'Kimlik doğrulamak için parmak izinizi tarayın';
 
   @override
+  String get authentication_required => 'Kimlik doğrulama gerekli';
+
+  @override
+  String get verify_identity => 'Kimliği doğrula';
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Biyometrik özellik şu anda devre dışı.\n Lütfen uygulama ayarlarından biyometrik doğrulama özelliğini etkinleştirin.';
 
   @override

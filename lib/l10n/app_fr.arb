@@ -28,6 +28,8 @@
   "available_balance": "Solde disponible",
   "availableBdx": "BDX disponibles :",
   "bdx": "BDX",
+  "authentication_required": "Authentification requise",
+  "verify_identity": "Vérifier l'identité",
   "biometric_auth_reason": "Scannez votre empreinte digitale pour vous authentifier",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "La fonctionnalité biométrique est actuellement désactivée. Veuillez activer la fonctionnalité d'authentification biométrique dans les paramètres de l'application.",
   "blockConfirmed": "{count} Bloc",

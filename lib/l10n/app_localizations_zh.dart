@@ -99,6 +99,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get biometric_auth_reason => '扫描您的指纹以进行身份验证';
 
   @override
+  String get authentication_required => '需要进行身份验证';
+
+  @override
+  String get verify_identity => '验证身份';
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => '生物识别功能当前已禁用。\n 请在应用设置中启用\n 生物识别认证功能';
 
   @override

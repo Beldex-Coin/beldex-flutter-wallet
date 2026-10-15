@@ -99,6 +99,12 @@ class AppLocalizationsJa extends AppLocalizations {
   String get biometric_auth_reason => '認証するには指紋をスキャンしてください';
 
   @override
+  String get authentication_required => '認証が必要です';
+
+  @override
+  String get verify_identity => '本人確認';
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => '現在、生体認証機能は無効になっています。\n 　　　　　　アプリの設定で生体認証機能を\n 　　　　　　有効にしてください';
 
   @override

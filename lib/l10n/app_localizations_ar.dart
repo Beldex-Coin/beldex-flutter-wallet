@@ -99,6 +99,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get biometric_auth_reason => 'امسح بصمة إصبعك للمصادقة';
 
   @override
+  String get authentication_required => 'المصادقة مطلوبة';
+
+  @override
+  String get verify_identity => 'تحقق من الهوية';
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'ميزة القياسات الحيوية معطّلة حاليًا.\n يرجى تمكين ميزة المصادقة البيومترية\n من داخل إعدادات التطبيق';
 
   @override

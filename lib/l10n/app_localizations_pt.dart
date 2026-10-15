@@ -99,6 +99,12 @@ class AppLocalizationsPt extends AppLocalizations {
   String get biometric_auth_reason => 'Digitalize sua impressão digital para autenticar';
 
   @override
+  String get authentication_required => 'Autenticação necessária';
+
+  @override
+  String get verify_identity => 'Verificar identidade';
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Recurso biométrico atualmente desativado.\n Por favor, ative a autenticação biométrica\n nas configurações do aplicativo';
 
   @override

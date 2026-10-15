@@ -99,6 +99,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get biometric_auth_reason => 'Scannen Sie Ihren Fingerabdruck zur Authentifizierung';
 
   @override
+  String get authentication_required => 'Authentifizierung erforderlich';
+
+  @override
+  String get verify_identity => 'Identität überprüfen';
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Biometrische Funktion derzeit deaktiviert. Bitte aktivieren Sie die biometrische Authentifizierungsfunktion in den App-Einstellungen';
 
   @override

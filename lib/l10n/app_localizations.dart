@@ -295,6 +295,18 @@ abstract class AppLocalizations {
   /// **'Scan your fingerprint to authenticate'**
   String get biometric_auth_reason;
 
+  /// No description provided for @authentication_required.
+  ///
+  /// In en, this message translates to:
+  /// **'Authentication required'**
+  String get authentication_required;
+
+  /// No description provided for @verify_identity.
+  ///
+  /// In en, this message translates to:
+  /// **'Verify identity'**
+  String get verify_identity;
+
   /// No description provided for @biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside.
   ///
   /// In en, this message translates to:

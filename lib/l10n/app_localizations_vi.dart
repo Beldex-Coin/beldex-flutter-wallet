@@ -99,6 +99,12 @@ class AppLocalizationsVi extends AppLocalizations {
   String get biometric_auth_reason => 'Quét dấu vân tay để xác thực';
 
   @override
+  String get authentication_required => 'Yêu cầu xác thực';
+
+  @override
+  String get verify_identity => 'Xác minh danh tính';
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'Tính năng sinh trắc học hiện đang bị tắt.\n Vui lòng bật tính năng xác thực sinh trắc học trong phần cài đặt của ứng dụng.';
 
   @override

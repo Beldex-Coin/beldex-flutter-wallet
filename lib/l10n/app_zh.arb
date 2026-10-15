@@ -28,6 +28,8 @@
   "available_balance": "可用余额",
   "availableBdx": "可用 BDX :",
   "bdx": "BDX",
+  "authentication_required": "需要进行身份验证",
+  "verify_identity": "验证身份",
   "biometric_auth_reason": "扫描您的指纹以进行身份验证",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "生物识别功能当前已禁用。\n 请在应用设置中启用\n 生物识别认证功能",
   "blockConfirmed": "{count} 个区块",

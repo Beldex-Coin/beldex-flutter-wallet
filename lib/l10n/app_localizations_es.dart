@@ -99,6 +99,12 @@ class AppLocalizationsEs extends AppLocalizations {
   String get biometric_auth_reason => 'Escanea tu huella dactilar para autenticarte';
 
   @override
+  String get authentication_required => 'Se requiere autenticación';
+
+  @override
+  String get verify_identity => 'Verificar identidad';
+
+  @override
   String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => 'La función biométrica está actualmente deshabilitada. Por favor, habilita la autenticación biométrica en la configuración de la aplicación';
 
   @override

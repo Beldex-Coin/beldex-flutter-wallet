@@ -28,6 +28,8 @@
   "available_balance": "الرصيد المتاح",
   "availableBdx": "BDX المتاح:",
   "bdx": "BDX",
+  "authentication_required": "المصادقة مطلوبة",
+  "verify_identity": "تحقق من الهوية",
   "biometric_auth_reason": "امسح بصمة إصبعك للمصادقة",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "ميزة القياسات الحيوية معطّلة حاليًا.\n يرجى تمكين ميزة المصادقة البيومترية\n من داخل إعدادات التطبيق",
   "blockConfirmed": "{count} كتلة",

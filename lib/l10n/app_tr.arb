@@ -28,6 +28,8 @@
   "available_balance": "Kullanılabilir Bakiye",
   "availableBdx": "Mevcut BDX :",
   "bdx": "BDX",
+  "authentication_required": "Kimlik doğrulama gerekli",
+  "verify_identity": "Kimliği doğrula",
   "biometric_auth_reason": "Kimlik doğrulamak için parmak izinizi tarayın",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "Biyometrik özellik şu anda devre dışı.\n Lütfen uygulama ayarlarından biyometrik doğrulama özelliğini etkinleştirin.",
   "blockConfirmed": "{count} Blok",

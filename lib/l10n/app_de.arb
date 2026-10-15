@@ -28,6 +28,8 @@
   "available_balance": "Verfügbarer Saldo",
   "availableBdx": "Verfügbares BDX :",
   "bdx": "BDX",
+  "authentication_required": "Authentifizierung erforderlich",
+  "verify_identity": "Identität überprüfen",
   "biometric_auth_reason": "Scannen Sie Ihren Fingerabdruck zur Authentifizierung",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "Biometrische Funktion derzeit deaktiviert. Bitte aktivieren Sie die biometrische Authentifizierungsfunktion in den App-Einstellungen",
   "blockConfirmed": "{count} Block",
