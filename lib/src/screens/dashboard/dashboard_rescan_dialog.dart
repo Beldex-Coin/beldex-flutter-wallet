@@ -31,80 +31,106 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
       });
     }
     return Dialog(
-      insetPadding: EdgeInsets.all(15),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      backgroundColor:
-          settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffFFFFFF),
+      insetPadding: const EdgeInsets.all(15),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      backgroundColor: settingsStore.isDarkTheme
+          ? const Color(0xff272733)
+          : const Color(0xffFFFFFF),
       surfaceTintColor: Colors.transparent,
       child: Container(
-        width: MediaQuery.sizeOf(context).width,
-        margin: EdgeInsetsDirectional.all(20),
+        width: double.infinity,
+        margin: const EdgeInsetsDirectional.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               tr(context).rescan,
-              style: TextStyle(backgroundColor:Colors.transparent,fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            MaterialButton(
-              onPressed: () => walletMenu.action(0),
-              elevation: 0,
-              color: Color(0xff2979FB),
-              height: MediaQuery.sizeOf(context).height * 0.20 / 3,
-              minWidth: MediaQuery.sizeOf(context).width * 1.3 / 2,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              child: Text(
-                tr(context).reconnectWallet,
-                style: TextStyle(
-                    backgroundColor:Colors.transparent,
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                backgroundColor: Colors.transparent,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 20),
+
+            // Reconnect Wallet button
             SizedBox(
-              height: 10,
-            ),
-            Observer(builder: (_) {
-              if (syncStore.status is SyncedSyncStatus || syncStore.status.blocksLeft == 0) {
-                canRescan = true;
-              } else {
-                canRescan = false;
-              }
-              return MaterialButton(
-                disabledColor: settingsStore.isDarkTheme
-                    ? Color(0xff333343)
-                    : Color(0xffE8E8E8),
-                onPressed: canRescan
-                    ? () async {
-                        await Navigator.of(context).pushNamed(Routes.rescan);
-                        Navigator.pop(context);
-                      }
-                    : null,
+              width: double.infinity,
+              height: 48,
+              child: MaterialButton(
+                onPressed: () => walletMenu.action(0),
                 elevation: 0,
-                color: Color(0xff0BA70F),
-                height: MediaQuery.sizeOf(context).height * 0.20 / 3,
-                minWidth: MediaQuery.sizeOf(context).width * 1.3 / 2,
+                color: const Color(0xff2979FB),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: Text(
-                  tr(context).rescanWallet,
-                  style: TextStyle(
-                      backgroundColor:Colors.transparent,
-                      fontSize: 16,
-                      color: canRescan
-                          ? Colors.white
-                          : settingsStore.isDarkTheme
-                              ? Color(0xff6C6C78)
-                              : Color(0xffB2B2B6),
-                      fontWeight: FontWeight.bold),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-              );
-            })
+                child: Text(
+                  tr(context).reconnectWallet,
+                  textAlign: TextAlign.center,
+                  textDirection: Directionality.of(context),
+                  softWrap: true,
+                  style: const TextStyle(
+                    backgroundColor: Colors.transparent,
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            // Rescan Wallet button
+            Observer(
+              builder: (_) {
+                canRescan = syncStore.status is SyncedSyncStatus ||
+                    syncStore.status.blocksLeft == 0;
+
+                return SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: MaterialButton(
+                    onPressed: canRescan
+                        ? () async {
+                      await Navigator.of(context)
+                          .pushNamed(Routes.rescan);
+                      Navigator.pop(context);
+                    }
+                        : null,
+                    elevation: 0,
+                    color: const Color(0xff0BA70F),
+                    disabledColor: settingsStore.isDarkTheme
+                        ? const Color(0xff333343)
+                        : const Color(0xffE8E8E8),
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      tr(context).rescanWallet,
+                      textAlign: TextAlign.center,
+                      textDirection: Directionality.of(context),
+                      softWrap: true,
+                      style: TextStyle(
+                        backgroundColor: Colors.transparent,
+                        fontSize: 16,
+                        color: canRescan
+                            ? Colors.white
+                            : settingsStore.isDarkTheme
+                            ? const Color(0xff6C6C78)
+                            : const Color(0xffB2B2B6),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),

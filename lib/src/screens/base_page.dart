@@ -72,16 +72,22 @@ abstract class BasePage extends StatelessWidget {
 
   Widget? middle(BuildContext context) {
     final title = getTitle(tr(context));
-    return title == null
-        ? null
-        : Text(
-            title,
-            style: TextStyle(
-              backgroundColor: Colors.transparent,
-                fontSize: 23.0,
-                fontWeight: FontWeight.w700,
-                color: Theme.of(context).primaryTextTheme.bodySmall?.color),
-          );
+
+    if (title == null) return null;
+
+    return Text(
+      title,
+      textAlign: TextAlign.center,
+      softWrap: true,
+      maxLines: null,
+      overflow: TextOverflow.visible,
+      style: TextStyle(
+        backgroundColor: Colors.transparent,
+        fontSize: 23.0,
+        fontWeight: FontWeight.w700,
+        color: Theme.of(context).primaryTextTheme.bodySmall?.color,
+      ),
+    );
   }
 
   Widget? trailing(BuildContext context) {
@@ -174,37 +180,42 @@ abstract class BasePage extends StatelessWidget {
         //Theme.of(context).backgroundColor : Theme.of(context).backgroundColor,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         appBar: AppBar(
-            toolbarHeight: 70,
-            elevation: 0,
-            surfaceTintColor: Colors.transparent,
-            shadowColor: Colors.transparent,
-            scrolledUnderElevation: 0,
-            centerTitle: true,
-            // systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: _isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
-            // statusBarIconBrightness: Brightness.dark,
-            // statusBarBrightness: Brightness.light
-            // ),
-            leading: Padding(
-                padding: EdgeInsetsDirectional.only(top: 20.0, bottom: 5),
-                child: leading(context) //trailing(context),
-                ),
-            title: Padding(
-              padding: const EdgeInsetsDirectional.only(top: 20.0, bottom: 5),
-              child: middle(context),
+          toolbarHeight: 90,
+          elevation: 0,
+          surfaceTintColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          scrolledUnderElevation: 0,
+          centerTitle: true,
+
+          leading: Padding(
+            padding: const EdgeInsetsDirectional.only(
+              top: 15.0,
+              bottom: 5.0,
             ),
-            actions: <Widget>[
-              Padding(
-                padding: const EdgeInsetsDirectional.only(top: 20.0, bottom: 5),
-                child: trailing(context),
-              )
-            ],
-            backgroundColor: _isDarkTheme
-            ? Color(0xff171720)
-            : Color(0xffffffff),
-            //  _isDarkTheme
-            //     ? Theme.of(context).backgroundColor
-            //     : Theme.of(context).backgroundColor
+            child: leading(context),
+          ),
+
+          title: Padding(
+            padding: const EdgeInsetsDirectional.only(
+              top: 10.0,
+              bottom: 5.0,
             ),
+            child: middle(context),
+          ),
+
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsetsDirectional.only(
+                top: 15.0,
+                bottom: 5.0,
+              ),
+              child: trailing(context),
+            ),
+          ],
+
+          backgroundColor:
+          _isDarkTheme ? const Color(0xff171720) : const Color(0xffffffff),
+        ),
         body: SafeArea(child: body(context)),
         floatingActionButton: floatingActionButton(context),
         bottomNavigationBar: Padding(
