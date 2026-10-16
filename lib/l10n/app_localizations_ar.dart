@@ -96,13 +96,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bdx => 'BDX';
 
   @override
-  String get biometric_auth_reason => 'امسح بصمة إصبعك للمصادقة';
-
-  @override
   String get authentication_required => 'المصادقة مطلوبة';
 
   @override
   String get verify_identity => 'تحقق من الهوية';
+
+  @override
+  String get biometric_auth_reason => 'امسح بصمة إصبعك للمصادقة';
 
   @override
   String not_enough_money_to_transfer(Object amount, Object balance) {
@@ -1481,6 +1481,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get flash_off => 'إيقاف Flash';
 
   @override
+  String get address_copied => 'تم نسخ العنوان';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1509,7 +1512,4 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get address_copied => 'تم نسخ العنوان';
 }

@@ -96,13 +96,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get bdx => 'BDX';
 
   @override
-  String get biometric_auth_reason => 'Отсканируйте отпечаток пальца для аутентификации';
-
-  @override
   String get authentication_required => 'Требуется аутентификация';
 
   @override
   String get verify_identity => 'Подтвердить личность';
+
+  @override
+  String get biometric_auth_reason => 'Отсканируйте отпечаток пальца для аутентификации';
 
   @override
   String not_enough_money_to_transfer(Object amount, Object balance) {
@@ -446,7 +446,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get faq => 'FAQ';
+  String get faq => 'Часто задаваемые вопросы';
 
   @override
   String get fee => 'Комиссия';
@@ -1481,6 +1481,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get flash_off => 'Выключить Flash';
 
   @override
+  String get address_copied => 'Адрес скопирован';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1509,7 +1512,4 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get address_copied => 'Адрес скопирован';
 }

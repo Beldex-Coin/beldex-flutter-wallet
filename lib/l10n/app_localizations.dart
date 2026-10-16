@@ -289,12 +289,6 @@ abstract class AppLocalizations {
   /// **'BDX'**
   String get bdx;
 
-  /// No description provided for @biometric_auth_reason.
-  ///
-  /// In en, this message translates to:
-  /// **'Scan your fingerprint to authenticate'**
-  String get biometric_auth_reason;
-
   /// No description provided for @authentication_required.
   ///
   /// In en, this message translates to:
@@ -306,6 +300,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Verify identity'**
   String get verify_identity;
+
+  /// No description provided for @biometric_auth_reason.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan your fingerprint to authenticate'**
+  String get biometric_auth_reason;
 
   /// No description provided for @not_enough_money_to_transfer.
   ///
@@ -2899,6 +2899,12 @@ abstract class AppLocalizations {
   /// **'Flash Off'**
   String get flash_off;
 
+  /// No description provided for @address_copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Address Copied'**
+  String get address_copied;
+
   /// No description provided for @seed_language_chinese.
   ///
   /// In en, this message translates to:
@@ -2958,12 +2964,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Spanish'**
   String get seed_language_spanish;
-
-  /// No description provided for @address_copied.
-  ///
-  /// In en, this message translates to:
-  /// **'Address Copied'**
-  String get address_copied;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

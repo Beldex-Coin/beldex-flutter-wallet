@@ -96,13 +96,13 @@ class AppLocalizationsVi extends AppLocalizations {
   String get bdx => 'BDX';
 
   @override
-  String get biometric_auth_reason => 'Quét dấu vân tay để xác thực';
-
-  @override
   String get authentication_required => 'Yêu cầu xác thực';
 
   @override
   String get verify_identity => 'Xác minh danh tính';
+
+  @override
+  String get biometric_auth_reason => 'Quét dấu vân tay để xác thực';
 
   @override
   String not_enough_money_to_transfer(Object amount, Object balance) {
@@ -1481,6 +1481,9 @@ class AppLocalizationsVi extends AppLocalizations {
   String get flash_off => 'Tắt Flash';
 
   @override
+  String get address_copied => 'Đã sao chép địa chỉ';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1509,7 +1512,4 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get address_copied => 'Đã sao chép địa chỉ';
 }

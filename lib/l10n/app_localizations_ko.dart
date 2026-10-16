@@ -96,13 +96,13 @@ class AppLocalizationsKo extends AppLocalizations {
   String get bdx => 'BDX';
 
   @override
-  String get biometric_auth_reason => '인증하려면 지문을 스캔하세요';
-
-  @override
   String get authentication_required => '인증이 필요합니다';
 
   @override
   String get verify_identity => '신원을 확인하세요';
+
+  @override
+  String get biometric_auth_reason => '인증하려면 지문을 스캔하세요';
 
   @override
   String not_enough_money_to_transfer(Object amount, Object balance) {
@@ -446,7 +446,7 @@ class AppLocalizationsKo extends AppLocalizations {
   }
 
   @override
-  String get faq => 'FAQ';
+  String get faq => '자주 묻는 질문';
 
   @override
   String get fee => '수수료';
@@ -1481,6 +1481,9 @@ class AppLocalizationsKo extends AppLocalizations {
   String get flash_off => 'Flash 끄기';
 
   @override
+  String get address_copied => '주소가 복사되었습니다';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1509,7 +1512,4 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get address_copied => '주소가 복사되었습니다';
 }

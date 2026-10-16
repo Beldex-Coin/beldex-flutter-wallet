@@ -28,9 +28,9 @@
   "available_balance": "Available Balance",
   "availableBdx": "Available BDX :",
   "bdx": "BDX",
-  "biometric_auth_reason": "Scan your fingerprint to authenticate",
   "authentication_required": "Authentication required",
   "verify_identity": "Verify identity",
+  "biometric_auth_reason": "Scan your fingerprint to authenticate",
   "not_enough_money_to_transfer": "Not enough money to transfer.\nAvailable balance: {balance} BDX.\nAmount to send: {amount} BDX.",
   "biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside": "Biometric feature currently disabled.Kindly enable allow biometric authentication feature inside the app settings",
   "blockConfirmed": "{count} Block",
@@ -463,6 +463,7 @@
   "order_creation_failed_error_message": "Order creation failed",
   "flash_on": "Flash On",
   "flash_off": "Flash Off",
+  "address_copied": "Address Copied",
   "seed_language_chinese": "Chinese (simplified)",
   "seed_language_dutch": "Dutch",
   "seed_language_english": "English",
@@ -472,6 +473,5 @@
   "seed_language_japanese": "Japanese",
   "seed_language_portuguese": "Portuguese",
   "seed_language_russian": "Russian",
-  "seed_language_spanish": "Spanish",
-  "address_copied": "Address Copied"
+  "seed_language_spanish": "Spanish"
 }

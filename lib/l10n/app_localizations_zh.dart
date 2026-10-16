@@ -96,13 +96,13 @@ class AppLocalizationsZh extends AppLocalizations {
   String get bdx => 'BDX';
 
   @override
-  String get biometric_auth_reason => '扫描您的指纹以进行身份验证';
-
-  @override
   String get authentication_required => '需要进行身份验证';
 
   @override
   String get verify_identity => '验证身份';
+
+  @override
+  String get biometric_auth_reason => '扫描您的指纹以进行身份验证';
 
   @override
   String not_enough_money_to_transfer(Object amount, Object balance) {
@@ -1481,6 +1481,9 @@ class AppLocalizationsZh extends AppLocalizations {
   String get flash_off => '关闭 Flash';
 
   @override
+  String get address_copied => '地址已复制';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1509,7 +1512,4 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get address_copied => '地址已复制';
 }

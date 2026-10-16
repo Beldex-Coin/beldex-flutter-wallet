@@ -96,13 +96,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get bdx => 'BDX';
 
   @override
-  String get biometric_auth_reason => 'Kimlik doğrulamak için parmak izinizi tarayın';
-
-  @override
   String get authentication_required => 'Kimlik doğrulama gerekli';
 
   @override
   String get verify_identity => 'Kimliği doğrula';
+
+  @override
+  String get biometric_auth_reason => 'Kimlik doğrulamak için parmak izinizi tarayın';
 
   @override
   String not_enough_money_to_transfer(Object amount, Object balance) {
@@ -1481,6 +1481,9 @@ class AppLocalizationsTr extends AppLocalizations {
   String get flash_off => 'Flash\'i Kapat';
 
   @override
+  String get address_copied => 'Adres Kopyalandı';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1509,7 +1512,4 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get address_copied => 'Adres Kopyalandı';
 }
