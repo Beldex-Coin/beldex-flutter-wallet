@@ -1472,7 +1472,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get your_contributions => 'Suas contribuições';
 
   @override
-  String get order_creation_failed_error_message => '주문 생성에 실패했습니다';
+  String get order_creation_failed_error_message => 'Falha ao criar o pedido';
 
   @override
   String get flash_on => 'Ativar Flash';
