@@ -810,7 +810,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                             fontWeight: FontWeight.normal,
                             color: Colors.grey.withValues(alpha: 0.6)),
                         hintText: tr(context).enterAmount,
-                        errorStyle: TextStyle(color: BeldexPalette.red),
+                        errorStyle: TextStyle(backgroundColor: Colors.transparent, color: BeldexPalette.red),
                       ),
                       onChanged: (value) {
                         if(value.isNotEmpty && networkProvider.isConnected){
@@ -1116,7 +1116,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                             fontWeight: FontWeight.normal,
                             color: Colors.grey.withValues(alpha: 0.6)),
                         hintText: '...',
-                        errorStyle: TextStyle(color: BeldexPalette.red),
+                        errorStyle: TextStyle(backgroundColor: Colors.transparent, color: BeldexPalette.red),
                       ),
                     ),
                   ),
@@ -1703,7 +1703,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                             fontWeight: FontWeight.normal,
                             color: Colors.grey.withValues(alpha: 0.6)),
                         hintText: tr(context).enterAmount,
-                        errorStyle: TextStyle(color: BeldexPalette.red),
+                        errorStyle: TextStyle(backgroundColor: Colors.transparent, color: BeldexPalette.red),
                       ),
                       onChanged: (value){
                       },
@@ -1848,7 +1848,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                             fontWeight: FontWeight.normal,
                             color: Colors.grey.withValues(alpha: 0.6)),
                         hintText: '...',
-                        errorStyle: TextStyle(color: BeldexPalette.red),
+                        errorStyle: TextStyle(backgroundColor: Colors.transparent, color: BeldexPalette.red),
                       ),
                     ),
                   ),

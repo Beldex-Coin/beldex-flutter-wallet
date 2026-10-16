@@ -569,7 +569,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                               color: Colors.grey.withValues(alpha: 0.6)),
                                           hintText: tr(context).enterAmount,
                                           errorStyle:
-                                          TextStyle(color: BeldexPalette.red),
+                                          TextStyle(backgroundColor: Colors.transparent, color: BeldexPalette.red),
                                           counterText: ''),
                                       onTap: (){
                                         isFlashMap = false;

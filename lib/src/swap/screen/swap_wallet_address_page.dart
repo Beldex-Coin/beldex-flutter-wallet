@@ -801,7 +801,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                                 fontWeight: FontWeight.normal,
                                 color: Colors.grey.withValues(alpha: 0.6)),
                             hintText: tr(context).swap_enter_extra_id(_exchangeData.extraIdName ?? ''),
-                            errorStyle: TextStyle(color: BeldexPalette.red),
+                            errorStyle: TextStyle(backgroundColor: Colors.transparent, color: BeldexPalette.red),
                           ),
                           onChanged: (value){
                             if(value.isEmpty){
