@@ -498,18 +498,24 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 ))),
                       ),
                       Container(
+                        width: double.infinity,
                         margin: EdgeInsetsDirectional.only(
                           start: 7,
                           end: 7,
                           top: 20,
                         ),
-                        child: Flexible(
-                          child: Text(tr(context).enterBdxToSend,
-                              textAlign: TextAlign.start,
-                              textDirection: Directionality.of(context),
-                              style: TextStyle(
-                                  backgroundColor: Colors.transparent,
-                                  fontSize: 18.0, fontWeight: FontWeight.w700)),
+                        child: Text(
+                          tr(context).enterBdxToSend,
+                          maxLines: 2,
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
+                          textAlign: TextAlign.start,
+                          textDirection: Directionality.of(context),
+                          style: TextStyle(
+                              backgroundColor: Colors.transparent,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
       
