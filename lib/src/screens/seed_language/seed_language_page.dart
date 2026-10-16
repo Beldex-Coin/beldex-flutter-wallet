@@ -153,6 +153,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
                                               style: TextStyle(
                                                 fontSize: 18,
                                                 color: Colors.grey[800],
+                                                backgroundColor: Colors.transparent
                                               ),
                                             ),
                                           ),
