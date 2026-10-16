@@ -500,16 +500,16 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       Container(
                         margin: EdgeInsetsDirectional.only(
                           start: 7,
+                          end: 7,
                           top: 20,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(tr(context).enterBdxToSend,
-                                style: TextStyle(
-                                    backgroundColor: Colors.transparent,
-                                    fontSize: 18.0, fontWeight: FontWeight.w700)),
-                          ],
+                        child: Flexible(
+                          child: Text(tr(context).enterBdxToSend,
+                              textAlign: TextAlign.start,
+                              textDirection: Directionality.of(context),
+                              style: TextStyle(
+                                  backgroundColor: Colors.transparent,
+                                  fontSize: 18.0, fontWeight: FontWeight.w700)),
                         ),
                       ),
       
