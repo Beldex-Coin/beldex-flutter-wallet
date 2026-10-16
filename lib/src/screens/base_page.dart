@@ -75,17 +75,18 @@ abstract class BasePage extends StatelessWidget {
 
     if (title == null) return null;
 
-    return Text(
-      title,
-      textAlign: TextAlign.center,
-      softWrap: true,
-      maxLines: null,
-      overflow: TextOverflow.visible,
-      style: TextStyle(
-        backgroundColor: Colors.transparent,
-        fontSize: 23.0,
-        fontWeight: FontWeight.w700,
-        color: Theme.of(context).primaryTextTheme.bodySmall?.color,
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Text(
+        title,
+        textAlign: TextAlign.center,
+        maxLines: 1,
+        style: TextStyle(
+          backgroundColor: Colors.transparent,
+          fontSize: 23.0,
+          fontWeight: FontWeight.w700,
+          color: Theme.of(context).primaryTextTheme.bodySmall?.color,
+        ),
       ),
     );
   }
