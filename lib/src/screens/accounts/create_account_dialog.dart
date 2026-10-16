@@ -90,6 +90,7 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
     getAccList(context);
     return Provider(
         create: (_) => AccountListStore(walletService: walletService),
+        dispose: (_, store) => store.dispose(),
         builder: (context, child) {
           final accountListStore = Provider.of<AccountListStore>(context);
           return Dialog(

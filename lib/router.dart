@@ -417,6 +417,7 @@ class Router {
         return MaterialPageRoute<void>(builder: (context) {
           return Provider(
                 create: (_) => AccountListStore(walletService: walletService),
+                 dispose: (_, store) => store.dispose(),
             child: AccountListPage(),);
         });
 
@@ -424,6 +425,7 @@ class Router {
         return MaterialPageRoute<String>(builder: (context) {
           return Provider(
               create: (_) => AccountListStore(walletService: walletService),
+              dispose: (_, store) => store.dispose(),
               child: AccountPage(account: settings.arguments as Account));
         });
 
@@ -433,7 +435,8 @@ class Router {
             providers: [
               Provider(
                   create: (_) =>
-                      AccountListStore(walletService: walletService)),
+                      AccountListStore(walletService: walletService),
+                  dispose: (_, store) => store.dispose()),
               Provider(create: (_) => AddressBookStore(contacts: contacts))
             ],
             child: AddressBookPage(isEditable: true),
@@ -446,7 +449,8 @@ class Router {
             providers: [
               Provider(
                   create: (_) =>
-                      AccountListStore(walletService: walletService)),
+                      AccountListStore(walletService: walletService),
+                  dispose: (_, store) => store.dispose()),
               Provider(create: (_) => AddressBookStore(contacts: contacts))
             ],
             child: AddressBookPage(isEditable: false),
@@ -459,7 +463,8 @@ class Router {
             providers: [
               Provider(
                   create: (_) =>
-                      AccountListStore(walletService: walletService)),
+                      AccountListStore(walletService: walletService),
+                  dispose: (_, store) => store.dispose()),
               Provider(create: (_) => AddressBookStore(contacts: contacts))
             ],
             child: ContactPage(contact: settings.arguments as Contact),

@@ -39,20 +39,23 @@ abstract class AccountListStoreBase with Store {
   AccountList _accountList=AccountList();
   late StreamSubscription<Wallet> _onWalletChangeSubscription;
   StreamSubscription<List<Account>>? _onAccountsChangeSubscription;
+  bool _isUpdatingAccountList = false;
 
-//  @override
-//  void dispose() {
-//    _onWalletChangeSubscription.cancel();
-//
-//    if (_onAccountsChangeSubscription != null) {
-//      _onAccountsChangeSubscription.cancel();
-//    }
-//
-//    super.dispose();
-//  }
+  void dispose() {
+    _onWalletChangeSubscription.cancel();
+
+    if (_onAccountsChangeSubscription != null) {
+      _onAccountsChangeSubscription!.cancel();
+    }
+  }
 
   void updateAccountList() {
-    unawaited(_updateAccountList());
+    if (_isUpdatingAccountList) {
+      return;
+    }
+
+    _isUpdatingAccountList = true;
+    unawaited(_updateAccountList().whenComplete(() => _isUpdatingAccountList = false));
   }
 
   Future<void> _updateAccountList() async {
