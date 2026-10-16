@@ -22,7 +22,11 @@ final List<String> _englishWords =
     EnglishMnemonics.words + EnglishOldMnemonics.words;
 
 class SeedWidget extends StatefulWidget {
-  SeedWidget({required Key key, required this.onMnemonicChange, required this.onFinish, required this.seedLanguage})
+  SeedWidget(
+      {required Key key,
+      required this.onMnemonicChange,
+      required this.onFinish,
+      required this.seedLanguage})
       : super(key: key) {
     switch (seedLanguage) {
       case 'English':
@@ -70,7 +74,6 @@ class SeedWidget extends StatefulWidget {
 }
 
 class SeedWidgetState extends State<SeedWidget> {
-
   List<MnemoticItem> items = <MnemoticItem>[];
   final _seedController = TextEditingController();
   final _seedTextFieldKey = GlobalKey();
@@ -89,11 +92,11 @@ class SeedWidgetState extends State<SeedWidget> {
 
   void addMnemonic(String text) {
     setState(
-            () => items.add(MnemoticItem(text: text.trim(), dic: widget.words)));
+        () => items.add(MnemoticItem(text: text.trim(), dic: widget.words)));
     _seedController.text = '';
 
     //if (widget.onMnemonicChange != null) {
-      widget.onMnemonicChange(items);
+    widget.onMnemonicChange(items);
     //}
   }
 
@@ -116,7 +119,7 @@ class SeedWidgetState extends State<SeedWidget> {
       _seedController.text = '';
 
       //if (widget.onMnemonicChange != null) {
-        widget.onMnemonicChange(items);
+      widget.onMnemonicChange(items);
       //}
     });
   }
@@ -162,7 +165,7 @@ class SeedWidgetState extends State<SeedWidget> {
       /* if (!isValid) {
         break;
       }*/
-      if(!item.isCorrect()){
+      if (!item.isCorrect()) {
         return false;
         break;
       }
@@ -170,232 +173,228 @@ class SeedWidgetState extends State<SeedWidget> {
     return true;
   }
 
-  List<String> words =[];
+  List<String> words = [];
 
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
-      alignment: Alignment.center,
-      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        Container(
-          margin: EdgeInsetsDirectional.only(start: 10, end: 10),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Card(
-                  elevation: 0,
-                  color: Theme.of(context).cardColor,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Container(
-                    height: MediaQuery.sizeOf(context).height * 1 / 3,
-                    padding: EdgeInsetsDirectional.all(16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+      margin: EdgeInsetsDirectional.only(start: 10, end: 10),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Card(
+              elevation: 0,
+              color: Theme.of(context).cardColor,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              child: Container(
+                height: MediaQuery.sizeOf(context).height * 1 / 3,
+                padding: EdgeInsetsDirectional.all(16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextFormField(
+                      key: _seedTextFieldKey,
+                      maxLines: 5,
+                      style: TextStyle(
+                          backgroundColor: Colors.transparent, fontSize: 16.0),
+                      controller: _seedController,
+                      inputFormatters: [WordLimitInputFormatter(25)],
+                      textInputAction: TextInputAction.done,
+                      onChanged: (text) {
+                        if (text.isNotEmpty) {
+                          words = text
+                              .split(' ')
+                              .where((word) => word.isNotEmpty)
+                              .toList();
+                          if (words.length > maxWordCount) {
+                            // Remove additional words
+                            _seedController.text =
+                                words.sublist(0, maxWordCount).join(' ');
+                            _seedController.selection =
+                                TextSelection.fromPosition(
+                              TextPosition(offset: _seedController.text.length),
+                            );
+                          }
+                          setState(() {
+                            _errorMessage1 = '';
+                            wordCount = words.length;
+                          });
+                        } else {
+                          _seedController.clear();
+                          setState(() {
+                            wordCount = 0;
+                          });
+                        }
+                      },
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(
+                            color: Colors.grey.withValues(alpha: 0.6)),
+                        hintText: tr(context).restore_from_seed_placeholder,
+                        errorText: _errorMessage,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: Text('$wordCount/25'),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        TextFormField(
-                          key: _seedTextFieldKey,
-                          maxLines: 5,
-                          style: TextStyle(backgroundColor: Colors.transparent,fontSize: 16.0),
-                          controller: _seedController,
-                          inputFormatters: [WordLimitInputFormatter(25)],
-                          textInputAction: TextInputAction.done,
-                          onChanged: (text) {
-                            if (text.isNotEmpty) {
-                              words = text
-                                  .split(' ')
-                                  .where((word) => word.isNotEmpty)
-                                  .toList();
-                              if (words.length > maxWordCount) {
-                                // Remove additional words
-                                _seedController.text =
-                                    words.sublist(0, maxWordCount).join(' ');
-                                _seedController.selection =
-                                    TextSelection.fromPosition(
-                                  TextPosition(
-                                      offset: _seedController.text.length),
-                                );
-                              }
-                              setState(() {
-                                _errorMessage1 = '';
-                                wordCount = words.length;
-                              });
-                            } else {
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
                               _seedController.clear();
                               setState(() {
                                 wordCount = 0;
                               });
-                            }
-                          },
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintStyle:
-                                TextStyle(color: Colors.grey.withValues(alpha: 0.6)),
-                            hintText:
-                                tr(context).restore_from_seed_placeholder,
-                            errorText: _errorMessage,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Text('$wordCount/25')],
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Flexible(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  _seedController.clear();
-                                  setState(() {
-                                    wordCount = 0;
-                                  });
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  elevation: 0,
-                                  backgroundColor: settingsStore.isDarkTheme
-                                      ? const Color(0xff333343)
-                                      : const Color(0xffDADADA),
-                                  padding: const EdgeInsetsDirectional.only(
-                                    top: 11,
-                                    bottom: 11,
-                                    start: 16,
-                                    end: 16,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
-                                child: Text(
-                                  tr(context).clear,
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    backgroundColor: Colors.transparent,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: settingsStore.isDarkTheme
-                                        ? Colors.white
-                                        : Colors.black,
-                                  ),
-                                ),
+                            },
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor: settingsStore.isDarkTheme
+                                  ? const Color(0xff333343)
+                                  : const Color(0xffDADADA),
+                              padding: const EdgeInsetsDirectional.only(
+                                top: 11,
+                                bottom: 11,
+                                start: 16,
+                                end: 16,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            const SizedBox(width: 10),
-                            Flexible(
-                              child: ElevatedButton.icon(
-                                icon: const Icon(
-                                  Icons.paste,
-                                  size: 14,
-                                  color: Colors.white,
-                                ),
-                                onPressed: () async {
-                                  final clipboard = await Clipboard.getData('text/plain');
-                                  replaceText(clipboard?.text ?? "");
+                            child: Text(
+                              tr(context).clear,
+                              maxLines: 1,
+                              softWrap: false,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                backgroundColor: Colors.transparent,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: settingsStore.isDarkTheme
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            icon: const Icon(
+                              Icons.paste,
+                              size: 14,
+                              color: Colors.white,
+                            ),
+                            onPressed: () async {
+                              final clipboard =
+                                  await Clipboard.getData('text/plain');
+                              replaceText(clipboard?.text ?? "");
 
-                                  setState(() {
-                                    wordCount = _seedController.text
-                                        .split(' ')
-                                        .where((word) => word.isNotEmpty)
-                                        .length;
-                                  });
-                                },
-                                label: Text(
-                                  tr(context).paste,
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.center,
-                                  style: const TextStyle(
-                                    backgroundColor: Colors.transparent,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white,
-                                  ),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  elevation: 0,
-                                  backgroundColor: const Color(0xff2979FB),
-                                  padding: const EdgeInsetsDirectional.only(
-                                    top: 11,
-                                    bottom: 11,
-                                    start: 16,
-                                    end: 16,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                ),
+                              setState(() {
+                                wordCount = _seedController.text
+                                    .split(' ')
+                                    .where((word) => word.isNotEmpty)
+                                    .length;
+                              });
+                            },
+                            label: Text(
+                              tr(context).paste,
+                              maxLines: 1,
+                              softWrap: false,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                backgroundColor: Colors.transparent,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
                               ),
                             ),
-                          ],
-                        )
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor: const Color(0xff2979FB),
+                              padding: const EdgeInsetsDirectional.only(
+                                top: 11,
+                                bottom: 11,
+                                start: 16,
+                                end: 16,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
                       ],
-                    ),
-                  ),
+                    )
+                  ],
                 ),
-                _errorMessage1 == null || _errorMessage1 == ''
-                    ? Container()
-                    : Text(
-                  '$_errorMessage1',
-                  style: TextStyle(backgroundColor: Colors.transparent,color: Colors.red),
-                ),
-                Column(
-                  children: [
-                    SizedBox(
-                        height: MediaQuery.sizeOf(context).height * 0.70 / 3),
-                    PrimaryButton(
-                        onPressed: () {
-                          if (wordCount == maxWordCount) {
-                            replaceText(_seedController.text);
-                            if(isSeedValid()) {
-                              setState(() {
-                                _errorMessage1 = '';
-                              });
-                              if (widget.onFinish != null) {
-                                return widget.onFinish();
-                              } else {
-                                return null;
-                              }
-                            }else {
-                              setState(() {
-                                _errorMessage1 =
-                                    tr(context).pleaseEnterAValidSeed;
-                              });
-                              return null;
-                            }
+              ),
+            ),
+            _errorMessage1 == null || _errorMessage1 == ''
+                ? Container()
+                : Container(
+                    margin: EdgeInsetsDirectional.symmetric(horizontal: 5),
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Text(
+                      '$_errorMessage1',
+                      textAlign: TextAlign.start,
+                      textDirection: Directionality.of(context),
+                      style: TextStyle(
+                          backgroundColor: Colors.transparent,
+                          color: Colors.red),
+                    )),
+            Column(
+              children: [
+                SizedBox(height: MediaQuery.sizeOf(context).height * 0.70 / 3),
+                PrimaryButton(
+                    onPressed: () {
+                      if (wordCount == maxWordCount) {
+                        replaceText(_seedController.text);
+                        if (isSeedValid()) {
+                          setState(() {
+                            _errorMessage1 = '';
+                          });
+                          if (widget.onFinish != null) {
+                            return widget.onFinish();
                           } else {
-                            setState(() {
-                              _errorMessage1 =
-                                  tr(context).pleaseEnterAValidSeed;
-                            });
                             return null;
                           }
-                        },
-                        text: tr(context).restore_next,
-                        color: Theme.of(context)
-                            .primaryTextTheme
-                            .labelLarge!
-                            .backgroundColor!,
-                        borderColor: Theme.of(context)
-                            .primaryTextTheme
-                            .labelLarge!
-                            .backgroundColor!)
-                  ],
-                )
-              ]),
-        )
-        //)
-      ]),
+                        } else {
+                          setState(() {
+                            _errorMessage1 = tr(context).pleaseEnterAValidSeed;
+                          });
+                          return null;
+                        }
+                      } else {
+                        setState(() {
+                          _errorMessage1 = tr(context).pleaseEnterAValidSeed;
+                        });
+                        return null;
+                      }
+                    },
+                    text: tr(context).restore_next,
+                    color: Theme.of(context)
+                        .primaryTextTheme
+                        .labelLarge!
+                        .backgroundColor!,
+                    borderColor: Theme.of(context)
+                        .primaryTextTheme
+                        .labelLarge!
+                        .backgroundColor!)
+              ],
+            )
+          ]),
     );
   }
 }
