@@ -134,7 +134,12 @@ class _RestoreFromSeedDetailsFormState
                           borderRadius: BorderRadius.circular(10)),
                       margin: EdgeInsetsDirectional.only(top: 20.0),
                       child: Container(
-                        padding: EdgeInsetsDirectional.only(start: 30, top: 5, bottom: 5),
+                        padding: const EdgeInsetsDirectional.only(
+                          start: 16,
+                          end: 12,
+                          top: 5,
+                          bottom: 5,
+                        ),
                         child: Observer(
                           builder: (context) {
                             return TextFormField(
@@ -149,7 +154,19 @@ class _RestoreFromSeedDetailsFormState
                                           ? Color(0xff77778B)
                                           : Color(0xff6F6F6F)),
                                   hintText: tr(context).enterWalletName_,
-                                  errorStyle: TextStyle(backgroundColor: Colors.transparent,height: 0.1)),
+                                errorStyle: const TextStyle(
+                                  backgroundColor: Colors.transparent,
+                                  color: Colors.red,
+                                  fontSize: 12,
+                                  height: 1.3,
+                                ),
+                                errorMaxLines: 3,
+                                contentPadding: const EdgeInsetsDirectional.only(
+                                  start: 0,
+                                  end: 8,
+                                  top: 12,
+                                  bottom: 12,
+                                ),),
                               onChanged: (val) => _formKey.currentState?.validate(),
                               validator: (value) {
                                 walletRestorationStore.validateWalletName(value ?? '',tr(context));
