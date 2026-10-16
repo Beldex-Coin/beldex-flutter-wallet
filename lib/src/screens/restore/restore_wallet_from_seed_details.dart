@@ -154,6 +154,8 @@ class _RestoreFromSeedDetailsFormState
                                           ? Color(0xff77778B)
                                           : Color(0xff6F6F6F)),
                                   hintText: tr(context).enterWalletName_,
+                                  hintMaxLines: 2,
+                                  maintainHintSize: false,
                                 errorStyle: const TextStyle(
                                   backgroundColor: Colors.transparent,
                                   color: Colors.red,

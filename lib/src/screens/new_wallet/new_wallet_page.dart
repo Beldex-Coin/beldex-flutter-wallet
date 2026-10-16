@@ -198,6 +198,8 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                       ? Color(0xff747474)
                                       : Color(0xff6F6F6F)),
                               hintText: tr(context).enterWalletName_,
+                              hintMaxLines: 2,
+                              maintainHintSize: false,
                               errorStyle: const TextStyle(
                                 backgroundColor: Colors.transparent,
                                 color: Colors.red,

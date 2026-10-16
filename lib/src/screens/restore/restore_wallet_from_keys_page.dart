@@ -155,6 +155,8 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                                         ? Color(0xff77778B)
                                         : Color(0xff77778B)),
                                 hintText: tr(context).enterWalletName_,
+                                hintMaxLines: 2,
+                                maintainHintSize: false,
                                   errorStyle: const TextStyle(
                                     backgroundColor: Colors.transparent,
                                     color: Colors.red,
