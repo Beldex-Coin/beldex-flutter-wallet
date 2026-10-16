@@ -144,6 +144,8 @@ class FaqPage extends BasePage {
         return 'assets/faq/faq_ko.json';
       case 'pt':
         return 'assets/faq/faq_pt.json';
+      case 'ru':
+        return 'assets/faq/faq_ru.json';
       case 'tr':
         return 'assets/faq/faq_tr.json';
       case 'vi':
