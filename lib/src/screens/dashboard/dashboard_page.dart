@@ -128,7 +128,7 @@ class DashboardPage extends BasePage {
                       backgroundColor: settingsStore.isDarkTheme
                           ? const Color(0xff24242F)
                           : const Color(0xffEDEDED),
-                      padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
+                      padding: const EdgeInsetsDirectional.symmetric(horizontal: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
@@ -174,7 +174,7 @@ class DashboardPage extends BasePage {
                       backgroundColor: settingsStore.isDarkTheme
                           ? const Color(0xff24242F)
                           : const Color(0xffEDEDED),
-                      padding: const EdgeInsetsDirectional.symmetric(horizontal: 16),
+                      padding: const EdgeInsetsDirectional.symmetric(horizontal: 14),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
