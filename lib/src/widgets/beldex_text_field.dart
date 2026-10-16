@@ -57,6 +57,8 @@ class BeldexTextField extends StatelessWidget {
                 hintStyle:
                     TextStyle(backgroundColor:Colors.transparent,fontSize: 16.0, color: Colors.grey.withValues(alpha: 0.6),fontWeight: FontWeight.bold),
                 hintText: hintText,
+                hintMaxLines: 2,
+                maintainHintSize: false,
                 errorStyle: TextStyle(backgroundColor:Colors.transparent,color: BeldexPalette.red)),
             validator: validator,
             onTap: onTap,
