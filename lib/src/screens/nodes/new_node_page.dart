@@ -356,6 +356,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
                             child: Text(
@@ -388,7 +389,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                   ? tr(context).success
                                   : tr(context).connectionFailed,
                               maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
+                              overflow: TextOverflow.visible,
                               textAlign: TextAlign.end,
                               style: TextStyle(
                                 color: newNodePageChangeNotifier.isNodeChecked
