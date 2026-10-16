@@ -249,6 +249,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
                           controller: _nodenameController,
                           decoration: InputDecoration(
                             hintText: tr(context).nodeNameOptional,
+                            hintMaxLines: 2,
+                            maintainHintSize: false,
                             hintStyle: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 color: settingsStore.isDarkTheme
@@ -280,6 +282,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
                           controller: _loginController,
                           decoration: InputDecoration(
                             hintText: tr(context).userNameOptional,
+                            hintMaxLines: 2,
+                            maintainHintSize: false,
                             hintStyle: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 color: settingsStore.isDarkTheme
