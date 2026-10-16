@@ -958,7 +958,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get transaction_details_transaction_id => 'ID Transaction';
 
   @override
-  String get transaction_priority_blink => 'Flash';
+  String get transaction_priority_blink => 'Éclair';
 
   @override
   String get transaction_priority_slow => 'Lente';

@@ -958,7 +958,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get transaction_details_transaction_id => 'ID da transação';
 
   @override
-  String get transaction_priority_blink => 'Flash';
+  String get transaction_priority_blink => 'Clarão';
 
   @override
   String get transaction_priority_slow => 'Lenta';

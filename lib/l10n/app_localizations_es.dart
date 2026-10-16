@@ -958,7 +958,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get transaction_details_transaction_id => 'ID de transacción';
 
   @override
-  String get transaction_priority_blink => 'Flash';
+  String get transaction_priority_blink => 'Destello';
 
   @override
   String get transaction_priority_slow => 'Lenta';

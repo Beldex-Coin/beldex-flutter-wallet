@@ -958,7 +958,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get transaction_details_transaction_id => 'ID транзакции';
 
   @override
-  String get transaction_priority_blink => 'Flash';
+  String get transaction_priority_blink => 'Вспышка';
 
   @override
   String get transaction_priority_slow => 'Низкий';

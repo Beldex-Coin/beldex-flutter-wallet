@@ -304,7 +304,7 @@
   "transaction_details_height": "Altura",
   "transaction_details_recipient_address": "Endereço do destinatário",
   "transaction_details_transaction_id": "ID da transação",
-  "transaction_priority_blink": "Flash",
+  "transaction_priority_blink": "Clarão",
   "transaction_priority_slow": "Lenta",
   "transactionInitiatedSuccessfully": "Transação iniciada com sucesso",
   "transactions": "Transações",
