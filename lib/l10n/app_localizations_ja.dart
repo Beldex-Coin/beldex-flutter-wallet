@@ -973,7 +973,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get transactions_by_date => '日付別';
 
   @override
-  String get transferYourBdxMoreFasternWithFlashTransaction => 'フラッシュトランザクションでBDXをより速く送金！';
+  String get transferYourBdxMoreFasternWithFlashTransaction => 'フラッシュトランザクションで\nBDXをより速く送金！';
 
   @override
   String get tryAgain => 'しばらくしてから再度お試しください。';
