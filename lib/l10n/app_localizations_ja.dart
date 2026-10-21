@@ -110,7 +110,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => '現在、生体認証機能は無効になっています。\n 　　　　　　アプリの設定で生体認証機能を\n 　　　　　　有効にしてください';
+  String get biometricFeatureCurrenlyDisabledkindlyEnableAllowBiometricAuthenticationFeatureInside => '現在、生体認証機能は無効になっています。アプリの設定で生体認証機能を有効にしてください';
 
   @override
   String blockConfirmed(Object count) {
