@@ -934,7 +934,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
         var errorMessage = state.error;
         if (state.error.contains('Failed to get output distribution')) {
           errorMessage = tr(context).failedToGetOutputDistribution;
-        } else if (state.error.contains("Invalid Destination address")) {
+        } else if (state.error.contains("Invalid destination address")) {
           errorMessage = tr(context).invalidDestinationAddress;
         } else if (state.error.contains('Not enough money to transfer') ||
             state.error.contains('overall balance only') ||
