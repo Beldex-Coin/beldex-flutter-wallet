@@ -7,7 +7,12 @@ import 'package:provider/provider.dart';
 import '../../../l10n.dart';
 
 class CreateAccountDialog extends StatefulWidget {
-  CreateAccountDialog({Key? key, this.account, required this.accList, required this.accountListStore}) : super(key: key);
+  CreateAccountDialog(
+      {Key? key,
+      this.account,
+      required this.accList,
+      required this.accountListStore})
+      : super(key: key);
   final Account? account;
   final List<Account> accList;
   final AccountListStore accountListStore;
@@ -27,20 +32,20 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
     if (widget.account != null) _textController.text = widget.account!.label;
     WidgetsBinding.instance.addObserver(this);
     getAccList(context);
-   // newValueAssigned(context);
+    // newValueAssigned(context);
     super.initState();
   }
 
-  void getAccList(BuildContext context){
+  void getAccList(BuildContext context) {
     setState(() {
-      if(widget.accountListStore.accounts != null){
-        for(var i=0;i< widget.accountListStore.accounts.length;i++){
-             accnameList.add(widget.accountListStore.accounts[i].label);
+      if (widget.accountListStore.accounts != null) {
+        for (var i = 0; i < widget.accountListStore.accounts.length; i++) {
+          accnameList.add(widget.accountListStore.accounts[i].label);
         }
       }
       widget.accountListStore.updateAccountList();
     });
-   print(accnameList);
+    print(accnameList);
   }
 
   // void getAccList() {
@@ -111,8 +116,10 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                   children: [
                     Text(
                       tr(context).addAccount,
-                      style:
-                      TextStyle(backgroundColor: Colors.transparent,fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          backgroundColor: Colors.transparent,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
                     ),
                     SizedBox(
                       height: 20,
@@ -122,7 +129,9 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         decoration: InputDecoration(
                           hintText: tr(context).accountName,
-                          hintStyle: TextStyle(backgroundColor:Colors.transparent,color: Color(0xff77778B)),
+                          hintStyle: TextStyle(
+                              backgroundColor: Colors.transparent,
+                              color: Color(0xff77778B)),
                           errorStyle: const TextStyle(
                             backgroundColor: Colors.transparent,
                             color: Colors.red,
@@ -150,17 +159,21 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                             ),
                           ),
                         ),
-                        style: TextStyle(backgroundColor: Colors.transparent,),
+                        style: TextStyle(
+                          backgroundColor: Colors.transparent,
+                        ),
                         validator: (value) {
                           if (!validateInput(value!) || value.length > 15) {
                             return tr(context).enterValidNameUpto15Characters;
                           } else if (checkNameAlreadyExist(value)) {
                             return tr(context).accountAlreadyExist;
                           } else {
-                            accountListStore.validateAccountName(context, value);
-                            if(accountListStore.errorMessage?.isNotEmpty ?? false) {
+                            accountListStore.validateAccountName(
+                                context, value);
+                            if (accountListStore.errorMessage?.isNotEmpty ??
+                                false) {
                               return accountListStore.errorMessage;
-                            }else{
+                            } else {
                               return null;
                             }
                           }
@@ -180,18 +193,23 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                                 : Color(0xffE8E8E8),
                             height:
                                 MediaQuery.sizeOf(context).height * 0.18 / 3,
-                            minWidth: MediaQuery.sizeOf(context).width < 600 ? MediaQuery.sizeOf(context).width / 2 : 180,
+                            minWidth: 0,
+                            padding: EdgeInsets.symmetric(horizontal: 8),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
-                            child: Text(
-                              tr(context).cancel,
-                              style: TextStyle(
-                                  backgroundColor: Colors.transparent,
-                                  fontSize: 17,
-                                  color: settingsStore.isDarkTheme
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fontWeight: FontWeight.bold),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                tr(context).cancel,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    fontSize: 15,
+                                    color: settingsStore.isDarkTheme
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
                         ),
@@ -201,7 +219,8 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                         Expanded(
                           child: MaterialButton(
                             onPressed: () {
-                              if (!(_formKey.currentState?.validate() ?? false)) {
+                              if (!(_formKey.currentState?.validate() ??
+                                  false)) {
                                 return;
                               }
                               if (widget.account != null &&
@@ -223,18 +242,23 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
                             color: Color(0xff0BA70F),
                             height:
                                 MediaQuery.sizeOf(context).height * 0.18 / 3,
-                            minWidth: MediaQuery.sizeOf(context).width < 600 ? MediaQuery.sizeOf(context).width / 2 : 180,
+                            minWidth: 0,
+                            padding: EdgeInsets.symmetric(horizontal: 8),
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10)),
-                            child: Text(
-                              widget.account != null
-                                  ? tr(context).rename
-                                  : tr(context).add,
-                              style: TextStyle(
-                                  backgroundColor: Colors.transparent,
-                                  fontSize: 17,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                widget.account != null
+                                    ? tr(context).rename
+                                    : tr(context).add,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
                             ),
                           ),
                         )
