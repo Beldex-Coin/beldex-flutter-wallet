@@ -110,9 +110,9 @@ class NewNodeFormState extends State<NewNodePageForm> {
     var newNodePageChangeNotifier =
         Provider.of<NewNodePageChangeNotifier>(context);
     return GestureDetector(
-     onTap: (){
-       FocusScope.of(context).unfocus();
-     },
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
       child: ScrollableWithBottomSection(
         contentPadding: EdgeInsets.all(0),
         content: Form(
@@ -138,10 +138,12 @@ class NewNodeFormState extends State<NewNodePageForm> {
                       child: Text(tr(context).addNode,
                           style: TextStyle(
                               backgroundColor: Colors.transparent,
-                              fontWeight: FontWeight.bold, fontSize: 19)),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 19)),
                     ),
                     Padding(
-                      padding: const EdgeInsetsDirectional.only(start: 20, end: 20),
+                      padding:
+                          const EdgeInsetsDirectional.only(start: 20, end: 20),
                       child: TextFormField(
                           controller: _nodeAddressController,
                           decoration: InputDecoration(
@@ -150,7 +152,9 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                   : Color(0xffFFFFFF),
                               filled: true,
                               hintText: tr(context).node_address,
-                              hintStyle: TextStyle(backgroundColor: Colors.transparent,color: Color(0xff77778B)),
+                              hintStyle: TextStyle(
+                                  backgroundColor: Colors.transparent,
+                                  color: Color(0xff77778B)),
                               contentPadding: const EdgeInsetsDirectional.only(
                                 start: 8,
                                 end: 8,
@@ -169,25 +173,28 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               border: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.transparent),
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.transparent),
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.transparent),
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
                                 borderRadius: BorderRadius.circular(8),
                               )),
                           validator: (value) {
-                            nodeList.validateNodeAddress(value!,tr(context));
+                            nodeList.validateNodeAddress(value!, tr(context));
                             return nodeList.errorMessage;
                           }),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.only(top: 8.0, start: 20, end: 20),
+                      padding: const EdgeInsetsDirectional.only(
+                          top: 8.0, start: 20, end: 20),
                       child: TextFormField(
                           controller: _nodePortController,
                           keyboardType:
@@ -230,21 +237,23 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.transparent),
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.transparent),
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
                                 borderRadius: BorderRadius.circular(8),
                               )),
                           validator: (value) {
-                            nodeList.validateNodePort(value!,tr(context));
+                            nodeList.validateNodePort(value!, tr(context));
                             return nodeList.errorMessage;
                           }),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.only(top: 8.0, start: 20, end: 20),
+                      padding: const EdgeInsetsDirectional.only(
+                          top: 8.0, start: 20, end: 20),
                       child: TextFormField(
                           controller: _nodenameController,
                           decoration: InputDecoration(
@@ -256,8 +265,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
-                            contentPadding:
-                                EdgeInsetsDirectional.symmetric(horizontal: 8, vertical: 10),
+                            contentPadding: EdgeInsetsDirectional.symmetric(
+                                horizontal: 8, vertical: 10),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: settingsStore.isDarkTheme
@@ -276,8 +285,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
                           validator: (value) => null),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.only(top: 8.0, start: 20, end: 20),
+                      padding: const EdgeInsetsDirectional.only(
+                          top: 8.0, start: 20, end: 20),
                       child: TextFormField(
                           controller: _loginController,
                           decoration: InputDecoration(
@@ -289,8 +298,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
-                            contentPadding:
-                                EdgeInsetsDirectional.symmetric(horizontal: 8, vertical: 10),
+                            contentPadding: EdgeInsetsDirectional.symmetric(
+                                horizontal: 8, vertical: 10),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: settingsStore.isDarkTheme
@@ -309,8 +318,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
                           validator: (value) => null),
                     ),
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.only(top: 8.0, start: 20, end: 20),
+                      padding: const EdgeInsetsDirectional.only(
+                          top: 8.0, start: 20, end: 20),
                       child: TextFormField(
                           controller: _passwordController,
                           decoration: InputDecoration(
@@ -320,8 +329,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff77778B)
                                     : Color(0xff77778B)),
-                            contentPadding:
-                                EdgeInsetsDirectional.symmetric(horizontal: 8, vertical: 10),
+                            contentPadding: EdgeInsetsDirectional.symmetric(
+                                horizontal: 8, vertical: 10),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                   color: settingsStore.isDarkTheme
@@ -345,68 +354,81 @@ class NewNodeFormState extends State<NewNodePageForm> {
                             height: 10,
                           )
                         : Container(
-                      padding: const EdgeInsetsDirectional.only(start: 20, end: 20),
-                      margin: const EdgeInsetsDirectional.only(
-                        start: 20,
-                        end: 20,
-                        top: 10,
-                        bottom: 10,
-                      ),
-                      height: MediaQuery.sizeOf(context).height * 0.20 / 3,
-                      decoration: BoxDecoration(
-                        color: settingsStore.isDarkTheme
-                            ? const Color(0xff333343)
-                            : Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              tr(context).testResult,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                backgroundColor: Colors.transparent,
-                                fontSize: MediaQuery.sizeOf(context).height * 0.06 / 3,
-                              ),
+                            padding: const EdgeInsetsDirectional.only(
+                                start: 20, end: 20),
+                            margin: const EdgeInsetsDirectional.only(
+                              start: 20,
+                              end: 20,
+                              top: 10,
+                              bottom: 10,
+                            ),
+                            height:
+                                MediaQuery.sizeOf(context).height * 0.20 / 3,
+                            decoration: BoxDecoration(
+                              color: settingsStore.isDarkTheme
+                                  ? const Color(0xff333343)
+                                  : Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    tr(context).testResult,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      backgroundColor: Colors.transparent,
+                                      fontSize:
+                                          MediaQuery.sizeOf(context).height *
+                                              0.06 /
+                                              3,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Flexible(
+                                  child: newNodePageChangeNotifier.canLoad
+                                      ? Text(
+                                          tr(context).checking,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            backgroundColor: Colors.transparent,
+                                            color: const Color(0xff2979FB),
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: MediaQuery.sizeOf(context)
+                                                    .height *
+                                                0.06 /
+                                                3,
+                                          ),
+                                        )
+                                      : Text(
+                                          newNodePageChangeNotifier
+                                                  .isNodeChecked
+                                              ? tr(context).success
+                                              : tr(context).connectionFailed,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.visible,
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: newNodePageChangeNotifier
+                                                    .isNodeChecked
+                                                ? const Color(0xff1AB51E)
+                                                : Colors.red,
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: MediaQuery.sizeOf(context)
+                                                    .height *
+                                                0.06 /
+                                                3,
+                                          ),
+                                        ),
+                                ),
+                              ],
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          Flexible(
-                            child: newNodePageChangeNotifier.canLoad
-                                ? Text(
-                              tr(context).checking,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                backgroundColor: Colors.transparent,
-                                color: const Color(0xff2979FB),
-                                fontWeight: FontWeight.w800,
-                                fontSize: MediaQuery.sizeOf(context).height * 0.06 / 3,
-                              ),
-                            )
-                                : Text(
-                              newNodePageChangeNotifier.isNodeChecked
-                                  ? tr(context).success
-                                  : tr(context).connectionFailed,
-                              maxLines: 2,
-                              overflow: TextOverflow.visible,
-                              textAlign: TextAlign.end,
-                              style: TextStyle(
-                                color: newNodePageChangeNotifier.isNodeChecked
-                                    ? const Color(0xff1AB51E)
-                                    : Colors.red,
-                                fontWeight: FontWeight.w800,
-                                fontSize: MediaQuery.sizeOf(context).height * 0.06 / 3,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
                     Container(
                       height: MediaQuery.sizeOf(context).height * 0.26 / 3,
                       padding: const EdgeInsetsDirectional.only(
@@ -431,13 +453,15 @@ class NewNodeFormState extends State<NewNodePageForm> {
                               alignment: AlignmentDirectional.centerStart,
                               child: GestureDetector(
                                 onTap: () async {
-                                  if (!(_formKey.currentState?.validate() ?? false)) {
+                                  if (!(_formKey.currentState?.validate() ??
+                                      false)) {
                                     return;
                                   }
 
                                   _loading(true);
                                   try {
-                                    newNodePageChangeNotifier.setTestMode('testing');
+                                    newNodePageChangeNotifier
+                                        .setTestMode('testing');
                                     newNodePageChangeNotifier.setCanLoad(true);
 
                                     final nodeWithPort =
@@ -449,11 +473,13 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                       password: _passwordController.text,
                                     ).isMainNet();
 
-                                    final isNodeChecked1 =
-                                    await NodeForTest().isWorkingNode(nodeWithPort);
+                                    final isNodeChecked1 = await NodeForTest()
+                                        .isWorkingNode(nodeWithPort);
 
-                                    newNodePageChangeNotifier.setIsMainnet(isMainnet);
-                                    newNodePageChangeNotifier.setTestMode('done');
+                                    newNodePageChangeNotifier
+                                        .setIsMainnet(isMainnet);
+                                    newNodePageChangeNotifier
+                                        .setTestMode('done');
                                     newNodePageChangeNotifier
                                         .setIsNodeChecked(isNodeChecked1);
                                     newNodePageChangeNotifier.setCanLoad(false);
@@ -465,8 +491,11 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                 child: Text(
                                   tr(context).test,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: MediaQuery.sizeOf(context).height * 0.07 / 3,
+                                  maxLines: 1,
+                                  softWrap: false,
+                                  overflow: TextOverflow.visible,
+                                  style: const TextStyle(
+                                    fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -488,11 +517,14 @@ class NewNodeFormState extends State<NewNodePageForm> {
                               child: Text(
                                 tr(context).cancel,
                                 textAlign: TextAlign.center,
+                                maxLines: 1,
+                                softWrap: false,
+                                overflow: TextOverflow.visible,
                                 style: TextStyle(
                                   color: settingsStore.isDarkTheme
                                       ? const Color(0xffB9B9B9)
                                       : const Color(0xff9292A7),
-                                  fontSize: MediaQuery.sizeOf(context).height * 0.07 / 3,
+                                  fontSize: 16,
                                 ),
                               ),
                             ),
@@ -502,60 +534,70 @@ class NewNodeFormState extends State<NewNodePageForm> {
                           GestureDetector(
                             onTap: newNodePageChangeNotifier.isNodeChecked
                                 ? () async {
-                              if (!(_formKey.currentState?.validate() ?? false)) {
-                                return;
-                              }
-                              if (newNodePageChangeNotifier
-                                  .isMainnet) {
-                                var status = false;
-                                for (var i = 0;
-                                i < nodeList.nodes!.length;
-                                i++) {
-                                  if (nodeList.nodes![i].uri.contains(
-                                      '${_nodeAddressController.text}:${_nodePortController.text}')) {
-                                    status = true;
-                                    await Fluttertoast.showToast(msg: tr(context).nodeAlreadyExists,
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,
-                                      backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
-                                    );
-                                    return;
+                                    if (!(_formKey.currentState?.validate() ??
+                                        false)) {
+                                      return;
+                                    }
+                                    if (newNodePageChangeNotifier.isMainnet) {
+                                      var status = false;
+                                      for (var i = 0;
+                                          i < nodeList.nodes!.length;
+                                          i++) {
+                                        if (nodeList.nodes![i].uri.contains(
+                                            '${_nodeAddressController.text}:${_nodePortController.text}')) {
+                                          status = true;
+                                          await Fluttertoast.showToast(
+                                            msg: tr(context).nodeAlreadyExists,
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            textColor: settingsStore.isDarkTheme
+                                                ? Colors.black
+                                                : Colors.white,
+                                            backgroundColor:
+                                                settingsStore.isDarkTheme
+                                                    ? Colors.grey.shade50
+                                                    : Colors.grey.shade900,
+                                          );
+                                          return;
+                                        }
+                                      }
+                                      if (!status) {
+                                        await nodeList.addNode(
+                                            address:
+                                                _nodeAddressController.text,
+                                            port: _nodePortController.text,
+                                            login: _loginController.text,
+                                            password: _passwordController.text);
+                                      }
+                                      Navigator.of(context).pop();
+                                    } else {
+                                      await Fluttertoast.showToast(
+                                        msg: tr(context).pleaseAddAMainnetNode,
+                                        toastLength: Toast.LENGTH_SHORT,
+                                        gravity: ToastGravity
+                                            .BOTTOM, // Toast gravity (top, center, or bottom)
+                                        textColor: Colors
+                                            .white, // Text color // Background color
+                                      );
+                                    }
                                   }
-                                }
-                                if (!status) {
-                                  await nodeList.addNode(
-                                      address:
-                                      _nodeAddressController.text,
-                                      port: _nodePortController.text,
-                                      login: _loginController.text,
-                                      password:
-                                      _passwordController.text);
-                                }
-                                Navigator.of(context).pop();
-                              } else {
-                                await Fluttertoast.showToast(
-                                  msg: tr(context).pleaseAddAMainnetNode,
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM, // Toast gravity (top, center, or bottom)
-                                  textColor: Colors.white, // Text color // Background color
-                                );
-                              }
-                            }
                                 : null,
                             child: Padding(
-                              padding: const EdgeInsetsDirectional.only(end:5.0, top: 10.0, bottom: 10.0),
+                              padding: const EdgeInsetsDirectional.all(10.0),
                               child: Text(
                                 tr(context).add,
                                 textAlign: TextAlign.center,
+                                maxLines: 1,
+                                softWrap: false,
+                                overflow: TextOverflow.visible,
                                 style: TextStyle(
-                                  fontSize: MediaQuery.sizeOf(context).height * 0.07 / 3,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: newNodePageChangeNotifier.isNodeChecked
                                       ? const Color(0xff1AB51E)
                                       : settingsStore.isDarkTheme
-                                      ? const Color(0xffB9B9B9)
-                                      : const Color(0xff9292A7),
+                                          ? const Color(0xffB9B9B9)
+                                          : const Color(0xff9292A7),
                                 ),
                               ),
                             ),
