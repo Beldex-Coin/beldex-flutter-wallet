@@ -299,7 +299,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                             ),
                                             Padding(
                                               padding:
-                                              const EdgeInsetsDirectional.only(start: 8.0),
+                                              const EdgeInsetsDirectional.symmetric(horizontal: 8.0),
                                               child: Icon(
                                                 Icons.copy,
                                                 color: isCopied
@@ -415,7 +415,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                             ),
                                             Padding(
                                               padding:
-                                              const EdgeInsetsDirectional.only(start: 8.0),
+                                              const EdgeInsetsDirectional.symmetric(horizontal: 8.0),
                                               child: Icon(
                                                 Icons.copy,
                                                 color: Colors.white,
