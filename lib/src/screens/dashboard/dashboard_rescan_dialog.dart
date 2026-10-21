@@ -59,12 +59,11 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
             // Reconnect Wallet button
             SizedBox(
               width: double.infinity,
-              height: 48,
               child: MaterialButton(
                 onPressed: () => walletMenu.action(0),
                 elevation: 0,
                 color: const Color(0xff2979FB),
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsetsDirectional.all(8),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
