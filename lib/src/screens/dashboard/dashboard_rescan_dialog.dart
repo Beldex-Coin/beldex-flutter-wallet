@@ -93,7 +93,6 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
 
                 return SizedBox(
                   width: double.infinity,
-                  height: 48,
                   child: MaterialButton(
                     onPressed: canRescan
                         ? () async {
@@ -107,7 +106,7 @@ class _DashBoardAlertDialogState extends State<DashBoardAlertDialog> {
                     disabledColor: settingsStore.isDarkTheme
                         ? const Color(0xff333343)
                         : const Color(0xffE8E8E8),
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsetsDirectional.all(8),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
