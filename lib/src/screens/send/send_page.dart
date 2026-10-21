@@ -340,7 +340,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                               children: <Widget>[
                                 SizedBox(height: 10),
                                 Row(
-                                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   textBaseline: TextBaseline.alphabetic,
                                   children: [
                                     Flexible(
