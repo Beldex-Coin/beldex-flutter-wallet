@@ -58,7 +58,9 @@ class BnsUpdatePage extends BasePage {
 
   @override
   Widget body(BuildContext context) {
-    return BnsUpdatePageForm(bnsDetails: bnsDetails,);
+    return BnsUpdatePageForm(
+      bnsDetails: bnsDetails,
+    );
   }
 }
 
@@ -96,20 +98,20 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
   late KeyboardDetectionController keyboardDetectionController;
   @override
   void initState() {
-    if(widget.bnsDetails.isNotEmpty){
+    if (widget.bnsDetails.isNotEmpty) {
       bnsName = widget.bnsDetails['bnsName'] as String ?? '';
       ownerAddress = widget.bnsDetails['ownerAddress'] as String ?? '';
       walletAddress = widget.bnsDetails['walletAddress'] as String ?? '';
       bchatId = widget.bnsDetails['bchatId'] as String ?? '';
       belnetId = widget.bnsDetails['belnetId'] as String ?? '';
       ethAddress = widget.bnsDetails['ethAddress'] as String ?? '';
-      if(belnetId.isNotEmpty && belnetId != '(none)'){
+      if (belnetId.isNotEmpty && belnetId != '(none)') {
         belnetId = belnetId.substring(0, belnetId.indexOf('.'));
       }
     }
     keyboardDetectionController = KeyboardDetectionController(
       onChanged: (value) {
-        if(value == KeyboardState.hidden){
+        if (value == KeyboardState.hidden) {
           _focusNodeBnsOwner.unfocus();
           _focusNodeWalletAddress.unfocus();
           _focusNodeBchatId.unfocus();
@@ -137,20 +139,23 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     ];
     for (var i = 0; i < localizedOptions.length; i++) {
       if (i < _bnsUpdateChangeNotifier.bnsPurchaseOptions.length) {
-        _bnsUpdateChangeNotifier.bnsPurchaseOptions[i].title = localizedOptions[i];
+        _bnsUpdateChangeNotifier.bnsPurchaseOptions[i].title =
+            localizedOptions[i];
       }
     }
     _setEffects(context);
     return KeyboardDetection(
       controller: keyboardDetectionController,
       child: Scaffold(
-        backgroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+        backgroundColor:
+            settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
         body: Container(
           width: MediaQuery.sizeOf(context).width,
-          color: settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+          color:
+              settingsStore.isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
           child: Consumer<BnsUpdateChangeNotifier>(
               builder: (context, bnsUpdateChangeNotifier, child) {
-                _bnsUpdateChangeNotifier = bnsUpdateChangeNotifier;
+            _bnsUpdateChangeNotifier = bnsUpdateChangeNotifier;
             return bnsUpdate(settingsStore, sendStore, syncStore,
                 bnsUpdateChangeNotifier, walletStore);
           }),
@@ -168,7 +173,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     return SingleChildScrollView(
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        margin: EdgeInsetsDirectional.only(top:10, bottom:10, start:8, end:8),
+        margin:
+            EdgeInsetsDirectional.only(top: 10, bottom: 10, start: 8, end: 8),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: settingsStore.isDarkTheme
@@ -189,12 +195,17 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                       ? Color(0xff2C2C3F)
                       : Color(0xffFFFFFF),
                   border: Border.all(
-                    color: settingsStore.isDarkTheme?Color(0xff484856):Color(0xffDADADA))
-              ),
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff484856)
+                          : Color(0xffDADADA))),
               foregroundDecoration: BoxDecoration(
                 color: settingsStore.isDarkTheme
-                    ? bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2?Color(0x9324242F):Colors.transparent
-                    : bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2?Color(0x93F3F3F3):Colors.transparent,
+                    ? bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2
+                        ? Color(0x9324242F)
+                        : Colors.transparent
+                    : bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2
+                        ? Color(0x93F3F3F3)
+                        : Colors.transparent,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -230,7 +241,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                     ],
                   ),
                   AbsorbPointer(
-                    absorbing: bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2,
+                    absorbing:
+                        bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -250,7 +262,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                         ),
                         //BNS Owner Name Field
                         Container(
-                          margin: EdgeInsetsDirectional.only(start: 10, end: 10, top: 5),
+                          margin: EdgeInsetsDirectional.only(
+                              start: 10, end: 10, top: 5),
                           decoration: BoxDecoration(
                             color: settingsStore.isDarkTheme
                                 ? Color(0xff24242F)
@@ -265,7 +278,9 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                           child: TextFormField(
                             focusNode: _focusNodeBnsOwner,
                             controller: _bnsOwnerNameController,
-                            style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
+                            style: TextStyle(
+                                backgroundColor: Colors.transparent,
+                                fontSize: 14.0),
                             inputFormatters: [
                               FilteringTextInputFormatter.allow(
                                   RegExp('[a-zA-Z0-9]')),
@@ -290,10 +305,15 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                         ),
                         //BNS Owner Field Error Message
                         Visibility(
-                          visible: bnsUpdateChangeNotifier.ownerAddressFieldIsValid && bnsUpdateChangeNotifier.selectedBnsUpdateOption == 1,
+                          visible: bnsUpdateChangeNotifier
+                                  .ownerAddressFieldIsValid &&
+                              bnsUpdateChangeNotifier.selectedBnsUpdateOption ==
+                                  1,
                           child: Container(
                             margin: EdgeInsetsDirectional.only(start: 15),
-                            child: Text(bnsUpdateChangeNotifier.ownerAddressFieldErrorMessage,
+                            child: Text(
+                                bnsUpdateChangeNotifier
+                                    .ownerAddressFieldErrorMessage,
                                 style: TextStyle(
                                     backgroundColor: Colors.transparent,
                                     fontSize: 13.0,
@@ -302,7 +322,9 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                     fontFamily: 'OpenSans')),
                           ),
                         ),
-                        SizedBox(height: 15,),
+                        SizedBox(
+                          height: 15,
+                        ),
                         //BNS Backup Owner Name
                         /*Container(
                           margin: EdgeInsetsDirectional.only(start: 15, top: 10),
@@ -360,18 +382,25 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
             //Update Values
             Container(
                 width: MediaQuery.sizeOf(context).width,
-                margin: EdgeInsetsDirectional.only(top:10, bottom:10, start:8, end:8),
+                margin: EdgeInsetsDirectional.only(
+                    top: 10, bottom: 10, start: 8, end: 8),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: settingsStore.isDarkTheme
                         ? Color(0xff2C2C3F)
                         : Color(0xffFFFFFF),
                     border: Border.all(
-                        color: settingsStore.isDarkTheme?Color(0xff484856):Color(0xffDADADA))),
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xff484856)
+                            : Color(0xffDADADA))),
                 foregroundDecoration: BoxDecoration(
                   color: settingsStore.isDarkTheme
-                      ?  bnsUpdateChangeNotifier.selectedBnsUpdateOption == 1?Color(0x9324242F):Colors.transparent
-                      : bnsUpdateChangeNotifier.selectedBnsUpdateOption == 1?Color(0x93F3F3F3):Colors.transparent,
+                      ? bnsUpdateChangeNotifier.selectedBnsUpdateOption == 1
+                          ? Color(0x9324242F)
+                          : Colors.transparent
+                      : bnsUpdateChangeNotifier.selectedBnsUpdateOption == 1
+                          ? Color(0x93F3F3F3)
+                          : Colors.transparent,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -386,7 +415,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                           groupValue:
                               bnsUpdateChangeNotifier.selectedBnsUpdateOption,
                           activeColor: Color(0xff00AD07),
-                          fillColor: MaterialStateProperty.all(Color(0xff00AD07)),
+                          fillColor:
+                              MaterialStateProperty.all(Color(0xff00AD07)),
                           onChanged: (value) {
                             bnsUpdateChangeNotifier
                                 .setSelectedBnsUpdateOption(value!);
@@ -407,7 +437,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                       ],
                     ),
                     AbsorbPointer(
-                      absorbing: bnsUpdateChangeNotifier.selectedBnsUpdateOption == 1,
+                      absorbing:
+                          bnsUpdateChangeNotifier.selectedBnsUpdateOption == 1,
                       child: Container(
                         width: MediaQuery.sizeOf(context).width,
                         margin: EdgeInsetsDirectional.only(
@@ -427,49 +458,66 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                               height: 10,
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                bnsPurchaseOptions(
-                                    bnsUpdateChangeNotifier.bnsPurchaseOptions[0],
-                                    settingsStore,
-                                    bnsUpdateChangeNotifier,
-                                    0),
-                                SizedBox(
-                                  width: 4,
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsetsDirectional.only(end: 2),
+                                    child: bnsPurchaseOptions(
+                                        bnsUpdateChangeNotifier
+                                            .bnsPurchaseOptions[0],
+                                        settingsStore,
+                                        bnsUpdateChangeNotifier,
+                                        0),
+                                  ),
                                 ),
-                                bnsPurchaseOptions(
-                                    bnsUpdateChangeNotifier.bnsPurchaseOptions[1],
-                                    settingsStore,
-                                    bnsUpdateChangeNotifier,
-                                    1)
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsetsDirectional.only(start: 2),
+                                    child: bnsPurchaseOptions(
+                                        bnsUpdateChangeNotifier
+                                            .bnsPurchaseOptions[1],
+                                        settingsStore,
+                                        bnsUpdateChangeNotifier,
+                                        1),
+                                  ),
+                                )
                               ],
                             ),
                             SizedBox(
                               height: 5,
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                bnsPurchaseOptions(
-                                    bnsUpdateChangeNotifier.bnsPurchaseOptions[2],
-                                    settingsStore,
-                                    bnsUpdateChangeNotifier,
-                                    2),
-                                SizedBox(
-                                  width: 4,
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsetsDirectional.only(end: 2),
+                                    child: bnsPurchaseOptions(
+                                        bnsUpdateChangeNotifier
+                                            .bnsPurchaseOptions[2],
+                                        settingsStore,
+                                        bnsUpdateChangeNotifier,
+                                        2),
+                                  ),
                                 ),
-                                bnsPurchaseOptions(
-                                    bnsUpdateChangeNotifier.bnsPurchaseOptions[3],
-                                    settingsStore,
-                                    bnsUpdateChangeNotifier,
-                                    3)
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsetsDirectional.only(start: 2),
+                                    child: bnsPurchaseOptions(
+                                        bnsUpdateChangeNotifier
+                                            .bnsPurchaseOptions[3],
+                                        settingsStore,
+                                        bnsUpdateChangeNotifier,
+                                        3),
+                                  ),
+                                )
                               ],
                             ),
                             Visibility(
                               visible: bnsUpdateChangeNotifier
                                   .bnsPurchaseOptions[0].selected,
                               child: Container(
-                                margin: EdgeInsetsDirectional.only(start: 10, end: 10, top: 10),
+                                margin: EdgeInsetsDirectional.only(
+                                    start: 10, end: 10, top: 10),
                                 decoration: BoxDecoration(
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff24242F)
@@ -485,7 +533,9 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                 child: TextFormField(
                                   focusNode: _focusNodeWalletAddress,
                                   controller: _walletAddressController,
-                                  style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
+                                  style: TextStyle(
+                                      backgroundColor: Colors.transparent,
+                                      fontSize: 14.0),
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
                                         RegExp('[a-zA-Z0-9]')),
@@ -513,11 +563,15 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                             //Wallet Address Field Error Message
                             Visibility(
                               visible: bnsUpdateChangeNotifier
-                                  .bnsPurchaseOptions[0].selected &&
+                                      .bnsPurchaseOptions[0].selected &&
                                   bnsUpdateChangeNotifier
-                                      .walletAddressFieldIsValid && bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2,
+                                      .walletAddressFieldIsValid &&
+                                  bnsUpdateChangeNotifier
+                                          .selectedBnsUpdateOption ==
+                                      2,
                               child: Container(
-                                margin: EdgeInsetsDirectional.only(start: 15, bottom: 10),
+                                margin: EdgeInsetsDirectional.only(
+                                    start: 15, bottom: 10),
                                 child: Text(
                                     bnsUpdateChangeNotifier
                                         .walletAddressFieldErrorMessage,
@@ -533,8 +587,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                               visible: bnsUpdateChangeNotifier
                                   .bnsPurchaseOptions[1].selected,
                               child: Container(
-                                margin:
-                                EdgeInsetsDirectional.only(start: 10, end: 10, top: 10),
+                                margin: EdgeInsetsDirectional.only(
+                                    start: 10, end: 10, top: 10),
                                 decoration: BoxDecoration(
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff24242F)
@@ -550,7 +604,9 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                 child: TextFormField(
                                   focusNode: _focusNodeBchatId,
                                   controller: _bChatIdController,
-                                  style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
+                                  style: TextStyle(
+                                      backgroundColor: Colors.transparent,
+                                      fontSize: 14.0),
                                   maxLength: 66,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.allow(
@@ -580,10 +636,14 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                             //Bchat Id Field Error Message
                             Visibility(
                               visible: bnsUpdateChangeNotifier
-                                  .bnsPurchaseOptions[1].selected &&
-                                  bnsUpdateChangeNotifier.bchatIdFieldIsValid && bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2,
+                                      .bnsPurchaseOptions[1].selected &&
+                                  bnsUpdateChangeNotifier.bchatIdFieldIsValid &&
+                                  bnsUpdateChangeNotifier
+                                          .selectedBnsUpdateOption ==
+                                      2,
                               child: Container(
-                                margin: EdgeInsetsDirectional.only(start: 15, bottom: 10),
+                                margin: EdgeInsetsDirectional.only(
+                                    start: 15, bottom: 10),
                                 child: Text(
                                     bnsUpdateChangeNotifier
                                         .bchatIdFieldErrorMessage,
@@ -599,8 +659,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                               visible: bnsUpdateChangeNotifier
                                   .bnsPurchaseOptions[2].selected,
                               child: Container(
-                                margin:
-                                EdgeInsetsDirectional.only(start: 10, end: 10, top: 10),
+                                margin: EdgeInsetsDirectional.only(
+                                    start: 10, end: 10, top: 10),
                                 decoration: BoxDecoration(
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff24242F)
@@ -616,7 +676,9 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                 child: TextFormField(
                                   focusNode: _focusNodeBelnetId,
                                   controller: _belnetIdController,
-                                  style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
+                                  style: TextStyle(
+                                      backgroundColor: Colors.transparent,
+                                      fontSize: 14.0),
                                   maxLength: 52,
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -642,10 +704,15 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                             //Belnet Id Field Error Message
                             Visibility(
                               visible: bnsUpdateChangeNotifier
-                                  .bnsPurchaseOptions[2].selected &&
-                                  bnsUpdateChangeNotifier.belnetIdFieldIsValid && bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2,
+                                      .bnsPurchaseOptions[2].selected &&
+                                  bnsUpdateChangeNotifier
+                                      .belnetIdFieldIsValid &&
+                                  bnsUpdateChangeNotifier
+                                          .selectedBnsUpdateOption ==
+                                      2,
                               child: Container(
-                                margin: EdgeInsetsDirectional.only(start: 15, bottom: 10),
+                                margin: EdgeInsetsDirectional.only(
+                                    start: 15, bottom: 10),
                                 child: Text(
                                     bnsUpdateChangeNotifier
                                         .belnetIdFieldErrorMessage,
@@ -661,8 +728,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                               visible: bnsUpdateChangeNotifier
                                   .bnsPurchaseOptions[3].selected,
                               child: Container(
-                                margin:
-                                EdgeInsetsDirectional.only(start: 10, end: 10, top: 10),
+                                margin: EdgeInsetsDirectional.only(
+                                    start: 10, end: 10, top: 10),
                                 decoration: BoxDecoration(
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xff24242F)
@@ -678,12 +745,15 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                 child: TextFormField(
                                   focusNode: _focusNodeEthAddress,
                                   controller: _ethAddressController,
-                                  style: TextStyle(backgroundColor: Colors.transparent,fontSize: 14.0),
+                                  style: TextStyle(
+                                      backgroundColor: Colors.transparent,
+                                      fontSize: 14.0),
                                   maxLength: 42,
                                   inputFormatters: [
-                                    FilteringTextInputFormatter.allow(RegExp(
-                                        '[A-Fa-f0-9xX]')),
-                                    FilteringTextInputFormatter.deny(RegExp('[-,. ]'))
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp('[A-Fa-f0-9xX]')),
+                                    FilteringTextInputFormatter.deny(
+                                        RegExp('[-,. ]'))
                                   ],
                                   decoration: InputDecoration(
                                     border: InputBorder.none,
@@ -709,10 +779,15 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                             //ETH Address Field Error Message
                             Visibility(
                               visible: bnsUpdateChangeNotifier
-                                  .bnsPurchaseOptions[3].selected &&
-                                  bnsUpdateChangeNotifier.ethAddressFieldIsValid && bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2,
+                                      .bnsPurchaseOptions[3].selected &&
+                                  bnsUpdateChangeNotifier
+                                      .ethAddressFieldIsValid &&
+                                  bnsUpdateChangeNotifier
+                                          .selectedBnsUpdateOption ==
+                                      2,
                               child: Container(
-                                margin: EdgeInsetsDirectional.only(start: 15, bottom: 10),
+                                margin: EdgeInsetsDirectional.only(
+                                    start: 15, bottom: 10),
                                 child: Text(
                                     bnsUpdateChangeNotifier
                                         .ethAddressFieldErrorMessage,
@@ -724,7 +799,9 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                         fontFamily: 'OpenSans')),
                               ),
                             ),
-                            SizedBox(height: 5,)
+                            SizedBox(
+                              height: 5,
+                            )
                           ],
                         ),
                       ),
@@ -732,8 +809,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                   ],
                 )),
             Container(
-                margin:
-                    EdgeInsetsDirectional.only(top: 10, bottom: 10, start: 15, end: 15),
+                margin: EdgeInsetsDirectional.only(
+                    top: 10, bottom: 10, start: 15, end: 15),
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
@@ -805,8 +882,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                 child: Container(
                   width: MediaQuery.sizeOf(context).width,
                   padding: EdgeInsetsDirectional.all(10),
-                  margin:
-                      EdgeInsetsDirectional.only(top: 20, start: 40, end: 40, bottom: 30),
+                  margin: EdgeInsetsDirectional.only(
+                      top: 20, start: 40, end: 40, bottom: 30),
                   decoration: BoxDecoration(
                       color: Color(0xff00AD07),
                       borderRadius: BorderRadius.circular(10)),
@@ -817,7 +894,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                         alignment: Alignment.centerLeft,
                         child: SvgPicture.asset(
                           'assets/images/new-images/bns_update.svg',
-                          colorFilter: ColorFilter.mode(Color(0xffffffff), BlendMode.srcIn),
+                          colorFilter: ColorFilter.mode(
+                              Color(0xffffffff), BlendMode.srcIn),
                           width: 19,
                           height: 19,
                         ),
@@ -849,24 +927,27 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     var isValid = false;
     if (syncStore.status is SyncedSyncStatus ||
         syncStore.status.blocksLeft == 0) {
-      if(bnsUpdateChangeNotifier.selectedBnsUpdateOption == 1){
+      if (bnsUpdateChangeNotifier.selectedBnsUpdateOption == 1) {
         if (_bnsOwnerNameController.text.isEmpty) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            validateOwner(_bnsOwnerNameController.text, bnsUpdateChangeNotifier);
+            validateOwner(
+                _bnsOwnerNameController.text, bnsUpdateChangeNotifier);
           });
           isValid = false;
-        }else if (_bnsOwnerNameController.text == ownerAddress){
+        } else if (_bnsOwnerNameController.text == ownerAddress) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            validateOwner(_bnsOwnerNameController.text, bnsUpdateChangeNotifier);
+            validateOwner(
+                _bnsOwnerNameController.text, bnsUpdateChangeNotifier);
           });
           isValid = false;
-        }else{
+        } else {
           isValid = true;
         }
-      }else{
+      } else {
         if (!bnsUpdateChangeNotifier.bnsPurchaseOptions[0].selected &&
             !bnsUpdateChangeNotifier.bnsPurchaseOptions[1].selected &&
-            !bnsUpdateChangeNotifier.bnsPurchaseOptions[2].selected && !bnsUpdateChangeNotifier.bnsPurchaseOptions[3].selected) {
+            !bnsUpdateChangeNotifier.bnsPurchaseOptions[2].selected &&
+            !bnsUpdateChangeNotifier.bnsPurchaseOptions[3].selected) {
           isValid = false;
         } else if (bnsUpdateChangeNotifier.bnsPurchaseOptions[0].selected &&
             _walletAddressController.text.isEmpty) {
@@ -882,7 +963,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                 _walletAddressController.text, bnsUpdateChangeNotifier);
           });
           isValid = false;
-        }else if (bnsUpdateChangeNotifier.bnsPurchaseOptions[1].selected &&
+        } else if (bnsUpdateChangeNotifier.bnsPurchaseOptions[1].selected &&
             _bChatIdController.text.isEmpty) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             validateBchatIdField(
@@ -942,7 +1023,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
           isValid = false;
         } else if (bnsUpdateChangeNotifier.bnsPurchaseOptions[3].selected &&
             _ethAddressController.text.isNotEmpty &&
-            _ethAddressController.text.length < 42 && validateETHAddress(_ethAddressController.text)) {
+            _ethAddressController.text.length < 42 &&
+            validateETHAddress(_ethAddressController.text)) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             validateETHAddressField(
                 _ethAddressController.text, bnsUpdateChangeNotifier);
@@ -964,11 +1046,11 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setOwnerAddressFieldIsValid(true);
       });
-    } else if (value == ownerAddress){
+    } else if (value == ownerAddress) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setOwnerAddressFieldIsValid(true);
       });
-    }else {
+    } else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setOwnerAddressFieldIsValid(false);
       });
@@ -977,7 +1059,9 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       bnsUpdateChangeNotifier.setOwnerAddressFieldErrorMessage(
           bnsUpdateChangeNotifier.ownerAddressFieldIsValid
-              ? value == ownerAddress ? tr(context).bnsSameOwnerAddress : tr(context).bnsPleaseFillField
+              ? value == ownerAddress
+                  ? tr(context).bnsSameOwnerAddress
+                  : tr(context).bnsPleaseFillField
               : '');
     });
   }
@@ -988,11 +1072,11 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setWalletAddressFieldIsValid(true);
       });
-    } else if (value == walletAddress){
+    } else if (value == walletAddress) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setWalletAddressFieldIsValid(true);
       });
-    }else {
+    } else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setWalletAddressFieldIsValid(false);
       });
@@ -1000,7 +1084,9 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       bnsUpdateChangeNotifier.setWalletAddressFieldErrorMessage(
           bnsUpdateChangeNotifier.walletAddressFieldIsValid
-              ? value == walletAddress ? tr(context).bnsSameWalletAddress : tr(context).bnsPleaseFillField
+              ? value == walletAddress
+                  ? tr(context).bnsSameWalletAddress
+                  : tr(context).bnsPleaseFillField
               : '');
     });
   }
@@ -1023,12 +1109,12 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
         bnsUpdateChangeNotifier.setBchatIdFieldIsValid(true);
       });
       errorMessage = tr(context).bnsInvalidBchatId;
-    } else if (value == bchatId){
+    } else if (value == bchatId) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBchatIdFieldIsValid(true);
       });
       errorMessage = tr(context).bnsSameBchatId;
-    }else {
+    } else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBchatIdFieldIsValid(false);
       });
@@ -1052,12 +1138,12 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
         bnsUpdateChangeNotifier.setBelnetIdFieldIsValid(true);
       });
       errorMessage = tr(context).bnsInvalidBelnetId;
-    } else if (value == belnetId){
+    } else if (value == belnetId) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBelnetIdFieldIsValid(true);
       });
       errorMessage = tr(context).bnsSameBelnetId;
-    }else {
+    } else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setBelnetIdFieldIsValid(false);
       });
@@ -1076,17 +1162,19 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
         bnsUpdateChangeNotifier.setETHAddressFieldIsValid(true);
       });
       errorMessage = tr(context).bnsPleaseFillField;
-    } else if (value.isNotEmpty && value.length < 42 && validateETHAddress(value)) {
+    } else if (value.isNotEmpty &&
+        value.length < 42 &&
+        validateETHAddress(value)) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setETHAddressFieldIsValid(true);
       });
       errorMessage = tr(context).bnsInvalidEthAddress;
-    } else if (value == ethAddress){
+    } else if (value == ethAddress) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setETHAddressFieldIsValid(true);
       });
       errorMessage = tr(context).bnsSameEthAddress;
-    }else {
+    } else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         bnsUpdateChangeNotifier.setETHAddressFieldIsValid(false);
       });
@@ -1097,9 +1185,9 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     });
   }
 
-  bool validateETHAddress(String ethAddress){
-    final subStr = ethAddress.substring(0,1);
-    if((subStr != '0x') | (subStr != '0X')){
+  bool validateETHAddress(String ethAddress) {
+    final subStr = ethAddress.substring(0, 1);
+    if ((subStr != '0x') | (subStr != '0X')) {
       return true;
     } else {
       return false;
@@ -1135,7 +1223,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
         });
       },
       child: Container(
-        width: MediaQuery.sizeOf(context).width < 600 ? MediaQuery.sizeOf(context).width/2.5 : 180,
+        width: double.infinity,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
@@ -1171,16 +1259,24 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
             SizedBox(
               width: 10,
             ),
-            Text(
-              bnsPurchaseOption.title,
-              style: TextStyle(
-                  backgroundColor: Colors.transparent,
-                  color: settingsStore.isDarkTheme
-                      ? Color(0xffFFFFFF)
-                      : Color(0xff000000),
-                  fontWeight: FontWeight.w300,
-                  fontSize: 12.0,
-                  fontFamily: 'OpenSans'),
+            Expanded(
+              child: Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: Text(
+                  bnsPurchaseOption.title,
+                  maxLines: 2,
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
+                  style: TextStyle(
+                      backgroundColor: Colors.transparent,
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xffFFFFFF)
+                          : Color(0xff000000),
+                      fontWeight: FontWeight.w300,
+                      fontSize: 12.0,
+                      fontFamily: 'OpenSans'),
+                ),
+              ),
             ),
           ],
         ),
@@ -1247,8 +1343,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
           errorMessage = tr(context).bnsEnterValidWalletAddress;
         } else if (state.error
             .contains('Wallet address provided could not be parsed owner')) {
-          errorMessage =
-              tr(context).bnsInvalidOwnerAddress;
+          errorMessage = tr(context).bnsInvalidOwnerAddress;
         } else if (state.error
             .contains('specifying owner the same as the backup owner')) {
           errorMessage = tr(context).bnsOwnerAndBackupDifferent;
@@ -1263,11 +1358,11 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
           _bChatIdController.clear();
           _belnetIdController.clear();
           _ethAddressController.clear();
-          if(_bnsUpdateChangeNotifier!=null){
+          if (_bnsUpdateChangeNotifier != null) {
             _bnsUpdateChangeNotifier.refresh();
           }
           Navigator.of(context).pop();
-        }, onDismiss: (BuildContext context) {  });
+        }, onDismiss: (BuildContext context) {});
       }
 
       if (state is TransactionCreatedSuccessfully &&
@@ -1280,8 +1375,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
             tr(context).confirm_sending,
             sendStore.pendingTransaction?.amount,
             sendStore.pendingTransaction?.fee,
-            bnsName,
-            onPressed: (_) {
+            bnsName, onPressed: (_) {
           _bnsOwnerNameController.clear();
           //_bnsBackUpOwnerNameController.clear();
           _walletAddressController.clear();
@@ -1309,11 +1403,15 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
         print('transactionDescription fee --> committed');
         WakelockPlus.disable();
         Navigator.of(context).pop();
-        showDialogTransactionSuccessfully(context, tr(context).bnsUpdatedSuccessfully,
-            onPressed: (_) {
-          Navigator.of(context)..pop()..pop();
+        showDialogTransactionSuccessfully(
+            context, tr(context).bnsUpdatedSuccessfully, onPressed: (_) {
+          Navigator.of(context)
+            ..pop()
+            ..pop();
         }, onDismiss: (_) {
-          Navigator.of(context)..pop()..pop();
+          Navigator.of(context)
+            ..pop()
+            ..pop();
         });
       }
     });
@@ -1330,7 +1428,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
       String bchatId,
       String belnetId,
       String ethAddress,
-      WalletStore walletStore,int bnsUpdateOption) {
+      WalletStore walletStore,
+      int bnsUpdateOption) {
     showBnsUpdateConfirmationDialogBox(
         context,
         bnsName,
@@ -1350,7 +1449,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
           return;
         }
         Navigator.of(auth.context).pop();
-        _startingBnsUpdateTransaction(sendStore, owner, backupOwner, bchatId, walletAddress, belnetId, ethAddress, bnsName);
+        _startingBnsUpdateTransaction(sendStore, owner, backupOwner, bchatId,
+            walletAddress, belnetId, ethAddress, bnsName);
       });
     }, onDismiss: (_) {
       Navigator.of(context).pop();
