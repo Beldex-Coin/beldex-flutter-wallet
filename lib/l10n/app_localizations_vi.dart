@@ -800,7 +800,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get spend_key_private => 'Khóa chi tiêu (riêng tư)';
 
   @override
-  String get spend_key_public => 'Spend key (công khai)';
+  String get spend_key_public => 'Khóa chi tiêu (công khai)';
 
   @override
   String get status => 'Trạng thái:';

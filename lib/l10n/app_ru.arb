@@ -254,7 +254,7 @@
   "show_keys": "Показать ключи",
   "show_seed": "Показать seed-фразу",
   "spend_key_private": "Ключ расходования",
-  "spend_key_public": "Spend key (публичный)",
+  "spend_key_public": "Ключ траты (публичный)",
   "status": "Статус:",
   "subAddress": "Субадрес",
   "subaddressAlreadyExist": "Субадрес уже существует",

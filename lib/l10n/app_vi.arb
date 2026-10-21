@@ -254,7 +254,7 @@
   "show_keys": "Hiển thị khóa",
   "show_seed": "Hiển thị Seed",
   "spend_key_private": "Khóa chi tiêu (riêng tư)",
-  "spend_key_public": "Spend key (công khai)",
+  "spend_key_public": "Khóa chi tiêu (công khai)",
   "status": "Trạng thái:",
   "subAddress": "Địa chỉ phụ",
   "subaddressAlreadyExist": "Địa chỉ phụ đã tồn tại",

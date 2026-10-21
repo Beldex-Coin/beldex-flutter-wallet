@@ -800,7 +800,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get spend_key_private => 'Ключ расходования';
 
   @override
-  String get spend_key_public => 'Spend key (публичный)';
+  String get spend_key_public => 'Ключ траты (публичный)';
 
   @override
   String get status => 'Статус:';
