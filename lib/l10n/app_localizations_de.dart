@@ -797,7 +797,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get show_seed => 'Seed zeigen';
 
   @override
-  String get spend_key_private => 'Spend Key (privat)';
+  String get spend_key_private => 'Ausgabe-Schlüssel (privat)';
 
   @override
   String get spend_key_public => 'Ausgabe-Schlüssel (öffentlich)';
@@ -996,7 +996,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get view => 'Anzeigen';
 
   @override
-  String get view_key_private => 'View Key (privat)';
+  String get view_key_private => 'Anzeige-Schlüssel (privat)';
 
   @override
   String get view_key_public => 'Anzeige-Schlüssel (öffentlich)';
