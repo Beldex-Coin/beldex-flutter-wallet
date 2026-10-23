@@ -889,16 +889,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String blockConfirmed(Object count) {
-    return '$count Block';
-  }
-
-  @override
-  String blocksConfirmed(Object count) {
-    return '$count Blocks';
-  }
-
-  @override
   String get flashTransaction => 'Flash Transaction';
 
   @override
@@ -1160,6 +1150,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get unsupportedExchangePair => 'Unsupported exchange pair';
+
+  @override
+  String blockConfirmed(Object count) {
+    return '$count Block';
+  }
+
+  @override
+  String blocksConfirmed(Object count) {
+    return '$count Blocks';
+  }
 
   @override
   String get nodeAlreadyExists => 'This node already exists';

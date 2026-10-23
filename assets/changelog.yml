@@ -140,3 +140,10 @@
   changes:
     - Targeted latest android version
     - Minor bug fixes
+-
+  version: 2.3.3
+  changes:
+    - Improved Swap feature
+    - Introduced Max feature
+    - Fixed ANR issues
+    - Minor bug fixes

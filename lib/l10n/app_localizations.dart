@@ -1777,18 +1777,6 @@ abstract class AppLocalizations {
   /// **'{status} Block Remaining'**
   String blockRemaining(Object status);
 
-  /// No description provided for @blockConfirmed.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} Block'**
-  String blockConfirmed(Object count);
-
-  /// No description provided for @blocksConfirmed.
-  ///
-  /// In en, this message translates to:
-  /// **'{count} Blocks'**
-  String blocksConfirmed(Object count);
-
   /// No description provided for @flashTransaction.
   ///
   /// In en, this message translates to:
@@ -2310,6 +2298,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unsupported exchange pair'**
   String get unsupportedExchangePair;
+
+  /// No description provided for @blockConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Block'**
+  String blockConfirmed(Object count);
+
+  /// No description provided for @blocksConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} Blocks'**
+  String blocksConfirmed(Object count);
 
   /// No description provided for @nodeAlreadyExists.
   ///
