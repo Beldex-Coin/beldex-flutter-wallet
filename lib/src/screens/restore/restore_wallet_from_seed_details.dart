@@ -114,7 +114,7 @@ class _RestoreFromSeedDetailsFormState
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Align(
-                      alignment: Alignment.centerLeft,
+                      alignment: AlignmentDirectional.centerStart,
                       child: Text(
                         tr(context).enterWalletName,
                         style: TextStyle(
