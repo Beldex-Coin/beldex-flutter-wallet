@@ -151,7 +151,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
         Padding(
           padding: EdgeInsetsDirectional.only(start: 30, end: 20, top: 40),
           child: Align(
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerStart,
               child: Text(
                 tr(context).wallet_name,
                 style: TextStyle(backgroundColor: Colors.transparent,fontSize: 18, fontWeight: FontWeight.w700),
