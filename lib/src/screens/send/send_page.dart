@@ -24,6 +24,8 @@ import 'package:beldex_wallet/src/stores/send/sending_state.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
+import 'package:beldex_wallet/src/util/ui_utils.dart';
+import 'package:beldex_wallet/src/wallet/beldex/beldex_amount_format.dart';
 import 'package:beldex_wallet/src/wallet/beldex/calculate_estimated_fee.dart';
 import 'package:beldex_wallet/src/widgets/address_text_field.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
@@ -89,10 +91,16 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
   var addressErrorMessage = '';
   bool amountValidation = false;
   var amountErrorMessage = '';
-  ReactionDisposer? rdisposer1, rdisposer2, rdisposer3;
+  ReactionDisposer? rdisposer1, rdisposer2, rdisposer3, rdisposer4;
   bool isFlashTransaction = false;
   var isFlashMap = true;
   late KeyboardDetectionController keyboardDetectionController;
+
+  // Estimated fee text computed off the UI isolate; the native fee estimation
+  // can block on the wallet mutex, so it must never run during build().
+  String _estimatedFeeText = '--';
+  int _feeEstimateGeneration = 0;
+
   @override
   void initState() {
     _focusNodeAddress.addListener(() {
@@ -110,6 +118,12 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       },
     );
 
+    // Runs after the first frame, once getFlashData() has determined whether
+    // this is a flash transaction.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _refreshEstimatedFee();
+    });
+
     super.initState();
   }
 
@@ -122,6 +136,23 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       if (widget.flashMap['amount'] != null && widget.flashMap['amount'] != '') {
         _cryptoAmountController.text = (widget.flashMap['amount'] as String);
       }
+    }
+  }
+
+  Future<void> _refreshEstimatedFee() async {
+    final generation = ++_feeEstimateGeneration;
+    final settingsStore = Provider.of<SettingsStore>(context, listen: false);
+    final priority = isFlashTransaction
+        ? BeldexTransactionPriority.flash
+        : settingsStore.transactionPriority;
+
+    try {
+      final fee = await calculateEstimatedFeeAsync(priority: priority);
+      if (!mounted || generation != _feeEstimateGeneration) return;
+      setState(() => _estimatedFeeText = '$fee');
+    } catch (_) {
+      if (!mounted || generation != _feeEstimateGeneration) return;
+      setState(() => _estimatedFeeText = '--');
     }
   }
 
@@ -155,6 +186,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     rdisposer1?.call();
     rdisposer2?.call();
     rdisposer3?.call();
+    rdisposer4?.call();
     _addressController?.dispose();
     _cryptoAmountController?.dispose();
     _fiatAmountController?.dispose();
@@ -467,147 +499,219 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                             color: Theme.of(context).cardColor),
                         child: Column(
                           children: [
-                            TextFormField(
-                              focusNode: _focusNodeAmount,
-                                style: TextStyle(
-                                    backgroundColor: Colors.transparent,
-                                    fontSize: 26.0,
-                                    fontWeight: FontWeight.w900,
-                                    color: Theme.of(context)
-                                        .primaryTextTheme
-                                        .bodySmall!
-                                        .color),
-                                controller: _cryptoAmountController,
-                                maxLength: 15,
-                                keyboardType: TextInputType.numberWithOptions(
-                                    signed: false, decimal: true),
-                                inputFormatters: [
-                                  TextInputFormatter.withFunction(
-                                          (oldValue, newValue) {
-                                        final regEx = RegExp(r'^\d*\.?\d*');
-                                        final newString =
-                                            regEx.stringMatch(newValue.text) ?? '';
-                                        return newString == newValue.text
-                                            ? newValue
-                                            : oldValue;
-                                      }),
-                                  FilteringTextInputFormatter.deny(
-                                      RegExp('[-, ]'))
-                                ],
-                                textInputAction: TextInputAction.done,
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintStyle: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.grey.withValues(alpha: 0.6)),
-                                    hintText: tr(context).enterAmount,
-                                    errorStyle:
-                                    TextStyle(color: BeldexPalette.red),
-                                    counterText: ''),
-                                onTap: (){
-                                  isFlashMap = false;
-                                },
-                                validator: (value) {
-                                  if (value?.isEmpty ?? false) {
-                                    setState(() {
-                                      amountValidation = true;
-                                      amountErrorMessage =
-                                          tr(context).pleaseEnterAAmount;
-                                    });
-                                    return null;
-                                  } else {
-                                    if (value != null) {
-                                        if (getAmountValidation(value)) {
-                                          sendStore.validateBELDEX(value,
-                                              balanceStore.unlockedBalance,
-                                              tr(context));
-                                          if (sendStore.errorMessage != null) {
-                                            setState(() {
-                                              amountValidation = true;
-                                              amountErrorMessage = tr(context)
-                                                  .pleaseEnterAValidAmount;
-                                            });
-                                            return;
-                                          } else {
-                                            setState(() {
-                                              amountValidation = false;
-                                              amountErrorMessage = "";
-                                            });
-                                          }
-                                          return null;
-                                        } else {
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    focusNode: _focusNodeAmount,
+                                      style: TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          fontSize: 26.0,
+                                          fontWeight: FontWeight.w900,
+                                          color: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodySmall!
+                                              .color),
+                                      controller: _cryptoAmountController,
+                                      maxLength: 15,
+                                      keyboardType: TextInputType.numberWithOptions(
+                                          signed: false, decimal: true),
+                                      inputFormatters: [
+                                        TextInputFormatter.withFunction(
+                                                (oldValue, newValue) {
+                                              final regEx = RegExp(r'^\d*\.?\d*');
+                                              final newString =
+                                                  regEx.stringMatch(newValue.text) ?? '';
+                                              return newString == newValue.text
+                                                  ? newValue
+                                                  : oldValue;
+                                            }),
+                                        FilteringTextInputFormatter.deny(
+                                            RegExp('[-, ]'))
+                                      ],
+                                      textInputAction: TextInputAction.done,
+                                      decoration: InputDecoration(
+                                          border: InputBorder.none,
+                                          hintStyle: TextStyle(
+                                              fontSize: 16.0,
+                                              fontWeight: FontWeight.w700,
+                                              color: Colors.grey.withValues(alpha: 0.6)),
+                                          hintText: tr(context).enterAmount,
+                                          errorStyle:
+                                          TextStyle(color: BeldexPalette.red),
+                                          counterText: ''),
+                                      onTap: (){
+                                        isFlashMap = false;
+                                      },
+                                      validator: (value) {
+                                        if (value?.isEmpty ?? false) {
                                           setState(() {
                                             amountValidation = true;
                                             amountErrorMessage =
-                                                tr(context)
-                                                    .pleaseEnterAValidAmount;
+                                                tr(context).pleaseEnterAValidAmount;
                                           });
-                                          return;
+                                          return null;
+                                        } else {
+                                          if (value != null) {
+                                              if (getAmountValidation(value)) {
+                                                sendStore.validateBELDEX(value,
+                                                    balanceStore.unlockedBalance,
+                                                    tr(context));
+                                                if (sendStore.errorMessage != null) {
+                                                  setState(() {
+                                                    amountValidation = true;
+                                                    amountErrorMessage = tr(context)
+                                                        .pleaseEnterAValidAmount;
+                                                  });
+                                                  return;
+                                                } else {
+                                                  setState(() {
+                                                    amountValidation = false;
+                                                    amountErrorMessage = "";
+                                                  });
+                                                }
+                                                return null;
+                                              } else {
+                                                setState(() {
+                                                  amountValidation = true;
+                                                  amountErrorMessage =
+                                                      tr(context)
+                                                          .pleaseEnterAValidAmount;
+                                                });
+                                                return;
+                                              }
+                                            }
                                         }
-                                      }
-                                  }
-                                }),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Container(
-                                    height: 50,
-                                    width: 170,
-                                    // padding: EdgeInsets.all(8.0),
-                                    margin: EdgeInsets.only(top: 15, right: 15),
+                                        return null;
+                                      }),
+                                ),
+                                const SizedBox(width: 8),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 8.0),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      final maxAmount = belDexAmountToDouble(
+                                          balanceStore.unlockedBalance);
+                                      final formattedAmount =
+                                          maxAmount.toStringAsFixed(5);
+                                      _cryptoAmountController.text =
+                                          formattedAmount;
+                                      _cryptoAmountController.selection =
+                                          TextSelection.fromPosition(
+                                              TextPosition(
+                                                  offset: formattedAmount.length));
+                                      sendStore.setSendAll(tr(context));
+                                    },
+                                    style: TextButton.styleFrom(
+                                      backgroundColor:
+                                          Theme.of(context).textTheme.bodySmall?.decorationColor,
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 0),
+                                      minimumSize: Size(0, 32),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      tr(context).max,
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Observer(
+                              builder: (_) => Align(
+                                alignment: Alignment.centerLeft,
+                                child: Container(
+                                    height: 30,
+                                    width: UIUtils.fiatContainerWidth(
+                                        sendStore.fiatAmount,
+                                        settingsStore.fiatCurrency
+                                            .toString(),
+                                        textScaler:
+                                            MediaQuery.textScalerOf(context),
+                                        maxWidth: MediaQuery.sizeOf(context)
+                                                .width -
+                                            95),
+                                    margin: EdgeInsets.only(top: 20, bottom: 5),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 4),
                                     decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(25),
+                                        borderRadius:
+                                            BorderRadius.circular(25),
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff1A1A23)
                                             : Color(0xffFFFFFF)),
                                     child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
                                       children: [
-                                        Observer(builder: (_) {
-                                          return Padding(
-                                            padding:
-                                            const EdgeInsets.only(left: 8.0),
-                                            child: Text(
-                                              '${settingsStore.fiatCurrency.toString()}',
+                                        Observer(
+                                          builder: (_) {
+                                            return Text(
+                                              settingsStore.fiatCurrency
+                                                  .toString(),
                                               textAlign: TextAlign.center,
-                                            ),
-                                          );
-                                        }),
-                                        Expanded(
-                                          child: Container(
-                                              width: 120,
-                                              padding: EdgeInsets.only(
-                                                left: 8,
-                                                right: 8,
+                                              style: TextStyle(
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w500,
+                                                color:
+                                                    settingsStore.isDarkTheme
+                                                        ? Color(0xffffffff)
+                                                        : Color(0xff16161D),
                                               ),
-                                              child: TextField(
-                                                readOnly: true,
-                                                controller: _fiatAmountController,
-                                                decoration: InputDecoration(
-                                                    border: InputBorder.none,
-                                                    hintStyle: TextStyle(
-                                                        fontSize: 15.0,
-                                                        color: settingsStore
-                                                            .isDarkTheme
-                                                            ? Color(0xffffffff)
-                                                            : Color(0xff16161D)
-                                                      // color: Theme.of(context)
-                                                      //     .hintColor
-                                                    ),
-                                                    hintText: '00.000000000',
-                                                    errorStyle: TextStyle(
-                                                        color:
-                                                        BeldexPalette.red)),
-                                              )),
-                                        )
+                                            );
+                                          },
+                                        ),
+                                        const SizedBox(width: 5),
+                                        Expanded(
+                                          child: TextField(
+                                            readOnly: true,
+                                            controller: _fiatAmountController,
+                                            textAlign: TextAlign.left,
+                                            textAlignVertical:
+                                                TextAlignVertical.center,
+                                            style: TextStyle(
+                                              fontSize: 15.0,
+                                              fontWeight: FontWeight.w500,
+                                              color: settingsStore.isDarkTheme
+                                                  ? Color(0xffffffff)
+                                                  : Color(0xff16161D),
+                                            ),
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              isDense: true,
+                                              contentPadding:
+                                                  EdgeInsets.zero,
+                                              hintStyle: TextStyle(
+                                                fontSize: 15.0,
+                                                fontWeight: FontWeight.w500,
+                                                color:
+                                                    settingsStore.isDarkTheme
+                                                        ? Color(0xffffffff)
+                                                        : Color(0xff16161D),
+                                              ),
+                                              hintText: '0.00',
+                                              errorStyle: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: BeldexPalette.red,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     )),
-                              ],
-                            ),
+                              ),
+                            )
                           ],
                         ),
                       ),
-      
+
                       Visibility(
                         visible: amountValidation,
                         child: Container(
@@ -634,24 +738,31 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                            top: 10.0, bottom: 10, left: 10),
+                          top: 10.0,
+                          bottom: 10.0,
+                          left: 10.0,
+                        ),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
                           children: <Widget>[
-                            Text('${tr(context).send_estimated_fee}   ',
-                                style: TextStyle(
-                                  backgroundColor: Colors.transparent,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.grey,
-                                )),
                             Text(
-                                '${isFlashTransaction == true ? calculateEstimatedFee(priority: BeldexTransactionPriority.flash) : calculateEstimatedFee(priority: settingsStore.transactionPriority)}',
-                                style: TextStyle(
-                                  backgroundColor: Colors.transparent,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.grey,
-                                )),
+                              tr(context).send_estimated_fee,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              _estimatedFeeText,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.grey,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -697,8 +808,19 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 return;
                               }
                               Navigator.of(auth.context).pop();
-                              _startCreatingTransaction(sendStore,
-                                  _addressController.text, isFlashTransaction);
+                              final _enteredAmount = double.tryParse(
+                              _cryptoAmountController.text.replaceAll(',', '.'));
+                              if (_enteredAmount != null) {
+                                final enteredScaled = (_enteredAmount * 1e5).round();
+                                final balanceScaled =
+                                    (balanceStore.unlockedBalance / 1e4).round();
+                                if (enteredScaled == balanceScaled) {
+                                  sendStore.setSendAll(tr(context));
+                                }
+                              }
+                              _startCreatingTransaction(
+                                    sendStore, _addressController.text,
+                                    isFlashTransaction);
                             });
                       }
                     }
@@ -753,6 +875,10 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
       if (amount != _cryptoAmountController.text) {
         _cryptoAmountController.text = amount;
       }
+    });
+    final settingsStore = Provider.of<SettingsStore>(context);
+    rdisposer4 = reaction((_) => settingsStore.transactionPriority, (_) {
+      _refreshEstimatedFee();
     });
     _fiatAmountController.addListener(() {
       final fiatAmount = _fiatAmountController.text;

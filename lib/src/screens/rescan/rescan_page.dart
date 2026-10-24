@@ -96,6 +96,10 @@ class BlockHeightSwapingWidget extends StatefulWidget {
 }
 
 class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
+  // Cached wallet height fetched on a background isolate so the validator
+  // never performs a blocking native read on the UI thread.
+  int? _currentWalletHeight;
+
   //   final dateController = TextEditingController();
   // final restoreHeightController = TextEditingController();
   // int get height => _height;
@@ -107,6 +111,11 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
     restoreHeightController.text.isNotEmpty
             ? int.parse(restoreHeightController.text)
             : 0);
+    getCurrentHeightAsync().then((height) {
+      if (mounted) {
+        _currentWalletHeight = height;
+      }
+    });
     super.initState();
   }
 
@@ -121,8 +130,13 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
 
 
  bool checkCurrentHeight(String value){
-  final currentHeight = getCurrentHeight();
-  
+  final currentHeight = _currentWalletHeight;
+
+  if (currentHeight == null) {
+    // Height not fetched yet; do not block input with a native sync read.
+    return true;
+  }
+
   print('$currentHeight --> is current height');
   final intValue = int.tryParse(value);
   if(intValue != null && intValue <= currentHeight){

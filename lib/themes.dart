@@ -12,6 +12,11 @@ class Themes {
     scaffoldBackgroundColor: Palette.lightThemeBlack,
     hintColor: Colors.grey[500],
     focusColor: Palette.lightGrey, // focused and enabled border color for text fields
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: BeldexPalette.teal,
+      selectionColor: BeldexPalette.teal.withValues(alpha: 0.3),
+      selectionHandleColor: BeldexPalette.teal,
+    ),
     primaryTextTheme: TextTheme(
       titleLarge: TextStyle(
         color: BeldexPalette.black
@@ -112,6 +117,11 @@ class Themes {
     scaffoldBackgroundColor: PaletteDark.darkThemeBlack,
     hintColor: PaletteDark.darkThemeGrey,
     focusColor: PaletteDark.darkThemeGreyWithOpacity, // focused and enabled border color for text fields
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: BeldexPalette.teal,
+      selectionColor: BeldexPalette.teal.withValues(alpha: 0.3),
+      selectionHandleColor: BeldexPalette.teal,
+    ),
     primaryTextTheme: TextTheme(
       titleLarge: TextStyle(
         color: Colors.white

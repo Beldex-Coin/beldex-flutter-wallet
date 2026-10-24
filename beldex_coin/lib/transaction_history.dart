@@ -9,12 +9,30 @@ import 'package:beldex_coin/beldex_coin_structs.dart';
 import 'package:beldex_coin/src/native/transaction_history.dart'
     as transaction_history;
 
-void refreshTransactions() => transaction_history.transactionsRefreshNative();
+void _refreshTransactions(void _) =>
+    transaction_history.transactionsRefreshNative();
+
+/// Runs the blocking native transaction refresh on a background isolate so the
+/// wallet mutex wait cannot stall the UI thread.
+Future<void> refreshTransactions() =>
+    compute<void, void>(_refreshTransactions, null);
 
 int countOfTransactions() => transaction_history.transactionsCountNative();
 
-int estimateTransactionFee(int priorityRaw, {int recipients = 1}) =>
-    transaction_history.transactionEstimateFeeNative(priorityRaw, recipients);
+int _estimateTransactionFeeSync(Map args) {
+  final priorityRaw = args['priorityRaw'] as int;
+  final recipients = args['recipients'] as int;
+
+  return transaction_history.transactionEstimateFeeNative(
+      priorityRaw, recipients);
+}
+
+/// Runs the blocking native fee estimation on a background isolate so the
+/// wallet mutex wait cannot stall the UI thread.
+Future<int> estimateTransactionFeeAsync(
+        {required int priorityRaw, int recipients = 1}) =>
+    compute(_estimateTransactionFeeSync,
+        {'priorityRaw': priorityRaw, 'recipients': recipients});
 
 List<TransactionInfoRow> getAllTransactions() {
   final size = transaction_history.transactionsCountNative();
@@ -26,14 +44,19 @@ List<TransactionInfoRow> getAllTransactions() {
       .toList();
 }
 
-void commitTransactionFromPointerAddress({required int address}) =>
+void _commitTransactionSync(int address) =>
     transaction_history.commitTransaction(
         transactionPointer:
             Pointer<PendingTransactionRaw>.fromAddress(address));
 
+/// Runs the blocking native transaction commit on a background isolate so the
+/// wallet mutex wait cannot stall the UI thread.
+Future<void> commitTransactionFromPointerAddress({required int address}) =>
+    compute<int, void>(_commitTransactionSync, address);
+
 PendingTransactionDescription _createTransactionSync(Map args) {
   final address = args['address'] as String;
-  final amount = args['amount'] as String;
+  final amount = args['amount'] as String?;
   final priorityRaw = args['priorityRaw'] as int;
   final accountIndex = args['accountIndex'] as int;
 
@@ -46,7 +69,7 @@ PendingTransactionDescription _createTransactionSync(Map args) {
 
 Future<PendingTransactionDescription> createTransaction(
         {required String address,
-        required String amount,
+        String? amount,
         required int priorityRaw,
         int accountIndex = 0}) =>
     compute(_createTransactionSync, {

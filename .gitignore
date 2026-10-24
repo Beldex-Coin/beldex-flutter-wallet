@@ -87,3 +87,4 @@ android/key.properties
 **/tool/.secrets-prod.json
 **/lib/.secrets.g.dart
 **/lib/src/swap/apiKeys.dart
+**/lib/src/swap/database/swap_db_encryption_config.dart

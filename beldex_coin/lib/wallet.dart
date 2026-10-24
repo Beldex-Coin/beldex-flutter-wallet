@@ -22,10 +22,23 @@ bool isNeededToRefresh() => beldex_wallet.isNeededToRefreshNative() != 0;
 
 bool isNewTransactionExist() => beldex_wallet.isNewTransactionExistNative() != 0;
 
+bool _isNewTransactionExistSync(int _) =>
+    beldex_wallet.isNewTransactionExistNative() != 0;
+
+/// Runs the blocking native read on a background isolate.
+Future<bool> isNewTransactionExistAsync() =>
+    compute<int, bool>(_isNewTransactionExistSync, 0);
+
 String getFilename() =>
     convertUTF8ToString(pointer: beldex_wallet.getFileNameNative());
 
-String getSeed() => convertUTF8ToString(pointer: beldex_wallet.getSeedNative());
+String _getSeedSync(int _) => convertUTF8ToString(pointer: beldex_wallet.getSeedNative());
+
+/// Runs the blocking native seed read on a background isolate. The native
+/// read acquires the wallet's mutex and can block while the wallet is busy
+/// (e.g. refreshing), which would freeze the UI thread if called during
+/// widget build and cause an ANR.
+Future<String> getSeedAsync() => compute<int, String>(_getSeedSync, 0);
 
 String getAddress({int accountIndex = 0, int addressIndex = 0}) =>
     convertUTF8ToString(
@@ -44,6 +57,13 @@ Future<int> getUnlockedBalance({int accountIndex = 0}) =>
     compute<int, int>(_getUnlockedBalanceSync, accountIndex);
 
 int getCurrentHeight() => beldex_wallet.getCurrentHeightNative();
+
+int _getCurrentHeightSync(int _) => beldex_wallet.getCurrentHeightNative();
+
+/// Runs the blocking native height query on a background isolate so the
+/// wallet-mutex wait cannot stall the UI thread.
+Future<int> getCurrentHeightAsync() =>
+    compute<int, int>(_getCurrentHeightSync, 0);
 
 int getNodeHeightSync() => beldex_wallet.getNodeHeightNative();
 
@@ -90,7 +110,14 @@ void setRefreshFromBlockHeight({required int height}) =>
 void setRecoveringFromSeed({required bool isRecovery}) =>
     beldex_wallet.setRecoveringFromSeedNative(_boolToInt(isRecovery));
 
-void closeCurrentWallet() => beldex_wallet.closeCurrentWalletNative();
+void _closeCurrentWalletSync(int _) => beldex_wallet.closeCurrentWalletNative();
+
+/// Runs the blocking native wallet close on a background isolate. The native
+/// close acquires the wallet's mutex and can block while the wallet is busy
+/// (e.g. refreshing), which would freeze the UI thread if called synchronously
+/// and cause an ANR.
+Future<void> closeCurrentWalletAsync() =>
+    compute<int, void>(_closeCurrentWalletSync, 0);
 
 String getSecretViewKey() =>
     convertUTF8ToString(pointer: beldex_wallet.getSecretViewKeyNative());
@@ -130,7 +157,7 @@ class SyncListener {
     _updateSyncInfoTimer ??=
         Timer.periodic(Duration(milliseconds: 1200), (_) async {
 
-      final syncHeight = getCurrentHeight();
+      final syncHeight = await getCurrentHeightAsync();
 
       final bchHeight = await getNodeHeightOrUpdate(syncHeight);
 
@@ -145,10 +172,10 @@ class SyncListener {
         return;
       }
 
-      final refreshing = isRefreshing();
+      final refreshing = await isRefreshingAsync();
       print('refreshing --> $refreshing');
       if (!refreshing) {
-        if (isNewTransactionExist()) {
+        if (await isNewTransactionExistAsync()) {
           onNewTransaction.call();
         }
       }
@@ -196,6 +223,12 @@ bool _setupNodeSync(Map args) {
 bool _isConnected(Object _) => isConnectedSync();
 
 bool isRefreshing() => isRefreshingSync();
+
+bool _isRefreshingSync(int _) => isRefreshingSync();
+
+/// Runs the blocking native read on a background isolate.
+Future<bool> isRefreshingAsync() =>
+    compute<int, bool>(_isRefreshingSync, 0);
 
 int _getNodeHeight(Object _) => getNodeHeightSync();
 

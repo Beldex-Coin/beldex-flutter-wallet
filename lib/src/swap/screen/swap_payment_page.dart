@@ -5,21 +5,23 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:beldex_wallet/src/swap/api_client/get_exchange_amount_api_client.dart';
+import 'package:beldex_wallet/src/swap/database/swap_transaction_history_model.dart';
+import 'package:beldex_wallet/src/swap/exchange/exchange_manager.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/exchange_rate.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/order_request.dart';
 import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
-import 'package:beldex_wallet/src/swap/model/get_exchange_amount_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import '../../../routes.dart';
-import '../../util/constants.dart';
 import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
-import '../api_client/create_transaction_api_client.dart';
 import '../dialog/showSwapInitiatingTransactionDialog.dart';
 import '../util/circular_progress_bar.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
+import '../database/swap_txn_history.dart';
 import 'number_stepper.dart';
 
 class SwapPaymentPage extends BasePage {
@@ -85,12 +87,12 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     }
   }
 
-  late CreateTransactionApiClient createTransactionApiClient;
   late GetExchangeAmountApiClient getExchangeAmountApiClient;
-  late StreamController<GetExchangeAmountModel>
+  late StreamController<ExchangeRate>
       _getExchangeAmountStreamController;
   late Timer timer;
   late ExchangeDataWithRecipientAddress _exchangeDataWithRecipientAddress;
+  ExchangeRate? _latestExchangeRate;
   var sendAmount;
   var from;
   var to;
@@ -106,12 +108,10 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     sendAmount = _exchangeDataWithRecipientAddress.amountFrom;
     from = _exchangeDataWithRecipientAddress.from;
     to = _exchangeDataWithRecipientAddress.to;
-    createTransactionApiClient = CreateTransactionApiClient();
     getExchangeAmountApiClient = GetExchangeAmountApiClient();
     // Create a stream controller and exchange amount to the stream.
     _getExchangeAmountStreamController =
-        StreamController<GetExchangeAmountModel>();
-    Future.delayed(Duration(seconds: 2), () {
+        StreamController<ExchangeRate>();    Future.delayed(Duration(seconds: 2), () {
       callGetExchangeAmountApi(getExchangeAmountApiClient, sendAmount);
       if (!mounted) return;
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
@@ -125,7 +125,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
   void callGetExchangeAmountApi(
       GetExchangeAmountApiClient getExchangeAmountApiClient, String amountFrom) {
     getExchangeAmountApiClient.getExchangeAmountData(context,
-        {'from': _exchangeDataWithRecipientAddress.from, "to": _exchangeDataWithRecipientAddress.to, "amountFrom": amountFrom}).then((value) {
+        {'from': _exchangeDataWithRecipientAddress.from ?? '', 'fromNetwork': _exchangeDataWithRecipientAddress.fromProtocol ?? '', "to": _exchangeDataWithRecipientAddress.to ?? '', 'toNetwork': _exchangeDataWithRecipientAddress.toProtocol ?? '', "amountFrom": amountFrom}).then((value) {
       _getExchangeAmountStreamController.sink.add(value!);
     });
   }
@@ -144,7 +144,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
-        return StreamBuilder<GetExchangeAmountModel>(
+        return StreamBuilder<ExchangeRate>(
           stream: _getExchangeAmountStreamController.stream,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -167,7 +167,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     double _screenHeight,
     SettingsStore settingsStore,
     ScrollController _scrollController,
-    GetExchangeAmountModel getExchangeAmountModel, NetworkProvider networkProvider, String walletAddress,
+    ExchangeRate exchangeRateData, NetworkProvider networkProvider, String walletAddress,
   ) {
     //GetExchangeAmount
     var exchangeRate = "---";
@@ -176,25 +176,19 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     var getAmount = "---";
     var minimumAmount = "";
     var maximumAmount = "";
-    if(getExchangeAmountModel.result!.isNotEmpty){
-      sendAmount = toStringAsFixed(getExchangeAmountModel.result![0].amountFrom.toString());
-      exchangeRate = toStringAsFixed(getExchangeAmountModel.result![0].rate.toString());
-      serviceFee = toStringAsFixed(getExchangeAmountModel.result![0].fee.toString());
-      networkFee = toStringAsFixed(getExchangeAmountModel.result![0].networkFee.toString());
-      getAmount = toStringAsFixed(getExchangeAmountModel.result![0].amountTo!.toString());
-      from = getExchangeAmountModel.result![0].from.toString();
-      to = getExchangeAmountModel.result![0].to.toString();
-      minimumAmount = "";
-      maximumAmount = "";
-    } else {
-      if(getExchangeAmountModel.error != null && getExchangeAmountModel.error!.data != null){
-        if(double.parse(_exchangeDataWithRecipientAddress.amountFrom!) < double.parse(getExchangeAmountModel.error!.data!.limits!.min!.from!)){
-          minimumAmount = getExchangeAmountModel.error!.data!.limits!.min!.from!;
-        }
-        if(double.parse(_exchangeDataWithRecipientAddress.amountFrom!) > double.parse(getExchangeAmountModel.error!.data!.limits!.max!.from!)){
-          maximumAmount = getExchangeAmountModel.error!.data!.limits!.max!.from!;
-        }
-      }
+    _latestExchangeRate = exchangeRateData;
+    sendAmount = toStringAsFixed(exchangeRateData.amountFrom.toString());
+    exchangeRate = toStringAsFixed(exchangeRateData.rate.toString());
+    serviceFee = toStringAsFixed(exchangeRateData.platformFee.toString());
+    networkFee = toStringAsFixed(exchangeRateData.networkFee?.toString() ?? '0');
+    getAmount = toStringAsFixed(exchangeRateData.amountTo.toString());
+    from = exchangeRateData.from.toString();
+    to = exchangeRateData.to.toString();
+    if (exchangeRateData.minAmount != null && exchangeRateData.minAmount!.isNotEmpty) {
+      minimumAmount = exchangeRateData.minAmount!;
+    }
+    if (exchangeRateData.maxAmount != null && exchangeRateData.maxAmount!.isNotEmpty) {
+      maximumAmount = exchangeRateData.maxAmount!;
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -242,7 +236,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                             serviceFee,
                             networkFee,
                             getAmount,
-                            getExchangeAmountModel, minimumAmount, maximumAmount, networkProvider, walletAddress),
+                            minimumAmount, maximumAmount, networkProvider, walletAddress),
                         //Payment->Send funds to the address below Screen
                       ],
                     ),
@@ -261,8 +255,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
       String exchangeRate,
       String serviceFee,
       String networkFee,
-      String getAmount,
-      GetExchangeAmountModel getExchangeAmountModel, String minimumAmount, String maximumAmount, NetworkProvider networkProvider, String walletAddress) {
+      String getAmount, String minimumAmount, String maximumAmount, NetworkProvider networkProvider, String walletAddress) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -319,7 +312,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                     ],
                   ),
                 ),
-                networkWidget(settingsStore, _exchangeDataWithRecipientAddress.fromBlockChain)
+                networkWidget(settingsStore, _exchangeDataWithRecipientAddress.fromProtocol)
               ],
             )),
         Visibility(
@@ -415,7 +408,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                     ],
                   ),
                 ),
-                networkWidget(settingsStore, _exchangeDataWithRecipientAddress.toBlockChain)
+                networkWidget(settingsStore, _exchangeDataWithRecipientAddress.toProtocol)
               ],
             )),
         //Exchange Fee 0.25 % Details
@@ -529,6 +522,46 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
             )
           ],
         ),
+        //Refund Address Details
+        Visibility(
+          visible: _exchangeDataWithRecipientAddress.refundAddress != null && _exchangeDataWithRecipientAddress.refundAddress!.isNotEmpty,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Refund Address',
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xffFFFFFF)
+                        : Color(0xff222222)),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                _exchangeDataWithRecipientAddress.refundAddress ?? '',
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xffFFFFFF)
+                        : Color(0xff222222)),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 10.0),
+                height: 1,
+                color: settingsStore.isDarkTheme
+                    ? Color(0xff4F4F70)
+                    : Color(0xffDADADA),
+              )
+            ],
+          ),
+        ),
         //Exchange Rate Details
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -627,23 +660,30 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
             onPressed: () {
               if(isConfirmationButtonEnabled(minimumAmount, maximumAmount, context, networkProvider)) {
                 showSwapInitiatingTransactionDialog(context, settingsStore);
+                final refundAddress = _exchangeDataWithRecipientAddress.refundAddress;
                 if (_exchangeDataWithRecipientAddress.extraIdName!.isNotEmpty) {
-                  createTransaction({
-                    "from": from,
-                    "to": to,
-                    "address": _exchangeDataWithRecipientAddress
-                        .recipientAddress!,
+                  final params = <String, String>{
+                    "from": from ?? '',
+                    "to": to ?? '',
+                    "address": _exchangeDataWithRecipientAddress.recipientAddress!,
                     "extraId": _exchangeDataWithRecipientAddress.extraIdName!,
-                    "amountFrom": sendAmount
-                  }, _exchangeDataWithRecipientAddress.toBlockChain!, walletAddress);
+                    "amountFrom": sendAmount ?? ''
+                  };
+                  if (refundAddress != null && refundAddress.isNotEmpty) {
+                    params["refundAddress"] = refundAddress;
+                  }
+                  createTransaction(params, _exchangeDataWithRecipientAddress.toBlockChain!, walletAddress, false);
                 } else {
-                  createTransaction({
-                    "from": from,
-                    "to": to,
-                    "address": _exchangeDataWithRecipientAddress
-                        .recipientAddress!,
-                    "amountFrom": sendAmount
-                  }, _exchangeDataWithRecipientAddress.toBlockChain!, walletAddress);
+                  final params = <String, String>{
+                    "from": from ?? '',
+                    "to": to ?? '',
+                    "address": _exchangeDataWithRecipientAddress.recipientAddress!,
+                    "amountFrom": sendAmount ?? ''
+                  };
+                  if (refundAddress != null && refundAddress.isNotEmpty) {
+                    params["refundAddress"] = refundAddress;
+                  }
+                  createTransaction(params, _exchangeDataWithRecipientAddress.toBlockChain!, walletAddress, false);
                 }
               }
             },
@@ -674,16 +714,62 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     );
   }
 
-  void createTransaction(Map<String, String> params, String? toBlockChain, String walletAddress) {
+  void createTransaction(Map<String, String> params, String? toBlockChain, String walletAddress, bool isPrivacySwap) {
     callCreateTransactionApi(params).then((value) {
       if (value?.result != null) {
         print('Status -> Success');
-        storeTransactionIds(swapTransactionHistoryFileName, walletAddress, value!.result!.id);
-        Future.delayed(Duration(seconds: 2), () {
-          Navigator.of(context).pop();
-          Navigator.of(context).pop(true);
-          Navigator.of(context).pushNamed(Routes.swapPaymentDetails, arguments: TransactionDetails(value, toBlockChain, walletAddress)); // Start adding getExchangeAmount api result to the stream.
-        });
+        if(value?.orderInfo != null) {
+          final exchangeName = _exchangeDataWithRecipientAddress.exchangeName ??
+              ExchangeManager.selectedType?.name ?? 'changelly';
+          final details = <String, dynamic>{
+            ...value!.orderInfo!.toJson(),
+            'blockchainFrom': _exchangeDataWithRecipientAddress.fromBlockChain,
+            'blockchainTo': _exchangeDataWithRecipientAddress.toBlockChain,
+            'networkFrom': _exchangeDataWithRecipientAddress.fromProtocol,
+            'networkTo': _exchangeDataWithRecipientAddress.toProtocol,
+          };
+          SwapTxnHistory.instance.updateTransactionDetails(
+            value.orderInfo!.orderId,
+            walletAddress,
+            exchangeType: exchangeName,
+            details: details,
+          );
+          final swapType = isPrivacySwap ? 'privacy' : 'normal';
+          final swapTransactionHistoryModel = SwapTransactionHistoryModel(
+              uuid: "0",
+              walletAddress: walletAddress,
+              exchange: exchangeName,
+              txnId: value.orderInfo!.orderId,
+              txnStatus: value.orderInfo!.status ?? "waiting",
+              txnType: value.orderInfo!.type,
+              swapType: swapType,
+              currencyFrom: value.orderInfo!.currencyFrom ?? '',
+              networkFrom: _exchangeDataWithRecipientAddress.fromProtocol,
+              blockchainFrom: _exchangeDataWithRecipientAddress.fromBlockChain,
+              currencyTo: value.orderInfo!.currencyTo ?? '',
+              networkTo: _exchangeDataWithRecipientAddress.toProtocol,
+              blockchainTo: _exchangeDataWithRecipientAddress.toBlockChain,
+              payinAddress: value.orderInfo!.payinAddress,
+              payinAddressMemo: value.orderInfo!.payinExtraId,
+              payoutAddress: value.orderInfo!.payoutAddress,
+              payoutAddressMemo: value.orderInfo!.payoutExtraId,
+              refundAddress: value.orderInfo!.refundAddress,
+              refundStatus : 'not_returned',
+              refundAddressMemo: value.orderInfo!.refundExtraId,
+              amountFrom: value.orderInfo!.amountExpectedFrom,
+              amountTo: value.orderInfo!.amountExpectedTo ?? value.orderInfo!.amountTo,
+              networkFee: value.orderInfo!.networkFee,
+              platformFee: value.orderInfo!.platformFee,
+              rawResponse: value.result,
+              createdAt: toMsEpoch(value.orderInfo!.createdAt),
+              updatedAt: toMsEpoch(value.orderInfo!.createdAt),
+          );
+          Future.delayed(Duration(seconds: 2), () {
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                Routes.swapPaymentDetails, (route) => route.isFirst,
+                arguments: TransactionDetails(swapTransactionHistoryModel, walletAddress, exchangeName: exchangeName)); // Start adding getExchangeAmount api result to the stream.
+          });
+        }
       } else if (value?.error != null) {
         print('Status -> error ${value!.error!.message}');
         Navigator.of(context).pop();
@@ -705,10 +791,25 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
 
   Future<CreateTransactionModel?> callCreateTransactionApi(params) async {
     try {
-      return await createTransactionApiClient.createTransactionData(
-          context, params);
+      final service = ExchangeManager.selectedService;
+      if (service == null) return null;
+      final request = OrderRequest(
+        fromCurrency: _exchangeDataWithRecipientAddress.from ?? '',
+        fromNetwork: _exchangeDataWithRecipientAddress.fromProtocol ?? '',
+        toCurrency: _exchangeDataWithRecipientAddress.to ?? '',
+        toNetwork: _exchangeDataWithRecipientAddress.toProtocol ?? '',
+        destinationAddress: _exchangeDataWithRecipientAddress.recipientAddress ?? '',
+        destinationAddressMemo: _exchangeDataWithRecipientAddress.extraIdName,
+        depositAmount: (params['amountFrom'] ?? _exchangeDataWithRecipientAddress.amountFrom ?? '0'),
+        refundAddress: _exchangeDataWithRecipientAddress.refundAddress,
+        rate: _latestExchangeRate?.rate,
+        networkFee: _latestExchangeRate?.networkFee,
+      );
+      final order = await service.createOrder(request);
+      return orderInfoToCreateTransactionModel(order);
     } catch (error) {
-      throw Exception(error);
+      print('create transaction api error: $error');
+      return CreateTransactionModel(error: Error(message: '$error'));
     }
   }
 

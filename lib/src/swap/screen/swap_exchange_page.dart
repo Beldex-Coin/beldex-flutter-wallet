@@ -6,11 +6,11 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/provider/get_exchange_amount_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_pairs_params_provider.dart';
-import 'package:beldex_wallet/src/swap/model/get_currencies_full_model.dart';
+import 'package:beldex_wallet/src/swap/provider/exchange_selection_provider.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/coin_info.dart';
 import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
 import 'package:beldex_wallet/src/swap/util/swap_page_change_notifier.dart';
 import 'package:beldex_wallet/src/util/network_provider.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -20,11 +20,12 @@ import 'package:provider/provider.dart';
 
 import '../../../palette.dart';
 import '../../../routes.dart';
-import '../../util/constants.dart';
 import '../provider/get_currencies_full_provider.dart';
 import '../util/data_class.dart';
+import '../exchange/exchange_manager.dart';
 import '../../widgets/no_internet.dart';
 import '../util/utils.dart';
+import '../database/swap_txn_history.dart';
 import 'number_stepper.dart';
 
 class SwapExchangePage extends BasePage {
@@ -106,7 +107,6 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   late GetExchangeAmountProvider getExchangeAmountProvider;
   late NetworkProvider networkProvider;
   Timer? timer;
-  late List<String> stored = [];
   bool _isInitialized = false;
   final _focusSendCoin = FocusNode();
   final _focusGetCoin = FocusNode();
@@ -116,9 +116,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   @override
   void initState() {
     _walletAddress = widget.walletAddress;
-    getTransactionIds(swapTransactionHistoryFileName, _walletAddress).then((List<String> ids) {
-      stored = ids;
-    });
+    // Migrates the wallet's legacy JSON swap history into SQLite (history reads from DB).
+    SwapTxnHistory.instance.migrateSwapHistory(_walletAddress);
     searchYouGetCoinsController.addListener(() {
       _searchYouGetCoinsSetState!(() {
         youGetCoinsFilter = searchYouGetCoinsController.text;
@@ -130,15 +129,20 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final provider = Provider.of<GetExchangeAmountProvider>(context, listen: false);
       if (!mounted) return;
-      Provider.of<GetCurrenciesFullProvider>(context, listen: false).getCurrenciesFullData(context);
-      Provider.of<GetPairsParamsProvider>(context, listen: false).getPairsParamsData(context,[{'from':'btc','to':'bdx'},{'from':'bdx','to':'btc'}]);
-      provider.getExchangeAmountData({'from':'btc',"to":'bdx',"amountFrom":_sendAmountController.text.toString()});
-      timer?.cancel();
-      timer = Timer.periodic(Duration(seconds: 30), (timer) {
-        if (!mounted && !networkProvider.isConnected) return;
-        provider.getExchangeAmountData({"from": getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(), "to": getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(), "amountFrom": getPairsParamsProvider.getSendAmountValue().toString()});
+      final exchangeSelectionProvider = Provider.of<ExchangeSelectionProvider>(context, listen: false);
+      exchangeSelectionProvider.autoSelectExchange().then((_) {
+        if (!mounted) return;
+        final provider = Provider.of<GetExchangeAmountProvider>(context, listen: false);
+        Provider.of<GetCurrenciesFullProvider>(context, listen: false).getCurrenciesFullData(context);
+        Provider.of<GetPairsParamsProvider>(context, listen: false).getPairsParamsData(context,[{'from':'btc', 'fromNetwork':'BTC', 'to':'bdx', 'toNetwork':'BDX'},{'from':'bdx','to':'btc'}],"0.1");
+        provider.getExchangeAmountData({'from':'btc', 'fromNetwork':'BTC', "to":'bdx', 'toNetwork':'BDX', "amountFrom":_sendAmountController.text.toString()});
+        timer?.cancel();
+        timer = Timer.periodic(Duration(seconds: 30), (timer) {
+          if (!mounted && !networkProvider.isConnected) return;
+          if (!_isInitialized) return;
+          provider.getExchangeAmountData({"from": getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(), "fromNetwork":getCurrenciesFullProvider.getSelectedYouSendCoins().protocol!.toUpperCase(), "to": getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(), "toNetwork":getCurrenciesFullProvider.getSelectedYouGetCoins().protocol!.toUpperCase(), "amountFrom": getPairsParamsProvider.getSendAmountValue().toString()});
+        });
       });
     });
     keyboardDetectionController = KeyboardDetectionController(
@@ -154,11 +158,11 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 
   void callGetExchangeAmountData(BuildContext context, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider){
     if(getExchangeAmountProvider.loading==false){
-      getExchangeAmountProvider.getExchangeAmountData({"from":getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()});
+      getExchangeAmountProvider.getExchangeAmountData({"from":getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(), "fromNetwork":getCurrenciesFullProvider.getSelectedYouSendCoins().protocol!.toUpperCase(), "to":getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(), "toNetwork":getCurrenciesFullProvider.getSelectedYouGetCoins().protocol!.toUpperCase(), "amountFrom":getPairsParamsProvider.getSendAmountValue().toString()});
       timer?.cancel();
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
         if (!mounted && !networkProvider.isConnected) return;
-        getExchangeAmountProvider.getExchangeAmountData({"from":getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),"to":getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),"amountFrom":getPairsParamsProvider.getSendAmountValue().toString()});
+        getExchangeAmountProvider.getExchangeAmountData({"from":getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(), "fromNetwork":getCurrenciesFullProvider.getSelectedYouSendCoins().protocol!.toUpperCase(), "to":getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(), "toNetwork":getCurrenciesFullProvider.getSelectedYouGetCoins().protocol!.toUpperCase(), "amountFrom":getPairsParamsProvider.getSendAmountValue().toString()});
       });
     }
   }
@@ -185,23 +189,27 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             }
 
             if(getCurrenciesFullProvider.error != null || !networkProvider.isConnected) {
+              print("Error of getCurrenciesFullProvider-> ${getCurrenciesFullProvider.error}");
               return noInternet(settingsStore, _screenWidth);
             }
 
             if(getCurrenciesFullProvider.data != null){
+              if (getCurrenciesFullProvider.getBdxIsEnabled == false) {
+                return underMaintenance(settingsStore, _screenWidth);
+              }
+              this.networkProvider = Provider.of<NetworkProvider>(context, listen: false);
+              this.getCurrenciesFullProvider = getCurrenciesFullProvider;
               return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
                 if(getPairsParamsProvider.loading){
                   return defaultBody(_screenWidth, _screenHeight, settingsStore);
                 }
+                this.getPairsParamsProvider = getPairsParamsProvider;
                 return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
-                  if(getPairsParamsProvider.error != null || getExchangeAmountProvider.error != null || !networkProvider.isConnected) {
+                  if(getPairsParamsProvider.error != null || !networkProvider.isConnected) {
                     return noInternet(settingsStore, _screenWidth);
                   }
 
-                  if(getPairsParamsProvider.data != null || getExchangeAmountProvider.data != null) {
-                    this.networkProvider = networkProvider;
-                    this.getCurrenciesFullProvider = getCurrenciesFullProvider;
-                    this.getPairsParamsProvider = getPairsParamsProvider;
+                  if(getPairsParamsProvider.data != null || getExchangeAmountProvider.data != null || getExchangeAmountProvider.pairUnsupported) {
                     this.getExchangeAmountProvider = getExchangeAmountProvider;
                     _isInitialized = true;
                     return body(
@@ -242,56 +250,40 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     super.dispose();
   }
 
-  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, GetCurrenciesFullModel? getCurrenciesFullData, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider){
+  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, List<CoinInfo>? getCurrenciesFullData, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider){
     //GetCurrenciesFull
-    final List<GetCurrenciesResult> enableFrom = [];
-    final List<GetCurrenciesResult> enableTo = [];
-    for (int i = 0; i < getCurrenciesFullData!.result!.length; i++) {
-      if (getCurrenciesFullData.result![i].enabledFrom == true) {
-        enableFrom.add(getCurrenciesFullData.result![i]);
+    final List<CoinInfo> enableFrom = [];
+    final List<CoinInfo> enableTo = [];
+    for (int i = 0; i < getCurrenciesFullData!.length; i++) {
+      if (getCurrenciesFullData[i].enabledFrom == true) {
+        enableFrom.add(getCurrenciesFullData[i]);
       }
-      if (getCurrenciesFullData.result![i].enabledTo == true) {
-        enableTo.add(getCurrenciesFullData.result![i]);
-      }
-      if (getCurrenciesFullData.result![i].name == "BDX") {
-        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-          getCurrenciesFullProvider.setBdxIsEnabled(getCurrenciesFullData.result![i].enabled);
-        });
+      if (getCurrenciesFullData[i].enabledTo == true) {
+        enableTo.add(getCurrenciesFullData[i]);
       }
       //Swap icon function
-      if(getCurrenciesFullData.result![i].name == getCurrenciesFullProvider.getSelectedYouSendCoins().name && getCurrenciesFullData.result![i].enabledTo == true){
+      if(getCurrenciesFullData[i].name == getCurrenciesFullProvider.getSelectedYouSendCoins().name && getCurrenciesFullData[i].enabledTo == true){
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           getPairsParamsProvider.setSendCoinAvailableOnGetCoinStatus(true);
         });
       }
 
-      if(getCurrenciesFullData.result![i].name == getCurrenciesFullProvider.getSelectedYouGetCoins().name && getCurrenciesFullData.result![i].enabledFrom == true){
+      if(getCurrenciesFullData[i].name == getCurrenciesFullProvider.getSelectedYouGetCoins().name && getCurrenciesFullData[i].enabledFrom == true){
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           getPairsParamsProvider.setGetCoinAvailableOnSendCoinStatus(true);
         });
       }
     }
 
-    //GetPairsParams
-    if(getPairsParamsProvider.loading == false) {
-      for (int i = 0; i < getPairsParamsProvider.data!.result!.length; i++) {
-        if (getPairsParamsProvider.data!.result?[i].from == getCurrenciesFullProvider.getSelectedYouSendCoins().name?.toLowerCase() && getPairsParamsProvider.data!.result?[i].to == getCurrenciesFullProvider.getSelectedYouGetCoins().name?.toLowerCase()) {
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            getPairsParamsProvider
-                .setSendValueMinimumAmountAndSendValueMaximumAmount(
-                double.parse(
-                    getPairsParamsProvider.data!.result![i].minAmountFloat!),
-                double.parse(
-                    getPairsParamsProvider.data!.result![i].maxAmountFloat!));
-          });
-        }
-      }
-    }
+    //GetPairsParams - min/max now set directly in provider's getPairsParamsData
 
     //GetExchangeAmount
     if(getExchangeAmountProvider.loading == false){
-      if(getExchangeAmountProvider.data!.result!.isNotEmpty) {
-        _getAmountController.text = toStringAsFixed(getExchangeAmountProvider.data!.result![0].amountTo.toString());
+      if(getExchangeAmountProvider.data != null) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          if(!mounted) return;
+          _getAmountController.text = toStringAsFixed(getExchangeAmountProvider.data!.amountTo.toString());
+        });
       }
     }
     return getCurrenciesFullProvider.getBdxIsEnabled == null ? Container() : getCurrenciesFullProvider.getBdxIsEnabled == true ? Column(
@@ -467,35 +459,28 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   InkWell youGetCoinsDropDownListItem(
-      SettingsStore settingsStore, GetCurrenciesResult enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider) {
+      SettingsStore settingsStore, CoinInfo enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider) {
     return InkWell(
       onTap: networkProvider.isConnected ? () {
         searchYouGetCoinsController.text = '';
         final currentSelectedSendCoin = getCurrenciesFullProvider.getSelectedYouSendCoins();
-        if (enableTo.fullName != null) {
-          getCurrenciesFullProvider.setGetCoinsDropDownVisible(!getCurrenciesFullProvider.getGetCoinsDropDownVisible());
-          if(currentSelectedSendCoin.name!.toLowerCase() == enableTo.name!.toLowerCase()) {
-            getPairsParamsProvider.setSendAmountValue(0.0);
-            if(currentSelectedSendCoin.name!.toLowerCase() == "bdx" && enableTo.name!.toLowerCase() == "bdx") {
-              getCurrenciesFullProvider.setSelectedYouSendCoins(btcCoin);
-            } else if (currentSelectedSendCoin.name!.toLowerCase() == "btc" && enableTo.name!.toLowerCase() == "btc") {
-              getCurrenciesFullProvider.setSelectedYouSendCoins(bdxCoin);
-            } else {
-              getCurrenciesFullProvider.setSelectedYouSendCoins(btcCoin);
-            }
-            getCurrenciesFullProvider.setSelectedYouGetCoins(currentSelectedSendCoin);
+        getCurrenciesFullProvider.setGetCoinsDropDownVisible(!getCurrenciesFullProvider.getGetCoinsDropDownVisible());
+        if(currentSelectedSendCoin.name!.toLowerCase() == enableTo.name.toLowerCase()) {
+          getPairsParamsProvider.setSendAmountValue(0.0);
+          if(currentSelectedSendCoin.name!.toLowerCase() == "bdx" && enableTo.name.toLowerCase() == "bdx") {
+            getCurrenciesFullProvider.setSelectedYouSendCoins(btcCoin);
+          } else if (currentSelectedSendCoin.name!.toLowerCase() == "btc" && enableTo.name.toLowerCase() == "btc") {
+            getCurrenciesFullProvider.setSelectedYouSendCoins(bdxCoin);
           } else {
-            getCurrenciesFullProvider.setSelectedYouGetCoins(Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName, enableTo.blockchain, enableTo.protocol));
+            getCurrenciesFullProvider.setSelectedYouSendCoins(btcCoin);
           }
-          getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase()}]);
-          //Get Exchange Amount API Call
-          callGetExchangeAmountApi(getCurrenciesFullProvider, getPairsParamsProvider,getExchangeAmountProvider,networkProvider);
+          getCurrenciesFullProvider.setSelectedYouGetCoins(currentSelectedSendCoin);
         } else {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            getCurrenciesFullProvider.setGetCoinsDropDownVisible(
-                !getCurrenciesFullProvider.getGetCoinsDropDownVisible());
-          });
+          getCurrenciesFullProvider.setSelectedYouGetCoins(Coins(enableTo.name, enableTo.fullName, enableTo.extraIdName, enableTo.blockchain, enableTo.protocol));
         }
+        getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(), "fromNetwork":getCurrenciesFullProvider.getSelectedYouSendCoins().protocol!.toUpperCase(), 'to':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(), "toNetwork":getCurrenciesFullProvider.getSelectedYouGetCoins().protocol!.toUpperCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase()}],_sendAmountController.text.toString());
+        //Get Exchange Amount API Call
+        callGetExchangeAmountApi(getCurrenciesFullProvider, getPairsParamsProvider,getExchangeAmountProvider,networkProvider);
       } : null,
       child: Padding(
         padding: EdgeInsets.only(left: 20.0, right: 20.0),
@@ -506,17 +491,13 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               builder: (_) => Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: enableTo.image!,
-                    placeholder: (context, url) => circularProgressBar(settingsStore.isDarkTheme
-                        ? Color(0xff737373)
-                        : Color(0xffA9A9CD), 1.0),
-                    errorWidget: (context, url, error) => new Icon(Icons.error),
+                  swapCoinImage(
+                    enableTo.image,
+                    width: 15,
+                    height: 15,
                     color: settingsStore.isDarkTheme
                         ? Color(0xff737373)
                         : Color(0xffA9A9CD),
-                    width: 15,
-                    height: 15,
                   ),
                   SizedBox(width: 10,),
                   Flexible(
@@ -569,7 +550,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   InkWell youSendCoinsDropDownListItem(
-      SettingsStore settingsStore, GetCurrenciesResult enableFrom, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider) {
+      SettingsStore settingsStore, CoinInfo enableFrom, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider) {
     if(getCurrenciesFullProvider.getGetCoinsDropDownVisible()) {
       getCurrenciesFullProvider.setGetCoinsDropDownVisible(false);
     }
@@ -577,30 +558,23 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       onTap: networkProvider.isConnected ? () {
         searchYouSendCoinsController.text = '';
         final currentSelectedGetCoin = getCurrenciesFullProvider.getSelectedYouGetCoins();
-        if (enableFrom.name != null) {
-          getCurrenciesFullProvider.setSendCoinsDropDownVisible(!getCurrenciesFullProvider.getSendCoinsDropDownVisible());
-          if(currentSelectedGetCoin.name!.toLowerCase() == enableFrom.name!.toLowerCase()) {
-              getPairsParamsProvider.setSendAmountValue(0.0);
-              getCurrenciesFullProvider.setSelectedYouSendCoins(currentSelectedGetCoin);
-              if(currentSelectedGetCoin.name!.toLowerCase() == "bdx" && enableFrom.name!.toLowerCase() == "bdx") {
-                getCurrenciesFullProvider.setSelectedYouGetCoins(btcCoin);
-              } else if (currentSelectedGetCoin.name!.toLowerCase() == "btc" && enableFrom.name!.toLowerCase() == "btc") {
-                getCurrenciesFullProvider.setSelectedYouGetCoins(bdxCoin);
-              } else {
-                getCurrenciesFullProvider.setSelectedYouGetCoins(btcCoin);
-              }
-          } else {
-            getCurrenciesFullProvider.setSelectedYouSendCoins(Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName, enableFrom.blockchain, enableFrom.protocol));
-          }
-          getPairsParamsProvider.getPairsParamsData(context, [{'from': getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(), 'to': getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase()}, {'from': getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(), 'to': getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase()}]);
-          //Get Exchange Amount API Call
-          callGetExchangeAmountApi(getCurrenciesFullProvider, getPairsParamsProvider, getExchangeAmountProvider,networkProvider);
+        getCurrenciesFullProvider.setSendCoinsDropDownVisible(!getCurrenciesFullProvider.getSendCoinsDropDownVisible());
+        if(currentSelectedGetCoin.name!.toLowerCase() == enableFrom.name.toLowerCase()) {
+            getPairsParamsProvider.setSendAmountValue(0.0);
+            getCurrenciesFullProvider.setSelectedYouSendCoins(currentSelectedGetCoin);
+            if(currentSelectedGetCoin.name!.toLowerCase() == "bdx" && enableFrom.name.toLowerCase() == "bdx") {
+              getCurrenciesFullProvider.setSelectedYouGetCoins(btcCoin);
+            } else if (currentSelectedGetCoin.name!.toLowerCase() == "btc" && enableFrom.name.toLowerCase() == "btc") {
+              getCurrenciesFullProvider.setSelectedYouGetCoins(bdxCoin);
+            } else {
+              getCurrenciesFullProvider.setSelectedYouGetCoins(btcCoin);
+            }
         } else {
-          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-            getCurrenciesFullProvider.setSendCoinsDropDownVisible(
-                !getCurrenciesFullProvider.getSendCoinsDropDownVisible());
-          });
+          getCurrenciesFullProvider.setSelectedYouSendCoins(Coins(enableFrom.name, enableFrom.fullName, enableFrom.extraIdName, enableFrom.blockchain, enableFrom.protocol));
         }
+        getPairsParamsProvider.getPairsParamsData(context, [{'from': getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(), "fromNetwork":getCurrenciesFullProvider.getSelectedYouSendCoins().protocol!.toUpperCase(), 'to': getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(), "toNetwork":getCurrenciesFullProvider.getSelectedYouGetCoins().protocol!.toUpperCase()}, {'from': getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(), 'to': getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase()}],_sendAmountController.text.toString());
+        //Get Exchange Amount API Call
+        callGetExchangeAmountApi(getCurrenciesFullProvider, getPairsParamsProvider, getExchangeAmountProvider,networkProvider);
       } : null,
       child: Padding(
         padding: EdgeInsets.only(left: 10.0, right: 10.0),
@@ -611,17 +585,13 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               builder: (_) => Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: enableFrom.image!,
-                    placeholder: (context, url) => circularProgressBar(settingsStore.isDarkTheme
-                        ? Color(0xff737373)
-                        : Color(0xffA9A9CD), 1.0),
-                    errorWidget: (context, url, error) => new Icon(Icons.error),
+                  swapCoinImage(
+                    enableFrom.image,
+                    width: 15,
+                    height: 15,
                     color: settingsStore.isDarkTheme
                         ? Color(0xff737373)
                         : Color(0xffA9A9CD),
-                    width: 15,
-                    height: 15,
                   ),
                   SizedBox(width: 10,),
                   Flexible(
@@ -726,15 +696,15 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   Widget exchangeScreen(
       ScrollController _scrollController,
       SettingsStore settingsStore,
-      SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, List<GetCurrenciesResult> enableFrom,List<GetCurrenciesResult> enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider) {
+      SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, List<CoinInfo> enableFrom,List<CoinInfo> enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider) {
     final sendCoinAmount = getPairsParamsProvider.getSendAmountValue();
     if(getPairsParamsProvider.getSendFieldErrorState()){
       _getAmountController.text = toStringAsFixed(getPairsParamsProvider.getGetAmountValue().toString());
     }
     var floatingExchangeRate = '...';
     if(getExchangeAmountProvider.loading==false){
-       if(getExchangeAmountProvider.data!.result != null && getExchangeAmountProvider.data!.result!.isNotEmpty) {
-         floatingExchangeRate = '${getExchangeAmountProvider.data!.result![0].rate}';
+       if(getExchangeAmountProvider.data != null) {
+         floatingExchangeRate = '${getExchangeAmountProvider.data!.rate}';
        }else{
          floatingExchangeRate = '...';
        }
@@ -760,8 +730,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).pop(true);
-                    Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored));
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        Routes.swapTransactionList, (route) => route.isFirst,
+                        arguments: SwapTransactionHistory(_walletAddress, exchangeName: ExchangeManager.selectedType?.name));
                   },
                   child: SvgPicture.asset(
                     'assets/images/swap/history.svg',
@@ -962,6 +933,30 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                //Unsupported exchange pair
+                Visibility(
+                  visible: getExchangeAmountProvider.pairUnsupported,
+                  child: Flexible(
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          color: Colors.red.withAlpha(25),
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
+                      child: Text(
+                        tr(context).unsupportedExchangePair,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                            backgroundColor: Colors.transparent,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff222222),
+                            fontSize: 13,
+                            fontWeight: FontWeight.normal),
+                      ),
+                    ),
+                  ),
+                ),
                 Visibility(
                   visible: validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider) || validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider),
                   child: Flexible(
@@ -1029,7 +1024,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                               currentSelectedGetCoin);
                           getCurrenciesFullProvider.setSelectedYouGetCoins(
                               currentSelectedSendCoin);
-                          getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase()}]);
+                          getPairsParamsProvider.getPairsParamsData(context,[{'from':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase(), "fromNetwork":getCurrenciesFullProvider.getSelectedYouSendCoins().protocol!.toUpperCase(), 'to':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(), "toNetwork":getCurrenciesFullProvider.getSelectedYouGetCoins().protocol!.toUpperCase()},{'from':getCurrenciesFullProvider.getSelectedYouGetCoins().name!.toLowerCase(),'to':getCurrenciesFullProvider.getSelectedYouSendCoins().name!.toLowerCase()}],_sendAmountController.text.toString());
                           //Get Exchange Amount API Call
                           callGetExchangeAmountApi(getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider,networkProvider);
                         });
@@ -1364,8 +1359,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
               child: ElevatedButton(
                 onPressed: () {
                   if(isNextButtonEnabled(floatingExchangeRate, !getPairsParamsProvider.getSendFieldErrorState(), sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)) {
-                    Navigator.of(context).pop(true);
-                    Navigator.of(context).pushNamed(Routes.swapWalletAddress,
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        Routes.swapWalletAddress, (route) => route.isFirst,
                         arguments: ExchangeData(getCurrenciesFullProvider
                             .getSelectedYouSendCoins()
                             .name
@@ -1380,8 +1375,8 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                                 .getSelectedYouSendCoins()
                                 .blockchain, getCurrenciesFullProvider
                                 .getSelectedYouGetCoins()
-                                .blockchain,getCurrenciesFullProvider
-                                .getSelectedYouGetCoins().protocol));
+                                .blockchain, getCurrenciesFullProvider.getSelectedYouSendCoins().protocol, getCurrenciesFullProvider
+                                .getSelectedYouGetCoins().protocol, exchangeName: ExchangeManager.selectedType?.name));
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -2063,55 +2058,51 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
    bool validateMinimumAmount(double sendCoinAmount, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
-    if(getExchangeAmountProvider.data?.error != null && getExchangeAmountProvider.data?.error!.data != null) {
-      return sendCoinAmount < double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.min!.from!);
+    if(getExchangeAmountProvider.data?.minAmount != null) {
+      return sendCoinAmount < double.parse(getExchangeAmountProvider.data!.minAmount!);
     } else {
       return sendCoinAmount < getPairsParamsProvider.minimumAmount;
     }
   }
 
   bool validateMinimumAmountLessThanEqual(double sendCoinAmount, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
-    if(getExchangeAmountProvider.data?.error != null && getExchangeAmountProvider.data?.error!.data != null) {
-      return sendCoinAmount <= double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.min!.from!);
+    if(getExchangeAmountProvider.data?.minAmount != null) {
+      return sendCoinAmount <= double.parse(getExchangeAmountProvider.data!.minAmount!);
     } else {
       return sendCoinAmount <= getPairsParamsProvider.minimumAmount;
     }
   }
 
   bool validateMaximumAmount(double sendCoinAmount, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
-    if(getExchangeAmountProvider.data?.error != null && getExchangeAmountProvider.data?.error!.data != null) {
-      return sendCoinAmount > double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.max!.from!);
-    } else {
-      return sendCoinAmount > getPairsParamsProvider.maximumAmount;
-    }
+    final max = maximumAmount(getPairsParamsProvider, getExchangeAmountProvider);
+    if (max <= 0) return false;
+    return sendCoinAmount > max;
   }
 
   bool validateMaximumAmountGreaterThanEqual(double sendCoinAmount, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
-    if(getExchangeAmountProvider.data?.error != null && getExchangeAmountProvider.data?.error!.data != null) {
-      return sendCoinAmount >= double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.max!.from!);
-    } else {
-      return sendCoinAmount >= getPairsParamsProvider.maximumAmount;
-    }
+    final max = maximumAmount(getPairsParamsProvider, getExchangeAmountProvider);
+    if (max <= 0) return false;
+    return sendCoinAmount >= max;
   }
 
   double minimumAmount(GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
-    if(getExchangeAmountProvider.data?.error != null && getExchangeAmountProvider.data?.error!.data != null) {
-      return double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.min!.from!);
+    if(getExchangeAmountProvider.data?.minAmount != null) {
+      return double.parse(getExchangeAmountProvider.data!.minAmount!);
     } else {
       return getPairsParamsProvider.minimumAmount;
     }
   }
 
   double maximumAmount(GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
-    if(getExchangeAmountProvider.data?.error != null && getExchangeAmountProvider.data?.error!.data != null) {
-      return double.parse(getExchangeAmountProvider.data!.error!.data!.limits!.max!.from!);
+    if(getExchangeAmountProvider.data?.maxAmount != null) {
+      return double.parse(getExchangeAmountProvider.data!.maxAmount!);
     } else {
       return getPairsParamsProvider.maximumAmount;
     }
   }
 
   bool isNextButtonEnabled(String status, bool sendFieldErrorState, double sendCoinAmount, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider) {
-    return (!validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider) || !validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider)) && status != "..." && sendFieldErrorState;
+    return !validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider) && !validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider) && status != "..." && sendFieldErrorState;
   }
 }
 

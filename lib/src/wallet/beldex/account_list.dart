@@ -1,6 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:beldex_coin/account_list.dart' as account_list;
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
+
+List<Account> _getAllAccountsSync(void _) => account_list
+    .getAllAccount()
+    .map((accountRow) => Account.fromRow(accountRow))
+    .toList();
 
 class AccountList {
   AccountList() :
@@ -21,8 +27,8 @@ class AccountList {
 
     try {
       _isUpdating = true;
-      refresh();
-      final accounts = getAll();
+      await refresh();
+      final accounts = await getAllAsync();
       _accounts.add(accounts);
       _isUpdating = false;
     } catch (e) {
@@ -31,12 +37,11 @@ class AccountList {
     }
   }
 
-  List<Account> getAll() {
-    return account_list
-        .getAllAccount()
-        .map((accountRow) => Account.fromRow(accountRow))
-        .toList();
-  }
+
+  /// Reads the accounts on a background isolate so the native call cannot
+  /// stall the UI thread.
+  Future<List<Account>> getAllAsync() =>
+      compute<void, List<Account>>(_getAllAccountsSync, null);
 
   Future addAccount({required String label}) async {
     await account_list.addAccount(label: label);
@@ -49,14 +54,14 @@ class AccountList {
     await update();
   }
 
-  void refresh() {
+  Future refresh() async {
     if (_isRefreshing) {
       return;
     }
 
     try {
       _isRefreshing = true;
-      account_list.refreshAccounts();
+      await account_list.refreshAccounts();
       _isRefreshing = false;
     } catch (e) {
       _isRefreshing = false;

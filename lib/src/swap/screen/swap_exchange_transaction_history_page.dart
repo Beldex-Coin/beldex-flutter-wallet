@@ -6,11 +6,9 @@ import 'dart:math';
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
-import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
+import 'package:beldex_wallet/src/swap/database/swap_txn_history.dart';
 import 'package:beldex_wallet/src/swap/provider/swap_transaction_expansion_status_change_notifier.dart';
 import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
-import 'package:beldex_wallet/src/widgets/no_internet.dart';
 import 'package:beldex_wallet/src/util/generate_name.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +19,8 @@ import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import '../../../routes.dart';
 import '../../stores/wallet/wallet_store.dart';
-import '../../util/network_provider.dart';
 import '../../widgets/no_transactions_yet.dart';
+import '../database/swap_transaction_history_model.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
 import 'package:csv/csv.dart';
@@ -91,24 +89,29 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
 
   final _listKey = GlobalKey();
 
-  late GetTransactionsProvider getTransactionsProvider;
-  Timer? timer;
   late SwapTransactionHistory _swapTransactionHistory;
-  bool _isInitialized = false;
-  late NetworkProvider networkProvider;
+  List<SwapTransactionHistoryModel> _transactions = [];
+  bool _isLoading = true;
+
+  Future<void> _loadTransactions() async {
+    final walletStore = Provider.of<WalletStore>(context, listen: false);
+    var walletAddress = _swapTransactionHistory.walletAddress ?? '';
+    if (walletAddress.isEmpty) {
+      walletAddress = walletStore.subaddress.address;
+    }
+    // Loads the wallet's swap history from SQLite (offline, no API call).
+    final resultList = await SwapTxnHistory.instance.getOrderHistoryModels(walletAddress);
+    if (!mounted) return;
+    setState(() {
+      _transactions = resultList;
+      _isLoading = false;
+    });
+  }
 
   @override
   void initState() {
     _swapTransactionHistory = widget.swapTransactionHistory;
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      final provider = Provider.of<GetTransactionsProvider>(context,listen: false);
-      provider.getTransactionsListData(context,{"id":_swapTransactionHistory.transactionIdList});
-      timer?.cancel();
-      timer = Timer.periodic(Duration(seconds: 30), (timer) {
-        if (!mounted && !networkProvider.isConnected) return;
-        provider.getTransactionsListData(context,{"id":_swapTransactionHistory.transactionIdList});
-      });
-    });
+    _loadTransactions();
     super.initState();
   }
 
@@ -119,41 +122,19 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     final settingsStore = Provider.of<SettingsStore>(context);
     final _scrollController = ScrollController(keepScrollOffset: true);
     final walletStore = Provider.of<WalletStore>(context);
-    return Consumer<NetworkProvider>(
-        builder: (context, networkProvider, child) {
-          this.networkProvider = networkProvider;
-        return Consumer<GetTransactionsProvider>(builder: (context,getTransactionsProvider,child){
-          if(getTransactionsProvider.loading){
-            return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0));
-          }
-
-          if(getTransactionsProvider.error != null) {
-            return noInternet(settingsStore, _screenWidth);
-          }
-
-          if(getTransactionsProvider.data != null) {
-            this.getTransactionsProvider = getTransactionsProvider;
-            _isInitialized = true;
-            return body(_screenWidth,_screenHeight,settingsStore,_scrollController, getTransactionsProvider.data!, walletStore);
-          }
-
-          return SizedBox();
-        });
-      }
-    );
+    if (_isLoading) {
+      return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0));
+    }
+    return body(_screenWidth, _screenHeight, settingsStore, _scrollController, walletStore);
   }
 
   @override
   void dispose() {
-    if(_isInitialized) {
-      getTransactionsProvider.dispose();
-    }
-    timer?.cancel();
     super.dispose();
   }
 
-  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, GetTransactionsModel getTransactionsModel, WalletStore walletStore){
-    return  _swapTransactionHistory.transactionIdList.isNotEmpty ? LayoutBuilder(builder:
+  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, WalletStore walletStore){
+    return _transactions.isNotEmpty ? LayoutBuilder(builder:
         (BuildContext context, BoxConstraints constraints) {
       return ConstrainedBox(
         constraints: BoxConstraints(minHeight: constraints.maxHeight),
@@ -174,7 +155,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                 _screenWidth,
                 _screenHeight,
                 settingsStore,
-                getTransactionsModel, walletStore),
+                _transactions, walletStore),
           ),
         ),
       );
@@ -227,7 +208,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     if(Platform.isAndroid) {
       final directory = await getExternalStorageDirectories(
           type: StorageDirectory.downloads); // Internal storage
-      final path = '${directory?.first.path}/Transaction_Report.csv';
+      final path = '${directory?.first.path}/Beldex_wallet_swap_transaction_report.csv';
       // Convert your CSV string to a Uint8List for downloading.
       final file = File(path);
       await file.writeAsBytes(bytes).whenComplete(() {
@@ -238,7 +219,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     if(Platform.isIOS) {
       // Use application documents directory for cross-platform compatibility
       final directory = await getApplicationDocumentsDirectory();
-      final path = '${directory.path}/Transaction_Report.csv';
+      final path = '${directory.path}/Beldex_wallet_swap_transaction_report.csv';
 
       final file = File(path);
       await file.writeAsBytes(bytes);
@@ -248,8 +229,8 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     }
   }
 
-  Widget transactionRow(SettingsStore settingsStore, GetTransactionsModel getTransactionsModel, int index, WalletStore walletStore) {
-    final result = getTransactionsModel.result![index];
+  Widget transactionRow(SettingsStore settingsStore, List<SwapTransactionHistoryModel> transactions, int index, WalletStore walletStore) {
+    final result = transactions[index];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -260,9 +241,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                     ? Colors.white
                     : Colors.black, // Your accent color
               ),
-              dividerColor: Colors.transparent,
-              textSelectionTheme:
-              TextSelectionThemeData(selectionColor: Colors.green)),
+              dividerColor: Colors.transparent),
           child:  Consumer<SwapTransactionExpansionStatusChangeNotifier>(
               builder: (context, swapTransactionExpansionStatusChangeNotifier, child) {
                 final isExpanded = swapTransactionExpansionStatusChangeNotifier.isExpanded(index);
@@ -286,28 +265,29 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                           mainAxisSize: MainAxisSize.max,
                           children: <Widget>[
                             Visibility(
-                              visible: result.status == "waiting",
-                              child:showImage('assets/images/swap/swap_waiting.svg'),
+                              visible: [
+                                "new",
+                                "waiting",
+                                "confirming",
+                                "exchanging",
+                                "sending",
+                              ].contains(result.txnStatus),
+                              child: showImage('assets/images/swap/swap_waiting.svg'),
                             ),
                             Visibility(
-                              visible: result.status == "confirming",
-                              child:showImage('assets/images/swap/swap_pending.svg'),
-                            ),
-                            Visibility(
-                              visible: result.status == "finished",
+                              visible: result.txnStatus == "finished",
                               child:showImage('assets/images/swap/swap_completed.svg'),
                             ),
                             Visibility(
-                              visible: result.status == "refunded",
+                              visible: result.txnStatus == "refunded",
                               child:showImage('assets/images/swap/swap_refund.svg'),
                             ),
                             Visibility(
-                              visible: result.status == "overdue",
-                              child:showImage('assets/images/swap/swap_waiting.svg'),
-                            ),
-                            Visibility(
-                              visible: result.status == "expired",
-                              child:showImage('assets/images/swap/swap_waiting.svg'),
+                              visible: [
+                                "overdue",
+                                "expired",
+                              ].contains(result.txnStatus),
+                              child: showImage('assets/images/swap/swap_overdue.svg'),
                             ),
                             Expanded(
                                 child: Padding(
@@ -354,7 +334,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                                     color: settingsStore.isDarkTheme
                                                         ? Color(0xffAFAFBE)
                                                         : Color(0xff737373))),
-                                            Text('${toStringAsFixed(result.amountExpectedFrom)} ${result.currencyFrom!.toUpperCase()}',
+                                            Text('${toStringAsFixed(result.amountFrom)} ${result.currencyFrom.toUpperCase()}',
                                                 style: TextStyle(
                                                     backgroundColor:
                                                     Colors.transparent,
@@ -386,7 +366,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xffAFAFBE)
                                               : Color(0xff737373))),
-                                  Text('1 ${result.currencyFrom!.toUpperCase()} = ${toStringAsFixed(result.rate)}${result.currencyTo!.toUpperCase()}',
+                                  Text('1 ${result.currencyFrom.toUpperCase()} = ${toStringAsFixed(result.rate)}${result.currencyTo.toUpperCase()}',
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 12,
@@ -432,12 +412,12 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xffAFAFBE)
                                               : Color(0xff737373))),
-                                  Text(result.status == "finished" ? '${result.amountExpectedTo} ${result.currencyTo!.toUpperCase()}' : '---',
+                                  Text(result.txnStatus == "finished" ? '${toStringAsFixed(result.amountTo)} ${result.currencyTo.toUpperCase()}' : '---',
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600,
-                                          color: true
+                                          color: result.txnStatus == "finished"
                                               ? Color(0xff20D030)
                                               : settingsStore.isDarkTheme
                                               ? Color(0xffD1D1D3)
@@ -460,7 +440,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      Text(getTransactionDate(result.createdAt!),
+                                      Text(getTransactionDate(result.createdAt),
                                           style: TextStyle(
                                               backgroundColor: Colors.transparent,
                                               fontSize: 12,
@@ -468,7 +448,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                               color: settingsStore.isDarkTheme
                                                   ? Color(0xffFFFFFF)
                                                   : Color(0xff737373))),
-                                      Text(getTransactionTime(result.createdAt!),
+                                      Text(getTransactionTime(result.createdAt),
                                           style: TextStyle(
                                               backgroundColor: Colors.transparent,
                                               fontSize: 12,
@@ -493,12 +473,12 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xffAFAFBE)
                                               : Color(0xff737373))),
-                                  Text(result.status!.capitalized(),
+                                  Text(result.txnStatus.capitalized(),
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 12,
                                           fontWeight: FontWeight.w600,
-                                          color: result.status == "finished"
+                                          color: result.txnStatus == "finished"
                                               ? Color(0xff20D030)
                                               : settingsStore.isDarkTheme
                                               ? Color(0xffD1D1D3)
@@ -520,27 +500,30 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                               : Color(0xff737373))),
                                   InkWell(
                                     onTap: () {
-                                      switch (result.status) {
+                                      switch (result.txnStatus) {
                                         case "waiting" :
+                                        case "new" :
                                           {
-                                            Navigator.of(context).pop(true);
-                                            Navigator.of(context).pushNamed(Routes.swapTransactionPaymentDetails, arguments: GetTransactionStatusWithWalletAddress(result, walletStore.subaddress.address));
+                                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                                Routes.swapTransactionPaymentDetails, (route) => route.isFirst,
+                                                arguments: GetTransactionStatusWithWalletAddress(result, walletStore.subaddress.address, exchangeName: result.exchange));
                                             break;
                                           }
                                         case "confirming" :
                                         case "exchanging" :
                                         case "sending" :
                                           {
-                                            Navigator.of(context).pop(true);
-                                            Navigator.of(context).pushNamed(Routes.swapTransactionExchanging,arguments: GetTransactionStatusWithWalletAddress(result, walletStore.subaddress.address));
+                                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                                Routes.swapTransactionExchanging, (route) => route.isFirst,
+                                                arguments: GetTransactionStatusWithWalletAddress(result, walletStore.subaddress.address, exchangeName: result.exchange));
                                             break;
                                           }
                                         case "finished" :
                                           {
                                             //Completed Screen
-                                            Navigator.of(context).pop(true);
-                                            Navigator.of(context).pushNamed(Routes.swapTransactionCompleted,
-                                                arguments: GetTransactionStatus(result, result.status, walletStore.subaddress.address));
+                                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                                    Routes.swapTransactionCompleted, (route) => route.isFirst,
+                                                    arguments: GetTransactionStatus(result, result.txnStatus, walletStore.subaddress.address, exchangeName: result.exchange));
                                             break;
                                           }
                                         case "refunded" :
@@ -551,9 +534,9 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                         case "overdue" :
                                         case "expired" :
                                           {
-                                            Navigator.of(context).pop(true);
-                                            Navigator.of(context).pushNamed(Routes.swapTransactionUnPaid,
-                                                arguments: GetTransactionStatus(result, result.status, walletStore.subaddress.address));
+                                            Navigator.of(context).pushNamedAndRemoveUntil(
+                                                    Routes.swapTransactionUnPaid, (route) => route.isFirst,
+                                                    arguments: GetTransactionStatus(result, result.txnStatus, walletStore.subaddress.address, exchangeName: result.exchange));
                                             break;
                                           }
                                         default: {
@@ -570,7 +553,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                                 backgroundColor: Colors.transparent,
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w600,
-                                                color: result.status == "finished"
+                                                color: result.txnStatus == "finished"
                                                     ? Color(0xff20D030)
                                                     : settingsStore.isDarkTheme
                                                     ? Color(0xffD1D1D3)
@@ -605,7 +588,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
       double _screenWidth,
       double _screenHeight,
       SettingsStore settingsStore,
-      GetTransactionsModel getTransactionsModel, WalletStore walletStore) {
+      List<SwapTransactionHistoryModel> transactions, WalletStore walletStore) {
     rows.clear();
     addHeader = true;
     return Column(
@@ -644,17 +627,17 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
           child: ListView.builder(
               key: _listKey,
               padding: EdgeInsets.only(bottom: 15),
-              itemCount: getTransactionsModel.result!.length,
+              itemCount: transactions.length,
               itemBuilder: (context, index) {
-                if(rows.length-1 != getTransactionsModel.result!.length) {
+                if(rows.length-1 != transactions.length) {
                   if(addHeader){
                     addHeader = false;
-                    rows.add(["Status", "Date", "Exchange_Amount_From", "Exchange_Rate", "Receiver", "Amount_Received"]);
+                    rows.add(["Date", "Status", "Exchange_Currency", "Exchange_Amount_From", "Exchange_Rate", "Received_Amount", "Swap_Type", "Receiver_Address"]);
                   }
-                  final result = getTransactionsModel.result![index];
-                  rows.add([result.status, getDate(result.createdAt!), toStringAsFixed(result.amountExpectedFrom), toStringAsFixed(result.rate), result.payinAddress, toStringAsFixed(result.amountExpectedTo)]);
+                  final result = transactions[index];
+                  rows.add([getDate(result.createdAt), result.txnStatus, "${result.currencyFrom.toUpperCase()} -> ${result.currencyTo.toUpperCase()}", toStringAsFixed(result.amountFrom), toStringAsFixed(result.rate), toStringAsFixed(result.amountTo), result.swapType.isNotEmpty ? result.swapType[0].toUpperCase() + result.swapType.substring(1) : result.swapType,result.payoutAddress]);
                 }
-                return transactionRow(settingsStore, getTransactionsModel, index, walletStore);
+                return transactionRow(settingsStore, transactions, index, walletStore);
               }),
         ),
       ],
@@ -669,34 +652,35 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     );
   }
 
-  Widget expansionTile(GetTransactionResult result, SettingsStore settingsStore) {
+  Widget expansionTile(SwapTransactionHistoryModel result, SettingsStore settingsStore) {
     return Row(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Visibility(
-            visible: result.status == "waiting",
-            child:showImage('assets/images/swap/swap_waiting.svg'),
+            visible: [
+              "new",
+              "waiting",
+              "confirming",
+              "exchanging",
+              "sending",
+            ].contains(result.txnStatus),
+            child: showImage('assets/images/swap/swap_waiting.svg'),
           ),
           Visibility(
-            visible: result.status == "confirming",
-            child:showImage('assets/images/swap/swap_pending.svg'),
-          ),
-          Visibility(
-            visible: result.status == "finished",
+            visible: result.txnStatus == "finished",
             child:showImage('assets/images/swap/swap_completed.svg'),
           ),
           Visibility(
-            visible: result.status == "refunded",
+            visible: result.txnStatus == "refunded",
             child:showImage('assets/images/swap/swap_refund.svg'),
           ),
           Visibility(
-            visible: result.status == "overdue",
-            child:showImage('assets/images/swap/swap_waiting.svg'),
-          ),
-          Visibility(
-            visible: result.status == "expired",
-            child:showImage('assets/images/swap/swap_waiting.svg'),
+            visible: [
+              "overdue",
+              "expired",
+            ].contains(result.txnStatus),
+            child: showImage('assets/images/swap/swap_overdue.svg'),
           ),
           Expanded(
               child: Padding(
@@ -738,7 +722,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                         mainAxisAlignment:
                         MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text('${toStringAsFixed(result.amountExpectedFrom)} ${result.currencyFrom!.toUpperCase()}',
+                          Text('${toStringAsFixed(result.amountFrom)} ${result.currencyFrom.toUpperCase()}',
                               style: TextStyle(
                                   backgroundColor:
                                   Colors.transparent,
@@ -747,7 +731,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xffFFFFFF)
                                       : Color(0xff222222))),
-                          Text(getDate(result.createdAt!),
+                          Text(getDate(result.createdAt),
                               style: TextStyle(
                                   backgroundColor:
                                   Colors.transparent,
@@ -776,29 +760,31 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                         : Color(0xff737373)),
                                 children: [
                                   TextSpan(
-                                      text: '~ ${toStringAsFixed(result.amountExpectedTo)} ${result.currencyTo!.toUpperCase()}',
+                                      text: result.txnStatus == "finished" ? '~ ${toStringAsFixed(result.amountTo)} ${result.currencyTo.toUpperCase()}' : '---',
                                       style: TextStyle(
                                           backgroundColor:
                                           Colors
                                               .transparent,
                                           fontSize: 12,
                                           fontWeight:
-                                          FontWeight.w500,
-                                          color: result.status == "finished"
+                                          FontWeight.w600,
+                                          color: result.txnStatus == "finished"
                                               ? Color(
                                               0xff00AD07)
-                                              : Color(
-                                              0xff77778B)))
+                                              : settingsStore
+                                              .isDarkTheme
+                                              ? Color(0xffAFAFBE)
+                                              : Color(0xff737373)))
                                 ]),
                           ),
                           Text(
-                              result.status!.capitalized(),
+                              result.txnStatus.capitalized(),
                               style: TextStyle(
                                   backgroundColor:
                                   Colors.transparent,
                                   fontSize: 12,
                                   fontWeight: FontWeight.w400,
-                                  color: result.status == "finished"
+                                  color: result.txnStatus == "finished"
                                       ? Color(0xff20D030)
                                       : settingsStore
                                       .isDarkTheme
