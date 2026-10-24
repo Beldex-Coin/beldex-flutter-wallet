@@ -290,7 +290,7 @@
   "swap_time_remaining": "Thời gian còn lại: {value}",
   "swap_transaction_preview": "Xem trước giao dịch",
   "swap_you_get": "Bạn nhận",
-  "swapNotAvailable": "Chức năng hoán đổi BDX hiện không khả dụng",
+  "swapNotAvailable": "Chức năng hoán đổi hiện không khả dụng",
   "sync_status_connecting": "Đang kết nối",
   "sync_status_failed_connect": "Kết nối đến node thất bại",
   "sync_status_starting_sync": "Đang bắt đầu đồng bộ",

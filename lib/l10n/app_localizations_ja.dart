@@ -916,7 +916,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get swap_you_get => '受取額';
 
   @override
-  String get swapNotAvailable => '現在、BDXスワップは利用できません';
+  String get swapNotAvailable => '現在、スワップは利用できません';
 
   @override
   String get sync_status_connecting => '接続中';

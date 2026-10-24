@@ -916,7 +916,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get swap_you_get => 'Вы получаете';
 
   @override
-  String get swapNotAvailable => 'Обмен BDX в данный момент недоступен.';
+  String get swapNotAvailable => 'Обмен в данный момент недоступен.';
 
   @override
   String get sync_status_connecting => 'Подключение';

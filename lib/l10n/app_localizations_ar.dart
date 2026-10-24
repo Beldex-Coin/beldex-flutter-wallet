@@ -916,7 +916,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get swap_you_get => 'أنت تحصل على';
 
   @override
-  String get swapNotAvailable => 'تبديل BDX غير متاح في الوقت الحالي';
+  String get swapNotAvailable => 'التبديل غير متاح في الوقت الحالي';
 
   @override
   String get sync_status_connecting => 'جارٍ الاتصال';

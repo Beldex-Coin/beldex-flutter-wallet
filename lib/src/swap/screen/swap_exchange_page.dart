@@ -662,7 +662,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
           RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-                text: 'BDX',
+                text: 'BDX ',
                 style: TextStyle(
                     backgroundColor: Colors.transparent,
                     color: Color(0xff20D030),

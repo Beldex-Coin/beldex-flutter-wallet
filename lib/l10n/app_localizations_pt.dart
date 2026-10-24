@@ -916,7 +916,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get swap_you_get => 'Você recebe';
 
   @override
-  String get swapNotAvailable => 'O BDX Swap não está disponível no momento.';
+  String get swapNotAvailable => 'O Swap não está disponível no momento.';
 
   @override
   String get sync_status_connecting => 'Conectando';

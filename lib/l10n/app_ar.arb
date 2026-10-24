@@ -290,7 +290,7 @@
   "swap_time_remaining": "الوقت المتبقي: {value}",
   "swap_transaction_preview": "معاينة المعاملة",
   "swap_you_get": "أنت تحصل على",
-  "swapNotAvailable": "تبديل BDX غير متاح في الوقت الحالي",
+  "swapNotAvailable": "التبديل غير متاح في الوقت الحالي",
   "sync_status_connecting": "جارٍ الاتصال",
   "sync_status_failed_connect": "فشل الاتصال بالعقدة",
   "sync_status_starting_sync": "بدء المزامنة",

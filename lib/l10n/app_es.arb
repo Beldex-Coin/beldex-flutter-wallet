@@ -290,7 +290,7 @@
   "swap_time_remaining": "Tiempo restante: {value}",
   "swap_transaction_preview": "Vista previa de la transacción",
   "swap_you_get": "Recibes",
-  "swapNotAvailable": " El intercambio BDX no está disponible por el momento",
+  "swapNotAvailable": "El intercambio no está disponible por el momento",
   "sync_status_connecting": "Conectando",
   "sync_status_failed_connect": "Error al conectar con el nodo",
   "sync_status_starting_sync": "Iniciando sincronización",

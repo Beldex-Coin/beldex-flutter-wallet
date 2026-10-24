@@ -916,7 +916,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get swap_you_get => '받는 자산';
 
   @override
-  String get swapNotAvailable => ' 현재 BDX 스왑을 사용할 수 없습니다.';
+  String get swapNotAvailable => '현재 스왑을 사용할 수 없습니다.';
 
   @override
   String get sync_status_connecting => '연결 중';

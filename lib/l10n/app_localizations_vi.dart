@@ -916,7 +916,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get swap_you_get => 'Bạn nhận';
 
   @override
-  String get swapNotAvailable => 'Chức năng hoán đổi BDX hiện không khả dụng';
+  String get swapNotAvailable => 'Chức năng hoán đổi hiện không khả dụng';
 
   @override
   String get sync_status_connecting => 'Đang kết nối';

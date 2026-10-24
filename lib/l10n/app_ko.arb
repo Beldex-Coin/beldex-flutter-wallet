@@ -290,7 +290,7 @@
   "swap_time_remaining": "남은 시간: {value}",
   "swap_transaction_preview": "거래 미리보기",
   "swap_you_get": "받는 자산",
-  "swapNotAvailable": " 현재 BDX 스왑을 사용할 수 없습니다.",
+  "swapNotAvailable": "현재 스왑을 사용할 수 없습니다.",
   "sync_status_connecting": "연결 중",
   "sync_status_failed_connect": "노드에 연결하지 못했습니다",
   "sync_status_starting_sync": "동기화 시작 중",

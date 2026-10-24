@@ -290,7 +290,7 @@
   "swap_time_remaining": "Оставшееся время: {value}",
   "swap_transaction_preview": "Предварительный просмотр транзакции",
   "swap_you_get": "Вы получаете",
-  "swapNotAvailable": "Обмен BDX в данный момент недоступен.",
+  "swapNotAvailable": "Обмен в данный момент недоступен.",
   "sync_status_connecting": "Подключение",
   "sync_status_failed_connect": "Не удалось подключиться к узлу",
   "sync_status_starting_sync": "Начало синхронизации",

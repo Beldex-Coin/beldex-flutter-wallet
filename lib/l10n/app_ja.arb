@@ -290,7 +290,7 @@
   "swap_time_remaining": "残り時間：{value}",
   "swap_transaction_preview": "取引プレビュー",
   "swap_you_get": "受取額",
-  "swapNotAvailable": "現在、BDXスワップは利用できません",
+  "swapNotAvailable": "現在、スワップは利用できません",
   "sync_status_connecting": "接続中",
   "sync_status_failed_connect": "ノードへの接続に失敗しました",
   "sync_status_starting_sync": "同期開始中",
