@@ -59,8 +59,17 @@ abstract class AccountListStoreBase with Store {
   }
 
   Future<void> _updateAccountList() async {
-    await _accountList.refresh();
-    accounts = await _accountList.getAllAsync();
+    try {
+      final currentAccounts = await _accountList.getAllAsync();
+      if (currentAccounts.isNotEmpty || accounts.isEmpty) {
+        accounts = currentAccounts;
+      }
+
+      await _accountList.refresh();
+      accounts = await _accountList.getAllAsync();
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future addAccount({required String label}) async {
@@ -88,6 +97,12 @@ abstract class AccountListStoreBase with Store {
       _accountList = wallet.getAccountList();
       _onAccountsChangeSubscription =
           _accountList.accounts.listen((accounts) => this.accounts = accounts);
+
+      final initialAccounts = await _accountList.getAllAsync();
+      if (initialAccounts.isNotEmpty || accounts.isEmpty) {
+        accounts = initialAccounts;
+      }
+
       updateAccountList();
 
       return;
