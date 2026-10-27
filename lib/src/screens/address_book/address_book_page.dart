@@ -187,21 +187,6 @@ class AddressBookPage extends BasePage {
                                 },
                               ),
                               ]),
-                      startActionPane: ActionPane(
-                          motion: const DrawerMotion(),
-                          dismissible: DismissiblePane(
-                            onDismissed: () async {
-                              await addressBookStore.delete(
-                                  contact: contact);
-                              await addressBookStore
-                                  .updateContactList();
-                            },
-                            confirmDismiss: () async {
-                              return await showAlertDialog(
-                                  context);
-                            },
-                          ),
-                          children: []),
                             child: Container(
                                 height: MediaQuery.sizeOf(context).height *
                                     0.55 /
