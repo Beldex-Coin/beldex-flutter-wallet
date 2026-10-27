@@ -404,3 +404,28 @@ CreateTransactionModel orderInfoToCreateTransactionModel(OrderInfo? order) {
   );
   return CreateTransactionModel(result: result, payTill: order.payTill, orderInfo: order);
 }
+
+String formatBeldexDisplayAmount(String value) {
+  final normalized = value.replaceAll(',', '.').trim();
+  final parsed = double.tryParse(normalized);
+  if (parsed == null) {
+    return normalized;
+  }
+
+  final formatter = NumberFormat.decimalPattern('en_us')
+    ..minimumFractionDigits = 0
+    ..maximumFractionDigits = 9;
+  return formatter.format(parsed);
+}
+
+String localizedNotEnoughFundsError(String error, AppLocalizations l10n) {
+  final balanceMatch = RegExp(r'overall balance only\s+([0-9.,]+)', caseSensitive: false)
+      .firstMatch(error);
+  final amountMatch = RegExp(r'sent amount\s+([0-9.,]+)', caseSensitive: false)
+      .firstMatch(error);
+
+  final balance = formatBeldexDisplayAmount(balanceMatch?.group(1) ?? '0');
+  final amount = formatBeldexDisplayAmount(amountMatch?.group(1) ?? '0');
+
+  return l10n.not_enough_money_to_transfer(amount, balance);
+}

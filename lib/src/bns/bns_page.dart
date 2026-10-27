@@ -25,6 +25,7 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 
 import '../../l10n.dart';
 import '../../routes.dart';
+import '../swap/util/utils.dart';
 import 'bns_commit_transaction_loader.dart';
 import 'bns_price_item.dart';
 import 'bns_purchase_options.dart';
@@ -1346,6 +1347,10 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
           errorMessage = tr(context).bnsOwnerAndBackupDifferent;
         } else if (state.error.contains('Failed to get output distribution')) {
           errorMessage = tr(context).failedToGetOutputDistribution;
+        } else if (state.error.contains('Not enough money to transfer') ||
+            state.error.contains('overall balance only') ||
+            state.error.contains('sent amount')) {
+          errorMessage = localizedNotEnoughFundsError(state.error, tr(context));
         }
         showSimpleBeldexDialog(context, tr(context).alert, errorMessage,
             onPressed: (_) {
