@@ -1,12 +1,21 @@
-import 'package:beldex_wallet/src/swap/api_service/get_exchange_amount_api_service.dart';
-import 'package:beldex_wallet/src/swap/model/get_exchange_amount_model.dart';
+import 'package:beldex_wallet/src/swap/exchange/exchange_manager.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/exchange_rate.dart';
 
 class GetExchangeAmountApiClient {
-  late GetExchangeAmountModel? data;
-  GetExchangeAmountApiService services = GetExchangeAmountApiService();
+  ExchangeRate? data;
 
-  Future<GetExchangeAmountModel?> getExchangeAmountData(context, Map<String?, String?> params) async {
-    data = await services.getSignature(params);
+  Future<ExchangeRate?> getExchangeAmountData(context, Map<String, String> params) async {
+    final service = ExchangeManager.selectedService;
+    if (service == null) {
+      return null;
+    }
+    data = await service.getExchangeRate(
+      fromCurrency: params['from'] ?? '',
+      fromNetwork: params['fromNetwork'] ?? '',
+      toCurrency: params['to'] ?? '',
+      toNetwork: params['toNetwork'] ?? '',
+      amount: params['amountFrom'] ?? params['amount'] ?? '0',
+    );
     return data;
   }
 }

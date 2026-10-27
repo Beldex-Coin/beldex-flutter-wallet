@@ -17,6 +17,7 @@
         android:label="Beldex Wallet"
         android:icon="@mipmap/ic_launcher"
         android:extractNativeLibs="true"
+        android:allowBackup="false"
         android:usesCleartextTraffic="true"
         tools:replace="android:extractNativeLibs">
         <activity

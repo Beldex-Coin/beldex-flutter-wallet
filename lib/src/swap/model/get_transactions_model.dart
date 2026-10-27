@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import '../exchange/models/order_info.dart';
+
 GetTransactionsModel getTransactionsModelFromJson(String str) => GetTransactionsModel.fromJson(json.decode(str));
 
 String getTransactionsModelToJson(GetTransactionsModel data) => json.encode(data.toJson());
@@ -13,12 +15,16 @@ class GetTransactionsModel {
   String? id;
   List<GetTransactionResult>? result;
   Error? error;
+  String? payTill;
+  OrderInfo? orderInfo;
 
   GetTransactionsModel({
     this.jsonrpc,
     this.id,
     this.result,
     this.error,
+    this.payTill,
+    this.orderInfo,
   });
 
   factory GetTransactionsModel.fromJson(Map<String, dynamic> json) => GetTransactionsModel(
@@ -26,6 +32,8 @@ class GetTransactionsModel {
     id: json["id"],
     result: json["result"] == null ? [] : List<GetTransactionResult>.from(json["result"]!.map((x) => GetTransactionResult.fromJson(x))),
     error: json["error"] == null ? null : Error.fromJson(json["error"]),
+    payTill: json["payTill"] == null ? null : json["payTill"],
+    orderInfo: json["orderInfo"] == null ? null : OrderInfo.fromJson(json["orderInfo"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -33,6 +41,8 @@ class GetTransactionsModel {
     "id": id,
     "result": result == null ? [] : List<dynamic>.from(result!.map((x) => x.toJson())),
     "error": error?.toJson(),
+    "payTill":payTill,
+    "orderInfo":orderInfo,
   };
 }
 

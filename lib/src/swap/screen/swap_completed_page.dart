@@ -3,11 +3,9 @@ import 'dart:async';
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
 import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
-import 'package:beldex_wallet/src/util/constants.dart';
 import 'package:beldex_wallet/src/util/network_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,7 +15,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../../routes.dart';
 import '../../util/clipboard_helper.dart';
 import '../../widgets/no_internet.dart';
-import '../api_client/get_status_api_client.dart';
 import '../dialog/input_output_hash_dialog.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
@@ -88,8 +85,6 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
 
   late TransactionStatus transactionStatus;
   late Timer timer;
-  late GetStatusApiClient getStatusApiClient;
-  late List<String> stored = [];
   late GetTransactionsProvider getTransactionsProvider;
   late NetworkProvider networkProvider;
   bool _isInitialized = false;
@@ -97,14 +92,11 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
   @override
   void initState() {
     transactionStatus = widget.transactionStatus;
-    getTransactionIds(swapTransactionHistoryFileName, transactionStatus.walletAddress).then((List<String> ids) {
-      stored = ids;
-    });
     Future.delayed(Duration(seconds: 2), () {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Provider.of<GetTransactionsProvider>(context, listen: false)
             .getTransactionsData(
-            context, {"id": "${transactionStatus.transactionModel.result?.id}"});
+            context, {"id": "${transactionStatus.transactionModel.txnId}", "destinationAddress": "${transactionStatus.transactionModel.payoutAddress}"}, exchangeName: transactionStatus.exchangeName);
       });
     });
     super.initState();
@@ -631,8 +623,9 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                 child: ElevatedButton(
                   onPressed: () {
                     if(networkProvider.isConnected) {
-                      Navigator.of(context).pop(true);
-                      Navigator.of(context).pushNamed(Routes.swapTransactionList, arguments: SwapTransactionHistory(stored));
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        Routes.swapTransactionList, (route) => route.isFirst,
+                        arguments: SwapTransactionHistory(transactionStatus.walletAddress, exchangeName: transactionStatus.exchangeName));
                     } else {
                       Fluttertoast.showToast(
                         msg: tr(context).networkErrorCheckConnection,
@@ -670,9 +663,9 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                 child: ElevatedButton(
                   onPressed: () {
                     if(networkProvider.isConnected) {
-                      Navigator.of(context).pop(true);
-                      Navigator.of(context, rootNavigator: true).pushNamed(
-                          Routes.swapExchange, arguments: transactionStatus.walletAddress);
+                      Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
+                          Routes.swapExchange, (route) => route.isFirst,
+                          arguments: transactionStatus.walletAddress);
                     } else {
                       Fluttertoast.showToast(
                         msg: tr(context).networkErrorCheckConnection,

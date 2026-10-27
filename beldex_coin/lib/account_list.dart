@@ -6,7 +6,12 @@ import 'package:beldex_coin/src/native/account_list.dart' as account_list;
 
 import 'package:beldex_coin/beldex_coin_structs.dart';
 
-void refreshAccounts() => account_list.accountRefreshNative();
+void _refreshAccounts(void _) => account_list.accountRefreshNative();
+
+/// Runs the blocking native account refresh on a background isolate so the
+/// wallet mutex wait cannot stall the UI thread.
+Future<void> refreshAccounts() =>
+    compute<void, void>(_refreshAccounts, null);
 
 List<AccountRow> getAllAccount() {
   final size = account_list.accountSizeNative();

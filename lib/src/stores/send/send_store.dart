@@ -49,6 +49,8 @@ abstract class SendStoreBase with Store {
   @observable
   String cryptoAmount='';
 
+  bool sendAll = false;
+
   @observable
   bool isValid=false;
 
@@ -87,12 +89,13 @@ abstract class SendStoreBase with Store {
 
     try {
       final _amount = amount ??
-          (cryptoAmount == t.all
+          (sendAll
               ? null
               : cryptoAmount.replaceAll(',', '.'));
+      sendAll = false;
       final credentials = BeldexTransactionCreationCredentials(
           address: address,
-          amount: _amount!,
+          amount: _amount,
           priority: tPriority ?? settingsStore.transactionPriority);
 
       _pendingTransaction = await walletService.createTransaction(credentials);
@@ -220,15 +223,21 @@ abstract class SendStoreBase with Store {
 
   @action
   void setSendAll(AppLocalizations t) {
-    cryptoAmount = t.all;
-    fiatAmount = '';
+    sendAll = true;
+
+    if (cryptoAmount.isNotEmpty) {
+      _calculateFiatAmount();
+    } else {
+      fiatAmount = '';
+    }
   }
 
   @action
   void changeCryptoAmount(String amount) {
+    sendAll = false;
     cryptoAmount = amount;
 
-    if (cryptoAmount != null && cryptoAmount.isNotEmpty) {
+    if (cryptoAmount.isNotEmpty) {
       _calculateFiatAmount();
     } else {
       fiatAmount = '';
@@ -239,7 +248,7 @@ abstract class SendStoreBase with Store {
   void changeFiatAmount(String amount) {
     fiatAmount = amount;
 
-    if (fiatAmount != null && fiatAmount.isNotEmpty) {
+    if (fiatAmount.isNotEmpty) {
       _calculateCryptoAmount();
     } else {
       cryptoAmount = '';
@@ -346,7 +355,7 @@ abstract class SendStoreBase with Store {
     }
 
     isValid = true;
-    errorMessage = (isValid ? '' : t.error_text_address)!;
+    errorMessage = (isValid ? '' : t.error_text_address);
   }
 
   bool compareAvailableBalance(String amount, int availableBalance) {

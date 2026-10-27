@@ -49,8 +49,12 @@ abstract class AccountListStoreBase with Store {
 //  }
 
   void updateAccountList() {
-    _accountList.refresh();
-    accounts = _accountList.getAll();
+    unawaited(_updateAccountList());
+  }
+
+  Future<void> _updateAccountList() async {
+    await _accountList.refresh();
+    accounts = await _accountList.getAllAsync();
   }
 
   Future addAccount({required String label}) async {

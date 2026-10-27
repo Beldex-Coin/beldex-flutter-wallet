@@ -56,6 +56,11 @@ class NewStakeFormState extends State<NewStakeForm>
 
   final _formKey = GlobalKey<FormState>();
 
+  // Estimated fee text computed off the UI isolate; the native fee estimation
+  // can block on the wallet mutex, so it must never run during build().
+  String _estimatedFeeText = '--';
+  int _feeEstimateGeneration = 0;
+
   var controller = StreamController<double>.broadcast();
   double? position;
 
@@ -71,6 +76,24 @@ class NewStakeFormState extends State<NewStakeForm>
     )
       ..forward()
       ..repeat(reverse: true);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _refreshEstimatedFee();
+    });
+  }
+
+  Future<void> _refreshEstimatedFee() async {
+    final generation = ++_feeEstimateGeneration;
+
+    try {
+      final fee = await calculateEstimatedFeeAsync(
+          priority: BeldexTransactionPriority.flash);
+      if (!mounted || generation != _feeEstimateGeneration) return;
+      setState(() => _estimatedFeeText = '$fee');
+    } catch (_) {
+      if (!mounted || generation != _feeEstimateGeneration) return;
+      setState(() => _estimatedFeeText = '--');
+    }
   }
 
   @override
@@ -306,8 +329,7 @@ class NewStakeFormState extends State<NewStakeForm>
                                   .grey, //Theme.of(context).textTheme.overline.backgroundColor,
                             )),
                         Text(
-                            '${calculateEstimatedFee(priority: BeldexTransactionPriority.flash)}',
-                            //'${calculateEstimatedFee(priority: BeldexTransactionPriority.slow)}',
+                            _estimatedFeeText,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,

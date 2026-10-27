@@ -1,8 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/order_info.dart';
+import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/services/platform_channel.dart';
 import 'package:flutter_svg/svg.dart';
@@ -11,7 +15,45 @@ import 'package:path_provider/path_provider.dart';
 import 'data_class.dart';
 import 'package:path/path.dart' as p;
 
+import 'circular_progress_bar.dart';
+import 'swap_coin_svg_image.dart';
+
 const swapTransactionsListKey = "swap_transaction_list";
+
+Widget swapCoinImage(String? url, {double? width, double? height, Color? color}) {
+  if (url == null || url.isEmpty) return Icon(Icons.error, size: width ?? 15);
+  final List<double> grayscaleMatrix = [
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0.2126, 0.7152, 0.0722, 0, 0,
+    0,      0,      0,      1, 0,
+  ];
+  Widget image;
+  if (url.toLowerCase().endsWith('.svg')) {
+    image = SwapCoinSvgImage(
+      url: url,
+      width: width,
+      height: height,
+      color: color,
+    );
+  } else {
+    image = CachedNetworkImage(
+      imageUrl: url,
+      width: width,
+      height: height,
+      placeholder: (context, url) => SizedBox(
+        width: width,
+        height: height,
+        child: circularProgressBar(color ?? Color(0xff737373), 1.0),
+      ),
+      errorWidget: (context, url, error) => Icon(Icons.error, size: width ?? 15),
+    );
+  }
+  return ColorFiltered(
+    colorFilter: ColorFilter.matrix(grayscaleMatrix),
+    child: image,
+  );
+}
 
 String toStringAsFixed(String? amount) {
   if (amount == null || amount.trim().isEmpty) {
@@ -27,22 +69,22 @@ String toStringAsFixed(String? amount) {
 }
 
 String getDate(int timeStamp) {
-  final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+  final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
   return DateFormat('dd MMM yyyy').format(date);
 }
 
 String getDateAndTime(int timeStamp) {
-  final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+  final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
   return DateFormat('dd MMM yyyy, HH:mm:ss').format(date);
 }
 
 String getTransactionDate(int timeStamp) {
-  final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+  final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
   return DateFormat('dd MMM yyyy').format(date);
 }
 
 String getTransactionTime(int timeStamp) {
-  final date = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+  final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
   return DateFormat('HH:mm:ss').format(date);
 }
 
@@ -63,6 +105,20 @@ String processUrl(String? url, String? hash) {
 Future<void> openUrl({required MethodChannel methodChannelPlatform, required String? url}) async => await methodChannelPlatform.invokeMethod("action_view",<String, dynamic>{
   'url': url,
 });
+
+/// Terms of Use URL for the given exchange. Falls back to Changelly's when
+/// the exchange is not Quickex.
+String termsOfUseUrl(bool isQuickex) =>
+    isQuickex
+        ? 'https://quickex.io/docs/terms-of-use'
+        : 'https://changelly.com/terms-of-use';
+
+/// Privacy Policy URL for the given exchange. Falls back to Changelly's when
+/// the exchange is not Quickex.
+String privacyPolicyUrl(bool isQuickex) =>
+    isQuickex
+        ? 'https://quickex.io/docs/privacy-policy'
+        : 'https://changelly.com/privacy-policy';
 
 Future<void> storeTransactionIds(String fileName, String key, dynamic transactionId) async {
   try {
@@ -144,6 +200,16 @@ bool syncStatus(SyncStatus status) {
   return status is SyncedSyncStatus || status.blocksLeft == 0;
 }
 
+/// Formats the pay-in confirmation count of a swap with proper pluralization.
+/// Accepts an int, num, or a numeric String (as returned by the exchange APIs);
+/// non-numeric/null values default to 0.
+String formatBlockConfirmations(AppLocalizations t, dynamic confirmations) {
+  final count = confirmations is num
+      ? confirmations.toInt()
+      : (int.tryParse('${confirmations ?? ''}') ?? 0);
+  return count == 1 ? t.blockConfirmed(count) : t.blocksConfirmed(count);
+}
+
 Coins btcCoin = Coins('BTC', 'Bitcoin', "", 'bitcoin', 'BTC');
 Coins bdxCoin = Coins('BDX', 'Beldex', "", 'beldex', 'BDX');
 
@@ -182,7 +248,7 @@ Widget PairsWidget({required SettingsStore settingsStore, required String? from,
             to?.toUpperCase() ?? "",
             style: TextStyle(
                 fontSize: 12,
-                fontWeight: FontWeight.w800  ,
+                fontWeight: FontWeight.w800,
                 color: settingsStore.isDarkTheme
                     ? Color(0xffFFFFFF)
                     : Color(0xff060606)),
@@ -199,7 +265,7 @@ String networkWithUppercase(String? blockChain) {
       : "...";
 }
 
-Widget networkWidget(SettingsStore settingsStore, String? blockChain) {
+Widget networkWidget(SettingsStore settingsStore, String? network) {
   return Flexible(
     flex: 1,
     child: Container(
@@ -224,7 +290,7 @@ Widget networkWidget(SettingsStore settingsStore, String? blockChain) {
                 fontWeight: FontWeight.w500),
             children: [
               TextSpan(
-                  text: networkWithUppercase(blockChain),
+                  text: networkWithUppercase(network),
                   style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.normal,
@@ -249,4 +315,92 @@ String networkWithLowercase(String? blockChain) {
   return (blockChain?.isNotEmpty ?? false)
       ? blockChain!.replaceAll("_", " ").toLowerCase()
       : "...";
+}
+
+int toMsEpoch(dynamic value) {
+  final now = DateTime.now().millisecondsSinceEpoch;
+
+  if (value == null || value.toString().isEmpty) {
+    return now;
+  }
+
+  // Handle date strings such as:
+  // "2025-01-21T12:00:00Z"
+  if (value is String && num.tryParse(value) == null) {
+    final date = DateTime.tryParse(value);
+
+    return date?.millisecondsSinceEpoch ?? now;
+  }
+
+  final num? number = value is num
+      ? value
+      : num.tryParse(value.toString());
+
+  if (number == null) {
+    return now;
+  }
+
+  final int digits = number.abs().floor().toString().length;
+
+  // Nanoseconds → milliseconds
+  if (digits >= 19) {
+    return (number / 1000000).floor();
+  }
+
+  // Microseconds → milliseconds
+  if (digits >= 16) {
+    return (number / 1000).floor();
+  }
+
+  // Milliseconds
+  if (digits >= 11) {
+    return number.floor();
+  }
+
+  // Seconds → milliseconds
+  return (number * 1000).floor();
+}
+
+/// Returns true if the given timestamp is within the last 3 hours.
+/// Parses various timestamp forms via [toMsEpoch]; a missing/invalid value
+/// falls back to now, which counts as "within 3 hours".
+bool isWithin3Hours(dynamic value) {
+  final now = DateTime.now().millisecondsSinceEpoch;
+  final ts = toMsEpoch(value);
+  return now - ts <= const Duration(hours: 3).inMilliseconds;
+}
+
+/// Convert a common [OrderInfo] (from any exchange) into the historical
+/// Changelly-shaped [CreateTransactionModel] used by the downstream screens.
+///
+/// For Changelly the raw response already IS a [Result], so it is passed
+/// through untouched (preserving every field incl. payTill/rawResponse).
+/// For other exchanges a [Result] is built from the common [OrderInfo] fields.
+CreateTransactionModel orderInfoToCreateTransactionModel(OrderInfo? order) {
+  if (order == null) {
+    return CreateTransactionModel(error: Error(message: 'Order creation failed'));
+  }
+
+  final result = Result(
+    id: '${order.orderId}',
+    type: order.type,
+    networkFee: order.networkFee,
+    apiExtraFee: order.apiExtraFee,
+    payinAddress: order.payinAddress,
+    payinExtraId: order.payinExtraId,
+    payoutAddress: order.payoutAddress,
+    payoutExtraId: order.payoutExtraId,
+    refundAddress: order.refundAddress,
+    refundExtraId: order.refundExtraId,
+    amountExpectedFrom: order.amountExpectedFrom,
+    amountTo: order.amountTo,
+    amountExpectedTo: order.amountExpectedTo,
+    status: order.status,
+    currencyFrom: order.currencyFrom,
+    currencyTo: order.currencyTo,
+    createdAt: order.createdAt,
+    payinConfirmations: order.payinConfirmations,
+    trackUrl: order.rawResponse is Map<String, dynamic> ? order.rawResponse['trackUrl']?.toString() : null,
+  );
+  return CreateTransactionModel(result: result, payTill: order.payTill, orderInfo: order);
 }

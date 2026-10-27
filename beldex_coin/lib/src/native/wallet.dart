@@ -105,7 +105,7 @@ final getSecretSpendKeyNative = beldexApi
     .asFunction<SecretSpendKey>();
 
 final getPublicSpendKeyNative = beldexApi
-    .lookup<NativeFunction<secret_view_key>>('public_spend_key')
+    .lookup<NativeFunction<public_spend_key>>('public_spend_key')
     .asFunction<PublicSpendKey>();
 
 final closeCurrentWalletNative = beldexApi

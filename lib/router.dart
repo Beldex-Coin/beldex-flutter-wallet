@@ -1,9 +1,8 @@
-import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
-import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_currencies_full_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_exchange_amount_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_pairs_params_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
+import 'package:beldex_wallet/src/swap/provider/exchange_selection_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/swap_transaction_expansion_status_change_notifier.dart';
 import 'package:beldex_wallet/src/swap/provider/valdiate_extra_id_field_provider.dart';
 import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
@@ -648,6 +647,7 @@ class Router {
           return MultiProvider(
             providers: [
               ChangeNotifierProvider<SwapExchangePageChangeNotifier>(create: (_) => SwapExchangePageChangeNotifier()),
+              ChangeNotifierProvider<ExchangeSelectionProvider>(create: (_) => ExchangeSelectionProvider()),
               ChangeNotifierProvider<GetCurrenciesFullProvider>(create: (_) => GetCurrenciesFullProvider()),
               ChangeNotifierProvider<GetPairsParamsProvider>(create: (_) => GetPairsParamsProvider()),
               ChangeNotifierProvider<GetExchangeAmountProvider>(create: (_) => GetExchangeAmountProvider())
@@ -660,6 +660,7 @@ class Router {
           return MultiProvider(
             providers: [
               ChangeNotifierProvider<ValidateAddressProvider>(create: (_) => ValidateAddressProvider()),
+              ChangeNotifierProvider<RefundValidateAddressProvider>(create: (_) => RefundValidateAddressProvider()),
               ChangeNotifierProvider<ValidateExtraIdFieldProvider>(create: (_) => ValidateExtraIdFieldProvider())
             ],
             child: SwapWalletAddressPage(exchangeData : settings.arguments as ExchangeData),
@@ -691,11 +692,7 @@ class Router {
         });
       case Routes.swapTransactionList:
         return MaterialPageRoute<void>(builder: (context) {
-          return MultiProvider(
-            providers: [
-              ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider()),
-              ChangeNotifierProvider<SwapTransactionExpansionStatusChangeNotifier>(create: (_) => SwapTransactionExpansionStatusChangeNotifier())
-            ],
+          return ChangeNotifierProvider<SwapTransactionExpansionStatusChangeNotifier>(create: (_) => SwapTransactionExpansionStatusChangeNotifier(),
             child: SwapExchangeTransactionHistoryPage(swapTransactionHistory: settings.arguments as SwapTransactionHistory),
           );
         });
@@ -714,7 +711,12 @@ class Router {
         });
       case Routes.swapTransactionCompleted:
         return MaterialPageRoute<void>(builder: (context) {
-          return SwapTransactionCompletedPage(transactionStatus: settings.arguments as GetTransactionStatus);
+          return MultiProvider(
+            providers: [
+              ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider())
+            ],
+            child: SwapTransactionCompletedPage(transactionStatus: settings.arguments as GetTransactionStatus),
+          );
         });
       case Routes.swapTransactionUnPaid:
         return MaterialPageRoute<void>(builder: (context) {
@@ -724,7 +726,8 @@ class Router {
         return MaterialPageRoute<void>(builder: (context) {
           return MultiProvider(
             providers: [
-              ChangeNotifierProvider<GetCurrenciesFullProvider>(create: (_) => GetCurrenciesFullProvider())
+              ChangeNotifierProvider<GetCurrenciesFullProvider>(create: (_) => GetCurrenciesFullProvider()),
+              ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider())
             ],
             child: SwapTransactionExchangingPage(transactionStatus : settings.arguments as GetTransactionStatusWithWalletAddress),
           );
@@ -734,7 +737,7 @@ class Router {
           return MultiProvider(
             providers: [
               Provider(create: (_) => SyncStore(walletService: walletService),),
-              ChangeNotifierProvider<GetCurrenciesFullProvider>(create: (_) => GetCurrenciesFullProvider()),
+              ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider())
             ],
             child: SwapTransactionPaymentDetailsPage(transactionDetails : settings.arguments as GetTransactionStatusWithWalletAddress),
           );

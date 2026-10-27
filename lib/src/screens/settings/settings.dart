@@ -360,7 +360,7 @@ class SettingsFormState extends State<SettingsForm> {
                                           padding:
                                               const EdgeInsets.all(8.0),
                                           child: Text(
-                                            'Decimals',
+                                            t.settings_balance_detail,
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 fontSize: 16.0,
@@ -489,7 +489,7 @@ class SettingsFormState extends State<SettingsForm> {
                                               padding:
                                                   EdgeInsets.all(8.0),
                                               child: Text(
-                                                'Currency',
+                                                t.settings_currency,
                                                 style: TextStyle(
                                                   backgroundColor: Colors.transparent,
                                                   fontSize: 16.0,

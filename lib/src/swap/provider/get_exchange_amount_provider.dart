@@ -1,35 +1,58 @@
 import 'dart:io';
 
-import 'package:beldex_wallet/src/swap/api_service/get_exchange_amount_api_service.dart';
+import 'package:beldex_wallet/src/swap/exchange/base_exchange_service.dart';
+import 'package:beldex_wallet/src/swap/exchange/exchange_manager.dart';
+import 'package:beldex_wallet/src/swap/exchange/models/exchange_rate.dart';
 import 'package:flutter/cupertino.dart';
-import '../model/get_exchange_amount_model.dart';
 
 class GetExchangeAmountProvider with ChangeNotifier {
-  late GetExchangeAmountModel? data;
+  ExchangeRate? data;
 
   bool loading = true;
   bool _disposed = false;
-  GetExchangeAmountApiService services = GetExchangeAmountApiService();
+  BaseExchangeService? _service;
   bool transactionStatus = false;
-  String? _error;
-  String? get error => _error;
+
+  // True when the selected pair can't be traded (e.g. QuickEX "Pair not active").
+  // Keeps the swap screen visible with an "Unsupported exchange pair" message.
+  bool _pairUnsupported = false;
+  bool get pairUnsupported => _pairUnsupported;
 
   void getExchangeAmountData(Map<String, String> params) async {
     loading = true;
-    _error = null;
+    // Keep the last known pair state during the request so the build gate
+    // doesn't fall through to a blank box while the rate call is in flight.
+    if(!_disposed) notifyListeners();
     try {
-      final response = await services.getSignature(params);
+      _service = ExchangeManager.selectedService;
+      if (_service == null) {
+        return;
+      }
+      final response = await _service!.getExchangeRate(
+        fromCurrency: params['from'] ?? '',
+        fromNetwork: params['fromNetwork'] ?? '',
+        toCurrency: params['to'] ?? '',
+        toNetwork: params['toNetwork'] ?? '',
+        amount: params['amountFrom'] ?? params['amount'] ?? '0'
+      );
       if (response != null) {
         data = response;
+        _pairUnsupported = false;
       } else {
-        _error = "Failed to fetch data.";
+        // No rate for this pair (Changelly returns null for unsupported
+        // pairs), so mark it unsupported to keep the screen visible.
+        _pairUnsupported = true;
       }
     } on SocketException catch (e) {
       print('get exchange amount api SocketException: Failed to connect: $e');
-      _error = "No internet connection.";
     } catch (e) {
-      print('get exchange amount api Unexpected error: $e');
-      _error = "Unexpected error: ${e.toString()}";
+      final msg = e.toString().replaceFirst('Exception: ', '');
+      print('get exchange amount api error: $msg');
+      // Unsupported/troubled pairs (e.g. "Pair ... not active",
+      // "not available on QuickEX") keep the screen visible instead of blank.
+      _pairUnsupported = RegExp(r'pair(?:.*?)\bnot (?:active|found)\b', caseSensitive: false)
+              .hasMatch(msg) ||
+          msg.toLowerCase().contains('not available on quickex');
     } finally {
       loading = false;
       if(!_disposed) notifyListeners();

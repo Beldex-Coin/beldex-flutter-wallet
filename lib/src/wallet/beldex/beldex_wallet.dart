@@ -139,6 +139,7 @@ class BelDexWallet extends Wallet {
   final BehaviorSubject<String> _address;
   final BehaviorSubject<Subaddress> _subaddress;
   int _cachedBlockchainHeight;
+  Node? _node;
 
   TransactionHistory? _cachedTransactionHistory;
   SubaddressList? _cachedSubaddressList;
@@ -148,13 +149,14 @@ class BelDexWallet extends Wallet {
   @override
   Future updateInfo() async {
     _name.value = await getName();
-    final acccountList = getAccountList();
-    acccountList.refresh();
-    _account.value = acccountList.getAll().first;
+    final accountList = getAccountList();
+    await accountList.refresh();
+    final accounts = await accountList.getAllAsync();
+    _account.value = accounts.first;
     final subaddressList = getSubaddress();
     await subaddressList.refresh(
         accountIndex: _account.value != null ? _account.value.id : 0);
-    final subaddresses = subaddressList.getAll();
+    final subaddresses = await subaddressList.getAllAsync();
     _subaddress.value = subaddresses.first;
     print('sub address');
     _address.value = await getAddress();
@@ -174,7 +176,9 @@ class BelDexWallet extends Wallet {
       accountIndex: _account.value.id, addressIndex: _subaddress.value.id);
 
   @override
-  Future<String> getSeed() async => beldex_wallet.getSeed();
+  // Native seed read acquires the wallet mutex and can block while the wallet
+  // is busy; run it off the UI isolate to avoid freezing the main thread.
+  Future<String> getSeed() async => beldex_wallet.getSeedAsync();
 
   @override
   Future<int> getFullBalance() async {
@@ -245,7 +249,9 @@ class BelDexWallet extends Wallet {
   @override
   Future close() async {
     _listener?.stop();
-    beldex_wallet.closeCurrentWallet();
+    // Native close acquires the wallet mutex and can block while the wallet is
+    // busy; run it off the UI isolate to avoid freezing the main thread.
+    await beldex_wallet.closeCurrentWalletAsync();
     await _name.close();
     await _address.close();
     await _subaddress.close();
@@ -255,12 +261,15 @@ class BelDexWallet extends Wallet {
   Future<void> connectToNode(
       {required Node node, bool useSSL = false, bool isLightWallet = false}) async {
     try {
-      _syncStatus.value = ConnectingSyncStatus(getCurrentHeight());
+      _node = node;
+      _syncStatus.value =
+          ConnectingSyncStatus(await beldex_wallet.getCurrentHeightAsync());
 
       // Check if node is online to avoid crash
       final nodeIsOnline = await node.isOnline();
       if (!nodeIsOnline) {
-        _syncStatus.value = FailedSyncStatus(getCurrentHeight());
+        _syncStatus.value =
+            FailedSyncStatus(await beldex_wallet.getCurrentHeightAsync());
         return;
       }
 
@@ -270,9 +279,11 @@ class BelDexWallet extends Wallet {
           password: node.password,*/
           useSSL: useSSL,
           isLightWallet: isLightWallet);
-      _syncStatus.value = ConnectedSyncStatus(getCurrentHeight());
+      _syncStatus.value =
+          ConnectedSyncStatus(await beldex_wallet.getCurrentHeightAsync());
     } catch (e) {
-      _syncStatus.value = FailedSyncStatus(getCurrentHeight());
+      _syncStatus.value =
+          FailedSyncStatus(await beldex_wallet.getCurrentHeightAsync());
       print(e);
     }
   }
@@ -283,18 +294,32 @@ class BelDexWallet extends Wallet {
       _setInitialHeight();
     } catch (_) {}*/
 
-    print('Starting from height: ${getCurrentHeight()}');
-    final prefs =await SharedPreferences.getInstance();
-    await prefs.setInt('currentHeight', getCurrentHeight() ?? 0);
+    final currentHeight = await beldex_wallet.getCurrentHeightAsync();
+    print('Starting from height: $currentHeight');
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('currentHeight', currentHeight);
     try {
       print('Starting from height try');
-      _syncStatus.value = StartingSyncStatus(getCurrentHeight());
+
+      // Do not start the native refresh against an unreachable node
+      final node = _node;
+      if (node != null) {
+        final nodeIsOnline = await node.isOnline();
+        if (!nodeIsOnline) {
+          _syncStatus.value =
+              FailedSyncStatus(await beldex_wallet.getCurrentHeightAsync());
+          return;
+        }
+      }
+
+      _syncStatus.value = StartingSyncStatus(currentHeight);
       beldex_wallet.startRefresh();
       _setListeners();
       _listener?.start();
     } catch (e) {
       print('Starting from height catch');
-      _syncStatus.value = FailedSyncStatus(getCurrentHeight());
+      _syncStatus.value =
+          FailedSyncStatus(await beldex_wallet.getCurrentHeightAsync());
       print(e);
       rethrow;
     }
@@ -328,7 +353,7 @@ class BelDexWallet extends Wallet {
     final _credentials = credentials as BeldexTransactionCreationCredentials;
     final transactionDescription = await transaction_history.createTransaction(
         address: _credentials.address,
-        amount: _credentials.amount!,
+        amount: _credentials.amount,
         priorityRaw: _credentials.priority.serialize(),
         accountIndex: _account.value.id);
     print('transaction created');
@@ -408,10 +433,12 @@ class BelDexWallet extends Wallet {
 
   @override
   Future rescan({int restoreHeight = 0}) async {
-    _syncStatus.value = StartingSyncStatus(getCurrentHeight());
+    _syncStatus.value =
+        StartingSyncStatus(await beldex_wallet.getCurrentHeightAsync());
     setRefreshFromBlockHeight(height: restoreHeight);
     beldex_wallet.rescanBlockchainAsync();
-    _syncStatus.value = StartingSyncStatus(getCurrentHeight());
+    _syncStatus.value =
+        StartingSyncStatus(await beldex_wallet.getCurrentHeightAsync());
   }
 
   void setRecoveringFromSeed() =>
@@ -450,7 +477,7 @@ class BelDexWallet extends Wallet {
 
     getSubaddress()
         .refresh(accountIndex: account.id)
-        .then((dynamic _) => getSubaddress().getAll())
+        .then((dynamic _) => getSubaddress().getAllAsync())
         .then((subaddresses) => _subaddress.value = subaddresses[0]);
   }
 
@@ -493,12 +520,12 @@ class BelDexWallet extends Wallet {
     _listener = beldex_wallet.setListeners(_onNewBlock, _onNewTransaction);
   }
 
-  void _setInitialHeight() {
+  Future<void> _setInitialHeight() async {
     if (walletInfo.isRecovery) {
       return;
     }
 
-    final currentHeight = getCurrentHeight();
+    final currentHeight = await beldex_wallet.getCurrentHeightAsync();
     print('setInitialHeight() $currentHeight');
 
     if (currentHeight <= 1) {
