@@ -463,5 +463,6 @@
   "order_creation_failed_error_message": "Tạo lệnh không thành công",
   "flash_on": "Bật Flash",
   "flash_off": "Tắt Flash",
-  "address_copied": "Đã sao chép địa chỉ"
+  "address_copied": "Đã sao chép địa chỉ",
+  "reconnect_wallet_title": "Kết nối lại ví ?"
 }

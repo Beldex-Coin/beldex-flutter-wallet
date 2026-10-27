@@ -1512,4 +1512,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
+
+  @override
+  String get reconnect_wallet_title => 'Reconectar Carteira?';
 }

@@ -1512,4 +1512,7 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
+
+  @override
+  String get reconnect_wallet_title => 'Reconnecter le portefeuille?';
 }

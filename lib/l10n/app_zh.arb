@@ -463,5 +463,6 @@
   "order_creation_failed_error_message": "订单创建失败",
   "flash_on": "开启 Flash",
   "flash_off": "关闭 Flash",
-  "address_copied": "地址已复制"
+  "address_copied": "地址已复制",
+  "reconnect_wallet_title": "重新连接钱包？"
 }

@@ -1512,4 +1512,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
+
+  @override
+  String get reconnect_wallet_title => '지갑을 다시 연결하시겠습니까?';
 }

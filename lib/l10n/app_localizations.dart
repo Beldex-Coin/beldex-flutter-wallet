@@ -2964,6 +2964,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Spanish'**
   String get seed_language_spanish;
+
+  /// No description provided for @reconnect_wallet_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnect Wallet?'**
+  String get reconnect_wallet_title;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

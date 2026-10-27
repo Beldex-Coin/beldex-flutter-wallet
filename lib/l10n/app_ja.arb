@@ -463,5 +463,6 @@
   "order_creation_failed_error_message": "注文の作成に失敗しました",
   "flash_on": "Flashをオンにする",
   "flash_off": "Flashをオフにする",
-  "address_copied": "アドレスをコピーしました"
+  "address_copied": "アドレスをコピーしました",
+  "reconnect_wallet_title": "ウォレットを再接続しますか？"
 }

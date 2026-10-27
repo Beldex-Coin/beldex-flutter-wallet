@@ -463,5 +463,6 @@
   "order_creation_failed_error_message": "Falha ao criar o pedido",
   "flash_on": "Ativar Flash",
   "flash_off": "Desativar Flash",
-  "address_copied": "Endereço copiado"
+  "address_copied": "Endereço copiado",
+  "reconnect_wallet_title": "Reconectar Carteira?"
 }

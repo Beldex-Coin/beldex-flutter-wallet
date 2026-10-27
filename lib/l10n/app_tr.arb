@@ -463,5 +463,6 @@
   "order_creation_failed_error_message": "Emir oluşturulamadı",
   "flash_on": "Flash'i Aç",
   "flash_off": "Flash'i Kapat",
-  "address_copied": "Adres Kopyalandı"
+  "address_copied": "Adres Kopyalandı",
+  "reconnect_wallet_title": "Cüzdanı Yeniden Bağlamak İster Misiniz?"
 }

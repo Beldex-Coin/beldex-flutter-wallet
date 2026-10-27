@@ -463,5 +463,6 @@
   "order_creation_failed_error_message": "Не удалось создать ордер",
   "flash_on": "Включить Flash",
   "flash_off": "Выключить Flash",
-  "address_copied": "Адрес скопирован"
+  "address_copied": "Адрес скопирован",
+  "reconnect_wallet_title": "Переподключить кошелёк?"
 }

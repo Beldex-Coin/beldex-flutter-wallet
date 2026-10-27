@@ -84,7 +84,7 @@ class _AlertReconnectConfirmDialogState
             mainAxisSize: MainAxisSize.min,
             children: [
               Center(
-                  child: Text('${tr(context).reconnectWallet}?',
+                  child: Text(tr(context).reconnect_wallet_title,
                       style: TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold))),
               Padding(
