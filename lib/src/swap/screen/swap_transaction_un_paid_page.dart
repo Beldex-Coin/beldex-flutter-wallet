@@ -181,7 +181,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                     width: 20,
                     height: 20,
                   ) : SvgPicture.asset(
-                    'assets/images/swap/swa_overdue.svg',
+                    'assets/images/swap/swap_overdue.svg',
                     colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
                         ? Color(0xffAFAFBE)
                         : Color(0xff737373), BlendMode.srcIn),
