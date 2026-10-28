@@ -341,7 +341,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Expiration Height : ',
+                                        '${tr(context).bnsExpirationHeight} : ',
                                         style: TextStyle(
                                             backgroundColor: Colors.transparent,
                                             color: settingsStore.isDarkTheme
