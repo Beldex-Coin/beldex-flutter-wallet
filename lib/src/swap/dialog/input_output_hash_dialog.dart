@@ -30,158 +30,161 @@ class InputOutputDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    return Container(
-      color: Colors.transparent,
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
-        child: Container(
-          padding: EdgeInsetsDirectional.all(15),
-          decoration:
-          BoxDecoration(color: Color(0xff171720).withValues(alpha: 0.55)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                  width: double.infinity,
-                  padding: EdgeInsetsDirectional.only(top:15, bottom: 15, start: 10, end: 10),
-                  decoration: BoxDecoration(
-                      color: settingsStore.isDarkTheme ? Color(0xFF272733) : Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Column(
-                    children: [
-                      Text(tr(context).swap_input_output_hash,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              backgroundColor: Colors.transparent,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              decoration: TextDecoration.none,
-                              color: settingsStore.isDarkTheme ? Color(0xFFEBEBEB) : Color(0xFF222222))),
-                      Container(
-                        decoration: BoxDecoration(
-                            color: settingsStore.isDarkTheme ? Color(0xFF383848) : Color(0xFFEDEDED),
-                            borderRadius: BorderRadius.circular(10)),
-                        margin: EdgeInsetsDirectional.only(top: 15, start: 8, end: 8, bottom: 8),
-                        child: Column(
-                          children: [
-                            Padding(
-                                padding: EdgeInsetsDirectional.only(top: 10, bottom: 15),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsetsDirectional.only(start: 10, end: 15),
-                                      child:  Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(tr(context).swap_input_hash,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  backgroundColor: Colors.transparent,
-                                                  fontSize: 15,
-                                                  decoration: TextDecoration.none,
-                                                  color: settingsStore.isDarkTheme ? Color(0xFFAFAFBE) : Color(0xFF77778B))),
-                                          InkWell(
-                                            onTap: () async {
-                                              await ClipboardHelper.copyWithAutoClear(inputHash);
-                                              await Fluttertoast.showToast(
-                                                msg: tr(context).copied,
-                                                toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
-                                                gravity: ToastGravity.BOTTOM,
-                                                textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
-                                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
-                                              );
-                                            },
-                                            child: SvgPicture.asset(
-                                              'assets/images/swap/copy.svg',
-                                              colorFilter: ColorFilter.mode(Colors.green, BlendMode.srcIn),
-                                              width: 13,
-                                              height: 13,
-                                            ),
-                                          )
-                                        ],
+    return Material(
+      type: MaterialType.transparency,
+      child: Container(
+        color: Colors.transparent,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
+          child: Container(
+            padding: EdgeInsetsDirectional.all(15),
+            decoration:
+            BoxDecoration(color: Color(0xff171720).withValues(alpha: 0.55)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                    width: double.infinity,
+                    padding: EdgeInsetsDirectional.only(top:15, bottom: 15, start: 10, end: 10),
+                    decoration: BoxDecoration(
+                        color: settingsStore.isDarkTheme ? Color(0xFF272733) : Colors.white,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Column(
+                      children: [
+                        Text(tr(context).swap_input_output_hash,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                backgroundColor: Colors.transparent,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                decoration: TextDecoration.none,
+                                color: settingsStore.isDarkTheme ? Color(0xFFEBEBEB) : Color(0xFF222222))),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: settingsStore.isDarkTheme ? Color(0xFF383848) : Color(0xFFEDEDED),
+                              borderRadius: BorderRadius.circular(10)),
+                          margin: EdgeInsetsDirectional.only(top: 15, start: 8, end: 8, bottom: 8),
+                          child: Column(
+                            children: [
+                              Padding(
+                                  padding: EdgeInsetsDirectional.only(top: 10, bottom: 15),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsetsDirectional.only(start: 10, end: 15),
+                                        child:  Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(tr(context).swap_input_hash,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    backgroundColor: Colors.transparent,
+                                                    fontSize: 15,
+                                                    decoration: TextDecoration.none,
+                                                    color: settingsStore.isDarkTheme ? Color(0xFFAFAFBE) : Color(0xFF77778B))),
+                                            InkWell(
+                                              onTap: () async {
+                                                await ClipboardHelper.copyWithAutoClear(inputHash);
+                                                await Fluttertoast.showToast(
+                                                  msg: tr(context).copied,
+                                                  toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
+                                                  backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                                                );
+                                              },
+                                              child: SvgPicture.asset(
+                                                'assets/images/swap/copy.svg',
+                                                colorFilter: ColorFilter.mode(Colors.green, BlendMode.srcIn),
+                                                width: 13,
+                                                height: 13,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsetsDirectional.only(top: 8, bottom: 15, start: 10, end: 10),
-                                      padding: EdgeInsetsDirectional.all(5),
-                                      decoration: BoxDecoration(
-                                          color: settingsStore.isDarkTheme ? Color(0xFF47475E) : Colors.white,
-                                          borderRadius: BorderRadius.circular(10)),
-                                      child: Text(inputHash,
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              backgroundColor: Colors.transparent,
-                                              fontSize: 15,
-                                              decoration: TextDecoration.none,
-                                              color: settingsStore.isDarkTheme ? Color(0xFFFFFFFF) : Color(0xFF222222))),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsetsDirectional.only(start: 10, end: 15),
-                                      child:  Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(tr(context).swap_output_hash,
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                  backgroundColor: Colors.transparent,
-                                                  fontSize: 15,
-                                                  decoration: TextDecoration.none,
-                                                  color: settingsStore.isDarkTheme ? Color(0xFFAFAFBE) : Color(0xFF77778B))),
-                                          InkWell(
-                                            onTap: () async {
-                                              await ClipboardHelper.copyWithAutoClear(outputHash);
-                                              await Fluttertoast.showToast(
-                                                msg: tr(context).copied,
-                                                toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
-                                                gravity: ToastGravity.BOTTOM,
-                                                textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
-                                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
-                                              );
-                                            },
-                                            child: SvgPicture.asset(
-                                              'assets/images/swap/copy.svg',
-                                              colorFilter: ColorFilter.mode(Colors.green, BlendMode.srcIn),
-                                              width: 13,
-                                              height: 13,
-                                            ),
-                                          )
-                                        ],
+                                      Container(
+                                        margin: EdgeInsetsDirectional.only(top: 8, bottom: 15, start: 10, end: 10),
+                                        padding: EdgeInsetsDirectional.all(5),
+                                        decoration: BoxDecoration(
+                                            color: settingsStore.isDarkTheme ? Color(0xFF47475E) : Colors.white,
+                                            borderRadius: BorderRadius.circular(10)),
+                                        child: Text(inputHash,
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                backgroundColor: Colors.transparent,
+                                                fontSize: 15,
+                                                decoration: TextDecoration.none,
+                                                color: settingsStore.isDarkTheme ? Color(0xFFFFFFFF) : Color(0xFF222222))),
                                       ),
-                                    ),
-                                    Container(
-                                      margin: EdgeInsetsDirectional.only(top: 8, start: 10, end: 10),
-                                      padding: EdgeInsetsDirectional.all(5),
-                                      decoration: BoxDecoration(
-                                          color: settingsStore.isDarkTheme ? Color(0xFF47475E) : Colors.white,
-                                          borderRadius: BorderRadius.circular(10)),
-                                      child: Text(outputHash,
-                                          textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                              backgroundColor: Colors.transparent,
-                                              fontSize: 15,
-                                              decoration: TextDecoration.none,
-                                              color: settingsStore.isDarkTheme ? Color(0xFFFFFFFF) : Color(0xFF222222))),
-                                    ),
-                                  ],
-                                )),
-                          ],
+                                      Container(
+                                        margin: EdgeInsetsDirectional.only(start: 10, end: 15),
+                                        child:  Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(tr(context).swap_output_hash,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                    backgroundColor: Colors.transparent,
+                                                    fontSize: 15,
+                                                    decoration: TextDecoration.none,
+                                                    color: settingsStore.isDarkTheme ? Color(0xFFAFAFBE) : Color(0xFF77778B))),
+                                            InkWell(
+                                              onTap: () async {
+                                                await ClipboardHelper.copyWithAutoClear(outputHash);
+                                                await Fluttertoast.showToast(
+                                                  msg: tr(context).copied,
+                                                  toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
+                                                  backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                                                );
+                                              },
+                                              child: SvgPicture.asset(
+                                                'assets/images/swap/copy.svg',
+                                                colorFilter: ColorFilter.mode(Colors.green, BlendMode.srcIn),
+                                                width: 13,
+                                                height: 13,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsetsDirectional.only(top: 8, start: 10, end: 10),
+                                        padding: EdgeInsetsDirectional.all(5),
+                                        decoration: BoxDecoration(
+                                            color: settingsStore.isDarkTheme ? Color(0xFF47475E) : Colors.white,
+                                            borderRadius: BorderRadius.circular(10)),
+                                        child: Text(outputHash,
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                backgroundColor: Colors.transparent,
+                                                fontSize: 15,
+                                                decoration: TextDecoration.none,
+                                                color: settingsStore.isDarkTheme ? Color(0xFFFFFFFF) : Color(0xFF222222))),
+                                      ),
+                                    ],
+                                  )),
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        width: MediaQuery.sizeOf(context).width < 600 ? MediaQuery.sizeOf(context).width / 2.5 : 200,
-                        child: PrimaryButton(
-                            text: tr(context).ok,
-                            color: Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor,
-                            borderColor: Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor,
-                            onPressed: () {
-                              if (onDismiss != null) {
-                                onDismiss!(context);
-                              }
-                            }),
-                      )
-                    ],
-                  )),
-            ],
+                        Container(
+                          width: MediaQuery.sizeOf(context).width < 600 ? MediaQuery.sizeOf(context).width / 2.5 : 200,
+                          child: PrimaryButton(
+                              text: tr(context).ok,
+                              color: Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor,
+                              borderColor: Theme.of(context).primaryTextTheme.labelLarge?.backgroundColor,
+                              onPressed: () {
+                                if (onDismiss != null) {
+                                  onDismiss!(context);
+                                }
+                              }),
+                        )
+                      ],
+                    )),
+              ],
+            ),
           ),
         ),
       ),
