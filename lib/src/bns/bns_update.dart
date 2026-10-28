@@ -295,6 +295,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                       ? Color(0xff77778B)
                                       : Color(0xff77778B)),
                               hintText: tr(context).bnsNewOwnerHint,
+                              hintMaxLines: 2,
+                              maintainHintSize: false,
                             ),
                             validator: (value) {
                               return null;
