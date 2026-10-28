@@ -243,7 +243,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                               ? RichText(
                             textAlign: TextAlign.start,
                             text: TextSpan(
-                                text: tr(context).bnsYouSave,
+                                text: '${tr(context).bnsYouSave} ',
                                 style: TextStyle(
                                     backgroundColor: Colors.transparent,
                                     color: settingsStore.isDarkTheme
