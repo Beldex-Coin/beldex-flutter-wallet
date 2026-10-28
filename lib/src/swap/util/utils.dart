@@ -68,24 +68,24 @@ String toStringAsFixed(String? amount) {
   }
 }
 
-String getDate(int timeStamp) {
+String getDate(int timeStamp, {String? locale}) {
   final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
-  return DateFormat('dd MMM yyyy').format(date);
+  return DateFormat('dd MMM yyyy', locale).format(date);
 }
 
-String getDateAndTime(int timeStamp) {
+String getDateAndTime(int timeStamp, {String? locale}) {
   final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
-  return DateFormat('dd MMM yyyy, HH:mm:ss').format(date);
+  return DateFormat('dd MMM yyyy, HH:mm:ss', locale).format(date);
 }
 
-String getTransactionDate(int timeStamp) {
+String getTransactionDate(int timeStamp, {String? locale}) {
   final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
-  return DateFormat('dd MMM yyyy').format(date);
+  return DateFormat('dd MMM yyyy', locale).format(date);
 }
 
-String getTransactionTime(int timeStamp) {
+String getTransactionTime(int timeStamp, {String? locale}) {
   final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
-  return DateFormat('HH:mm:ss').format(date);
+  return DateFormat('HH:mm:ss', locale).format(date);
 }
 
 String truncateMiddle(String input, {int start = 3, int end = 3}) {

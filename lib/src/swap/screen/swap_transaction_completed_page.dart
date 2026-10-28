@@ -386,7 +386,10 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             height: 5,
                           ),
                           Text(
-                            getDateAndTime(transactionModel.result![0].moneyReceived!),
+                            getDateAndTime(
+                              transactionModel.result![0].moneyReceived!,
+                              locale: Localizations.localeOf(context).languageCode,
+                            ),
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -415,7 +418,10 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             height: 5,
                           ),
                           Text(
-                            getDateAndTime(transactionModel.result![0].moneySent!),
+                            getDateAndTime(
+                              transactionModel.result![0].moneySent!,
+                              locale: Localizations.localeOf(context).languageCode,
+                            ),
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,

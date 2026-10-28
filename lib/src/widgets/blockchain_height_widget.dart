@@ -213,6 +213,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
 
   Future selectDate(BuildContext context, SettingsStore settingsStore) async {
     final now = DateTime.now();
+    final String locale = Localizations.localeOf(context).languageCode;
     final date = await showDatePicker(
         builder: (context, child){
           return Theme(
@@ -252,7 +253,7 @@ class BlockchainHeightState extends State<BlockchainHeightWidget> {
       final height = getHeightByDate(date: date);
 
       setState(() {
-        dateController.text = DateFormat('yyyy-MM-dd').format(date);
+        dateController.text = DateFormat('yyyy-MM-dd', locale).format(date);
         restoreHeightController.text = '$height';
         _height = height;
       });

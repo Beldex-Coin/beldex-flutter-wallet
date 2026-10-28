@@ -440,7 +440,10 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      Text(getTransactionDate(result.createdAt),
+                                      Text(getTransactionDate(
+                                        result.createdAt,
+                                        locale: Localizations.localeOf(context).languageCode,
+                                      ),
                                           style: TextStyle(
                                               backgroundColor: Colors.transparent,
                                               fontSize: 12,
@@ -448,7 +451,10 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                               color: settingsStore.isDarkTheme
                                                   ? Color(0xffFFFFFF)
                                                   : Color(0xff737373))),
-                                      Text(getTransactionTime(result.createdAt),
+                                      Text(getTransactionTime(
+                                        result.createdAt,
+                                        locale: Localizations.localeOf(context).languageCode,
+                                      ),
                                           style: TextStyle(
                                               backgroundColor: Colors.transparent,
                                               fontSize: 12,
@@ -634,7 +640,22 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                     rows.add(["Date", "Status", "Exchange_Currency", "Exchange_Amount_From", "Exchange_Rate", "Received_Amount", "Swap_Type", "Receiver_Address"]);
                   }
                   final result = transactions[index];
-                  rows.add([getDate(result.createdAt), result.txnStatus, "${result.currencyFrom.toUpperCase()} -> ${result.currencyTo.toUpperCase()}", toStringAsFixed(result.amountFrom), toStringAsFixed(result.rate), toStringAsFixed(result.amountTo), result.swapType.isNotEmpty ? result.swapType[0].toUpperCase() + result.swapType.substring(1) : result.swapType,result.payoutAddress]);
+                  rows.add([
+                    getDate(
+                      result.createdAt,
+                      locale: Localizations.localeOf(context).languageCode,
+                    ),
+                    result.txnStatus,
+                    "${result.currencyFrom.toUpperCase()} -> ${result.currencyTo.toUpperCase()}",
+                    toStringAsFixed(result.amountFrom),
+                    toStringAsFixed(result.rate),
+                    toStringAsFixed(result.amountTo),
+                    result.swapType.isNotEmpty
+                        ? result.swapType[0].toUpperCase() +
+                            result.swapType.substring(1)
+                        : result.swapType,
+                    result.payoutAddress,
+                  ]);
                 }
                 return transactionRow(settingsStore, transactions, index, walletStore);
               }),
@@ -730,7 +751,10 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xffFFFFFF)
                                       : Color(0xff222222))),
-                          Text(getDate(result.createdAt),
+                          Text(getDate(
+                            result.createdAt,
+                            locale: Localizations.localeOf(context).languageCode,
+                          ),
                               style: TextStyle(
                                   backgroundColor:
                                   Colors.transparent,
