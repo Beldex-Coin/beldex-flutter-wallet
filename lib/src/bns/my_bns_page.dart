@@ -928,10 +928,13 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                 //Update and Renewal
                                Visibility(
                                  visible:bnsDetails.name != '(none)',
-                                 child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                 child: Padding(
+                                   padding: EdgeInsetsDirectional.symmetric(horizontal: 20),
+                                   child: Row(
+                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      OutlinedButton(
+                                      Expanded(
+                                        child: OutlinedButton(
                                       onPressed:() {
                                       Navigator.of(context,
                                       rootNavigator: true)
@@ -947,36 +950,41 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           width: 1.0,
                                           style: BorderStyle.solid
                                         ),
+                                        minimumSize: Size(0, 40),
+                                        padding: EdgeInsets.symmetric(horizontal: 8),
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                                         backgroundColor: settingsStore.isDarkTheme?Color(0xff24242F):Colors.white
                                       ),
                                       child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
-                                          Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: SvgPicture.asset(
-                                                'assets/images/new-images/bns_update.svg',
-                                                colorFilter: ColorFilter.mode(Color(0xff3DA2FF), BlendMode.srcIn),),
+                                          SvgPicture.asset(
+                                            'assets/images/new-images/bns_update.svg',
+                                            colorFilter: ColorFilter.mode(Color(0xff3DA2FF), BlendMode.srcIn),
+                                            width: 20,
+                                            height: 20,
                                           ),
-                                          Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                tr(context).bnsUpdateAction,
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    backgroundColor: Colors.transparent,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color(0xff3DA2FF)
-                                                ),
-                                              )
+                                          SizedBox(width: 4),
+                                          Flexible(
+                                            child: Text(
+                                              tr(context).bnsUpdateAction,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                backgroundColor: Colors.transparent,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xff3DA2FF)
+                                              ),
+                                            ),
                                           )
                                         ],
                                       ),
                                     ),
-                                      SizedBox(
-                                        width: 10,
                                       ),
-                                      OutlinedButton(
+                                      SizedBox(width: 10),
+                                      Expanded(
+                                        child: OutlinedButton(
                                         onPressed:() {
                                           Navigator.of(context,
                                               rootNavigator: true)
@@ -992,36 +1000,41 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                                 width: 1.0,
                                                 style: BorderStyle.solid
                                             ),
+                                            minimumSize: Size(0, 40),
+                                            padding: EdgeInsets.symmetric(horizontal: 8),
                                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                                             backgroundColor: settingsStore.isDarkTheme?Color(0xff24242F):Colors.white
                                         ),
                                         child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: <Widget>[
-                                            Align(
-                                                alignment: Alignment.centerLeft,
-                                                child:  SvgPicture.asset(
-                                                  'assets/images/new-images/bns_renewal.svg',
-                                                  colorFilter: ColorFilter.mode(Color(0xff00CF08), BlendMode.srcIn),)
+                                            SvgPicture.asset(
+                                              'assets/images/new-images/bns_renewal.svg',
+                                              colorFilter: ColorFilter.mode(Color(0xff00CF08), BlendMode.srcIn),
+                                              width: 20,
+                                              height: 20,
                                             ),
-                                            Align(
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  tr(context).bnsRenewAction,
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      backgroundColor: Colors.transparent,
-                                                      fontWeight: FontWeight.bold,
-                                                    color: Color(0xff00CF08)
-                                                  ),
-                                                )
+                                            SizedBox(width: 4),
+                                            Flexible(
+                                              child: Text(
+                                                tr(context).bnsRenewAction,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  backgroundColor: Colors.transparent,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(0xff00CF08)
+                                                ),
+                                              ),
                                             )
                                           ],
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 20,
                                       ),
-                                  ],),
+                                    ],
+                                   ),
+                                 ),
                                )
                               ],
                             ),
