@@ -399,6 +399,8 @@ class BnsFormState extends State<BnsForm> with TickerProviderStateMixin {
                           : Color(0xff77778B)),
                   hintText: tr(context).bnsNameHint,
                   counterText: '',
+                  hintMaxLines: 2,
+                  maintainHintSize: false,
                 ),
                 validator: (value) {
                   return null;
