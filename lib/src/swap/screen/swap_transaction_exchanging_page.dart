@@ -468,18 +468,20 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          tr(context).swap_done_exchanging(
-                              transactionDetails.currencyFrom.toUpperCase(),
-                              transactionDetails.currencyTo.toUpperCase()),
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffEBEBEB)
-                                  : Color(0xff222222)),
+                        Expanded(
+                          child: Text(
+                            tr(context).swap_done_exchanging(
+                                transactionDetails.currencyFrom.toUpperCase(),
+                                transactionDetails.currencyTo.toUpperCase()),
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xffEBEBEB)
+                                    : Color(0xff222222)),
+                          ),
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(width: 5),
                         (_txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? SvgPicture.asset(
                           'assets/images/swap/swap_done.svg',
                           colorFilter: ColorFilter.mode((_txStatus(responseData)?.isNotEmpty ?? false) &&
@@ -554,20 +556,21 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                   (_txStatus(responseData) == "finished") ?
                   Flexible(
                     flex: 1,
-                    child: Column(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          tr(context).swap_funds_sent_to_wallet,
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffEBEBEB)
-                                  : Color(0xff222222)),
+                        Expanded(
+                          child: Text(
+                            tr(context).swap_funds_sent_to_wallet,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xffEBEBEB)
+                                    : Color(0xff222222)),
+                          ),
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(width: 5),
                         (_txStatus(responseData) == "finished") ? SvgPicture.asset(
                           'assets/images/swap/swap_done.svg',
                           colorFilter: ColorFilter.mode((_txStatus(responseData)?.isNotEmpty ?? false) &&
@@ -856,7 +859,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                 TableRow(children: [
                   Padding(
                     padding: const EdgeInsetsDirectional.only(
-                        top: 15, start: 15, end: 15),
+                        top: 15, start: 15, end: 15, bottom: 15),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -884,30 +887,34 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                   ),
                 ]),
                 TableRow(children: [
-                  Padding(
-                    padding: const EdgeInsetsDirectional.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          responseData.result?[0].payinExtraIdName ?? '---',
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffAFAFBE)
-                                  : Color(0xff737373)),
-                        ),
-                        Text(
-                          transactionDetails.payinAddressMemo ?? '---',
-                          style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffEBEBEB)
-                                  : Color(0xff222222)),
-                        ),
-                      ],
+                  Visibility(
+                    visible: transactionDetails.payinAddressMemo != null,
+                    child: Padding(
+                      padding: const EdgeInsetsDirectional.only(
+                          start: 15, end: 15, bottom: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            responseData.result?[0].payinExtraIdName ?? '---',
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xffAFAFBE)
+                                    : Color(0xff737373)),
+                          ),
+                          Text(
+                            transactionDetails.payinAddressMemo ?? '---',
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xffEBEBEB)
+                                    : Color(0xff222222)),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ]),
