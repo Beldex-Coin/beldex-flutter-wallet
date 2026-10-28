@@ -1140,13 +1140,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bnsYearFive => '5 سنوات';
 
   @override
-  String get bnsYearOne => 'سنة واحدة';
+  String get bnsYearOne => '1 سنة';
 
   @override
   String get bnsYearTen => '10 سنوات';
 
   @override
-  String get bnsYearTwo => 'سنتان';
+  String get bnsYearTwo => '2 سنة';
 
   @override
   String body_confirm_unlock_stake(Object masterNodeKey) {

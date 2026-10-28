@@ -72,7 +72,20 @@ class BnsRenewalPageForm extends StatefulWidget {
 }
 
 class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProviderStateMixin {
-  late final List<BnsPriceItem> bnsPriceDetailsList;
+  List<BnsPriceItem> bnsPriceDetailsList = [];
+
+  List<BnsPriceItem> getBnsPriceDetailsList(BuildContext context) {
+    return [
+      BnsPriceItem('1y', tr(context).bnsYearOneShort, tr(context).bnsYearOne,
+          '650 BDX', ''),
+      BnsPriceItem('2y', tr(context).bnsYearTwoShort, tr(context).bnsYearTwo,
+          '1000 BDX', '23.08%'),
+      BnsPriceItem('5y', tr(context).bnsYearFiveShort, tr(context).bnsYearFive,
+          '2000 BDX', '38.46%'),
+      BnsPriceItem('10y', tr(context).bnsYearTenShort, tr(context).bnsYearTen,
+          '4000 BDX', '38.46%')
+    ];
+  }
 
   final _bnsNameController = TextEditingController();
   bool _effectsInstalled = false;
@@ -81,13 +94,6 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
   @override
   void initState() {
     super.initState();
-    final localizations = tr(context);
-    bnsPriceDetailsList = [
-      BnsPriceItem('1y', localizations.bnsYearOneShort, localizations.bnsYearOne, '650 BDX', ''),
-      BnsPriceItem('2y', localizations.bnsYearTwoShort, localizations.bnsYearTwo, '1000 BDX', '23.08%'),
-      BnsPriceItem('5y', localizations.bnsYearFiveShort, localizations.bnsYearFive, '2000 BDX', '38.46%'),
-      BnsPriceItem('10y', localizations.bnsYearTenShort, localizations.bnsYearTen, '4000 BDX', '38.46%')
-    ];
     if(widget.bnsName.isNotEmpty){
       final bnsName = widget.bnsName;
       _bnsNameController.text = bnsName.substring(0, bnsName.indexOf('.'));
@@ -102,6 +108,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
     final balanceStore = Provider.of<BalanceStore>(context);
     final walletStore = Provider.of<WalletStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
+    bnsPriceDetailsList = getBnsPriceDetailsList(context);
     _setEffects(context);
     return Scaffold(
       backgroundColor: settingsStore.isDarkTheme ? Color(0xff171720) : Color(
