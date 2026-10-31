@@ -506,7 +506,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Assurez-vous de faire une sauvegarde de votre graine de récupération, adresse du portefeuille et clés privées';
 
   @override
-  String get max => 'Max.';
+  String get max => 'Max';
 
   @override
   String get maximumAmount => 'Montant maximum est ';
@@ -1223,7 +1223,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get openalias_alert_title => 'Beldex-destinataire reconnu';
 
   @override
-  String get pending => ' (en attente)';
+  String get pending => 'En attente';
 
   @override
   String get please_select => 'Veuillez sélectionner:';
@@ -1484,6 +1484,15 @@ class AppLocalizationsFr extends AppLocalizations {
   String get address_copied => 'Adresse copiée';
 
   @override
+  String get reconnect_wallet_title => 'Reconnecter le portefeuille?';
+
+  @override
+  String get check_your_keys => 'Vérifiez vos clés';
+
+  @override
+  String get seed_text_invalid => 'Le texte saisi est invalide.';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1512,7 +1521,4 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get reconnect_wallet_title => 'Reconnecter le portefeuille?';
 }

@@ -359,7 +359,8 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                       address: _addressController.text,
                       viewKey: _viewKeyController.text,
                       spendKey: _spendKeyController.text,
-                      restoreHeight: height);
+                      restoreHeight: height,
+                      t: tr(context));
                   restoreHeights(height,settingsStore,tr(context));
               }
             },

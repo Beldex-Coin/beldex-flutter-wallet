@@ -464,6 +464,9 @@
   "flash_on": "Flash On",
   "flash_off": "Flash Off",
   "address_copied": "Address Copied",
+  "reconnect_wallet_title": "Reconnect Wallet?",
+  "check_your_keys": "Check your keys",
+  "seed_text_invalid": "The entered text is invalid.",
   "seed_language_chinese": "Chinese (simplified)",
   "seed_language_dutch": "Dutch",
   "seed_language_english": "English",
@@ -473,6 +476,5 @@
   "seed_language_japanese": "Japanese",
   "seed_language_portuguese": "Portuguese",
   "seed_language_russian": "Russian",
-  "seed_language_spanish": "Spanish",
-  "reconnect_wallet_title": "Reconnect Wallet?"
+  "seed_language_spanish": "Spanish"
 }

@@ -158,7 +158,7 @@
   "loadingTheWallet": "Chargement du portefeuille...",
   "loadingTheWalletDescription": "Veuillez ne pas fermer cette fenêtre ni accéder à une autre application tant que nous n'avons pas chargé le portefeuille.",
   "makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate": "Assurez-vous de faire une sauvegarde de votre graine de récupération, adresse du portefeuille et clés privées",
-  "max": "Max.",
+  "max": "Max",
   "maximumAmount": "Montant maximum est ",
   "minimumAmount": "Montant minimum est ",
   "myBns": "Mon BNS",
@@ -385,7 +385,7 @@
   "nothing_staked": "Aucune contribution pour le moment",
   "openalias_alert_content": "Vous envoyez de l'argent à\n{recipient_name}",
   "openalias_alert_title": "Beldex-destinataire reconnu",
-  "pending": " (en attente)",
+  "pending": "En attente",
   "please_select": "Veuillez sélectionner:",
   "pleaseAddAMainnetNode": "Veuillez ajouter un nœud de réseau principal",
   "received": "Reçu",
@@ -464,5 +464,7 @@
   "flash_on": "Activer Flash",
   "flash_off": "Désactiver Flash",
   "address_copied": "Adresse copiée",
-  "reconnect_wallet_title": "Reconnecter le portefeuille?"
+  "reconnect_wallet_title": "Reconnecter le portefeuille?",
+  "check_your_keys": "Vérifiez vos clés",
+  "seed_text_invalid": "Le texte saisi est invalide."
 }

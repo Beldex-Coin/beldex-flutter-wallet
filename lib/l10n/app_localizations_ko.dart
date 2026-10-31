@@ -197,19 +197,19 @@ class AppLocalizationsKo extends AppLocalizations {
   String get bnsInvalidEthAddress => '유효하지 않은 ETH 주소';
 
   @override
-  String get bnsInvalidName => '잘못된 BNS 이름';
+  String get bnsInvalidName => '유효하지 않은 BNS 이름';
 
   @override
-  String get bnsInvalidOwnerAddress => '소유자 주소가 잘못되었습니다.';
+  String get bnsInvalidOwnerAddress => '유효하지 않은 소유자 주소입니다.';
 
   @override
-  String get bnsInvalidWalletAddress => '잘못된 지갑 주소입니다. 현재 지갑을 BNS 소유자로 사용하려면 비워 두세요.';
+  String get bnsInvalidWalletAddress => '유효하지 않은 지갑 주소입니다. 현재 지갑을 BNS 소유자로 사용하려면 이 항목을 비워 두세요.';
 
   @override
   String get bnsNameHint => 'Beldex Name Service를 통해 구매할 이름';
 
   @override
-  String get bnsNameIsTaken => 'BNS 이름이 이미 사용 중입니다. 다른 이름을 선택하세요.';
+  String get bnsNameIsTaken => '이미 사용 중인 BNS 이름입니다. 다른 이름을 선택해 주세요.';
 
   @override
   String get bnsNewOwnerHint => '새 소유자의 지갑 주소를 입력하세요';
@@ -369,7 +369,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get doYouWantToReconnectnTheWallet => '지갑을 재연결하시겠습니까?';
 
   @override
-  String get edit => '수정';
+  String get edit => '편집';
 
   @override
   String get enterAddress => '주소 입력';
@@ -417,7 +417,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get enterYourPin => 'PIN을 입력하세요';
 
   @override
-  String get error_text_address => '유효하지 않은 BDX 주소입니다';
+  String get error_text_address => '유효하지 않은 BDX 주소';
 
   @override
   String get error_text_contact_name => '연락처 이름에는 \' , \" 기호를 포함할 수 없으며 1자 이상 32자 이하이어야 합니다';
@@ -636,7 +636,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get reconnect => '재연결';
 
   @override
-  String get reconnectWallet => '지갑을 다시 연결하시겠습니까';
+  String get reconnectWallet => '지갑 다시 연결';
 
   @override
   String get recoverySeed => '복구 시드';
@@ -1186,7 +1186,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get error_text_beldex => 'Beldex 금액은 사용 가능한 잔액을 초과할 수 없습니다.\n소수점 이하 자릿수는 9자리 이하여야 합니다';
 
   @override
-  String get error_text_fiat => '금액은 사용 가능한 잔액을 초과할 수 없습니다.\n소수점 이하 자릿수는 2자리 이하여야 합니다';
+  String get error_text_fiat => '금액은 사용 가능한 잔액을 초과할 수 없습니다.\n소수점 자릿수는 2자리 이하여야 합니다.';
 
   @override
   String get error_text_service_node => '마스터 노드 키는 64개의 16진수 문자만 포함할 수 있습니다';
@@ -1199,7 +1199,7 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String flashTransactionPriority(Object transactionPriority) {
-    return 'Flash 거래는 즉시 처리되는 거래입니다.\n$transactionPriority 우선순위가 기본 수수료로 설정되어 있습니다';
+    return '플래시 거래는 즉시 처리되는 거래입니다.\n$transactionPriority 우선순위가 기본 수수료로 설정되어 있습니다';
   }
 
   @override
@@ -1209,7 +1209,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get keys_title => '키';
 
   @override
-  String get noPendingTransaction => '대기 중인 거래가 없습니다';
+  String get noPendingTransaction => '대기 중인 거래 없음';
 
   @override
   String get nothing_staked => '아직 스테이킹된 항목이 없습니다';
@@ -1223,7 +1223,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get openalias_alert_title => 'Beldex 수신자가 감지되었습니다';
 
   @override
-  String get pending => '(대기 중)';
+  String get pending => '대기 중';
 
   @override
   String get please_select => '선택하세요:';
@@ -1347,7 +1347,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get swap_funds_sent_to_wallet => '지갑으로 자금이 전송되었습니다';
 
   @override
-  String get swap_history => '기록';
+  String get swap_history => '내역';
 
   @override
   String get swap_maximum_amount_changed => '최대 금액이 변경되었습니다. 새로운 값은';
@@ -1401,7 +1401,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get swap_status_refunded => '환불됨';
 
   @override
-  String get swap_you_can_initiate_new_transaction => '새 거래를 시작할 수 있습니다. 이 거래의 상태는 언제든지 거래 내역에서 확인할 수 있습니다.';
+  String get swap_you_can_initiate_new_transaction => '새 거래를 시작할 수 있습니다. 이 거래의 상태는 언제든지 거래 내역에서 확인할 수 있습니다';
 
   @override
   String get swap_you_dont_have_to_wait_here => '여기서 기다릴 필요가 없습니다';
@@ -1472,7 +1472,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get your_contributions => '기여 내역';
 
   @override
-  String get order_creation_failed_error_message => '주문 생성에 실패했습니다';
+  String get order_creation_failed_error_message => '주문 생성 실패';
 
   @override
   String get flash_on => 'Flash 켜기';
@@ -1482,6 +1482,15 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get address_copied => '주소가 복사되었습니다';
+
+  @override
+  String get reconnect_wallet_title => '지갑 다시 연결?';
+
+  @override
+  String get check_your_keys => '키 확인';
+
+  @override
+  String get seed_text_invalid => '입력한 텍스트가 올바르지 않습니다.';
 
   @override
   String get seed_language_chinese => 'Chinese (simplified)';
@@ -1512,7 +1521,4 @@ class AppLocalizationsKo extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get reconnect_wallet_title => '지갑을 다시 연결하시겠습니까?';
 }

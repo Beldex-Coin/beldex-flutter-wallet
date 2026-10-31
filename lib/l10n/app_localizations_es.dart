@@ -9,7 +9,7 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
-  String get unsupportedExchangePair => 'Par de intercambio no compatible';
+  String get unsupportedExchangePair => 'Par de intercambio no admitido';
 
   @override
   String get account => 'Cuenta';
@@ -54,7 +54,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get alert => 'Alerta';
 
   @override
-  String get allowFaceIdAuthentication => 'Permitir la autenticación con Face ID';
+  String get allowFaceIdAuthentication => 'Permitir autenticación mediante Face ID';
 
   @override
   String get amount => 'Cantidad';
@@ -164,16 +164,16 @@ class AppLocalizationsEs extends AppLocalizations {
   String get bnsEncryptedBchatValue => 'Valor de BChat encriptado';
 
   @override
-  String get bnsEncryptedBelnetValue => 'Valor de Belnet encriptado';
+  String get bnsEncryptedBelnetValue => 'Valor de Belnet cifrado';
 
   @override
-  String get bnsEncryptedEthValue => 'Valor de ETH encriptado';
+  String get bnsEncryptedEthValue => 'Valor de ETH cifrado';
 
   @override
   String get bnsEncryptedWalletValue => 'Valor de billetera encriptado';
 
   @override
-  String get bnsEnterValidWalletAddress => 'Introduce una dirección de billetera válida';
+  String get bnsEnterValidWalletAddress => 'Introduce una dirección de billetera válida.';
 
   @override
   String get bnsEthAddress => 'Dirección ETH';
@@ -203,7 +203,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get bnsInvalidOwnerAddress => 'Dirección del propietario no válida.';
 
   @override
-  String get bnsInvalidWalletAddress => 'Dirección de cartera no válida. Déjala en blanco si quieres usar la cartera actual como propietario del BNS.';
+  String get bnsInvalidWalletAddress => 'Dirección de billetera no válida. Déjala en blanco si deseas utilizar la billetera actual como propietaria del BNS.';
 
   @override
   String get bnsNameHint => 'El nombre a comprar a través del Beldex Name Service';
@@ -506,7 +506,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Asegúrate de hacer una copia de seguridad de tu semilla de recuperación, dirección de billetera y claves privadas';
 
   @override
-  String get max => 'Máx.';
+  String get max => 'Máx';
 
   @override
   String get maximumAmount => 'La cantidad máxima es';
@@ -654,7 +654,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get rescan => 'Reescanear';
 
   @override
-  String get rescanWallet => 'Reescanear billetera';
+  String get rescanWallet => 'Volver a escanear la billetera';
 
   @override
   String get reset => 'Restablecer';
@@ -955,7 +955,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get transaction_details_recipient_address => 'Dirección del destinatario';
 
   @override
-  String get transaction_details_transaction_id => 'ID de transacción';
+  String get transaction_details_transaction_id => 'ID de la transacción';
 
   @override
   String get transaction_priority_blink => 'Destello';
@@ -1134,7 +1134,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get bnsUpdatedSuccessfully => 'BNS actualizado correctamente';
 
   @override
-  String get bnsWaitForFetch => 'Espere mientras obtenemos el registro de BNS de la red';
+  String get bnsWaitForFetch => 'Por favor, espera mientras recuperamos el registro BNS de la red';
 
   @override
   String get bnsYearFive => '5 años';
@@ -1186,7 +1186,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get error_text_beldex => 'El valor de Beldex no puede superar el saldo disponible.\nEl número de dígitos decimales debe ser menor o igual a 9';
 
   @override
-  String get error_text_fiat => 'El importe no puede superar el saldo disponible.\nEl número de dígitos decimales debe ser menor o igual a 2';
+  String get error_text_fiat => 'El importe no puede superar el saldo disponible.\nEl número de decimales debe ser igual o inferior a 2';
 
   @override
   String get error_text_service_node => 'Una clave de Master Node solo puede contener 64 caracteres hexadecimales';
@@ -1209,7 +1209,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get keys_title => 'Claves';
 
   @override
-  String get noPendingTransaction => 'No hay ninguna transacción pendiente';
+  String get noPendingTransaction => 'No hay transacciones pendientes';
 
   @override
   String get nothing_staked => 'Aún no hay nada en staking';
@@ -1223,7 +1223,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get openalias_alert_title => 'Destinatario de Beldex detectado';
 
   @override
-  String get pending => '(pendiente)';
+  String get pending => 'Pendiente';
 
   @override
   String get please_select => 'Selecciona:';
@@ -1308,7 +1308,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String swap_enter_extra_id(Object extraIdName) {
-    return 'Introduce $extraIdName';
+    return 'Ingrese el $extraIdName';
   }
 
   @override
@@ -1320,7 +1320,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get swap_estimated_time => 'Tiempo estimado';
 
   @override
-  String get swap_estimated_time_value => '5–30 min';
+  String get swap_estimated_time_value => '5-30 minutos';
 
   @override
   String swap_exchange_address(Object currency, Object exchangeName) {
@@ -1344,10 +1344,10 @@ class AppLocalizationsEs extends AppLocalizations {
   }
 
   @override
-  String get swap_funds_sent_to_wallet => 'Fondos enviados a tu cartera';
+  String get swap_funds_sent_to_wallet => 'Fondos enviados a su billetera';
 
   @override
-  String get swap_history => 'Historial';
+  String get swap_history => 'historia';
 
   @override
   String get swap_maximum_amount_changed => 'El importe máximo ha cambiado. El nuevo valor es';
@@ -1365,7 +1365,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String swap_please_enter_extra_id(Object extraIdName) {
-    return 'Introduce $extraIdName';
+    return 'Por favor, ingrese el $extraIdName';
   }
 
   @override
@@ -1380,13 +1380,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get swap_refund_address => 'Dirección de reembolso';
 
   @override
-  String get swap_refund_wallet_address => 'Dirección de la cartera de reembolso';
+  String get swap_refund_wallet_address => 'Dirección de billetera para reembolsos';
 
   @override
-  String get swap_see_input_hash_in_explorer => 'Ver el hash de entrada en el explorador';
+  String get swap_see_input_hash_in_explorer => 'Ver hash de entrada en el explorador';
 
   @override
-  String get swap_sending_funds_to_wallet => 'Enviando fondos a tu cartera';
+  String get swap_sending_funds_to_wallet => 'Enviando fondos a su billetera';
 
   @override
   String get swap_status_new => 'Nuevo';
@@ -1401,13 +1401,13 @@ class AppLocalizationsEs extends AppLocalizations {
   String get swap_status_refunded => 'Reembolsado';
 
   @override
-  String get swap_you_can_initiate_new_transaction => 'Puedes iniciar una nueva transacción. Siempre puedes consultar el estado de esta transacción en el historial de transacciones.';
+  String get swap_you_can_initiate_new_transaction => 'Puedes iniciar una nueva transacción. Siempre puedes consultar el estado de esta transacción en el historial de transacciones';
 
   @override
   String get swap_you_dont_have_to_wait_here => 'No tienes que esperar aquí';
 
   @override
-  String get swap_you_sent => 'Has enviado';
+  String get swap_you_sent => 'Usted envió';
 
   @override
   String get swapTransactionReport => 'Beldex_wallet_swap_transaction_report';
@@ -1484,6 +1484,15 @@ class AppLocalizationsEs extends AppLocalizations {
   String get address_copied => 'Dirección copiada';
 
   @override
+  String get reconnect_wallet_title => '¿Reconectar billetera?';
+
+  @override
+  String get check_your_keys => 'Verificar tus claves';
+
+  @override
+  String get seed_text_invalid => 'El texto introducido no es válido.';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1512,7 +1521,4 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get reconnect_wallet_title => '¿Reconectar billetera?';
 }

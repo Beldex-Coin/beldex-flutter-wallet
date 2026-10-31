@@ -54,7 +54,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get alert => 'Предупреждение';
 
   @override
-  String get allowFaceIdAuthentication => 'Разрешить аутентификацию с помощью Face ID';
+  String get allowFaceIdAuthentication => 'Разрешить аутентификацию через Face ID';
 
   @override
   String get amount => 'Сумма';
@@ -145,7 +145,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get bnsBchatId => 'BChat ID';
 
   @override
-  String get bnsBelnetId => 'Belnet ID';
+  String get bnsBelnetId => 'ID Belnet';
 
   @override
   String get bnsConfirmPurchase => 'Подтверждение покупки';
@@ -173,7 +173,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get bnsEncryptedWalletValue => 'Зашифрованное значение кошелька';
 
   @override
-  String get bnsEnterValidWalletAddress => 'Введите корректный адрес кошелька';
+  String get bnsEnterValidWalletAddress => 'Введите корректный адрес кошелька.';
 
   @override
   String get bnsEthAddress => 'ETH-адрес';
@@ -203,7 +203,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get bnsInvalidOwnerAddress => 'Недопустимый адрес владельца.';
 
   @override
-  String get bnsInvalidWalletAddress => 'Недопустимый адрес кошелька. Оставьте поле пустым, если хотите использовать текущий кошелёк в качестве владельца BNS.';
+  String get bnsInvalidWalletAddress => 'Некорректный адрес кошелька. Оставьте поле пустым, если хотите использовать текущий кошелек в качестве владельца BNS.';
 
   @override
   String get bnsNameHint => 'Имя для покупки через сервис\n Beldex Name Service';
@@ -506,7 +506,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Обязательно сделайте резервную копию\nвашей seed-фразы, адреса кошелька\nи приватных ключей';
 
   @override
-  String get max => 'Макс.';
+  String get max => 'Макс';
 
   @override
   String get maximumAmount => 'Максимальная сумма';
@@ -1186,7 +1186,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get error_text_beldex => 'Сумма Beldex не может превышать доступный баланс.\nКоличество знаков после запятой не должно превышать 9';
 
   @override
-  String get error_text_fiat => 'Сумма не может превышать доступный баланс.\nКоличество знаков после запятой не должно превышать 2';
+  String get error_text_fiat => 'Сумма не может превышать доступный баланс.\nКоличество знаков после запятой должно быть не более 2';
 
   @override
   String get error_text_service_node => 'Ключ Master Node может содержать только 64 шестнадцатеричных символа';
@@ -1209,7 +1209,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get keys_title => 'Ключи';
 
   @override
-  String get noPendingTransaction => 'Нет ожидающих транзакций';
+  String get noPendingTransaction => 'Нет транзакций в ожидании';
 
   @override
   String get nothing_staked => 'Пока ничего не застейкано';
@@ -1223,7 +1223,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get openalias_alert_title => 'Обнаружен получатель Beldex';
 
   @override
-  String get pending => '(в ожидании)';
+  String get pending => 'В ожидании';
 
   @override
   String get please_select => 'Выберите:';
@@ -1320,7 +1320,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get swap_estimated_time => 'Расчётное время';
 
   @override
-  String get swap_estimated_time_value => '5–30 мин';
+  String get swap_estimated_time_value => '5–30 минут';
 
   @override
   String swap_exchange_address(Object currency, Object exchangeName) {
@@ -1336,7 +1336,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get swap_expired => 'Истёк';
+  String get swap_expired => 'Истек срок действия';
 
   @override
   String swap_extra_id_info(Object currency, Object extraIdName) {
@@ -1365,7 +1365,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String swap_please_enter_extra_id(Object extraIdName) {
-    return 'Введите $extraIdName';
+    return 'Пожалуйста, введите $extraIdName';
   }
 
   @override
@@ -1380,10 +1380,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get swap_refund_address => 'Адрес возврата';
 
   @override
-  String get swap_refund_wallet_address => 'Адрес кошелька для возврата';
+  String get swap_refund_wallet_address => 'Адрес кошелька для возврата средств';
 
   @override
-  String get swap_see_input_hash_in_explorer => 'Посмотреть хеш входа в обозревателе';
+  String get swap_see_input_hash_in_explorer => 'Посмотреть хеш входящей транзакции в обозревател';
 
   @override
   String get swap_sending_funds_to_wallet => 'Отправка средств на ваш кошелёк';
@@ -1401,7 +1401,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get swap_status_refunded => 'Возвращено';
 
   @override
-  String get swap_you_can_initiate_new_transaction => 'Вы можете начать новую транзакцию. Вы всегда можете проверить статус этой транзакции в истории транзакций.';
+  String get swap_you_can_initiate_new_transaction => 'Вы можете начать новую транзакцию. Вы всегда можете проверить статус этой транзакции в истории транзакций';
 
   @override
   String get swap_you_dont_have_to_wait_here => 'Вам не нужно ждать здесь';
@@ -1445,7 +1445,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get transaction_details_payment_id => 'ID платежа';
+  String get transaction_details_payment_id => 'Идентификатор платежа';
 
   @override
   String get transaction_details_title => 'Детали транзакции';
@@ -1472,7 +1472,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get your_contributions => 'Ваш вклад';
 
   @override
-  String get order_creation_failed_error_message => 'Не удалось создать ордер';
+  String get order_creation_failed_error_message => 'Не удалось создать заказ';
 
   @override
   String get flash_on => 'Включить Flash';
@@ -1482,6 +1482,15 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get address_copied => 'Адрес скопирован';
+
+  @override
+  String get reconnect_wallet_title => 'Переподключить кошелёк?';
+
+  @override
+  String get check_your_keys => 'Проверить ключи';
+
+  @override
+  String get seed_text_invalid => 'Введённый текст недействителен.';
 
   @override
   String get seed_language_chinese => 'Chinese (simplified)';
@@ -1512,7 +1521,4 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get reconnect_wallet_title => 'Переподключить кошелёк?';
 }

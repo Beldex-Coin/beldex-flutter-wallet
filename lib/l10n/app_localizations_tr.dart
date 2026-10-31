@@ -54,7 +54,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get alert => 'Uyarı';
 
   @override
-  String get allowFaceIdAuthentication => 'Face ID ile Kimlik Doğrulamaya İzin Ver';
+  String get allowFaceIdAuthentication => 'Face ID ile doğrulamaya izin ver';
 
   @override
   String get amount => 'Miktar';
@@ -173,7 +173,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get bnsEncryptedWalletValue => 'Şifrelenmiş Cüzdan Değeri';
 
   @override
-  String get bnsEnterValidWalletAddress => 'Geçerli bir cüzdan adresi girin';
+  String get bnsEnterValidWalletAddress => 'Geçerli bir cüzdan adresi girin.';
 
   @override
   String get bnsEthAddress => 'ETH Adresi';
@@ -203,13 +203,13 @@ class AppLocalizationsTr extends AppLocalizations {
   String get bnsInvalidOwnerAddress => 'Geçersiz sahip adresi.';
 
   @override
-  String get bnsInvalidWalletAddress => 'Geçersiz cüzdan adresi. Mevcut cüzdanı BNS sahibi olarak kullanmak istiyorsanız boş bırakın.';
+  String get bnsInvalidWalletAddress => 'Geçersiz cüzdan adresi. Mevcut cüzdanınızı BNS sahibi olarak kullanmak istiyorsanız bu alanı boş bırakın.';
 
   @override
   String get bnsNameHint => 'Beldex Name Service üzerinden satın alınacak isim';
 
   @override
-  String get bnsNameIsTaken => 'BNS adı zaten kullanılıyor. Farklı bir ad seçin.';
+  String get bnsNameIsTaken => 'BNS adı zaten alınmış. Lütfen başka bir tane seçin.';
 
   @override
   String get bnsNewOwnerHint => 'Yeni sahibin cüzdan adresini girin';
@@ -506,7 +506,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Kurtarma Seed’inizin, cüzdan adresinizin ve özel anahtarlarınızın yedeğini aldığınızdan emin olun.';
 
   @override
-  String get max => 'Maks.';
+  String get max => 'Maks';
 
   @override
   String get maximumAmount => 'Maksimum tutar';
@@ -1134,7 +1134,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get bnsUpdatedSuccessfully => 'BNS başarıyla güncellendi';
 
   @override
-  String get bnsWaitForFetch => 'BNS kaydını ağdan alana kadar lütfen bekleyin';
+  String get bnsWaitForFetch => 'Lütfen BNS kaydı ağdan getirilene kadar bekleyin';
 
   @override
   String get bnsYearFive => '5 Yıl';
@@ -1186,7 +1186,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get error_text_beldex => 'Beldex miktarı mevcut bakiyeyi aşamaz.\nOndalık basamak sayısı 9 veya daha az olmalıdır';
 
   @override
-  String get error_text_fiat => 'Tutar mevcut bakiyeyi aşamaz.\nOndalık basamak sayısı 2 veya daha az olmalıdır';
+  String get error_text_fiat => 'Tutar, mevcut bakiyeyi aşamaz.\nOndalık basamak sayısı 2 veya daha az olmalıdır.';
 
   @override
   String get error_text_service_node => 'Bir Master Node anahtarı yalnızca 64 onaltılık karakter içerebilir';
@@ -1223,7 +1223,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get openalias_alert_title => 'Beldex alıcısı algılandı';
 
   @override
-  String get pending => '(beklemede)';
+  String get pending => 'Beklemede';
 
   @override
   String get please_select => 'Lütfen seçin:';
@@ -1232,7 +1232,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get pleaseAddAMainnetNode => 'Lütfen bir mainnet düğümü ekleyin';
 
   @override
-  String get received => 'Alındı';
+  String get received => 'Alınan';
 
   @override
   String get reconnect_alert_text => 'Yeniden bağlanmak istediğinizden emin misiniz?';
@@ -1320,7 +1320,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get swap_estimated_time => 'Tahmini Süre';
 
   @override
-  String get swap_estimated_time_value => '5–30 dk';
+  String get swap_estimated_time_value => '5-30 dakika';
 
   @override
   String swap_exchange_address(Object currency, Object exchangeName) {
@@ -1344,10 +1344,10 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get swap_funds_sent_to_wallet => 'Para cüzdanınıza gönderildi';
+  String get swap_funds_sent_to_wallet => 'Fonlar cüzdanınıza gönderildi';
 
   @override
-  String get swap_history => 'Geçmiş';
+  String get swap_history => 'tarih';
 
   @override
   String get swap_maximum_amount_changed => 'Maksimum tutar değişti. Yeni değer';
@@ -1361,7 +1361,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get swap_overdue => 'Gecikmiş';
+  String get swap_overdue => 'Zaman aşımına uğradı';
 
   @override
   String swap_please_enter_extra_id(Object extraIdName) {
@@ -1369,7 +1369,7 @@ class AppLocalizationsTr extends AppLocalizations {
   }
 
   @override
-  String get swap_process_wait => 'İşlem birkaç dakika sürecektir. Lütfen bekleyin.';
+  String get swap_process_wait => 'İşlem birkaç dakika sürecektir, lütfen bekleyin.';
 
   @override
   String swap_recipient_address_with_currency(Object currency) {
@@ -1383,10 +1383,10 @@ class AppLocalizationsTr extends AppLocalizations {
   String get swap_refund_wallet_address => 'İade Cüzdanı Adresi';
 
   @override
-  String get swap_see_input_hash_in_explorer => 'Girdi hash\'ini gezgin üzerinde görüntüle';
+  String get swap_see_input_hash_in_explorer => 'Giriş hash değerini blok gezgininde görüntüleyin';
 
   @override
-  String get swap_sending_funds_to_wallet => 'Cüzdanınıza para gönderiliyor';
+  String get swap_sending_funds_to_wallet => 'Fonlar cüzdanınıza gönderiliyor';
 
   @override
   String get swap_status_new => 'Yeni';
@@ -1401,7 +1401,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get swap_status_refunded => 'İade edildi';
 
   @override
-  String get swap_you_can_initiate_new_transaction => 'Yeni bir işlem başlatabilirsiniz. Bu işlemin durumunu istediğiniz zaman işlem geçmişinden kontrol edebilirsiniz.';
+  String get swap_you_can_initiate_new_transaction => 'Yeni bir işlem başlatabilirsiniz. Bu işlemin durumunu istediğiniz zaman işlem geçmişinden kontrol edebilirsiniz';
 
   @override
   String get swap_you_dont_have_to_wait_here => 'Burada beklemenize gerek yok';
@@ -1413,7 +1413,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get swapTransactionReport => 'Beldex_wallet_swap_transaction_report';
 
   @override
-  String get sync_status_connected => 'BAĞLANDI';
+  String get sync_status_connected => 'BAĞLI';
 
   @override
   String get sync_status_not_connected => 'BAĞLI DEĞİL';
@@ -1472,7 +1472,7 @@ class AppLocalizationsTr extends AppLocalizations {
   String get your_contributions => 'Katkılarınız';
 
   @override
-  String get order_creation_failed_error_message => 'Emir oluşturulamadı';
+  String get order_creation_failed_error_message => 'Emir oluşturma başarısız oldu';
 
   @override
   String get flash_on => 'Flash\'i Aç';
@@ -1482,6 +1482,15 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get address_copied => 'Adres Kopyalandı';
+
+  @override
+  String get reconnect_wallet_title => 'Cüzdanı Yeniden Bağlamak İster Misiniz?';
+
+  @override
+  String get check_your_keys => 'Anahtarlarını kontrol et';
+
+  @override
+  String get seed_text_invalid => 'Girilen metin geçersiz.';
 
   @override
   String get seed_language_chinese => 'Chinese (simplified)';
@@ -1512,7 +1521,4 @@ class AppLocalizationsTr extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get reconnect_wallet_title => 'Cüzdanı Yeniden Bağlamak İster Misiniz?';
 }

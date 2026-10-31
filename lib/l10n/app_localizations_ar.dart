@@ -54,7 +54,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get alert => 'تنبيه';
 
   @override
-  String get allowFaceIdAuthentication => 'السماح بالمصادقة باستخدام Face ID';
+  String get allowFaceIdAuthentication => 'السماح بالمصادقة عبر بصمة الوجه';
 
   @override
   String get amount => 'المبلغ';
@@ -164,16 +164,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bnsEncryptedBchatValue => ' القيمة المشفرة لـ BChat';
 
   @override
-  String get bnsEncryptedBelnetValue => ' القيمة المشفرة لـ Belnet';
+  String get bnsEncryptedBelnetValue => 'قيمة Belnet المشفّرة';
 
   @override
-  String get bnsEncryptedEthValue => ' القيمة المشفرة لـ ETH';
+  String get bnsEncryptedEthValue => 'قيمة ETH المشفّرة';
 
   @override
   String get bnsEncryptedWalletValue => 'قيمة المحفظة المشفرة';
 
   @override
-  String get bnsEnterValidWalletAddress => 'أدخل عنوان محفظة صالح.';
+  String get bnsEnterValidWalletAddress => 'أدخل عنوان محفظة صالحًا.';
 
   @override
   String get bnsEthAddress => 'عنوان ETH';
@@ -209,7 +209,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bnsNameHint => ' الاسم الذي تريد شراؤه عبر خدمة Beldex Name Service';
 
   @override
-  String get bnsNameIsTaken => 'اسم BNS مستخدم بالفعل. اختر اسمًا مختلفًا.';
+  String get bnsNameIsTaken => 'اسم BNS محجوز. اختر اسمًا آخر.';
 
   @override
   String get bnsNewOwnerHint => 'أدخل عنوان المحفظة للمالك الجديد';
@@ -218,7 +218,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bnsNoteLabel => 'ملاحظة :';
 
   @override
-  String get bnsOwnerAndBackupDifferent => 'يجب أن يكون عنوان المالك وعنوان النسخة الاحتياطية مختلفين.';
+  String get bnsOwnerAndBackupDifferent => 'يجب أن يكون عنوان المالك مختلفًا عن عنوان النسخة الاحتياطية.';
 
   @override
   String get bnsOwnerHint => 'عنوان المحفظة للمالك';
@@ -1134,7 +1134,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get bnsUpdatedSuccessfully => 'تم تحديث BNS بنجاح';
 
   @override
-  String get bnsWaitForFetch => 'يرجى الانتظار حتى نجلب سجل BNS من الشبكة';
+  String get bnsWaitForFetch => 'يُرجى الانتظار حتى نجلب سجل BNS من الشبكة';
 
   @override
   String get bnsYearFive => '5 سنوات';
@@ -1186,7 +1186,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get error_text_beldex => 'لا يمكن أن تتجاوز قيمة Beldex الرصيد المتاح.\nيجب ألا يتجاوز عدد الأرقام العشرية 9 أرقام.';
 
   @override
-  String get error_text_fiat => 'لا يمكن أن تتجاوز قيمة المبلغ الرصيد المتاح.\nيجب ألا يتجاوز عدد الأرقام العشرية رقمين';
+  String get error_text_fiat => 'لا يمكن أن تتجاوز قيمة المبلغ الرصيد المتاح.\nيجب ألا يتجاوز عدد الأرقام العشرية 2';
 
   @override
   String get error_text_service_node => 'لا يمكن أن يحتوي مفتاح العقدة الرئيسية إلا على 64 حرفًا بالنظام السداسي عشري.';
@@ -1195,11 +1195,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get exchangeAmount => 'مبلغ التبادل';
 
   @override
-  String get failedToGetOutputDistribution => 'تعذر الحصول على توزيع المخرجات';
+  String get failedToGetOutputDistribution => 'فشل الحصول على توزيع المخرجات';
 
   @override
   String flashTransactionPriority(Object transactionPriority) {
-    return 'معاملات Flash هي معاملات فورية.\nتم تعيين أولوية $transactionPriority كرسوم افتراضية';
+    return 'معاملات فلاش هي معاملات فورية.\nتم تعيين أولوية $transactionPriority كرسوم افتراضية';
   }
 
   @override
@@ -1223,7 +1223,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get openalias_alert_title => 'تم اكتشاف مستلم Beldex';
 
   @override
-  String get pending => '(قيد الانتظار)';
+  String get pending => 'قيد الانتظار';
 
   @override
   String get please_select => 'يرجى الاختيار:';
@@ -1232,7 +1232,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get pleaseAddAMainnetNode => 'يرجى إضافة عقدة للشبكة الرئيسية';
 
   @override
-  String get received => 'تم الاستلام';
+  String get received => 'المبلغ المستلم';
 
   @override
   String get reconnect_alert_text => 'هل أنت متأكد من أنك تريد إعادة الاتصال؟';
@@ -1303,7 +1303,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String swap_done_exchanging(Object currencyFrom, Object currencyTo) {
-    return 'تم استبدال $currencyFrom بـ $currencyTo';
+    return 'اكتمل تبادل $currencyFrom إلى $currencyTo';
   }
 
   @override
@@ -1332,7 +1332,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String swap_exchanging_currency(Object currencyFrom, Object currencyTo) {
-    return 'جارٍ استبدال $currencyFrom بـ $currencyTo';
+    return 'جارٍ تبادل $currencyFrom إلى $currencyTo';
   }
 
   @override
@@ -1369,7 +1369,7 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
-  String get swap_process_wait => 'ستستغرق العملية بضع دقائق. يرجى الانتظار.';
+  String get swap_process_wait => 'ستستغرق العملية بضع دقائق. يُرجى الانتظار.';
 
   @override
   String swap_recipient_address_with_currency(Object currency) {
@@ -1484,6 +1484,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get address_copied => 'تم نسخ العنوان';
 
   @override
+  String get reconnect_wallet_title => 'إعادة الاتصال بالمحفظة؟';
+
+  @override
+  String get check_your_keys => 'التحقق من مفاتيحك';
+
+  @override
+  String get seed_text_invalid => 'النص المُدخل غير صالح.';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1512,7 +1521,4 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get reconnect_wallet_title => 'إعادة الاتصال بالمحفظة؟';
 }

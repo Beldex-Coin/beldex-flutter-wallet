@@ -98,14 +98,16 @@ mixin _$WalletRestorationStore on WalletRestorationStoreBase, Store {
       required String address,
       required String viewKey,
       required String spendKey,
-      required int restoreHeight}) {
+      required int restoreHeight,
+      required AppLocalizations t}) {
     return _$restoreFromKeysAsyncAction.run(() => super.restoreFromKeys(
         name: name,
         language: language,
         address: address,
         viewKey: viewKey,
         spendKey: spendKey,
-        restoreHeight: restoreHeight));
+        restoreHeight: restoreHeight,
+        t: t));
   }
 
   late final _$WalletRestorationStoreBaseActionController =

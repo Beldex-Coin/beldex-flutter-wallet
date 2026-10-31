@@ -173,7 +173,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get bnsEncryptedWalletValue => 'Giá trị ví được mã hóa';
 
   @override
-  String get bnsEnterValidWalletAddress => 'Nhập địa chỉ ví hợp lệ';
+  String get bnsEnterValidWalletAddress => 'Vui lòng nhập địa chỉ ví hợp lệ.';
 
   @override
   String get bnsEthAddress => 'Địa chỉ ETH';
@@ -209,7 +209,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get bnsNameHint => 'Tên cần mua thông qua Dịch vụ Tên Beldex';
 
   @override
-  String get bnsNameIsTaken => 'Tên BNS đã được sử dụng. Hãy chọn tên khác.';
+  String get bnsNameIsTaken => 'Tên BNS đã có người sử dụng. Vui lòng chọn tên khác.';
 
   @override
   String get bnsNewOwnerHint => 'Nhập địa chỉ ví của chủ sở hữu mới';
@@ -952,10 +952,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get transaction_details_height => 'Chiều cao';
 
   @override
-  String get transaction_details_recipient_address => 'Địa chỉ nhận';
+  String get transaction_details_recipient_address => 'Địa chỉ người nhận';
 
   @override
-  String get transaction_details_transaction_id => 'Mã giao dịch';
+  String get transaction_details_transaction_id => 'ID giao dịch';
 
   @override
   String get transaction_priority_blink => 'Nhanh';
@@ -967,7 +967,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get transactionInitiatedSuccessfully => 'Giao dịch đã được khởi tạo thành công';
 
   @override
-  String get transactions => 'Giao dịch';
+  String get transactions => 'Các giao dịch';
 
   @override
   String get transactions_by_date => 'Giao dịch theo ngày';
@@ -1113,7 +1113,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get bnsConfirmUpdate => 'Xác nhận cập nhật';
 
   @override
-  String get bnsRenewedSuccessfully => 'Đã gia hạn BNS thành công';
+  String get bnsRenewedSuccessfully => 'Gia hạn BNS thành công';
 
   @override
   String get bnsSameBchatId => 'Cùng ID BChat';
@@ -1131,10 +1131,10 @@ class AppLocalizationsVi extends AppLocalizations {
   String get bnsSameWalletAddress => 'Cùng địa chỉ ví';
 
   @override
-  String get bnsUpdatedSuccessfully => 'Đã cập nhật BNS thành công';
+  String get bnsUpdatedSuccessfully => 'Cập nhật BNS thành công';
 
   @override
-  String get bnsWaitForFetch => 'Vui lòng đợi cho đến khi chúng tôi lấy bản ghi BNS từ mạng';
+  String get bnsWaitForFetch => 'Vui lòng đợi trong khi chúng tôi truy xuất bản ghi BNS từ mạng lưới';
 
   @override
   String get bnsYearFive => '5 năm';
@@ -1186,7 +1186,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get error_text_beldex => 'Giá trị Beldex không thể vượt quá số dư khả dụng.\nSố chữ số thập phân phải nhỏ hơn hoặc bằng 9';
 
   @override
-  String get error_text_fiat => 'Giá trị số tiền không thể vượt quá số dư khả dụng.\nSố chữ số thập phân phải nhỏ hơn hoặc bằng 2';
+  String get error_text_fiat => 'Giá trị số tiền không được vượt quá số dư khả dụng.\nSố chữ số thập phân phải nhỏ hơn hoặc bằng 2';
 
   @override
   String get error_text_service_node => 'Khóa Master Node chỉ có thể chứa 64 ký tự thập lục phân';
@@ -1209,7 +1209,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get keys_title => 'Khóa';
 
   @override
-  String get noPendingTransaction => 'Không có giao dịch đang chờ xử lý';
+  String get noPendingTransaction => 'Không có giao dịch nào đang chờ xử lý';
 
   @override
   String get nothing_staked => 'Chưa có gì được stake';
@@ -1223,7 +1223,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get openalias_alert_title => 'Đã phát hiện người nhận Beldex';
 
   @override
-  String get pending => '(đang chờ xử lý)';
+  String get pending => 'Đang chờ xử lý';
 
   @override
   String get please_select => 'Vui lòng chọn:';
@@ -1267,7 +1267,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get service_node_key => 'Khóa Master Node';
 
   @override
-  String get settings_none => 'Không có';
+  String get settings_none => 'Không chọn';
 
   @override
   String get stake_beldex => 'Stake Beldex';
@@ -1299,7 +1299,7 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get swap_confirming_in_progress => 'Đang xác nhận';
+  String get swap_confirming_in_progress => 'Đang chờ xác nhận';
 
   @override
   String swap_done_exchanging(Object currencyFrom, Object currencyTo) {
@@ -1320,7 +1320,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get swap_estimated_time => 'Thời gian ước tính';
 
   @override
-  String get swap_estimated_time_value => '5–30 phút';
+  String get swap_estimated_time_value => '5-30 phút';
 
   @override
   String swap_exchange_address(Object currency, Object exchangeName) {
@@ -1328,11 +1328,11 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get swap_exchanging => 'Đang trao đổi';
+  String get swap_exchanging => 'Đang thực hiện trao đổi';
 
   @override
   String swap_exchanging_currency(Object currencyFrom, Object currencyTo) {
-    return 'Đang đổi $currencyFrom sang $currencyTo';
+    return 'Đang trao đổi $currencyFrom sang $currencyTo';
   }
 
   @override
@@ -1344,10 +1344,10 @@ class AppLocalizationsVi extends AppLocalizations {
   }
 
   @override
-  String get swap_funds_sent_to_wallet => 'Tiền đã được gửi vào ví của bạn';
+  String get swap_funds_sent_to_wallet => 'Đã gửi tiền vào ví của bạn';
 
   @override
-  String get swap_history => 'Lịch sử';
+  String get swap_history => 'lịch sử';
 
   @override
   String get swap_maximum_amount_changed => 'Số tiền tối đa đã thay đổi. Giá trị mới là';
@@ -1484,6 +1484,15 @@ class AppLocalizationsVi extends AppLocalizations {
   String get address_copied => 'Đã sao chép địa chỉ';
 
   @override
+  String get reconnect_wallet_title => 'Kết nối lại ví ?';
+
+  @override
+  String get check_your_keys => 'Kiểm tra các khóa của bạn';
+
+  @override
+  String get seed_text_invalid => 'Văn bản đã nhập không hợp lệ.';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1512,7 +1521,4 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get reconnect_wallet_title => 'Kết nối lại ví ?';
 }

@@ -54,7 +54,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get alert => 'アラート';
 
   @override
-  String get allowFaceIdAuthentication => 'Face ID認証を許可';
+  String get allowFaceIdAuthentication => '顔認証を許可';
 
   @override
   String get amount => '金額';
@@ -173,7 +173,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get bnsEncryptedWalletValue => '暗号化されたウォレット値';
 
   @override
-  String get bnsEnterValidWalletAddress => '有効なウォレットアドレスを入力してください';
+  String get bnsEnterValidWalletAddress => '有効なウォレットアドレスを入力してください。';
 
   @override
   String get bnsEthAddress => 'ETHアドレス';
@@ -203,13 +203,13 @@ class AppLocalizationsJa extends AppLocalizations {
   String get bnsInvalidOwnerAddress => '所有者アドレスが無効です。';
 
   @override
-  String get bnsInvalidWalletAddress => 'ウォレットアドレスが無効です。現在のウォレットをBNS所有者として使用する場合は、空欄のままにしてください。';
+  String get bnsInvalidWalletAddress => '無効なウォレットアドレスです。現在のウォレットをBNSの所有者として使用する場合は、空欄のままにしてください。';
 
   @override
   String get bnsNameHint => 'Beldex Name Serviceを通じて購入する名前';
 
   @override
-  String get bnsNameIsTaken => 'BNS名はすでに使用されています。別の名前を選択してください。';
+  String get bnsNameIsTaken => 'そのBNS名は既に使用されています。別の名前を選択してください。';
 
   @override
   String get bnsNewOwnerHint => '新しい所有者のウォレットアドレスを入力';
@@ -248,7 +248,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get bnsRecordNameHint => 'あなたが所有するBNS名';
 
   @override
-  String get bnsRecordNotFound => '指定されたBNSレコードが存在しないか、このウォレットに属していません。';
+  String get bnsRecordNotFound => '指定されたBNSレコードは存在しないか、このウォレットに属していません。';
 
   @override
   String get bnsRecords => 'BNSレコード';
@@ -636,7 +636,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get reconnect => '再接続';
 
   @override
-  String get reconnectWallet => 'ウォレットを再接続しますか';
+  String get reconnectWallet => 'ウォレットを再接続';
 
   @override
   String get recoverySeed => 'リカバリーシード';
@@ -952,10 +952,10 @@ class AppLocalizationsJa extends AppLocalizations {
   String get transaction_details_height => '身長';
 
   @override
-  String get transaction_details_recipient_address => '受取アドレス';
+  String get transaction_details_recipient_address => '受信者アドレス';
 
   @override
-  String get transaction_details_transaction_id => 'トランザクションID';
+  String get transaction_details_transaction_id => '取引ID';
 
   @override
   String get transaction_priority_blink => '高速';
@@ -967,7 +967,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get transactionInitiatedSuccessfully => 'トランザクションが正常に開始されました';
 
   @override
-  String get transactions => '取引履歴';
+  String get transactions => '取引';
 
   @override
   String get transactions_by_date => '日付別';
@@ -1113,7 +1113,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get bnsConfirmUpdate => '更新の確認';
 
   @override
-  String get bnsRenewedSuccessfully => 'BNSの更新に成功しました';
+  String get bnsRenewedSuccessfully => 'BNSの更新（期間延長）が完了しました';
 
   @override
   String get bnsSameBchatId => '同じBChat ID';
@@ -1186,7 +1186,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get error_text_beldex => 'Beldexの金額は利用可能残高を超えることはできません。\n小数点以下の桁数は9桁以下である必要があります';
 
   @override
-  String get error_text_fiat => '金額は利用可能残高を超えることはできません。\n小数点以下の桁数は2桁以下である必要があります';
+  String get error_text_fiat => '金額は利用可能残高を超えられません。\n小数点以下の桁数は2桁以下である必要があります。';
 
   @override
   String get error_text_service_node => 'マスターノードキーには64文字の16進数のみ使用できます';
@@ -1199,7 +1199,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String flashTransactionPriority(Object transactionPriority) {
-    return 'Flashトランザクションは即時取引です。\n$transactionPriorityの優先度がデフォルトの手数料として設定されています';
+    return '高速トランザクションは即時取引です。\n$transactionPriorityの優先度がデフォルトの手数料として設定されています';
   }
 
   @override
@@ -1223,7 +1223,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get openalias_alert_title => 'Beldexの受取人を検出しました';
 
   @override
-  String get pending => '(保留中)';
+  String get pending => '保留中';
 
   @override
   String get please_select => '選択してください：';
@@ -1232,7 +1232,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get pleaseAddAMainnetNode => 'メインネットノードを追加してください';
 
   @override
-  String get received => '受信済み';
+  String get received => '受信';
 
   @override
   String get reconnect_alert_text => '再接続してもよろしいですか？';
@@ -1299,7 +1299,7 @@ class AppLocalizationsJa extends AppLocalizations {
   }
 
   @override
-  String get swap_confirming_in_progress => '確認中';
+  String get swap_confirming_in_progress => '承認処理中';
 
   @override
   String swap_done_exchanging(Object currencyFrom, Object currencyTo) {
@@ -1313,7 +1313,7 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String swap_enter_refund_address(Object currency) {
-    return '$currencyの返金アドレスを入力してください';
+    return '$currency の返金用アドレスを入力してください';
   }
 
   @override
@@ -1383,7 +1383,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get swap_refund_wallet_address => '返金先ウォレットアドレス';
 
   @override
-  String get swap_see_input_hash_in_explorer => '入力ハッシュをエクスプローラーで表示';
+  String get swap_see_input_hash_in_explorer => 'エクスプローラーで入力ハッシュを確認する';
 
   @override
   String get swap_sending_funds_to_wallet => 'ウォレットに資金を送信しています';
@@ -1407,7 +1407,7 @@ class AppLocalizationsJa extends AppLocalizations {
   String get swap_you_dont_have_to_wait_here => 'ここで待つ必要はありません';
 
   @override
-  String get swap_you_sent => '送信しました';
+  String get swap_you_sent => '送信済み';
 
   @override
   String get swapTransactionReport => 'Beldex_wallet_swap_transaction_report';
@@ -1484,6 +1484,15 @@ class AppLocalizationsJa extends AppLocalizations {
   String get address_copied => 'アドレスをコピーしました';
 
   @override
+  String get reconnect_wallet_title => 'ウォレットを再接続？';
+
+  @override
+  String get check_your_keys => 'キーを確認してください';
+
+  @override
+  String get seed_text_invalid => '入力されたテキストは無効です。';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1512,7 +1521,4 @@ class AppLocalizationsJa extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get reconnect_wallet_title => 'ウォレットを再接続しますか？';
 }

@@ -173,7 +173,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get bnsEncryptedWalletValue => 'Verschlüsselter Wallet-Wert';
 
   @override
-  String get bnsEnterValidWalletAddress => 'Geben Sie eine gültige Wallet-Adresse ein';
+  String get bnsEnterValidWalletAddress => 'Geben Sie eine gültige Wallet-Adresse ein.';
 
   @override
   String get bnsEthAddress => 'ETH-Adresse';
@@ -200,7 +200,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get bnsInvalidName => 'Ungültiger BNS-Name';
 
   @override
-  String get bnsInvalidOwnerAddress => 'Ungültige Besitzeradresse.';
+  String get bnsInvalidOwnerAddress => 'Ungültige Eigentümeradresse.';
 
   @override
   String get bnsInvalidWalletAddress => 'Ungültige Wallet-Adresse. Lassen Sie das Feld leer, wenn Sie die aktuelle Wallet als BNS-Eigentümer verwenden möchten.';
@@ -209,7 +209,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get bnsNameHint => 'Der Name, der über den Beldex Name Service gekauft werden soll';
 
   @override
-  String get bnsNameIsTaken => 'Der BNS-Name ist bereits vergeben. Wählen Sie einen anderen Namen.';
+  String get bnsNameIsTaken => 'Der BNS-Name ist bereits vergeben. Bitte wählen Sie einen anderen.';
 
   @override
   String get bnsNewOwnerHint => 'Geben Sie die Wallet-Adresse des neuen Eigentümers ein';
@@ -218,7 +218,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get bnsNoteLabel => 'Hinweis :';
 
   @override
-  String get bnsOwnerAndBackupDifferent => 'Die Besitzer- und Backup-Adresse müssen unterschiedlich sein.';
+  String get bnsOwnerAndBackupDifferent => 'Eigentümer- und Backup-Adresse müssen unterschiedlich sein.';
 
   @override
   String get bnsOwnerHint => 'Die Wallet-Adresse des Besitzers';
@@ -506,7 +506,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Stellen Sie sicher, dass Sie ein Backup Ihres Wiederherstellungs-Seeds, Ihrer Wallet-Adresse und Ihrer privaten Schlüssel erstellt haben';
 
   @override
-  String get max => 'Max.';
+  String get max => 'Max';
 
   @override
   String get maximumAmount => 'Höchstbetrag ist';
@@ -1125,7 +1125,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get bnsSameEthAddress => 'Gleiche ETH-Adresse';
 
   @override
-  String get bnsSameOwnerAddress => 'Gleiche Besitzeradresse';
+  String get bnsSameOwnerAddress => 'Gleiche Eigentümeradresse';
 
   @override
   String get bnsSameWalletAddress => 'Gleiche Wallet-Adresse';
@@ -1134,7 +1134,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get bnsUpdatedSuccessfully => 'BNS erfolgreich aktualisiert';
 
   @override
-  String get bnsWaitForFetch => 'Bitte warten Sie, bis wir den BNS-Eintrag aus dem Netzwerk abrufen';
+  String get bnsWaitForFetch => 'Bitte warte, während wir den BNS-Eintrag aus dem Netzwerk abrufen';
 
   @override
   String get bnsYearFive => '5 Jahre';
@@ -1177,7 +1177,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get do_you_want_to_exit_an_app => 'Möchten Sie eine App beenden?';
 
   @override
-  String get enterAValidAddress => 'Geben Sie eine gültige Adresse ein';
+  String get enterAValidAddress => 'Gültige Adresse eingeben';
 
   @override
   String get error => 'Fehler';
@@ -1186,7 +1186,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get error_text_beldex => 'Der Beldex-Wert kann das verfügbare Guthaben nicht überschreiten.\nDie Anzahl der Nachkommastellen muss kleiner oder gleich 9 sein';
 
   @override
-  String get error_text_fiat => 'Der Wert des Betrags darf den verfügbaren Kontostand nicht überschreiten.\nDie Anzahl der Nachkommastellen muss kleiner oder gleich 2 sein';
+  String get error_text_fiat => 'Der Betrag darf das verfügbare Guthaben nicht übersteigen.\nDie Anzahl der Nachkommastellen darf höchstens 2 betragen.';
 
   @override
   String get error_text_service_node => 'Master Node Schlüssel können nur 64 hexadezimale Zeichen enthalten';
@@ -1195,7 +1195,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get exchangeAmount => 'Exchange-Betrag';
 
   @override
-  String get failedToGetOutputDistribution => 'Fehler beim Abrufen der Output-Verteilung';
+  String get failedToGetOutputDistribution => 'Abruf der Output-Verteilung fehlgeschlagen.';
 
   @override
   String flashTransactionPriority(Object transactionPriority) {
@@ -1223,7 +1223,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get openalias_alert_title => 'Beldex-Empfänger erkannt';
 
   @override
-  String get pending => ' (steht aus)';
+  String get pending => 'Ausstehend';
 
   @override
   String get please_select => 'Bitte auswählen:';
@@ -1255,7 +1255,7 @@ class AppLocalizationsDe extends AppLocalizations {
   }
 
   @override
-  String get seed_share => 'Teilen Sie Seed';
+  String get seed_share => 'Seed teilen';
 
   @override
   String get send_your_wallet => 'Dein Wallet';
@@ -1347,7 +1347,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get swap_funds_sent_to_wallet => 'Gelder an Ihre Wallet gesendet';
 
   @override
-  String get swap_history => 'Verlauf';
+  String get swap_history => 'Transaktionsverlauf';
 
   @override
   String get swap_maximum_amount_changed => 'Der Maximalbetrag wurde geändert, der neue Wert ist ';
@@ -1407,13 +1407,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get swap_you_dont_have_to_wait_here => 'Sie müssen hier nicht warten';
 
   @override
-  String get swap_you_sent => 'Sie haben gesendet';
+  String get swap_you_sent => 'Gesendet';
 
   @override
   String get swapTransactionReport => 'Beldex_wallet_swap_transaction_report';
 
   @override
-  String get sync_status_connected => 'IN VERBINDUNG GEBRACHT';
+  String get sync_status_connected => 'VERBUNDEN';
 
   @override
   String get sync_status_not_connected => 'NICHT VERBUNDEN';
@@ -1472,7 +1472,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get your_contributions => 'Deine Anteile';
 
   @override
-  String get order_creation_failed_error_message => 'Auftragserstellung fehlgeschlagen';
+  String get order_creation_failed_error_message => 'Erstellung des Auftrags fehlgeschlagen';
 
   @override
   String get flash_on => 'Flash aktivieren';
@@ -1482,6 +1482,15 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get address_copied => 'Adresse kopiert';
+
+  @override
+  String get reconnect_wallet_title => 'Wallet wieder verbinden?';
+
+  @override
+  String get check_your_keys => 'Schlüssel überprüfen';
+
+  @override
+  String get seed_text_invalid => 'Der eingegebene Text ist ungültig.';
 
   @override
   String get seed_language_chinese => 'Chinese (simplified)';
@@ -1512,7 +1521,4 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get reconnect_wallet_title => 'Wallet wieder verbinden?';
 }

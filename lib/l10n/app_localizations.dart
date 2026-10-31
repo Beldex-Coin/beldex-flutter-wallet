@@ -2905,6 +2905,24 @@ abstract class AppLocalizations {
   /// **'Address Copied'**
   String get address_copied;
 
+  /// No description provided for @reconnect_wallet_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reconnect Wallet?'**
+  String get reconnect_wallet_title;
+
+  /// No description provided for @check_your_keys.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your keys'**
+  String get check_your_keys;
+
+  /// No description provided for @seed_text_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'The entered text is invalid.'**
+  String get seed_text_invalid;
+
   /// No description provided for @seed_language_chinese.
   ///
   /// In en, this message translates to:
@@ -2964,12 +2982,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Spanish'**
   String get seed_language_spanish;
-
-  /// No description provided for @reconnect_wallet_title.
-  ///
-  /// In en, this message translates to:
-  /// **'Reconnect Wallet?'**
-  String get reconnect_wallet_title;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

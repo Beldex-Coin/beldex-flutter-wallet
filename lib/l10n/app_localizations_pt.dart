@@ -9,7 +9,7 @@ class AppLocalizationsPt extends AppLocalizations {
   AppLocalizationsPt([String locale = 'pt']) : super(locale);
 
   @override
-  String get unsupportedExchangePair => 'Par de troca não suportado';
+  String get unsupportedExchangePair => 'Par de exchange não suportado';
 
   @override
   String get account => 'Conta';
@@ -145,7 +145,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get bnsBchatId => 'ID do BChat';
 
   @override
-  String get bnsBelnetId => 'ID do Belnet';
+  String get bnsBelnetId => 'ID Belnet';
 
   @override
   String get bnsConfirmPurchase => 'Confirmar compra';
@@ -164,10 +164,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get bnsEncryptedBchatValue => 'Valor BChat criptografado';
 
   @override
-  String get bnsEncryptedBelnetValue => 'Valor Belnet criptografado';
+  String get bnsEncryptedBelnetValue => 'Valor criptografado do Belnet';
 
   @override
-  String get bnsEncryptedEthValue => 'Valor ETH criptografado';
+  String get bnsEncryptedEthValue => 'Valor criptografado de ETH';
 
   @override
   String get bnsEncryptedWalletValue => 'Valor de carteira criptografado';
@@ -203,7 +203,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get bnsInvalidOwnerAddress => 'Endereço do proprietário inválido.';
 
   @override
-  String get bnsInvalidWalletAddress => 'Endereço da carteira inválido. Deixe em branco se quiser usar a carteira atual como proprietária do BNS.';
+  String get bnsInvalidWalletAddress => 'Endereço de carteira inválido. Deixe em branco se desejar usar a carteira atual como proprietária do BNS.';
 
   @override
   String get bnsNameHint => 'O nome a ser adquirido via Beldex Name Service';
@@ -506,7 +506,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get makeSureToBackupOfYournrecoverySeedWalletAddressnandPrivate => 'Certifique-se de fazer backup da sua seed de recuperação, endereço da carteira e chaves privadas';
 
   @override
-  String get max => 'Máx.';
+  String get max => 'Máx';
 
   @override
   String get maximumAmount => 'O valor máximo é';
@@ -654,7 +654,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get rescan => 'Reescanear';
 
   @override
-  String get rescanWallet => 'Reescanear Carteira';
+  String get rescanWallet => 'Reescanear carteira';
 
   @override
   String get reset => 'Redefinir';
@@ -910,7 +910,7 @@ class AppLocalizationsPt extends AppLocalizations {
   }
 
   @override
-  String get swap_transaction_preview => 'Pré-visualização da transação';
+  String get swap_transaction_preview => 'Prévia da Transação';
 
   @override
   String get swap_you_get => 'Você recebe';
@@ -1134,7 +1134,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get bnsUpdatedSuccessfully => 'BNS atualizado com sucesso';
 
   @override
-  String get bnsWaitForFetch => 'Aguarde enquanto buscamos o registro BNS da rede';
+  String get bnsWaitForFetch => 'Aguarde enquanto buscamos o registro BNS na rede';
 
   @override
   String get bnsYearFive => '5 anos';
@@ -1186,7 +1186,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get error_text_beldex => 'O valor de Beldex não pode exceder o saldo disponível.\nO número de casas decimais deve ser menor ou igual a 9';
 
   @override
-  String get error_text_fiat => 'O valor do montante não pode exceder o saldo disponível.\nO número de casas decimais deve ser menor ou igual a 2';
+  String get error_text_fiat => 'O valor não pode exceder o saldo disponível.\nO número de casas decimais deve ser igual ou inferior a 2';
 
   @override
   String get error_text_service_node => 'Uma chave de Master Node pode conter apenas 64 caracteres hexadecimais';
@@ -1195,7 +1195,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get exchangeAmount => 'Valor da troca';
 
   @override
-  String get failedToGetOutputDistribution => 'Falha ao obter a distribuição da saída';
+  String get failedToGetOutputDistribution => 'Falha ao obter a distribuição de saída';
 
   @override
   String flashTransactionPriority(Object transactionPriority) {
@@ -1223,7 +1223,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get openalias_alert_title => 'Destinatário Beldex detectado';
 
   @override
-  String get pending => '(pendente)';
+  String get pending => 'Pendente';
 
   @override
   String get please_select => 'Selecione:';
@@ -1320,7 +1320,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get swap_estimated_time => 'Tempo estimado';
 
   @override
-  String get swap_estimated_time_value => '5–30 min';
+  String get swap_estimated_time_value => '5 a 30 minutos';
 
   @override
   String swap_exchange_address(Object currency, Object exchangeName) {
@@ -1383,7 +1383,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get swap_refund_wallet_address => 'Endereço da carteira de reembolso';
 
   @override
-  String get swap_see_input_hash_in_explorer => 'Ver o hash de entrada no explorador';
+  String get swap_see_input_hash_in_explorer => 'Ver hash de entrada no explorador';
 
   @override
   String get swap_sending_funds_to_wallet => 'Enviando fundos para sua carteira';
@@ -1401,7 +1401,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get swap_status_refunded => 'Reembolsado';
 
   @override
-  String get swap_you_can_initiate_new_transaction => 'Você pode iniciar uma nova transação. Você pode verificar o status desta transação a qualquer momento no histórico de transações.';
+  String get swap_you_can_initiate_new_transaction => 'Você pode iniciar uma nova transação. Você pode verificar o status desta transação a qualquer momento no histórico de transações';
 
   @override
   String get swap_you_dont_have_to_wait_here => 'Você não precisa esperar aqui';
@@ -1484,6 +1484,15 @@ class AppLocalizationsPt extends AppLocalizations {
   String get address_copied => 'Endereço copiado';
 
   @override
+  String get reconnect_wallet_title => 'Reconectar Carteira?';
+
+  @override
+  String get check_your_keys => 'Verificar suas chaves';
+
+  @override
+  String get seed_text_invalid => 'O texto inserido é inválido.';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1512,7 +1521,4 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get reconnect_wallet_title => 'Reconectar Carteira?';
 }

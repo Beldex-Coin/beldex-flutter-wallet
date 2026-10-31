@@ -1484,6 +1484,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get address_copied => 'Address Copied';
 
   @override
+  String get reconnect_wallet_title => 'Reconnect Wallet?';
+
+  @override
+  String get check_your_keys => 'Check your keys';
+
+  @override
+  String get seed_text_invalid => 'The entered text is invalid.';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1512,7 +1521,4 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get reconnect_wallet_title => 'Reconnect Wallet?';
 }

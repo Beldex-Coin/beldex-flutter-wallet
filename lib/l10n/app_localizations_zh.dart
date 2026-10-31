@@ -54,7 +54,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get alert => '提示';
 
   @override
-  String get allowFaceIdAuthentication => '允许使用 Face ID 进行身份验证';
+  String get allowFaceIdAuthentication => '允许使用面容 ID 验证';
 
   @override
   String get amount => '金额';
@@ -173,7 +173,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get bnsEncryptedWalletValue => '加密的钱包值';
 
   @override
-  String get bnsEnterValidWalletAddress => '请输入有效的钱包地址';
+  String get bnsEnterValidWalletAddress => '请输入有效的钱包地址。';
 
   @override
   String get bnsEthAddress => 'ETH 地址';
@@ -197,19 +197,19 @@ class AppLocalizationsZh extends AppLocalizations {
   String get bnsInvalidEthAddress => '无效的 ETH 地址';
 
   @override
-  String get bnsInvalidName => 'BNS 名称无效';
+  String get bnsInvalidName => '无效的 BNS 名称';
 
   @override
   String get bnsInvalidOwnerAddress => '所有者地址无效。';
 
   @override
-  String get bnsInvalidWalletAddress => '钱包地址无效。如果您希望使用当前钱包作为 BNS 所有者，请留空。';
+  String get bnsInvalidWalletAddress => '无效的钱包地址。若希望将当前钱包设为 BNS 所有者，请留空。';
 
   @override
   String get bnsNameHint => '通过 Beldex 名称服务购买的名称';
 
   @override
-  String get bnsNameIsTaken => 'BNS 名称已被使用。请选择其他名称。';
+  String get bnsNameIsTaken => '该 BNS 名称已被占用，请另选一个。';
 
   @override
   String get bnsNewOwnerHint => '输入新所有者的钱包地址';
@@ -1195,7 +1195,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get exchangeAmount => '兑换金额';
 
   @override
-  String get failedToGetOutputDistribution => '无法获取输出分配';
+  String get failedToGetOutputDistribution => '获取输出分配失败';
 
   @override
   String flashTransactionPriority(Object transactionPriority) {
@@ -1209,7 +1209,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get keys_title => '密钥';
 
   @override
-  String get noPendingTransaction => '没有待处理的交易';
+  String get noPendingTransaction => '暂无待处理交易';
 
   @override
   String get nothing_staked => '尚未进行任何质押';
@@ -1223,7 +1223,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get openalias_alert_title => '检测到 Beldex 收款方';
 
   @override
-  String get pending => '(待处理)';
+  String get pending => '待处理';
 
   @override
   String get please_select => '请选择：';
@@ -1328,7 +1328,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get swap_exchanging => '正在兑换';
+  String get swap_exchanging => '兑换中';
 
   @override
   String swap_exchanging_currency(Object currencyFrom, Object currencyTo) {
@@ -1445,7 +1445,7 @@ class AppLocalizationsZh extends AppLocalizations {
   }
 
   @override
-  String get transaction_details_payment_id => '支付 ID';
+  String get transaction_details_payment_id => '付款 ID';
 
   @override
   String get transaction_details_title => '交易详情';
@@ -1484,6 +1484,15 @@ class AppLocalizationsZh extends AppLocalizations {
   String get address_copied => '地址已复制';
 
   @override
+  String get reconnect_wallet_title => '重新连接钱包？';
+
+  @override
+  String get check_your_keys => '检查您的密钥';
+
+  @override
+  String get seed_text_invalid => '输入的文本无效。';
+
+  @override
   String get seed_language_chinese => 'Chinese (simplified)';
 
   @override
@@ -1512,7 +1521,4 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get seed_language_spanish => 'Spanish';
-
-  @override
-  String get reconnect_wallet_title => '重新连接钱包？';
 }
