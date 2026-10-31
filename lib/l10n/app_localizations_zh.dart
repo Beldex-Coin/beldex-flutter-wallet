@@ -1223,7 +1223,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get openalias_alert_title => '检测到 Beldex 收款方';
 
   @override
-  String get pending => '待处理';
+  String get pending => '(待处理)';
 
   @override
   String get please_select => '请选择：';
@@ -1401,7 +1401,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get swap_status_refunded => '已退款';
 
   @override
-  String get swap_you_can_initiate_new_transaction => '您可以发起新的交易。您可以随时在交易历史记录中查看此交易的状态。';
+  String get swap_you_can_initiate_new_transaction => '您可以发起新的交易。您可以随时在交易历史记录中查看此交易的状态 ';
 
   @override
   String get swap_you_dont_have_to_wait_here => '您无需在此等待';

@@ -385,7 +385,7 @@
   "nothing_staked": "Nothing staked yet",
   "openalias_alert_content": "You will be sending funds to\n{recipient_name}",
   "openalias_alert_title": "Beldex Recipient Detected",
-  "pending": " (pending)",
+  "pending": "(pending)",
   "please_select": "Please select:",
   "pleaseAddAMainnetNode": "Please add a mainnet node",
   "received": "Received",

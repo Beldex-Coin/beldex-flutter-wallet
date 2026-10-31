@@ -2434,7 +2434,7 @@ abstract class AppLocalizations {
   /// No description provided for @pending.
   ///
   /// In en, this message translates to:
-  /// **' (pending)'**
+  /// **'(pending)'**
   String get pending;
 
   /// No description provided for @please_select.

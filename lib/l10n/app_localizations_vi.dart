@@ -1223,7 +1223,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get openalias_alert_title => 'Đã phát hiện người nhận Beldex';
 
   @override
-  String get pending => 'Đang chờ xử lý';
+  String get pending => '(chưa giải quyết)';
 
   @override
   String get please_select => 'Vui lòng chọn:';
@@ -1401,7 +1401,7 @@ class AppLocalizationsVi extends AppLocalizations {
   String get swap_status_refunded => 'Đã hoàn tiền';
 
   @override
-  String get swap_you_can_initiate_new_transaction => 'Bạn có thể bắt đầu một giao dịch mới. Bạn luôn có thể kiểm tra trạng thái của giao dịch này trong lịch sử giao dịch.';
+  String get swap_you_can_initiate_new_transaction => 'Bạn có thể bắt đầu một giao dịch mới. Bạn luôn có thể kiểm tra trạng thái của giao dịch này trong lịch sử giao dịch ';
 
   @override
   String get swap_you_dont_have_to_wait_here => 'Bạn không cần phải chờ ở đây';

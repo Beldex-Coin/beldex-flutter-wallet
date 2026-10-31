@@ -1223,7 +1223,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get openalias_alert_title => 'Destinatario de Beldex detectado';
 
   @override
-  String get pending => 'Pendiente';
+  String get pending => '(pendiente)';
 
   @override
   String get please_select => 'Selecciona:';
@@ -1401,7 +1401,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get swap_status_refunded => 'Reembolsado';
 
   @override
-  String get swap_you_can_initiate_new_transaction => 'Puedes iniciar una nueva transacción. Siempre puedes consultar el estado de esta transacción en el historial de transacciones';
+  String get swap_you_can_initiate_new_transaction => 'Puedes iniciar una nueva transacción. Siempre puedes consultar el estado de esta transacción en el historial de transacciones ';
 
   @override
   String get swap_you_dont_have_to_wait_here => 'No tienes que esperar aquí';

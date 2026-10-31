@@ -1223,7 +1223,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get openalias_alert_title => 'Beldex Recipient Detected';
 
   @override
-  String get pending => ' (pending)';
+  String get pending => '(pending)';
 
   @override
   String get please_select => 'Please select:';

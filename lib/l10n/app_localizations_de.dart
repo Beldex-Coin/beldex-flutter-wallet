@@ -1195,7 +1195,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get exchangeAmount => 'Exchange-Betrag';
 
   @override
-  String get failedToGetOutputDistribution => 'Abruf der Output-Verteilung fehlgeschlagen.';
+  String get failedToGetOutputDistribution => 'Abruf der Output-Verteilung fehlgeschlagen';
 
   @override
   String flashTransactionPriority(Object transactionPriority) {
@@ -1223,7 +1223,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get openalias_alert_title => 'Beldex-Empfänger erkannt';
 
   @override
-  String get pending => 'Ausstehend';
+  String get pending => '(steht aus)';
 
   @override
   String get please_select => 'Bitte auswählen:';
@@ -1320,7 +1320,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get swap_estimated_time => 'Geschätzte Zeit';
 
   @override
-  String get swap_estimated_time_value => '5-30 Min.';
+  String get swap_estimated_time_value => '5-30 Min';
 
   @override
   String swap_exchange_address(Object currency, Object exchangeName) {

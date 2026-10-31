@@ -1223,7 +1223,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get openalias_alert_title => 'تم اكتشاف مستلم Beldex';
 
   @override
-  String get pending => 'قيد الانتظار';
+  String get pending => '(قيد الانتظار)';
 
   @override
   String get please_select => 'يرجى الاختيار:';
@@ -1401,7 +1401,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get swap_status_refunded => 'تم الاسترداد';
 
   @override
-  String get swap_you_can_initiate_new_transaction => 'يمكنك بدء معاملة جديدة. يمكنك دائمًا التحقق من حالة هذه المعاملة في سجل المعاملات.';
+  String get swap_you_can_initiate_new_transaction => 'يمكنك بدء معاملة جديدة. يمكنك دائمًا التحقق من حالة هذه المعاملة في سجل المعاملات ';
 
   @override
   String get swap_you_dont_have_to_wait_here => 'لا يتعين عليك الانتظار هنا';

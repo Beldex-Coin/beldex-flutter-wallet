@@ -1223,7 +1223,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get openalias_alert_title => 'Обнаружен получатель Beldex';
 
   @override
-  String get pending => 'В ожидании';
+  String get pending => '(в ожидании)';
 
   @override
   String get please_select => 'Выберите:';
@@ -1401,7 +1401,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get swap_status_refunded => 'Возвращено';
 
   @override
-  String get swap_you_can_initiate_new_transaction => 'Вы можете начать новую транзакцию. Вы всегда можете проверить статус этой транзакции в истории транзакций';
+  String get swap_you_can_initiate_new_transaction => 'Вы можете начать новую транзакцию. Вы всегда можете проверить статус этой транзакции в истории транзакций ';
 
   @override
   String get swap_you_dont_have_to_wait_here => 'Вам не нужно ждать здесь';

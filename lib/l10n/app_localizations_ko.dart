@@ -1223,7 +1223,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get openalias_alert_title => 'Beldex 수신자가 감지되었습니다';
 
   @override
-  String get pending => '대기 중';
+  String get pending => '(대기 중)';
 
   @override
   String get please_select => '선택하세요:';
@@ -1401,7 +1401,7 @@ class AppLocalizationsKo extends AppLocalizations {
   String get swap_status_refunded => '환불됨';
 
   @override
-  String get swap_you_can_initiate_new_transaction => '새 거래를 시작할 수 있습니다. 이 거래의 상태는 언제든지 거래 내역에서 확인할 수 있습니다';
+  String get swap_you_can_initiate_new_transaction => '새 거래를 시작할 수 있습니다. 이 거래의 상태는 언제든지 거래 내역에서 확인할 수 있습니다 ';
 
   @override
   String get swap_you_dont_have_to_wait_here => '여기서 기다릴 필요가 없습니다';
