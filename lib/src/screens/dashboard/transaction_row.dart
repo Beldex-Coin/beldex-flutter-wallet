@@ -84,72 +84,71 @@ class TransactionRow extends StatelessWidget {
                             child: direction == TransactionDirection.incoming
                                 ? SvgPicture.asset(
                                     'assets/images/new-images/incoming.svg',
-                                    colorFilter: ColorFilter.mode(direction ==
-                                            TransactionDirection.incoming
-                                        ? Colors.green
-                                        : Colors.red, BlendMode.srcIn),
-                                    //fit:BoxFit.cover
                                   )
                                 : isBns==true ? SvgPicture.asset(
                               'assets/images/new-images/ic_bns_dark.svg',
                               colorFilter: ColorFilter.mode(Color(0xffAFAFBE), BlendMode.srcIn),
-                              //fit:BoxFit.cover
                             ) : Padding(
                                     padding: EdgeInsetsDirectional.all(5),
                                     child: SvgPicture.asset(
                                       'assets/images/new-images/outgoing_red.svg',
                                     ),
                                   )),
+                        const SizedBox(width: 5,),
                         Expanded(
-                            child: Padding(
-                          padding: const EdgeInsetsDirectional.only(start: 10, end: 10),
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(formattedAmount,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w900,
-                                            fontSize: 14,
-                                            color: settingsStore.isDarkTheme
-                                                ? Color(0xffACACAC)
-                                                : Color(0xff626262))),
-                                    Text(
-                                        (direction ==
-                                                    TransactionDirection
-                                                        .incoming
-                                                ? tr(context).received
-                                                : tr(context).sent) +
-                                            (isPending
-                                                ? tr(context).pending
-                                                : // isStake ? tr(context).stake :
-                                                ''),
-                                        style: TextStyle(
-                                            fontSize: 14,
-                                            color: settingsStore.isDarkTheme
-                                                ? Color(0xffACACAC)
-                                                : Color(0xff626262))),
-                                  ]),
-                              SizedBox(height: 6),
-                              Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Text(formattedDate,
-                                        style: TextStyle(
-                                            fontSize: 13,
-                                            color: settingsStore.isDarkTheme
-                                                ? Color(0xffACACAC)
-                                                : Color(0xff626262))),
-                                    // Text(formattedFiatAmount,
-                                    //     style: const TextStyle(
-                                    //         fontSize: 14, color: Palette.blueGrey))
-                                  ]),
-                            ],
-                          ),
-                        )),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Text(
+                                          formattedAmount,
+                                          maxLines: 2,
+                                          overflow: TextOverflow.visible,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w900,
+                                              fontSize: 14,
+                                              color: settingsStore.isDarkTheme
+                                                  ? Color(0xffACACAC)
+                                                  : Color(0xff626262)),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          (direction ==
+                                                      TransactionDirection
+                                                          .incoming
+                                                  ? tr(context).received
+                                                  : tr(context).send) +
+                                              (isPending
+                                                  ? tr(context).pending
+                                                  : // isStake ? tr(context).stake :
+                                                  ''),
+                                          maxLines: 2,
+                                          overflow: TextOverflow.visible,
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: settingsStore.isDarkTheme
+                                                  ? Color(0xffACACAC)
+                                                  : Color(0xff626262)),
+                                        ),
+                                      ),
+                                    ]),
+                                SizedBox(height: 6),
+                                Text(formattedDate,
+                                    textAlign: TextAlign.start,
+                                    textDirection: Directionality.of(context),
+                                    style: TextStyle(
+                                        fontSize: 13,
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xffACACAC)
+                                            : Color(0xff626262)))
+                              ],
+                            )),
                         //Icon(Icons.keyboard_arrow_down)
                       ]),
                     ],
