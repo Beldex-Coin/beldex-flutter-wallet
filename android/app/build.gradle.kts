@@ -89,6 +89,12 @@ android {
 
     ndkVersion = "28.2.13676358"
     buildToolsVersion = "36.0.0"
+
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
 }
 
 flutter {
