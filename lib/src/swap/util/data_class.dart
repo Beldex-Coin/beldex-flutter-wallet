@@ -1,6 +1,7 @@
 
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
+import 'package:beldex_wallet/src/swap/model/swap_transaction_item_model.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../model/create_transaction_model.dart';
@@ -30,7 +31,7 @@ class ExchangeData {
 class SwapTransactionHistory {
   SwapTransactionHistory(this.transactionIdList);
 
-  List<String> transactionIdList;
+  List<SwapTransactionItemModel> transactionIdList;
 }
 
 class ExchangeDataWithRecipientAddress {

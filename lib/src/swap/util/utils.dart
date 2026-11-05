@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:beldex_wallet/src/swap/model/swap_transaction_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/services/platform_channel.dart';
 import 'package:flutter_svg/svg.dart';
@@ -64,7 +65,7 @@ Future<void> openUrl({required MethodChannel methodChannelPlatform, required Str
   'url': url,
 });
 
-Future<void> storeTransactionIds(String fileName, String key, dynamic transactionId) async {
+Future<void> storeTransactionIds(String fileName, String key, dynamic transactionId, bool privacySwapApiEnable) async {
   try {
     // Get the documents directory
     final dir = await getApplicationDocumentsDirectory();
@@ -94,9 +95,27 @@ Future<void> storeTransactionIds(String fileName, String key, dynamic transactio
 
     // Add value to the array at the specified key
     if (data.containsKey(key) && data[key] is List) {
-      data[key].add(transactionId);
+      final list = data[key] as List;
+
+      // Convert old format if needed
+      if (list.isNotEmpty && list.first is String) {
+        data[key] = list.map((e) => {
+          "transactionId": e,
+          "isPrivacySwap": false,
+        }).toList();
+      }
+
+      (data[key] as List).add({
+        "transactionId": transactionId,
+        "isPrivacySwap": privacySwapApiEnable,
+      });
     } else {
-      data[key] = [transactionId];
+      data[key] = [
+        {
+          "transactionId": transactionId,
+          "isPrivacySwap": privacySwapApiEnable,
+        }
+      ];
     }
     // Encode the updated data back to JSON
     final updatedJsonString = jsonEncode(data);
@@ -109,7 +128,7 @@ Future<void> storeTransactionIds(String fileName, String key, dynamic transactio
   }
 }
 
-Future<List<String>> getTransactionIds(String fileName, String key) async {
+Future<List<SwapTransactionItemModel>> getTransactionIds(String fileName, String key) async {
   try {
     final dir = await getApplicationDocumentsDirectory();
     final filePath = p.join(dir.path, fileName);
@@ -129,12 +148,25 @@ Future<List<String>> getTransactionIds(String fileName, String key) async {
     final Map<String, dynamic> data = jsonDecode(jsonString);
 
     if (data.containsKey(key) && data[key] is List) {
-      final List<String> array = (data[key] as List).cast<String>();
-      return array;
-    } else {
-      print("Key '$key' not found or is not a list.");
-      return [];
+      final List list = data[key];
+
+      return list.map((item) {
+        // Old format
+        if (item is String) {
+          return SwapTransactionItemModel(
+            transactionId: item,
+            isPrivacySwap: false,
+          );
+        }
+
+        // New format
+        return SwapTransactionItemModel(
+          transactionId: item['transactionId'],
+          isPrivacySwap: item['isPrivacySwap'] ?? false,
+        );
+      }).toList();
     }
+    return [];
   } catch (e) {
     print("Error reading JSON: $e");
     return [];

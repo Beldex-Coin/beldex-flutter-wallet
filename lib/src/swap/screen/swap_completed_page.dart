@@ -5,6 +5,7 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/model/get_status_model.dart';
 import 'package:beldex_wallet/src/swap/model/get_transactions_model.dart';
+import 'package:beldex_wallet/src/swap/model/swap_transaction_item_model.dart';
 import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
 import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
 import 'package:beldex_wallet/src/util/constants.dart';
@@ -88,7 +89,7 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
   late TransactionStatus transactionStatus;
   late Timer timer;
   late GetStatusApiClient getStatusApiClient;
-  late List<String> stored = [];
+  late List<SwapTransactionItemModel> stored = [];
   late GetTransactionsProvider getTransactionsProvider;
   late NetworkProvider networkProvider;
   bool _isInitialized = false;
@@ -96,8 +97,8 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
   @override
   void initState() {
     transactionStatus = widget.transactionStatus;
-    getTransactionIds(swapTransactionHistoryFileName, transactionStatus.walletAddress).then((List<String> ids) {
-      stored = ids;
+    getTransactionIds(swapTransactionHistoryFileName, transactionStatus.walletAddress).then((List<SwapTransactionItemModel> item) {
+      stored = item;
     });
     Future.delayed(Duration(seconds: 2), () {
       WidgetsBinding.instance.addPostFrameCallback((_) {

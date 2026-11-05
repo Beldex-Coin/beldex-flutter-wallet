@@ -10,6 +10,7 @@ import 'package:beldex_wallet/src/swap/model/get_exchange_amount_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
 import '../../../routes.dart';
 import '../../util/constants.dart';
@@ -675,11 +676,15 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     );
   }
 
+  Future<SharedPreferences> get _prefs => SharedPreferences.getInstance();
+
   void createTransaction(Map<String, String> params, String? toBlockChain, String walletAddress) {
-    callCreateTransactionApi(params).then((value) {
+    callCreateTransactionApi(params).then((value) async {
       if (value?.result != null) {
+        final prefs = await _prefs;
+        final privacySwapApiEnable = prefs.getBool('privacySwap') ?? false;
         print('Status -> Success');
-        storeTransactionIds(swapTransactionHistoryFileName, walletAddress, value!.result!.id);
+        storeTransactionIds(swapTransactionHistoryFileName, walletAddress, value!.result!.id, privacySwapApiEnable);
         Future.delayed(Duration(seconds: 2), () {
           Navigator.of(context).pop();
           Navigator.of(context).pop(true);

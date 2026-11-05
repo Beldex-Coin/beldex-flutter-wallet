@@ -102,11 +102,15 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     _swapTransactionHistory = widget.swapTransactionHistory;
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final provider = Provider.of<GetTransactionsProvider>(context,listen: false);
-      provider.getTransactionsListData(context,{"id":_swapTransactionHistory.transactionIdList});
+      provider.getTransactionsListData(context,{"id":_swapTransactionHistory.transactionIdList
+          .map((e) => e.transactionId)
+          .toList()});
       timer?.cancel();
       timer = Timer.periodic(Duration(seconds: 30), (timer) {
         if (!mounted && !networkProvider.isConnected) return;
-        provider.getTransactionsListData(context,{"id":_swapTransactionHistory.transactionIdList});
+        provider.getTransactionsListData(context,{"id":_swapTransactionHistory.transactionIdList
+            .map((e) => e.transactionId)
+            .toList()});
       });
     });
     super.initState();
