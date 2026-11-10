@@ -180,11 +180,15 @@ extern "C"
         Beldex::PendingTransaction *transaction;
 
         PendingTransactionRaw(Beldex::PendingTransaction *_transaction)
+            : amount(0), fee(0), hash(nullptr), transaction(_transaction)
         {
-            transaction = _transaction;
+            if (_transaction == nullptr)
+                return;
+
             amount = _transaction->amount();
             fee = _transaction->fee();
-            hash = strdup(_transaction->txid()[0].c_str());
+            const std::vector<std::string> txids = _transaction->txid();
+            hash = strdup(txids.empty() ? "" : txids.front().c_str());
         }
     };
 
@@ -641,12 +645,16 @@ extern "C"
             amt = Beldex::Wallet::amountFromString(amount);
 
         transaction = m_wallet->createTransaction(address, amt, priority, subaddr_account);
+        if (transaction == nullptr)
+            return make_fail_status("Failed to create transaction.");
 
-        int status = transaction->status().first;
+        const auto transactionStatus = transaction->status();
 
-        if (status == Beldex::PendingTransaction::Status::Status_Error || status == Beldex::PendingTransaction::Status::Status_Critical)
+        if (transactionStatus.first == Beldex::PendingTransaction::Status::Status_Error ||
+            transactionStatus.first == Beldex::PendingTransaction::Status::Status_Critical)
         {
-            return make_fail_status(transaction->status().second);
+            m_wallet->disposeTransaction(transaction);
+            return make_fail_status(transactionStatus.second);
         }
 
         pendingTransaction = PendingTransactionRaw(transaction);

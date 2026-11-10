@@ -10,12 +10,17 @@ base class PendingTransactionRaw extends Struct {
 
   external Pointer<Utf8> hash;
 
+  external Pointer<Void> transaction;
+
   String getHash() => hash.toDartString();
 }
 
 class PendingTransactionDescription {
   PendingTransactionDescription(
-      {required this.amount, required this.fee, required this.hash, required this.pointerAddress});
+      {required this.amount,
+      required this.fee,
+      required this.hash,
+      required this.pointerAddress});
 
   final int amount;
   final int fee;
