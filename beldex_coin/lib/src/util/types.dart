@@ -69,6 +69,10 @@ typedef SubaddressRefresh = void Function(int);
 
 typedef SubaddressGetAll = Pointer<Int64> Function();
 
+typedef SubaddressGetAllWithSize = Pointer<Int64> Function(Pointer<Int32>);
+
+typedef SubaddressFreeAll = void Function(Pointer<Int64>, int);
+
 typedef SubaddressAddNew = void Function(int accountIndex, Pointer<Utf8> label);
 
 typedef SubaddressSetLabel = void Function(
@@ -79,6 +83,10 @@ typedef AccountSize = int Function();
 typedef AccountRefresh = void Function();
 
 typedef AccountGetAll = Pointer<Int64> Function();
+
+typedef AccountGetAllWithSize = Pointer<Int64> Function(Pointer<Int32>);
+
+typedef AccountFreeAll = void Function(Pointer<Int64>, int);
 
 typedef AccountAddNew = void Function(Pointer<Utf8> label);
 
@@ -129,10 +137,8 @@ typedef BnsRenew = status_and_error Function(
     int subaddrAccount,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
-typedef CreateSweepAllTransaction = status_and_error Function(
-    int priorityRaw,
-    int subaddrAccount,
-    Pointer<PendingTransactionRaw> pendingTransaction);
+typedef CreateSweepAllTransaction = status_and_error Function(int priorityRaw,
+    int subaddrAccount, Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef TransactionCommit = status_and_error Function(
     Pointer<PendingTransactionRaw>);
@@ -147,10 +153,8 @@ typedef BnsCount = int Function();
 
 typedef BnsGetAll = Pointer<Int64> Function();
 
-typedef StakeCreate = status_and_error Function(
-    Pointer<Utf8> masterNodeKey,
-    Pointer<Utf8> amount,
-    Pointer<PendingTransactionRaw> pendingTransaction);
+typedef StakeCreate = status_and_error Function(Pointer<Utf8> masterNodeKey,
+    Pointer<Utf8> amount, Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef CanRequestUnstake = int Function(Pointer<Utf8> masterNodeKey);
 
@@ -160,7 +164,8 @@ typedef GetNameToNameHash = Pointer<Utf8> Function(Pointer<Utf8> name);
 
 typedef get_names_to_namehash = Pointer<Utf8> Function(Pointer<Utf8> name);
 
-typedef SubmitStakeUnlock = status_and_error Function(Pointer<Utf8> masterNodeKey,
+typedef SubmitStakeUnlock = status_and_error Function(
+    Pointer<Utf8> masterNodeKey,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef SecretViewKey = Pointer<Utf8> Function();

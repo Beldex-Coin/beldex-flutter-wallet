@@ -871,6 +871,41 @@ extern "C"
     }
 
     EXPORT
+    int64_t *subaddress_get_all_with_size(int32_t *size)
+    {
+        std::vector<Beldex::SubaddressRow *> _subaddresses = m_subaddress->getAll();
+        *size = static_cast<int32_t>(_subaddresses.size());
+        int64_t *subaddresses = (int64_t *)malloc(*size * sizeof(int64_t));
+
+        for (int32_t i = 0; i < *size; i++)
+        {
+            Beldex::SubaddressRow *row = _subaddresses[i];
+            SubaddressRow *_row = new SubaddressRow(row->getRowId(), strdup(row->getAddress().c_str()), strdup(row->getLabel().c_str()));
+            subaddresses[i] = reinterpret_cast<int64_t>(_row);
+        }
+
+        return subaddresses;
+    }
+
+    EXPORT
+    void subaddress_free_all(int64_t *subaddresses, int32_t size)
+    {
+        if (subaddresses == nullptr)
+        {
+            return;
+        }
+
+        for (int32_t i = 0; i < size; i++)
+        {
+            SubaddressRow *row = reinterpret_cast<SubaddressRow *>(subaddresses[i]);
+            free(row->address);
+            free(row->label);
+            delete row;
+        }
+        free(subaddresses);
+    }
+
+    EXPORT
     int32_t subaddress_size()
     {
         std::vector<Beldex::SubaddressRow *> _subaddresses = m_subaddress->getAll();
@@ -916,6 +951,40 @@ extern "C"
         }
 
         return accounts;
+    }
+
+    EXPORT
+    int64_t *account_get_all_with_size(int32_t *size)
+    {
+        std::vector<Beldex::SubaddressAccountRow *> _accounts = m_account->getAll();
+        *size = static_cast<int32_t>(_accounts.size());
+        int64_t *accounts = (int64_t *)malloc(*size * sizeof(int64_t));
+
+        for (int32_t i = 0; i < *size; i++)
+        {
+            Beldex::SubaddressAccountRow *row = _accounts[i];
+            AccountRow *_row = new AccountRow(row->getRowId(), strdup(row->getLabel().c_str()));
+            accounts[i] = reinterpret_cast<int64_t>(_row);
+        }
+
+        return accounts;
+    }
+
+    EXPORT
+    void account_free_all(int64_t *accounts, int32_t size)
+    {
+        if (accounts == nullptr)
+        {
+            return;
+        }
+
+        for (int32_t i = 0; i < size; i++)
+        {
+            AccountRow *row = reinterpret_cast<AccountRow *>(accounts[i]);
+            free(row->label);
+            delete row;
+        }
+        free(accounts);
     }
 
     EXPORT

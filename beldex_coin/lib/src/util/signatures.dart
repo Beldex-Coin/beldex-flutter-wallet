@@ -69,6 +69,10 @@ typedef subaddress_refresh = Void Function(Int32);
 
 typedef subaddress_get_all = Pointer<Int64> Function();
 
+typedef subaddress_get_all_with_size = Pointer<Int64> Function(Pointer<Int32>);
+
+typedef subaddress_free_all = Void Function(Pointer<Int64>, Int32);
+
 typedef subaddress_add_new = Void Function(
     Int32 accountIndex, Pointer<Utf8> label);
 
@@ -80,6 +84,10 @@ typedef account_size = Int32 Function();
 typedef account_refresh = Void Function();
 
 typedef account_get_all = Pointer<Int64> Function();
+
+typedef account_get_all_with_size = Pointer<Int64> Function(Pointer<Int32>);
+
+typedef account_free_all = Void Function(Pointer<Int64>, Int32);
 
 typedef account_add_new = Void Function(Pointer<Utf8> label);
 
@@ -149,16 +157,15 @@ typedef bns_count = Int32 Function();
 
 typedef bns_get_all = Pointer<Int64> Function();
 
-typedef stake_create = status_and_error Function(
-    Pointer<Utf8> masterNodeKey,
-    Pointer<Utf8> amount,
-    Pointer<PendingTransactionRaw> pendingTransaction);
+typedef stake_create = status_and_error Function(Pointer<Utf8> masterNodeKey,
+    Pointer<Utf8> amount, Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef can_request_unstake = Int8 Function(Pointer<Utf8> masterNodeKey);
 
 typedef bns_set_record = Int8 Function(Pointer<Utf8> name);
 
-typedef submit_stake_unlock = status_and_error Function(Pointer<Utf8> masterNodeKey,
+typedef submit_stake_unlock = status_and_error Function(
+    Pointer<Utf8> masterNodeKey,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
 typedef secret_view_key = Pointer<Utf8> Function();
