@@ -11,45 +11,7 @@ description: A Wallet for Beldex.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 2.3.3+44
-
-# Version Code 1 Version Name 1.0.0 Release Date : 30-12-2021
-# Version Code 2 Version Name 1.0.1 Release Date : 07-01-2022
-# Version Code 3,4 Version Name 1.0.2 Internal Test Release Date : 02-02-2022
-# Version Code 5 Version Name 1.0.3 Internal Test Release Date : 02-02-2022
-# Version Code 5 Version Name 1.0.3 Production Release Date : 03-02-2022
-# Version Code 6 Version Name 1.0.4 Production Release Date : 07-07-2022
-# Version Code 7 Version Name 1.0.5 Production Release Date : 24-11-2022
-# Version Code 8 Version Name 1.0.6 Production Release Date : 02-07-2023
-# Version Code 9 Version Name 1.0.7 Production Release Date : 29-08-2023
-# Version Code 10,11 Version Name 1.1.0 Production Release Date : 31-10-2023
-# Version Code 12 Version Name 1.1.1 Internal Test Release Date : 25-01-2024
-# Version Code 13 Version Name 1.2.0 Production Release Date : 30-01-2024
-# Version Code 14 Version Name 1.3.0 Production Release Date : 22-02-2024
-# Version Code 15 Version Name 1.3.0 Production Release Date : 27-02-2024
-# Version Code 16 Version Name 1.3.2 Production Release Date : 29-02-2024
-# Version Code 17 Version Name 1.3.3 Production Release Date : 19-03-2024
-# Version Code 18 Version Name 1.4.0 Production Release Date : 22-04-2024
-# Version Code 19 Version Name 1.4.1 Production Release Date : 30-07-2024
-# Version Code 20 Version Name 1.4.1 Internal Test Release Date : 02-08-2024
-# Version Code 21 Version Name 2.0.0 Production Release Date : 30-08-2024
-# Version Code 22 Version Name 2.0.1 Production Release Date : 05-09-2024
-# Version Code 23,24,25 Version Name 2.0.2 Production Release Date : 17-01-2025
-# Version Code 26 Version Name 2.0.3 Internal Test Release Date : 19-05-2025
-# Version Code 27 Version Name 2.0.3 Internal Test Release Date : 21-05-2025
-# Version Code 28 Version Name 2.0.4 Internal Test Release Date : 16-07-2025
-# Version Code 29 Version Name 2.1.0 Internal Test Release Date : 06-08-2025
-# Version Code 30 Version Name 2.1.0 Internal Test Release Date : 07-08-2025
-# Version Code 32 Version Name 2.1.1 Internal Test Release Date : 28-08-2025
-# Version Code 33 Version Name 2.1.1 Internal Test Release Date : 02-09-2025
-# Version Code 34 Version Name 2.1.1 Internal Test Release Date : 03-09-2025
-# Version Code 35 Version Name 2.2.0 Internal Test Release Date : 20-11-2025
-# Version Code 36 Version Name 2.2.1 Internal Test Release Date : 25-05-2026
-# Version Code 37 Version Name 2.3.0 Internal Test Release Date : 27-06-2026
-# Version Code 38,39 Version Name 2.3.1 Internal Test Release Date : 01-07-2026
-# Version Code 40,41,42 Version Name 2.3.2 Internal Test Release Date : 28-07-2026
-# Version Code 43 Version Name 2.3.3 Internal Test Release Date : 15-09-2026
-# Version Code 44 Version Name 2.3.3 Internal Test Release Date : 22-10-2026
+version: 2.4.0+45
 
 # keytool -genkey -v -keystore c:\Users\konst\key.jks -storetype JKS -keyalg RSA -keysize 2048 -validity 10000 -alias key
 

@@ -147,3 +147,8 @@
     - Introduced Max feature
     - Fixed ANR issues
     - Minor bug fixes
+-
+  version: 2.4.0
+  changes:
+    - Added Multi language support
+    - Minor bug fixes
