@@ -106,10 +106,25 @@ class WalletService extends Wallet {
   Future<int> getNodeHeight() => _currentWallet!.getNodeHeight();
 
   @override
-  Future<bool> isConnected() => _currentWallet!.isConnected();
+  Future<bool> isConnected() {
+    final wallet = _currentWallet;
+    if (wallet == null) {
+      return Future.value(false);
+    }
+
+    return wallet.isConnected();
+  }
 
   @override
-  Future close() => _currentWallet!.close();
+  Future close() async {
+    final wallet = _currentWallet;
+    if (wallet == null) {
+      return;
+    }
+
+    _currentWallet = null;
+    await wallet.close();
+  }
 
   @override
   Future<void> connectToNode(
