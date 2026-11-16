@@ -123,7 +123,13 @@ class WalletService extends Wallet {
   }
 
   @override
-  Future startSync() => _currentWallet!.startSync();
+  Future startSync() async {
+    if (_currentWallet == null) {
+      return;
+    }
+
+    return _currentWallet!.startSync();
+  }
 
   @override
   TransactionHistory getHistory() => _currentWallet!.getHistory();

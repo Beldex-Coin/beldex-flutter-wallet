@@ -399,91 +399,147 @@ extern "C"
     EXPORT
     void close_current_wallet()
     {
-        Beldex::WalletManagerFactory::getWalletManager()->closeWallet(get_current_wallet());
+        Beldex::Wallet *wallet = m_wallet;
+        if (wallet == nullptr)
+            return;
+
+        Beldex::WalletManagerFactory::getWalletManager()->closeWallet(wallet);
         change_current_wallet(nullptr);
     }
 
     EXPORT
     char *get_filename()
     {
-        return strdup(get_current_wallet()->filename().c_str());
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return strdup("");
+
+        return strdup(wallet->filename().c_str());
     }
 
     EXPORT
     char *secret_view_key()
     {
-        return strdup(get_current_wallet()->secretViewKey().c_str());
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return strdup("");
+
+        return strdup(wallet->secretViewKey().c_str());
     }
 
     EXPORT
     char *public_view_key()
     {
-        return strdup(get_current_wallet()->publicViewKey().c_str());
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return strdup("");
+
+        return strdup(wallet->publicViewKey().c_str());
     }
 
     EXPORT
     char *secret_spend_key()
     {
-        return strdup(get_current_wallet()->secretSpendKey().c_str());
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return strdup("");
+
+        return strdup(wallet->secretSpendKey().c_str());
     }
 
     EXPORT
     char *public_spend_key()
     {
-        return strdup(get_current_wallet()->publicSpendKey().c_str());
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return strdup("");
+
+        return strdup(wallet->publicSpendKey().c_str());
     }
 
     EXPORT
     char *get_address(uint32_t account_index, uint32_t address_index)
     {
-        return strdup(get_current_wallet()->address(account_index, address_index).c_str());
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return strdup("");
+
+        return strdup(wallet->address(account_index, address_index).c_str());
     }
 
     EXPORT
     const char *seed()
     {
-        return strdup(get_current_wallet()->seed().c_str());
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return strdup("");
+
+        return strdup(wallet->seed().c_str());
     }
 
     EXPORT
     uint64_t get_full_balance(uint32_t account_index)
     {
-        return get_current_wallet()->balance(account_index);
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return 0;
+
+        return wallet->balance(account_index);
     }
 
     EXPORT
     uint64_t get_unlocked_balance(uint32_t account_index)
     {
-        return get_current_wallet()->unlockedBalance(account_index);
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return 0;
+
+        return wallet->unlockedBalance(account_index);
     }
 
     EXPORT
     uint64_t get_current_height()
     {
-        return get_current_wallet()->blockChainHeight();
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return 0;
+
+        return wallet->blockChainHeight();
     }
 
     EXPORT
     uint64_t get_node_height()
     {
-        return get_current_wallet()->daemonBlockChainHeight();
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return 0;
+
+        return wallet->daemonBlockChainHeight();
     }
 
     EXPORT
     bool is_refreshing()
     {
-        return get_current_wallet()->isRefreshing();
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return false;
+
+        return wallet->isRefreshing();
     }
 
     EXPORT
     status_and_error connect_to_node()
     {
         nice(19);
-        bool is_connected = get_current_wallet()->connectToDaemon();
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return make_fail_status("Wallet is not initialized.");
+
+        bool is_connected = wallet->connectToDaemon();
 
         if (!is_connected)
         {
-            return make_fail_status(get_current_wallet()->status().second);
+            return make_fail_status(wallet->status().second);
         }
 
         return make_good_status();
@@ -494,6 +550,8 @@ extern "C"
     {
         nice(19);
         Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return make_fail_status("Wallet is not initialized.");
 
         std::string _login = "";
         std::string _password = "";
@@ -515,14 +573,22 @@ extern "C"
     EXPORT
     bool is_connected()
     {
-        return get_current_wallet()->connected();
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return false;
+
+        return wallet->connected();
     }
 
     EXPORT
     void start_refresh()
     {
-        get_current_wallet()->refreshAsync();
-        get_current_wallet()->startRefresh();
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return;
+
+        wallet->refreshAsync();
+        wallet->startRefresh();
     }
 
     EXPORT
@@ -540,8 +606,12 @@ extern "C"
     EXPORT
     void store(const char *path = "")
     {
+        Beldex::Wallet *wallet = get_current_wallet();
+        if (wallet == nullptr)
+            return;
+
         store_mutex.lock();
-        get_current_wallet()->store(std::string(path));
+        wallet->store(std::string(path));
         store_mutex.unlock();
     }
 
