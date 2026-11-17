@@ -27,7 +27,7 @@ class RescanPage extends BasePage {
   final blockchainKey = GlobalKey<_BlockHeightSwapingWidgetState>();
 
   @override
-  String getTitle(AppLocalizations t) => '${t.rescanWallet}';
+  String getTitle(AppLocalizations t) => t.rescanWallet;
 
   @override
   Widget trailing(BuildContext context) {
@@ -72,7 +72,7 @@ class RescanPage extends BasePage {
                     Navigator.of(context).pop();
                     restoreHeights(height);
                   } else {
-                    return null;
+                    return;
                   }
                 },
                 color:  Color.fromARGB(255,46, 160, 33),
@@ -88,7 +88,7 @@ class RescanPage extends BasePage {
 }
 
 class BlockHeightSwapingWidget extends StatefulWidget {
-  const BlockHeightSwapingWidget({Key? key}) : super(key: key);
+  const BlockHeightSwapingWidget({super.key});
 
   @override
   State<BlockHeightSwapingWidget> createState() =>

@@ -1,8 +1,6 @@
 import 'package:beldex_wallet/src/util/screen_sizer.dart';
 import 'package:flutter/material.dart';
 
-import '../../../palette.dart';
-
 class NewNavListHeader extends StatelessWidget {
   NewNavListHeader({required this.title});
 

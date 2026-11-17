@@ -1,5 +1,6 @@
 name: beldex_wallet
 description: A Wallet for Beldex.
+publish_to: none
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -36,6 +37,7 @@ dependencies:
   barcode_scan2: ^4.8.0
   http: ^1.1.0
   crypto: ^3.0.3
+  path: ^1.9.1
   path_provider: ^2.0.9
   sqflite: ^2.3.0
   mobx: ^2.0.6

@@ -13,7 +13,7 @@ abstract class SyncStatus {
 }
 
 class SyncingSyncStatus extends SyncStatus {
-  const SyncingSyncStatus(int currentHeight, int targetHeight,int blocksLeft) : super(currentHeight, targetHeight,blocksLeft);
+  const SyncingSyncStatus(super.currentHeight, super.targetHeight,super.blocksLeft);
 
   @override
   double progress() => targetHeight > 0 ? currentHeight / targetHeight : 0.0;

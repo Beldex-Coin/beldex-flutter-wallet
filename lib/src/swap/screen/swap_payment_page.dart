@@ -17,7 +17,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import '../../../routes.dart';
 import '../../util/network_provider.dart';
 import '../../widgets/no_internet.dart';
-import '../dialog/showSwapInitiatingTransactionDialog.dart';
+import '../dialog/show_swap_initiating_transaction_dialog.dart';
 import '../util/circular_progress_bar.dart';
 import '../util/data_class.dart';
 import '../util/utils.dart';
@@ -93,9 +93,9 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
   late Timer timer;
   late ExchangeDataWithRecipientAddress _exchangeDataWithRecipientAddress;
   ExchangeRate? _latestExchangeRate;
-  var sendAmount;
-  var from;
-  var to;
+  String sendAmount = '';
+  String from = '';
+  String to = '';
   late FlutterSecureStorage secureStorage;
   late NetworkProvider networkProvider;
 
@@ -105,9 +105,9 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
       encryptedSharedPreferences: true,
     ));
     _exchangeDataWithRecipientAddress = widget.exchangeDataWithRecipientAddress;
-    sendAmount = _exchangeDataWithRecipientAddress.amountFrom;
-    from = _exchangeDataWithRecipientAddress.from;
-    to = _exchangeDataWithRecipientAddress.to;
+    sendAmount = _exchangeDataWithRecipientAddress.amountFrom ?? '';
+    from = _exchangeDataWithRecipientAddress.from ?? '';
+    to = _exchangeDataWithRecipientAddress.to ?? '';
     getExchangeAmountApiClient = GetExchangeAmountApiClient();
     // Create a stream controller and exchange amount to the stream.
     _getExchangeAmountStreamController =
@@ -136,10 +136,10 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.sizeOf(context).width;
-    final _screenHeight = MediaQuery.sizeOf(context).height;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _scrollController = ScrollController(keepScrollOffset: true);
+    final scrollController = ScrollController(keepScrollOffset: true);
     final walletStore = Provider.of<WalletStore>(context);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
@@ -151,10 +151,10 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               return Center(
                   child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
             } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
-              return noInternet(settingsStore, _screenWidth, tr(context)); // Display an error message if an error occurs. or Display a message when no data is available.
+              return noInternet(settingsStore, screenWidth, tr(context)); // Display an error message if an error occurs. or Display a message when no data is available.
             } else {
-              return body(_screenWidth, _screenHeight, settingsStore,
-                  _scrollController, snapshot.data!, networkProvider, walletStore.subaddress.address);
+              return body(screenWidth, screenHeight, settingsStore,
+                  scrollController, snapshot.data!, networkProvider, walletStore.subaddress.address);
             }
           },
         );
@@ -163,10 +163,10 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
   }
 
   Widget body(
-    double _screenWidth,
-    double _screenHeight,
+    double screenWidth,
+    double screenHeight,
     SettingsStore settingsStore,
-    ScrollController _scrollController,
+    ScrollController scrollController,
     ExchangeRate exchangeRateData, NetworkProvider networkProvider, String walletAddress,
   ) {
     //GetExchangeAmount
@@ -224,7 +224,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                   ),
                   child: Container(
                     padding: const EdgeInsetsDirectional.all(15.0),
-                    width: _screenWidth,
+                    width: screenWidth,
                     height: double.infinity,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -259,7 +259,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PairsWidget(settingsStore: settingsStore, from: from, to: to),
+        pairsWidget(settingsStore: settingsStore, from: from, to: to),
         //Checkout Title
         Text(
           tr(context).swap_checkout,
@@ -351,7 +351,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                           fontWeight: FontWeight.normal),
                       children: [
                         TextSpan(
-                            text: minimumAmount.trim().isNotEmpty ?'${minimumAmount} ${from}':maximumAmount.trim().isNotEmpty ?'${maximumAmount} ${from}':'',
+                            text: minimumAmount.trim().isNotEmpty ?'$minimumAmount $from':maximumAmount.trim().isNotEmpty ?'$maximumAmount $from':'',
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 decoration: TextDecoration.underline,
@@ -399,7 +399,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                                 : Color(0xff222222)),
                       ),
                       Text(
-                        '${getAmount == 0.0 ? "..." : getAmount} ${to.toUpperCase()}',
+                        '${double.tryParse(getAmount) == 0.0 ? "..." : getAmount} ${to.toUpperCase()}',
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
@@ -663,11 +663,11 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                 final refundAddress = _exchangeDataWithRecipientAddress.refundAddress;
                 if (_exchangeDataWithRecipientAddress.extraIdName!.isNotEmpty) {
                   final params = <String, String>{
-                    "from": from ?? '',
-                    "to": to ?? '',
+                    "from": from,
+                    "to": to,
                     "address": _exchangeDataWithRecipientAddress.recipientAddress!,
                     "extraId": _exchangeDataWithRecipientAddress.extraIdName!,
-                    "amountFrom": sendAmount ?? ''
+                    "amountFrom": sendAmount
                   };
                   if (refundAddress != null && refundAddress.isNotEmpty) {
                     params["refundAddress"] = refundAddress;
@@ -675,10 +675,10 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                   createTransaction(params, _exchangeDataWithRecipientAddress.toBlockChain!, walletAddress, false);
                 } else {
                   final params = <String, String>{
-                    "from": from ?? '',
-                    "to": to ?? '',
+                    "from": from,
+                    "to": to,
                     "address": _exchangeDataWithRecipientAddress.recipientAddress!,
-                    "amountFrom": sendAmount ?? ''
+                    "amountFrom": sendAmount
                   };
                   if (refundAddress != null && refundAddress.isNotEmpty) {
                     params["refundAddress"] = refundAddress;

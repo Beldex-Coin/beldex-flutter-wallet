@@ -1,6 +1,5 @@
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../../l10n.dart';
 import 'package:beldex_wallet/src/stores/subaddress_list/subaddress_list_store.dart';
@@ -35,14 +34,12 @@ class SubaddressListPage extends BasePage {
                     color: Theme.of(context).dividerTheme.color,
                     height: 1.0,
                   ),
-              itemCount: subaddressListStore.subaddresses == null
-                  ? 0
-                  : subaddressListStore.subaddresses.length,
+              itemCount: subaddressListStore.subaddresses.length,
               itemBuilder: (BuildContext context, int index) {
                 final subaddress = subaddressListStore.subaddresses[index];
                 final isCurrent =
                     walletStore.subaddress.address == subaddress.address;
-                final label = subaddress.label ?? subaddress.address;
+                final label = subaddress.label;
 
                 return InkWell(
                   onTap: () => Navigator.of(context).pop(subaddress),

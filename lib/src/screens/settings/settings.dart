@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -119,7 +118,7 @@ class SettingsFormState extends State<SettingsForm> {
   @override
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _scrollController = ScrollController(keepScrollOffset: true);
+    final scrollController = ScrollController(keepScrollOffset: true);
     final t = tr(context);
     return SingleChildScrollView(
         child: Column(
@@ -216,7 +215,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                       .all.length,
                                               shrinkWrap: true,
                                               controller:
-                                                  _scrollController,
+                                                  scrollController,
                                               itemBuilder:
                                                   (BuildContext context,
                                                       int index) {
@@ -225,14 +224,11 @@ class SettingsFormState extends State<SettingsForm> {
                                                     final settingsStore =
                                                         context.read<
                                                             SettingsStore>();
-                                                    if (BalanceDisplayMode
-                                                            .all[index] != null) {
-                                                      await settingsStore.setCurrentBalanceDisplayMode(
-                                                          balanceDisplayMode:
-                                                              BalanceDisplayMode
-                                                                      .all[
-                                                                  index]);
-                                                    }
+                                                    await settingsStore.setCurrentBalanceDisplayMode(
+                                                        balanceDisplayMode:
+                                                            BalanceDisplayMode
+                                                                    .all[
+                                                                index]);
                                                     Navigator.pop(
                                                         context);
                                                   },
@@ -377,7 +373,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                 end: 5,
                                                 top: 10,
                                                 bottom: 10),
-                                            controller: _scrollController,
+                                            controller: scrollController,
                                             /*heightScrollThumb: 25,
                                             alwaysVisibleScrollThumb:
                                                 false,
@@ -391,7 +387,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                     .all.length,
                                                 //shrinkWrap: true,
                                                 controller:
-                                                    _scrollController,
+                                                    scrollController,
                                                 itemBuilder:
                                                     (BuildContext context,
                                                         int index) {
@@ -559,7 +555,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                     builder: (_) {
                                                       return RawScrollbar(
                                                         controller:
-                                                            _scrollController,
+                                                            scrollController,
                                                         thickness: 8,
                                                         thumbColor: settingsStore
                                                                 .isDarkTheme
@@ -580,7 +576,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                                         .length,
                                                                 //shrinkWrap: true,
                                                                 controller:
-                                                                    _scrollController,
+                                                                    scrollController,
                                                                 itemBuilder:
                                                                     (BuildContext context,
                                                                         int index) {
@@ -676,7 +672,7 @@ class SettingsFormState extends State<SettingsForm> {
                                                 BeldexTransactionPriority
                                                     .all.length,
                                             shrinkWrap: true,
-                                            controller: _scrollController,
+                                            controller: scrollController,
                                             itemBuilder:
                                                 (BuildContext context,
                                                     int index) {
@@ -685,15 +681,12 @@ class SettingsFormState extends State<SettingsForm> {
                                                   final settingsStore =
                                                       context.read<
                                                           SettingsStore>();
-                                                  if (BeldexTransactionPriority
-                                                          .all[index] != null) {
-                                                    await settingsStore
-                                                        .setCurrentTransactionPriority(
-                                                            priority:
-                                                                BeldexTransactionPriority
-                                                                        .all[
-                                                                    index]);
-                                                  }
+                                                  await settingsStore
+                                                      .setCurrentTransactionPriority(
+                                                          priority:
+                                                              BeldexTransactionPriority
+                                                                      .all[
+                                                                  index]);
                                                   Navigator.pop(context);
                                                 },
                                                 child: Padding(
@@ -1013,10 +1006,8 @@ class SettingsFormState extends State<SettingsForm> {
         searchDecimalController.text = '';
         final settingsStore = context.read<SettingsStore>();
 
-        if (AmountDetail.all[index] != null) {
-          await settingsStore.setCurrentBalanceDetail(
-              balanceDetail: AmountDetail.all[index]);
-        }
+        await settingsStore.setCurrentBalanceDetail(
+            balanceDetail: AmountDetail.all[index]);
         Navigator.pop(context);
       },
       child: Padding(
@@ -1055,10 +1046,8 @@ class SettingsFormState extends State<SettingsForm> {
         searchCurrencyController.text = '';
         final settingsStore = context.read<SettingsStore>();
 
-        if (FiatCurrency.all[index] != null) {
-          await settingsStore.setCurrentFiatCurrency(
-              currency: FiatCurrency.all[index]);
-        }
+        await settingsStore.setCurrentFiatCurrency(
+            currency: FiatCurrency.all[index]);
         Navigator.pop(context);
       },
       child: Padding(

@@ -19,7 +19,7 @@ class SwapTransactionExpansionStatusChangeNotifier extends ChangeNotifier{
   @override
   void dispose() {
     try {
-      this._disposed = true;
+      _disposed = true;
       super.dispose();
     } catch(ex) {
       print("Exception-> $ex");

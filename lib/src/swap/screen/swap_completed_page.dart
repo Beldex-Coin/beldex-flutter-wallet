@@ -6,7 +6,6 @@ import 'package:beldex_wallet/src/swap/provider/get_transactions_provider.dart';
 import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
 import 'package:beldex_wallet/src/util/network_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -97,7 +96,7 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
             .getTransactionsData(
                 context,
                 {
-                  "id": "${transactionStatus.transactionModel.txnId}",
+                  "id": transactionStatus.transactionModel.txnId,
                   "destinationAddress":
                       "${transactionStatus.transactionModel.payoutAddress}"
                 },
@@ -109,10 +108,10 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.sizeOf(context).width;
-    final _screenHeight = MediaQuery.sizeOf(context).height;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _scrollController = ScrollController(keepScrollOffset: true);
+    final scrollController = ScrollController(keepScrollOffset: true);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
       return Consumer<GetTransactionsProvider>(
@@ -126,13 +125,13 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
 
         if (getTransactionsProvider.error != null ||
             !networkProvider.isConnected) {
-          return noInternet(settingsStore, _screenWidth, tr(context));
+          return noInternet(settingsStore, screenWidth, tr(context));
         }
 
         if (getTransactionsProvider.loading == false &&
             getTransactionsProvider.data!.result!.isNotEmpty) {
-          return body(_screenWidth, _screenHeight, settingsStore,
-              _scrollController, getTransactionsProvider.data, networkProvider);
+          return body(screenWidth, screenHeight, settingsStore,
+              scrollController, getTransactionsProvider.data, networkProvider);
         }
 
         return SizedBox();
@@ -141,10 +140,10 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
   }
 
   Widget body(
-    double _screenWidth,
-    double _screenHeight,
+    double screenWidth,
+    double screenHeight,
     SettingsStore settingsStore,
-    ScrollController _scrollController,
+    ScrollController scrollController,
     GetTransactionsModel? transactionModel,
     NetworkProvider networkProvider,
   ) {
@@ -182,7 +181,7 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
                   ),
                   child: Container(
                     padding: const EdgeInsetsDirectional.all(15.0),
-                    width: _screenWidth,
+                    width: screenWidth,
                     height: double.infinity,
                     child: exchangeCompletedScreen(
                         settingsStore, transactionModel, networkProvider),
@@ -201,7 +200,7 @@ class _SwapCompletedHomeState extends State<SwapCompletedHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PairsWidget(
+        pairsWidget(
             settingsStore: settingsStore,
             from: transactionModel?.result![0].currencyFrom,
             to: transactionModel?.result![0].currencyTo),

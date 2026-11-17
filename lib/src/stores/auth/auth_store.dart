@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mobx/mobx.dart';
 import 'package:beldex_wallet/src/domain/services/user_service.dart';
@@ -37,11 +36,11 @@ abstract class AuthStoreBase with Store {
   @action
   Future auth({required String password,required AppLocalizations l10n}) async {
     state = AuthenticationStateInitial();
-    final _banDuration = banDuration();
+    final banDuration0 = banDuration();
 
-    if (_banDuration != null) {
+    if (banDuration0 != null) {
       state = AuthenticationBanned(
-          error: l10n.auth_store_banned_for + '${_banDuration.inMinutes}' + l10n.auth_store_banned_minutes);
+          error: '${l10n.auth_store_banned_for}${banDuration0.inMinutes}${l10n.auth_store_banned_minutes}');
       return;
     }
 
@@ -57,7 +56,7 @@ abstract class AuthStoreBase with Store {
       if (_failureCounter >= maxFailedLogins) {
         final banDuration = await ban();
         state = AuthenticationBanned(
-            error: l10n.auth_store_banned_for + '${banDuration.inMinutes}' + l10n.auth_store_banned_minutes);
+            error: '${l10n.auth_store_banned_for}${banDuration.inMinutes}${l10n.auth_store_banned_minutes}');
         return;
       }
 
@@ -93,11 +92,11 @@ abstract class AuthStoreBase with Store {
 
   @action
   void biometricAuth(AppLocalizations t) {
-    final _banDuration = banDuration();
+    final banDuration0 = banDuration();
 
-    if (_banDuration != null) {
+    if (banDuration0 != null) {
       state = AuthenticationBanned(
-          error: t.auth_store_banned_for + '${_banDuration.inMinutes}' + t.auth_store_banned_minutes);
+          error: '${t.auth_store_banned_for}${banDuration0.inMinutes}${t.auth_store_banned_minutes}');
       return;
     }
     state = AuthenticatedSuccessfully();

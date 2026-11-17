@@ -2,8 +2,7 @@ import 'package:beldex_wallet/src/domain/common/enumerable_item.dart';
 import 'package:beldex_wallet/l10n.dart';
 
 class BalanceDisplayMode extends EnumerableItem<int> with Serializable<int> {
-  const BalanceDisplayMode({required String title, required int raw})
-      : super(title: title, raw: raw);
+  const BalanceDisplayMode({required super.title, required super.raw});
 
   static const all = [
     BalanceDisplayMode.fullBalance,
@@ -29,7 +28,6 @@ class BalanceDisplayMode extends EnumerableItem<int> with Serializable<int> {
     }
   }
 
-  @override
   String getTitle(AppLocalizations l10n) {
     switch (this) {
       case BalanceDisplayMode.fullBalance:

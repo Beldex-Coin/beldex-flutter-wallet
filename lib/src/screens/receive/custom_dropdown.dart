@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ExpandedSection extends StatefulWidget {
+
+  ExpandedSection({this.expand = false, this.child, this.height});
   final Widget? child;
   final int? height;
   final bool expand;
-
-  ExpandedSection({this.expand = false, this.child, this.height});
 
   @override
   _ExpandedSectionState createState() => _ExpandedSectionState();
@@ -56,7 +56,7 @@ class _ExpandedSectionState extends State<ExpandedSection>
   @override
   Widget build(BuildContext context) {
     return SizeTransition(
-        axisAlignment: 1.0,
+        alignment: Alignment(-1.0, 1.0),
         sizeFactor: animation!,
         child: Container(
         
@@ -368,5 +368,4 @@ class _ExpandedSectionState extends State<ExpandedSection>
 //     return child;
 //   }
 // }
-
 

@@ -8,59 +8,59 @@ import 'package:beldex_coin/src/util/signatures.dart';
 import 'package:beldex_coin/src/util/types.dart';
 
 final transactionsRefreshNative = beldexApi
-    .lookup<NativeFunction<transactions_refresh>>('transactions_refresh')
+    .lookup<NativeFunction<TransactionsRefreshNative>>('transactions_refresh')
     .asFunction<TransactionsRefresh>();
 
 final transactionsCountNative = beldexApi
-    .lookup<NativeFunction<transactions_count>>('transactions_count')
+    .lookup<NativeFunction<TransactionsCountNative>>('transactions_count')
     .asFunction<TransactionsCount>();
 
 final transactionsGetAllNative = beldexApi
-    .lookup<NativeFunction<transactions_get_all>>('transactions_get_all')
+    .lookup<NativeFunction<TransactionsGetAllNative>>('transactions_get_all')
     .asFunction<TransactionsGetAll>();
 
 final transactionCreateNative = beldexApi
-    .lookup<NativeFunction<transaction_create>>('transaction_create')
+    .lookup<NativeFunction<TransactionCreateNative>>('transaction_create')
     .asFunction<TransactionCreate>();
 
 final bnsTransactionCreateNative = beldexApi
-    .lookup<NativeFunction<bns_buy>>('bns_buy')
+    .lookup<NativeFunction<BnsBuyNative>>('bns_buy')
     .asFunction<BnsBuy>();
 
 final bnsUpdateTransactionCreateNative = beldexApi
-    .lookup<NativeFunction<bns_update>>('bns_update')
+    .lookup<NativeFunction<BnsUpdateNative>>('bns_update')
     .asFunction<BnsUpdate>();
 
 final bnsRenewalTransactionCreateNative = beldexApi
-    .lookup<NativeFunction<bns_renew>>('bns_renew')
+    .lookup<NativeFunction<BnsRenewNative>>('bns_renew')
     .asFunction<BnsRenew>();
 
 final sweepAllTransactionCreateNative = beldexApi
-    .lookup<NativeFunction<create_sweep_all_transaction>>('create_sweep_all_transaction')
+    .lookup<NativeFunction<CreateSweepAllTransactionNative>>('create_sweep_all_transaction')
     .asFunction<CreateSweepAllTransaction>();
 
 final bnsCountNative = beldexApi
-    .lookup<NativeFunction<bns_count>>('bns_count')
+    .lookup<NativeFunction<BnsCountNative>>('bns_count')
     .asFunction<BnsCount>();
 
 final bnsGetAllNative = beldexApi
-    .lookup<NativeFunction<bns_get_all>>('bns_get_all')
+    .lookup<NativeFunction<BnsGetAllNative>>('bns_get_all')
     .asFunction<BnsGetAll>();
 
 final bnsSetRecordNative = beldexApi
-    .lookup<NativeFunction<bns_set_record>>('bns_set_record')
+    .lookup<NativeFunction<BnsSetRecordNative>>('bns_set_record')
     .asFunction<BnsSetRecord>();
 
 final getNameToNameHashNative = beldexApi
-    .lookup<NativeFunction<get_names_to_namehash>>('get_names_to_namehash')
+    .lookup<NativeFunction<GetNamesToNameHashNative>>('get_names_to_namehash')
     .asFunction<GetNameToNameHash>();
 
 final transactionCommitNative = beldexApi
-    .lookup<NativeFunction<transaction_commit>>('transaction_commit')
+    .lookup<NativeFunction<TransactionCommitNative>>('transaction_commit')
     .asFunction<TransactionCommit>();
 
 final transactionEstimateFeeNative = beldexApi
-    .lookup<NativeFunction<transaction_estimate_fee>>(
+    .lookup<NativeFunction<TransactionEstimateFeeNative>>(
         'transaction_estimate_fee')
     .asFunction<TransactionEstimateFee>();
 
@@ -82,12 +82,13 @@ PendingTransactionDescription createTransactionSync(
     calloc.free(amountPointer);
   }
 
-  if (result.good)
+  if (result.good) {
     return PendingTransactionDescription(
         amount: pendingTransactionRawPointer.ref.amount,
         fee: pendingTransactionRawPointer.ref.fee,
         hash: pendingTransactionRawPointer.ref.getHash(),
         pointerAddress: pendingTransactionRawPointer.address);
+  }
 
   calloc.free(pendingTransactionRawPointer);
   throw CreationTransactionException(message: result.errorString());
@@ -96,8 +97,9 @@ PendingTransactionDescription createTransactionSync(
 void commitTransaction({required Pointer<PendingTransactionRaw> transactionPointer}) {
   final result = transactionCommitNative(transactionPointer);
 
-  if (!result.good)
+  if (!result.good) {
     throw CreationTransactionException(message: result.errorString());
+  }
 }
 
 PendingTransactionDescription createBnsTransactionSync(
@@ -133,12 +135,13 @@ PendingTransactionDescription createBnsTransactionSync(
   calloc.free(ethAddressPointer);
   calloc.free(bnsNamePointer);
 
-  if (result.good)
+  if (result.good) {
     return PendingTransactionDescription(
         amount: pendingTransactionRawPointer.ref.amount,
         fee: pendingTransactionRawPointer.ref.fee,
         hash: pendingTransactionRawPointer.ref.getHash(),
         pointerAddress: pendingTransactionRawPointer.address);
+  }
 
   calloc.free(pendingTransactionRawPointer);
   throw CreationTransactionException(message: result.errorString());
@@ -174,12 +177,13 @@ PendingTransactionDescription createBnsUpdateTransactionSync(
   calloc.free(ethAddressPointer);
   calloc.free(bnsNamePointer);
 
-  if (result.good)
+  if (result.good) {
     return PendingTransactionDescription(
         amount: pendingTransactionRawPointer.ref.amount,
         fee: pendingTransactionRawPointer.ref.fee,
         hash: pendingTransactionRawPointer.ref.getHash(),
         pointerAddress: pendingTransactionRawPointer.address);
+  }
 
   calloc.free(pendingTransactionRawPointer);
   throw CreationTransactionException(message: result.errorString());
@@ -201,12 +205,13 @@ PendingTransactionDescription createBnsRenewalTransactionSync(
   calloc.free(mappingYearsPointer);
 
 
-  if (result.good)
+  if (result.good) {
     return PendingTransactionDescription(
         amount: pendingTransactionRawPointer.ref.amount,
         fee: pendingTransactionRawPointer.ref.fee,
         hash: pendingTransactionRawPointer.ref.getHash(),
         pointerAddress: pendingTransactionRawPointer.address);
+  }
 
   calloc.free(pendingTransactionRawPointer);
   throw CreationTransactionException(message: result.errorString());
@@ -220,12 +225,13 @@ PendingTransactionDescription createSweepAllTransactionSync(
       accountIndex,
       pendingTransactionRawPointer);
 
-  if (result.good)
+  if (result.good) {
     return PendingTransactionDescription(
         amount: pendingTransactionRawPointer.ref.amount,
         fee: pendingTransactionRawPointer.ref.fee,
         hash: pendingTransactionRawPointer.ref.getHash(),
         pointerAddress: pendingTransactionRawPointer.address);
+  }
 
   calloc.free(pendingTransactionRawPointer);
   throw CreationTransactionException(message: result.errorString());

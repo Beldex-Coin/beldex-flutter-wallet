@@ -48,39 +48,39 @@ class ValidateAddressProvider with ChangeNotifier {
   }
 
   void setRecipientAddress(address){
-    this.recipientAddress = address;
+    recipientAddress = address;
     if(_disposed) return ;
     notifyListeners();
   }
 
   String getRecipientAddress(){
-    return this.recipientAddress;
+    return recipientAddress;
   }
 
   void setSuccessState(state){
-    this.successState = state;
+    successState = state;
     if(_disposed) return ;
     notifyListeners();
   }
 
   bool getSuccessState(){
-    return this.successState;
+    return successState;
   }
 
   void setErrorMessage(message){
-    this.errorMessage = message;
+    errorMessage = message;
     if(_disposed) return ;
     notifyListeners();
   }
 
   String getErrorMessage(){
-    return this.errorMessage;
+    return errorMessage;
   }
 
   @override
   void dispose() {
     try {
-      this._disposed = true;
+      _disposed = true;
       super.dispose();
     } catch(ex) {
       print("Exception-> $ex");
@@ -138,39 +138,39 @@ class RefundValidateAddressProvider with ChangeNotifier {
   }
 
   void setRecipientAddress(address){
-    this.recipientAddress = address;
+    recipientAddress = address;
     if(_disposed) return ;
     notifyListeners();
   }
 
   String getRecipientAddress(){
-    return this.recipientAddress;
+    return recipientAddress;
   }
 
   void setSuccessState(state){
-    this.successState = state;
+    successState = state;
     if(_disposed) return ;
     notifyListeners();
   }
 
   bool getSuccessState(){
-    return this.successState;
+    return successState;
   }
 
   void setErrorMessage(message){
-    this.errorMessage = message;
+    errorMessage = message;
     if(_disposed) return ;
     notifyListeners();
   }
 
   String getErrorMessage(){
-    return this.errorMessage;
+    return errorMessage;
   }
 
   @override
   void dispose() {
     try {
-      this._disposed = true;
+      _disposed = true;
       super.dispose();
     } catch(ex) {
       print("Exception-> $ex");

@@ -85,8 +85,8 @@ Future<void> changeCurrentNodeToDefault(
   late String nodeUri;
 
   if (timeZone >= 1) { // Eurasia
-    final _random = Random();
-    final element = nodes.values.elementAt(_random.nextInt(nodes.length));
+    final random = Random();
+    final element = nodes.values.elementAt(random.nextInt(nodes.length));
     print('nodeId 0 -> ${element.uri.toString()}');
     nodeUri = element.uri;
   } else { // America

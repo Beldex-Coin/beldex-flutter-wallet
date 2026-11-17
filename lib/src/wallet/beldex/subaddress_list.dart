@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:beldex_coin/subaddress_list.dart' as subaddress_list;
-import 'package:beldex_wallet/src/wallet/beldex/subAddress.dart';
+import 'package:beldex_wallet/src/wallet/beldex/sub_address.dart';
 
 List<Subaddress> _getAllSubaddressesSync(void _) => subaddress_list
     .getAllSubaddresses()

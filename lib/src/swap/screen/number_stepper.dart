@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 class NumberStepper extends StatelessWidget {
   const NumberStepper({
-    Key? key,
+    super.key,
     required this.width,
     required this.curStep,
     required this.stepCompleteColor,
@@ -13,8 +13,7 @@ class NumberStepper extends StatelessWidget {
     required this.inactiveColor,
     required this.currentStepColor,
     required this.lineWidth,
-  })  : assert(curStep > 0 == true && curStep <= totalSteps + 1),
-        super(key: key);
+  })  : assert(curStep > 0 == true && curStep <= totalSteps + 1);
 
   final double width;
   final int totalSteps;

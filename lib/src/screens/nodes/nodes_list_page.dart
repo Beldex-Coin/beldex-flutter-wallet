@@ -94,9 +94,9 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
           ),
           Expanded(child: Observer(builder: (context) {
             return ListView.builder(
-                itemCount: nodeList.nodes?.length,
+                itemCount: nodeList.nodes.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final node = nodeList.nodes![index];
+                  final node = nodeList.nodes[index];
 
                   return Observer(builder: (_) {
                     final isCurrent = settings.node == null

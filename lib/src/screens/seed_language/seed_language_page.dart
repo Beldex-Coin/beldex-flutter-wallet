@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -52,9 +51,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
     final seedLanguageStore = context.read<SeedLanguageStore>();
     setState(() {
       _selectedIndex = index;
-      if (_selectedIndex != null) {
-        seedLanguageStore.setSelectedSeedLanguage(_selectedIndex);
-      }
+      seedLanguageStore.setSelectedSeedLanguage(_selectedIndex);
     });
   }
 
@@ -62,7 +59,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
   Widget build(BuildContext context) {
     final seedLanguageStore = Provider.of<SeedLanguageStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _controller = ScrollController(keepScrollOffset: true);
+    final controller = ScrollController(keepScrollOffset: true);
     return ScrollableWithBottomSection(
       content: Column(
         children: <Widget>[
@@ -94,7 +91,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
                           ? Color(0xff181820)
                           : Color(0xffD4D4D4),
                       child: RawScrollbar(
-                        controller: _controller,
+                        controller: controller,
                         thickness: 8,
                         thumbColor: settingsStore.isDarkTheme
                             ? Color(0xff3A3A45)
@@ -107,7 +104,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
                               ? Color(0xff272733)
                               : Color(0xffEDEDED),
                           child: ListView.builder(
-                              controller: _controller,
+                              controller: controller,
                               scrollDirection: Axis.vertical,
                               itemCount: seedLanguages.length,
                               itemBuilder: (BuildContext context, int index) {
@@ -117,8 +114,7 @@ class _SeedLanguageState extends State<SeedLanguageRoute> {
                                   onTap: () {
                                     _onSelected(index);
                                   },
-                                  child: _selectedIndex != null &&
-                                          _selectedIndex == index
+                                  child: _selectedIndex == index
                                       ? Card(
                                           color: Theme.of(context).cardColor,
                                           elevation: 0,

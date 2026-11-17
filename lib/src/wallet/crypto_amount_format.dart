@@ -22,7 +22,6 @@ class AmountDetail {
         orElse: () => AmountDetail.ultra);
   }
 
-  @override
   String getTitle(AppLocalizations l10n)  {
     switch (index) {
       case (0):

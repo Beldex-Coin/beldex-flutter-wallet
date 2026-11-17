@@ -48,8 +48,8 @@ class NewNodeFormState extends State<NewNodePageForm> {
   bool canLoad = false;
   bool isMainnet = false;
 
-  void _loading(bool _canLoad) {
-    if (_canLoad) {
+  void _loading(bool canLoad) {
+    if (canLoad) {
       // Show the HUD progress loader
       showHUDLoader(context);
     } else {
@@ -107,7 +107,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
   Widget build(BuildContext context) {
     final nodeList = Provider.of<NodeListStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    var newNodePageChangeNotifier =
+    final newNodePageChangeNotifier =
         Provider.of<NewNodePageChangeNotifier>(context);
     return GestureDetector(
       onTap: () {
@@ -348,8 +348,7 @@ class NewNodeFormState extends State<NewNodePageForm> {
                           ),
                           validator: (value) => null),
                     ),
-                    newNodePageChangeNotifier.testMode == null ||
-                            newNodePageChangeNotifier.testMode == ''
+                    newNodePageChangeNotifier.testMode == ''
                         ? Container(
                             height: 10,
                           )
@@ -541,9 +540,9 @@ class NewNodeFormState extends State<NewNodePageForm> {
                                     if (newNodePageChangeNotifier.isMainnet) {
                                       var status = false;
                                       for (var i = 0;
-                                          i < nodeList.nodes!.length;
+                                          i < nodeList.nodes.length;
                                           i++) {
-                                        if (nodeList.nodes![i].uri.contains(
+                                        if (nodeList.nodes[i].uri.contains(
                                             '${_nodeAddressController.text}:${_nodePortController.text}')) {
                                           status = true;
                                           await Fluttertoast.showToast(

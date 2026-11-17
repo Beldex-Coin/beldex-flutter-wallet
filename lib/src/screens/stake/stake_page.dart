@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -46,7 +45,7 @@ class StakePage extends BasePage {
 }
 
 class StakePageBody extends StatefulWidget {
-  StakePageBody({Key? key}) : super(key: key);
+  StakePageBody({super.key});
 
   @override
   StakePageBodyState createState() => StakePageBodyState();

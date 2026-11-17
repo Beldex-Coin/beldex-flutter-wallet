@@ -115,7 +115,7 @@ class FaqPage extends BasePage {
                   },
                   // separatorBuilder: (_, __) =>
                   //     Divider(color: Theme.of(context).dividerTheme.color, height: 1.0),
-                  itemCount: faqItems == null ? 0 : faqItems.length,
+                  itemCount: faqItems.length,
                 ),
               ),
             );

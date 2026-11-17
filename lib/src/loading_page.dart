@@ -10,7 +10,7 @@ import '../l10n.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 class LoadingPage extends StatefulWidget {
-  LoadingPage({Key? key, required this.wallet, required this.walletListStore}) : super(key: key);
+  LoadingPage({super.key, required this.wallet, required this.walletListStore});
 
   final WalletDescription wallet;
   final WalletListStore walletListStore;
@@ -34,10 +34,10 @@ class _LoadingPageState extends State<LoadingPage> {
         await widget.walletListStore.loadWallet(widget.wallet);
       } finally {
         if (mounted) {
-          WakelockPlus.disable();
+          await WakelockPlus.disable();
           Navigator.of(context).pop();
         } else {
-          WakelockPlus.disable();
+          await WakelockPlus.disable();
         }
       }
     });

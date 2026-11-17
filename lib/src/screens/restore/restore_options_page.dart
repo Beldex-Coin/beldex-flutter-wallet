@@ -2,7 +2,6 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
 import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import '../../../l10n.dart';
 import 'package:provider/provider.dart';

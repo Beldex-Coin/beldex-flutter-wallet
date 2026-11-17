@@ -44,7 +44,7 @@ class RestoreWalletFromSeedPage extends BasePage {
 }
 
 class RestoreFromSeedForm extends StatefulWidget {
-  RestoreFromSeedForm({Key? key}) : super(key: key);
+  RestoreFromSeedForm({super.key});
 
   @override
   _RestoreFromSeedFormState createState() => _RestoreFromSeedFormState();

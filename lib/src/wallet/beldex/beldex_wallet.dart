@@ -14,7 +14,7 @@ import 'package:beldex_wallet/src/wallet/balance.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account_list.dart';
 import 'package:beldex_wallet/src/wallet/beldex/beldex_balance.dart';
-import 'package:beldex_wallet/src/wallet/beldex/subAddress.dart';
+import 'package:beldex_wallet/src/wallet/beldex/sub_address.dart';
 import 'package:beldex_wallet/src/wallet/beldex/subaddress_list.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_stake_transaction_creation_credentials.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/beldex_transaction_creation_credentials.dart';
@@ -46,7 +46,7 @@ class BelDexWallet extends Wallet {
       bool isRecovery = false,
       int restoreHeight = 0}) async {
     const type = WalletType.beldex;
-    final id = (walletTypeToString(type)?.toLowerCase() ?? 'unknown') + '_' + name;
+    final id = '${walletTypeToString(type)?.toLowerCase() ?? 'unknown'}_$name';
     final walletInfo = WalletInfo(
         id: id,
         name: name,
@@ -62,21 +62,10 @@ class BelDexWallet extends Wallet {
 
   static Future<BelDexWallet> load(
       Box<WalletInfo> walletInfoSource, String name, WalletType type) async {
-    final id = (walletTypeToString(type)?.toLowerCase() ?? 'unknown' ) + '_' + name;
+    final id = '${walletTypeToString(type)?.toLowerCase() ?? 'unknown'}_$name';
     print('Loading wallet $id');
 
-    var walletInfo = walletInfoSource.values.firstWhere((info) => info.id == id,);
-    if (walletInfo == null) {
-      walletInfo = WalletInfo(
-          id: id,
-          name: name,
-          type: type,
-          timestamp: DateTime.now().millisecondsSinceEpoch,
-          // We don't know what these were, so use conservative values:
-          isRecovery: false,
-          restoreHeight: 0);
-      await walletInfoSource.add(walletInfo);
-    }
+    final walletInfo = walletInfoSource.values.firstWhere((info) => info.id == id,);
     return await configured(
         walletInfoSource: walletInfoSource, walletInfo: walletInfo);
   }
@@ -155,7 +144,7 @@ class BelDexWallet extends Wallet {
     _account.value = accounts.first;
     final subaddressList = getSubaddress();
     await subaddressList.refresh(
-        accountIndex: _account.value != null ? _account.value.id : 0);
+        accountIndex: _account.value.id);
     final subaddresses = await subaddressList.getAllAsync();
     _subaddress.value = subaddresses.first;
     print('sub address');
@@ -336,12 +325,9 @@ class BelDexWallet extends Wallet {
   @override
   Future<PendingTransaction> createStake(
       TransactionCreationCredentials credentials) async {
-    final _credentials = credentials as BeldexStakeTransactionCreationCredentials;
-    if (_credentials.amount == null || _credentials.address == null) {
-      return Future.error('Amount and address cannot be null.');
-    }
+    final credentials0 = credentials as BeldexStakeTransactionCreationCredentials;
     final transactionDescription =
-    await beldex_stake.createStake(_credentials.address, _credentials.amount);
+    await beldex_stake.createStake(credentials0.address, credentials0.amount);
 
     return PendingTransaction.fromTransactionDescription(
         transactionDescription);
@@ -350,11 +336,11 @@ class BelDexWallet extends Wallet {
   @override
   Future<PendingTransaction> createTransaction(
       TransactionCreationCredentials credentials) async {
-    final _credentials = credentials as BeldexTransactionCreationCredentials;
+    final credentials0 = credentials as BeldexTransactionCreationCredentials;
     final transactionDescription = await transaction_history.createTransaction(
-        address: _credentials.address,
-        amount: _credentials.amount,
-        priorityRaw: _credentials.priority.serialize(),
+        address: credentials0.address,
+        amount: credentials0.amount,
+        priorityRaw: credentials0.priority.serialize(),
         accountIndex: _account.value.id);
     print('transaction created');
 
@@ -365,17 +351,17 @@ class BelDexWallet extends Wallet {
   @override
   Future<PendingTransaction> createBnsTransaction(
       TransactionCreationCredentials credentials) async {
-    final _credentials = credentials as BeldexBnsTransactionCreationCredentials;
+    final credentials0 = credentials as BeldexBnsTransactionCreationCredentials;
     final transactionDescription = await transaction_history.createBnsTransaction(
-        owner: _credentials.owner,
-        backUpOwner: _credentials.backUpOwner,
-        mappingYears: _credentials.mappingYears,
-        bchatId: _credentials.bchatId,
-        walletAddress: _credentials.walletAddress,
-        belnetId: _credentials.belnetId,
-        ethAddress: _credentials.ethAddress,
-        bnsName: _credentials.bnsName,
-        priorityRaw: _credentials.priority.serialize(),
+        owner: credentials0.owner,
+        backUpOwner: credentials0.backUpOwner,
+        mappingYears: credentials0.mappingYears,
+        bchatId: credentials0.bchatId,
+        walletAddress: credentials0.walletAddress,
+        belnetId: credentials0.belnetId,
+        ethAddress: credentials0.ethAddress,
+        bnsName: credentials0.bnsName,
+        priorityRaw: credentials0.priority.serialize(),
         accountIndex: _account.value.id);
     print('bns transaction created');
 
@@ -386,16 +372,16 @@ class BelDexWallet extends Wallet {
   @override
   Future<PendingTransaction> createBnsUpdateTransaction(
       TransactionCreationCredentials credentials) async {
-    final _credentials = credentials as BeldexBnsUpdateTransactionCreationCredentials;
+    final credentials0 = credentials as BeldexBnsUpdateTransactionCreationCredentials;
     final transactionDescription = await transaction_history.createBnsUpdateTransaction(
-        owner: _credentials.owner,
-        backUpOwner: _credentials.backUpOwner,
-        bchatId: _credentials.bchatId,
-        walletAddress: _credentials.walletAddress,
-        belnetId: _credentials.belnetId,
-        ethAddress: _credentials.ethAddress,
-        bnsName: _credentials.bnsName,
-        priorityRaw: _credentials.priority.serialize(),
+        owner: credentials0.owner,
+        backUpOwner: credentials0.backUpOwner,
+        bchatId: credentials0.bchatId,
+        walletAddress: credentials0.walletAddress,
+        belnetId: credentials0.belnetId,
+        ethAddress: credentials0.ethAddress,
+        bnsName: credentials0.bnsName,
+        priorityRaw: credentials0.priority.serialize(),
         accountIndex: _account.value.id);
     print('bns update transaction created');
 
@@ -406,11 +392,11 @@ class BelDexWallet extends Wallet {
   @override
   Future<PendingTransaction> createBnsRenewalTransaction(
       TransactionCreationCredentials credentials) async {
-    final _credentials = credentials as BeldexBnsRenewalTransactionCreationCredentials;
+    final credentials0 = credentials as BeldexBnsRenewalTransactionCreationCredentials;
     final transactionDescription = await transaction_history.createBnsRenewalTransaction(
-        bnsName: _credentials.bnsName,
-        mappingYears: _credentials.mappingYears,
-        priorityRaw: _credentials.priority.serialize(),
+        bnsName: credentials0.bnsName,
+        mappingYears: credentials0.mappingYears,
+        priorityRaw: credentials0.priority.serialize(),
         accountIndex: _account.value.id);
     print('bns renewal transaction created');
 
@@ -421,9 +407,9 @@ class BelDexWallet extends Wallet {
   @override
   Future<PendingTransaction> createSweepAllTransaction(
       TransactionCreationCredentials credentials) async {
-    final _credentials = credentials as BeldexSweepAllTransactionCreationCredentials;
+    final credentials0 = credentials as BeldexSweepAllTransactionCreationCredentials;
     final transactionDescription = await transaction_history.createSweepAllTransaction(
-        priorityRaw: _credentials.priority.serialize(),
+        priorityRaw: credentials0.priority.serialize(),
         accountIndex: _account.value.id);
     print('sweep all transaction created');
 
@@ -520,7 +506,7 @@ class BelDexWallet extends Wallet {
     _listener = beldex_wallet.setListeners(_onNewBlock, _onNewTransaction);
   }
 
-  Future<void> _setInitialHeight() async {
+  /*Future<void> _setInitialHeight() async {
     if (walletInfo.isRecovery) {
       return;
     }
@@ -533,18 +519,18 @@ class BelDexWallet extends Wallet {
       beldex_wallet.setRecoveringFromSeed(isRecovery: true);
       beldex_wallet.setRefreshFromBlockHeight(height: height);
     }
-  }
+  }*/
 
-  int _getHeightDistance(DateTime date) {
+  /*int _getHeightDistance(DateTime date) {
     final distance =
         DateTime.now().millisecondsSinceEpoch - date.millisecondsSinceEpoch;
     final daysTmp = (distance / 86400).round();
     final days = daysTmp < 1 ? 1 : daysTmp;
 
     return days * 1000;
-  }
+  }*/
 
-  int _getHeightByDate(DateTime date) {
+  /*int _getHeightByDate(DateTime date) {
     final nodeHeight = beldex_wallet.getNodeHeightSync();
     final heightDistance = _getHeightDistance(date);
 
@@ -553,7 +539,7 @@ class BelDexWallet extends Wallet {
     }
 
     return nodeHeight - heightDistance;
-  }
+  }*/
 
   Future _onNewTransaction() async {
     try {

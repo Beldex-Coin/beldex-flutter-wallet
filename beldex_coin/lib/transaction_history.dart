@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:ffi';
 
-import 'package:beldex_coin/src/structs/bns_info_row.dart';
 import 'package:beldex_coin/src/util/convert_utf8_to_string.dart';
 import 'package:ffi/ffi.dart';
 import 'package:flutter/foundation.dart';

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:mobx/mobx.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
 
@@ -16,7 +15,7 @@ abstract class RescanWalletStoreBase with Store {
   @observable
   RescanWalletState state;
 
-  WalletService _walletService;
+  final WalletService _walletService;
 
   @action
   Future rescanCurrentWallet({required int restoreHeight}) async {

@@ -20,11 +20,11 @@ Future<dynamic> getPriceForGivenFiat({required CryptoCurrency crypto, required F
    final response = await http.get(uri);
    //print('responsejson ---> $response');
    final responseJSON = json.decode(response.body) as Map<String, dynamic>;
-   var d = responseJSON['beldex'] as Map<String,dynamic>;
+   final d = responseJSON['beldex'] as Map<String,dynamic>;
   // var priceV = d['usd'] as double;
 
   final covToLower = fiat.toString().toLowerCase();
-  var priceV = d['$covToLower'] as double;
+  final priceV = d[covToLower] as double;
 
 
    final data = responseJSON.values.take(1);

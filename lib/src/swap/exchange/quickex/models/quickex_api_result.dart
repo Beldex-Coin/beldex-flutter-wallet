@@ -1,9 +1,4 @@
 class QuickexMinMaxHint {
-  final String? from;
-  final String? to;
-  final String minAmountFloat;
-  final String maxAmountFloat;
-  final String minAmountFixed;
 
   QuickexMinMaxHint({
     this.from,
@@ -12,14 +7,14 @@ class QuickexMinMaxHint {
     this.maxAmountFloat = '0',
     this.minAmountFixed = '0',
   });
+  final String? from;
+  final String? to;
+  final String minAmountFloat;
+  final String maxAmountFloat;
+  final String minAmountFixed;
 }
 
 class QuickexApiResult<T> {
-  final bool success;
-  final T? data;
-  final String? method;
-  final String? errorMessage;
-  final QuickexMinMaxHint? minMaxHint;
 
   QuickexApiResult._({
     required this.success,
@@ -34,4 +29,9 @@ class QuickexApiResult<T> {
 
   factory QuickexApiResult.error(String message, {String? method, QuickexMinMaxHint? minMaxHint}) =>
       QuickexApiResult._(success: false, errorMessage: message, method: method, minMaxHint: minMaxHint);
+  final bool success;
+  final T? data;
+  final String? method;
+  final String? errorMessage;
+  final QuickexMinMaxHint? minMaxHint;
 }

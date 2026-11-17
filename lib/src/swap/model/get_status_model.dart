@@ -9,9 +9,6 @@ GetStatusModel getStatusModelFromJson(String str) => GetStatusModel.fromJson(jso
 String getStatusModelToJson(GetStatusModel data) => json.encode(data.toJson());
 
 class GetStatusModel {
-  String? jsonrpc;
-  String? result;
-  String? id;
 
   GetStatusModel({
     this.jsonrpc,
@@ -24,6 +21,9 @@ class GetStatusModel {
     result: json["result"],
     id: json["id"],
   );
+  String? jsonrpc;
+  String? result;
+  String? id;
 
   Map<String, dynamic> toJson() => {
     "jsonrpc": jsonrpc,

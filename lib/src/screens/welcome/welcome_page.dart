@@ -21,9 +21,9 @@ class WelcomePage extends BasePage {
 
   @override
   Widget body(BuildContext context) {
-    final _screenWidth = MediaQuery.sizeOf(context).width;
-    final _screenHeight = MediaQuery.sizeOf(context).height;
-    final textScaleFactor = _screenWidth < _baseWidth ? 0.76 : 1.0;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final screenHeight = MediaQuery.sizeOf(context).height;
+    final textScaleFactor = screenWidth < _baseWidth ? 0.76 : 1.0;
     final settingsStore = Provider.of<SettingsStore>(context);
     return Stack(
       children: [
@@ -32,7 +32,7 @@ class WelcomePage extends BasePage {
             children: [
               Container(
                 width: double.infinity,
-                margin: EdgeInsetsDirectional.all(_screenHeight * 0.10 / 3),
+                margin: EdgeInsetsDirectional.all(screenHeight * 0.10 / 3),
                 decoration: BoxDecoration(
                     color: settingsStore.isDarkTheme
                         ? Color(0xff21212D)
@@ -42,7 +42,7 @@ class WelcomePage extends BasePage {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Padding(
-                      padding: EdgeInsetsDirectional.only(top: _screenHeight * 0.10 / 3),
+                      padding: EdgeInsetsDirectional.only(top: screenHeight * 0.10 / 3),
                       child: Image.asset('assets/images/new-images/beldex_logo.png',width: 44,height: 44,),
                     ),
                     Padding(
@@ -54,12 +54,12 @@ class WelcomePage extends BasePage {
                           fontSize: 30.0,
                           fontWeight: FontWeight.bold,
                         ),
-                        textScaleFactor: textScaleFactor,
+                        textScaler: TextScaler.linear(textScaleFactor),
                         textAlign: TextAlign.center,
                       ),
                     ),
                     Container(
-                        height: _screenHeight * 0.60 / 3,
+                        height: screenHeight * 0.60 / 3,
                         child: SvgPicture.asset(settingsStore.isDarkTheme
                             ? 'assets/images/new-images/Empty_screen_image.svg'
                             : 'assets/images/new-images/Empty_screen_image_white.svg')),
@@ -67,7 +67,7 @@ class WelcomePage extends BasePage {
                       tr(context).welcomeToBeldexWallet,
                       style: TextStyle(
                         backgroundColor: Colors.transparent,
-                        fontSize: _screenHeight * 0.05 / 3,
+                        fontSize: screenHeight * 0.05 / 3,
                         fontWeight: FontWeight.w700,
                         color: settingsStore.isDarkTheme
                             ? Color(0xffAFAFBE)
@@ -82,7 +82,7 @@ class WelcomePage extends BasePage {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           backgroundColor: Colors.transparent,
-                          fontSize: _screenHeight * 0.05 / 3,
+                          fontSize: screenHeight * 0.05 / 3,
                           color: settingsStore.isDarkTheme
                               ? Color(0xffFFFFFF)
                               : Color(0xff060606),
@@ -128,26 +128,26 @@ class WelcomePage extends BasePage {
                       ),
                     ),
                     SizedBox(
-                      height: _screenHeight * 0.10 / 3,
+                      height: screenHeight * 0.10 / 3,
                     )
                   ],
                 ),
               ),
               Positioned(
                   left: 10.0,
-                  top: _screenHeight * 0.12,
+                  top: screenHeight * 0.12,
                   child: Container(
-                      height: _screenHeight * 0.08,
-                      width: _screenHeight * 0.08,
+                      height: screenHeight * 0.08,
+                      width: screenHeight * 0.08,
                       child: Image.asset(
                           'assets/images/new-images/green_coin.png')) //Image.asset('assets/images/new-images/coin.png'),
               ),
               Positioned(
                   right: 2.0,
-                  bottom: _screenHeight * 0.16,
+                  bottom: screenHeight * 0.16,
                   child: Container(
-                      height: _screenHeight * 0.06,
-                      width: _screenHeight * 0.07,
+                      height: screenHeight * 0.06,
+                      width: screenHeight * 0.07,
                       child: Image.asset('assets/images/new-images/blue_coin.png'))),
             ],
           ),

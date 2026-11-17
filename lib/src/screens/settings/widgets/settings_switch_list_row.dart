@@ -14,7 +14,7 @@ class SettingsSwitchListRow extends StatelessWidget {
 
   Widget? _getSwitch(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _themeChanger = Provider.of<ThemeChanger>(context);
+    final themeChanger = Provider.of<ThemeChanger>(context);
 
     if (title == tr(context).settings_save_recipient_address) {
       return Observer(
@@ -22,9 +22,9 @@ class SettingsSwitchListRow extends StatelessWidget {
               value: settingsStore.shouldSaveRecipientAddress,
               icon: false,
               onTaped: () {
-                final _currentValue = !settingsStore.shouldSaveRecipientAddress;
+                final currentValue = !settingsStore.shouldSaveRecipientAddress;
                 settingsStore.setSaveRecipientAddress(
-                    shouldSaveRecipientAddress: _currentValue);
+                    shouldSaveRecipientAddress: currentValue);
               }));
     }
 
@@ -35,10 +35,10 @@ class SettingsSwitchListRow extends StatelessWidget {
               value: settingsStore.allowBiometricAuthentication,
               icon: false,
               onTaped: () {
-                final _currentValue =
+                final currentValue0 =
                     !settingsStore.allowBiometricAuthentication;
                 settingsStore.setAllowBiometricAuthentication(
-                    allowBiometricAuthentication: _currentValue);
+                    allowBiometricAuthentication: currentValue0);
               }));
     }
 
@@ -48,10 +48,10 @@ class SettingsSwitchListRow extends StatelessWidget {
               value: settingsStore.isDarkTheme,
               icon: false,
               onTaped: () {
-                final _currentValue = !settingsStore.isDarkTheme;
-                settingsStore.saveDarkTheme(isDarkTheme: _currentValue);
-                _themeChanger.setTheme(
-                    _currentValue ? Themes.darkTheme : Themes.lightTheme);
+                final currentValue1 = !settingsStore.isDarkTheme;
+                settingsStore.saveDarkTheme(isDarkTheme: currentValue1);
+                themeChanger.setTheme(
+                    currentValue1 ? Themes.darkTheme : Themes.lightTheme);
               }));
     }
 
@@ -61,9 +61,9 @@ class SettingsSwitchListRow extends StatelessWidget {
               value: settingsStore.enableFiatCurrency,
               icon: false,
               onTaped: () {
-                final _currentValue = !settingsStore.enableFiatCurrency;
+                final currentValue2 = !settingsStore.enableFiatCurrency;
                 settingsStore.setEnableFiatCurrency(
-                    enableFiatCurrency: _currentValue);
+                    enableFiatCurrency: currentValue2);
               }));
     }
 

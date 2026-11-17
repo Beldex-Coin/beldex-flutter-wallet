@@ -4,13 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class StandardSwitch extends StatefulWidget {
-  
-
-   StandardSwitch({required this.value, required this.onTaped,required this.icon});
+  StandardSwitch({required this.value, required this.onTaped, required this.icon});
 
   final bool value;
   final VoidCallback onTaped;
-  bool icon=false;
+  final bool icon;
   @override
   StandardSwitchState createState() => StandardSwitchState();
 }

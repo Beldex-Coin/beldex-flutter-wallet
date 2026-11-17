@@ -13,17 +13,17 @@ class DecodeResult {
 
 String encrypt(
     {required String source, required String key, int keyLength = 16}) {
-  final _key = Key.fromUtf8(key);
+  final key0 = Key.fromUtf8(key);
   final iv = IV.fromSecureRandom(16);
-  final encrypter = Encrypter(AES(_key, mode: AESMode.sic));
+  final encrypter = Encrypter(AES(key0, mode: AESMode.sic));
   final encrypted = encrypter.encrypt(source, iv: iv);
   return '${iv.base64}:${encrypted.base64}';
 }
 
 String decrypt(
     {required String source, required String key, int keyLength = 16}) {
-  final _key = Key.fromUtf8(key);
-  final encrypter = Encrypter(AES(_key, mode: AESMode.sic));
+  final key0 = Key.fromUtf8(key);
+  final encrypter = Encrypter(AES(key0, mode: AESMode.sic));
 
   // New format: iv:ciphertext
   if (source.contains(':')) {
@@ -44,16 +44,16 @@ String decrypt(
 }
 
 String _encryptAuthenticated({required String source, required String key}) {
-  final _key = Key.fromUtf8(key);
+  final key0 = Key.fromUtf8(key);
   final iv = IV.fromSecureRandom(12);
-  final encrypter = Encrypter(AES(_key, mode: AESMode.gcm));
+  final encrypter = Encrypter(AES(key0, mode: AESMode.gcm));
   final encrypted = encrypter.encrypt(source, iv: iv);
   return '${iv.base64}:${encrypted.base64}';
 }
 
 String _decryptAuthenticated({required String source, required String key}) {
-  final _key = Key.fromUtf8(key);
-  final encrypter = Encrypter(AES(_key, mode: AESMode.gcm));
+  final key0 = Key.fromUtf8(key);
+  final encrypter = Encrypter(AES(key0, mode: AESMode.gcm));
   final parts = source.split(':');
   if (parts.length != 2) {
     throw FormatException('Invalid encrypted value');

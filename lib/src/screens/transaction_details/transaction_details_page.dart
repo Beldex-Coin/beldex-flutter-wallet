@@ -1,7 +1,6 @@
 import 'package:beldex_wallet/src/swap/util/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import '../../../l10n.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_info.dart';
@@ -50,14 +49,14 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
   /*final _dateFormat = widget.settingsStore.getCurrentDateFormat(
         formatUSA: 'yyyy.MM.dd, HH:mm', formatDefault: 'dd.MM.yyyy, HH:mm');*/
   List<StandartListItem> getItems(AppLocalizations t) {
-    final _dateFormat = DateFormat.yMMMMEEEEd(t.localeName).add_jm();
+    final dateFormat = DateFormat.yMMMMEEEEd(t.localeName).add_jm();
     final items = [
       StandartListItem(
           title: t.transaction_details_transaction_id,
           value: widget.transactionInfo.id),
       StandartListItem(
           title: t.date,
-          value: _dateFormat.format(widget.transactionInfo.date)),
+          value: dateFormat.format(widget.transactionInfo.date)),
       StandartListItem(
           title: t.transaction_details_height,
           value: '${widget.transactionInfo.height}'),

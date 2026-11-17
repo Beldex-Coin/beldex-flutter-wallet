@@ -1,10 +1,8 @@
-import 'dart:ui';
 
 import 'package:beldex_wallet/src/screens/wallet_list/wallet_option_dialog.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/routes.dart';
@@ -57,7 +55,7 @@ class WalletListBodyState extends State<WalletListBody> {
   }
 
   void authStatus(bool value, WalletDescription wallet, BuildContext context) {
-    if (value && value != null) {
+    if (value) {
       isAuthenticatedSuccessfully = false;
       Navigator.pushReplacement(
           context,
@@ -71,7 +69,7 @@ class WalletListBodyState extends State<WalletListBody> {
   Widget build(BuildContext context) {
     _walletListStore = Provider.of<WalletListStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _controller = ScrollController(keepScrollOffset: true);
+    final controller = ScrollController(keepScrollOffset: true);
     return Center(
       child: SingleChildScrollView(
           child: Column(
@@ -88,7 +86,7 @@ class WalletListBodyState extends State<WalletListBody> {
                     ? Color(0xff272733)
                     : Color(0xffEDEDED)),
             child: RawScrollbar(
-              controller: _controller,
+              controller: controller,
               thumbVisibility: true,
               thickness: 8,
               thumbColor: settingsStore.isDarkTheme
@@ -99,7 +97,7 @@ class WalletListBodyState extends State<WalletListBody> {
                 margin: EdgeInsetsDirectional.only(end:8.0),
                 child: Observer(
                   builder: (_) => ListView.builder(
-                      controller: _controller,
+                      controller: controller,
                       scrollDirection: Axis.vertical,
                       itemCount: _walletListStore!.wallets.length,
                       itemBuilder: (__, index) {

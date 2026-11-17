@@ -1,4 +1,3 @@
-import 'package:beldex_coin/wallet.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/get_height_by_date.dart';
 import 'package:beldex_wallet/src/widgets/nospaceformatter.dart';
@@ -7,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../../l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet_restoration/wallet_restoration_store.dart';
@@ -143,7 +141,7 @@ class _RestoreFromSeedDetailsFormState
                         child: Observer(
                           builder: (context) {
                             return TextFormField(
-                              enabled: !(walletRestorationStore.state is WalletIsRestoring),
+                              enabled: walletRestorationStore.state is! WalletIsRestoring,
                               style: TextStyle(fontSize: 14.0),
                               controller: _nameController,
                               decoration: InputDecoration(
@@ -211,7 +209,7 @@ class _RestoreFromSeedDetailsFormState
 }
 
 class BlockHeightSwappingWidget extends StatefulWidget {
-  const BlockHeightSwappingWidget({Key? key, required this.walletRestorationStore}) : super(key: key);
+  const BlockHeightSwappingWidget({super.key, required this.walletRestorationStore});
   final WalletRestorationStore walletRestorationStore;
   @override
   State<BlockHeightSwappingWidget> createState() =>
@@ -266,8 +264,8 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                     child: Observer(
                       builder: (context) {
                         return TextFormField(
-                          enabled: !(walletRestorationStore.state
-                          is WalletIsRestoring),
+                          enabled: walletRestorationStore.state
+                          is! WalletIsRestoring,
                           textInputAction: TextInputAction.done,
                           textAlign: TextAlign.start,
                           textDirection: Directionality.of(context),
@@ -343,8 +341,8 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        if (!(walletRestorationStore.state
-                        is WalletIsRestoring)) {
+                        if (walletRestorationStore.state
+                        is! WalletIsRestoring) {
                           selectDate(context, settingsStore);
                         }
                       },
@@ -355,8 +353,8 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                               child: Observer(
                                 builder: (context) {
                                   return TextFormField(
-                                    enabled: !(walletRestorationStore.state
-                                    is WalletIsRestoring),
+                                    enabled: walletRestorationStore.state
+                                    is! WalletIsRestoring,
                                     textAlign: TextAlign.start,
                                     textDirection:
                                     Directionality.of(context),

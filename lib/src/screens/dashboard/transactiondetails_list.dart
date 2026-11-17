@@ -1,6 +1,5 @@
 //import 'package:date_range_picker/date_range_picker.dart' as date_rage_picker;
 import '../../widgets/custom_date_range_picker/custom_date_range_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,7 +25,7 @@ class TransactionDetailsList extends BasePage {
 }
 
 class TransactionDetailsListBody extends StatefulWidget {
-  TransactionDetailsListBody({Key? key}) : super(key: key);
+  TransactionDetailsListBody({super.key});
 
   @override
   TransactionDetailsListBodyState createState() =>
@@ -147,16 +146,16 @@ class TransactionDetailsListBodyState
                                                             .copyWith(
                                                             checkboxTheme:
                                                             CheckboxThemeData(
-                                                              fillColor: MaterialStateColor.resolveWith(
+                                                              fillColor: WidgetStateColor.resolveWith(
                                                                       (states) {
-                                                                    if (states.contains(MaterialState.selected)) {
+                                                                    if (states.contains(WidgetState.selected)) {
                                                                       return Colors.green; // the color when checkbox is selected;
                                                                     }
                                                                     return settingsStore.isDarkTheme
                                                                         ? Color(0xff292935)
                                                                         : Color(0xffffffff); //the color when checkbox is unselected;
                                                                   }),
-                                                              checkColor: MaterialStateProperty.all(Colors.white),
+                                                              checkColor: WidgetStateProperty.all(Colors.white),
                                                             )),
                                                         child:
                                                         Checkbox(
@@ -186,16 +185,16 @@ class TransactionDetailsListBodyState
                                                             .copyWith(
                                                             checkboxTheme:
                                                             CheckboxThemeData(
-                                                              fillColor: MaterialStateColor.resolveWith(
+                                                              fillColor: WidgetStateColor.resolveWith(
                                                                       (states) {
-                                                                    if (states.contains(MaterialState.selected)) {
+                                                                    if (states.contains(WidgetState.selected)) {
                                                                       return Colors.green; // the color when checkbox is selected;
                                                                     }
                                                                     return settingsStore.isDarkTheme
                                                                         ? Color(0xff292935)
                                                                         : Color(0xffffffff); //the color when checkbox is unselected;
                                                                   }),
-                                                              checkColor: MaterialStateProperty.all(Colors.white),
+                                                              checkColor: WidgetStateProperty.all(Colors.white),
                                                             )),
                                                         child:
                                                         Checkbox(
@@ -269,9 +268,9 @@ class TransactionDetailsListBodyState
                       return Container();
                     }
 
-                    index -= 2;
+                    final itemIndex = index - 2;
 
-                    if (index < 0 || index >= items.length) {
+                    if (itemIndex < 0 || itemIndex >= items.length) {
                       return Container(
                         height: MediaQuery.sizeOf(context).height * 2.6 / 3,
                         margin: EdgeInsetsDirectional.only(
@@ -309,11 +308,11 @@ class TransactionDetailsListBodyState
                       );
                     }
 
-                    final item = items[index];
+                    final item = items[itemIndex];
                     if (item is DateSectionItem) {
                       return DateSectionRow(
                         date: item.date,
-                        index: index,
+                        index: itemIndex,
                       );
                     }
                     if (item is TransactionListItem) {

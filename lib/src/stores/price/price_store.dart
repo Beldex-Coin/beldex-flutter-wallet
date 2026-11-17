@@ -1,5 +1,4 @@
 import 'package:mobx/mobx.dart';
-import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 import 'package:beldex_wallet/src/domain/common/fiat_currency.dart';
 
 part 'price_store.g.dart';
@@ -11,7 +10,7 @@ abstract class PriceStoreBase with Store {
 
   static String generateSymbolForFiat(
       {required FiatCurrency fiat}) =>
-      'BDX' + fiat.toString().toUpperCase();
+      'BDX${fiat.toString().toUpperCase()}';
 
   @observable
   ObservableMap<String, double> prices;

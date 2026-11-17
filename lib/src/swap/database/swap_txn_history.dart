@@ -95,7 +95,7 @@ class SwapTxnHistory {
     final now = DateTime.now().millisecondsSinceEpoch;
     final rawCreatedAt = details['createdAt'] ?? details['created_at'];
     final createdAt = rawCreatedAt != null ? toMsEpoch(rawCreatedAt) : now;
-    final extractAddr = (dynamic val) {
+    dynamic extractAddr(dynamic val) {
       if (val == null) return null;
       if (val is String) return val;
       if (val is Map) {
@@ -105,9 +105,9 @@ class SwapTxnHistory {
             val['address'];
       }
       return null;
-    };
+    }
 
-    final extractMemo = (dynamic val) {
+    dynamic extractMemo(dynamic val) {
       if (val == null) return null;
       if (val is String) return val;
       if (val is Map) {
@@ -117,7 +117,7 @@ class SwapTxnHistory {
             val['memo'];
       }
       return null;
-    };
+    }
 
     return {
       'uuid': _randomUuid(),

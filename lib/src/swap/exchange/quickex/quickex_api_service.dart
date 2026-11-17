@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:beldex_wallet/src/swap/apiKeys.dart';
+import 'package:beldex_wallet/src/swap/api_keys.dart';
 import 'package:beldex_wallet/src/swap/exchange/quickex/models/quickex_api_result.dart';
 import 'package:beldex_wallet/src/swap/exchange/quickex/quickex_api_config.dart';
 import 'package:beldex_wallet/src/swap/exchange/quickex/quickex_hmac_signer.dart';

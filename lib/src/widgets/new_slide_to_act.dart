@@ -7,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 
 class NewSlideToAct extends StatefulWidget {
   const NewSlideToAct({
-    Key? key,
+    super.key,
     this.sliderButtonIconSize = 24,
     this.sliderButtonIconPadding = 16,
     this.sliderButtonYOffset = 0,
@@ -25,7 +25,7 @@ class NewSlideToAct extends StatefulWidget {
     this.innerColor,
     this.text,
     this.sliderButtonIcon,
-  }) : super(key: key);
+  });
 
   /// The size of the sliding icon
   final double sliderButtonIconSize;
@@ -91,9 +91,9 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
 
   double get _progress => _dx == 0 ? 0 : _dx / _maxDx;
   double _endDx = 0;
-  double _dz = 1;
-  double? _initialContainerWidth, _containerWidth;
-  double _checkAnimationDx = 0;
+  final double _dz = 1;
+  double? _containerWidth;
+  final double _checkAnimationDx = 0;
   bool submitted = false;
   AnimationController? _checkAnimationController,
       _shrinkAnimationController,
@@ -179,7 +179,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
                         child: Container(
                           key: _sliderKey,
                           child: GestureDetector(
-                            onVerticalDragUpdate: onHorizontalDragUpdate,
+                            onVerticalDragUpdate: onVerticalDragUpdate,
                             onVerticalDragEnd: (details) async {
                               _endDx = _dx;
                               if (_progress <= 0.8) {
@@ -211,7 +211,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
                                             math.pi / 4)),
                                     border: Border.all(
                                       color: Theme.of(context)
-                                          .colorScheme.background, //kHintColor, so this should be changed?
+                                          .colorScheme.surface, //kHintColor, so this should be changed?
                                     ),
                                     borderRadius:
                                     BorderRadius.circular(100),
@@ -225,10 +225,10 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
                                       padding: EdgeInsetsDirectional.all(20),
                                       decoration: BoxDecoration(
                                         color: Theme.of(context)
-                                            .colorScheme.background,
+                                            .colorScheme.surface,
                                         border: Border.all(
                                             color: Theme.of(context)
-                                                .colorScheme.background),
+                                                .colorScheme.surface),
                                         borderRadius:
                                         BorderRadius.circular(
                                             100),
@@ -273,9 +273,9 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
     );
   }
 
-  void onHorizontalDragUpdate(DragUpdateDetails details) {
+  void onVerticalDragUpdate(DragUpdateDetails details) {
     setState(() {
-      _dx = (_dx - details.delta.dy).clamp(0.0,_maxDx) as double;
+      _dx = (_dx - details.delta.dy).clamp(0.0, _maxDx);
     });
   }
 
@@ -292,7 +292,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
     await _cancelAnimation();
   }
 
-  Future _checkAnimation() async {
+  /*Future _checkAnimation() async {
     _checkAnimationController?.reset();
 
     final animation = Tween<double>(
@@ -358,7 +358,7 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
       }
     });
     await _resizeAnimationController?.forward().orCancel;
-  }
+  }*/
 
   Future _cancelAnimation() async {
     _cancelAnimationController!.reset();
@@ -406,7 +406,6 @@ class SlideToActState extends State<NewSlideToAct> with TickerProviderStateMixin
       final containerBox =
       _containerKey.currentContext?.findRenderObject() as RenderBox;
       _containerWidth = containerBox.size.width;
-      _initialContainerWidth = _containerWidth;
 
       final sliderBox =
       _sliderKey.currentContext?.findRenderObject() as RenderBox;

@@ -2,8 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../../routes.dart';
-
 class Picker<Item extends Object> extends StatelessWidget {
   Picker(
       {required this.selectedAtIndex,
@@ -32,7 +30,7 @@ class Picker<Item extends Object> extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 GestureDetector(
-                  onTap: () => null,
+                  onTap: () {},
                   child: Container(
                       width: double.infinity,
                       height: pickerHeight,
@@ -70,8 +68,8 @@ class Picker<Item extends Object> extends StatelessWidget {
                             );
                           }
 
-                          index -= 1;
-                          final item = items[index];
+                          final itemIndex = index - 1;
+                          final item = items[itemIndex];
 
                           return GestureDetector(
                             onTap: () {
@@ -92,7 +90,7 @@ class Picker<Item extends Object> extends StatelessWidget {
                                     decoration: TextDecoration.none,
                                     fontSize: 18,
                                     fontWeight: FontWeight.normal,
-                                    color: index == selectedAtIndex
+                                    color: itemIndex == selectedAtIndex
                                         ? Color.fromRGBO(138, 80, 255, 1.0)
                                         : Theme.of(context).primaryTextTheme.bodySmall?.color),
                               )),

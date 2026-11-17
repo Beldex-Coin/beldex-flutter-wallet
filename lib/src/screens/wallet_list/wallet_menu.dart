@@ -13,7 +13,7 @@ class WalletMenu {
   final BuildContext context;
 
   void action(int index, WalletDescription wallet) {
-    final _walletListStore = context.read<WalletListStore>();
+    final walletListStore = context.read<WalletListStore>();
 
     switch (index) {
       case 0:
@@ -166,7 +166,7 @@ class WalletMenu {
                                           auth.changeProcessText(tr(context)
                                               .wallet_list_removing_wallet(
                                                   wallet.name));
-                                          await _walletListStore.remove(wallet);
+                                          await walletListStore.remove(wallet);
                                           auth.close();
                                           Navigator.of(context).pop(false);
                                         } catch (e) {

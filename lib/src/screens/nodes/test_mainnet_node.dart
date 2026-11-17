@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:beldex_wallet/src/node/digest_request.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 

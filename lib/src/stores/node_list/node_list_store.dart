@@ -47,7 +47,7 @@ abstract class NodeListBase with Store {
     var uri = address;
 
     if (port != null && port.isNotEmpty) {
-      uri += ':' + port;
+      uri += ':$port';
     }
 
     final node = Node(uri: uri, login: login, password: password);
@@ -70,7 +70,7 @@ abstract class NodeListBase with Store {
 
   void validateNodeAddress(String value,AppLocalizations t) {
     const pattern =
-        '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\$|^[0-9a-zA-Z.]+\$';
+        '^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\$|^[0-9a-zA-Z.]+\$';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
     errorMessage = (isValid ? null : t.error_text_node_address);

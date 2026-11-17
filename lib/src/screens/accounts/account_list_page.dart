@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import '../../../l10n.dart';
@@ -43,7 +42,7 @@ class AccountListPage extends BasePage {
     final accountListStore = Provider.of<AccountListStore>(context);
     final walletStore = Provider.of<WalletStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-      final _controller = ScrollController(keepScrollOffset: true);
+      final controller = ScrollController(keepScrollOffset: true);
       ScreenSize.init(context);
     return Column(
          crossAxisAlignment: CrossAxisAlignment.center,
@@ -61,13 +60,13 @@ class AccountListPage extends BasePage {
           child: Observer(builder: (_) {
             final accounts = accountListStore.accounts;
             return RawScrollbar(
-               controller: _controller,
+               controller: controller,
               thickness: 8,
               thumbColor: settingsStore.isDarkTheme ? Color(0xff3A3A45) : Color(0xffC2C2C2),
               radius: Radius.circular(10.0),
               thumbVisibility: true,
               child: ListView.builder(
-                   controller: _controller,
+                   controller: controller,
                   itemCount: accounts.isEmpty ? 0 : accounts.length,
                   itemBuilder: (BuildContext context, int index) {
                     final account = accounts[index];

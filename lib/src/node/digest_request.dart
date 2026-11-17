@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:dio/dio.dart' as __dio;
+import 'package:dio/dio.dart' as dio;
 import 'package:crypto/crypto.dart' as crypto;
 import 'dart:math' as math;
 
@@ -55,17 +55,17 @@ class DigestRequest {
     return authenticate;
   }
 
-  Future<__dio.Response> request(
+  Future<dio.Response> request(
       {required String uri, String? login, String? password, Map<String, dynamic>? requestBody}) async {
     const path = '/json_rpc';
     const method = 'POST';
     final url = Uri.http(uri, path);
-    final dio = __dio.Dio();
+    final dio0 = dio.Dio();
     final headers = {'Content-type': 'application/json'};
     final body =
         json.encode(requestBody);
-    final credentialsResponse = await dio.post<Object>(url.toString(),
-        options: __dio.Options(headers: headers, validateStatus: (_) => true));
+    final credentialsResponse = await dio0.post<Object>(url.toString(),
+        options: dio.Options(headers: headers, validateStatus: (_) => true));
     final authenticate = parsetAuthorizationHeader(
         source: credentialsResponse.headers['www-authenticate']!.first);
     final qop = authenticate['qop'];
@@ -90,7 +90,7 @@ class DigestRequest {
           'Digest username="$login",realm="$realm",nonce="$nonce",uri="$path",algorithm="$algorithm",qop=$qop,nc=$nonceCount,cnonce="$cnonce",response="$response"'
     };
 
-    return await dio.post<Object>(url.toString(),
-        options: __dio.Options(headers: authorizationHeaders), data: body);
+    return await dio0.post<Object>(url.toString(),
+        options: dio.Options(headers: authorizationHeaders), data: body);
   }
 }

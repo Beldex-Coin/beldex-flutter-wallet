@@ -1,5 +1,4 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,8 +9,6 @@ import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/address_book/address_book_store.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
 import 'package:provider/provider.dart';
-
-import '../../../palette.dart';
 import '../../domain/common/qr_scanner.dart';
 
 class ContactPage extends BasePage {
@@ -307,12 +304,12 @@ class ContactFormState extends State<ContactForm> {
 
                         await addressBookStore.add(contact: newContact);
                       } else {
-                        widget.contact?.name = _contactNameController.text;
-                        widget.contact?.address = _addressController.text;
+                        widget.contact.name = _contactNameController.text;
+                        widget.contact.address = _addressController.text;
                         /*widget.contact.updateCryptoCurrency(
                                   currency: _selectedCrypto);*/
 
-                        await addressBookStore.update(contact: widget.contact!);
+                        await addressBookStore.update(contact: widget.contact);
                       }
                       Navigator.pop(context);
                     } catch (e) {
@@ -426,13 +423,8 @@ class ContactFormState extends State<ContactForm> {
       final uri = Uri.parse(code!);
       var address = '';
 
-      if (uri == null) {
-        controller?.text = code;
-        return;
-      }
-
       address = uri.path;
-      controller?.text = address;
+      controller.text = address;
     } catch (e) {
       print('Error $e');
     }

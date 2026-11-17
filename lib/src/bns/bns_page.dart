@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:beldex_wallet/src/bns/buy_bns_change_notifier.dart';
 import 'package:beldex_wallet/src/bns/my_bns_page.dart';
@@ -11,11 +10,9 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:beldex_wallet/src/widgets/bns_initiating_transaction_loader.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:keyboard_detection/keyboard_detection.dart';
@@ -60,7 +57,7 @@ class BnsPage extends BasePage {
 }
 
 class BnsForm extends StatefulWidget {
-  BnsForm({Key? key}) : super(key: key);
+  BnsForm({super.key});
 
   @override
   State<StatefulWidget> createState() => BnsFormState();

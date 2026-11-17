@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 class CustomScrollbar extends SingleChildRenderObjectWidget {
-  final ScrollController controller;
-  final Widget? child;
-  final double? strokeWidth;
-  final EdgeInsets? padding;
-  final Color? trackColor;
-  final Color? thumbColor;
 
   const CustomScrollbar({
-    Key? key,
+    super.key,
     required this.controller,
     this.child,
     this.strokeWidth,
     this.padding,
     this.trackColor,
     this.thumbColor,
-  }) : super(key: key);
+  });
+  final ScrollController controller;
+  final Widget? child;
+  final double? strokeWidth;
+  final EdgeInsets? padding;
+  final Color? trackColor;
+  final Color? thumbColor;
 
   @override
   RenderObject createRenderObject(BuildContext context) {
@@ -50,12 +49,6 @@ class CustomScrollbar extends SingleChildRenderObjectWidget {
 }
 
 class RenderCustomScrollbar extends RenderShiftedBox {
-  final ScrollController controller;
-  Offset _thumbPoint = Offset(0, 0);
-  EdgeInsets padding;
-  double? strokeWidth;
-  Color? trackColor;
-  Color? thumbColor;
 
   RenderCustomScrollbar({
     RenderBox? child,
@@ -67,6 +60,12 @@ class RenderCustomScrollbar extends RenderShiftedBox {
   }) : super(child) {
     controller.addListener(_updateThumbPoint);
   }
+  final ScrollController controller;
+  Offset _thumbPoint = Offset(0, 0);
+  EdgeInsets padding;
+  double? strokeWidth;
+  Color? trackColor;
+  Color? thumbColor;
 
   void _updateThumbPoint() {
     _thumbPoint = Offset(_getHorizontalOffset(), _getThumbVerticalOffset());
@@ -79,9 +78,9 @@ class RenderCustomScrollbar extends RenderShiftedBox {
   }
 
   double _getThumbVerticalOffset() {
-    var scrollExtent = _getScrollExtent();
-    var scrollPosition = controller.position;
-    var scrollOffset =
+    final scrollExtent = _getScrollExtent();
+    final scrollPosition = controller.position;
+    final scrollOffset =
     ((scrollPosition.pixels - scrollPosition.minScrollExtent) /
         scrollExtent)
         .clamp(0.0, 1.0);
@@ -97,8 +96,8 @@ class RenderCustomScrollbar extends RenderShiftedBox {
   }
 
   double _getThumbHeight() {
-    var scrollExtent = _getScrollExtent();
-    var height = _getHeightWithPadding();
+    final scrollExtent = _getScrollExtent();
+    final height = _getHeightWithPadding();
     if (scrollExtent == 0) {
       return height;
     }
@@ -116,14 +115,14 @@ class RenderCustomScrollbar extends RenderShiftedBox {
   }
 
   void _resetThumbStartPointIfNeeded() {
-    var scrollMaxExtent = _getScrollExtent();
+    final scrollMaxExtent = _getScrollExtent();
     if (scrollMaxExtent == 0) {
       _thumbPoint = Offset(_getHorizontalOffset(), 0);
     }
   }
 
   void _trackPaint(PaintingContext context, Offset offset) {
-    var width = _getHorizontalOffset();
+    final width = _getHorizontalOffset();
     final trackPaint = Paint()
       ..strokeCap = StrokeCap.round
       ..color = trackColor!
@@ -134,7 +133,7 @@ class RenderCustomScrollbar extends RenderShiftedBox {
   }
 
   void _thumbPaint(PaintingContext context, Offset offset) {
-    var width = _getHorizontalOffset();
+    final width = _getHorizontalOffset();
     final paintThumb = Paint()
       ..strokeWidth = strokeWidth!
       ..color = thumbColor!
@@ -145,7 +144,7 @@ class RenderCustomScrollbar extends RenderShiftedBox {
     context.canvas.drawLine(startPoint, endPoint, paintThumb);
   }
 
-  void _textPaint(PaintingContext context, Offset offset) {
+  /*void _textPaint(PaintingContext context, Offset offset) {
     var canvas = context.canvas;
     canvas.save();
     canvas.translate(size.width - 6,
@@ -160,16 +159,16 @@ class RenderCustomScrollbar extends RenderShiftedBox {
     tp.layout();
     tp.paint(canvas, Offset.zero);
     canvas.restore();
-  }
+  }*/
 
-  String _getPercent() {
+  /*String _getPercent() {
     if (_getScrollExtent() == 0) {
       return '100 %';
     }
     return (controller.position.pixels / _getScrollExtent() * 100)
         .toStringAsFixed(0) +
         ' %';
-  }
+  }*/
 
   @override
   void performLayout() {

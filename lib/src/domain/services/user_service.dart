@@ -30,7 +30,7 @@ class UserService {
   Future<bool> canAuthenticate() async {
     final key = generateStoreKeyFor(key: SecretStoreKey.pinCodePassword);
     final walletName = sharedPreferences.getString('current_wallet_name') ?? '';
-    if (!(walletName?.isNotEmpty ?? false)) {
+    if (!(walletName.isNotEmpty)) {
       return false;
     }
     String? password;

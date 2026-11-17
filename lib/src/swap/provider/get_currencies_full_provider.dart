@@ -53,52 +53,52 @@ class GetCurrenciesFullProvider with ChangeNotifier {
     }
   }
 
-  bool? get getBdxIsEnabled => this.bdxIsEnabled;
+  bool? get getBdxIsEnabled => bdxIsEnabled;
 
   void setSelectedYouGetCoins(youGetCoins){
-    this.selectedYouGetCoins = youGetCoins;
+    selectedYouGetCoins = youGetCoins;
     if(_disposed) return ;
     notifyListeners();
   }
 
   Coins getSelectedYouGetCoins(){
-    return this.selectedYouGetCoins;
+    return selectedYouGetCoins;
   }
 
   void setSelectedYouSendCoins(youSendCoins){
-    this.selectedYouSendCoins = youSendCoins;
+    selectedYouSendCoins = youSendCoins;
     if(_disposed) return ;
     notifyListeners();
   }
 
   Coins getSelectedYouSendCoins(){
-    return this.selectedYouSendCoins;
+    return selectedYouSendCoins;
   }
 
   void setSendCoinsDropDownVisible(status){
-    this.youSendCoinsDropDownVisible = status;
+    youSendCoinsDropDownVisible = status;
     if(_disposed) return ;
     notifyListeners();
   }
 
   bool getSendCoinsDropDownVisible(){
-    return this.youSendCoinsDropDownVisible;
+    return youSendCoinsDropDownVisible;
   }
 
   void setGetCoinsDropDownVisible(status){
-    this.youGetCoinsDropDownVisible = status;
+    youGetCoinsDropDownVisible = status;
     if(_disposed) return ;
     notifyListeners();
   }
 
   bool getGetCoinsDropDownVisible(){
-    return this.youGetCoinsDropDownVisible;
+    return youGetCoinsDropDownVisible;
   }
 
   @override
   void dispose() {
     try {
-      this._disposed = true;
+      _disposed = true;
       super.dispose();
     } catch(ex) {
       print("Exception-> $ex");

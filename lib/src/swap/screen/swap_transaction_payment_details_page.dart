@@ -200,7 +200,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
 
   void _pollStatus() {
     final exchangeName = widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly';
-    getTransactionsProvider.getTransactionsData(context, {"id": "${createdTransactionDetails.txnId}", "destinationAddress": "${createdTransactionDetails.payoutAddress}"}, exchangeName: exchangeName);
+    getTransactionsProvider.getTransactionsData(context, {"id": createdTransactionDetails.txnId, "destinationAddress": "${createdTransactionDetails.payoutAddress}"}, exchangeName: exchangeName);
   }
 
   void _onStatusUpdate() {
@@ -283,11 +283,11 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.sizeOf(context).width;
-    final _screenHeight = MediaQuery.sizeOf(context).height;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final screenHeight = MediaQuery.sizeOf(context).height;
     final syncStore = Provider.of<SyncStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _scrollController = ScrollController(keepScrollOffset: true);
+    final scrollController = ScrollController(keepScrollOffset: true);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
@@ -297,13 +297,13 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
             } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
-              return noInternet(settingsStore, _screenWidth, tr(context)); // Display an error message if an error occurs. or Display a message when no data is available.
+              return noInternet(settingsStore, screenWidth, tr(context)); // Display an error message if an error occurs. or Display a message when no data is available.
             } else {
               return body(
-                  _screenWidth,
-                  _screenHeight,
+                  screenWidth,
+                  screenHeight,
                   settingsStore,
-                  _scrollController,
+                  scrollController,
                   snapshot.data,
                   createdTransactionDetails,
               syncStore,networkProvider);
@@ -314,7 +314,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
     );
   }
 
-  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, GetTransactionsModel? responseData, SwapTransactionHistoryModel? createdTransactionDetails, SyncStore syncStore, NetworkProvider networkProvider){
+  Widget body(double screenWidth, double screenHeight, SettingsStore settingsStore, ScrollController scrollController, GetTransactionsModel? responseData, SwapTransactionHistoryModel? createdTransactionDetails, SyncStore syncStore, NetworkProvider networkProvider){
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -351,7 +351,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                       ),
                       child: Container(
                         padding: const EdgeInsetsDirectional.all(15.0),
-                        width: _screenWidth,
+                        width: screenWidth,
                         height: double.infinity,
                         child: paymentSendFundsToTheAddressBelowScreen(settingsStore,responseData, createdTransactionDetails, syncStore, networkProvider),
                       ),
@@ -368,7 +368,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PairsWidget(settingsStore: settingsStore, from: createdTransactionDetails?.currencyFrom, to: createdTransactionDetails?.currencyTo),
+        pairsWidget(settingsStore: settingsStore, from: createdTransactionDetails?.currencyFrom, to: createdTransactionDetails?.currencyTo),
         //Send funds to the address below Title
         Text(
           tr(context).swap_send_funds_to_address_below,
@@ -630,7 +630,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                 Flexible(
                   flex: 2,
                   child: Text(
-                    '${createdTransactionDetails?.payinAddress}',
+                    '${createdTransactionDetails.payinAddress}',
                     style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
@@ -647,7 +647,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     InkWell(
                         onTap: () async {
                           await ClipboardHelper.copyWithAutoClear(
-                              createdTransactionDetails!.payinAddress
+                              createdTransactionDetails.payinAddress
                                   .toString());
                           await Fluttertoast.showToast(
                             msg: tr(context).copied,
@@ -681,7 +681,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                         onTap: () {
                           _isVisibleQRCodeDialog = true;
                           showQRCodeDialog(context, settingsStore,
-                              createdTransactionDetails?.payinAddress,
+                              createdTransactionDetails.payinAddress,
                               onDismiss: (buildContext) {
                             _isVisibleQRCodeDialog = false;
                             Navigator.of(buildContext).pop(true);
@@ -714,9 +714,9 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
             SizedBox(
               height: 5,
             ),
-            createdTransactionDetails?.networkTo != null
+            createdTransactionDetails.networkTo != null
                 ? networkTextWidget(context,
-                    networkWithUppercase(createdTransactionDetails?.networkTo))
+                    networkWithUppercase(createdTransactionDetails.networkTo))
                 : networkTextWidget(context, "..."),
           ],
         ),
@@ -840,7 +840,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                     padding:
                     const EdgeInsetsDirectional.only(top: 10.0, start: 10.0, end: 10.0),
                     child: Text(
-                      '${toStringAsFixed(createdTransactionDetails!.amountFrom)} ${createdTransactionDetails.currencyFrom.toUpperCase()}',
+                      '${toStringAsFixed(createdTransactionDetails.amountFrom)} ${createdTransactionDetails.currencyFrom.toUpperCase()}',
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
@@ -959,7 +959,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                 ]),
 
                 //Fixed Exchange Rate
-                if (false)
+                /*if (false)
                   TableRow(children: [
                     Padding(
                       padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
@@ -1022,7 +1022,7 @@ class _SwapTransactionPaymentDetailsHomeState extends State<SwapTransactionPayme
                                 : Color(0xff222222)),
                       ),
                     )
-                  ]),
+                  ]),*/
               ],
             ),
             Table(

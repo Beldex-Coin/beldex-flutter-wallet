@@ -7,7 +7,7 @@ import 'beldex_dialog.dart';
 
 Future<T?> presentPicker<T extends Object>(
     BuildContext context, List<T> list) async {
-  var _value = list[0];
+  var value = list[0];
 
   return await showDialog(
       context: context,
@@ -37,7 +37,7 @@ Future<T?> presentPicker<T extends Object>(
                           backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
                           itemExtent: 45.0,
                           onSelectedItemChanged: (int index) =>
-                              _value = list[index],
+                              value = list[index],
                           children: List.generate(
                               list.length,
                               (index) => Center(
@@ -63,7 +63,7 @@ Future<T?> presentPicker<T extends Object>(
                         .primaryTextTheme
                         .labelLarge!
                         .decorationColor!,
-                    onPressed: () => Navigator.of(context).pop(_value),
+                    onPressed: () => Navigator.of(context).pop(value),
                   )
                 ],
               ),

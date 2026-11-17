@@ -11,12 +11,6 @@ CreateTransactionModel createTransactionModelFromJson(String str) => CreateTrans
 String createTransactionModelToJson(CreateTransactionModel data) => json.encode(data.toJson());
 
 class CreateTransactionModel {
-  String? jsonrpc;
-  Result? result;
-  Error? error;
-  String? id;
-  String? payTill;
-  OrderInfo? orderInfo;
 
   CreateTransactionModel({
     this.jsonrpc,
@@ -32,9 +26,15 @@ class CreateTransactionModel {
     result: json["result"] == null ? null : Result.fromJson(json["result"]),
     error: json["error"] == null ? null : Error.fromJson(json["error"]),
     id: json["id"],
-    payTill: json["payTill"] == null ? null : json["payTill"],
+    payTill: json["payTill"],
     orderInfo: json["orderInfo"] == null ? null : OrderInfo.fromJson(json["orderInfo"]),
   );
+  String? jsonrpc;
+  Result? result;
+  Error? error;
+  String? id;
+  String? payTill;
+  OrderInfo? orderInfo;
 
   Map<String, dynamic> toJson() => {
     "jsonrpc": jsonrpc,
@@ -47,8 +47,6 @@ class CreateTransactionModel {
 }
 
 class Error {
-  int? code;
-  String? message;
 
   Error({
     this.code,
@@ -59,6 +57,8 @@ class Error {
     code: json["code"],
     message: json["message"],
   );
+  int? code;
+  String? message;
 
   Map<String, dynamic> toJson() => {
     "code": code,
@@ -67,41 +67,6 @@ class Error {
 }
 
 class Result {
-  String? id;
-  String? trackUrl;
-  int? createdAt;
-  String? type;
-  int? moneyReceived;
-  int? moneySent;
-  String? rate;
-  dynamic payinConfirmations;
-  String? status;
-  String? currencyFrom;
-  String? currencyTo;
-  String? payinAddress;
-  String? payinExtraId;
-  String? payinExtraIdName;
-  String? payinHash;
-  String? payoutHashLink;
-  String? refundHashLink;
-  String? amountExpectedFrom;
-  String? payoutAddress;
-  String? payoutExtraId;
-  String? payoutExtraIdName;
-  String? payoutHash;
-  String? refundHash;
-  String? refundAddress;
-  String? refundExtraId;
-  String? amountFrom;
-  String? amountTo;
-  String? amountExpectedTo;
-  String? networkFee;
-  String? changellyFee;
-  String? apiExtraFee;
-  String? totalFee;
-  bool? canPush;
-  bool? canRefund;
-  DateTime? payTill;
 
   Result({
     this.id,
@@ -178,6 +143,41 @@ class Result {
     canRefund: json["canRefund"],
     payTill: json["payTill"] == null ? null : DateTime.parse(json["payTill"]),
   );
+  String? id;
+  String? trackUrl;
+  int? createdAt;
+  String? type;
+  int? moneyReceived;
+  int? moneySent;
+  String? rate;
+  dynamic payinConfirmations;
+  String? status;
+  String? currencyFrom;
+  String? currencyTo;
+  String? payinAddress;
+  String? payinExtraId;
+  String? payinExtraIdName;
+  String? payinHash;
+  String? payoutHashLink;
+  String? refundHashLink;
+  String? amountExpectedFrom;
+  String? payoutAddress;
+  String? payoutExtraId;
+  String? payoutExtraIdName;
+  String? payoutHash;
+  String? refundHash;
+  String? refundAddress;
+  String? refundExtraId;
+  String? amountFrom;
+  String? amountTo;
+  String? amountExpectedTo;
+  String? networkFee;
+  String? changellyFee;
+  String? apiExtraFee;
+  String? totalFee;
+  bool? canPush;
+  bool? canRefund;
+  DateTime? payTill;
 
   Map<String, dynamic> toJson() => {
     "id": id,

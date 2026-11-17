@@ -1,8 +1,8 @@
 /// Row model for the SQLite `swap_transactions_history` table.
-///
 /// Each instance maps 1:1 to a row of the table. Field names match the
 /// database column names so a row (returned by sqflite as a flat
 /// `Map<String, dynamic>`) can be converted without juggling loose casts.
+library;
 import 'dart:convert';
 
 class SwapTransactionHistoryModel {
@@ -35,34 +35,6 @@ class SwapTransactionHistoryModel {
     required this.createdAt,
     this.updatedAt,
   });
-
-  final String uuid;
-  final String walletAddress;
-  final String exchange;
-  final String txnId;
-  final String txnStatus;
-  final String txnType;
-  final String swapType;
-  final String currencyFrom;
-  final String? networkFrom;
-  final String? blockchainFrom;
-  final String currencyTo;
-  final String? networkTo;
-  final String? blockchainTo;
-  final String? payinAddress;
-  final String? payinAddressMemo;
-  final String? payoutAddress;
-  final String? payoutAddressMemo;
-  final String? refundAddress;
-  final String refundStatus;
-  final String? refundAddressMemo;
-  final String? amountFrom;
-  final String? amountTo;
-  final String? networkFee;
-  final String? platformFee;
-  final dynamic rawResponse;
-  final int createdAt;
-  final int? updatedAt;
 
   /// Converts a single sqflite row (`Map<String, dynamic>` keyed by column
   /// name) into a [SwapTransactionHistoryModel].
@@ -97,6 +69,34 @@ class SwapTransactionHistoryModel {
       updatedAt: _asInt(row['updated_at']),
     );
   }
+
+  final String uuid;
+  final String walletAddress;
+  final String exchange;
+  final String txnId;
+  final String txnStatus;
+  final String txnType;
+  final String swapType;
+  final String currencyFrom;
+  final String? networkFrom;
+  final String? blockchainFrom;
+  final String currencyTo;
+  final String? networkTo;
+  final String? blockchainTo;
+  final String? payinAddress;
+  final String? payinAddressMemo;
+  final String? payoutAddress;
+  final String? payoutAddressMemo;
+  final String? refundAddress;
+  final String refundStatus;
+  final String? refundAddressMemo;
+  final String? amountFrom;
+  final String? amountTo;
+  final String? networkFee;
+  final String? platformFee;
+  final dynamic rawResponse;
+  final int createdAt;
+  final int? updatedAt;
 
   /// Accessor for the raw API JSON (the `raw_response` column). When the row
   /// holds an encoded JSON string it is decoded to a map; otherwise the

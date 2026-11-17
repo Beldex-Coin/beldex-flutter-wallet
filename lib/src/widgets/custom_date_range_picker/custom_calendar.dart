@@ -13,6 +13,16 @@ import 'package:intl/intl.dart';
 ///   required this.primaryColor,
 /// })`
 class CustomCalendar extends StatefulWidget {
+
+  const CustomCalendar({
+    super.key,
+    this.initialStartDate,
+    this.initialEndDate,
+    this.startEndDateChange,
+    this.minimumDate,
+    this.maximumDate,
+    required this.primaryColor,
+  });
   /// The minimum date that can be selected on the calendar
   final DateTime? minimumDate;
 
@@ -30,16 +40,6 @@ class CustomCalendar extends StatefulWidget {
 
   /// A function to be called when the selected date range changes
   final Function(DateTime, DateTime)? startEndDateChange;
-
-  const CustomCalendar({
-    super.key,
-    this.initialStartDate,
-    this.initialEndDate,
-    this.startEndDateChange,
-    this.minimumDate,
-    this.maximumDate,
-    required this.primaryColor,
-  });
 
   @override
   CustomCalendarState createState() => CustomCalendarState();

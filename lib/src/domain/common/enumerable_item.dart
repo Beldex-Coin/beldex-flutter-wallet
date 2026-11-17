@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 
 abstract class EnumerableItem<T> {
   const EnumerableItem({required this.title, required this.raw});

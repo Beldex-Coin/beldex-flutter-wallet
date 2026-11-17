@@ -4,15 +4,13 @@ import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 class BnsInitiatingTransactionLoader extends StatefulWidget {
   BnsInitiatingTransactionLoader(
-      {Key? key, required this.owner, required this.backUpOwner, required this.mappingYears, required this.bchatId, required this.walletAddress, required this.belnetId, required this.bnsName, required this.ethAddress, required this.sendStore})
-      : super(key: key);
+      {super.key, required this.owner, required this.backUpOwner, required this.mappingYears, required this.bchatId, required this.walletAddress, required this.belnetId, required this.bnsName, required this.ethAddress, required this.sendStore});
 
   final String owner;
   final String backUpOwner;

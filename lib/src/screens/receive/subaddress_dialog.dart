@@ -25,12 +25,12 @@ Future addSubAddressDialog(
 }
 
 class AddSubAddress extends StatelessWidget {
-  const AddSubAddress({Key? key}) : super(key: key);
+  const AddSubAddress({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
-    final _labelController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+    final labelController = TextEditingController();
     final subAddressCreationStore =
         Provider.of<SubadrressCreationStore>(context);
 
@@ -70,11 +70,11 @@ class AddSubAddress extends StatelessWidget {
                             padding:
                                 const EdgeInsetsDirectional.only(start: 40.0, end: 40),
                             child: Form(
-                                key: _formKey,
+                                key: formKey,
                                 child: Stack(children: <Widget>[
                                   Center(
                                     child: BeldexTextField(
-                                        controller: _labelController,
+                                        controller: labelController,
                                         hintText: tr(context).name,
                                         validator: (value) {
                                           subAddressCreationStore
@@ -90,9 +90,9 @@ class AddSubAddress extends StatelessWidget {
                               width: 280,
                               child: LoadingPrimaryButton(
                                   onPressed: () async {
-                                    if (_formKey.currentState?.validate() ?? false) {
+                                    if (formKey.currentState?.validate() ?? false) {
                                       await subAddressCreationStore.add(
-                                          label: _labelController.text);
+                                          label: labelController.text);
                                       Navigator.of(context).pop();
                                     }
                                   },

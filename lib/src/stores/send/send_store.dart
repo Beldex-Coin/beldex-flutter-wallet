@@ -69,13 +69,13 @@ abstract class SendStoreBase with Store {
     state = CreatingTransaction();
 
     try {
-      final _amount = amount ??
+      final amount0 = amount ??
           (sendAll
               ? null
               : cryptoAmount.replaceAll(',', '.'));
       sendAll = false;
       final credentials = BeldexStakeTransactionCreationCredentials(
-          address: address, amount: _amount!);
+          address: address, amount: amount0!);
 
       _pendingTransaction = await walletService.createStake(credentials);
       state = TransactionCreatedSuccessfully();
@@ -89,14 +89,14 @@ abstract class SendStoreBase with Store {
     state = CreatingTransaction();
 
     try {
-      final _amount = amount ??
+      final amount0 = amount ??
           (sendAll
               ? null
               : cryptoAmount.replaceAll(',', '.'));
       sendAll = false;
       final credentials = BeldexTransactionCreationCredentials(
           address: address,
-          amount: _amount,
+          amount: amount0,
           priority: tPriority ?? settingsStore.transactionPriority);
 
       _pendingTransaction = await walletService.createTransaction(credentials);
@@ -283,11 +283,11 @@ abstract class SendStoreBase with Store {
   }
 
   Future<bool> isOpenaliasRecord(String name) async {
-    final _openaliasRecord = await OpenaliasRecord.fetchAddressAndName(
+    final openaliasRecord = await OpenaliasRecord.fetchAddressAndName(
         OpenaliasRecord.formatDomainName(name));
 
-    recordAddress = _openaliasRecord.address;
-    recordName = _openaliasRecord.name;
+    recordAddress = openaliasRecord.address;
+    recordName = openaliasRecord.name;
 
     return recordAddress != name;
   }

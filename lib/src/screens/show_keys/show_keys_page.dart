@@ -2,8 +2,6 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter_windowmanager_plus/flutter_windowmanager_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_keys_store.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -35,7 +33,7 @@ class ShowKeysPage extends BasePage {
 }
 
 class KeysDisplayWidget extends StatefulWidget {
-  KeysDisplayWidget({Key? key}) : super(key: key);
+  KeysDisplayWidget({super.key});
 
   @override
   State<KeysDisplayWidget> createState() => _KeysDisplayWidgetState();

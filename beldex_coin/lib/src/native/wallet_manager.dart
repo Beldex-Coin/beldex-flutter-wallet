@@ -8,25 +8,25 @@ import 'package:beldex_coin/src/exceptions/wallet_restore_from_keys_exception.da
 import 'package:beldex_coin/src/exceptions/wallet_restore_from_seed_exception.dart';
 
 final createWalletNative = beldexApi
-    .lookup<NativeFunction<create_wallet>>('create_wallet')
+    .lookup<NativeFunction<CreateWalletNative>>('create_wallet')
     .asFunction<CreateWallet>();
 
 final restoreWalletFromSeedNative = beldexApi
-    .lookup<NativeFunction<restore_wallet_from_seed>>(
+    .lookup<NativeFunction<RestoreWalletFromSeedNative>>(
         'restore_wallet_from_seed')
     .asFunction<RestoreWalletFromSeed>();
 
 final restoreWalletFromKeysNative = beldexApi
-    .lookup<NativeFunction<restore_wallet_from_keys>>(
+    .lookup<NativeFunction<RestoreWalletFromKeysNative>>(
         'restore_wallet_from_keys')
     .asFunction<RestoreWalletFromKeys>();
 
 final isWalletExistNative = beldexApi
-    .lookup<NativeFunction<is_wallet_exist>>('is_wallet_exist')
+    .lookup<NativeFunction<IsWalletExistNative>>('is_wallet_exist')
     .asFunction<IsWalletExist>();
 
 final loadWalletNative = beldexApi
-    .lookup<NativeFunction<load_wallet>>('load_wallet')
+    .lookup<NativeFunction<LoadWalletNative>>('load_wallet')
     .asFunction<LoadWallet>();
 
 void createWalletSync(

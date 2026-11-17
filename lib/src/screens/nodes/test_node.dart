@@ -15,7 +15,6 @@ class NodeForTest {
 
   Future<bool> sendRPCRequest(String method, String nodeUri,
       {Map? params}) async {
-    Map<String, dynamic> resultBody;
     var flag = false;
     final requestBody = params != null
         ? {'jsonrpc': '2.0', 'id': '0', 'method': method, 'params': params}
@@ -34,11 +33,9 @@ class NodeForTest {
         },
       );
       if (response.statusCode == 200) {
-        resultBody = json.decode(response.body) as Map<String, dynamic>;
+        json.decode(response.body);
 
-        if (resultBody != null) {
-          flag = true;
-        }
+        flag = true;
       }
     } catch (e) {
       print(e);

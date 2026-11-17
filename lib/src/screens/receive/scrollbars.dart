@@ -4,15 +4,14 @@ import 'package:flutter/material.dart';
 const double _kScrollbarThickness = 12.0;
 
 class MyScrollbar extends StatefulWidget {
-  final ScrollableWidgetBuilder builder;
-  final ScrollController scrollController;
 
   const MyScrollbar({
-    Key? key,
+    super.key,
     required this.scrollController,
     required this.builder,
-  })  : assert(builder != null),
-        super(key: key);
+  });
+  final ScrollableWidgetBuilder builder;
+  final ScrollController scrollController;
 
   @override
   _MyScrollbarState createState() => _MyScrollbarState();
@@ -83,7 +82,7 @@ class _MyScrollbarState extends State<MyScrollbar> {
               _updateScrollPainter(notification.metrics),
           child: CustomPaint(
             painter: _scrollbarPainter,
-            child: widget.builder(context, _scrollController!),
+            child: widget.builder(context, _scrollController),
           ),
         );
       },

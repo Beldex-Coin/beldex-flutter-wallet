@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,7 +6,7 @@ import 'package:beldex_wallet/palette.dart';
 import 'package:beldex_wallet/routes.dart';
 import 'package:beldex_wallet/src/domain/common/contact.dart';
 import 'package:beldex_wallet/src/domain/common/qr_scanner.dart';
-import 'package:beldex_wallet/src/wallet/beldex/subAddress.dart';
+import 'package:beldex_wallet/src/wallet/beldex/sub_address.dart';
 import 'package:beldex_wallet/src/widgets/beldex_text_field.dart';
 
 enum AddressTextFieldOption { qrCode, addressBook, subAddressList, saveAddress }
@@ -153,11 +152,6 @@ class AddressTextField extends StatelessWidget {
       final uri = Uri.parse(code!);
       var address = '';
 
-      if (uri == null) {
-        controller?.text = code;
-        return;
-      }
-
       address = uri.path;
       controller?.text = address;
 
@@ -173,7 +167,7 @@ class AddressTextField extends StatelessWidget {
     final contact = await Navigator.of(context, rootNavigator: true)
         .pushNamed(Routes.pickerAddressBook);
 
-    if (contact is Contact && contact.address != null) {
+    if (contact is Contact) {
       controller?.text = contact.address;
     }
   }
@@ -182,7 +176,7 @@ class AddressTextField extends StatelessWidget {
     final subAddress = await Navigator.of(context, rootNavigator: true)
         .pushNamed(Routes.subaddressList);
 
-    if (subAddress is Subaddress && subAddress.address != null) {
+    if (subAddress is Subaddress) {
       controller?.text = subAddress.address;
     }
   }

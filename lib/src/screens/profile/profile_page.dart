@@ -1,6 +1,5 @@
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,7 +32,7 @@ class ProfilePage extends BasePage {
 }
 
 class ProfilePageBody extends StatefulWidget {
-  ProfilePageBody({Key? key}) : super(key: key);
+  ProfilePageBody({super.key});
 
   @override
   ProfilePageBodyState createState() => ProfilePageBodyState();

@@ -1,5 +1,4 @@
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:beldex_wallet/l10n.dart';
@@ -167,7 +166,6 @@ class SeedWidgetState extends State<SeedWidget> {
       }*/
       if (!item.isCorrect()) {
         return false;
-        break;
       }
     }
     return true;
@@ -341,13 +339,13 @@ class SeedWidgetState extends State<SeedWidget> {
                 ),
               ),
             ),
-            _errorMessage1 == null || _errorMessage1 == ''
+            _errorMessage1 == ''
                 ? Container()
                 : Container(
                     margin: EdgeInsetsDirectional.symmetric(horizontal: 5),
                     alignment: AlignmentDirectional.centerStart,
                     child: Text(
-                      '$_errorMessage1',
+                      _errorMessage1,
                       textAlign: TextAlign.start,
                       textDirection: Directionality.of(context),
                       style: TextStyle(
@@ -365,22 +363,19 @@ class SeedWidgetState extends State<SeedWidget> {
                           setState(() {
                             _errorMessage1 = '';
                           });
-                          if (widget.onFinish != null) {
-                            return widget.onFinish();
-                          } else {
-                            return null;
-                          }
+                          widget.onFinish();
+                          return;
                         } else {
                           setState(() {
                             _errorMessage1 = tr(context).pleaseEnterAValidSeed;
                           });
-                          return null;
+                          return;
                         }
                       } else {
                         setState(() {
                           _errorMessage1 = tr(context).pleaseEnterAValidSeed;
                         });
-                        return null;
+                        return;
                       }
                     },
                     text: tr(context).restore_next,

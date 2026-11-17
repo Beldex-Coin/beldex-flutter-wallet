@@ -79,6 +79,6 @@ abstract class SubadrressCreationStoreBase with Store {
     const pattern = '''^[^`,'"]{1,20}\$''';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
-    errorMessage = isValid! ? null : t.enterAValidNameUpto20Characters;
+    errorMessage = isValid ? null : t.enterAValidNameUpto20Characters;
   }
 }

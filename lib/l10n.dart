@@ -7,9 +7,9 @@ AppLocalizations tr(BuildContext ctx) {
 }
 
 class LanguageName {
+  const LanguageName(this.code, this.name);
   final String code;
   final String name;
-  const LanguageName(this.code, this.name);
 }
 
 const languageNames = <LanguageName>[

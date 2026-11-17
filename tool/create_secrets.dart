@@ -12,11 +12,11 @@ Future<void> main() async {
       ? secretsProdPath
       : secretsTestPath;
 
-  const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-  final _rnd = Random.secure();
+  const chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  final rnd = Random.secure();
 
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
-      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+      length, (_) => chars.codeUnitAt(rnd.nextInt(chars.length))));
 
   await File(inputPath).writeAsString(
       jsonEncode(

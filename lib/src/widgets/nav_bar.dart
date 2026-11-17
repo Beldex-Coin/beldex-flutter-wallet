@@ -11,8 +11,8 @@ class NavBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
         Widget? middle,
         Widget? trailing,
         Color? backgroundColor}) {
-    final _themeChanger = Provider.of<ThemeChanger>(context!);
-    final _isDarkTheme = _themeChanger.getTheme() == Themes.darkTheme;
+    final themeChanger = Provider.of<ThemeChanger>(context!);
+    final isDarkTheme = themeChanger.getTheme() == Themes.darkTheme;
 
     return NavBar._internal(
         leading: leading!,
@@ -20,7 +20,7 @@ class NavBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
         trailing: trailing!,
         height: _height,
         backgroundColor:
-            _isDarkTheme ? Theme.of(context).dialogTheme.backgroundColor : backgroundColor!);
+            isDarkTheme ? Theme.of(context).dialogTheme.backgroundColor : backgroundColor!);
   }
 
   factory NavBar.withShadow(
@@ -29,8 +29,8 @@ class NavBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
         Widget? middle,
         Widget? trailing,
         Color? backgroundColor}) {
-    final _themeChanger = Provider.of<ThemeChanger>(context!);
-    final _isDarkTheme = _themeChanger.getTheme() == Themes.darkTheme;
+    final themeChanger = Provider.of<ThemeChanger>(context!);
+    final isDarkTheme = themeChanger.getTheme() == Themes.darkTheme;
 
     return NavBar._internal(
       leading: leading!,
@@ -38,9 +38,9 @@ class NavBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
       trailing: trailing!,
       height: 80,
       backgroundColor:
-          _isDarkTheme ? Theme.of(context).dialogTheme.backgroundColor : backgroundColor!,
+          isDarkTheme ? Theme.of(context).dialogTheme.backgroundColor : backgroundColor!,
       decoration: BoxDecoration(
-          color: _isDarkTheme
+          color: isDarkTheme
               ? Theme.of(context).dialogTheme.backgroundColor
               : backgroundColor,
           boxShadow: [
@@ -74,12 +74,12 @@ class NavBar extends StatelessWidget implements ObstructingPreferredSizeWidget {
   Widget build(BuildContext context) {
     final pad = height - _originalHeight;
     final paddingTop = pad / 2;
-    final _paddingBottom = (pad / 2);
+    final paddingBottom = (pad / 2);
 
     return Container(
       decoration: decoration ?? BoxDecoration(color: backgroundColor),
       padding:
-      EdgeInsetsDirectional.only(bottom: _paddingBottom, top: paddingTop),
+      EdgeInsetsDirectional.only(bottom: paddingBottom, top: paddingTop),
       child: CupertinoNavigationBar(
         leading: leading,
         middle: middle,

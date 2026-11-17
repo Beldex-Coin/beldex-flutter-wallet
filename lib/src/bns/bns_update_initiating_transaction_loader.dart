@@ -10,8 +10,7 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 
 class BnsUpdateInitiatingTransactionLoader extends StatefulWidget {
   BnsUpdateInitiatingTransactionLoader(
-      {Key? key, required this.owner, required this.backUpOwner, required this.bchatId, required this.walletAddress, required this.belnetId, required this.ethAddress, required this.bnsName, required this.sendStore})
-      : super(key: key);
+      {super.key, required this.owner, required this.backUpOwner, required this.bchatId, required this.walletAddress, required this.belnetId, required this.ethAddress, required this.bnsName, required this.sendStore});
 
   final String owner;
   final String backUpOwner;

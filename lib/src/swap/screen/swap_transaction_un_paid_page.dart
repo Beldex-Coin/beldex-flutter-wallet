@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -89,27 +86,27 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.sizeOf(context).width;
-    final _screenHeight = MediaQuery.sizeOf(context).height;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _scrollController = ScrollController(keepScrollOffset: true);
+    final scrollController = ScrollController(keepScrollOffset: true);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
         return body(
-            _screenWidth,
-            _screenHeight,
+            screenWidth,
+            screenHeight,
             settingsStore,
-            _scrollController,networkProvider);
+            scrollController,networkProvider);
       }
     );
   }
 
   Widget body(
-      double _screenWidth,
-      double _screenHeight,
+      double screenWidth,
+      double screenHeight,
       SettingsStore settingsStore,
-      ScrollController _scrollController, NetworkProvider networkProvider
+      ScrollController scrollController, NetworkProvider networkProvider
       ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -145,7 +142,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                           ),
                           child: Container(
                             padding: const EdgeInsetsDirectional.all(15.0),
-                            width: _screenWidth,
+                            width: screenWidth,
                             height: double.infinity,
                             child: exchangeNotPaidScreen(settingsStore,networkProvider),
                           ),
@@ -162,7 +159,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PairsWidget(settingsStore: settingsStore, from: transactionStatus.transactionModel!.currencyFrom, to: transactionStatus.transactionModel!.currencyTo),
+        pairsWidget(settingsStore: settingsStore, from: transactionStatus.transactionModel.currencyFrom, to: transactionStatus.transactionModel.currencyTo),
         //Not Paid Details
         Container(
           width: MediaQuery.sizeOf(context).width,
@@ -242,7 +239,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                           children: [
                             Expanded(
                               child: Text(
-                                transactionStatus.transactionModel!.txnId,
+                                transactionStatus.transactionModel.txnId,
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
@@ -256,7 +253,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                             ),
                             InkWell(
                               onTap: () async {
-                                await ClipboardHelper.copyWithAutoClear(transactionStatus.transactionModel!.txnId);
+                                await ClipboardHelper.copyWithAutoClear(transactionStatus.transactionModel.txnId);
                                 await Fluttertoast.showToast(
                                   msg: tr(context).copied,
                                   toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
@@ -301,7 +298,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                             height: 5,
                           ),
                           Text(
-                            '${toStringAsFixed(transactionStatus.transactionModel!.amountFrom)} ${transactionStatus.transactionModel!.currencyFrom.toUpperCase()}',
+                            '${toStringAsFixed(transactionStatus.transactionModel.amountFrom)} ${transactionStatus.transactionModel.currencyFrom.toUpperCase()}',
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -330,7 +327,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                             height: 5,
                           ),
                           Text(
-                            '${toStringAsFixed(transactionStatus.transactionModel!.amountTo)} ${transactionStatus.transactionModel!.currencyTo.toUpperCase()}',
+                            '${toStringAsFixed(transactionStatus.transactionModel.amountTo)} ${transactionStatus.transactionModel.currencyTo.toUpperCase()}',
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -364,7 +361,7 @@ class _SwapTransactionUnPaidHomeState extends State<SwapTransactionUnPaidHome> {
                       height: 5,
                     ),
                     Text(
-                      transactionStatus.transactionModel!.payinAddress!,
+                      transactionStatus.transactionModel.payinAddress!,
                       style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,

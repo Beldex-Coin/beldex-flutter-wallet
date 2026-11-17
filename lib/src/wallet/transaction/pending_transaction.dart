@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:beldex_coin/transaction_history.dart' as transaction_history;
 import 'package:beldex_coin/beldex_coin_structs.dart';
 import 'package:beldex_wallet/src/wallet/beldex/beldex_amount_format.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/src/stores/user/user_store.dart';
 import 'package:beldex_wallet/src/screens/pin_code/pin_code.dart';
@@ -35,8 +34,7 @@ class SetupPinCodePage extends BasePage {
 
 class SetupPinCodeForm extends PinCodeWidget {
   SetupPinCodeForm(
-      {required this.onPinCodeSetup, required bool hasLengthSwitcher})
-      : super(hasLengthSwitcher: hasLengthSwitcher);
+      {required this.onPinCodeSetup, required super.hasLengthSwitcher});
 
   final Function(BuildContext, String) onPinCodeSetup;
 

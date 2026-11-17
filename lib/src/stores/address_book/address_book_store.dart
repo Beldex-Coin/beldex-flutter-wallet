@@ -99,6 +99,6 @@ abstract class AddressBookStoreBase with Store {
       }
     }
 
-    errorMessage = (isValid ? '' : t.error_text_address)!;
+    errorMessage = (isValid ? '' : t.error_text_address);
   }
 }

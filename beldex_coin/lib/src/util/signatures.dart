@@ -4,13 +4,13 @@ import 'package:ffi/ffi.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
 import 'package:beldex_coin/src/structs/status_and_error.dart';
 
-typedef create_wallet = status_and_error Function(
+typedef CreateWalletNative = status_and_error Function(
     Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int32);
 
-typedef restore_wallet_from_seed = status_and_error Function(
+typedef RestoreWalletFromSeedNative = status_and_error Function(
     Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int32, Int64);
 
-typedef restore_wallet_from_keys = status_and_error Function(
+typedef RestoreWalletFromKeysNative = status_and_error Function(
     Pointer<Utf8>,
     Pointer<Utf8>,
     Pointer<Utf8>,
@@ -20,94 +20,94 @@ typedef restore_wallet_from_keys = status_and_error Function(
     Int32,
     Int64);
 
-typedef is_wallet_exist = Int8 Function(Pointer<Utf8>);
+typedef IsWalletExistNative = Int8 Function(Pointer<Utf8>);
 
-typedef load_wallet = Void Function(Pointer<Utf8>, Pointer<Utf8>, Int8);
+typedef LoadWalletNative = Void Function(Pointer<Utf8>, Pointer<Utf8>, Int8);
 
-typedef get_filename = Pointer<Utf8> Function();
+typedef GetFilenameNative = Pointer<Utf8> Function();
 
-typedef get_seed = Pointer<Utf8> Function();
+typedef GetSeedNative = Pointer<Utf8> Function();
 
-typedef get_address = Pointer<Utf8> Function(Int32, Int32);
+typedef GetAddressNative = Pointer<Utf8> Function(Int32, Int32);
 
-typedef get_full_balanace = Int64 Function(Int32);
+typedef GetFullBalanceNative = Int64 Function(Int32);
 
-typedef get_unlocked_balanace = Int64 Function(Int32);
+typedef GetUnlockedBalanceNative = Int64 Function(Int32);
 
-typedef get_current_height = Int64 Function();
+typedef GetCurrentHeightNative = Int64 Function();
 
-typedef get_node_height = Int64 Function();
+typedef GetNodeHeightNative = Int64 Function();
 
-typedef is_refreshing = Int8 Function();
+typedef IsRefreshingNative = Int8 Function();
 
-typedef is_connected = Int8 Function();
+typedef IsConnectedNative = Int8 Function();
 
-typedef setup_node = status_and_error Function(
+typedef SetupNodeNative = status_and_error Function(
     Pointer<Utf8>, Pointer<Utf8>, Pointer<Utf8>, Int8, Int8);
 
-typedef start_refresh = Void Function();
+typedef StartRefreshNative = Void Function();
 
-typedef connect_to_node = status_and_error Function();
+typedef ConnectToNodeNative = status_and_error Function();
 
-typedef set_refresh_from_block_height = Void Function(Int64);
+typedef SetRefreshFromBlockHeightNative = Void Function(Int64);
 
-typedef set_recovering_from_seed = Void Function(Int8);
+typedef SetRecoveringFromSeedNative = Void Function(Int8);
 
-typedef store_c = Void Function(Pointer<Utf8>);
+typedef StoreCNative = Void Function(Pointer<Utf8>);
 
-typedef set_listener = Void Function();
+typedef SetListenerNative = Void Function();
 
-typedef get_syncing_height = Int64 Function();
+typedef GetSyncingHeightNative = Int64 Function();
 
-typedef is_needed_to_refresh = Int8 Function();
+typedef IsNeededToRefreshNative = Int8 Function();
 
-typedef is_new_transaction_exist = Int8 Function();
+typedef IsNewTransactionExistNative = Int8 Function();
 
-typedef subaddress_size = Int32 Function();
+typedef SubaddressSizeNative = Int32 Function();
 
-typedef subaddress_refresh = Void Function(Int32);
+typedef SubaddressRefreshNative = Void Function(Int32);
 
-typedef subaddress_get_all = Pointer<Int64> Function();
+typedef SubaddressGetAllNative = Pointer<Int64> Function();
 
-typedef subaddress_get_all_with_size = Pointer<Int64> Function(Pointer<Int32>);
+typedef SubaddressGetAllWithSizeNative = Pointer<Int64> Function(Pointer<Int32>);
 
-typedef subaddress_free_all = Void Function(Pointer<Int64>, Int32);
+typedef SubaddressFreeAllNative = Void Function(Pointer<Int64>, Int32);
 
-typedef subaddress_add_new = Void Function(
+typedef SubaddressAddNewNative = Void Function(
     Int32 accountIndex, Pointer<Utf8> label);
 
-typedef subaddress_set_label = Void Function(
+typedef SubaddressSetLabelNative = Void Function(
     Int32 accountIndex, Int32 addressIndex, Pointer<Utf8> label);
 
-typedef account_size = Int32 Function();
+typedef AccountSizeNative = Int32 Function();
 
-typedef account_refresh = Void Function();
+typedef AccountRefreshNative = Void Function();
 
-typedef account_get_all = Pointer<Int64> Function();
+typedef AccountGetAllNative = Pointer<Int64> Function();
 
-typedef account_get_all_with_size = Pointer<Int64> Function(Pointer<Int32>);
+typedef AccountGetAllWithSizeNative = Pointer<Int64> Function(Pointer<Int32>);
 
-typedef account_free_all = Void Function(Pointer<Int64>, Int32);
+typedef AccountFreeAllNative = Void Function(Pointer<Int64>, Int32);
 
-typedef account_add_new = Void Function(Pointer<Utf8> label);
+typedef AccountAddNewNative = Void Function(Pointer<Utf8> label);
 
-typedef account_set_label = Void Function(
+typedef AccountSetLabelNative = Void Function(
     Int32 accountIndex, Pointer<Utf8> label);
 
-typedef transactions_refresh = Void Function();
+typedef TransactionsRefreshNative = Void Function();
 
-typedef transactions_count = Int64 Function();
+typedef TransactionsCountNative = Int64 Function();
 
-typedef transactions_get_all = Pointer<Int64> Function();
+typedef TransactionsGetAllNative = Pointer<Int64> Function();
 
-typedef transaction_create = status_and_error Function(
+typedef TransactionCreateNative = status_and_error Function(
     Pointer<Utf8> address,
     Pointer<Utf8> amount,
     Int8 priorityRaw,
     Int32 subaddrAccount,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
-typedef bns_buy = status_and_error Function(
+typedef BnsBuyNative = status_and_error Function(
     Pointer<Utf8> owner,
     Pointer<Utf8> backUpOwner,
     Pointer<Utf8> mappingYears,
@@ -120,7 +120,7 @@ typedef bns_buy = status_and_error Function(
     Int32 subaddrAccount,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
-typedef bns_update = status_and_error Function(
+typedef BnsUpdateNative = status_and_error Function(
     Pointer<Utf8> owner,
     Pointer<Utf8> backUpOwner,
     Pointer<Utf8> bchatId,
@@ -132,52 +132,52 @@ typedef bns_update = status_and_error Function(
     Int32 subaddrAccount,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
-typedef bns_renew = status_and_error Function(
+typedef BnsRenewNative = status_and_error Function(
     Pointer<Utf8> bnsName,
     Pointer<Utf8> mappingYears,
     Int8 priorityRaw,
     Int32 subaddrAccount,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
-typedef create_sweep_all_transaction = status_and_error Function(
+typedef CreateSweepAllTransactionNative = status_and_error Function(
     Int8 priorityRaw,
     Int32 subaddrAccount,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
-typedef transaction_commit = status_and_error Function(
+typedef TransactionCommitNative = status_and_error Function(
     Pointer<PendingTransactionRaw>);
 
-typedef transaction_estimate_fee = Int64 Function(Int32, Int32);
+typedef TransactionEstimateFeeNative = Int64 Function(Int32, Int32);
 
-typedef stake_count = Int32 Function();
+typedef StakeCountNative = Int32 Function();
 
-typedef stake_get_all = Pointer<Int64> Function();
+typedef StakeGetAllNative = Pointer<Int64> Function();
 
-typedef bns_count = Int32 Function();
+typedef BnsCountNative = Int32 Function();
 
-typedef bns_get_all = Pointer<Int64> Function();
+typedef BnsGetAllNative = Pointer<Int64> Function();
 
-typedef stake_create = status_and_error Function(Pointer<Utf8> masterNodeKey,
+typedef StakeCreateNative = status_and_error Function(Pointer<Utf8> masterNodeKey,
     Pointer<Utf8> amount, Pointer<PendingTransactionRaw> pendingTransaction);
 
-typedef can_request_unstake = Int8 Function(Pointer<Utf8> masterNodeKey);
+typedef CanRequestUnstakeNative = Int8 Function(Pointer<Utf8> masterNodeKey);
 
-typedef bns_set_record = Int8 Function(Pointer<Utf8> name);
+typedef BnsSetRecordNative = Int8 Function(Pointer<Utf8> name);
 
-typedef submit_stake_unlock = status_and_error Function(
+typedef SubmitStakeUnlockNative = status_and_error Function(
     Pointer<Utf8> masterNodeKey,
     Pointer<PendingTransactionRaw> pendingTransaction);
 
-typedef secret_view_key = Pointer<Utf8> Function();
+typedef SecretViewKeyNative = Pointer<Utf8> Function();
 
-typedef public_view_key = Pointer<Utf8> Function();
+typedef PublicViewKeyNative = Pointer<Utf8> Function();
 
-typedef secret_spend_key = Pointer<Utf8> Function();
+typedef SecretSpendKeyNative = Pointer<Utf8> Function();
 
-typedef public_spend_key = Pointer<Utf8> Function();
+typedef PublicSpendKeyNative = Pointer<Utf8> Function();
 
-typedef close_current_wallet = Void Function();
+typedef CloseCurrentWalletNative = Void Function();
 
-typedef on_startup = Void Function();
+typedef OnStartupNative = Void Function();
 
-typedef rescan_blockchain = Void Function();
+typedef RescanBlockchainNative = Void Function();

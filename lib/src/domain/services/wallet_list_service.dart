@@ -104,9 +104,9 @@ class WalletListService {
       await onWalletChange(wallet);
     }
    
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-   
-   await prefs.setBool('isRestored', true);
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  await prefs.setBool('isRestored', true);
 
 
   }
@@ -148,15 +148,13 @@ class WalletListService {
         //print('the current wallet is ${walletService.currentWallet}');
         final walletName = await wallet.getName();
         //print('the name of wallet is $walletName');
-        if(walletName!=null) {
-          await sharedPreferences.setString('current_wallet_name', walletName);
-        }
+        await sharedPreferences.setString('current_wallet_name', walletName);
         final subAddressList = wallet.getSubAddressList();
         await subAddressList.refresh(accountIndex: 0);
         final subAddresses = await subAddressList.getAllAsync();
         if(subAddresses.isNotEmpty){
-          await sharedPreferences.setString('currentSubAddress', subAddresses[0].label ?? '');
-          await sharedPreferences.setString('currentAddress', subAddresses[0].address ?? '');
+          await sharedPreferences.setString('currentSubAddress', subAddresses[0].label);
+          await sharedPreferences.setString('currentAddress', subAddresses[0].address);
         }
       //}
 

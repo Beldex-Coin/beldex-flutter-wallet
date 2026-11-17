@@ -24,7 +24,7 @@ class NoSpaceFormatter extends TextInputFormatter {
       return TextEditingValue(
         text: newString,
         selection: TextSelection.collapsed(
-          offset: cursorOffset.clamp(0, newString.length) as int,
+          offset: cursorOffset.clamp(0, newString.length),
         ),
       );
     }

@@ -1,11 +1,9 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:beldex_wallet/src/node/sync_status.dart';
-import 'package:beldex_wallet/src/screens/subaddress/newsubAddress_dialog.dart';
+import 'package:beldex_wallet/src/screens/subaddress/new_sub_address_dialog.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -150,6 +148,7 @@ class ReceiveBodyState extends State<ReceiveBody> {
     } catch (e) {
       print(e);
     }
+    return null;
   }
 
   void _incrementCounter(String address, String text) async {
@@ -975,12 +974,11 @@ class NewBeldexTextField extends StatelessWidget {
 
 class SubAddressDropDownList extends StatefulWidget {
   const SubAddressDropDownList(
-      {Key? key,
+      {super.key,
       this.settingsStore,
       required this.walletStore,
       required this.subAddressListStore,
-      required this.globalKey})
-      : super(key: key);
+      required this.globalKey});
 
   final SettingsStore? settingsStore;
   final WalletStore walletStore;

@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 import '../../../l10n.dart';
 
 class DashBoardAlertDialog extends StatefulWidget {
-  const DashBoardAlertDialog({Key? key}) : super(key: key);
+  const DashBoardAlertDialog({super.key});
 
   @override
   State<DashBoardAlertDialog> createState() => _DashBoardAlertDialogState();

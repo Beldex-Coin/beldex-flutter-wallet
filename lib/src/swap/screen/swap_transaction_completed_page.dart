@@ -4,7 +4,6 @@ import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -101,7 +100,7 @@ class _SwapTransactionCompletedHomeState
             .getTransactionsData(
                 context,
                 {
-                  "id": "${transactionStatus.transactionModel.txnId}",
+                  "id": transactionStatus.transactionModel.txnId,
                   "destinationAddress":
                       "${transactionStatus.transactionModel.payoutAddress}"
                 },
@@ -113,10 +112,10 @@ class _SwapTransactionCompletedHomeState
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.sizeOf(context).width;
-    final _screenHeight = MediaQuery.sizeOf(context).height;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _scrollController = ScrollController(keepScrollOffset: true);
+    final scrollController = ScrollController(keepScrollOffset: true);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
       return Consumer<GetTransactionsProvider>(
@@ -130,13 +129,13 @@ class _SwapTransactionCompletedHomeState
 
         if (getTransactionsProvider.error != null ||
             !networkProvider.isConnected) {
-          return noInternet(settingsStore, _screenWidth, tr(context));
+          return noInternet(settingsStore, screenWidth, tr(context));
         }
 
         if (getTransactionsProvider.loading == false &&
             getTransactionsProvider.data!.result!.isNotEmpty) {
-          return body(_screenWidth, _screenHeight, settingsStore,
-              _scrollController, getTransactionsProvider.data, networkProvider);
+          return body(screenWidth, screenHeight, settingsStore,
+              scrollController, getTransactionsProvider.data, networkProvider);
         }
 
         return SizedBox();
@@ -145,10 +144,10 @@ class _SwapTransactionCompletedHomeState
   }
 
   Widget body(
-    double _screenWidth,
-    double _screenHeight,
+    double screenWidth,
+    double screenHeight,
     SettingsStore settingsStore,
-    ScrollController _scrollController,
+    ScrollController scrollController,
     GetTransactionsModel? transactionModel,
     NetworkProvider networkProvider,
   ) {
@@ -186,7 +185,7 @@ class _SwapTransactionCompletedHomeState
                   ),
                   child: Container(
                     padding: const EdgeInsetsDirectional.all(15.0),
-                    width: _screenWidth,
+                    width: screenWidth,
                     height: double.infinity,
                     child: exchangeCompletedScreen(
                         settingsStore, transactionModel, networkProvider),
@@ -205,7 +204,7 @@ class _SwapTransactionCompletedHomeState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PairsWidget(
+        pairsWidget(
             settingsStore: settingsStore,
             from: transactionModel?.result![0].currencyFrom,
             to: transactionModel?.result![0].currencyTo),

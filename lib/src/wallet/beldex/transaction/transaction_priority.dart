@@ -2,8 +2,7 @@ import '../../../../l10n.dart';
 import 'package:beldex_wallet/src/domain/common/enumerable_item.dart';
 
 class BeldexTransactionPriority extends EnumerableItem<int> with Serializable<int> {
-  const BeldexTransactionPriority({required String title, required int raw})
-      : super(title: title, raw: raw);
+  const BeldexTransactionPriority({required super.title, required super.raw});
 
   static const all = [
     BeldexTransactionPriority.slow,
@@ -25,7 +24,6 @@ class BeldexTransactionPriority extends EnumerableItem<int> with Serializable<in
     }
   }
 
-  @override
   String getTitle(AppLocalizations l10n) {
     switch (this) {
       case BeldexTransactionPriority.slow:

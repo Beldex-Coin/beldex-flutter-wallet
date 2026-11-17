@@ -53,7 +53,7 @@ class QuickexExchangeService extends BaseExchangeService {
     return instruments
         .where((i) => i.instrumentType == 'crypto')
         .map((i) => CoinInfo(
-              name: i.currencyTitle.toUpperCase() ?? '',
+              name: i.currencyTitle.toUpperCase(),
               ticker: i.currencyTitle.toLowerCase(),
               fullName: i.fullName.isNotEmpty ? i.fullName : i.currencyFriendlyTitle.isNotEmpty
                   ? i.currencyFriendlyTitle

@@ -4,7 +4,7 @@ import 'package:beldex_wallet/src/swap/apis.dart';
 import 'package:beldex_wallet/src/swap/changelly_signer.dart';
 import 'package:http/http.dart' as http;
 
-import '../apiKeys.dart';
+import '../api_keys.dart';
 import '../model/validate_address_model.dart';
 
 class ValidateAddressApiService {

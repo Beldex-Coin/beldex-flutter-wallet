@@ -545,8 +545,9 @@ class MaterialAppWithTheme extends StatelessWidget {
           for (var locale in supported) {
             if (locale.languageCode == userLocale.languageCode &&
                 (locale.countryCode == null ||
-                    locale.countryCode! == userLocale.countryCode))
+                    locale.countryCode! == userLocale.countryCode)) {
               return userLocale;
+            }
           }
         }
         return Locale('en');

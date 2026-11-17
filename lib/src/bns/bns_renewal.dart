@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/bns/bns_renewal_change_notifier.dart';
@@ -11,12 +10,9 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/bns/bns_renewal_initiating_transaction_loader.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:beldex_wallet/src/stores/balance/balance_store.dart';
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
@@ -105,7 +101,6 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
     final settingsStore = Provider.of<SettingsStore>(context);
     final sendStore = Provider.of<SendStore>(context);
     sendStore.settingsStore = settingsStore;
-    final balanceStore = Provider.of<BalanceStore>(context);
     final walletStore = Provider.of<WalletStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
     bnsPriceDetailsList = getBnsPriceDetailsList(context);
@@ -340,7 +335,7 @@ class BnsRenewalPageFormState extends State<BnsRenewalPageForm> with TickerProvi
                     return null;
                   },
                   onChanged: (value) {
-                    return null;
+                    return;
                     //validateBnsName(value, bnsRenewalChangeNotifier);
                   },
                 ),

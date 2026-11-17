@@ -41,11 +41,11 @@ abstract class WalletRestorationStoreBase with Store {
   @action
   Future restoreFromSeed({required String name, String? seed, required int restoreHeight, required AppLocalizations t}) async {
     state = WalletRestorationStateInitial();
-    final _seed = seed ?? _seedText();
+    final seed0 = seed ?? _seedText();
 
     try {
       state = WalletIsRestoring();
-      await walletListService.restoreFromSeed(name, _seed, restoreHeight);
+      await walletListService.restoreFromSeed(name, seed0, restoreHeight);
       authStore.restored();
       state = WalletRestoredSuccessfully();
     } on WalletIsExistException catch (e) {
@@ -84,32 +84,22 @@ abstract class WalletRestorationStoreBase with Store {
 
   @action
   void validateSeed(List<MnemoticItem>? seed,AppLocalizations l10n) {
-    final _seed = seed ?? this.seed;
-    var isValid = _seed != null ? _seed.length == 25 : false;
+    final seed0 = seed ?? this.seed;
 
-    /*if (!isValid) {
-      errorMessage = S.current.wallet_restoration_store_incorrect_seed_length;
-      this.isValid = isValid;
-      return;
-    }*/
-    if(_seed == null || _seed.length != 25){
+    if(seed0 == null || seed0.length != 25){
       errorMessage = l10n.wallet_restoration_store_incorrect_seed_length;
       return ;
     }
 
-    for (final item in _seed) {
+    for (final item in seed0) {
       if (!item.isCorrect()) {
         errorMessage = l10n.seed_text_invalid;
-        //isValid = false;
         return;
       }
     }
 
-    //if (isValid) {
-      errorMessage = null;
-    //}
+    errorMessage = null;
 
-    //this.isValid = isValid;
     return;
   }
 
@@ -132,7 +122,7 @@ abstract class WalletRestorationStoreBase with Store {
     const pattern = '^[0-9a-zA-Z]{95}\$|^[0-9a-zA-Z]{34}\$|^[0-9a-zA-Z]{42}\$|^[0-9a-zA-Z]{56}\$|^[0-9a-zA-Z]{59}\$|^[0-9a-zA-Z_]{64}\$|^[0-9a-zA-Z_]{65}\$|^[0-9a-zA-Z]{92}\$|^[0-9a-zA-Z]{105}\$|^[0-9a-zA-Z]{106}\$|^[0-9a-zA-Z]{97}\$';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
-    if (isValid! && cryptoCurrency != null) {
+    if (isValid && cryptoCurrency != null) {
       switch (cryptoCurrency) {
         case CryptoCurrency.xmr:
         case CryptoCurrency.bdx:

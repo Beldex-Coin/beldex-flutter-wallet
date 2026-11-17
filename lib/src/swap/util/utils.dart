@@ -8,7 +8,7 @@ import 'package:beldex_wallet/src/swap/model/create_transaction_model.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/services/platform_channel.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
@@ -213,7 +213,7 @@ String formatBlockConfirmations(AppLocalizations t, dynamic confirmations) {
 Coins btcCoin = Coins('BTC', 'Bitcoin', "", 'bitcoin', 'BTC');
 Coins bdxCoin = Coins('BDX', 'Beldex', "", 'beldex', 'BDX');
 
-Widget PairsWidget({required SettingsStore settingsStore, required String? from, required String? to}) {
+Widget pairsWidget({required SettingsStore settingsStore, required String? from, required String? to}) {
   return Center(
     child: Container(
       margin: EdgeInsetsDirectional.only(bottom: 10, top: 5),
@@ -382,7 +382,7 @@ CreateTransactionModel orderInfoToCreateTransactionModel(OrderInfo? order) {
   }
 
   final result = Result(
-    id: '${order.orderId}',
+    id: order.orderId,
     type: order.type,
     networkFee: order.networkFee,
     apiExtraFee: order.apiExtraFee,

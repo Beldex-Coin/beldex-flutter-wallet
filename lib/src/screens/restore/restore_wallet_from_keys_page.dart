@@ -1,4 +1,3 @@
-import 'package:beldex_coin/wallet.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/get_height_by_date.dart';
 import 'package:beldex_wallet/src/widgets/nospaceformatter.dart';
@@ -7,7 +6,6 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import '../../../l10n.dart';
@@ -143,7 +141,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                         child: Observer(
                           builder: (context) {
                             return TextFormField(
-                              enabled: !(walletRestorationStore.state is WalletIsRestoring),
+                              enabled: walletRestorationStore.state is! WalletIsRestoring,
                               style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
                               controller: _nameController,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -197,7 +195,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                         child: Observer(
                             builder: (context) {
                             return TextFormField(
-                              enabled: !(walletRestorationStore.state is WalletIsRestoring),
+                              enabled: walletRestorationStore.state is! WalletIsRestoring,
                               style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
                               controller: _addressController,
                               keyboardType: TextInputType.multiline,
@@ -251,7 +249,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                         child: Observer(
                             builder: (context) {
                             return TextFormField(
-                              enabled: !(walletRestorationStore.state is WalletIsRestoring),
+                              enabled: walletRestorationStore.state is! WalletIsRestoring,
                               style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
                               controller: _viewKeyController,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -303,7 +301,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                         child: Observer(
                             builder: (context) {
                             return TextFormField(
-                              enabled: !(walletRestorationStore.state is WalletIsRestoring),
+                              enabled: walletRestorationStore.state is! WalletIsRestoring,
                               style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
                               controller: _spendKeyController,
                               autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -450,8 +448,8 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                     child: Observer(
                       builder: (context) {
                         return TextFormField(
-                          enabled: !(walletRestorationStore.state
-                          is WalletIsRestoring),
+                          enabled: walletRestorationStore.state
+                          is! WalletIsRestoring,
                           textInputAction: TextInputAction.done,
                           textAlign: TextAlign.start,
                           textDirection: Directionality.of(context),
@@ -529,8 +527,8 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        if (!(walletRestorationStore.state
-                        is WalletIsRestoring)) {
+                        if (walletRestorationStore.state
+                        is! WalletIsRestoring) {
                           selectDate(context, settingsStore);
                         }
                       },
@@ -541,8 +539,8 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
                               child: Observer(
                                 builder: (context) {
                                   return TextFormField(
-                                    enabled: !(walletRestorationStore.state
-                                    is WalletIsRestoring),
+                                    enabled: walletRestorationStore.state
+                                    is! WalletIsRestoring,
                                     textAlign: TextAlign.start,
                                     textDirection:
                                     Directionality.of(context),

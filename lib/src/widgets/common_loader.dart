@@ -3,14 +3,12 @@ import 'dart:async';
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 import 'package:beldex_wallet/l10n.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 class CommonLoader extends StatelessWidget {
-  CommonLoader({Key? key, required this.address, required this.sendStore,required this.isFlashTransaction}) : super(key: key);
+  CommonLoader({super.key, required this.address, required this.sendStore,required this.isFlashTransaction});
 
   final String address;
   final SendStore sendStore;

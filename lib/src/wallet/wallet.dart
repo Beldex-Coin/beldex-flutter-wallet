@@ -1,5 +1,4 @@
 import 'package:beldex_wallet/src/wallet/beldex/subaddress_list.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_history.dart';
 import 'package:beldex_wallet/src/wallet/wallet_type.dart';

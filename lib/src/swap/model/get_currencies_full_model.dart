@@ -9,9 +9,6 @@ GetCurrenciesFullModel getCurrenciesFullModelFromJson(String str) => GetCurrenci
 String getCurrenciesFullModelToJson(GetCurrenciesFullModel data) => json.encode(data.toJson());
 
 class GetCurrenciesFullModel {
-  String? jsonrpc;
-  List<GetCurrenciesResult>? result;
-  String? id;
 
   GetCurrenciesFullModel({
     this.jsonrpc,
@@ -24,6 +21,9 @@ class GetCurrenciesFullModel {
     result: json["result"] == null ? [] : List<GetCurrenciesResult>.from(json["result"]!.map((x) => GetCurrenciesResult.fromJson(x))),
     id: json["id"],
   );
+  String? jsonrpc;
+  List<GetCurrenciesResult>? result;
+  String? id;
 
   Map<String, dynamic> toJson() => {
     "jsonrpc": jsonrpc,
@@ -33,23 +33,6 @@ class GetCurrenciesFullModel {
 }
 
 class GetCurrenciesResult {
-  String? name;
-  String? ticker;
-  String? fullName;
-  bool? enabled;
-  bool? enabledFrom;
-  bool? enabledTo;
-  bool? fixRateEnabled;
-  int? payinConfirmations;
-  String? addressUrl;
-  String? transactionUrl;
-  String? image;
-  int? fixedTime;
-  String? protocol;
-  String? blockchain;
-  Notifications? notifications;
-  String? contractAddress;
-  String? extraIdName;
 
   GetCurrenciesResult({
     this.name,
@@ -90,6 +73,23 @@ class GetCurrenciesResult {
     contractAddress: json["contractAddress"],
     extraIdName: json["extraIdName"],
   );
+  String? name;
+  String? ticker;
+  String? fullName;
+  bool? enabled;
+  bool? enabledFrom;
+  bool? enabledTo;
+  bool? fixRateEnabled;
+  int? payinConfirmations;
+  String? addressUrl;
+  String? transactionUrl;
+  String? image;
+  int? fixedTime;
+  String? protocol;
+  String? blockchain;
+  Notifications? notifications;
+  String? contractAddress;
+  String? extraIdName;
 
   Map<String, dynamic> toJson() => {
     "name": name,
@@ -113,8 +113,6 @@ class GetCurrenciesResult {
 }
 
 class Notifications {
-  String? payin;
-  String? payout;
 
   Notifications({
     this.payin,
@@ -125,6 +123,8 @@ class Notifications {
     payin: json["payin"],
     payout: json["payout"],
   );
+  String? payin;
+  String? payout;
 
   Map<String, dynamic> toJson() => {
     "payin": payin,

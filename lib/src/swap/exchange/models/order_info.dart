@@ -23,28 +23,6 @@ class OrderInfo {
     this.rawResponse
   });
 
-  final String orderId;
-  final String type;
-  final String? networkFee;
-  final String? platformFee;
-  final String? apiExtraFee;
-  final String? payinAddress;
-  final String? payinExtraId;
-  final String? payoutAddress;
-  final String? payoutExtraId;
-  final String? refundAddress;
-  final String? refundExtraId;
-  final String? amountExpectedFrom;
-  final String? amountExpectedTo;
-  final String? amountTo;
-  final String? status;
-  final String? currencyFrom;
-  final String? currencyTo;
-  final String? payTill;
-  final int? createdAt;
-  final dynamic payinConfirmations;
-  final dynamic rawResponse;
-
   factory OrderInfo.fromJson(Map<String, dynamic> json) => OrderInfo(
     orderId: json['orderId'],
     type: json['type'] ?? 'float',
@@ -68,6 +46,28 @@ class OrderInfo {
     payinConfirmations: json['payinConfirmations'],
     rawResponse: json['raw_response'],
   );
+
+  final String orderId;
+  final String type;
+  final String? networkFee;
+  final String? platformFee;
+  final String? apiExtraFee;
+  final String? payinAddress;
+  final String? payinExtraId;
+  final String? payoutAddress;
+  final String? payoutExtraId;
+  final String? refundAddress;
+  final String? refundExtraId;
+  final String? amountExpectedFrom;
+  final String? amountExpectedTo;
+  final String? amountTo;
+  final String? status;
+  final String? currencyFrom;
+  final String? currencyTo;
+  final String? payTill;
+  final int? createdAt;
+  final dynamic payinConfirmations;
+  final dynamic rawResponse;
 
   Map<String, dynamic> toJson() => {
     'orderId': orderId,
@@ -129,14 +129,6 @@ class OrderInfoExtended extends OrderInfo {
     this.payinExtraIdName,
   });
 
-  final String? rate;
-  final int? moneyReceived;
-  final int? moneySent;
-  final String? payinHash;
-  final String? payoutHashLink;
-  final String? payoutHash;
-  final String? payinExtraIdName;
-
   factory OrderInfoExtended.fromJson(Map<String, dynamic> json) =>
       OrderInfoExtended(
         orderId: json['orderId'],
@@ -168,6 +160,14 @@ class OrderInfoExtended extends OrderInfo {
         payoutHash: json['payoutHash'],
         payinExtraIdName: json['payinExtraIdName'],
       );
+
+  final String? rate;
+  final int? moneyReceived;
+  final int? moneySent;
+  final String? payinHash;
+  final String? payoutHashLink;
+  final String? payoutHash;
+  final String? payinExtraIdName;
 
   @override
   Map<String, dynamic> toJson() => {

@@ -1,10 +1,8 @@
 import 'dart:async';
+import 'dart:ui' show Brightness, PlatformDispatcher;
 
-import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
-import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:beldex_wallet/src/domain/common/balance_display_mode.dart';
 import 'package:beldex_wallet/src/domain/common/default_settings_migration.dart';
@@ -76,8 +74,7 @@ abstract class SettingsStoreBase with Store {
     final currentBalanceDisplayMode = BalanceDisplayMode.deserialize(
         raw: sharedPreferences.getInt(currentBalanceDisplayModeKey));
     final currentBalanceDetail = AmountDetail.deserialize(
-            sharedPreferences.getInt(currentBalanceDetailKey) ?? 0) ??
-        AmountDetail.ultra;
+            sharedPreferences.getInt(currentBalanceDetailKey) ?? 0);
     final shouldSaveRecipientAddress =
         sharedPreferences.getBool(shouldSaveRecipientAddressKey) ?? false;
     final allowBiometricAuthentication =
@@ -86,7 +83,7 @@ abstract class SettingsStoreBase with Store {
         sharedPreferences.getBool(enableFiatCurrencyKey) ?? false;
 
     final initialCurrentDarkMode =
-        SchedulerBinding.instance.window.platformBrightness == Brightness.dark;
+        PlatformDispatcher.instance.platformBrightness == Brightness.dark;
     final savedDarkTheme =
         sharedPreferences.getBool(currentDarkTheme) ?? initialCurrentDarkMode;
 
@@ -180,7 +177,7 @@ abstract class SettingsStoreBase with Store {
 
   @action
   Future saveLanguageOverride(String? language) async {
-    this.languageOverride = language;
+    languageOverride = language;
     if (language == null) {
       await _sharedPreferences.remove(currentLanguageOverride);
     } else {

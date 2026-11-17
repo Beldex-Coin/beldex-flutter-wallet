@@ -36,13 +36,13 @@ abstract class TransactionFilterStoreBase with Store {
   void changeEndDate(DateTime? date) => endDate = date;
 
   List<TransactionListItem> filtered({required List<TransactionListItem> transactions}) {
-    var _transactions = <TransactionListItem>[];
+    var transactions0 = <TransactionListItem>[];
     final needToFilter = !displayOutgoing ||
         !displayIncoming ||
         (startDate != null && endDate != null);
 
     if (needToFilter) {
-      _transactions = transactions.where((item) {
+      transactions0 = transactions.where((item) {
         var allowed = true;
 
         if (allowed && startDate != null && endDate != null) {
@@ -61,9 +61,9 @@ abstract class TransactionFilterStoreBase with Store {
         return allowed;
       }).toList();
     } else {
-      _transactions = transactions;
+      transactions0 = transactions;
     }
 
-    return _transactions;
+    return transactions0;
   }
 }

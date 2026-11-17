@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:beldex_wallet/src/wallet/beldex/calculate_estimated_fee.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:beldex_wallet/src/widgets/new_slide_to_act.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -148,9 +147,7 @@ class NewStakeFormState extends State<NewStakeForm>
                               height: 10,
                             ),
                             Text(
-                              walletStore.account != null
-                                  ? '${walletStore.account.label}'
-                                  : '',
+                              walletStore.account.label,
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 16,

@@ -6,32 +6,32 @@ import 'package:beldex_coin/src/util/signatures.dart';
 import 'package:beldex_coin/src/util/types.dart';
 
 final accountSizeNative = beldexApi
-    .lookup<NativeFunction<account_size>>('account_size')
+    .lookup<NativeFunction<AccountSizeNative>>('account_size')
     .asFunction<SubaddressSize>();
 
 final accountRefreshNative = beldexApi
-    .lookup<NativeFunction<account_refresh>>('account_refresh')
+    .lookup<NativeFunction<AccountRefreshNative>>('account_refresh')
     .asFunction<AccountRefresh>();
 
 final accountGetAllNative = beldexApi
-    .lookup<NativeFunction<account_get_all>>('account_get_all')
+    .lookup<NativeFunction<AccountGetAllNative>>('account_get_all')
     .asFunction<AccountGetAll>();
 
 final accountGetAllWithSizeNative = beldexApi
-    .lookup<NativeFunction<account_get_all_with_size>>(
+    .lookup<NativeFunction<AccountGetAllWithSizeNative>>(
         'account_get_all_with_size')
     .asFunction<AccountGetAllWithSize>();
 
 final accountFreeAllNative = beldexApi
-    .lookup<NativeFunction<account_free_all>>('account_free_all')
+    .lookup<NativeFunction<AccountFreeAllNative>>('account_free_all')
     .asFunction<AccountFreeAll>();
 
 final accountAddNewNative = beldexApi
-    .lookup<NativeFunction<account_add_new>>('account_add_row')
+    .lookup<NativeFunction<AccountAddNewNative>>('account_add_row')
     .asFunction<AccountAddNew>();
 
 final accountSetLabelNative = beldexApi
-    .lookup<NativeFunction<account_set_label>>('account_set_label_row')
+    .lookup<NativeFunction<AccountSetLabelNative>>('account_set_label_row')
     .asFunction<AccountSetLabel>();
 
 void addAccountSync({required String label}) {

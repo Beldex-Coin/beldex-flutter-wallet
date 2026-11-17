@@ -8,7 +8,6 @@ import 'package:beldex_wallet/src/swap/provider/validate_address_provider.dart';
 import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
 import 'package:beldex_wallet/src/util/network_provider.dart';
 import 'package:beldex_wallet/src/widgets/no_internet.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -104,9 +103,9 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   late Timer timer;
   late ExchangeData _exchangeData;
   late ValidateExtraIdFieldProvider validateExtraIdFieldProvider;
-  var sendAmount;
-  var from;
-  var to;
+  String sendAmount = '';
+  String from = '';
+  String to = '';
   bool _isInitialized = false;
   bool _errorShown = false;
 
@@ -124,9 +123,9 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   @override
   void initState() {
     _exchangeData = widget.exchangeData;
-    sendAmount = _exchangeData.amountFrom;
-    from = _exchangeData.from;
-    to = _exchangeData.to;
+    sendAmount = _exchangeData.amountFrom ?? '';
+    from = _exchangeData.from ?? '';
+    to = _exchangeData.to ?? '';
     getExchangeAmountApiClient = GetExchangeAmountApiClient();
     // Create a stream controller and exchange amount to the stream.
     _getExchangeAmountStreamController = StreamController<ExchangeRate>();
@@ -175,10 +174,10 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.sizeOf(context).width;
-    final _screenHeight = MediaQuery.sizeOf(context).height;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _scrollController = ScrollController(keepScrollOffset: true);
+    final scrollController = ScrollController(keepScrollOffset: true);
     return KeyboardDetection(
       controller: keyboardDetectionController,
       child: GestureDetector(
@@ -194,10 +193,10 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
               } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
-                return noInternet(settingsStore, _screenWidth, tr(context)); // Display an error message if an error occurs. or Display a message when no data is available.
+                return noInternet(settingsStore, screenWidth, tr(context)); // Display an error message if an error occurs. or Display a message when no data is available.
               } else {
-                return body(_screenWidth, _screenHeight, settingsStore,
-                    _scrollController, snapshot.data!, networkProvider);
+                return body(screenWidth, screenHeight, settingsStore,
+                    scrollController, snapshot.data!, networkProvider);
               }
             },
           );
@@ -208,10 +207,10 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
   }
 
   Widget body(
-    double _screenWidth,
-    double _screenHeight,
+    double screenWidth,
+    double screenHeight,
     SettingsStore settingsStore,
-    ScrollController _scrollController,
+    ScrollController scrollController,
     ExchangeRate exchangeRateData, NetworkProvider networkProvider,
   ) {
     //GetExchangeAmount
@@ -268,7 +267,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                   ),
                   child: Container(
                     padding: const EdgeInsetsDirectional.all(15.0),
-                    width: _screenWidth,
+                    width: screenWidth,
                     height: double.infinity,
                     child: walletAddressScreen(settingsStore,
                         exchangeRate, serviceFee, networkFee, getAmount, minimumAmount, maximumAmount, networkProvider),
@@ -291,7 +290,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PairsWidget(settingsStore: settingsStore, from: from, to: to),
+        pairsWidget(settingsStore: settingsStore, from: from, to: to),
         //Wallet Address Title
         Text(
           tr(context).walletAddress,
@@ -473,7 +472,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                             .addPostFrameCallback((timeStamp) {
                           validateAddressProvider.setRecipientAddress(value);
                           validateAddressProvider.validateAddressData(context, {
-                            "currency": "${to}",
+                            "currency": to,
                             "address": value,
                             "network": _exchangeData.toProtocol ?? "",
                             "extraId": _exchangeData.extraIdName ?? ""
@@ -595,7 +594,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                                   child: circularProgressBar(Color(0xff0BA70F), 2.0))
                               : InkWell(
                                   onTap: () async => _presentRefundQRScanner(
-                                      context, refundValidator, from ?? ''),
+                                      context, refundValidator, from),
                                   child: Container(
                                     width: 10,
                                     margin: EdgeInsetsDirectional.only(top: 5, bottom: 3, start: 3),
@@ -619,14 +618,14 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                               fontSize: 14.0,
                               fontWeight: FontWeight.normal,
                               color: Colors.grey.withValues(alpha: 0.6)),
-                          hintText: tr(context).swap_enter_refund_address((from ?? '').toUpperCase()),
+                          hintText: tr(context).swap_enter_refund_address((from).toUpperCase()),
                           errorStyle: TextStyle(backgroundColor: Colors.transparent, height: 0.1)),
                       onChanged: (value) {
                         if (value.isNotEmpty) {
                           WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                             refundValidator.setRecipientAddress(value);
                             refundValidator.validateAddressData(context, {
-                              "currency": "${from}",
+                              "currency": from,
                               "address": value,
                               "network": _exchangeData.fromProtocol ?? "",
                               "extraId": ""
@@ -870,7 +869,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                           fontWeight: FontWeight.normal),
                       children: [
                         TextSpan(
-                            text: minimumAmount.trim().isNotEmpty ?'${toStringAsFixed(minimumAmount)} ${from}':maximumAmount.trim().isNotEmpty ?'${toStringAsFixed(maximumAmount)} ${from}':'',
+                            text: minimumAmount.trim().isNotEmpty ?'${toStringAsFixed(minimumAmount)} $from':maximumAmount.trim().isNotEmpty ?'${toStringAsFixed(maximumAmount)} $from':'',
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 decoration: TextDecoration.underline,
@@ -1036,7 +1035,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
             ]),
 
             //Fixed Exchange Rate
-            if (false)
+            /*if (false)
               TableRow(children: [
                 Padding(
                   padding: const EdgeInsetsDirectional.only(top: 10.0, start: 10.0),
@@ -1099,7 +1098,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
                             : Color(0xff222222)),
                   ),
                 )
-              ]),
+              ]),*/
           ],
         ),
         Table(
@@ -1300,7 +1299,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         _recipientAddressController.text =
             validateAddressProvider.getRecipientAddress();
         validateAddressProvider.validateAddressData(context, {
-          "currency": "${to}",
+          "currency": to,
           "address": _recipientAddressController.text.toString(),
           "network": _exchangeData.toProtocol!,
           "extraId": _exchangeData.extraIdName!
@@ -1321,7 +1320,7 @@ class _SwapWalletAddressState extends State<SwapWalletAddressHome> {
         refundValidator.setRecipientAddress(address);
         _refundWalletAddressController.text = address;
         refundValidator.validateAddressData(context, {
-          "currency": "${from}",
+          "currency": from,
           "address": address,
           "network": _exchangeData.fromProtocol ?? "",
           "extraId": ""

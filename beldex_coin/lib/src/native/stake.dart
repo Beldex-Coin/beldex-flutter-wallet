@@ -8,23 +8,23 @@ import 'package:beldex_coin/src/util/signatures.dart';
 import 'package:beldex_coin/src/util/types.dart';
 
 final stakeCountNative = beldexApi
-    .lookup<NativeFunction<stake_count>>('stake_count')
+    .lookup<NativeFunction<StakeCountNative>>('stake_count')
     .asFunction<StakeCount>();
 
 final stakeGetAllNative = beldexApi
-    .lookup<NativeFunction<stake_get_all>>('stake_get_all')
+    .lookup<NativeFunction<StakeGetAllNative>>('stake_get_all')
     .asFunction<StakeGetAll>();
 
 final stakeCreateNative = beldexApi
-    .lookup<NativeFunction<stake_create>>('stake_create')
+    .lookup<NativeFunction<StakeCreateNative>>('stake_create')
     .asFunction<StakeCreate>();
 
 final canRequestUnstakeNative = beldexApi
-    .lookup<NativeFunction<can_request_unstake>>('can_request_stake_unlock')
+    .lookup<NativeFunction<CanRequestUnstakeNative>>('can_request_stake_unlock')
     .asFunction<CanRequestUnstake>();
 
 final submitStakeUnlockNative = beldexApi
-    .lookup<NativeFunction<submit_stake_unlock>>('submit_stake_unlock')
+    .lookup<NativeFunction<SubmitStakeUnlockNative>>('submit_stake_unlock')
     .asFunction<SubmitStakeUnlock>();
 
 PendingTransactionDescription createStakeSync(
@@ -60,11 +60,11 @@ void submitStakeUnlockSync(String masterNodeKey) {
 
   calloc.free(masterNodeKeyPointer);
 
-  if (!result.good) //{
+  if (!result.good) {
     //final message = errorMessagePointer.ref.getValue();
     //free(errorMessagePointer);
     throw CreationTransactionException(message: result.errorString());
-  //}
+  }
   calloc.free(pendingTransactionRawPointer);
 
   /*return PendingTransactionDescription(

@@ -5,8 +5,7 @@ part 'crypto_currency.g.dart';
 
 @HiveType(typeId: 0)
 class CryptoCurrency extends EnumerableItem<int> with Serializable<int> {
-  const CryptoCurrency({required final String title, required final int raw})
-      : super(title: title, raw: raw);
+  const CryptoCurrency({required super.title, required super.raw});
 
   static const all = [
     CryptoCurrency.bdx,

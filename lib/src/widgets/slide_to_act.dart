@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class SlideToAct extends StatefulWidget {
   const SlideToAct({
-    Key? key,
+    super.key,
     this.sliderButtonIconSize = 24,
     this.sliderButtonIconPadding = 16,
     this.sliderButtonYOffset = 0,
@@ -22,7 +22,7 @@ class SlideToAct extends StatefulWidget {
     this.innerColor,
     this.text,
     this.sliderButtonIcon,
-  }) : super(key: key);
+  });
 
   /// The size of the sliding icon
   final double sliderButtonIconSize;
@@ -88,9 +88,9 @@ class SlideToActState extends State<SlideToAct> with TickerProviderStateMixin {
 
   double get _progress => _dx == 0 ? 0 : _dx / _maxDx;
   double _endDx = 0;
-  double _dz = 1;
-  double? _initialContainerWidth, _containerWidth;
-  double _checkAnimationDx = 0;
+  final double _dz = 1;
+  double? _containerWidth;
+  final double _checkAnimationDx = 0;
   bool submitted = false;
   AnimationController? _checkAnimationController,
       _shrinkAnimationController,
@@ -241,7 +241,7 @@ class SlideToActState extends State<SlideToAct> with TickerProviderStateMixin {
 
   void onHorizontalDragUpdate(DragUpdateDetails details) {
     setState(() {
-      _dx = (_dx + details.delta.dx).clamp(0.0, _maxDx) as double;
+      _dx = (_dx + details.delta.dx).clamp(0.0, _maxDx);
     });
   }
 
@@ -258,7 +258,7 @@ class SlideToActState extends State<SlideToAct> with TickerProviderStateMixin {
     await _cancelAnimation();
   }
 
-  Future _checkAnimation() async {
+  /*Future _checkAnimation() async {
     _checkAnimationController?.reset();
 
     final animation = Tween<double>(
@@ -324,7 +324,7 @@ class SlideToActState extends State<SlideToAct> with TickerProviderStateMixin {
       }
     });
     await _resizeAnimationController?.forward().orCancel;
-  }
+  }*/
 
   Future _cancelAnimation() async {
     _cancelAnimationController?.reset();
@@ -372,7 +372,6 @@ class SlideToActState extends State<SlideToAct> with TickerProviderStateMixin {
       final containerBox =
           _containerKey.currentContext?.findRenderObject() as RenderBox;
       _containerWidth = containerBox.size.width;
-      _initialContainerWidth = _containerWidth;
 
       final sliderBox =
           _sliderKey.currentContext?.findRenderObject() as RenderBox;

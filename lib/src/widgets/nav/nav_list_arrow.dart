@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:beldex_wallet/src/widgets/nav/nav_list_trailing.dart';
 
-import '../../../palette.dart';
-
 class NavListArrow extends StatelessWidget {
   NavListArrow({required this.text, this.leading, this.onTap});
 

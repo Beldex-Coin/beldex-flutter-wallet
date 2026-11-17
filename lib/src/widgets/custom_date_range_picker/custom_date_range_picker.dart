@@ -20,6 +20,19 @@ import '../../../l10n.dart';
 ///   required this.onCancelClick,
 /// })`
 class CustomDateRangePicker extends StatefulWidget {
+
+  const CustomDateRangePicker({
+    super.key,
+    this.initialStartDate,
+    this.initialEndDate,
+    required this.primaryColor,
+    required this.backgroundColor,
+    required this.onApplyClick,
+    this.barrierDismissible = true,
+    required this.minimumDate,
+    required this.maximumDate,
+    required this.onCancelClick,
+  });
   /// The minimum date that can be selected in the calendar.
   final DateTime minimumDate;
 
@@ -46,19 +59,6 @@ class CustomDateRangePicker extends StatefulWidget {
 
   /// A callback function that is called when the user cancels the selection of the date range.
   final Function() onCancelClick;
-
-  const CustomDateRangePicker({
-    super.key,
-    this.initialStartDate,
-    this.initialEndDate,
-    required this.primaryColor,
-    required this.backgroundColor,
-    required this.onApplyClick,
-    this.barrierDismissible = true,
-    required this.minimumDate,
-    required this.maximumDate,
-    required this.onCancelClick,
-  });
 
   @override
   CustomDateRangePickerState createState() => CustomDateRangePickerState();

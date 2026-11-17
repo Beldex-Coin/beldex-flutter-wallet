@@ -72,7 +72,7 @@ class DashboardPage extends BasePage {
   @override
   Widget trailing(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _themeChanger = Provider.of<ThemeChanger>(context);
+    final themeChanger = Provider.of<ThemeChanger>(context);
     return Row(
       children: [
         Container(
@@ -81,10 +81,10 @@ class DashboardPage extends BasePage {
                 value: settingsStore.isDarkTheme,
                 icon: true,
                 onTaped: () {
-                  final _currentValue = !settingsStore.isDarkTheme;
-                  settingsStore.saveDarkTheme(isDarkTheme: _currentValue);
-                  _themeChanger.setTheme(
-                      _currentValue ? Themes.darkTheme : Themes.lightTheme);
+                  final currentValue = !settingsStore.isDarkTheme;
+                  settingsStore.saveDarkTheme(isDarkTheme: currentValue);
+                  themeChanger.setTheme(
+                      currentValue ? Themes.darkTheme : Themes.lightTheme);
                 })),
         IconButton(
           icon: SvgPicture.asset(
@@ -216,7 +216,7 @@ class DashboardPage extends BasePage {
 }
 
 class DashboardPageBody extends StatefulWidget {
-  DashboardPageBody({Key? key}) : super(key: key);
+  DashboardPageBody({super.key});
 
   @override
   DashboardPageBodyState createState() => DashboardPageBodyState();
@@ -236,13 +236,9 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
       final uri = Uri.parse(code!);
       var address = '';
       var amount = '';
-      if (uri != null) {
-        address = uri.path;
-        if (uri.queryParameters.isNotEmpty) {
-          amount = uri.queryParameters[uri.queryParameters.keys.first]!;
-        }
-      } else {
-        address = code;
+      address = uri.path;
+      if (uri.queryParameters.isNotEmpty) {
+        amount = uri.queryParameters[uri.queryParameters.keys.first]!;
       }
       if (address.isNotEmpty || amount.isNotEmpty) {
         await Navigator.pushNamed(context, Routes.send,
@@ -264,9 +260,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
     final balanceStore = Provider.of<BalanceStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    final networkStatus = Provider.of<NetworkProvider>(context);
-    final _height = MediaQuery.sizeOf(context).height;
-    final _width = MediaQuery.sizeOf(context).width;
+    final height = MediaQuery.sizeOf(context).height;
+    final width = MediaQuery.sizeOf(context).width;
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -334,7 +329,7 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                        '${statusText[0].toUpperCase() + statusText.substring(1).toLowerCase()}',
+                                        statusText[0].toUpperCase() + statusText.substring(1).toLowerCase(),
                                         style: TextStyle(
                                             backgroundColor: Colors.transparent,
                                             fontSize: 14,
@@ -379,8 +374,8 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                         }),
                     // SizedBox(height:10),
                     Container(
-                      height:_height * 0.65 / 3,
-                      width:_width,
+                      height:height * 0.65 / 3,
+                      width:width,
                       margin: EdgeInsetsDirectional.only(bottom: 10, start: 15, end: 15),
                       decoration: BoxDecoration(
                           color: settingsStore.isDarkTheme
@@ -409,15 +404,13 @@ class DashboardPageBodyState extends State<DashboardPageBody> {
                                   if (displayMode ==
                                       BalanceDisplayMode.availableBalance) {
                                     balance =
-                                        balanceStore.unlockedBalanceString ??
-                                            '00.000000000';
+                                        balanceStore.unlockedBalanceString;
                                     print(
                                         'Dashboard availableBalance --> $balance');
                                   }
                                   if (displayMode ==
                                       BalanceDisplayMode.fullBalance) {
-                                    balance = balanceStore.fullBalanceString ??
-                                        '00.000000000';
+                                    balance = balanceStore.fullBalanceString;
                                     print('Dashboard fullBalance --> $balance');
                                   }
                                   return GestureDetector(

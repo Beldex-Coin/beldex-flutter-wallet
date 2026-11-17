@@ -78,7 +78,7 @@ class ChangelogPage extends BasePage {
           },
           //separatorBuilder: (_, __) =>
            //   Divider(color: Theme.of(context).dividerTheme.color, height: 1.0),
-          itemCount: changelogs == null ? 0 : changelogs.length,
+          itemCount: changelogs.length,
         );
       },
       future: rootBundle.loadString(changelogPath),

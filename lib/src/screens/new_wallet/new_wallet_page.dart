@@ -100,9 +100,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
     final seedLanguageStore = context.read<SeedLanguageStore>();
     setState(() {
       _selectedIndex = index;
-      if (_selectedIndex != null) {
-        seedLanguageStore.setSelectedSeedLanguage(_selectedIndex);
-      }
+      seedLanguageStore.setSelectedSeedLanguage(_selectedIndex);
     });
   }
 
@@ -176,7 +174,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                       Observer(
                         builder: (context) {
                           return TextFormField(
-                            enabled: !(walletCreationStore.state is WalletIsCreating),
+                            enabled: walletCreationStore.state is! WalletIsCreating,
                             textDirection: Directionality.of(context),
                             textAlign: TextAlign.start,
                             style: TextStyle(
@@ -242,7 +240,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                               .bodySmall!
                                               .color,
                                         ),
-                                        onPressed: !(walletCreationStore.state is WalletIsCreating) ? () {
+                                        onPressed: walletCreationStore.state is! WalletIsCreating ? () {
                                           nameController.clear();
                                         } : null,
                                       );
@@ -310,8 +308,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                 onTap: () {
                                   _onSelected(index);
                                 },
-                                child: _selectedIndex != null &&
-                                        _selectedIndex == index
+                                child: _selectedIndex == index
                                     ? Card(
                                         color: Theme.of(context).cardColor,
                                         elevation: 0,

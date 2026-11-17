@@ -7,13 +7,13 @@ class ValidateExtraIdFieldProvider with ChangeNotifier {
   bool showErrorBorder = false;
 
   void setErrorMessage(message){
-    this.errorMessage = message;
+    errorMessage = message;
     if(_disposed) return ;
     notifyListeners();
   }
 
   String getErrorMessage(){
-    return this.errorMessage;
+    return errorMessage;
   }
 
   void setShowMemo(showMemo){
@@ -23,23 +23,23 @@ class ValidateExtraIdFieldProvider with ChangeNotifier {
   }
 
   bool getShowMemo(){
-    return this.showMemo;
+    return showMemo;
   }
 
   void setShowErrorBorder(show){
-    this.showErrorBorder = show;
+    showErrorBorder = show;
     if(_disposed) return ;
     notifyListeners();
   }
 
   bool getShowErrorBorder(){
-    return this.showErrorBorder;
+    return showErrorBorder;
   }
 
   @override
   void dispose() {
     try {
-      this._disposed = true;
+      _disposed = true;
       super.dispose();
     } catch(ex) {
       print("Exception-> $ex");

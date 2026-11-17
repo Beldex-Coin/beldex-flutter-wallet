@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:beldex_wallet/src/domain/common/fiat_currency.dart';
 import 'package:flutter/foundation.dart';
-import 'package:beldex_wallet/src/domain/common/crypto_currency.dart';
 import 'package:beldex_wallet/src/domain/common/fetch_price.dart';
 import 'package:beldex_wallet/src/stores/price/price_store.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';

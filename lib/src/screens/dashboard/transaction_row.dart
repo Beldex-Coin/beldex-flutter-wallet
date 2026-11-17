@@ -314,7 +314,7 @@ class TransactionRow extends StatelessWidget {
                                         fontWeight: FontWeight.w900)),
                                 Container(
                                     child: Text(
-                                        '$formattedDate' //'${transaction.date}'
+                                        formattedDate //'${transaction.date}'
                                         )),
                               ],
                             ),
@@ -370,7 +370,7 @@ class TransactionRow extends StatelessWidget {
                                         fontWeight: FontWeight.w900)),
                                 Container(
                                     child: Text(
-                                  '$formattedAmount',
+                                  formattedAmount,
                                   style: TextStyle(color: Color(0xff0BA70F)),
                                 ))
                               ],

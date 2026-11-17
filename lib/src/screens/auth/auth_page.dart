@@ -2,14 +2,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import '../../../l10n.dart';
 import 'package:beldex_wallet/src/stores/auth/auth_state.dart';
 import 'package:beldex_wallet/src/stores/auth/auth_store.dart';
 import 'package:beldex_wallet/src/screens/pin_code/pin_code.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/domain/common/biometric_auth.dart';
-import 'package:local_auth/local_auth.dart';
 import 'dart:io' show Platform;
 typedef OnAuthenticationFinished = void Function(bool, AuthPageState);
 
@@ -26,7 +24,6 @@ class AuthPage extends StatefulWidget {
 class AuthPageState extends State<AuthPage> {
   final _key = GlobalKey<ScaffoldState>();
   final _pinCodeKey = GlobalKey<PinCodeState>();
-  List<BiometricType> _availableBiometrics = <BiometricType>[];
 
   void changeProcessText(String text) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -219,7 +216,7 @@ class AuthPageState extends State<AuthPage> {
         resizeToAvoidBottomInset: false,
         body: PinCode(
                 (pin, _) => authStore.auth(
-                password: pin.fold('', (ac, val) => ac + '$val'), l10n: tr(context)),
+                password: pin.fold('', (ac, val) => '$ac$val'), l10n: tr(context)),
             false,
             _pinCodeKey,
             refresh,_key));

@@ -9,7 +9,7 @@ import 'package:wakelock_plus/wakelock_plus.dart';
 import '../../l10n.dart';
 
 class CommitTransactionLoader extends StatefulWidget {
-  CommitTransactionLoader({Key? key, required this.sendStore}) : super(key: key);
+  CommitTransactionLoader({super.key, required this.sendStore});
 
   final SendStore sendStore;
 

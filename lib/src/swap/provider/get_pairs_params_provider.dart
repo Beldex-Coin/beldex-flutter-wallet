@@ -37,7 +37,7 @@ class GetPairsParamsProvider with ChangeNotifier {
           fromNetwork: from['fromNetwork'] ?? '',
           toCurrency: from['to'] ?? '',
           toNetwork: from['toNetwork'] ?? '',
-          amount: amount ?? "0"
+          amount: amount
         );
         data = response;
         if (response != null) {
@@ -65,15 +65,15 @@ class GetPairsParamsProvider with ChangeNotifier {
   }
 
   double getSendValueMinimumAmount(){
-    return this.minimumAmount;
+    return minimumAmount;
   }
 
   double getSendValueMaximumAmount(){
-    return this.maximumAmount;
+    return maximumAmount;
   }
 
   void setSendAmountValue(value){
-    this.sendAmountValue = value;
+    sendAmountValue = value;
     if(_disposed) return ;
     notifyListeners();
   }
@@ -83,7 +83,7 @@ class GetPairsParamsProvider with ChangeNotifier {
   }
 
   void setGetAmountValue(value){
-    this.getAmountValue = value;
+    getAmountValue = value;
     if(_disposed) return ;
     notifyListeners();
   }
@@ -93,39 +93,39 @@ class GetPairsParamsProvider with ChangeNotifier {
   }
 
   void setSendFieldErrorState(state){
-    this.errorState = state;
+    errorState = state;
     if(_disposed) return ;
     notifyListeners();
   }
 
   bool getSendFieldErrorState(){
-    return this.errorState;
+    return errorState;
   }
 
   void setSendCoinAvailableOnGetCoinStatus(status){
-    this.sendCoinAvailableOnGetCoinStatus = status;
+    sendCoinAvailableOnGetCoinStatus = status;
     if(_disposed) return ;
     notifyListeners();
   }
 
   bool getSendCoinAvailableOnGetCoinStatus(){
-    return this.sendCoinAvailableOnGetCoinStatus;
+    return sendCoinAvailableOnGetCoinStatus;
   }
 
   void setGetCoinAvailableOnSendCoinStatus(status){
-    this.getCoinAvailableOnSendCoinStatus = status;
+    getCoinAvailableOnSendCoinStatus = status;
     if(_disposed) return ;
     notifyListeners();
   }
 
   bool getGetCoinAvailableOnSendCoinStatus(){
-    return this.getCoinAvailableOnSendCoinStatus;
+    return getCoinAvailableOnSendCoinStatus;
   }
 
   @override
   void dispose() {
     try {
-      this._disposed = true;
+      _disposed = true;
       super.dispose();
     } catch(ex) {
       print("Exception-> $ex");

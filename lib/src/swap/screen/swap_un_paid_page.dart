@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -89,27 +86,27 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.sizeOf(context).width;
-    final _screenHeight = MediaQuery.sizeOf(context).height;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _scrollController = ScrollController(keepScrollOffset: true);
+    final scrollController = ScrollController(keepScrollOffset: true);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
         return body(
-            _screenWidth,
-            _screenHeight,
+            screenWidth,
+            screenHeight,
             settingsStore,
-            _scrollController, networkProvider);
+            scrollController, networkProvider);
       }
     );
   }
 
   Widget body(
-      double _screenWidth,
-      double _screenHeight,
+      double screenWidth,
+      double screenHeight,
       SettingsStore settingsStore,
-      ScrollController _scrollController, NetworkProvider networkProvider
+      ScrollController scrollController, NetworkProvider networkProvider
       ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -145,7 +142,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
                           ),
                           child: Container(
                             padding: const EdgeInsetsDirectional.all(15.0),
-                            width: _screenWidth,
+                            width: screenWidth,
                             height: double.infinity,
                             child: exchangeNotPaidScreen(settingsStore, networkProvider),
                           ),
@@ -162,7 +159,7 @@ class _SwapUnPaidHomeState extends State<SwapUnPaidHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PairsWidget(settingsStore: settingsStore, from: transactionStatus.transactionModel.currencyFrom, to: transactionStatus.transactionModel.currencyTo),
+        pairsWidget(settingsStore: settingsStore, from: transactionStatus.transactionModel.currencyFrom, to: transactionStatus.transactionModel.currencyTo),
         //Not Paid Details
         Container(
           width: MediaQuery.sizeOf(context).width,

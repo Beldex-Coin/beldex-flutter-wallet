@@ -9,8 +9,6 @@ import 'package:beldex_wallet/themes.dart';
 import 'package:beldex_wallet/theme_changer.dart';
 import 'package:beldex_wallet/l10n.dart';
 
-import '../../l10n.dart';
-
 enum AppBarStyle { regular, withShadow }
 
 abstract class BasePage extends StatelessWidget {
@@ -33,7 +31,7 @@ abstract class BasePage extends StatelessWidget {
       return null;
     }
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _backButton = Container(
+    final backButton = Container(
         height: 48,
         width: 48,
         child: Transform(
@@ -64,7 +62,7 @@ abstract class BasePage extends StatelessWidget {
           buttonColor: Colors.transparent,
           minWidth: double.minPositive,
           child: TextButton(
-              onPressed: () => onClose(context), child: _backButton),
+              onPressed: () => onClose(context), child: backButton),
         ),
       ),
     );
@@ -97,7 +95,7 @@ abstract class BasePage extends StatelessWidget {
       return null;
     }
 
-    final _backButton = Icon(Icons.arrow_back_sharp, size: 28);
+    final backButton = Icon(Icons.arrow_back_sharp, size: 28);
 
     return Container(
       width: 60,
@@ -119,7 +117,7 @@ abstract class BasePage extends StatelessWidget {
               onPressed: () => onClose(context),
               child: Container(
                   decoration: BoxDecoration(),
-                  child: _backButton)
+                  child: backButton)
               ),
         ),
       ),
@@ -131,8 +129,8 @@ abstract class BasePage extends StatelessWidget {
   }
 
   ObstructingPreferredSizeWidget appBar(BuildContext context) {
-    final _themeChanger = Provider.of<ThemeChanger>(context);
-    final _isDarkTheme = _themeChanger.getTheme() == Themes.darkTheme;
+    final themeChanger = Provider.of<ThemeChanger>(context);
+    final isDarkTheme = themeChanger.getTheme() == Themes.darkTheme;
 
     switch (appBarStyle) {
       case AppBarStyle.regular:
@@ -141,7 +139,7 @@ abstract class BasePage extends StatelessWidget {
             leading: leading(context)!,
             middle: middle(context)!,
             trailing: trailing(context)!,
-            backgroundColor: _isDarkTheme
+            backgroundColor: isDarkTheme
                 ? Theme.of(context).dialogTheme.backgroundColor
                 : Theme.of(context).dialogTheme.backgroundColor);
 
@@ -151,20 +149,11 @@ abstract class BasePage extends StatelessWidget {
             leading: leading(context)!,
             middle: middle(context)!,
             trailing: trailing(context)!,
-            backgroundColor: _isDarkTheme
+            backgroundColor: isDarkTheme
                 ? Theme.of(context).dialogTheme.backgroundColor
                 : Theme.of(context).dialogTheme.backgroundColor);
 
-      default:
-        return NavBar(
-            context: context,
-            leading: leading(context)!,
-            middle: middle(context)!,
-            trailing: trailing(context)!,
-            backgroundColor: _isDarkTheme
-                ? Theme.of(context).dialogTheme.backgroundColor
-                : Theme.of(context).dialogTheme.backgroundColor);
-    }
+      }
   }
 
   Widget body(BuildContext context);
@@ -173,11 +162,11 @@ abstract class BasePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _themeChanger = Provider.of<ThemeChanger>(context);
-    final _isDarkTheme = _themeChanger.getTheme() == Themes.darkTheme;
+    final themeChanger = Provider.of<ThemeChanger>(context);
+    final isDarkTheme = themeChanger.getTheme() == Themes.darkTheme;
 
     return Scaffold(
-        backgroundColor: _isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
+        backgroundColor: isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
         //Theme.of(context).backgroundColor : Theme.of(context).backgroundColor,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         appBar: AppBar(
@@ -215,7 +204,7 @@ abstract class BasePage extends StatelessWidget {
           ],
 
           backgroundColor:
-          _isDarkTheme ? const Color(0xff171720) : const Color(0xffffffff),
+          isDarkTheme ? const Color(0xff171720) : const Color(0xffffffff),
         ),
         body: SafeArea(child: body(context)),
         floatingActionButton: floatingActionButton(context),
@@ -231,7 +220,7 @@ abstract class BasePage extends StatelessWidget {
       return null;
     }
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _backButton = Transform(
+    final backButton = Transform(
       alignment: Alignment.center,
       transform: Matrix4.identity()
         ..scaleByDouble(
@@ -256,7 +245,7 @@ abstract class BasePage extends StatelessWidget {
         buttonColor: Colors.transparent,
         minWidth: double.minPositive,
         child: TextButton(
-            onPressed: () => onClose(context), child: _backButton),
+            onPressed: () => onClose(context), child: backButton),
       ),
     );
   }

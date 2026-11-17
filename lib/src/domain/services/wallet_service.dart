@@ -62,9 +62,9 @@ class WalletService extends Wallet {
         (name) => description = WalletDescription(name: name, type: type));
   }
 
-  BehaviorSubject<Wallet> _onWalletChanged;
-  BehaviorSubject<Balance> _onBalanceChange;
-  BehaviorSubject<SyncStatus> _syncStatus;
+  final BehaviorSubject<Wallet> _onWalletChanged;
+  final BehaviorSubject<Balance> _onBalanceChange;
+  final BehaviorSubject<SyncStatus> _syncStatus;
   Wallet? _currentWallet;
 
   WalletDescription? description;

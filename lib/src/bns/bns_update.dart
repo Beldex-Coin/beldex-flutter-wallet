@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:beldex_wallet/src/bns/bns_update_change_notifier.dart';
 import 'package:beldex_wallet/src/bns/bns_update_initiating_transaction_loader.dart';
 import 'package:beldex_wallet/src/node/sync_status.dart';
@@ -10,12 +8,9 @@ import 'package:beldex_wallet/src/stores/send/sending_state.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:beldex_wallet/src/stores/balance/balance_store.dart';
 import 'package:beldex_wallet/src/stores/send/send_store.dart';
 import 'package:beldex_wallet/src/stores/sync/sync_store.dart';
 import 'package:beldex_wallet/src/stores/wallet/wallet_store.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
@@ -77,6 +72,7 @@ class BnsUpdatePageForm extends StatefulWidget {
 class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     with TickerProviderStateMixin {
   final _bnsOwnerNameController = TextEditingController();
+
   //final _bnsBackUpOwnerNameController = TextEditingController();
   final _bChatIdController = TextEditingController();
   final _belnetIdController = TextEditingController();
@@ -97,15 +93,16 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
   final _focusNodeBelnetId = FocusNode();
   final _focusNodeEthAddress = FocusNode();
   late KeyboardDetectionController keyboardDetectionController;
+
   @override
   void initState() {
     if (widget.bnsDetails.isNotEmpty) {
-      bnsName = widget.bnsDetails['bnsName'] as String ?? '';
-      ownerAddress = widget.bnsDetails['ownerAddress'] as String ?? '';
-      walletAddress = widget.bnsDetails['walletAddress'] as String ?? '';
-      bchatId = widget.bnsDetails['bchatId'] as String ?? '';
-      belnetId = widget.bnsDetails['belnetId'] as String ?? '';
-      ethAddress = widget.bnsDetails['ethAddress'] as String ?? '';
+      bnsName = widget.bnsDetails['bnsName'] as String;
+      ownerAddress = widget.bnsDetails['ownerAddress'] as String;
+      walletAddress = widget.bnsDetails['walletAddress'] as String;
+      bchatId = widget.bnsDetails['bchatId'] as String;
+      belnetId = widget.bnsDetails['belnetId'] as String;
+      ethAddress = widget.bnsDetails['ethAddress'] as String;
       if (belnetId.isNotEmpty && belnetId != '(none)') {
         belnetId = belnetId.substring(0, belnetId.indexOf('.'));
       }
@@ -129,7 +126,6 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     final settingsStore = Provider.of<SettingsStore>(context);
     final sendStore = Provider.of<SendStore>(context);
     sendStore.settingsStore = settingsStore;
-    final balanceStore = Provider.of<BalanceStore>(context);
     final walletStore = Provider.of<WalletStore>(context);
     final syncStore = Provider.of<SyncStore>(context);
     final localizedOptions = [
@@ -171,165 +167,169 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
       SyncStore syncStore,
       BnsUpdateChangeNotifier bnsUpdateChangeNotifier,
       WalletStore walletStore) {
-    return SingleChildScrollView(
-      child: Container(
-        width: MediaQuery.sizeOf(context).width,
-        margin:
-            EdgeInsetsDirectional.only(top: 10, bottom: 10, start: 8, end: 8),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: settingsStore.isDarkTheme
-                ? Color(0xff24242f)
-                : Color(0xffF3F3F3)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            //Update Owner
-            Container(
-              width: MediaQuery.sizeOf(context).width,
-              margin: EdgeInsetsDirectional.all(10),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
+    return RadioGroup<int>(
+      groupValue: bnsUpdateChangeNotifier.selectedBnsUpdateOption,
+      onChanged: (value) {
+        if (value == null) {
+          return;
+        }
+        bnsUpdateChangeNotifier.setSelectedBnsUpdateOption(value);
+        FocusScope.of(context).unfocus();
+      },
+      child: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.sizeOf(context).width,
+          margin:
+              EdgeInsetsDirectional.only(top: 10, bottom: 10, start: 8, end: 8),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: settingsStore.isDarkTheme
+                  ? Color(0xff24242f)
+                  : Color(0xffF3F3F3)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              //Update Owner
+              Container(
+                width: MediaQuery.sizeOf(context).width,
+                margin: EdgeInsetsDirectional.all(10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: settingsStore.isDarkTheme
+                        ? Color(0xff2C2C3F)
+                        : Color(0xffFFFFFF),
+                    border: Border.all(
+                        color: settingsStore.isDarkTheme
+                            ? Color(0xff484856)
+                            : Color(0xffDADADA))),
+                foregroundDecoration: BoxDecoration(
                   color: settingsStore.isDarkTheme
-                      ? Color(0xff2C2C3F)
-                      : Color(0xffFFFFFF),
-                  border: Border.all(
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xff484856)
-                          : Color(0xffDADADA))),
-              foregroundDecoration: BoxDecoration(
-                color: settingsStore.isDarkTheme
-                    ? bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2
-                        ? Color(0x9324242F)
-                        : Colors.transparent
-                    : bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2
-                        ? Color(0x93F3F3F3)
-                        : Colors.transparent,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  //Update Owner Title
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Radio<int>(
-                        value: 1,
-                        groupValue:
-                            bnsUpdateChangeNotifier.selectedBnsUpdateOption,
-                        activeColor: Color(0xff00AD07),
-                        fillColor: MaterialStateProperty.all(Color(0xff00AD07)),
-                        onChanged: (value) {
-                          bnsUpdateChangeNotifier
-                              .setSelectedBnsUpdateOption(value!);
-                          FocusScope.of(context).unfocus();
-                        },
-                      ),
-                      Container(
-                        child: Text(tr(context).bnsUpdateOwner,
-                            style: TextStyle(
-                                backgroundColor: Colors.transparent,
-                                fontSize: 18.0,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffFFFFFF)
-                                    : Color(0xff222222),
-                                fontWeight: FontWeight.w700,
-                                fontFamily: 'OpenSans')),
-                      ),
-                    ],
-                  ),
-                  AbsorbPointer(
-                    absorbing:
-                        bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      ? bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2
+                          ? Color(0x9324242F)
+                          : Colors.transparent
+                      : bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2
+                          ? Color(0x93F3F3F3)
+                          : Colors.transparent,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    //Update Owner Title
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        //BNS Owner Name
+                        Radio<int>(
+                          value: 1,
+                          fillColor: WidgetStateProperty.all(Color(0xff00AD07)),
+                        ),
                         Container(
-                          margin: EdgeInsetsDirectional.only(start: 15, top: 5),
-                          child: Text(tr(context).bnsOwnerLabel,
+                          child: Text(tr(context).bnsUpdateOwner,
                               style: TextStyle(
                                   backgroundColor: Colors.transparent,
-                                  fontSize: 13.0,
+                                  fontSize: 18.0,
                                   color: settingsStore.isDarkTheme
-                                      ? Color(0xffAFAFBE)
+                                      ? Color(0xffFFFFFF)
                                       : Color(0xff222222),
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.w700,
                                   fontFamily: 'OpenSans')),
                         ),
-                        //BNS Owner Name Field
-                        Container(
-                          margin: EdgeInsetsDirectional.only(
-                              start: 10, end: 10, top: 5),
-                          decoration: BoxDecoration(
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xff24242F)
-                                : Color(0xffFFFFFF),
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xff484856)
-                                    : Color(0xffDADADA)),
-                          ),
-                          padding: EdgeInsetsDirectional.only(start: 8, end: 5),
-                          child: TextFormField(
-                            focusNode: _focusNodeBnsOwner,
-                            controller: _bnsOwnerNameController,
-                            style: TextStyle(
-                                backgroundColor: Colors.transparent,
-                                fontSize: 14.0),
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                  RegExp('[a-zA-Z0-9]')),
-                            ],
-                            decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(
-                                  backgroundColor: Colors.transparent,
-                                  fontSize: 12.0,
-                                  color: settingsStore.isDarkTheme
-                                      ? Color(0xff77778B)
-                                      : Color(0xff77778B)),
-                              hintText: tr(context).bnsNewOwnerHint,
-                              hintMaxLines: 2,
-                              maintainHintSize: false,
-                            ),
-                            validator: (value) {
-                              return null;
-                            },
-                            onChanged: (value) {
-                              validateOwner(value, bnsUpdateChangeNotifier);
-                            },
-                          ),
-                        ),
-                        //BNS Owner Field Error Message
-                        Visibility(
-                          visible: bnsUpdateChangeNotifier
-                                  .ownerAddressFieldIsValid &&
-                              bnsUpdateChangeNotifier.selectedBnsUpdateOption ==
-                                  1,
-                          child: Container(
-                            margin: EdgeInsetsDirectional.only(start: 15),
-                            child: Text(
-                                bnsUpdateChangeNotifier
-                                    .ownerAddressFieldErrorMessage,
+                      ],
+                    ),
+                    AbsorbPointer(
+                      absorbing:
+                          bnsUpdateChangeNotifier.selectedBnsUpdateOption == 2,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          //BNS Owner Name
+                          Container(
+                            margin:
+                                EdgeInsetsDirectional.only(start: 15, top: 5),
+                            child: Text(tr(context).bnsOwnerLabel,
                                 style: TextStyle(
                                     backgroundColor: Colors.transparent,
                                     fontSize: 13.0,
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w300,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffAFAFBE)
+                                        : Color(0xff222222),
+                                    fontWeight: FontWeight.w400,
                                     fontFamily: 'OpenSans')),
                           ),
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        //BNS Backup Owner Name
-                        /*Container(
+                          //BNS Owner Name Field
+                          Container(
+                            margin: EdgeInsetsDirectional.only(
+                                start: 10, end: 10, top: 5),
+                            decoration: BoxDecoration(
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff24242F)
+                                  : Color(0xffFFFFFF),
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color: settingsStore.isDarkTheme
+                                      ? Color(0xff484856)
+                                      : Color(0xffDADADA)),
+                            ),
+                            padding:
+                                EdgeInsetsDirectional.only(start: 8, end: 5),
+                            child: TextFormField(
+                              focusNode: _focusNodeBnsOwner,
+                              controller: _bnsOwnerNameController,
+                              style: TextStyle(
+                                  backgroundColor: Colors.transparent,
+                                  fontSize: 14.0),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                    RegExp('[a-zA-Z0-9]')),
+                              ],
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintStyle: TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    fontSize: 12.0,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff77778B)
+                                        : Color(0xff77778B)),
+                                hintText: tr(context).bnsNewOwnerHint,
+                                hintMaxLines: 2,
+                                maintainHintSize: false,
+                              ),
+                              validator: (value) {
+                                return null;
+                              },
+                              onChanged: (value) {
+                                validateOwner(value, bnsUpdateChangeNotifier);
+                              },
+                            ),
+                          ),
+                          //BNS Owner Field Error Message
+                          Visibility(
+                            visible: bnsUpdateChangeNotifier
+                                    .ownerAddressFieldIsValid &&
+                                bnsUpdateChangeNotifier
+                                        .selectedBnsUpdateOption ==
+                                    1,
+                            child: Container(
+                              margin: EdgeInsetsDirectional.only(start: 15),
+                              child: Text(
+                                  bnsUpdateChangeNotifier
+                                      .ownerAddressFieldErrorMessage,
+                                  style: TextStyle(
+                                      backgroundColor: Colors.transparent,
+                                      fontSize: 13.0,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w300,
+                                      fontFamily: 'OpenSans')),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          //BNS Backup Owner Name
+                          /*Container(
                           margin: EdgeInsetsDirectional.only(start: 15, top: 10),
                           child: Text('Backup Owner (optional)',
                               style: TextStyle(
@@ -340,8 +340,8 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                                   fontWeight: FontWeight.w400,
                                   fontFamily: 'OpenSans')),
                         ),*/
-                        //BNS Backup Owner Name Field
-                        /*Container(
+                          //BNS Backup Owner Name Field
+                          /*Container(
                           margin: EdgeInsetsDirectional.only(
                               start: 10, end: 10, top: 5, bottom: 10),
                           decoration: BoxDecoration(
@@ -376,548 +376,547 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
                             },
                           ),
                         ),*/
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            //Update Values
-            Container(
-                width: MediaQuery.sizeOf(context).width,
-                margin: EdgeInsetsDirectional.only(
-                    top: 10, bottom: 10, start: 8, end: 8),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xff2C2C3F)
-                        : Color(0xffFFFFFF),
-                    border: Border.all(
-                        color: settingsStore.isDarkTheme
-                            ? Color(0xff484856)
-                            : Color(0xffDADADA))),
-                foregroundDecoration: BoxDecoration(
-                  color: settingsStore.isDarkTheme
-                      ? bnsUpdateChangeNotifier.selectedBnsUpdateOption == 1
-                          ? Color(0x9324242F)
-                          : Colors.transparent
-                      : bnsUpdateChangeNotifier.selectedBnsUpdateOption == 1
-                          ? Color(0x93F3F3F3)
-                          : Colors.transparent,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    //Update Values Title
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Radio<int>(
-                          value: 2,
-                          groupValue:
-                              bnsUpdateChangeNotifier.selectedBnsUpdateOption,
-                          activeColor: Color(0xff00AD07),
-                          fillColor:
-                              MaterialStateProperty.all(Color(0xff00AD07)),
-                          onChanged: (value) {
-                            bnsUpdateChangeNotifier
-                                .setSelectedBnsUpdateOption(value!);
-                            FocusScope.of(context).unfocus();
-                          },
-                        ),
-                        Container(
-                          child: Text(tr(context).bnsUpdateValues,
-                              style: TextStyle(
-                                  backgroundColor: Colors.transparent,
-                                  fontSize: 18.0,
-                                  color: settingsStore.isDarkTheme
-                                      ? Color(0xffFFFFFF)
-                                      : Color(0xff222222),
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: 'OpenSans')),
-                        ),
-                      ],
-                    ),
-                    AbsorbPointer(
-                      absorbing:
-                          bnsUpdateChangeNotifier.selectedBnsUpdateOption == 1,
-                      child: Container(
-                        width: MediaQuery.sizeOf(context).width,
-                        margin: EdgeInsetsDirectional.only(
-                            top: 5, start: 8, end: 8, bottom: 8),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xff32324a)
-                                : Color(0xffDEDEDE)),
-                        padding: EdgeInsetsDirectional.all(5),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsetsDirectional.only(end: 2),
-                                    child: bnsPurchaseOptions(
-                                        bnsUpdateChangeNotifier
-                                            .bnsPurchaseOptions[0],
-                                        settingsStore,
-                                        bnsUpdateChangeNotifier,
-                                        0),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsetsDirectional.only(start: 2),
-                                    child: bnsPurchaseOptions(
-                                        bnsUpdateChangeNotifier
-                                            .bnsPurchaseOptions[1],
-                                        settingsStore,
-                                        bnsUpdateChangeNotifier,
-                                        1),
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsetsDirectional.only(end: 2),
-                                    child: bnsPurchaseOptions(
-                                        bnsUpdateChangeNotifier
-                                            .bnsPurchaseOptions[2],
-                                        settingsStore,
-                                        bnsUpdateChangeNotifier,
-                                        2),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsetsDirectional.only(start: 2),
-                                    child: bnsPurchaseOptions(
-                                        bnsUpdateChangeNotifier
-                                            .bnsPurchaseOptions[3],
-                                        settingsStore,
-                                        bnsUpdateChangeNotifier,
-                                        3),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Visibility(
-                              visible: bnsUpdateChangeNotifier
-                                  .bnsPurchaseOptions[0].selected,
-                              child: Container(
-                                margin: EdgeInsetsDirectional.only(
-                                    start: 10, end: 10, top: 10),
-                                decoration: BoxDecoration(
-                                  color: settingsStore.isDarkTheme
-                                      ? Color(0xff24242F)
-                                      : Color(0xffFFFFFF),
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xff484856)
-                                          : Color(0xffDADADA)),
-                                ),
-                                padding: EdgeInsetsDirectional.only(
-                                    start: 8, end: 5, bottom: 15),
-                                child: TextFormField(
-                                  focusNode: _focusNodeWalletAddress,
-                                  controller: _walletAddressController,
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 14.0),
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp('[a-zA-Z0-9]')),
-                                  ],
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintStyle: TextStyle(
-                                        backgroundColor: Colors.transparent,
-                                        fontSize: 12.0,
-                                        color: settingsStore.isDarkTheme
-                                            ? Color(0xff77778B)
-                                            : Color(0xff77778B)),
-                                    hintText: tr(context).walletAddress,
-                                  ),
-                                  validator: (value) {
-                                    return null;
-                                  },
-                                  onChanged: (value) {
-                                    validateWalletAddressField(
-                                        value, bnsUpdateChangeNotifier);
-                                  },
-                                ),
-                              ),
-                            ),
-                            //Wallet Address Field Error Message
-                            Visibility(
-                              visible: bnsUpdateChangeNotifier
-                                      .bnsPurchaseOptions[0].selected &&
-                                  bnsUpdateChangeNotifier
-                                      .walletAddressFieldIsValid &&
-                                  bnsUpdateChangeNotifier
-                                          .selectedBnsUpdateOption ==
-                                      2,
-                              child: Container(
-                                margin: EdgeInsetsDirectional.only(
-                                    start: 15, bottom: 10),
-                                child: Text(
-                                    bnsUpdateChangeNotifier
-                                        .walletAddressFieldErrorMessage,
-                                    style: TextStyle(
-                                        backgroundColor: Colors.transparent,
-                                        fontSize: 13.0,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w300,
-                                        fontFamily: 'OpenSans')),
-                              ),
-                            ),
-                            Visibility(
-                              visible: bnsUpdateChangeNotifier
-                                  .bnsPurchaseOptions[1].selected,
-                              child: Container(
-                                margin: EdgeInsetsDirectional.only(
-                                    start: 10, end: 10, top: 10),
-                                decoration: BoxDecoration(
-                                  color: settingsStore.isDarkTheme
-                                      ? Color(0xff24242F)
-                                      : Color(0xffFFFFFF),
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xff484856)
-                                          : Color(0xffDADADA)),
-                                ),
-                                padding: EdgeInsetsDirectional.only(
-                                    start: 8, end: 5, bottom: 15),
-                                child: TextFormField(
-                                  focusNode: _focusNodeBchatId,
-                                  controller: _bChatIdController,
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 14.0),
-                                  maxLength: 66,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp('[a-zA-Z0-9]')),
-                                  ],
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintStyle: TextStyle(
-                                        backgroundColor: Colors.transparent,
-                                        fontSize: 12.0,
-                                        color: settingsStore.isDarkTheme
-                                            ? Color(0xff77778B)
-                                            : Color(0xff77778B)),
-                                    hintText: tr(context).bnsBchatId,
-                                    counterText: '',
-                                  ),
-                                  validator: (value) {
-                                    return null;
-                                  },
-                                  onChanged: (value) {
-                                    validateBchatIdField(
-                                        value, bnsUpdateChangeNotifier);
-                                  },
-                                ),
-                              ),
-                            ),
-                            //Bchat Id Field Error Message
-                            Visibility(
-                              visible: bnsUpdateChangeNotifier
-                                      .bnsPurchaseOptions[1].selected &&
-                                  bnsUpdateChangeNotifier.bchatIdFieldIsValid &&
-                                  bnsUpdateChangeNotifier
-                                          .selectedBnsUpdateOption ==
-                                      2,
-                              child: Container(
-                                margin: EdgeInsetsDirectional.only(
-                                    start: 15, bottom: 10),
-                                child: Text(
-                                    bnsUpdateChangeNotifier
-                                        .bchatIdFieldErrorMessage,
-                                    style: TextStyle(
-                                        backgroundColor: Colors.transparent,
-                                        fontSize: 13.0,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w300,
-                                        fontFamily: 'OpenSans')),
-                              ),
-                            ),
-                            Visibility(
-                              visible: bnsUpdateChangeNotifier
-                                  .bnsPurchaseOptions[2].selected,
-                              child: Container(
-                                margin: EdgeInsetsDirectional.only(
-                                    start: 10, end: 10, top: 10),
-                                decoration: BoxDecoration(
-                                  color: settingsStore.isDarkTheme
-                                      ? Color(0xff24242F)
-                                      : Color(0xffFFFFFF),
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xff484856)
-                                          : Color(0xffDADADA)),
-                                ),
-                                padding: EdgeInsetsDirectional.only(
-                                    start: 8, end: 5, bottom: 15),
-                                child: TextFormField(
-                                  focusNode: _focusNodeBelnetId,
-                                  controller: _belnetIdController,
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 14.0),
-                                  maxLength: 52,
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintStyle: TextStyle(
-                                        backgroundColor: Colors.transparent,
-                                        fontSize: 12.0,
-                                        color: settingsStore.isDarkTheme
-                                            ? Color(0xff77778B)
-                                            : Color(0xff77778B)),
-                                    hintText: tr(context).bnsBelnetId,
-                                    counterText: '',
-                                  ),
-                                  validator: (value) {
-                                    return null;
-                                  },
-                                  onChanged: (value) {
-                                    validateBelnetIdField(
-                                        value, bnsUpdateChangeNotifier);
-                                  },
-                                ),
-                              ),
-                            ),
-                            //Belnet Id Field Error Message
-                            Visibility(
-                              visible: bnsUpdateChangeNotifier
-                                      .bnsPurchaseOptions[2].selected &&
-                                  bnsUpdateChangeNotifier
-                                      .belnetIdFieldIsValid &&
-                                  bnsUpdateChangeNotifier
-                                          .selectedBnsUpdateOption ==
-                                      2,
-                              child: Container(
-                                margin: EdgeInsetsDirectional.only(
-                                    start: 15, bottom: 10),
-                                child: Text(
-                                    bnsUpdateChangeNotifier
-                                        .belnetIdFieldErrorMessage,
-                                    style: TextStyle(
-                                        backgroundColor: Colors.transparent,
-                                        fontSize: 13.0,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w300,
-                                        fontFamily: 'OpenSans')),
-                              ),
-                            ),
-                            Visibility(
-                              visible: bnsUpdateChangeNotifier
-                                  .bnsPurchaseOptions[3].selected,
-                              child: Container(
-                                margin: EdgeInsetsDirectional.only(
-                                    start: 10, end: 10, top: 10),
-                                decoration: BoxDecoration(
-                                  color: settingsStore.isDarkTheme
-                                      ? Color(0xff24242F)
-                                      : Color(0xffFFFFFF),
-                                  borderRadius: BorderRadius.circular(8),
-                                  border: Border.all(
-                                      color: settingsStore.isDarkTheme
-                                          ? Color(0xff484856)
-                                          : Color(0xffDADADA)),
-                                ),
-                                padding: EdgeInsetsDirectional.only(
-                                    start: 8, end: 5, bottom: 15),
-                                child: TextFormField(
-                                  focusNode: _focusNodeEthAddress,
-                                  controller: _ethAddressController,
-                                  style: TextStyle(
-                                      backgroundColor: Colors.transparent,
-                                      fontSize: 14.0),
-                                  maxLength: 42,
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp('[A-Fa-f0-9xX]')),
-                                    FilteringTextInputFormatter.deny(
-                                        RegExp('[-,. ]'))
-                                  ],
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintStyle: TextStyle(
-                                        backgroundColor: Colors.transparent,
-                                        fontSize: 12.0,
-                                        color: settingsStore.isDarkTheme
-                                            ? Color(0xff77778B)
-                                            : Color(0xff77778B)),
-                                    hintText: tr(context).bnsEthAddress,
-                                    counterText: '',
-                                  ),
-                                  validator: (value) {
-                                    return null;
-                                  },
-                                  onChanged: (value) {
-                                    validateETHAddressField(
-                                        value, bnsUpdateChangeNotifier);
-                                  },
-                                ),
-                              ),
-                            ),
-                            //ETH Address Field Error Message
-                            Visibility(
-                              visible: bnsUpdateChangeNotifier
-                                      .bnsPurchaseOptions[3].selected &&
-                                  bnsUpdateChangeNotifier
-                                      .ethAddressFieldIsValid &&
-                                  bnsUpdateChangeNotifier
-                                          .selectedBnsUpdateOption ==
-                                      2,
-                              child: Container(
-                                margin: EdgeInsetsDirectional.only(
-                                    start: 15, bottom: 10),
-                                child: Text(
-                                    bnsUpdateChangeNotifier
-                                        .ethAddressFieldErrorMessage,
-                                    style: TextStyle(
-                                        backgroundColor: Colors.transparent,
-                                        fontSize: 13.0,
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w300,
-                                        fontFamily: 'OpenSans')),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            )
-                          ],
-                        ),
+                        ],
                       ),
                     ),
                   ],
-                )),
-            Container(
-                margin: EdgeInsetsDirectional.only(
-                    top: 10, bottom: 10, start: 15, end: 15),
-                child: RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                      text: tr(context).bnsNoteLabel,
-                      style: TextStyle(
-                          backgroundColor: Colors.transparent,
-                          fontSize: 15,
-                          fontFamily: 'OpenSans',
-                          fontWeight: FontWeight.bold,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffAFAFBE)
-                              : Color(0xff626262)),
-                      children: [
-                        TextSpan(
-                          text: tr(context).bnsUpdateNote,
-                          style: TextStyle(
-                              backgroundColor: Colors.transparent,
-                              fontSize: 14,
-                              fontFamily: 'OpenSans',
-                              fontWeight: FontWeight.w400,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffAFAFBE)
-                                  : Color(0xff626262)),
-                        )
-                      ]),
-                )),
-            Observer(builder: (_) {
-              return InkWell(
-                onTap: validateAllFields(
-                        syncStore, bnsUpdateChangeNotifier, settingsStore)
-                    ? () async {
-                        // robust unfocus
-                        FocusManager.instance.primaryFocus?.unfocus();
-
-                        // short pause so keyboard hides before dialog appears
-                        await Future.delayed(Duration(milliseconds: 50));
-                        final bnsUpdateOption =
-                            bnsUpdateChangeNotifier.selectedBnsUpdateOption;
-                        if (bnsUpdateOption == 1) {
-                          bnsUpdateConfirmationDialogBox(
-                              sendStore,
-                              bnsName,
-                              _bnsOwnerNameController.text,
-                              '',
-                              //_bnsBackUpOwnerNameController.text,
-                              '',
-                              '',
-                              '',
-                              '',
-                              walletStore,
-                              bnsUpdateOption);
-                        } else {
-                          bnsUpdateConfirmationDialogBox(
-                              sendStore,
-                              bnsName,
-                              '',
-                              '',
-                              _walletAddressController.text,
-                              _bChatIdController.text,
-                              _belnetIdController.text.isNotEmpty
-                                  ? '${_belnetIdController.text}.bdx'
-                                  : _belnetIdController.text,
-                              _ethAddressController.text,
-                              walletStore,
-                              bnsUpdateOption);
-                        }
-                      }
-                    : null,
-                child: Container(
+                ),
+              ),
+              //Update Values
+              Container(
                   width: MediaQuery.sizeOf(context).width,
-                  padding: EdgeInsetsDirectional.all(10),
                   margin: EdgeInsetsDirectional.only(
-                      top: 20, start: 40, end: 40, bottom: 30),
+                      top: 10, bottom: 10, start: 8, end: 8),
                   decoration: BoxDecoration(
-                      color: Color(0xff00AD07),
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: SvgPicture.asset(
-                          'assets/images/new-images/bns_update.svg',
-                          colorFilter: ColorFilter.mode(
-                              Color(0xffffffff), BlendMode.srcIn),
-                          width: 19,
-                          height: 19,
+                      borderRadius: BorderRadius.circular(5),
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xff2C2C3F)
+                          : Color(0xffFFFFFF),
+                      border: Border.all(
+                          color: settingsStore.isDarkTheme
+                              ? Color(0xff484856)
+                              : Color(0xffDADADA))),
+                  foregroundDecoration: BoxDecoration(
+                    color: settingsStore.isDarkTheme
+                        ? bnsUpdateChangeNotifier.selectedBnsUpdateOption == 1
+                            ? Color(0x9324242F)
+                            : Colors.transparent
+                        : bnsUpdateChangeNotifier.selectedBnsUpdateOption == 1
+                            ? Color(0x93F3F3F3)
+                            : Colors.transparent,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      //Update Values Title
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Radio<int>(
+                            value: 2,
+                            fillColor:
+                                WidgetStateProperty.all(Color(0xff00AD07)),
+                          ),
+                          Container(
+                            child: Text(tr(context).bnsUpdateValues,
+                                style: TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    fontSize: 18.0,
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xffFFFFFF)
+                                        : Color(0xff222222),
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: 'OpenSans')),
+                          ),
+                        ],
+                      ),
+                      AbsorbPointer(
+                        absorbing:
+                            bnsUpdateChangeNotifier.selectedBnsUpdateOption ==
+                                1,
+                        child: Container(
+                          width: MediaQuery.sizeOf(context).width,
+                          margin: EdgeInsetsDirectional.only(
+                              top: 5, start: 8, end: 8, bottom: 8),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: settingsStore.isDarkTheme
+                                  ? Color(0xff32324a)
+                                  : Color(0xffDEDEDE)),
+                          padding: EdgeInsetsDirectional.all(5),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsetsDirectional.only(
+                                          end: 2),
+                                      child: bnsPurchaseOptions(
+                                          bnsUpdateChangeNotifier
+                                              .bnsPurchaseOptions[0],
+                                          settingsStore,
+                                          bnsUpdateChangeNotifier,
+                                          0),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsetsDirectional.only(
+                                          start: 2),
+                                      child: bnsPurchaseOptions(
+                                          bnsUpdateChangeNotifier
+                                              .bnsPurchaseOptions[1],
+                                          settingsStore,
+                                          bnsUpdateChangeNotifier,
+                                          1),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsetsDirectional.only(
+                                          end: 2),
+                                      child: bnsPurchaseOptions(
+                                          bnsUpdateChangeNotifier
+                                              .bnsPurchaseOptions[2],
+                                          settingsStore,
+                                          bnsUpdateChangeNotifier,
+                                          2),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsetsDirectional.only(
+                                          start: 2),
+                                      child: bnsPurchaseOptions(
+                                          bnsUpdateChangeNotifier
+                                              .bnsPurchaseOptions[3],
+                                          settingsStore,
+                                          bnsUpdateChangeNotifier,
+                                          3),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              Visibility(
+                                visible: bnsUpdateChangeNotifier
+                                    .bnsPurchaseOptions[0].selected,
+                                child: Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                      start: 10, end: 10, top: 10),
+                                  decoration: BoxDecoration(
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff24242F)
+                                        : Color(0xffFFFFFF),
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xff484856)
+                                            : Color(0xffDADADA)),
+                                  ),
+                                  padding: EdgeInsetsDirectional.only(
+                                      start: 8, end: 5, bottom: 15),
+                                  child: TextFormField(
+                                    focusNode: _focusNodeWalletAddress,
+                                    controller: _walletAddressController,
+                                    style: TextStyle(
+                                        backgroundColor: Colors.transparent,
+                                        fontSize: 14.0),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp('[a-zA-Z0-9]')),
+                                    ],
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintStyle: TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          fontSize: 12.0,
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xff77778B)
+                                              : Color(0xff77778B)),
+                                      hintText: tr(context).walletAddress,
+                                    ),
+                                    validator: (value) {
+                                      return null;
+                                    },
+                                    onChanged: (value) {
+                                      validateWalletAddressField(
+                                          value, bnsUpdateChangeNotifier);
+                                    },
+                                  ),
+                                ),
+                              ),
+                              //Wallet Address Field Error Message
+                              Visibility(
+                                visible: bnsUpdateChangeNotifier
+                                        .bnsPurchaseOptions[0].selected &&
+                                    bnsUpdateChangeNotifier
+                                        .walletAddressFieldIsValid &&
+                                    bnsUpdateChangeNotifier
+                                            .selectedBnsUpdateOption ==
+                                        2,
+                                child: Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                      start: 15, bottom: 10),
+                                  child: Text(
+                                      bnsUpdateChangeNotifier
+                                          .walletAddressFieldErrorMessage,
+                                      style: TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          fontSize: 13.0,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w300,
+                                          fontFamily: 'OpenSans')),
+                                ),
+                              ),
+                              Visibility(
+                                visible: bnsUpdateChangeNotifier
+                                    .bnsPurchaseOptions[1].selected,
+                                child: Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                      start: 10, end: 10, top: 10),
+                                  decoration: BoxDecoration(
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff24242F)
+                                        : Color(0xffFFFFFF),
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xff484856)
+                                            : Color(0xffDADADA)),
+                                  ),
+                                  padding: EdgeInsetsDirectional.only(
+                                      start: 8, end: 5, bottom: 15),
+                                  child: TextFormField(
+                                    focusNode: _focusNodeBchatId,
+                                    controller: _bChatIdController,
+                                    style: TextStyle(
+                                        backgroundColor: Colors.transparent,
+                                        fontSize: 14.0),
+                                    maxLength: 66,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp('[a-zA-Z0-9]')),
+                                    ],
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintStyle: TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          fontSize: 12.0,
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xff77778B)
+                                              : Color(0xff77778B)),
+                                      hintText: tr(context).bnsBchatId,
+                                      counterText: '',
+                                    ),
+                                    validator: (value) {
+                                      return null;
+                                    },
+                                    onChanged: (value) {
+                                      validateBchatIdField(
+                                          value, bnsUpdateChangeNotifier);
+                                    },
+                                  ),
+                                ),
+                              ),
+                              //Bchat Id Field Error Message
+                              Visibility(
+                                visible: bnsUpdateChangeNotifier
+                                        .bnsPurchaseOptions[1].selected &&
+                                    bnsUpdateChangeNotifier
+                                        .bchatIdFieldIsValid &&
+                                    bnsUpdateChangeNotifier
+                                            .selectedBnsUpdateOption ==
+                                        2,
+                                child: Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                      start: 15, bottom: 10),
+                                  child: Text(
+                                      bnsUpdateChangeNotifier
+                                          .bchatIdFieldErrorMessage,
+                                      style: TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          fontSize: 13.0,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w300,
+                                          fontFamily: 'OpenSans')),
+                                ),
+                              ),
+                              Visibility(
+                                visible: bnsUpdateChangeNotifier
+                                    .bnsPurchaseOptions[2].selected,
+                                child: Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                      start: 10, end: 10, top: 10),
+                                  decoration: BoxDecoration(
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff24242F)
+                                        : Color(0xffFFFFFF),
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xff484856)
+                                            : Color(0xffDADADA)),
+                                  ),
+                                  padding: EdgeInsetsDirectional.only(
+                                      start: 8, end: 5, bottom: 15),
+                                  child: TextFormField(
+                                    focusNode: _focusNodeBelnetId,
+                                    controller: _belnetIdController,
+                                    style: TextStyle(
+                                        backgroundColor: Colors.transparent,
+                                        fontSize: 14.0),
+                                    maxLength: 52,
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintStyle: TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          fontSize: 12.0,
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xff77778B)
+                                              : Color(0xff77778B)),
+                                      hintText: tr(context).bnsBelnetId,
+                                      counterText: '',
+                                    ),
+                                    validator: (value) {
+                                      return null;
+                                    },
+                                    onChanged: (value) {
+                                      validateBelnetIdField(
+                                          value, bnsUpdateChangeNotifier);
+                                    },
+                                  ),
+                                ),
+                              ),
+                              //Belnet Id Field Error Message
+                              Visibility(
+                                visible: bnsUpdateChangeNotifier
+                                        .bnsPurchaseOptions[2].selected &&
+                                    bnsUpdateChangeNotifier
+                                        .belnetIdFieldIsValid &&
+                                    bnsUpdateChangeNotifier
+                                            .selectedBnsUpdateOption ==
+                                        2,
+                                child: Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                      start: 15, bottom: 10),
+                                  child: Text(
+                                      bnsUpdateChangeNotifier
+                                          .belnetIdFieldErrorMessage,
+                                      style: TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          fontSize: 13.0,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w300,
+                                          fontFamily: 'OpenSans')),
+                                ),
+                              ),
+                              Visibility(
+                                visible: bnsUpdateChangeNotifier
+                                    .bnsPurchaseOptions[3].selected,
+                                child: Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                      start: 10, end: 10, top: 10),
+                                  decoration: BoxDecoration(
+                                    color: settingsStore.isDarkTheme
+                                        ? Color(0xff24242F)
+                                        : Color(0xffFFFFFF),
+                                    borderRadius: BorderRadius.circular(8),
+                                    border: Border.all(
+                                        color: settingsStore.isDarkTheme
+                                            ? Color(0xff484856)
+                                            : Color(0xffDADADA)),
+                                  ),
+                                  padding: EdgeInsetsDirectional.only(
+                                      start: 8, end: 5, bottom: 15),
+                                  child: TextFormField(
+                                    focusNode: _focusNodeEthAddress,
+                                    controller: _ethAddressController,
+                                    style: TextStyle(
+                                        backgroundColor: Colors.transparent,
+                                        fontSize: 14.0),
+                                    maxLength: 42,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp('[A-Fa-f0-9xX]')),
+                                      FilteringTextInputFormatter.deny(
+                                          RegExp('[-,. ]'))
+                                    ],
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintStyle: TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          fontSize: 12.0,
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xff77778B)
+                                              : Color(0xff77778B)),
+                                      hintText: tr(context).bnsEthAddress,
+                                      counterText: '',
+                                    ),
+                                    validator: (value) {
+                                      return null;
+                                    },
+                                    onChanged: (value) {
+                                      validateETHAddressField(
+                                          value, bnsUpdateChangeNotifier);
+                                    },
+                                  ),
+                                ),
+                              ),
+                              //ETH Address Field Error Message
+                              Visibility(
+                                visible: bnsUpdateChangeNotifier
+                                        .bnsPurchaseOptions[3].selected &&
+                                    bnsUpdateChangeNotifier
+                                        .ethAddressFieldIsValid &&
+                                    bnsUpdateChangeNotifier
+                                            .selectedBnsUpdateOption ==
+                                        2,
+                                child: Container(
+                                  margin: EdgeInsetsDirectional.only(
+                                      start: 15, bottom: 10),
+                                  child: Text(
+                                      bnsUpdateChangeNotifier
+                                          .ethAddressFieldErrorMessage,
+                                      style: TextStyle(
+                                          backgroundColor: Colors.transparent,
+                                          fontSize: 13.0,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w300,
+                                          fontFamily: 'OpenSans')),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                      Align(
-                          alignment: Alignment.center,
-                          child: Text(tr(context).bnsUpdateAction,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  backgroundColor: Colors.transparent,
-                                  fontSize: 17,
-                                  color: Color(0xffffffff),
-                                  fontWeight: FontWeight.bold)))
                     ],
+                  )),
+              Container(
+                  margin: EdgeInsetsDirectional.only(
+                      top: 10, bottom: 10, start: 15, end: 15),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: TextSpan(
+                        text: tr(context).bnsNoteLabel,
+                        style: TextStyle(
+                            backgroundColor: Colors.transparent,
+                            fontSize: 15,
+                            fontFamily: 'OpenSans',
+                            fontWeight: FontWeight.bold,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffAFAFBE)
+                                : Color(0xff626262)),
+                        children: [
+                          TextSpan(
+                            text: tr(context).bnsUpdateNote,
+                            style: TextStyle(
+                                backgroundColor: Colors.transparent,
+                                fontSize: 14,
+                                fontFamily: 'OpenSans',
+                                fontWeight: FontWeight.w400,
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xffAFAFBE)
+                                    : Color(0xff626262)),
+                          )
+                        ]),
+                  )),
+              Observer(builder: (_) {
+                return InkWell(
+                  onTap: validateAllFields(
+                          syncStore, bnsUpdateChangeNotifier, settingsStore)
+                      ? () async {
+                          // robust unfocus
+                          FocusManager.instance.primaryFocus?.unfocus();
+
+                          // short pause so keyboard hides before dialog appears
+                          await Future.delayed(Duration(milliseconds: 50));
+                          final bnsUpdateOption =
+                              bnsUpdateChangeNotifier.selectedBnsUpdateOption;
+                          if (bnsUpdateOption == 1) {
+                            bnsUpdateConfirmationDialogBox(
+                                sendStore,
+                                bnsName,
+                                _bnsOwnerNameController.text,
+                                '',
+                                //_bnsBackUpOwnerNameController.text,
+                                '',
+                                '',
+                                '',
+                                '',
+                                walletStore,
+                                bnsUpdateOption);
+                          } else {
+                            bnsUpdateConfirmationDialogBox(
+                                sendStore,
+                                bnsName,
+                                '',
+                                '',
+                                _walletAddressController.text,
+                                _bChatIdController.text,
+                                _belnetIdController.text.isNotEmpty
+                                    ? '${_belnetIdController.text}.bdx'
+                                    : _belnetIdController.text,
+                                _ethAddressController.text,
+                                walletStore,
+                                bnsUpdateOption);
+                          }
+                        }
+                      : null,
+                  child: Container(
+                    width: MediaQuery.sizeOf(context).width,
+                    padding: EdgeInsetsDirectional.all(10),
+                    margin: EdgeInsetsDirectional.only(
+                        top: 20, start: 40, end: 40, bottom: 30),
+                    decoration: BoxDecoration(
+                        color: Color(0xff00AD07),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: SvgPicture.asset(
+                            'assets/images/new-images/bns_update.svg',
+                            colorFilter: ColorFilter.mode(
+                                Color(0xffffffff), BlendMode.srcIn),
+                            width: 19,
+                            height: 19,
+                          ),
+                        ),
+                        Align(
+                            alignment: Alignment.center,
+                            child: Text(tr(context).bnsUpdateAction,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    fontSize: 17,
+                                    color: Color(0xffffffff),
+                                    fontWeight: FontWeight.bold)))
+                      ],
+                    ),
                   ),
-                ),
-              );
-            })
-          ],
+                );
+              })
+            ],
+          ),
         ),
       ),
     );
@@ -1365,9 +1364,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
           _bChatIdController.clear();
           _belnetIdController.clear();
           _ethAddressController.clear();
-          if (_bnsUpdateChangeNotifier != null) {
-            _bnsUpdateChangeNotifier.refresh();
-          }
+          _bnsUpdateChangeNotifier.refresh();
           Navigator.of(context).pop();
         }, onDismiss: (BuildContext context) {});
       }

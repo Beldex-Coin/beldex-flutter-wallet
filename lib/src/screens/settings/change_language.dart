@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../l10n.dart';
 import 'package:beldex_wallet/src/screens/base_page.dart';
@@ -24,7 +23,7 @@ class ChangeLanguage extends BasePage {
     final settingsStore = Provider.of<SettingsStore>(context);
     final languages = <LanguageName>[...languageNames];
     final langNotifier = Provider.of<LanguageNotifier>(context);
-    final _controller = ScrollController(keepScrollOffset: true);
+    final controller = ScrollController(keepScrollOffset: true);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -57,7 +56,7 @@ class ChangeLanguage extends BasePage {
                       margin: EdgeInsetsDirectional.only(start: 20.0, end: 10.0),
                       //color: Color(0xff181820),
                       child: RawScrollbar(
-                        controller: _controller,
+                        controller: controller,
                         thickness: 8,
                         thumbColor: settingsStore.isDarkTheme
                             ? Color(0xff3A3A45)
@@ -72,7 +71,7 @@ class ChangeLanguage extends BasePage {
                           child: Container(
                             padding: EdgeInsetsDirectional.only(end: 6),
                             child: ListView.builder(
-                              controller: _controller,
+                              controller: controller,
                               itemCount: languages.length,
                               itemBuilder: (BuildContext context, int index) {
                                 final lang = languages[index];

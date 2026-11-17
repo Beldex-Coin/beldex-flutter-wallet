@@ -1,6 +1,6 @@
 import 'package:beldex_wallet/src/wallet/beldex/beldex_amount_format.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
-import 'package:beldex_wallet/src/util/parseBoolFromString.dart';
+import 'package:beldex_wallet/src/util/parse_bool_from_string.dart';
 import 'package:beldex_wallet/src/wallet/transaction/transaction_direction.dart';
 import 'package:beldex_wallet/src/domain/common/format_amount.dart';
 
@@ -16,7 +16,7 @@ class TransactionInfo {
             parseTransactionDirectionFromNumber(map['direction'] as String) ??
                 TransactionDirection.incoming,
         date = DateTime.fromMillisecondsSinceEpoch(
-            (int.parse(map['timestamp'] as String) ?? 0) * 1000),
+            (int.parse(map['timestamp'] as String)) * 1000),
         isPending = parseBoolFromString(map['isPending'] as String),
        // isStake = parseBoolFromString(map['isStake'] as String),
         amount = map['amount'] as int,

@@ -60,25 +60,25 @@ class GetExchangeAmountProvider with ChangeNotifier {
   }
 
   void updateLoadingStatus(value){
-    this.loading = value;
+    loading = value;
     if(_disposed) return ;
     notifyListeners();
   }
 
   void setTransactionStatus(status){
-    this.transactionStatus = status;
+    transactionStatus = status;
     if(_disposed) return ;
     notifyListeners();
   }
 
   bool getTransactionStatus(){
-    return this.transactionStatus;
+    return transactionStatus;
   }
 
   @override
   void dispose() {
     try {
-      this._disposed = true;
+      _disposed = true;
       super.dispose();
     } catch(ex) {
       print("Exception-> $ex");

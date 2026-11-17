@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../l10n.dart';
 
 class WalletAlertDialog<Item extends int> extends StatefulWidget {
-  WalletAlertDialog({Key? key, required this.onItemSelected}) : super(key: key);
+  WalletAlertDialog({super.key, required this.onItemSelected});
   final Function(Item) onItemSelected;
 
   @override

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../../l10n.dart';
 import 'package:beldex_wallet/routes.dart';
@@ -15,7 +14,7 @@ class DangerZonePage extends BasePage {
   final String pageTitle;
 
   @override
-  String get title => pageTitle;
+  String getTitle(AppLocalizations t) => pageTitle;
 
   @override
   Widget trailing(BuildContext context) {
@@ -29,9 +28,9 @@ class DangerZonePage extends BasePage {
 
   @override
   Widget body(BuildContext context) {
-    final _baseWidth = 411.43;
-    final _screenWidth = MediaQuery.sizeOf(context).width;
-    final textScaleFactor = _screenWidth < _baseWidth ? 0.76 : 1.0;
+    final baseWidth = 411.43;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final textScaleFactor = screenWidth < baseWidth ? 0.76 : 1.0;
     final appStore =
         Platform.isAndroid ? tr(context).playStore : tr(context).appstore;
     final item = nextPage == Routes.seed
@@ -62,7 +61,7 @@ class DangerZonePage extends BasePage {
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).primaryTextTheme.bodySmall?.color,
                 ),
-                textScaleFactor: textScaleFactor,
+                textScaler: TextScaler.linear(textScaleFactor),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -74,7 +73,7 @@ class DangerZonePage extends BasePage {
                     fontSize: 22.0,
                     color: Theme.of(context).primaryTextTheme.bodySmall?.color,
                   ),
-                  textScaleFactor: textScaleFactor,
+                  textScaler: TextScaler.linear(textScaleFactor),
                   textAlign: TextAlign.center,
                 )),
             Container(
@@ -86,7 +85,7 @@ class DangerZonePage extends BasePage {
                     fontSize: 16.0,
                     color: Theme.of(context).primaryTextTheme.bodySmall?.color,
                   ),
-                  textScaleFactor: textScaleFactor,
+                  textScaler: TextScaler.linear(textScaleFactor),
                   textAlign: TextAlign.center,
                 )),
             Container(

@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import '../stores/settings/settings_store.dart';
 import '../../l10n.dart';
 
-Widget noTransactionsYet(SettingsStore settingsStore, double _screenWidth, AppLocalizations t) {
+Widget noTransactionsYet(SettingsStore settingsStore, double screenWidth, AppLocalizations t) {
   return Card(
     margin: EdgeInsetsDirectional.only(
         top: 15, start: 10, end: 10, bottom: 15),
@@ -30,7 +30,7 @@ Widget noTransactionsYet(SettingsStore settingsStore, double _screenWidth, AppLo
           ),
         ),
         Container(
-          width: _screenWidth,
+          width: screenWidth,
           alignment: Alignment.center,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

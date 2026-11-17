@@ -100,11 +100,11 @@ abstract class ActionListBase with Store {
 
   @computed
   List<ActionListItem> get items {
-    final _items = <ActionListItem>[];
+    final items = <ActionListItem>[];
 
-    _items.addAll(transactionFilterStore.filtered(transactions: transactions));
+    items.addAll(transactionFilterStore.filtered(transactions: transactions));
 
-    return formattedItemsList(_items);
+    return formattedItemsList(items);
   }
 
   @computed
@@ -144,9 +144,9 @@ abstract class ActionListBase with Store {
       return;
     }
     // await _history.refresh();
-    final _transactions = await _history?.getAll();
-    if(_transactions !=null) {
-      await _setTransactions(_transactions);
+    final transactions = await _history?.getAll();
+    if(transactions !=null) {
+      await _setTransactions(transactions);
     }
   }
 
@@ -184,7 +184,7 @@ abstract class ActionListBase with Store {
                   (desc) => desc.id == transaction.id);
         }on StateError catch(_) {}
 
-        if (description != null && description.recipientAddress != null) {
+        if (description != null) {
           transaction.recipientAddress = description.recipientAddress;
         }
       }

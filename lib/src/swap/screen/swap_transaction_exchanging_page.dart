@@ -126,7 +126,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
   String get _exchangeName => widget.transactionStatus.exchangeName ?? 'changelly';
 
   void _pollStatus() {
-    getTransactionsProvider.getTransactionsData(context, {"id": "${transactionDetails.txnId}", "destinationAddress": "${transactionDetails.payoutAddress}"}, exchangeName: _exchangeName);
+    getTransactionsProvider.getTransactionsData(context, {"id": transactionDetails.txnId, "destinationAddress": "${transactionDetails.payoutAddress}"}, exchangeName: _exchangeName);
   }
 
   void _onStatusUpdate() {
@@ -196,10 +196,10 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.sizeOf(context).width;
-    final _screenHeight = MediaQuery.sizeOf(context).height;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _scrollController = ScrollController(keepScrollOffset: true);
+    final scrollController = ScrollController(keepScrollOffset: true);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
@@ -209,13 +209,13 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
             } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
-              return noInternet(settingsStore, _screenWidth, tr(context)); // Display an error message if an error occurs. or Display a message when no data is available.
+              return noInternet(settingsStore, screenWidth, tr(context)); // Display an error message if an error occurs. or Display a message when no data is available.
             } else {
               return body(
-                  _screenWidth,
-                  _screenHeight,
+                  screenWidth,
+                  screenHeight,
                   settingsStore,
-                  _scrollController,
+                  scrollController,
                   snapshot.data,
                   transactionDetails,networkProvider);
             }
@@ -226,10 +226,10 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
   }
 
   Widget body(
-      double _screenWidth,
-      double _screenHeight,
+      double screenWidth,
+      double screenHeight,
       SettingsStore settingsStore,
-      ScrollController _scrollController,
+      ScrollController scrollController,
       GetTransactionsModel? responseData,
       SwapTransactionHistoryModel transactionDetails, NetworkProvider networkProvider,
       ) {
@@ -267,7 +267,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                           ),
                           child: Container(
                             padding: const EdgeInsetsDirectional.all(15.0),
-                            width: _screenWidth,
+                            width: screenWidth,
                             height: double.infinity,
                             child: exchangingScreen(
                                 settingsStore, responseData, transactionDetails, networkProvider),
@@ -287,7 +287,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PairsWidget(settingsStore: settingsStore, from: transactionDetails.currencyFrom, to: transactionDetails.currencyTo),
+        pairsWidget(settingsStore: settingsStore, from: transactionDetails.currencyFrom, to: transactionDetails.currencyTo),
         //Exchanging Title
         Text(
           tr(context).swap_exchanging,
@@ -733,7 +733,7 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              '${transactionDetails.txnId}',
+                              transactionDetails.txnId,
                               style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w500,

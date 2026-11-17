@@ -37,7 +37,7 @@ Future<double> fetchPriceFor({required FiatCurrency fiat}) async {
    final data = responseJSON['beldex'] as Map<String,dynamic>;
 
    final covToLower = fiat.toString().toLowerCase();
-     price = data['$covToLower'] as double;
+     price = data[covToLower] as double;
     print('data ---> $data');
     print('fist vaue of pice $data');
     print('price value is the $price');

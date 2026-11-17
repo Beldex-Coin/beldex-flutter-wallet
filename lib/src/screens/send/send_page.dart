@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'package:beldex_wallet/src/domain/common/contact.dart';
-import 'package:intl/intl.dart';
 import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:beldex_wallet/src/widgets/common_loader.dart';
 import 'package:beldex_wallet/src/widgets/scrollable_with_bottom_section.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -70,7 +68,7 @@ class SendPage extends BasePage {
 }
 
 class SendForm extends StatefulWidget {
-  SendForm({Key? key, required this.flashMap}) : super(key: key);
+  SendForm({super.key, required this.flashMap});
   final Map<String, dynamic> flashMap;
 
   @override
@@ -135,7 +133,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     final checkFlash = widget.flashMap['flash'] as bool;
     if (checkFlash && isFlashMap) {
       isFlashTransaction = widget.flashMap['flash'] as bool;
-      _addressController.text = (widget.flashMap['address'] as String) ?? '';
+      _addressController.text = (widget.flashMap['address'] as String);
       if (widget.flashMap['amount'] != null && widget.flashMap['amount'] != '') {
         _cryptoAmountController.text = (widget.flashMap['amount'] as String);
       }
@@ -190,11 +188,11 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
     rdisposer2?.call();
     rdisposer3?.call();
     rdisposer4?.call();
-    _addressController?.dispose();
-    _cryptoAmountController?.dispose();
-    _fiatAmountController?.dispose();
-    _focusNodeAddress?.dispose();
-    _focusNodeAmount?.dispose();
+    _addressController.dispose();
+    _cryptoAmountController.dispose();
+    _fiatAmountController.dispose();
+    _focusNodeAddress.dispose();
+    _focusNodeAmount.dispose();
     WakelockPlus.disable();
    // Screen.keepOn(false);
     super.dispose();
@@ -286,9 +284,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                   height: 10,
                                 ),
                                 Text(
-                                  walletStore.account != null
-                                      ? '${walletStore.account.label}'
-                                      : '',
+                                  walletStore.account.label,
                                   style: TextStyle(
                                       backgroundColor: Colors.transparent,
                                       fontWeight: FontWeight.w400,
@@ -368,7 +364,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                             final contact =
                             await Navigator.of(context, rootNavigator: true)
                                 .pushNamed(Routes.pickerAddressBook);
-                            if (contact is Contact && contact.address != null) {
+                            if (contact is Contact) {
                               _addressController.text = contact.address;
                             }
                           },
@@ -395,12 +391,10 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           isFlashMap = false;
                           var address = '';
                           var amount = '';
-                          if (uri != null) {
-                            address = uri.path;
-                            if (uri.queryParameters.isNotEmpty) {
-                              amount = uri.queryParameters[
-                              uri.queryParameters.keys.first]!;
-                            }
+                          address = uri.path;
+                          if (uri.queryParameters.isNotEmpty) {
+                            amount = uri.queryParameters[
+                            uri.queryParameters.keys.first]!;
                           }
                           _addressController.text = address;
                           _cryptoAmountController.text = amount;
@@ -454,6 +448,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 }
                               }
                           }
+                          return null;
                         },
                         onChanged: (value){},
                       ),
@@ -776,7 +771,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       SizedBox(
                         width: double.infinity,
                         child: Text(
-                            '${isFlashTransaction == true ? tr(context).flashTransactionPriority(settingsStore.transactionPriority.getTitle(tr(context)).toString()) : tr(context).send_priority(settingsStore.transactionPriority.getTitle(tr(context)).toString())}',
+                            isFlashTransaction == true ? tr(context).flashTransactionPriority(settingsStore.transactionPriority.getTitle(tr(context)).toString()) : tr(context).send_priority(settingsStore.transactionPriority.getTitle(tr(context)).toString()),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               backgroundColor: Colors.transparent,
@@ -815,10 +810,10 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 return;
                               }
                               Navigator.of(auth.context).pop();
-                              final _enteredAmount = double.tryParse(
+                              final enteredAmount = double.tryParse(
                               _cryptoAmountController.text.replaceAll(',', '.'));
-                              if (_enteredAmount != null) {
-                                final enteredScaled = (_enteredAmount * 1e5).round();
+                              if (enteredAmount != null) {
+                                final enteredScaled = (enteredAmount * 1e5).round();
                                 final balanceScaled =
                                     (balanceStore.unlockedBalance / 1e4).round();
                                 if (enteredScaled == balanceScaled) {
@@ -971,7 +966,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
 }
 
 class CommitTransactionLoader extends StatefulWidget {
-  CommitTransactionLoader({Key? key, required this.sendStore}) : super(key: key);
+  CommitTransactionLoader({super.key, required this.sendStore});
 
   final SendStore sendStore;
 

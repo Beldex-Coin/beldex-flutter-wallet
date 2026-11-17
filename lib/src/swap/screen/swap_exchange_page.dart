@@ -94,7 +94,6 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   var showPrefixIcon = false;
   var showMemo = false;
   var acceptTermsAndConditions = false;
-  final _listKey = GlobalKey();
 
   TextEditingController searchYouGetCoinsController = TextEditingController();
   TextEditingController searchYouSendCoinsController = TextEditingController();
@@ -169,10 +168,10 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.sizeOf(context).width;
-    final _screenHeight = MediaQuery.sizeOf(context).height;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _scrollController = ScrollController(keepScrollOffset: true);
+    final scrollController = ScrollController(keepScrollOffset: true);
     final swapExchangePageChangeNotifier = Provider.of<SwapExchangePageChangeNotifier>(context);
     return  KeyboardDetection(
       controller: keyboardDetectionController,
@@ -190,46 +189,43 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
 
             if(getCurrenciesFullProvider.error != null || !networkProvider.isConnected) {
               print("Error of getCurrenciesFullProvider-> ${getCurrenciesFullProvider.error}");
-              return noInternet(settingsStore, _screenWidth, tr(context));
+              return noInternet(settingsStore, screenWidth, tr(context));
             }
 
-            if(getCurrenciesFullProvider.data != null){
-              if (getCurrenciesFullProvider.getBdxIsEnabled == false) {
-                return underMaintenance(settingsStore, _screenWidth);
+            if (getCurrenciesFullProvider.getBdxIsEnabled == false) {
+              return underMaintenance(settingsStore, screenWidth);
+            }
+            this.networkProvider = Provider.of<NetworkProvider>(context, listen: false);
+            this.getCurrenciesFullProvider = getCurrenciesFullProvider;
+            return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
+              if(getPairsParamsProvider.loading){
+                return defaultBody(screenWidth, screenHeight, settingsStore);
               }
-              this.networkProvider = Provider.of<NetworkProvider>(context, listen: false);
-              this.getCurrenciesFullProvider = getCurrenciesFullProvider;
-              return Consumer<GetPairsParamsProvider>(builder: (context,getPairsParamsProvider,child){
-                if(getPairsParamsProvider.loading){
-                  return defaultBody(_screenWidth, _screenHeight, settingsStore);
+              this.getPairsParamsProvider = getPairsParamsProvider;
+              return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
+                if(getPairsParamsProvider.error != null || !networkProvider.isConnected) {
+                  return noInternet(settingsStore, screenWidth, tr(context));
                 }
-                this.getPairsParamsProvider = getPairsParamsProvider;
-                return Consumer<GetExchangeAmountProvider>(builder: (context,getExchangeAmountProvider,child){
-                  if(getPairsParamsProvider.error != null || !networkProvider.isConnected) {
-                    return noInternet(settingsStore, _screenWidth, tr(context));
-                  }
 
-                  if(getPairsParamsProvider.data != null || getExchangeAmountProvider.data != null || getExchangeAmountProvider.pairUnsupported) {
-                    this.getExchangeAmountProvider = getExchangeAmountProvider;
-                    _isInitialized = true;
-                    return body(
-                        _screenWidth,
-                        _screenHeight,
-                        settingsStore,
-                        _scrollController,
-                        swapExchangePageChangeNotifier,
-                        getCurrenciesFullProvider.data,
-                        getCurrenciesFullProvider,
-                        getPairsParamsProvider,
-                        getExchangeAmountProvider, networkProvider) ;
-                  }
+                if(getPairsParamsProvider.data != null || getExchangeAmountProvider.data != null || getExchangeAmountProvider.pairUnsupported) {
+                  this.getExchangeAmountProvider = getExchangeAmountProvider;
+                  _isInitialized = true;
+                  return body(
+                      screenWidth,
+                      screenHeight,
+                      settingsStore,
+                      scrollController,
+                      swapExchangePageChangeNotifier,
+                      getCurrenciesFullProvider.data,
+                      getCurrenciesFullProvider,
+                      getPairsParamsProvider,
+                      getExchangeAmountProvider, networkProvider) ;
+                }
 
-                  return SizedBox();
-                });
+                return SizedBox();
               });
-            }
+            });
 
-            return SizedBox();
           });
         }
         ),
@@ -250,7 +246,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     super.dispose();
   }
 
-  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, List<CoinInfo>? getCurrenciesFullData, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider){
+  Widget body(double screenWidth, double screenHeight, SettingsStore settingsStore, ScrollController scrollController, SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, List<CoinInfo>? getCurrenciesFullData, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider){
     //GetCurrenciesFull
     final List<CoinInfo> enableFrom = [];
     final List<CoinInfo> enableTo = [];
@@ -321,14 +317,14 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                       ),
                       child: Container(
                         padding: const EdgeInsetsDirectional.all(15.0),
-                        width: _screenWidth,
+                        width: screenWidth,
                         height: double.infinity,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             //Exchange Screen
                             exchangeScreen(
-                            _scrollController,
+                            scrollController,
                             settingsStore,
                             swapExchangePageChangeNotifier,
                             enableFrom,enableTo,getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider, networkProvider),
@@ -341,10 +337,10 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
           }),
         ),
       ],
-    ): underMaintenance(settingsStore, _screenWidth);
+    ): underMaintenance(settingsStore, screenWidth);
   }
 
-  Widget defaultBody(double _screenWidth, double _screenHeight, SettingsStore settingsStore){
+  Widget defaultBody(double screenWidth, double screenHeight, SettingsStore settingsStore){
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -382,7 +378,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                           ),
                           child: Container(
                             padding: const EdgeInsetsDirectional.all(15.0),
-                            width: _screenWidth,
+                            width: screenWidth,
                             height: double.infinity,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -412,7 +408,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                           ),
                           child: Container(
                             padding: const EdgeInsetsDirectional.all(15.0),
-                            width: _screenWidth,
+                            width: screenWidth,
                             height: double.infinity,
                             child: SizedBox(
                               height: 70,
@@ -438,7 +434,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     );
   }
 
-  Widget underMaintenance(SettingsStore settingsStore, double _screenWidth) {
+  Widget underMaintenance(SettingsStore settingsStore, double screenWidth) {
     return Card(
       margin: EdgeInsetsDirectional.only(
           top: 15, start: 10, end: 10, bottom: 15),
@@ -451,9 +447,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
       ),
       child: Container(
         padding: const EdgeInsetsDirectional.all(15.0),
-        width: _screenWidth,
+        width: screenWidth,
         height: double.infinity,
-        child: underMaintenanceScreen(_screenWidth, settingsStore),
+        child: underMaintenanceScreen(screenWidth, settingsStore),
       ),
     );
   }
@@ -644,9 +640,9 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   Widget underMaintenanceScreen(
-      double _screenWidth, SettingsStore settingsStore) {
+      double screenWidth, SettingsStore settingsStore) {
     return Container(
-      width: _screenWidth,
+      width: screenWidth,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -694,7 +690,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
   }
 
   Widget exchangeScreen(
-      ScrollController _scrollController,
+      ScrollController scrollController,
       SettingsStore settingsStore,
       SwapExchangePageChangeNotifier swapExchangePageChangeNotifier, List<CoinInfo> enableFrom,List<CoinInfo> enableTo, GetCurrenciesFullProvider getCurrenciesFullProvider, GetPairsParamsProvider getPairsParamsProvider, GetExchangeAmountProvider getExchangeAmountProvider, NetworkProvider networkProvider) {
     final sendCoinAmount = getPairsParamsProvider.getSendAmountValue();
@@ -704,7 +700,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     var floatingExchangeRate = '...';
     if(getExchangeAmountProvider.loading==false){
        if(getExchangeAmountProvider.data != null) {
-         floatingExchangeRate = '${getExchangeAmountProvider.data!.rate}';
+         floatingExchangeRate = getExchangeAmountProvider.data!.rate;
        }else{
          floatingExchangeRate = '...';
        }
@@ -1474,7 +1470,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         child: Observer(
                           builder: (_) {
                             return RawScrollbar(
-                              controller: _scrollController,
+                              controller: scrollController,
                               thickness: 8,
                               thumbColor: settingsStore.isDarkTheme
                                   ? Color(0xff3A3A45)
@@ -1483,14 +1479,14 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                               thumbVisibility: true,
                               child: ListView.builder(
                                   itemCount: enableTo.length,
-                                  controller: _scrollController,
+                                  controller: scrollController,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return youGetCoinsFilter == null ||
                                             youGetCoinsFilter == ''
                                         ? youGetCoinsDropDownListItem(
                                             settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider,networkProvider)
-                                        : '${enableTo[index].name}'.toLowerCase().contains(youGetCoinsFilter!.toLowerCase()) || '${enableTo[index].fullName}'.toLowerCase().contains(youGetCoinsFilter!.toLowerCase())
+                                        : enableTo[index].name.toLowerCase().contains(youGetCoinsFilter!.toLowerCase()) || enableTo[index].fullName.toLowerCase().contains(youGetCoinsFilter!.toLowerCase())
                                             ? youGetCoinsDropDownListItem(
                                                 settingsStore, enableTo[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider,networkProvider)
                                             : Container();
@@ -1574,7 +1570,7 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                         child: Observer(
                           builder: (_) {
                             return RawScrollbar(
-                              controller: _scrollController,
+                              controller: scrollController,
                               thickness: 8,
                               thumbColor: settingsStore.isDarkTheme
                                   ? Color(0xff3A3A45)
@@ -1583,14 +1579,14 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
                               thumbVisibility: true,
                               child: ListView.builder(
                                   itemCount: enableFrom.length,
-                                  controller: _scrollController,
+                                  controller: scrollController,
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return youSendCoinsFilter == null ||
                                             youSendCoinsFilter == ''
                                         ? youSendCoinsDropDownListItem(
                                             settingsStore, enableFrom[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider,networkProvider)
-                                        : '${enableFrom[index].name}'.toLowerCase().contains(youSendCoinsFilter!.toLowerCase()) || '${enableFrom[index].fullName}'.toLowerCase().contains(youSendCoinsFilter!.toLowerCase())
+                                        : enableFrom[index].name.toLowerCase().contains(youSendCoinsFilter!.toLowerCase()) || enableFrom[index].fullName.toLowerCase().contains(youSendCoinsFilter!.toLowerCase())
                                             ? youSendCoinsDropDownListItem(
                                                 settingsStore,
                                                 enableFrom[index],getCurrenciesFullProvider,getPairsParamsProvider,getExchangeAmountProvider,networkProvider)
@@ -2105,4 +2101,3 @@ class _SwapExchangeHomeState extends State<SwapExchangeHome> {
     return !validateMinimumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider) && !validateMaximumAmount(sendCoinAmount, getPairsParamsProvider, getExchangeAmountProvider) && status != "..." && sendFieldErrorState;
   }
 }
-

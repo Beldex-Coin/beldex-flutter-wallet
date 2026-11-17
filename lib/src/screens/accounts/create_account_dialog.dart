@@ -8,11 +8,10 @@ import '../../../l10n.dart';
 
 class CreateAccountDialog extends StatefulWidget {
   CreateAccountDialog(
-      {Key? key,
+      {super.key,
       this.account,
       required this.accList,
-      required this.accountListStore})
-      : super(key: key);
+      required this.accountListStore});
   final Account? account;
   final List<Account> accList;
   final AccountListStore accountListStore;
@@ -38,10 +37,8 @@ class _CreateAccountDialogState extends State<CreateAccountDialog>
 
   void getAccList(BuildContext context) {
     setState(() {
-      if (widget.accountListStore.accounts != null) {
-        for (var i = 0; i < widget.accountListStore.accounts.length; i++) {
-          accnameList.add(widget.accountListStore.accounts[i].label);
-        }
+      for (var i = 0; i < widget.accountListStore.accounts.length; i++) {
+        accnameList.add(widget.accountListStore.accounts[i].label);
       }
       widget.accountListStore.updateAccountList();
     });

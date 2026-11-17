@@ -117,15 +117,15 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.sizeOf(context).width;
-    final _screenHeight = MediaQuery.sizeOf(context).height;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _scrollController = ScrollController(keepScrollOffset: true);
+    final scrollController = ScrollController(keepScrollOffset: true);
     final walletStore = Provider.of<WalletStore>(context);
     if (_isLoading) {
       return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0));
     }
-    return body(_screenWidth, _screenHeight, settingsStore, _scrollController, walletStore);
+    return body(screenWidth, screenHeight, settingsStore, scrollController, walletStore);
   }
 
   @override
@@ -133,7 +133,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     super.dispose();
   }
 
-  Widget body(double _screenWidth, double _screenHeight, SettingsStore settingsStore, ScrollController _scrollController, WalletStore walletStore){
+  Widget body(double screenWidth, double screenHeight, SettingsStore settingsStore, ScrollController scrollController, WalletStore walletStore){
     return _transactions.isNotEmpty ? LayoutBuilder(builder:
         (BuildContext context, BoxConstraints constraints) {
       return ConstrainedBox(
@@ -150,16 +150,16 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
           ),
           child: Container(
             padding: const EdgeInsetsDirectional.all(15.0),
-            width: _screenWidth,
+            width: screenWidth,
             child: transactionHistoryScreen(
-                _screenWidth,
-                _screenHeight,
+                screenWidth,
+                screenHeight,
                 settingsStore,
                 _transactions, walletStore),
           ),
         ),
       );
-    }) : noTransactionsYet(settingsStore, _screenWidth, tr(context));
+    }) : noTransactionsYet(settingsStore, screenWidth, tr(context));
   }
 
   List<List<dynamic>> rows = [];
@@ -292,7 +292,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                             Expanded(
                                 child: Padding(
                                   padding: const EdgeInsetsDirectional.only(start: 10),
-                                  child: false
+                                  child: /*false
                                       ? Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment:
@@ -322,7 +322,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                       ),
                                     ],
                                   )
-                                      : Row(
+                                      : */Row(
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
@@ -591,8 +591,8 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
   }
 
   Widget transactionHistoryScreen(
-      double _screenWidth,
-      double _screenHeight,
+      double screenWidth,
+      double screenHeight,
       SettingsStore settingsStore,
       List<SwapTransactionHistoryModel> transactions, WalletStore walletStore) {
     rows.clear();
@@ -705,7 +705,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
           Expanded(
               child: Padding(
                 padding: const EdgeInsetsDirectional.only(start: 10),
-                child: false
+                child: /*false
                     ? Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment:
@@ -735,7 +735,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                     ),
                   ],
                 )
-                    : Column(
+                    : */Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Row(
@@ -771,7 +771,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                           RichText(
                             textAlign: TextAlign.start,
                             text: TextSpan(
-                                text: tr(context).received + ' ',
+                                text: '${tr(context).received} ',
                                 style: TextStyle(
                                     backgroundColor:
                                     Colors.transparent,

@@ -2,7 +2,6 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/util/screen_sizer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/svg.dart';
@@ -51,7 +50,7 @@ class AddressBookPage extends BasePage {
     final settingsStore = Provider.of<SettingsStore>(context);
     ScreenSize.init(context);
     return Observer(builder: (_) {
-      var addressBook = addressBookStore.contactList;
+      final addressBook = addressBookStore.contactList;
       return addressBook.isEmpty
           ? Center(
               child: SingleChildScrollView(
@@ -82,7 +81,7 @@ class AddressBookPage extends BasePage {
             )
           : Container(
               child: ListView.builder(
-                  itemCount: addressBook == null ? 0 : addressBook.length,
+                  itemCount: addressBook.length,
                   itemBuilder: (BuildContext context, int index) {
                     final contact = addressBook[index];
 
@@ -177,7 +176,7 @@ class AddressBookPage extends BasePage {
                               onPressed: (context) async {
                                   await showAlertDialog(context)
                                       .then((isDelete) async {
-                                    if (isDelete != null && isDelete) {
+                                    if (isDelete) {
                                       await addressBookStore.delete(
                                           contact: contact);
                                       await addressBookStore

@@ -15,14 +15,14 @@ import 'package:beldex_wallet/devtools.dart';
 
 Future<String> pathForWallet({required String name}) async {
   final directory = await getApplicationDocumentsDirectory();
-  final pathDir = directory.path + '/$name';
+  final pathDir = '${directory.path}/$name';
   final dir = Directory(pathDir);
 
   if (!await dir.exists()) {
     await dir.create();
   }
 
-  return pathDir + '/$name';
+  return '$pathDir/$name';
 }
 
 class BeldexWalletsManager extends WalletsManager {
@@ -150,10 +150,9 @@ class BeldexWalletsManager extends WalletsManager {
   @override
   Future remove(WalletDescription wallet) async {
     final dir = await getApplicationDocumentsDirectory();
-    final root = dir.path.replaceAll('app_flutter', 'files');
-    final walletFilePath = dir.path + '/' + wallet.name + '/' + wallet.name;
-    final keyPath = walletFilePath +'.keys';
-    final addressFilePath = walletFilePath  + '.address.txt';
+    final walletFilePath = '${dir.path}/${wallet.name}/${wallet.name}';
+    final keyPath = '$walletFilePath.keys';
+    final addressFilePath = '$walletFilePath.address.txt';
     final walletFile = File(walletFilePath);
     final keyFile = File(keyPath);
     final addressFile = File(addressFilePath);
@@ -172,13 +171,13 @@ class BeldexWalletsManager extends WalletsManager {
       print('wallet address file deleted ');
     }
 
-    final walletFileDir = Directory(dir.path + '/' + wallet.name);
+    final walletFileDir = Directory('${dir.path}/${wallet.name}');
 
     if (await walletFileDir.exists()) {
       await walletFileDir.delete();
       print('Wallet Directory deleted');
     }
-    final id = (walletTypeToString(wallet.type)?.toLowerCase() ?? 'unknown' ) + '_' + wallet.name;
+    final id = '${walletTypeToString(wallet.type)?.toLowerCase() ?? 'unknown'}_${wallet.name}';
     await walletInfoSource.values.firstWhere((info) => info.id == id).delete();
   }
 }

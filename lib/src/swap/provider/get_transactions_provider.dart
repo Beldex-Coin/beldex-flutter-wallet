@@ -30,7 +30,7 @@ class GetTransactionsProvider with ChangeNotifier {
         if (orderId != null) {
           String? destAddress = params['destinationAddress'] ?? params['destination_address'];
           if (destAddress == null || destAddress.isEmpty) {
-            final record = await SwapDatabaseManager.instance.getTxnById('$orderId');
+            final record = await SwapDatabaseManager.instance.getTxnById(orderId);
             if (record != null) {
               destAddress = record['payout_address'] as String?;
             }
@@ -50,7 +50,7 @@ class GetTransactionsProvider with ChangeNotifier {
       if (orderId != null) {
         String? destAddress = params['destinationAddress'] ?? params['destination_address'];
         if (destAddress == null || destAddress.isEmpty) {
-          final record = await SwapDatabaseManager.instance.getTxnById('$orderId');
+          final record = await SwapDatabaseManager.instance.getTxnById(orderId);
           if (record != null) {
             destAddress = record['payout_address'] as String?;
           }
@@ -78,7 +78,7 @@ class GetTransactionsProvider with ChangeNotifier {
 
   GetTransactionResult mapOrderToTransaction(OrderInfoExtended order) {
     return GetTransactionResult(
-      id: '${order.orderId}',
+      id: order.orderId,
       status: order.status,
       type: 'float',
       currencyFrom: order.currencyFrom,
@@ -109,7 +109,7 @@ class GetTransactionsProvider with ChangeNotifier {
   @override
   void dispose() {
     try {
-      this._disposed = true;
+      _disposed = true;
       super.dispose();
     } catch(ex) {
       print("Exception-> $ex");

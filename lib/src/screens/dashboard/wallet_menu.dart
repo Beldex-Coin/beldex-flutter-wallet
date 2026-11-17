@@ -35,7 +35,7 @@ class WalletMenu {
       walletStore.reconnect();
       Navigator.of(context)..pop()..pop();
         },
-      onDismiss:(context)=> null,
+      onDismiss:(context){},
     );
   }
 }

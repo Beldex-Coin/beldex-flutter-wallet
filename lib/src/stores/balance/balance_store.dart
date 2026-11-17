@@ -85,14 +85,14 @@ abstract class BalanceStoreBase with Store {
 //  }
 
   Future _onBalanceChange(Balance balance) async {
-    final _balance = balance as BelDexBalance;
+    final balance0 = balance as BelDexBalance;
 
-    if (fullBalance != _balance.fullBalance) {
-      fullBalance = _balance.fullBalance;
+    if (fullBalance != balance0.fullBalance) {
+      fullBalance = balance0.fullBalance;
     }
 
-    if (unlockedBalance != _balance.unlockedBalance) {
-      unlockedBalance = _balance.unlockedBalance;
+    if (unlockedBalance != balance0.unlockedBalance) {
+      unlockedBalance = balance0.unlockedBalance;
     }
   }
 
@@ -112,8 +112,8 @@ abstract class BalanceStoreBase with Store {
       return;
     }
 
-    fullBalance = await _walletService.getFullBalance() ?? 0;
-    unlockedBalance = await _walletService.getUnlockedBalance() ?? 0;
+    fullBalance = await _walletService.getFullBalance();
+    unlockedBalance = await _walletService.getUnlockedBalance();
     await updateFiatBalance();
   }
 

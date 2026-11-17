@@ -4,38 +4,24 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class InternetConnectivityChecker extends StatefulWidget {
-  const InternetConnectivityChecker({ Key? key }) : super(key: key);
+  const InternetConnectivityChecker({ super.key });
 
   @override
   State<InternetConnectivityChecker> createState() => _InternetConnectivityCheckerState();
 }
 
 class _InternetConnectivityCheckerState extends State<InternetConnectivityChecker> {
-late List<ConnectivityResult>? _connectivityResult;
 StreamSubscription<List<ConnectivityResult>>? _connectivitySubscription;
 
 @override
   void initState() {
-    _checkConnectivity();
      _connectivitySubscription = Connectivity().onConnectivityChanged.listen(_updateConnectivity);
     super.initState();
-  }
-
-
-Future<void> _checkConnectivity() async {
-    final List<ConnectivityResult>? connectivityResult = await Connectivity().checkConnectivity();
-    setState(() {
-      _connectivityResult = connectivityResult;
-    });
   }
 
   int increment = 1;
 
    void _updateConnectivity(List<ConnectivityResult> connectivityResult) {
-  
-    setState(() {
-      _connectivityResult = connectivityResult;
-    });
 
     if (connectivityResult.contains(ConnectivityResult.none)) {
       // _showNetworkSnackbar(true);
@@ -111,10 +97,10 @@ Future<void> _checkConnectivity() async {
 
 
 class NetworkStat {
-  static final NetworkStat _instance = NetworkStat._internal();
   factory NetworkStat() => _instance;
 
   NetworkStat._internal();
+  static final NetworkStat _instance = NetworkStat._internal();
 
   final ValueNotifier<bool> isConnected = ValueNotifier<bool>(false);
 

@@ -9,10 +9,6 @@ GetExchangeAmountModel getExchangeAmountModelFromJson(String str) => GetExchange
 String getExchangeAmountModelToJson(GetExchangeAmountModel data) => json.encode(data.toJson());
 
 class GetExchangeAmountModel {
-  String? jsonrpc;
-  List<Result>? result;
-  Error? error;
-  String? id;
 
   GetExchangeAmountModel({
     this.jsonrpc,
@@ -27,6 +23,10 @@ class GetExchangeAmountModel {
     error: json["error"] == null ? null : Error.fromJson(json["error"]),
     id: json["id"],
   );
+  String? jsonrpc;
+  List<Result>? result;
+  Error? error;
+  String? id;
 
   Map<String, dynamic> toJson() => {
     "jsonrpc": jsonrpc,
@@ -37,20 +37,6 @@ class GetExchangeAmountModel {
 }
 
 class Result {
-  String? from;
-  String? to;
-  String? networkFee;
-  String? amountFrom;
-  String? amountTo;
-  String? max;
-  String? maxFrom;
-  String? maxTo;
-  String? min;
-  String? minFrom;
-  String? minTo;
-  String? visibleAmount;
-  String? rate;
-  String? fee;
 
   Result({
     this.from,
@@ -85,6 +71,20 @@ class Result {
     rate: json["rate"],
     fee: json["fee"],
   );
+  String? from;
+  String? to;
+  String? networkFee;
+  String? amountFrom;
+  String? amountTo;
+  String? max;
+  String? maxFrom;
+  String? maxTo;
+  String? min;
+  String? minFrom;
+  String? minTo;
+  String? visibleAmount;
+  String? rate;
+  String? fee;
 
   Map<String, dynamic> toJson() => {
     "from": from,
@@ -105,9 +105,6 @@ class Result {
 }
 
 class Error {
-  int? code;
-  String? message;
-  Data? data;
 
   Error({
     this.code,
@@ -120,6 +117,9 @@ class Error {
     message: json["message"],
     data: json["data"] == null ? null : Data.fromJson(json["data"]),
   );
+  int? code;
+  String? message;
+  Data? data;
 
   Map<String, dynamic> toJson() => {
     "code": code,
@@ -129,7 +129,6 @@ class Error {
 }
 
 class Data {
-  Limits? limits;
 
   Data({
     this.limits,
@@ -138,6 +137,7 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     limits: json["limits"] == null ? null : Limits.fromJson(json["limits"]),
   );
+  Limits? limits;
 
   Map<String, dynamic> toJson() => {
     "limits": limits?.toJson(),
@@ -145,8 +145,6 @@ class Data {
 }
 
 class Limits {
-  Max? max;
-  Max? min;
 
   Limits({
     this.max,
@@ -157,6 +155,8 @@ class Limits {
     max: json["max"] == null ? null : Max.fromJson(json["max"]),
     min: json["min"] == null ? null : Max.fromJson(json["min"]),
   );
+  Max? max;
+  Max? min;
 
   Map<String, dynamic> toJson() => {
     "max": max?.toJson(),
@@ -165,8 +165,6 @@ class Limits {
 }
 
 class Max {
-  String? from;
-  String? to;
 
   Max({
     this.from,
@@ -177,6 +175,8 @@ class Max {
     from: json["from"],
     to: json["to"],
   );
+  String? from;
+  String? to;
 
   Map<String, dynamic> toJson() => {
     "from": from,

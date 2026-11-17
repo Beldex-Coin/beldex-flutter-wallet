@@ -89,5 +89,5 @@ android/app/.externalNativeBuild/
 
 **/tool/.secrets-prod.json
 **/lib/.secrets.g.dart
-**/lib/src/swap/apiKeys.dart
+**/lib/src/swap/api_keys.dart
 **/lib/src/swap/database/swap_db_encryption_config.dart

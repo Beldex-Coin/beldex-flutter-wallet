@@ -1,25 +1,20 @@
 import 'dart:io' show Platform;
 import 'package:beldex_wallet/src/domain/common/biometric_auth.dart';
 import 'package:beldex_wallet/src/stores/auth/auth_store.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import '../../../l10n.dart';
-import 'dart:math' as math;
 
 abstract class PinCodeWidget extends StatefulWidget {
   PinCodeWidget(
-      {Key? key,
+      {super.key,
         this.onPinCodeEntered,
         required this.hasLengthSwitcher,
         this.notifyParent,
         this.mainKey
-      })
-      : super(key: key);
+      });
 
   final Function(List<int> pin, PinCodeState state)? onPinCodeEntered;
   final bool hasLengthSwitcher;
@@ -94,37 +89,11 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
     setState(() {});
   }
 
-  LocalAuthentication auth = LocalAuthentication();
-  List<BiometricType> _availableBiometrics = <BiometricType>[];
-
   @override
   void initState() {
-    //-->
-    // _getAvailableBiometrics();
-    //_checkBiometric();
-    _getAvailableBiometrics();
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback(afterLayout);
   }
-
-  //-->
-  Future<void> _getAvailableBiometrics() async {
-    List<BiometricType> availableBiometrics;
-    try {
-      availableBiometrics = await auth.getAvailableBiometrics();
-    } on PlatformException catch (e) {
-      availableBiometrics = <BiometricType>[];
-      print(e);
-    }
-    if (!mounted) {
-      return;
-    }
-
-    setState(() {
-      _availableBiometrics = availableBiometrics;
-    });
-  }
-  //Platform.isAndroid?S.current.settings_allow_biometric_authentication:_availableBiometrics.contains(BiometricType.face)?'Allow face id authentication':S.current.settings_allow_biometric_authentication
 
   void afterLayout(dynamic _) {
     setDefaultPinLength();
@@ -329,7 +298,6 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                     // final prefs = await SharedPreferences.getInstance();
                                     if (settingsStore
                                         .allowBiometricAuthentication) {
-                                      _getAvailableBiometrics();
                                       if(status) {
                                         WidgetsBinding.instance
                                             .addPostFrameCallback((_) {
@@ -430,8 +398,6 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                           : Color(0xff060606), BlendMode.srcIn),
                                     ),
                                   ))));
-                        } else if (index == 10) {
-                          index = 0;
                         } else if (index == 11) {
                           return Container(
                             margin: EdgeInsetsDirectional.only(
@@ -444,16 +410,15 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                     .color!, BlendMode.srcIn))
                             ),
                           );
-                        } else {
-                          index++;
                         }
 
+                        final digit = index == 10 ? 0 : index + 1;
                         return Container(
                           margin: EdgeInsetsDirectional.only(
                               start: marginLeft, end: marginRight),
                           child: TextButton(
-                            onPressed: () => _push(index),
-                            child: Text('$index',
+                            onPressed: () => _push(digit),
+                            child: Text('$digit',
                                 style: TextStyle(
                                     backgroundColor: Colors.transparent,
                                     fontSize: 23.0,

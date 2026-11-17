@@ -9,9 +9,6 @@ ValidateAddressModel validateAddressModelFromJson(String str) => ValidateAddress
 String validateAddressModelToJson(ValidateAddressModel data) => json.encode(data.toJson());
 
 class ValidateAddressModel {
-  String? jsonrpc;
-  Result? result;
-  String? id;
 
   ValidateAddressModel({
     this.jsonrpc,
@@ -24,6 +21,9 @@ class ValidateAddressModel {
     result: json["result"] == null ? null : Result.fromJson(json["result"]),
     id: json["id"],
   );
+  String? jsonrpc;
+  Result? result;
+  String? id;
 
   Map<String, dynamic> toJson() => {
     "jsonrpc": jsonrpc,
@@ -33,8 +33,6 @@ class ValidateAddressModel {
 }
 
 class Result {
-  bool? result;
-  String? message;
 
   Result({
     this.result,
@@ -45,6 +43,8 @@ class Result {
     result: json["result"],
     message: json["message"],
   );
+  bool? result;
+  String? message;
 
   Map<String, dynamic> toJson() => {
     "result": result,

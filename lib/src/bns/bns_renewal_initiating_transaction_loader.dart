@@ -11,8 +11,7 @@ import '../../l10n.dart';
 
 class BnsRenewalInitiatingTransactionLoader extends StatefulWidget {
   BnsRenewalInitiatingTransactionLoader(
-      {Key? key, required this.mappingYears, required this.bnsName, required this.sendStore})
-      : super(key: key);
+      {super.key, required this.mappingYears, required this.bnsName, required this.sendStore});
 
   final String mappingYears;
   final String bnsName;

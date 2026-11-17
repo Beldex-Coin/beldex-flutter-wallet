@@ -4,8 +4,6 @@ import 'package:flutter_windowmanager_plus/flutter_windowmanager_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:beldex_wallet/l10n.dart';
 import 'package:beldex_wallet/src/stores/wallet_seed/wallet_seed_store.dart';
@@ -50,10 +48,10 @@ class SeedPage extends BasePage {
 }
 
 class SeedDisplayWidget extends StatefulWidget {
-  SeedDisplayWidget({Key? key, this.onCloseCallback,required this.showSeed}) : super(key: key);
+  SeedDisplayWidget({super.key, this.onCloseCallback,required this.showSeed});
 
-  VoidCallback? onCloseCallback;
-  bool showSeed;
+  final VoidCallback? onCloseCallback;
+  final bool showSeed;
 
   @override
   State<SeedDisplayWidget> createState() => _SeedDisplayWidgetState();
@@ -85,21 +83,21 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     final walletSeedStore = Provider.of<WalletSeedStore>(context);
-    String? _seed;
-    final _height = MediaQuery.sizeOf(context).height;
+    String? seed;
+    final height = MediaQuery.sizeOf(context).height;
     return ScrollableWithBottomSection(
       contentPadding: EdgeInsets.all(0),
       content: Container(
         padding: EdgeInsetsDirectional.only(start: 30.0, end: 30.0, bottom: 30.0),
         child: Observer(
           builder: (_) {
-            _seed = walletSeedStore.seed;
+            seed = walletSeedStore.seed;
             final isLoading = walletSeedStore.isLoading;
 
             if (isLoading) {
               return Center(
                 child: Padding(
-                  padding: EdgeInsetsDirectional.only(top: _height * 1 / 3),
+                  padding: EdgeInsetsDirectional.only(top: height * 1 / 3),
                   child: SizedBox(
                     width: 42,
                     height: 42,
@@ -114,9 +112,9 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
             }
 
             return Center(
-              child: _seed == '' || _seed == null
+              child: seed == '' || seed == null
                   ? Padding(
-                      padding: EdgeInsetsDirectional.only(top: _height * 1 / 3),
+                      padding: EdgeInsetsDirectional.only(top: height * 1 / 3),
                       child: RichText(
                         textAlign: TextAlign.center,
                         text: TextSpan(
@@ -143,7 +141,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                   : Column(
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        SizedBox(height: _height * 0.20 / 3),
+                        SizedBox(height: height * 0.20 / 3),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -175,7 +173,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                               ),
                             ),
                             SizedBox(
-                              height: _height * 0.10 / 3,
+                              height: height * 0.10 / 3,
                             ),
                             Text(
                               walletSeedStore.name,
@@ -217,7 +215,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                   ],
                                 )),
                             SizedBox(
-                              height: _height * 0.10 / 3,
+                              height: height * 0.10 / 3,
                             ),
                             Padding(
                               padding: const EdgeInsetsDirectional.only(start:8.0, top: 15.0, end:8.0, bottom: 10.0),
@@ -232,7 +230,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                           setState(() {
                                             isCopied = true;
                                           });
-                                          await ClipboardHelper.copyWithAutoClear(_seed!);
+                                          await ClipboardHelper.copyWithAutoClear(seed!);
                                           await Fluttertoast.showToast(
                                             msg: tr(context)
                                                 .copied,
@@ -323,7 +321,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         Share.share(
-                                          _seed!,
+                                          seed!,
                                           subject: tr(context).seed_share,
                                         );
                                       },
@@ -364,7 +362,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                         setState(() {
                                           isCopied = true;
                                         });
-                                        await ClipboardHelper.copyWithAutoClear(_seed!);
+                                        await ClipboardHelper.copyWithAutoClear(seed!);
                                         await Fluttertoast.showToast(
                                           msg: tr(context).copied,
                                           toastLength: Toast.LENGTH_SHORT,
@@ -432,7 +430,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         Share.share(
-                                          _seed!,
+                                          seed!,
                                           subject: tr(context).seed_share,
                                         );
                                       },
@@ -474,7 +472,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
         ),
       ),
       bottomSection:  Column(children: [
-        !widget.showSeed && !isCopied || _seed != null
+        !widget.showSeed && !isCopied || seed != null
             ? Padding(
           padding: const EdgeInsetsDirectional.all(8.0),
           child: Text(
@@ -485,7 +483,7 @@ class _SeedDisplayWidgetState extends State<SeedDisplayWidget> {
             : Container(),
         Row(children: [
           Expanded(
-            child: !widget.showSeed || _seed != null
+            child: !widget.showSeed || seed != null
                 ? Container(
               margin: EdgeInsetsDirectional.all(10),
               child: ElevatedButton(

@@ -3,13 +3,12 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/stores/subaddress_creation/subaddress_creation_store.dart';
 import 'package:beldex_wallet/src/stores/subaddress_list/subaddress_list_store.dart';
 import 'package:beldex_wallet/src/widgets/primary_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../l10n.dart';
 
 class SubAddressAlert extends StatefulWidget {
-  const SubAddressAlert({Key? key, required this.subAddressListStore}) : super(key: key);
+  const SubAddressAlert({super.key, required this.subAddressListStore});
   final SubaddressListStore subAddressListStore;
 
   @override

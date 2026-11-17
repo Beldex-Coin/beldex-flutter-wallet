@@ -131,7 +131,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
       'changelly';
 
   void _pollStatus() {
-    getTransactionsProvider.getTransactionsData(context, {"id": "${transactionDetails.txnId}", "destinationAddress": "${transactionDetails.payoutAddress}"}, exchangeName: _exchangeName);
+    getTransactionsProvider.getTransactionsData(context, {"id": transactionDetails.txnId, "destinationAddress": "${transactionDetails.payoutAddress}"}, exchangeName: _exchangeName);
   }
 
   void _onStatusUpdate() {
@@ -185,10 +185,10 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
 
   @override
   Widget build(BuildContext context) {
-    final _screenWidth = MediaQuery.sizeOf(context).width;
-    final _screenHeight = MediaQuery.sizeOf(context).height;
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final screenHeight = MediaQuery.sizeOf(context).height;
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _scrollController = ScrollController(keepScrollOffset: true);
+    final scrollController = ScrollController(keepScrollOffset: true);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
           this.networkProvider = networkProvider;
@@ -198,13 +198,13 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
             } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
-              return noInternet(settingsStore, _screenWidth, tr(context)); // Display an error message if an error occurs. or Display a message when no data is available.
+              return noInternet(settingsStore, screenWidth, tr(context)); // Display an error message if an error occurs. or Display a message when no data is available.
             } else {
               return body(
-                  _screenWidth,
-                  _screenHeight,
+                  screenWidth,
+                  screenHeight,
                   settingsStore,
-                  _scrollController,
+                  scrollController,
                   snapshot.data,
                   transactionDetails, networkProvider);
             }
@@ -215,10 +215,10 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
   }
 
   Widget body(
-    double _screenWidth,
-    double _screenHeight,
+    double screenWidth,
+    double screenHeight,
     SettingsStore settingsStore,
-    ScrollController _scrollController,
+    ScrollController scrollController,
     GetTransactionsModel? responseData,
     SwapTransactionHistoryModel transactionDetails, NetworkProvider networkProvider,
   ) {
@@ -256,7 +256,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                   ),
                   child: Container(
                     padding: const EdgeInsetsDirectional.all(15.0),
-                    width: _screenWidth,
+                    width: screenWidth,
                     height: double.infinity,
                     child: exchangingScreen(
                         settingsStore, responseData, transactionDetails, networkProvider),
@@ -276,7 +276,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PairsWidget(settingsStore: settingsStore, from: transactionDetails.currencyFrom, to: transactionDetails.currencyTo),
+        pairsWidget(settingsStore: settingsStore, from: transactionDetails.currencyFrom, to: transactionDetails.currencyTo),
         //Exchanging Title
         Text(
           tr(context).swap_exchanging,
@@ -336,7 +336,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                           mainAxisAlignment : MainAxisAlignment.start,
                           children: [
                             Text(
-                              (_txStatus(responseData) == "exchanging" || _txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? tr(context).swap_confirmed :'${tr(context).swap_confirming_in_progress}',
+                              (_txStatus(responseData) == "exchanging" || _txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? tr(context).swap_confirmed :tr(context).swap_confirming_in_progress,
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,

@@ -6,32 +6,32 @@ import 'package:beldex_coin/src/util/signatures.dart';
 import 'package:beldex_coin/src/util/types.dart';
 
 final subaddressSizeNative = beldexApi
-    .lookup<NativeFunction<subaddress_size>>('subaddress_size')
+    .lookup<NativeFunction<SubaddressSizeNative>>('subaddress_size')
     .asFunction<SubaddressSize>();
 
 final subaddressRefreshNative = beldexApi
-    .lookup<NativeFunction<subaddress_refresh>>('subaddress_refresh')
+    .lookup<NativeFunction<SubaddressRefreshNative>>('subaddress_refresh')
     .asFunction<SubaddressRefresh>();
 
 final subaddressGetAllNative = beldexApi
-    .lookup<NativeFunction<subaddress_get_all>>('subaddress_get_all')
+    .lookup<NativeFunction<SubaddressGetAllNative>>('subaddress_get_all')
     .asFunction<SubaddressGetAll>();
 
 final subaddressGetAllWithSizeNative = beldexApi
-    .lookup<NativeFunction<subaddress_get_all_with_size>>(
+    .lookup<NativeFunction<SubaddressGetAllWithSizeNative>>(
         'subaddress_get_all_with_size')
     .asFunction<SubaddressGetAllWithSize>();
 
 final subaddressFreeAllNative = beldexApi
-    .lookup<NativeFunction<subaddress_free_all>>('subaddress_free_all')
+    .lookup<NativeFunction<SubaddressFreeAllNative>>('subaddress_free_all')
     .asFunction<SubaddressFreeAll>();
 
 final subaddressAddNewNative = beldexApi
-    .lookup<NativeFunction<subaddress_add_new>>('subaddress_add_row')
+    .lookup<NativeFunction<SubaddressAddNewNative>>('subaddress_add_row')
     .asFunction<SubaddressAddNew>();
 
 final subaddressSetLabelNative = beldexApi
-    .lookup<NativeFunction<subaddress_set_label>>('subaddress_set_label')
+    .lookup<NativeFunction<SubaddressSetLabelNative>>('subaddress_set_label')
     .asFunction<SubaddressSetLabel>();
 
 void addSubaddressSync({required int accountIndex, required String label}) {

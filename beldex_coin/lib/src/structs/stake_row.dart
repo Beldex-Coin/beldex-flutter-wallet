@@ -28,7 +28,7 @@ base class StakeRowPointer extends Struct {
   external int _amount;
 
   @Uint64()
-  external int _unlock_height;
+  external int _unlockHeight;
 
   @Bool()
   external bool _awaiting;
@@ -38,7 +38,7 @@ base class StakeRowPointer extends Struct {
 
   String get masterNodeKey => _masterNodeKey.toDartString();
   int get amount => _amount;
-  int? get unlockHeight => _unlock_height > 0 ? _unlock_height : null;
+  int? get unlockHeight => _unlockHeight > 0 ? _unlockHeight : null;
   bool get awaiting =>  _awaiting ;
   bool get decommissioned => _decommissioned;
 }

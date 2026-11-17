@@ -9,9 +9,6 @@ GetPairsParamsModel getPairsParamsModelFromJson(String str) => GetPairsParamsMod
 String getPairsParamsModelToJson(GetPairsParamsModel data) => json.encode(data.toJson());
 
 class GetPairsParamsModel {
-  String? jsonrpc;
-  List<Result>? result;
-  String? id;
 
   GetPairsParamsModel({
     this.jsonrpc,
@@ -24,6 +21,9 @@ class GetPairsParamsModel {
     result: json["result"] == null ? [] : List<Result>.from(json["result"]!.map((x) => Result.fromJson(x))),
     id: json["id"],
   );
+  String? jsonrpc;
+  List<Result>? result;
+  String? id;
 
   Map<String, dynamic> toJson() => {
     "jsonrpc": jsonrpc,
@@ -33,12 +33,6 @@ class GetPairsParamsModel {
 }
 
 class Result {
-  String? from;
-  String? to;
-  String? minAmountFloat;
-  String? maxAmountFloat;
-  String? minAmountFixed;
-  String? maxAmountFixed;
 
   Result({
     this.from,
@@ -57,6 +51,12 @@ class Result {
     minAmountFixed: json["minAmountFixed"],
     maxAmountFixed: json["maxAmountFixed"],
   );
+  String? from;
+  String? to;
+  String? minAmountFloat;
+  String? maxAmountFloat;
+  String? minAmountFixed;
+  String? maxAmountFixed;
 
   Map<String, dynamic> toJson() => {
     "from": from,
