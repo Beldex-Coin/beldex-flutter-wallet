@@ -16,7 +16,7 @@ abstract class SyncStoreBase with Store {
   {
 
     if (walletService.currentWallet != null) {
-      _onWalletChanged(walletService.currentWallet!);
+      unawaited(_onWalletChanged(walletService.currentWallet!));
     }
 
     _onWalletChangeSubscription =
@@ -29,20 +29,13 @@ abstract class SyncStoreBase with Store {
   late StreamSubscription<Wallet> _onWalletChangeSubscription;
   StreamSubscription<SyncStatus>? _onSyncStatusChangeSubscription;
 
-//  @override
-//  void dispose() {
-//    if (_onSyncStatusChangeSubscription != null) {
-//      _onSyncStatusChangeSubscription.cancel();
-//    }
-//
-//    _onWalletChangeSubscription.cancel();
-//    super.dispose();
-//  }
+  void dispose() {
+    unawaited(_onSyncStatusChangeSubscription?.cancel());
+    unawaited(_onWalletChangeSubscription.cancel());
+  }
 
-  void _onWalletChanged(Wallet wallet) {
-    if (_onSyncStatusChangeSubscription != null) {
-      _onSyncStatusChangeSubscription!.cancel();
-    }
+  Future<void> _onWalletChanged(Wallet wallet) async {
+    await _onSyncStatusChangeSubscription?.cancel();
 
     _onSyncStatusChangeSubscription =
         wallet.syncStatus.listen((status) => this.status = status);

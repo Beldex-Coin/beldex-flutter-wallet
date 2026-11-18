@@ -20,6 +20,7 @@ Future addSubAddressDialog(
   return showDialog<void>(
       builder: (_) => Provider<dynamic>(
           create: (_) => SubadrressCreationStore(walletService: walletService!),
+          dispose: (_, store) => store.dispose(),
           child: AddSubAddress()),
       context: context);
 }

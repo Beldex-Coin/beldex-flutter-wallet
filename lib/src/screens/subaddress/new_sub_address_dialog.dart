@@ -54,6 +54,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
     final settingsStore = Provider.of<SettingsStore>(context);
     return Provider(
         create: (_) => SubadrressCreationStore(walletService: walletService),
+        dispose: (_, store) => store.dispose(),
         builder: (context, child) {
           final subAddressCreationStore =
               Provider.of<SubadrressCreationStore>(context, listen: false);

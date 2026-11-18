@@ -123,21 +123,12 @@ abstract class ActionListBase with Store {
   StreamSubscription<Account>? _onAccountChangeSubscription;
   late StreamSubscription<BoxEvent> _onTransactionDescriptions;
 
-//  @override
-//  void dispose() {
-//    if (_onTransactionsChangeSubscription != null) {
-//      _onTransactionsChangeSubscription.cancel();
-//    }
-//
-//    if (_onAccountChangeSubscription != null) {
-//      _onAccountChangeSubscription.cancel();
-//    }
-//
-//    _onTransactionDescriptions?.cancel();
-//    _onWalletChangeSubscription.cancel();
-//    _onTradesChanged?.cancel();
-//    super.dispose();
-//  }
+  void dispose() {
+    unawaited(_onTransactionsChangeSubscription?.cancel());
+    unawaited(_onAccountChangeSubscription?.cancel());
+    unawaited(_onTransactionDescriptions.cancel());
+    unawaited(_onWalletChangeSubscription.cancel());
+  }
 
   Future _updateTransactionsList() async {
     if(_history == null) {

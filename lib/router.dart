@@ -285,9 +285,11 @@ class Router {
                             walletService: walletService,
                             settingsStore: settingsStore,
                             priceStore: priceStore),
+                        dispose: (_, store) => store.dispose(),
                       ),
                       Provider(
                         create: (_) => SyncStore(walletService: walletService),
+                        dispose: (_, store) => store.dispose(),
                       ),
                       Provider(
                           create: (_) => SendStore(
@@ -305,7 +307,11 @@ class Router {
             fullscreenDialog: true,
             builder: (_) {
               return MultiProvider(providers: [
-                  Provider(create: (_) => SubaddressListStore(walletService: walletService)),
+                  Provider(
+                    create: (_) =>
+                        SubaddressListStore(walletService: walletService),
+                    dispose: (_, store) => store.dispose(),
+                  ),
                   ChangeNotifierProvider<ReceivePageChangeNotifier>(create: (_) => ReceivePageChangeNotifier())
                 ], child: ReceivePage());});
       case Routes.transactionDetails:
@@ -386,6 +392,7 @@ class Router {
         return MaterialPageRoute<void>(builder: (context) {
           return Provider(
               create: (_) => NodeListStore(nodesSource: nodes),
+              dispose: (_, store) => store.dispose(),
               child: NodeListPage());
         });
 
@@ -393,7 +400,10 @@ class Router {
         return MaterialPageRoute<void>(builder: (context) {
           return MultiProvider(
             providers: [
-              Provider(create: (_) =>NodeListStore(nodesSource: nodes)),
+              Provider(
+                create: (_) => NodeListStore(nodesSource: nodes),
+                dispose: (_, store) => store.dispose(),
+              ),
               ChangeNotifierProvider<NewNodePageChangeNotifier>(create: (_) => NewNodePageChangeNotifier())
             ],
             child: NewNodePage(),
@@ -502,7 +512,8 @@ class Router {
               return MultiProvider(providers: [
                   Provider(
                       create: (_) =>
-                          SubaddressListStore(walletService: walletService))
+                          SubaddressListStore(walletService: walletService),
+                      dispose: (_, store) => store.dispose())
                 ], child: SubaddressListPage());});
 
       case Routes.restoreWalletFromSeedDetails:
@@ -521,6 +532,7 @@ class Router {
             builder: (_) {
               return Provider(
                 create: (_) => NodeListStore(nodesSource: nodes),
+                dispose: (_, store) => store.dispose(),
                 child: SettingsPage());});
 
       case Routes.rescan:
@@ -555,9 +567,11 @@ class Router {
                         walletService: walletService,
                         settingsStore: settingsStore,
                         priceStore: priceStore),
+                    dispose: (_, store) => store.dispose(),
                   ),
                   Provider(
                     create: (_) => SyncStore(walletService: walletService),
+                    dispose: (_, store) => store.dispose(),
                   ),
                   Provider(
                       create: (_) => SendStore(
@@ -578,9 +592,11 @@ class Router {
                           walletService: walletService,
                           settingsStore: settingsStore,
                           priceStore: priceStore),
+                      dispose: (_, store) => store.dispose(),
                     ),
                     Provider(
                       create: (_) => SyncStore(walletService: walletService),
+                      dispose: (_, store) => store.dispose(),
                     ),
                     Provider(
                         create: (_) => SendStore(
@@ -604,9 +620,11 @@ class Router {
                           walletService: walletService,
                           settingsStore: settingsStore,
                           priceStore: priceStore),
+                      dispose: (_, store) => store.dispose(),
                     ),
                     Provider(
                       create: (_) => SyncStore(walletService: walletService),
+                      dispose: (_, store) => store.dispose(),
                     ),
                     Provider(
                         create: (_) => SendStore(
@@ -630,9 +648,11 @@ class Router {
                           walletService: walletService,
                           settingsStore: settingsStore,
                           priceStore: priceStore),
+                      dispose: (_, store) => store.dispose(),
                     ),
                     Provider(
                       create: (_) => SyncStore(walletService: walletService),
+                      dispose: (_, store) => store.dispose(),
                     ),
                     Provider(
                         create: (_) => SendStore(
@@ -677,7 +697,10 @@ class Router {
         return MaterialPageRoute<void>(builder: (context) {
           return MultiProvider(
             providers: [
-              Provider(create: (_) => SyncStore(walletService: walletService),),
+              Provider(
+                create: (_) => SyncStore(walletService: walletService),
+                dispose: (_, store) => store.dispose(),
+              ),
               ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider())
             ],
             child: SwapPaymentDetailsPage(transactionDetails : settings.arguments as TransactionDetails),
@@ -739,7 +762,10 @@ class Router {
         return MaterialPageRoute<void>(builder: (context) {
           return MultiProvider(
             providers: [
-              Provider(create: (_) => SyncStore(walletService: walletService),),
+              Provider(
+                create: (_) => SyncStore(walletService: walletService),
+                dispose: (_, store) => store.dispose(),
+              ),
               ChangeNotifierProvider<GetTransactionsProvider>(create: (_) => GetTransactionsProvider())
             ],
             child: SwapTransactionPaymentDetailsPage(transactionDetails : settings.arguments as GetTransactionStatusWithWalletAddress),

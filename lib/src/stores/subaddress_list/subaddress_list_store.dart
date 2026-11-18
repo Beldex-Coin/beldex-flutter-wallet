@@ -33,19 +33,11 @@ abstract class SubaddressListStoreBase with Store {
   StreamSubscription<Account>? _onAccountChangeSubscription;
   Account _account = Account(id: 0);
 
-//  @override
-//  void dispose() {
-//    if (_onSubaddressesChangeSubscription != null) {
-//      _onSubaddressesChangeSubscription.cancel();
-//    }
-//
-//    if (_onAccountChangeSubscription != null) {
-//      _onAccountChangeSubscription.cancel();
-//    }
-//
-//    _onWalletChangeSubscription.cancel();
-//    super.dispose();
-//  }
+  void dispose() {
+    unawaited(_onSubaddressesChangeSubscription?.cancel());
+    unawaited(_onAccountChangeSubscription?.cancel());
+    unawaited(_onWalletChangeSubscription.cancel());
+  }
 
   Future<void> _updateSubaddressList({required int accountIndex}) async {
     await _subaddressList.refresh(accountIndex: accountIndex);
@@ -53,9 +45,8 @@ abstract class SubaddressListStoreBase with Store {
   }
 
   Future<void> _onWalletChanged(Wallet wallet) async {
-    if (_onSubaddressesChangeSubscription != null) {
-      await _onSubaddressesChangeSubscription?.cancel();
-    }
+    await _onSubaddressesChangeSubscription?.cancel();
+    await _onAccountChangeSubscription?.cancel();
 
     if (wallet is BelDexWallet) {
       _account = wallet.account;

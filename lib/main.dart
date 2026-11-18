@@ -235,9 +235,18 @@ void main() async {
       Provider(create: (_) => userService),
       Provider(create: (_) => settingsStore),
       Provider(create: (_) => priceStore),
-      Provider(create: (_) => walletStore),
-      Provider(create: (_) => syncStore),
-      Provider(create: (_) => balanceStore),
+      Provider(
+        create: (_) => walletStore,
+        dispose: (_, store) => store.dispose(),
+      ),
+      Provider(
+        create: (_) => syncStore,
+        dispose: (_, store) => store.dispose(),
+      ),
+      Provider(
+        create: (_) => balanceStore,
+        dispose: (_, store) => store.dispose(),
+      ),
       Provider(create: (_) => authenticationStore),
       Provider(create: (_) => contacts),
       Provider(create: (_) => nodes),

@@ -23,7 +23,7 @@ abstract class WalletStoreBase with Store {
         amountValue = ''{
 
     if (_walletService.currentWallet != null) {
-      _onWalletChanged(_walletService.currentWallet!);
+      unawaited(_onWalletChanged(_walletService.currentWallet!));
     }
 
     _onWalletChangeSubscription = _walletService.onWalletChange
@@ -59,25 +59,18 @@ abstract class WalletStoreBase with Store {
   final WalletService _walletService;
   final SettingsStore _settingsStore;
   late StreamSubscription<Wallet> _onWalletChangeSubscription;
+  StreamSubscription<String>? _onNameChangeSubscription;
+  StreamSubscription<String>? _onAddressChangeSubscription;
   StreamSubscription<Account>? _onAccountChangeSubscription;
   StreamSubscription<Subaddress>? _onSubaddressChangeSubscription;
 
-//  @override
-//  void dispose() {
-//    if (_onWalletChangeSubscription != null) {
-//      _onWalletChangeSubscription.cancel();
-//    }
-//
-//    if (_onAccountChangeSubscription != null) {
-//      _onAccountChangeSubscription.cancel();
-//    }
-//
-//    if (_onSubaddressChangeSubscription != null) {
-//      _onSubaddressChangeSubscription.cancel();
-//    }
-//
-//    super.dispose();
-//  }
+  void dispose() {
+    unawaited(_onWalletChangeSubscription.cancel());
+    unawaited(_onNameChangeSubscription?.cancel());
+    unawaited(_onAddressChangeSubscription?.cancel());
+    unawaited(_onAccountChangeSubscription?.cancel());
+    unawaited(_onSubaddressChangeSubscription?.cancel());
+  }
 
   @action
   void setAccount(Account account) {
@@ -114,9 +107,16 @@ abstract class WalletStoreBase with Store {
   Future connectToNode({required Node? node}) async =>
       await _walletService.connectToNode(node: node);
 
-  Future _onWalletChanged(Wallet wallet) async {
-    wallet.onNameChange.listen((name) => this.name = name);
-    wallet.onAddressChange.listen((address) => this.address = address);
+  Future<void> _onWalletChanged(Wallet wallet) async {
+    await _onNameChangeSubscription?.cancel();
+    await _onAddressChangeSubscription?.cancel();
+    await _onAccountChangeSubscription?.cancel();
+    await _onSubaddressChangeSubscription?.cancel();
+
+    _onNameChangeSubscription =
+        wallet.onNameChange.listen((name) => this.name = name);
+    _onAddressChangeSubscription =
+        wallet.onAddressChange.listen((address) => this.address = address);
 
     if (wallet is BelDexWallet) {
       _onAccountChangeSubscription =

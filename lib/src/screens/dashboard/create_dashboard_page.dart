@@ -24,6 +24,7 @@ Widget createDashboardPage(
             priceStore: priceStore,
             transactionFilterStore: TransactionFilterStore(),
             transactionDescriptions: transactionDescriptions),
+        dispose: (_, store) => store.dispose(),
         child: DashboardPage());
 
 
@@ -40,4 +41,5 @@ Widget createTransactionListPage(
             priceStore: priceStore,
             transactionFilterStore: TransactionFilterStore(),
             transactionDescriptions: transactionDescriptions),
+        dispose: (_, store) => store.dispose(),
         child: TransactionDetailsListBody());

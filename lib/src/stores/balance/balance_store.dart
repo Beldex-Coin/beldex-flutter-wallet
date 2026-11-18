@@ -73,16 +73,10 @@ abstract class BalanceStoreBase with Store {
   final SettingsStore _settingsStore;
   final PriceStore _priceStore;
 
-//  @override
-//  void dispose() {
-//    _onWalletChangeSubscription.cancel();
-//
-//    if (_onBalanceChangeSubscription != null) {
-//      _onBalanceChangeSubscription.cancel();
-//    }
-//
-//    super.dispose();
-//  }
+  void dispose() {
+    unawaited(_onWalletChangeSubscription.cancel());
+    unawaited(_onBalanceChangeSubscription?.cancel());
+  }
 
   Future _onBalanceChange(Balance balance) async {
     final balance0 = balance as BelDexBalance;
