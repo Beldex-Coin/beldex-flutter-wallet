@@ -1059,6 +1059,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
     }
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       bnsUpdateChangeNotifier.setOwnerAddressFieldErrorMessage(
           bnsUpdateChangeNotifier.ownerAddressFieldIsValid
               ? value == ownerAddress
@@ -1084,6 +1085,7 @@ class BnsUpdatePageFormState extends State<BnsUpdatePageForm>
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       bnsUpdateChangeNotifier.setWalletAddressFieldErrorMessage(
           bnsUpdateChangeNotifier.walletAddressFieldIsValid
               ? value == walletAddress
