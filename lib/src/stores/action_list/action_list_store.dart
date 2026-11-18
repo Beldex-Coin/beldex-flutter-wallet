@@ -85,12 +85,12 @@ abstract class ActionListBase with Store {
         fiat: _settingsStore.fiatCurrency);
     final price = _priceStore.prices[symbol];
 
-    _transactions.forEach((item) {
+    for(final item in _transactions) {
       final amount = calculateFiatAmountRaw(
           cryptoAmount: belDexAmountToDouble(item.transaction.amount),
           price: price);
       item.transaction.changeFiatAmount(amount);
-    });
+    }
 
     return _transactions;
   }

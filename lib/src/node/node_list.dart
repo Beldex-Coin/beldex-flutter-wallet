@@ -18,11 +18,11 @@ Future<List<Node>> loadDefaultNodes() async {
   final nodes = loadYaml(nodesRaw) as YamlList;
 
   final n = <Node>[];
-  nodes.forEach((dynamic raw) {
+  for(final raw in nodes) {
     if (raw is Map) {
       n.add(Node.fromMap(raw));
     }
-  });
+  }
   return n;
 }
 
@@ -43,11 +43,11 @@ Future<List<Node>> loadRemoteNodes() async {
   final n = <Node>[];
   try {
     final nodes = loadYaml(nodesRaw) as YamlList;
-    nodes.forEach((dynamic raw) {
+    for(final raw in nodes) {
       if (raw is Map) {
         n.add(Node.fromMap(raw));
       }
-    });
+    }
   }catch(e){
     print('Load node yml file exception : $e');
   }

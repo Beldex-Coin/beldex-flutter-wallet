@@ -14,7 +14,7 @@ class MyScrollbar extends StatefulWidget {
   final ScrollController scrollController;
 
   @override
-  _MyScrollbarState createState() => _MyScrollbarState();
+  State<MyScrollbar> createState() => _MyScrollbarState();
 }
 
 class _MyScrollbarState extends State<MyScrollbar> {

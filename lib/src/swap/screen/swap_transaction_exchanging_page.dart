@@ -402,14 +402,14 @@ class _SwapTransactionExchangingHomeState extends State<SwapTransactionExchangin
                                   final currencyDetails = getCurrenciesFullProvider.data;
                                   return InkWell(
                                     onTap: (){
-                                      currencyDetails.forEach((item){
+                                      for (var item in currencyDetails) {
                                         if(item.ticker == transactionDetails.currencyFrom) {
                                           final url = processUrl(item.transactionUrl, responseData.result?[0].payinHash);
                                           if(url.trim().isNotEmpty){
                                             openUrl(methodChannelPlatform: methodChannelPlatform, url: url);
                                           }
                                         }
-                                      });
+                                      }
                                     },
                                     child: Text(
                                       tr(context).swap_see_input_hash_in_explorer,

@@ -57,7 +57,7 @@ class RestoreWalletFromKeysPage extends BasePage {
 
 class RestoreFromKeysFrom extends StatefulWidget {
   @override
-  _RestoreFromKeysFromState createState() => _RestoreFromKeysFromState();
+  State<RestoreFromKeysFrom> createState() => _RestoreFromKeysFromState();
 }
 
 class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
@@ -391,7 +391,7 @@ void restoreHeights(int height, SettingsStore settingsStore, AppLocalizations t)
 ///// block height selection widget
 ///
 class BlockHeightSwappingWidget extends StatefulWidget {
-  const BlockHeightSwappingWidget({Key? key, required this.walletRestorationStore}) : super(key: key);
+  const BlockHeightSwappingWidget({super.key, required this.walletRestorationStore});
   final WalletRestorationStore walletRestorationStore;
   @override
   State<BlockHeightSwappingWidget> createState() =>

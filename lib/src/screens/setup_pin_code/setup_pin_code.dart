@@ -39,7 +39,7 @@ class SetupPinCodeForm extends PinCodeWidget {
   final Function(BuildContext, String) onPinCodeSetup;
 
   @override
-  _SetupPinCodeFormState createState() => _SetupPinCodeFormState();
+  State<SetupPinCodeForm> createState() => _SetupPinCodeFormState();
 }
 
 class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>

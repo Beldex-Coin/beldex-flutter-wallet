@@ -58,6 +58,8 @@ dependencies:
   hive: ^2.1.0
   hive_flutter: ^1.1.0
   local_auth: ^2.1.0
+  local_auth_android: ^1.0.56
+  local_auth_darwin: ^1.6.1
   package_info_plus: ^8.0.2
   devicelocale: ^0.8.1
   auto_size_text: ^3.0.0

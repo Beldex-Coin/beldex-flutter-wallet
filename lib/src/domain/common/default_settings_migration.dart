@@ -66,7 +66,7 @@ Future defaultSettingsMigration(
 Future<void> replaceNodesMigration({required Box<Node> nodes}) async {
   final replaceNodes = <String, Node>{};
 
-  nodes.values.forEach((Node node) async {
+  for (final node in nodes.values) {
     final nodeToReplace = replaceNodes[node.uri];
 
     if (nodeToReplace != null) {
@@ -75,7 +75,7 @@ Future<void> replaceNodesMigration({required Box<Node> nodes}) async {
       node.password = nodeToReplace.password;
       await node.save();
     }
-  });
+  }
 }
 
 Future<void> changeCurrentNodeToDefault(

@@ -495,7 +495,7 @@ class SendTransactionSuccessfully extends StatefulWidget {
   final void Function(BuildContext context)? onDismiss;
 
   @override
-  _SendTransactionSuccessfullyState createState() =>
+  State<SendTransactionSuccessfully> createState() =>
       _SendTransactionSuccessfullyState();
 }
 

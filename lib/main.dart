@@ -428,7 +428,7 @@ class BeldexWalletApp extends StatefulWidget {
   }
 
   @override
-  _BeldexWalletAppState createState() => _BeldexWalletAppState();
+  State<BeldexWalletApp> createState() => _BeldexWalletAppState();
 }
 
 class _BeldexWalletAppState extends State<BeldexWalletApp> {

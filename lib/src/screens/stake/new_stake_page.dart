@@ -60,7 +60,8 @@ class NewStakeFormState extends State<NewStakeForm>
   String _estimatedFeeText = '--';
   int _feeEstimateGeneration = 0;
 
-  var controller = StreamController<double>.broadcast();
+  final StreamController<double> controller =
+      StreamController<double>.broadcast();
   double? position;
 
   //
@@ -97,6 +98,7 @@ class NewStakeFormState extends State<NewStakeForm>
 
   @override
   void dispose() {
+    unawaited(controller.close());
     animationController?.dispose();
     super.dispose();
   }

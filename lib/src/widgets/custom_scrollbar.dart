@@ -6,14 +6,13 @@ class CustomScrollbar extends SingleChildRenderObjectWidget {
   const CustomScrollbar({
     super.key,
     required this.controller,
-    this.child,
+    super.child,
     this.strokeWidth,
     this.padding,
     this.trackColor,
     this.thumbColor,
   });
   final ScrollController controller;
-  final Widget? child;
   final double? strokeWidth;
   final EdgeInsets? padding;
   final Color? trackColor;

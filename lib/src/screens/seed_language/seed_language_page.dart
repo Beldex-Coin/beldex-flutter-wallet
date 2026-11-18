@@ -27,7 +27,7 @@ class SeedLanguage extends BasePage {
 
 class SeedLanguageRoute extends StatefulWidget {
   @override
-  _SeedLanguageState createState() => _SeedLanguageState();
+  State<SeedLanguageRoute> createState() => _SeedLanguageState();
 }
 
 class _SeedLanguageState extends State<SeedLanguageRoute> {

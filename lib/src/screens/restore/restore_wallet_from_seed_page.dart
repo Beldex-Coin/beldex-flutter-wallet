@@ -47,7 +47,7 @@ class RestoreFromSeedForm extends StatefulWidget {
   RestoreFromSeedForm({super.key});
 
   @override
-  _RestoreFromSeedFormState createState() => _RestoreFromSeedFormState();
+  State<RestoreFromSeedForm> createState() => _RestoreFromSeedFormState();
 }
 
 class _RestoreFromSeedFormState extends State<RestoreFromSeedForm> {

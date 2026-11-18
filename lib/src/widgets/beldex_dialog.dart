@@ -56,7 +56,7 @@ class ShowResetNodeDialog extends StatefulWidget {
   final void Function(BuildContext context)? onDismiss;
 
   @override
-  _ShowResetNodeDialogState createState() => _ShowResetNodeDialogState();
+  State<ShowResetNodeDialog> createState() => _ShowResetNodeDialogState();
 }
 
 class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {

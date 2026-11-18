@@ -45,7 +45,7 @@ class RestoreWalletFromSeedDetailsPage extends BasePage {
 
 class RestoreFromSeedDetailsForm extends StatefulWidget {
   @override
-  _RestoreFromSeedDetailsFormState createState() =>
+  State<RestoreFromSeedDetailsForm> createState() =>
       _RestoreFromSeedDetailsFormState();
 }
 

@@ -44,7 +44,7 @@ class NewWalletPage extends BasePage {
 
 class WalletNameForm extends StatefulWidget {
   @override
-  _WalletNameFormState createState() => _WalletNameFormState();
+  State<WalletNameForm> createState() => _WalletNameFormState();
 }
 
 class _WalletNameFormState extends State<WalletNameForm> {
