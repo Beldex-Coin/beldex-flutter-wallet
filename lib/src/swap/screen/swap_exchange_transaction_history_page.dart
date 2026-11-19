@@ -9,7 +9,6 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import 'package:beldex_wallet/src/swap/database/swap_txn_history.dart';
 import 'package:beldex_wallet/src/swap/provider/swap_transaction_expansion_status_change_notifier.dart';
 import 'package:beldex_wallet/src/swap/util/circular_progress_bar.dart';
-import 'package:beldex_wallet/src/util/generate_name.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,6 +21,7 @@ import '../../stores/wallet/wallet_store.dart';
 import '../../widgets/no_transactions_yet.dart';
 import '../database/swap_transaction_history_model.dart';
 import '../util/data_class.dart';
+import '../util/swap_status_label.dart';
 import '../util/utils.dart';
 import 'package:csv/csv.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -34,7 +34,7 @@ class SwapExchangeTransactionHistoryPage extends BasePage {
   bool get isModalBackButton => false;
 
   @override
-  String getTitle(AppLocalizations t) => 'Swap';
+  String getTitle(AppLocalizations t) => t.swap;
 
   @override
   Color get textColor => Colors.white;
@@ -139,8 +139,8 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
       return ConstrainedBox(
         constraints: BoxConstraints(minHeight: constraints.maxHeight),
         child: Card(
-          margin: EdgeInsets.only(
-              top: 15, left: 10, right: 10, bottom: 15),
+          margin: EdgeInsetsDirectional.only(
+              top: 15, start: 10, end: 10, bottom: 15),
           elevation: 0,
           color: settingsStore.isDarkTheme
               ? Color(0xff24242f)
@@ -149,7 +149,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
             borderRadius: BorderRadius.circular(15),
           ),
           child: Container(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsetsDirectional.all(15.0),
             width: _screenWidth,
             child: transactionHistoryScreen(
                 _screenWidth,
@@ -159,7 +159,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
           ),
         ),
       );
-    }) : noTransactionsYet(settingsStore, _screenWidth);
+    }) : noTransactionsYet(settingsStore, _screenWidth, tr(context));
   }
 
   List<List<dynamic>> rows = [];
@@ -208,7 +208,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     if(Platform.isAndroid) {
       final directory = await getExternalStorageDirectories(
           type: StorageDirectory.downloads); // Internal storage
-      final path = '${directory?.first.path}/Beldex_wallet_swap_transaction_report.csv';
+      final path = '${directory?.first.path}/${tr(context).swapTransactionReport}.csv';
       // Convert your CSV string to a Uint8List for downloading.
       final file = File(path);
       await file.writeAsBytes(bytes).whenComplete(() {
@@ -219,13 +219,13 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
     if(Platform.isIOS) {
       // Use application documents directory for cross-platform compatibility
       final directory = await getApplicationDocumentsDirectory();
-      final path = '${directory.path}/Beldex_wallet_swap_transaction_report.csv';
+      final path = '${directory.path}/${tr(context).swapTransactionReport}.csv';
 
       final file = File(path);
       await file.writeAsBytes(bytes);
 
       // Share the file
-      await Share.shareXFiles([XFile(file.path)], text: 'Transaction Report');
+      await Share.shareXFiles([XFile(file.path)], text: tr(context).transactionReport);
     }
   }
 
@@ -246,7 +246,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
               builder: (context, swapTransactionExpansionStatusChangeNotifier, child) {
                 final isExpanded = swapTransactionExpansionStatusChangeNotifier.isExpanded(index);
                 return Container(
-                  margin: EdgeInsets.only(top: 10, bottom: 10),
+                  margin: EdgeInsetsDirectional.only(top: 10, bottom: 10),
                   width: MediaQuery.sizeOf(context).width,
                   child: ExpansionTile(
                       initiallyExpanded: isExpanded,
@@ -255,8 +255,8 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                       },
                       trailing: swapTransactionExpansionStatusChangeNotifier.getStatus(index) != null ?
                       swapTransactionExpansionStatusChangeNotifier.getStatus(index)! ? trailingIcon(90, settingsStore) : trailingIcon(270, settingsStore) : trailingIcon(270, settingsStore),
-                      childrenPadding: EdgeInsets.zero,
-                      tilePadding: EdgeInsets.only(left: 0, right: 0),
+                      childrenPadding: EdgeInsetsDirectional.zero,
+                      tilePadding: EdgeInsetsDirectional.only(start: 0, end: 0),
                       collapsedIconColor: settingsStore.isDarkTheme ? Colors.white : Color(0xFF222222),
                       iconColor: settingsStore.isDarkTheme ? Colors.white : Color(0xFF222222),
                       title: swapTransactionExpansionStatusChangeNotifier.getStatus(index) != null ?
@@ -291,7 +291,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                             ),
                             Expanded(
                                 child: Padding(
-                                  padding: const EdgeInsets.only(left: 10),
+                                  padding: const EdgeInsetsDirectional.only(start: 10),
                                   child: false
                                       ? Row(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -300,7 +300,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                     children: [
                                       Flexible(
                                         flex: 1,
-                                        child: Text('Exchange Amount',
+                                        child: Text(tr(context).exchangeAmount,
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 fontSize: 12,
@@ -326,7 +326,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
-                                            Text('Exchange Amount',
+                                            Text(tr(context).exchangeAmount,
                                                 style: TextStyle(
                                                     backgroundColor: Colors.transparent,
                                                     fontSize: 12,
@@ -349,7 +349,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                        expansionTile(result, settingsStore) : expansionTile(result, settingsStore),
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(top: 8.0),
+                          margin: EdgeInsetsDirectional.only(top: 8.0),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -358,7 +358,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Exchange Rate',
+                                  Text(tr(context).exchangeRate,
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 12,
@@ -381,7 +381,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Receiver',
+                                  Text(tr(context).receiver,
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 12,
@@ -404,7 +404,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Amount Received',
+                                  Text(tr(context).amountReceived,
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 12,
@@ -429,7 +429,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Date',
+                                  Text(tr(context).date,
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 12,
@@ -440,7 +440,10 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
-                                      Text(getTransactionDate(result.createdAt),
+                                      Text(getTransactionDate(
+                                        result.createdAt,
+                                        locale: Localizations.localeOf(context).languageCode,
+                                      ),
                                           style: TextStyle(
                                               backgroundColor: Colors.transparent,
                                               fontSize: 12,
@@ -448,7 +451,10 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                               color: settingsStore.isDarkTheme
                                                   ? Color(0xffFFFFFF)
                                                   : Color(0xff737373))),
-                                      Text(getTransactionTime(result.createdAt),
+                                      Text(getTransactionTime(
+                                        result.createdAt,
+                                        locale: Localizations.localeOf(context).languageCode,
+                                      ),
                                           style: TextStyle(
                                               backgroundColor: Colors.transparent,
                                               fontSize: 12,
@@ -465,7 +471,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Status',
+                                  Text(tr(context).status,
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 12,
@@ -473,7 +479,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                           color: settingsStore.isDarkTheme
                                               ? Color(0xffAFAFBE)
                                               : Color(0xff737373))),
-                                  Text(result.txnStatus.capitalized(),
+                                  SwapStatusLabel(result.txnStatus,
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 12,
@@ -490,7 +496,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text('Expand Details',
+                                  Text(tr(context).expandDetails,
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 12,
@@ -547,7 +553,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: [
-                                        Text("View",
+                                        Text(tr(context).view,
                                             style: TextStyle(
                                                 decoration: TextDecoration.underline,
                                                 backgroundColor: Colors.transparent,
@@ -598,8 +604,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              'Transactions',
+            Text(tr(context).transactions,
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
@@ -626,7 +631,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
         Expanded(
           child: ListView.builder(
               key: _listKey,
-              padding: EdgeInsets.only(bottom: 15),
+              padding: EdgeInsetsDirectional.only(bottom: 15),
               itemCount: transactions.length,
               itemBuilder: (context, index) {
                 if(rows.length-1 != transactions.length) {
@@ -635,7 +640,22 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                     rows.add(["Date", "Status", "Exchange_Currency", "Exchange_Amount_From", "Exchange_Rate", "Received_Amount", "Swap_Type", "Receiver_Address"]);
                   }
                   final result = transactions[index];
-                  rows.add([getDate(result.createdAt), result.txnStatus, "${result.currencyFrom.toUpperCase()} -> ${result.currencyTo.toUpperCase()}", toStringAsFixed(result.amountFrom), toStringAsFixed(result.rate), toStringAsFixed(result.amountTo), result.swapType.isNotEmpty ? result.swapType[0].toUpperCase() + result.swapType.substring(1) : result.swapType,result.payoutAddress]);
+                  rows.add([
+                    getDate(
+                      result.createdAt,
+                      locale: Localizations.localeOf(context).languageCode,
+                    ),
+                    result.txnStatus,
+                    "${result.currencyFrom.toUpperCase()} -> ${result.currencyTo.toUpperCase()}",
+                    toStringAsFixed(result.amountFrom),
+                    toStringAsFixed(result.rate),
+                    toStringAsFixed(result.amountTo),
+                    result.swapType.isNotEmpty
+                        ? result.swapType[0].toUpperCase() +
+                            result.swapType.substring(1)
+                        : result.swapType,
+                    result.payoutAddress,
+                  ]);
                 }
                 return transactionRow(settingsStore, transactions, index, walletStore);
               }),
@@ -684,7 +704,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
           ),
           Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: 10),
+                padding: const EdgeInsetsDirectional.only(start: 10),
                 child: false
                     ? Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -693,7 +713,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                   children: [
                     Flexible(
                       flex: 1,
-                      child: Text('Exchange Amount',
+                      child: Text(tr(context).exchangeAmount,
                           style: TextStyle(
                               backgroundColor: Colors.transparent,
                               fontSize: 12,
@@ -731,7 +751,10 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                   color: settingsStore.isDarkTheme
                                       ? Color(0xffFFFFFF)
                                       : Color(0xff222222))),
-                          Text(getDate(result.createdAt),
+                          Text(getDate(
+                            result.createdAt,
+                            locale: Localizations.localeOf(context).languageCode,
+                          ),
                               style: TextStyle(
                                   backgroundColor:
                                   Colors.transparent,
@@ -748,7 +771,7 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                           RichText(
                             textAlign: TextAlign.start,
                             text: TextSpan(
-                                text: 'Received ',
+                                text: tr(context).received + ' ',
                                 style: TextStyle(
                                     backgroundColor:
                                     Colors.transparent,
@@ -777,8 +800,8 @@ class _SwapExchangeTransactionHistoryHomeState extends State<SwapExchangeTransac
                                               : Color(0xff737373)))
                                 ]),
                           ),
-                          Text(
-                              result.txnStatus.capitalized(),
+                          SwapStatusLabel(
+                              result.txnStatus,
                               style: TextStyle(
                                   backgroundColor:
                                   Colors.transparent,

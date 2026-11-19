@@ -27,7 +27,7 @@ class RescanPage extends BasePage {
   final blockchainKey = GlobalKey<_BlockHeightSwapingWidgetState>();
 
   @override
-  String getTitle(AppLocalizations t) => '${t.rescan} wallet';
+  String getTitle(AppLocalizations t) => '${t.rescanWallet}';
 
   @override
   Widget trailing(BuildContext context) {
@@ -50,7 +50,7 @@ class RescanPage extends BasePage {
       child: ScrollableWithBottomSection(
         content:
             // Padding(
-            //   padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+            //   padding: EdgeInsetsDirectional.only(start: 20, end: 20, bottom: 20),
             //   child:
             Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -157,129 +157,157 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          // Restore from Block Height / Restore from Date
           isRestoreByHeight
               ? Row(
-                  children: <Widget>[
-                    Flexible(
-                        child: Card(
-                      elevation: 0,
-                      //5,
-                      color: Theme.of(context).cardColor,
-                      //Color.fromARGB(255, 40, 42, 51),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 20.0),
-                      child: Container(
-                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                        child: TextFormField(
-                          textInputAction: TextInputAction.done,
-                          style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
-                          controller: restoreHeightController,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly,NoSpaceFormatter(),FilteringTextInputFormatter.deny(RegExp('[-,. ]'))],
-                          keyboardType: TextInputType.numberWithOptions(
-                              decimal: true),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(
-                                backgroundColor:Colors.transparent,
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xff77778B)
-                                    : Color(0xff77778B)),
-                            hintText:
-                                tr(context).widgets_restore_from_blockheight,
-                            errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red)
-                          ),
-                          validator: (value) {
-                            final pattern = RegExp(r'^(?!.*\s)\d+$');
-                            if (!pattern.hasMatch(value!)) {
-                              return tr(context).enterValidHeightWithoutSpace;
-                            }else if(!checkCurrentHeight(value!)){
-                              return 'Please enter a valid Height';
-                            }else {
-                              return null;
-                            }
-                          },
-                        ),
+            children: <Widget>[
+              Flexible(
+                child: Card(
+                  elevation: 0,
+                  color: Theme.of(context).cardColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  margin: const EdgeInsetsDirectional.only(top: 20.0),
+                  child: Container(
+                    padding: const EdgeInsetsDirectional.only(
+                      start: 16,
+                      end: 12,
+                      top: 5,
+                      bottom: 5,
+                    ),
+                    child: TextFormField(
+                      textInputAction: TextInputAction.done,
+                      textAlign: TextAlign.start,
+                      textDirection: Directionality.of(context),
+                      style: const TextStyle(
+                        backgroundColor: Colors.transparent,
+                        fontSize: 14.0,
                       ),
-                    ))
-                  ],
-                )
-              :
-              // Padding(
-              //   padding: EdgeInsets.only(top: 25,bottom: 5),
-              //   child: Center(
-              //     child: Text(
-              //       S.of(context).widgets_or,
-              //       textAlign: TextAlign.center,
-              //       style: TextStyle(
-              //           fontSize: 16.0,
-              //           fontWeight: FontWeight.normal,
-              //           color: Theme.of(context).primaryTextTheme.headline6.color),
-              //     ),
-              //   ),
-              // ),
-              Row(
-                  children: <Widget>[
-                    Flexible(
-                        child: Card(
-                      elevation: 0,
-                      //5,
-                      color: Theme.of(context).cardColor,
-                      //Color.fromARGB(255, 40, 42, 51),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 20.0),
-                      child: Container(
-                        padding: EdgeInsets.only(
-                            left: 30, top: 5, bottom: 5, right: 10),
-                        child: InkWell(
-                          onTap: () => selectDate(context,settingsStore),
-                          child: IgnorePointer(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 180,
-                                  child: TextFormField(
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
-                                    decoration: InputDecoration(
-                                      //suffix:Icon(Icons.calendar_today,), //SvgPicture.asset('assets/images/new-images/calendar.svg',color:Colors.black),
-                                      border: InputBorder.none,
-                                      hintStyle: TextStyle(
-                                          backgroundColor:Colors.transparent,
-                                          color: settingsStore.isDarkTheme
-                                              ? Color(0xff77778B)
-                                              : Color(0xff77778B)),
-                                      hintText: tr(context)
-                                          .widgets_restore_from_date,
-                                      errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red)
-                                    ),
-                                    controller: dateController,
-                                    validator: (value) {
-                                      if (value?.isEmpty ?? false) {
-                                        return tr(context)
-                                            .dateShouldNotBeEmpty;
-                                      } else {
-                                        return null;
-                                      }
-                                    },
-                                  ),
-                                ),
-                                Icon(Icons.calendar_today,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xff77778B)
-                                        : Color(0xffB5B5C1))
-                              ],
-                            ),
-                          ),
+                      controller: restoreHeightController,
+                      autovalidateMode:
+                      AutovalidateMode.onUserInteraction,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        NoSpaceFormatter(),
+                        FilteringTextInputFormatter.deny(
+                          RegExp(r'[-,. ]'),
                         ),
+                      ],
+                      keyboardType:
+                      const TextInputType.numberWithOptions(
+                        decimal: true,
                       ),
-                    ))
-                  ],
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintStyle: const TextStyle(
+                          backgroundColor: Colors.transparent,
+                          color: Color(0xff77778B),
+                          fontSize: 14.0,
+                        ),
+                        hintText:
+                        tr(context).widgets_restore_from_blockheight,
+                        errorStyle: const TextStyle(
+                          backgroundColor: Colors.transparent,
+                          color: Colors.red,
+                          fontSize: 12,
+                          height: 1.3,
+                        ),
+                        errorMaxLines: 3,
+                      ),
+                      validator: (value) {
+                        final pattern = RegExp(r'^(?!.*\s)\d+$');
+
+                        if (!pattern.hasMatch(value ?? '')) {
+                          return tr(context)
+                              .enterValidHeightWithoutSpace;
+                        } else if (!checkCurrentHeight(value!)) {
+                          return tr(context).pleaseEnterAValidHeight;
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                  ),
                 ),
+              ),
+            ],
+          )
+              : Row(
+            children: <Widget>[
+              Flexible(
+                child: Card(
+                  elevation: 0,
+                  color: Theme.of(context).cardColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  margin: const EdgeInsetsDirectional.only(top: 20.0),
+                  child: Container(
+                    padding: const EdgeInsetsDirectional.only(
+                      start: 16,
+                      end: 12,
+                      top: 5,
+                      bottom: 5,
+                    ),
+                    child: InkWell(
+                      onTap: () => selectDate(context, settingsStore),
+                      child: IgnorePointer(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                textAlign: TextAlign.start,
+                                textDirection: Directionality.of(context),
+                                autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                                style: const TextStyle(
+                                  backgroundColor: Colors.transparent,
+                                  fontSize: 14.0,
+                                ),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintStyle: const TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: Color(0xff77778B),
+                                    fontSize: 14.0,
+                                  ),
+                                  hintText:
+                                  tr(context).widgets_restore_from_date,
+                                  errorStyle: const TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    height: 1.3,
+                                  ),
+                                  errorMaxLines: 3,
+                                ),
+                                controller: dateController,
+                                validator: (value) {
+                                  if (value?.isEmpty ?? true) {
+                                    return tr(context)
+                                        .dateShouldNotBeEmpty;
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Icon(
+                              Icons.calendar_today,
+                              color: settingsStore.isDarkTheme
+                                  ? const Color(0xff77778B)
+                                  : const Color(0xffB5B5C1),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
           SizedBox(
             height: 20,
           ),
@@ -292,7 +320,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
               },
               child: Container(
                   height: 50,
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsetsDirectional.all(10),
                   decoration: BoxDecoration(
                       color: Color(0xff2979FB),
                       borderRadius: BorderRadius.circular(10)),
@@ -322,6 +350,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
 
   Future selectDate(BuildContext context, SettingsStore settingsStore) async {
     final now = DateTime.now();
+    final String locale = Localizations.localeOf(context).languageCode;
     final date = await showDatePicker(
         builder: (context, child){
           return Theme(
@@ -351,7 +380,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
         initialEntryMode:DatePickerEntryMode.calendarOnly,
         context: context,
         initialDate: now.subtract(Duration(days: 1)),
-        firstDate: DateTime(2014, DateTime.april),
+        firstDate: DateTime(2018, DateTime.april),
         lastDate: now);
 
     if (date != null) {
@@ -359,7 +388,7 @@ class _BlockHeightSwapingWidgetState extends State<BlockHeightSwapingWidget> {
       final height = getHeightByDate(date: date);
 
       setState(() {
-        dateController.text = DateFormat('yyyy-MM-dd').format(date);
+        dateController.text = DateFormat('yyyy-MM-dd',locale).format(date);
         restoreHeightController.text = '$height';
         _height = height;
       });

@@ -32,7 +32,7 @@ class WelcomePage extends BasePage {
             children: [
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.all(_screenHeight * 0.10 / 3),
+                margin: EdgeInsetsDirectional.all(_screenHeight * 0.10 / 3),
                 decoration: BoxDecoration(
                     color: settingsStore.isDarkTheme
                         ? Color(0xff21212D)
@@ -42,11 +42,11 @@ class WelcomePage extends BasePage {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: _screenHeight * 0.10 / 3),
+                      padding: EdgeInsetsDirectional.only(top: _screenHeight * 0.10 / 3),
                       child: Image.asset('assets/images/new-images/beldex_logo.png',width: 44,height: 44,),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsetsDirectional.only(top: 8.0),
                       child: Text(
                         tr(context).wallet_list_title,
                         style: TextStyle(
@@ -75,7 +75,7 @@ class WelcomePage extends BasePage {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
+                      padding: const EdgeInsetsDirectional.only(top: 8.0),
                       child: Text(
                         tr(context)
                             .selectAnOptionBelowToCreateOrnRecoverExistingWallet,
@@ -99,8 +99,8 @@ class WelcomePage extends BasePage {
                       style: ElevatedButton.styleFrom(
                           alignment: Alignment.center,
                           backgroundColor: Color(0xff2979FB),
-                          padding: EdgeInsets.only(
-                              top: 13, bottom: 13, left: 42, right: 42),
+                          padding: EdgeInsetsDirectional.only(
+                              top: 13, bottom: 13, start: 42, end: 42),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       child: Text(
@@ -118,8 +118,8 @@ class WelcomePage extends BasePage {
                       style: ElevatedButton.styleFrom(
                           alignment: Alignment.centerLeft,
                           backgroundColor: Color(0xff0BA70F),
-                          padding: EdgeInsets.only(
-                              top: 13, bottom: 13, left: 42, right: 42),
+                          padding: EdgeInsetsDirectional.only(
+                              top: 13, bottom: 13, start: 42, end: 42),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10))),
                       child: Text(

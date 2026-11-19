@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:beldex_wallet/src/domain/common/contact.dart';
+import 'package:intl/intl.dart';
 import 'package:beldex_wallet/src/screens/send/confirm_sending.dart';
 import 'package:beldex_wallet/src/wallet/beldex/transaction/transaction_priority.dart';
 import 'package:beldex_wallet/src/widgets/common_loader.dart';
@@ -32,6 +33,8 @@ import 'package:beldex_wallet/src/widgets/beldex_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:keyboard_detection/keyboard_detection.dart';
+
+import '../../swap/util/utils.dart';
 
 class SendPage extends BasePage {
   SendPage({required this.flashMap});
@@ -258,7 +261,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                     color: Colors.transparent,
                     width: MediaQuery.sizeOf(context).width,
                     padding:
-                    EdgeInsets.only(top: 15, left: 25, right: 25, bottom: 10),
+                    EdgeInsetsDirectional.only(top: 15, start: 25, end: 25, bottom: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -314,10 +317,12 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                               children: <Widget>[
                                 SizedBox(height: 10),
                                 Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  textBaseline: TextBaseline.alphabetic,
                                   children: [
                                     Flexible(
                                       flex: 1,
-                                      child: Text(tr(context).availableBdx,
+                                      child: Text('${tr(context).availableBdx} ',
                                           style: TextStyle(
                                             backgroundColor: Colors.transparent,
                                             color: Theme.of(context)
@@ -348,7 +353,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                 ),
                 Padding(
                   padding:
-                  const EdgeInsets.only(top: 20.0, left: 5.0, right: 5.0),
+                  const EdgeInsetsDirectional.only(top: 20.0, start: 5.0, end: 5.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -379,7 +384,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                 Form(
                   key: _formKey,
                   child: Container(
-                    padding: EdgeInsets.only(top: 10, bottom: 30),
+                    padding: EdgeInsetsDirectional.only(top: 10, bottom: 30),
                     child: Column(children: <Widget>[
                       //Beldex Address
                       AddressTextField(
@@ -455,11 +460,14 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       Visibility(
                         visible: addressValidation,
                         child: Container(
-                            margin: EdgeInsets.only(left: 10),
+                            margin: EdgeInsetsDirectional.only(start: 10),
+                            width: double.infinity,
                             child: Align(
-                                alignment: Alignment.centerLeft,
+                                alignment: AlignmentDirectional.centerStart,
                                 child: Text(
                                   addressErrorMessage,
+                                  textAlign: TextAlign.start,
+                                  textDirection: Directionality.of(context),
                                   style: TextStyle(
                                     backgroundColor: Colors.transparent,
                                     color: Colors.red,
@@ -467,30 +475,36 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 ))),
                       ),
                       Container(
-                        margin: EdgeInsets.only(
-                          left: 7,
+                        width: double.infinity,
+                        margin: EdgeInsetsDirectional.only(
+                          start: 7,
+                          end: 7,
                           top: 20,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(tr(context).enterBdxToSend,
-                                style: TextStyle(
-                                    backgroundColor: Colors.transparent,
-                                    fontSize: 18.0, fontWeight: FontWeight.w700)),
-                          ],
+                        child: Text(
+                          tr(context).enterBdxToSend,
+                          maxLines: 2,
+                          softWrap: true,
+                          overflow: TextOverflow.visible,
+                          textAlign: TextAlign.start,
+                          textDirection: Directionality.of(context),
+                          style: TextStyle(
+                              backgroundColor: Colors.transparent,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
       
                       Container(
-                        margin: EdgeInsets.only(
+                        margin: EdgeInsetsDirectional.only(
                           top: 15,
-                          left: 5,
-                          right: 4,
+                          start: 5,
+                          end: 4,
                         ),
-                        padding: EdgeInsets.only(
-                          left: 25,
-                          right: 5,
+                        padding: EdgeInsetsDirectional.only(
+                          start: 25,
+                          end: 5,
                           top: 10,
                           bottom: 8,
                         ),
@@ -538,7 +552,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                               color: Colors.grey.withValues(alpha: 0.6)),
                                           hintText: tr(context).enterAmount,
                                           errorStyle:
-                                          TextStyle(color: BeldexPalette.red),
+                                          TextStyle(backgroundColor: Colors.transparent, color: BeldexPalette.red),
                                           counterText: ''),
                                       onTap: (){
                                         isFlashMap = false;
@@ -587,7 +601,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                 ),
                                 const SizedBox(width: 8),
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
+                                  padding: const EdgeInsetsDirectional.only(end: 8.0),
                                   child: TextButton(
                                     onPressed: () {
                                       final maxAmount = belDexAmountToDouble(
@@ -605,7 +619,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                     style: TextButton.styleFrom(
                                       backgroundColor:
                                           Theme.of(context).textTheme.bodySmall?.decorationColor,
-                                      padding: EdgeInsets.symmetric(
+                                      padding: EdgeInsetsDirectional.symmetric(
                                           horizontal: 16, vertical: 0),
                                       minimumSize: Size(0, 32),
                                       shape: RoundedRectangleBorder(
@@ -638,8 +652,8 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                         maxWidth: MediaQuery.sizeOf(context)
                                                 .width -
                                             95),
-                                    margin: EdgeInsets.only(top: 20, bottom: 5),
-                                    padding: EdgeInsets.symmetric(
+                                    margin: EdgeInsetsDirectional.only(top: 20, bottom: 5),
+                                    padding: EdgeInsetsDirectional.symmetric(
                                         horizontal: 12, vertical: 4),
                                     decoration: BoxDecoration(
                                         borderRadius:
@@ -687,7 +701,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                                               border: InputBorder.none,
                                               isDense: true,
                                               contentPadding:
-                                                  EdgeInsets.zero,
+                                                  EdgeInsetsDirectional.zero,
                                               hintStyle: TextStyle(
                                                 fontSize: 15.0,
                                                 fontWeight: FontWeight.w500,
@@ -715,32 +729,25 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       Visibility(
                         visible: amountValidation,
                         child: Container(
-                            margin: EdgeInsets.only(left: 10),
+                            margin: EdgeInsetsDirectional.only(start: 10),
+                            width: double.infinity,
                             child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Row(
-                                  children: [
-                                    // Expanded(
-                                    //     flex: 2,
-                                    //     child: Container()),
-                                    Expanded(
-                                      flex: 4,
-                                      child: Text(
-                                        amountErrorMessage,
-                                        style: TextStyle(
-                                          backgroundColor: Colors.transparent,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                alignment: AlignmentDirectional.centerStart,
+                                child: Text(
+                                  amountErrorMessage,
+                                  textAlign: TextAlign.start,
+                                  textDirection: Directionality.of(context),
+                                  style: TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: Colors.red,
+                                  ),
                                 ))),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(
+                        padding: const EdgeInsetsDirectional.only(
                           top: 10.0,
                           bottom: 10.0,
-                          left: 10.0,
+                          start: 10.0,
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -769,7 +776,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                       SizedBox(
                         width: double.infinity,
                         child: Text(
-                            '${isFlashTransaction == true ? tr(context).flashTransactionPriority(settingsStore.transactionPriority.toString()) : tr(context).send_priority(settingsStore.transactionPriority.toString())}',
+                            '${isFlashTransaction == true ? tr(context).flashTransactionPriority(settingsStore.transactionPriority.getTitle(tr(context)).toString()) : tr(context).send_priority(settingsStore.transactionPriority.getTitle(tr(context)).toString())}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               backgroundColor: Colors.transparent,
@@ -786,7 +793,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
             ),
             bottomSection: Observer(builder: (_) {
               return Container(
-                margin: EdgeInsets.only(left: 15, right: 15, top: 22),
+                margin: EdgeInsetsDirectional.only(start: 15, end: 15, top: 22),
                 child: InkWell(
                   onTap: syncStore.status is SyncedSyncStatus ||
                       syncStore.status.blocksLeft == 0
@@ -827,7 +834,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                   }
                       : null,
                   child: Container(
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsetsDirectional.all(15),
                     decoration: BoxDecoration(
                         color: Color(0xff0BA70F),
                         borderRadius: BorderRadius.circular(10)),
@@ -842,7 +849,7 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
+                          padding: const EdgeInsetsDirectional.only(start: 8.0),
                           child: Text(
                             tr(context).send,
                             style: TextStyle(
@@ -903,7 +910,13 @@ class SendFormState extends State<SendForm> with TickerProviderStateMixin {
         Navigator.of(context).pop();
         var errorMessage = state.error;
         if (state.error.contains('Failed to get output distribution')) {
-          errorMessage = 'Failed to get output distribution';
+          errorMessage = tr(context).failedToGetOutputDistribution;
+        } else if (state.error.contains("Invalid destination address")) {
+          errorMessage = tr(context).invalidDestinationAddress;
+        } else if (state.error.contains('Not enough money to transfer') ||
+            state.error.contains('overall balance only') ||
+            state.error.contains('sent amount')) {
+          errorMessage = localizedNotEnoughFundsError(state.error, tr(context));
         }
         showSimpleBeldexDialog(context, tr(context).alert, errorMessage,
             onPressed: (_) => Navigator.of(context).pop(),
@@ -977,7 +990,7 @@ class _CommitTransactionLoaderState extends State<CommitTransactionLoader> {
     _timer = Timer(const Duration(seconds: 1), () {
       if (!_transactionStarted && mounted) {
         _transactionStarted = true;
-        widget.sendStore.commitTransaction();
+        widget.sendStore.commitTransaction(t: tr(context));
       }
     });
   }
@@ -1018,7 +1031,7 @@ class _CommitTransactionLoaderState extends State<CommitTransactionLoader> {
                               : Color(0xff222222)),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15.0, left:8.0,right:8.0),
+                      padding: const EdgeInsetsDirectional.only(top: 15.0, start:8.0,end:8.0),
                       child: Text(
                         tr(context).initiatingTransactionDescription,
                         textAlign: TextAlign.center,

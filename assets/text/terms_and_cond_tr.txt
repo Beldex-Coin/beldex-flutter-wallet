@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<head> 
+  <style> 
+p {
+ font-size: 15px;
+
+ textAlign:center;
+}
+h6 {
+    font-size: 15px;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+<p><b>1. BELDEX Cüzdanının Kullanımı</b></p>
+<p>BELDEX Cüzdan uygulaması (bundan sonra “Uygulama” olarak anılacaktır), Beldex Blockchain/ağına erişim sağlar.
+   Uygulama üzerinden herhangi bir hukuki, ticari veya başka bir türde tavsiye alma yetkiniz yoktur ve bu tür bir tavsiye için Uygulamaya güvenmemelisiniz.
+   Uygulama içeriğine dayanarak tamamen kendi riskinizle hareket edersiniz. Herhangi bir işlem yapmaya karar vermeniz veya yapmamanız durumunda, ihtiyaç duyduğunuz ilgili yargı alanında lisanslı bir avukata danışmanız gerekmektedir.
+   Uygulamanın sahipleri veya katkıda bulunanları, Uygulamaya dayanarak aldığınız veya almadığınız kararlar, yaptığınız veya yapmadığınız eylemler ya da diğer davranışlarınızdan hiçbir şekilde sorumlu değildir.
+</p>
+<p><b>2. İşlemler</b></p>
+<p>
+    Uygulama, içeriklerin İngilizce versiyonunun çevirilerini içerebilir. Bu çeviriler yalnızca kolaylık sağlamak amacıyla sunulmaktadır.
+    İngilizce versiyon ile çevrilmiş versiyon arasında herhangi bir çelişki olması durumunda, İngilizce versiyon geçerli olacaktır.
+    Herhangi bir tutarsızlık fark ederseniz, lütfen bunu Github üzerinden bildiriniz.
+</p>
+<p><b>
+    3. BELDEX Cüzdanının Kullanımı ile İlgili Riskler
+</b></p>
+<p> 
+    Uygulama, Uygulamanın sahibi, Beldex Projesi ve Beldex Projesi sahipleri, ortakları, çalışanları, katkıda bulunanları ve tüm bağlı kuruluşlar; aşağıdaki beş kategori kapsamına giren olaylardan kaynaklanan herhangi bir kayıp, zarar veya talepten sorumlu tutulamaz:
+    <ol>
+        <li> 
+            Kullanıcı Hataları: Beldex ile ilgili herhangi bir yazılım veya hizmetin kullanımı sırasında kullanıcı tarafından yapılan hatalar (örneğin: unutulan şifreler, yanlış Beldex adreslerine gönderilen ödemeler, cüzdanların yanlışlıkla silinmesi).
+        </li>
+        <li> 
+            Yazılım Sorunları: Uygulama ve/veya Beldex ile ilgili herhangi bir yazılım veya hizmette meydana gelen sorunlar (örneğin: bozulmuş cüzdan dosyaları, hatalı oluşturulmuş işlemler, güvensiz kriptografik kütüphaneler, Uygulamayı ve/veya Beldex ile ilgili yazılımları etkileyen zararlı yazılımlar).
+        </li>
+        <li> 
+            Donanım Arızaları: Beldex ile ilgili herhangi bir yazılım veya hizmeti kullanan kullanıcının donanımında meydana gelen teknik arızalar (örneğin: arızalı veya hasarlı depolama cihazı nedeniyle veri kaybı).
+        </li>
+        <li> 
+            Güvenlik Sorunları: Beldex ile ilgili yazılım veya hizmetleri kullanan kullanıcıların yaşadığı güvenlik sorunları (örneğin: kullanıcı cüzdanlarına ve/veya hesaplarına yetkisiz erişim).
+        </li>
+        <li> 
+            Üçüncü Taraf Kaynaklı Sorunlar: Üçüncü tarafların eylemleri veya eylemsizlikleri ve/veya üçüncü tarafların yaşadığı olaylar (örneğin: hizmet sağlayıcıların iflası, hizmet sağlayıcılara yönelik bilgi güvenliği saldırıları ve üçüncü taraflar tarafından gerçekleştirilen dolandırıcılık).
+        </li>
+    </ol>
+</p>
+<p><b>
+    4. Sorumluluk Reddi
+</b></p>
+<p>
+    Kripto para birimleri yüksek derecede volatil olup, bunlara yatırım yapmak piyasa risklerine tabidir. Beldex’e yapılan yatırım, kısa veya uzun vadede önemli kazançlara ya da para kaybına yol açabilir. Beldex yatırımcıları, fiyatlarda geniş dalgalanmalar olabileceğini göz önünde bulundurmalıdır.
+</p>
+<p><b>
+    5. Vergi Yükümlülüklerine Uyum
+</b></p>
+<p>
+    Uygulama kullanıcıları, Beldex işlemlerine hangi vergilerin uygulanacağını belirlemekten tamamen kendileri sorumludur. Uygulamanın sahipleri veya katkıda bulunanları, Beldex işlemlerine uygulanacak vergilerin belirlenmesinden sorumlu değildir.
+</p>
+<p><b>
+    6. Uygulama Beldex Saklamaz, Göndermez veya Almaz
+</b></p>
+<p>
+    Uygulama, Beldex’i saklamaz, göndermez veya almaz. Bunun nedeni, Beldex’in yalnızca Beldex ağı üzerinde tutulan sahiplik kayıtları sayesinde var olmasıdır. Beldex üzerindeki herhangi bir mülkiyet transferi, Uygulama üzerinde değil, merkeziyetsiz Beldex ağı üzerinde gerçekleşir
+</p>
+<p><b>
+    7. Garanti Yoktur
+</b></p>
+<p>
+    Uygulama, herhangi bir garanti olmaksızın “olduğu gibi” sunulmaktadır. Bu durum, Uygulama üzerinde sağlanan içerik, veri, materyal ve/veya hizmetler için de geçerlidir.
+</p>
+<p><b>
+    8. Sorumluluğun Sınırlandırılması
+</b></p>
+<p>
+    Yasalar aksini gerektirmedikçe, Uygulamanın sahipleri veya katkıda bulunanları, Uygulamanın kullanımından kaynaklanan veya bununla bağlantılı olan hiçbir zarardan sorumlu tutulamaz. Bu zararlar, kullanım kaybı, kâr kaybı veya veri kaybı dahil ancak bunlarla sınırlı değildir.
+</p>
+<p><b>
+    9. Tahkim
+</b></p>
+<p>
+    Uygulama kullanıcısı, telif hakları, logolar, ticari markalar, ticari adlar, ticari sırlar veya patentlerle ilgili uyuşmazlıklar hariç olmak üzere, Uygulama veya bu sorumluluk reddi ile bağlantılı her türlü uyuşmazlığın tahkim yoluyla çözüleceğini kabul eder.
+    Tahkim süreci Seychelles yasalarına tabi olacaktır ve tahkim işlemleri Seychelles mahkemelerinde gerçekleştirilecektir.
+</p>
+<p><b>
+    10. Son Değişiklik
+</b></p>
+<p>
+    Bu sorumluluk reddi en son 10 Ekim 2021 tarihinde güncellenmiştir.
+</p>
+</body>

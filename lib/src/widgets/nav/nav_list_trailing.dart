@@ -13,7 +13,7 @@ class NavListTrailing extends StatelessWidget {
     return Container(
       color: Theme.of(context).textTheme.headlineSmall?.backgroundColor,
       child: ListTile(
-        contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+        contentPadding: EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
         leading: leading,
         title: Text(text,
             style: TextStyle(

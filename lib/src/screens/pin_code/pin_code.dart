@@ -192,8 +192,8 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
 
     return SafeArea(
         child: Container(
-          padding: Platform.isIOS ? EdgeInsets.only(left: 40.0, right: 40.0)
-          : EdgeInsets.only(left: 40.0, right: 40.0, bottom: 40.0),
+          padding: Platform.isIOS ? EdgeInsetsDirectional.only(start: 40.0, end: 40.0)
+          : EdgeInsetsDirectional.only(start: 40.0, end: 40.0, bottom: 40.0),
           child: Column(children: <Widget>[
             Platform.isIOS ?
             SizedBox.shrink()
@@ -202,7 +202,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
             ),
             Container(
               padding:
-              EdgeInsets.only(top: 10.0, bottom: 40.0, left: 40.0, right: 40.0),
+              EdgeInsetsDirectional.only(top: 10.0, bottom: 40.0, start: 40.0, end: 40.0),
               height: MediaQuery.sizeOf(context).height * 0.60 / 3,
               width: double.infinity,
               child: SvgPicture.asset(
@@ -211,9 +211,11 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
               ),
             ),
             Text(title.isNotEmpty ? title : tr(context).enterYourPin,
+                textAlign: TextAlign.center,
+                textDirection: Directionality.of(context),
                 style: TextStyle(
                     backgroundColor: Colors.transparent,
-                    fontSize: 19,
+                    fontSize: 17,
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).primaryTextTheme.bodySmall?.color)),
             Spacer(flex: 1),
@@ -239,7 +241,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                 : Colors.transparent,
                           )),
                       Container(
-                        margin: EdgeInsets.only(right: 5),
+                        margin: EdgeInsetsDirectional.only(end: 5),
                         width: 25,
                         child: Divider(
                           color: settingsStore.isDarkTheme
@@ -256,35 +258,52 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
             if (widget.hasLengthSwitcher) ...[
               Container(
                 width: 220,
-                margin: EdgeInsets.only(top: 8.0, left: 25, right: 25),
+                margin: const EdgeInsetsDirectional.only(
+                  top: 8.0,
+                  start: 25.0,
+                  end: 25.0,
+                ),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: settingsStore.isDarkTheme
-                        ? Color(0xff272733)
-                        : Color(0xffEDEDED)),
+                  borderRadius: BorderRadius.circular(10),
+                  color: settingsStore.isDarkTheme
+                      ? const Color(0xff272733)
+                      : const Color(0xffEDEDED),
+                ),
                 child: TextButton(
-                  //FlatButton
-                    onPressed: () {
-                      changePinLength(pinLength == 4 ? 6 : 4);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
+                  onPressed: () {
+                    changePinLength(pinLength == 4 ? 6 : 4);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Text(
                           _changePinLengthText(tr(context)),
+                          textAlign: TextAlign.center,
+                          softWrap: true,
                           style: TextStyle(
-                              backgroundColor: Colors.transparent,
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.w800,
-                              color:
-                              Theme.of(context).primaryTextTheme.bodySmall?.color),
+                            backgroundColor: Colors.transparent,
+                            fontSize: 15.0,
+                            fontWeight: FontWeight.w800,
+                            color: Theme.of(context)
+                                .primaryTextTheme
+                                .bodySmall
+                                ?.color,
+                          ),
                         ),
-                        Icon(Icons.keyboard_arrow_right,
-                            color: settingsStore.isDarkTheme
-                                ? Colors.white
-                                : Colors.black)
-                      ],
-                    )),
+                      ),
+                      const SizedBox(width: 4),
+                      Icon(
+                        Directionality.of(context) == TextDirection.rtl
+                            ? Icons.keyboard_arrow_left
+                            : Icons.keyboard_arrow_right,
+                        color: settingsStore.isDarkTheme
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                    ],
+                  ),
+                ),
               )
             ],
             Flexible(
@@ -339,7 +358,7 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                                                   : Color(0xffffffff),
                                               surfaceTintColor: Colors.transparent,
                                               content: Container(
-                                                margin: EdgeInsets.symmetric(
+                                                margin: EdgeInsetsDirectional.symmetric(
                                                     vertical: 20),
                                                 child: Column(
                                                   crossAxisAlignment:
@@ -415,8 +434,8 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                           index = 0;
                         } else if (index == 11) {
                           return Container(
-                            margin: EdgeInsets.only(
-                                left: marginLeft, right: marginRight),
+                            margin: EdgeInsetsDirectional.only(
+                                start: marginLeft, end: marginRight),
                             child: TextButton(
                                 onPressed: () => _pop(),
                                 child: SvgPicture.asset('assets/images/new-images/clear.svg', colorFilter: ColorFilter.mode(Theme.of(context)
@@ -430,8 +449,8 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
                         }
 
                         return Container(
-                          margin: EdgeInsets.only(
-                              left: marginLeft, right: marginRight),
+                          margin: EdgeInsetsDirectional.only(
+                              start: marginLeft, end: marginRight),
                           child: TextButton(
                             onPressed: () => _push(index),
                             child: Text('$index',
@@ -471,10 +490,6 @@ class PinCodeState<T extends PinCodeWidget> extends State<T> {
   }
 
   String _changePinLengthText(AppLocalizations t) {
-    return t.use +
-        (pinLength == 4
-            ? '6'
-            : '4') +
-        t.digit_pin;
+    return t.changePinLength(pinLength == 4 ? '6' : '4');
   }
 }

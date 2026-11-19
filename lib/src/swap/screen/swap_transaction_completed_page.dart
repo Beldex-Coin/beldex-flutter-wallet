@@ -29,7 +29,7 @@ class SwapTransactionCompletedPage extends BasePage {
   bool get isModalBackButton => false;
 
   @override
-  String getTitle(AppLocalizations t) => 'Swap';
+  String getTitle(AppLocalizations t) => t.swap;
 
   @override
   Color get textColor => Colors.white;
@@ -56,10 +56,12 @@ class SwapTransactionCompletedHome extends StatefulWidget {
   final GetTransactionStatus transactionStatus;
 
   @override
-  State<SwapTransactionCompletedHome> createState() => _SwapTransactionCompletedHomeState();
+  State<SwapTransactionCompletedHome> createState() =>
+      _SwapTransactionCompletedHomeState();
 }
 
-class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedHome> {
+class _SwapTransactionCompletedHomeState
+    extends State<SwapTransactionCompletedHome> {
   int currentStep = 4;
   int stepLength = 4;
   bool complete = true;
@@ -84,7 +86,6 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
   }
 
   late GetTransactionStatus transactionStatus;
-  late Timer timer;
   late GetTransactionsProvider getTransactionsProvider;
   late NetworkProvider networkProvider;
   bool _isInitialized = false;
@@ -93,10 +94,18 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
   void initState() {
     transactionStatus = widget.transactionStatus;
     Future.delayed(Duration(seconds: 2), () {
+      if (!mounted) return;
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
         Provider.of<GetTransactionsProvider>(context, listen: false)
             .getTransactionsData(
-            context, {"id": "${transactionStatus.transactionModel.txnId}", "destinationAddress": "${transactionStatus.transactionModel.payoutAddress}"}, exchangeName: transactionStatus.exchangeName);
+                context,
+                {
+                  "id": "${transactionStatus.transactionModel.txnId}",
+                  "destinationAddress":
+                      "${transactionStatus.transactionModel.payoutAddress}"
+                },
+                exchangeName: transactionStatus.exchangeName);
       });
     });
     super.initState();
@@ -110,44 +119,44 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
     final _scrollController = ScrollController(keepScrollOffset: true);
     return Consumer<NetworkProvider>(
         builder: (context, networkProvider, child) {
-          return Consumer<GetTransactionsProvider>(
-              builder: (context, getTransactionsProvider, child) {
-                this.getTransactionsProvider = getTransactionsProvider;
-                this.networkProvider = networkProvider;
-                _isInitialized = true;
-                if (getTransactionsProvider.loading) {
-                  return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0));
-                }
-
-                if(getTransactionsProvider.error != null || !networkProvider.isConnected) {
-                  return noInternet(settingsStore, _screenWidth);
-                }
-
-                if (getTransactionsProvider.loading == false && getTransactionsProvider.data!.result!.isNotEmpty) {
-                  return body(
-                      _screenWidth,
-                      _screenHeight,
-                      settingsStore,
-                      _scrollController,getTransactionsProvider.data,networkProvider);
-                }
-
-                return SizedBox();
-              });
+      return Consumer<GetTransactionsProvider>(
+          builder: (context, getTransactionsProvider, child) {
+        this.getTransactionsProvider = getTransactionsProvider;
+        this.networkProvider = networkProvider;
+        _isInitialized = true;
+        if (getTransactionsProvider.loading) {
+          return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0));
         }
-    );
+
+        if (getTransactionsProvider.error != null ||
+            !networkProvider.isConnected) {
+          return noInternet(settingsStore, _screenWidth, tr(context));
+        }
+
+        if (getTransactionsProvider.loading == false &&
+            getTransactionsProvider.data!.result!.isNotEmpty) {
+          return body(_screenWidth, _screenHeight, settingsStore,
+              _scrollController, getTransactionsProvider.data, networkProvider);
+        }
+
+        return SizedBox();
+      });
+    });
   }
 
   Widget body(
-      double _screenWidth,
-      double _screenHeight,
-      SettingsStore settingsStore,
-      ScrollController _scrollController, GetTransactionsModel? transactionModel, NetworkProvider networkProvider,
-      ) {
+    double _screenWidth,
+    double _screenHeight,
+    SettingsStore settingsStore,
+    ScrollController _scrollController,
+    GetTransactionsModel? transactionModel,
+    NetworkProvider networkProvider,
+  ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
             width: MediaQuery.sizeOf(context).width,
@@ -161,44 +170,50 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
         Expanded(
           child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
-                return SingleChildScrollView(
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                      child: IntrinsicHeight(
-                        child: Card(
-                          margin:
-                          EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 15),
-                          elevation: 0,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xff24242f)
-                              : Color(0xfff3f3f3),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          child: Container(
-                            padding: const EdgeInsets.all(15.0),
-                            width: _screenWidth,
-                            height: double.infinity,
-                            child: exchangeCompletedScreen(settingsStore, transactionModel, networkProvider),
-                          ),
-                        ),
-                      ),
-                    ));
-              }),
+            return SingleChildScrollView(
+                child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Card(
+                  margin: EdgeInsetsDirectional.only(
+                      top: 15, start: 10, end: 10, bottom: 15),
+                  elevation: 0,
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xff24242f)
+                      : Color(0xfff3f3f3),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Container(
+                    padding: const EdgeInsetsDirectional.all(15.0),
+                    width: _screenWidth,
+                    height: double.infinity,
+                    child: exchangeCompletedScreen(
+                        settingsStore, transactionModel, networkProvider),
+                  ),
+                ),
+              ),
+            ));
+          }),
         ),
       ],
     );
   }
 
-  Widget exchangeCompletedScreen(SettingsStore settingsStore, GetTransactionsModel? transactionModel, NetworkProvider networkProvider) {
+  Widget exchangeCompletedScreen(SettingsStore settingsStore,
+      GetTransactionsModel? transactionModel, NetworkProvider networkProvider) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        PairsWidget(settingsStore: settingsStore, from: transactionModel?.result![0].currencyFrom, to: transactionModel?.result![0].currencyTo),
+        PairsWidget(
+            settingsStore: settingsStore,
+            from: transactionModel?.result![0].currencyFrom,
+            to: transactionModel?.result![0].currencyTo),
         //Completed Details
         Container(
           width: MediaQuery.sizeOf(context).width,
-          margin: EdgeInsets.only(left: 6, right: 6, top: 20, bottom: 20),
+          margin:
+              EdgeInsetsDirectional.only(start: 6, end: 6, top: 20, bottom: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -208,7 +223,8 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                 children: [
                   SvgPicture.asset(
                     'assets/images/swap/swap_completed.svg',
-                    colorFilter: ColorFilter.mode(Color(0xff159B24), BlendMode.srcIn),
+                    colorFilter:
+                        ColorFilter.mode(Color(0xff159B24), BlendMode.srcIn),
                     width: 20,
                     height: 20,
                   ),
@@ -216,7 +232,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                     width: 10,
                   ),
                   Text(
-                    'Completed',
+                    tr(context).swap_completed,
                     style: TextStyle(
                         fontSize: 21,
                         fontWeight: FontWeight.w700,
@@ -227,8 +243,8 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
               //Transaction ID Details
               Container(
                   width: MediaQuery.sizeOf(context).width,
-                  margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
-                  padding: EdgeInsets.all(10),
+                  margin: EdgeInsetsDirectional.only(top: 10.0, bottom: 10.0),
+                  padding: EdgeInsetsDirectional.all(10),
                   decoration: BoxDecoration(
                     color: settingsStore.isDarkTheme
                         ? Colors.transparent
@@ -246,7 +262,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       Flexible(
                         flex: 1,
                         child: Text(
-                          'Transaction ID',
+                          tr(context).transaction_details_transaction_id,
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
@@ -278,13 +294,20 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             ),
                             InkWell(
                               onTap: () async {
-                                await ClipboardHelper.copyWithAutoClear(transactionModel.result![0].id!);
+                                await ClipboardHelper.copyWithAutoClear(
+                                    transactionModel.result![0].id!);
                                 await Fluttertoast.showToast(
                                   msg: tr(context).copied,
-                                  toastLength: Toast.LENGTH_SHORT, // Toast duration (short or long)
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  // Toast duration (short or long)
                                   gravity: ToastGravity.BOTTOM,
-                                  textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
-                                  backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+                                  textColor: settingsStore.isDarkTheme
+                                      ? Colors.black
+                                      : Colors.white,
+                                  // Toast gravity (top, center, or bottom)// Text color
+                                  backgroundColor: settingsStore.isDarkTheme
+                                      ? Colors.grey.shade50
+                                      : Colors.grey.shade900,
                                 );
                               },
                               child: Icon(
@@ -304,14 +327,14 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                   //Amount from and Amount To Details
                   TableRow(children: [
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: const EdgeInsetsDirectional.only(
                         top: 10.0,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Amount from',
+                            tr(context).swap_amount_from,
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -335,12 +358,13 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                      padding: const EdgeInsetsDirectional.only(
+                          top: 10.0, start: 10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Amount to',
+                            tr(context).swap_amount_to,
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -367,14 +391,14 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                   //Received Time and Amount Sent Details
                   TableRow(children: [
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: const EdgeInsetsDirectional.only(
                         top: 10.0,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Received Time',
+                            tr(context).swap_received_time,
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -386,7 +410,11 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             height: 5,
                           ),
                           Text(
-                            getDateAndTime(transactionModel.result![0].moneyReceived!),
+                            getDateAndTime(
+                              transactionModel.result![0].moneyReceived!,
+                              locale:
+                                  Localizations.localeOf(context).languageCode,
+                            ),
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -398,12 +426,13 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                      padding: const EdgeInsetsDirectional.only(
+                          top: 10.0, start: 10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Amount Sent',
+                            tr(context).swap_amount_sent,
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -415,7 +444,11 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                             height: 5,
                           ),
                           Text(
-                            getDateAndTime(transactionModel.result![0].moneySent!),
+                            getDateAndTime(
+                              transactionModel.result![0].moneySent!,
+                              locale:
+                                  Localizations.localeOf(context).languageCode,
+                            ),
                             style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -430,14 +463,14 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                   //Exchange Rate and Network fee Details
                   TableRow(children: [
                     Padding(
-                      padding: const EdgeInsets.only(
+                      padding: const EdgeInsetsDirectional.only(
                         top: 10.0,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Exchange Rate',
+                            tr(context).exchangeRate,
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -461,12 +494,13 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+                      padding: const EdgeInsetsDirectional.only(
+                          top: 10.0, start: 10.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Network fee',
+                            tr(context).swap_network_fee,
                             style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w400,
@@ -495,12 +529,12 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
               //Recipient Address Details
               Container(
                 width: MediaQuery.sizeOf(context).width,
-                margin: EdgeInsets.only(top: 10),
+                margin: EdgeInsetsDirectional.only(top: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Recipient Address',
+                      tr(context).transaction_details_recipient_address,
                       style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w400,
@@ -524,201 +558,227 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
                 ),
               ),
               //Memo Details
-              Container(
-                width: MediaQuery.sizeOf(context).width,
-                margin: EdgeInsets.only(top: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      transactionModel.result![0].payinExtraIdName ?? "---",
-                      style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w400,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffAFAFBE)
-                              : Color(0xff737373)),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      transactionModel.result![0].payinExtraId ?? "---",
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffFFFFFF)
-                              : Color(0xff222222)),
-                    ),
-                  ],
+              Visibility(
+                visible: transactionModel.result![0].payinExtraId != null,
+                child: Container(
+                  width: MediaQuery.sizeOf(context).width,
+                  margin: EdgeInsetsDirectional.only(top: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        transactionModel.result![0].payinExtraIdName ?? "---",
+                        style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffAFAFBE)
+                                : Color(0xff737373)),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        transactionModel.result![0].payinExtraId ?? "---",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: settingsStore.isDarkTheme
+                                ? Color(0xffFFFFFF)
+                                : Color(0xff222222)),
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],
           ),
         ),
-        Table(
-          children: [
-            //Input Hash and Output Hash
-            TableRow(children: [
-              Container(
-                margin: EdgeInsets.only(right: 5),
-                child: ElevatedButton(
-                  onPressed: () {
-                    showAlertDialog(context, transactionModel.result![0].payinHash!, transactionModel.result![0].payoutHash!);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: settingsStore.isDarkTheme
-                        ? Color(0xff242433)
-                        : Color(0xffDADADA),
-                    padding: EdgeInsets.only(
-                      top: 10,
-                      bottom: 10,
-                    ),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        side: BorderSide(
-                            color: settingsStore.isDarkTheme
-                                ? Color(0xff41415B)
-                                : Color(0xffF3F3F3))),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: SvgPicture.asset(
-                          'assets/images/swap/swap_input_hash.svg',
-                          colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
-                              ? Color(0xffAFAFBE)
-                              : Color(0xff737373), BlendMode.srcIn),
-                          width: 18,
-                          height: 18,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Flexible(
-                        flex: 2,
-                        child: Text('Input/Output Hash',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: settingsStore.isDarkTheme
-                                    ? Color(0xffffffff)
-                                    : Color(0xff222222),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400)),
-                      ),
-                    ],
+        //Input Hash and Output Hash
+        ElevatedButton(
+          onPressed: () {
+            showAlertDialog(
+              context,
+              transactionModel.result![0].payinHash!,
+              transactionModel.result![0].payoutHash!,
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            backgroundColor: settingsStore.isDarkTheme
+                ? const Color(0xff242433)
+                : const Color(0xffDADADA),
+            padding: const EdgeInsetsDirectional.symmetric(
+              horizontal: 10,
+              vertical: 10,
+            ),
+            minimumSize: Size.zero,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: BorderSide(
+                color: settingsStore.isDarkTheme
+                    ? const Color(0xff41415B)
+                    : const Color(0xffF3F3F3),
+              ),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/images/swap/swap_input_hash.svg',
+                colorFilter: ColorFilter.mode(
+                  settingsStore.isDarkTheme
+                      ? const Color(0xffAFAFBE)
+                      : const Color(0xff737373),
+                  BlendMode.srcIn,
+                ),
+                width: 18,
+                height: 18,
+              ),
+              const SizedBox(width: 5),
+              Flexible(
+                child: Text(
+                  tr(context).swap_input_output_hash,
+                  textAlign: TextAlign.center,
+                  softWrap: true,
+                  style: TextStyle(
+                    color: settingsStore.isDarkTheme
+                        ? const Color(0xffffffff)
+                        : const Color(0xff222222),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
               ),
-            ]),
-            //Open History and New Transaction
-            TableRow(children: [
-              Container(
-                margin: EdgeInsets.only(right: 5),
-                child: ElevatedButton(
-                  onPressed: () {
-                    if(networkProvider.isConnected) {
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                        Routes.swapTransactionList, (route) => route.isFirst,
-                        arguments: SwapTransactionHistory(transactionStatus.walletAddress, exchangeName: transactionStatus.exchangeName));
-                    } else {
-                      Fluttertoast.showToast(
-                        msg: tr(context).networkErrorCheckConnection,
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        textColor: Colors.white,
-                        backgroundColor: Color(0xff8B1C1C),
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: settingsStore.isDarkTheme
-                        ? Color(0xff32324A)
-                        : Color(0xffFFFFFF),
-                    padding: EdgeInsets.only(
-                      top: 10,
-                      bottom: 10,
+            ],
+          ),
+        ),
+        const SizedBox(height: 10,),
+        //Open History and New Transaction
+        Row(children: [
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {
+                if (networkProvider.isConnected) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      Routes.swapTransactionList, (route) => route.isFirst,
+                      arguments: SwapTransactionHistory(
+                          transactionStatus.walletAddress,
+                          exchangeName: transactionStatus.exchangeName));
+                } else {
+                  Fluttertoast.showToast(
+                    msg: tr(context).networkErrorCheckConnection,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    textColor: Colors.white,
+                    backgroundColor: Color(0xff8B1C1C),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: settingsStore.isDarkTheme
+                    ? Color(0xff32324A)
+                    : Color(0xffFFFFFF),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 4,
+                  vertical: 9,
+                ),
+                minimumSize: const Size(0, 40),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Text(tr(context).swap_open_history,
+                  maxLines: 2,
+                  softWrap: false,
+                  overflow: TextOverflow.visible,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: settingsStore.isDarkTheme
+                          ? Color(0xffffffff)
+                          : Color(0xff222222),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400)),
+            ),
+          ),
+          const SizedBox(
+            width: 8,
+          ),
+          Expanded(
+            child: ElevatedButton(
+              onPressed: () {
+                if (networkProvider.isConnected) {
+                  Navigator.of(context, rootNavigator: true)
+                      .pushNamedAndRemoveUntil(
+                      Routes.swapExchange, (route) => route.isFirst,
+                      arguments: transactionStatus.walletAddress);
+                } else {
+                  Fluttertoast.showToast(
+                    msg: tr(context).networkErrorCheckConnection,
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    textColor: Colors.white,
+                    backgroundColor: Color(0xff8B1C1C),
+                  );
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xff0BA70F),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 4,
+                  vertical: 9,
+                ),
+                minimumSize: const Size(0, 40),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/swap/swap_restart.svg',
+                    colorFilter: const ColorFilter.mode(
+                      Colors.white,
+                      BlendMode.srcIn,
                     ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                    width: 12,
+                    height: 12,
                   ),
-                  child: Text('Open History',
+                  const SizedBox(width: 5),
+                  Expanded(
+                    child: Text(
+                      tr(context).swap_new_transaction,
+                      maxLines: 2,
+                      softWrap: false,
+                      overflow: TextOverflow.visible,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: settingsStore.isDarkTheme
-                              ? Color(0xffffffff)
-                              : Color(0xff222222),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400)),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 5),
-                child: ElevatedButton(
-                  onPressed: () {
-                    if(networkProvider.isConnected) {
-                      Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil(
-                          Routes.swapExchange, (route) => route.isFirst,
-                          arguments: transactionStatus.walletAddress);
-                    } else {
-                      Fluttertoast.showToast(
-                        msg: tr(context).networkErrorCheckConnection,
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        textColor: Colors.white,
-                        backgroundColor: Color(0xff8B1C1C),
-                      );
-                    }
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff0BA70F),
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Flexible(
-                        flex: 1,
-                        child: SvgPicture.asset(
-                          'assets/images/swap/swap_restart.svg',
-                          colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
-                          width: 12,
-                          height: 12,
-                        ),
-                      ),
-                      SizedBox(width: 3),
-                      Flexible(
-                        flex: 3,
-                        child: Text('New Transaction',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Color(0xffffffff),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400)),
-                      ),
-                    ],
-                  ),
-                ),
+                ],
               ),
-            ])
-          ],
-        )
+            ),
+          ),
+        ]),
       ],
     );
   }
 
-  Future showAlertDialog(BuildContext context, String inputHash, String outputHash) async {
-    await showInputOutputDialog(context, inputHash,
+  Future showAlertDialog(
+      BuildContext context, String inputHash, String outputHash) async {
+    await showInputOutputDialog(
+      context,
+      inputHash,
       outputHash,
       onDismiss: (context) => Navigator.of(context).pop(true),
     );
@@ -726,8 +786,7 @@ class _SwapTransactionCompletedHomeState extends State<SwapTransactionCompletedH
 
   @override
   void dispose() {
-    timer.cancel();
-    if(_isInitialized) {
+    if (_isInitialized) {
       getTransactionsProvider.dispose();
     }
     super.dispose();

@@ -33,7 +33,7 @@ class RestoreWalletOptionsPage extends BasePage {
     return Column(
       children: [
         Container(
-          margin: EdgeInsets.only(left: 20, right: 20, top: 50),
+          margin: EdgeInsetsDirectional.only(start: 20, end: 20, top: 50),
           child: GestureDetector(
             onTap: () {
               seedLanguageStore.setCurrentRoute(Routes.restoreWalletFromSeed);
@@ -47,7 +47,7 @@ class RestoreWalletOptionsPage extends BasePage {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsetsDirectional.all(20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -58,7 +58,7 @@ class RestoreWalletOptionsPage extends BasePage {
                           Row(
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(right: 8.0),
+                                padding: EdgeInsetsDirectional.only(end: 8.0),
                                 child: SvgPicture.asset(
                                   'assets/images/new-images/restore_seed.svg',
                                   colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
@@ -66,14 +66,18 @@ class RestoreWalletOptionsPage extends BasePage {
                                       : Color(0xff16161D), BlendMode.srcIn),
                                 ),
                               ),
-                              Text(
-                                tr(context).restore_title_from_seed,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffF7F7F7)
-                                        : Color(0xff16161D)),
+                              Flexible(
+                                child: Text(
+                                  tr(context).restore_title_from_seed,
+                                  softWrap: true,
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xffF7F7F7)
+                                          : Color(0xff16161D)),
+                                ),
                               ),
                             ],
                           ),
@@ -93,7 +97,7 @@ class RestoreWalletOptionsPage extends BasePage {
                         Navigator.pushNamed(context, Routes.seedLanguage);
                       },
                       child: Container(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsetsDirectional.all(8),
                         decoration: BoxDecoration(
                             shape: BoxShape.circle, color: Color(0xff1BB71E)),
 
@@ -111,7 +115,7 @@ class RestoreWalletOptionsPage extends BasePage {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+          margin: EdgeInsetsDirectional.only(start: 20, end: 20, top: 20),
           child: GestureDetector(
             onTap: () {
               seedLanguageStore.setCurrentRoute(Routes.restoreWalletFromKeys);
@@ -125,7 +129,7 @@ class RestoreWalletOptionsPage extends BasePage {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsetsDirectional.all(20.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -136,7 +140,7 @@ class RestoreWalletOptionsPage extends BasePage {
                           Row(
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(right: 8.0),
+                                padding: EdgeInsetsDirectional.only(end: 8.0),
                                 child: SvgPicture.asset(
                                   'assets/images/new-images/restore_key.svg',
                                   colorFilter: ColorFilter.mode(settingsStore.isDarkTheme
@@ -144,14 +148,18 @@ class RestoreWalletOptionsPage extends BasePage {
                                       : Color(0xff16161D), BlendMode.srcIn),
                                 ),
                               ),
-                              Text(
-                                tr(context).restore_title_from_keys,
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xffF7F7F7)
-                                        : Color(0xff16161D)),
+                              Flexible(
+                                child: Text(
+                                  tr(context).restore_title_from_keys,
+                                  softWrap: true,
+                                  overflow: TextOverflow.visible,
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: settingsStore.isDarkTheme
+                                          ? Color(0xffF7F7F7)
+                                          : Color(0xff16161D)),
+                                ),
                               ),
                             ],
                           ),
@@ -173,7 +181,7 @@ class RestoreWalletOptionsPage extends BasePage {
                         Navigator.pushNamed(context, Routes.seedLanguage);
                       },
                       child: Container(
-                        padding: EdgeInsets.all(8),
+                        padding: EdgeInsetsDirectional.all(8),
                         decoration: BoxDecoration(
                             shape: BoxShape.circle, color: Color(0xff2979FB)),
                         child: Icon(

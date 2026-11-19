@@ -33,7 +33,7 @@ class StakePage extends BasePage {
   @override
   Widget leading(BuildContext context) {
     return Container(
-        padding: const EdgeInsets.only(top: 12.0, left: 10),
+        padding: const EdgeInsetsDirectional.only(top: 12.0, start: 10),
         decoration: BoxDecoration(
             //borderRadius: BorderRadius.circular(10),
             //color: Colors.black,
@@ -111,7 +111,7 @@ class StakePageBodyState extends State<StakePageBody> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(vertical: 20),
+                padding: EdgeInsetsDirectional.symmetric(vertical: 20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -196,7 +196,7 @@ class StakePageBodyState extends State<StakePageBody> {
                           direction: DismissDirection.endToStart,
                           background: Container(
                               color: BeldexPalette.red,
-                              padding: EdgeInsets.only(right: 10.0),
+                              padding: EdgeInsetsDirectional.only(end: 10.0),
                               alignment: AlignmentDirectional.centerEnd,
                               //color: BeldexPalette.red,
                               child: Column(

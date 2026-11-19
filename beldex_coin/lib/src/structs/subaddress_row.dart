@@ -1,13 +1,12 @@
-import 'dart:ffi';
-import 'package:ffi/ffi.dart';
+class SubaddressRow {
+  const SubaddressRow(
+      {required this.id, required this.address, required this.label});
 
-base class SubaddressRow extends Struct {
-  @Int64()
-  external int id;
-  external Pointer<Utf8> address;
-  external Pointer<Utf8> label;
+  final int id;
+  final String address;
+  final String label;
 
-  String getLabel() => label.toDartString();
-  String getAddress() => address.toDartString();
+  String getLabel() => label;
+  String getAddress() => address;
   int getId() => id;
 }

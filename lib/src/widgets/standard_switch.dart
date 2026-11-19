@@ -22,7 +22,7 @@ class StandardSwitchState extends State<StandardSwitch> {
     return GestureDetector(
       onTap: widget.onTaped,
       child: AnimatedContainer(
-        padding: EdgeInsets.only(left: 0.0, right: 0.0),
+        padding: EdgeInsetsDirectional.only(start: 0.0, end: 0.0),
         alignment: widget.value ? Alignment.centerRight : Alignment.centerLeft,
         duration: Duration(milliseconds: 250),
         width: 50.0,
@@ -45,7 +45,7 @@ class StandardSwitchState extends State<StandardSwitch> {
         child: Container(
           width: 22.0,
           height: 22.0,
-          padding: EdgeInsets.all(4),
+          padding: EdgeInsetsDirectional.all(4),
           decoration: BoxDecoration(
             //shape:BoxShape.circle,
               color:widget.icon ? widget.value ? Color(0xff0BA70F) : Color(0xff737373) :

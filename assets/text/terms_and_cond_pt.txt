@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<head> 
+  <style> 
+p {
+ font-size: 15px;
+
+ textAlign:center;
+}
+h6 {
+    font-size: 15px;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+<p><b>1. Uso da Carteira BELDEX</b></p>
+<p>O aplicativo BELDEX Wallet (doravante denominado “App”) permite o acesso à blockchain/rede Beldex. Você não está autorizado, e não deve confiar no App para obter aconselhamento jurídico, empresarial ou qualquer outro tipo de aconselhamento.
+   Você age por sua própria conta e risco ao utilizar o conteúdo do App. Caso decida agir ou deixar de agir, você deve consultar um advogado licenciado na jurisdição relevante em que precisa de assistência.
+   De nenhuma forma os proprietários ou colaboradores do App serão responsáveis por ações, decisões ou qualquer outro comportamento adotado ou não por você com base no uso do App.
+</p>
+<p><b>2. Transações</b></p>
+<p>
+    O App pode conter traduções da versão em inglês do conteúdo disponível no App. Essas traduções são fornecidas apenas por conveniência. Em caso de qualquer conflito entre a versão em inglês e a versão traduzida, a versão em inglês prevalecerá. Se você notar alguma inconsistência, por favor, reporte no Github.
+</p>
+<p><b>
+    3. Riscos relacionados ao uso da Carteira BELDEX
+</b></p>
+<p> 
+    O App, o proprietário do App, o Projeto Beldex e seus proprietários, parceiros, funcionários, colaboradores e quaisquer afiliados não serão responsáveis por quaisquer perdas, danos ou reivindicações decorrentes de eventos que se enquadrem nas seguintes cinco categorias:
+    <ol>
+        <li> 
+            Erros cometidos pelo usuário de qualquer software ou serviço relacionado ao Beldex, por exemplo, senhas esquecidas, pagamentos enviados para endereços Beldex incorretos e exclusão acidental de carteiras.
+        </li>
+        <li> 
+            Problemas de software do App e/ou de qualquer software ou serviço relacionado ao Beldex, por exemplo, arquivo de carteira corrompido, transações construídas incorretamente, bibliotecas criptográficas inseguras, malware que afete o App e/ou qualquer software ou serviço relacionado ao Beldex.
+        </li>
+        <li> 
+            Falhas técnicas no hardware do usuário de qualquer software ou serviço relacionado ao Beldex, por exemplo, perda de dados devido a dispositivo de armazenamento defeituoso ou danificado.
+        </li>
+        <li> 
+            Problemas de segurança enfrentados pelo usuário de qualquer software ou serviço relacionado ao Beldex, por exemplo, acesso não autorizado às carteiras e/ou contas dos usuários.
+        </li>
+        <li> 
+            Ações ou omissões de terceiros e/ou eventos ocorridos com terceiros, por exemplo, falência de provedores de serviços, ataques de segurança da informação a provedores de serviços e fraudes realizadas por terceiros.
+        </li>
+    </ol>
+</p>
+<p><b>
+    4. Aviso Legal
+</b></p>
+<p>
+    As criptomoedas são altamente voláteis e o investimento nelas está sujeito a riscos de mercado. O investimento em Beldex pode resultar em ganhos substanciais ou perdas financeiras em curtos ou até longos períodos. Os investidores em Beldex devem esperar grandes variações de preço.
+</p>
+<p><b>
+    5. Conformidade com Obrigações Fiscais
+</b></p>
+<p>
+    Os usuários do App são os únicos responsáveis por determinar quais impostos, se houver, se aplicam às suas transações com Beldex. Os proprietários ou colaboradores do App NÃO são responsáveis por determinar os impostos aplicáveis às transações com Beldex.
+</p>
+<p><b>
+    6. O App não armazena, envia ou recebe Beldex
+</b></p>
+<p>
+    O App não armazena, envia ou recebe Beldex. Isso ocorre porque o Beldex existe apenas por meio do registro de propriedade mantido na rede Beldex. Qualquer transferência de titularidade do Beldex ocorre dentro de uma rede descentralizada Beldex, e não no App.
+</p>
+<p><b>
+    7. Sem garantias
+</b></p>
+<p>
+    O App é fornecido “no estado em que se encontra”, sem quaisquer garantias de qualquer tipo relacionadas ao App e/ou a qualquer conteúdo, dados, materiais e/ou serviços disponibilizados no App.
+</p>
+<p><b>
+    8. Limitação de responsabilidade
+</b></p>
+<p>
+    Salvo quando exigido por lei, em nenhuma circunstância os proprietários ou colaboradores do App serão responsáveis por quaisquer danos de qualquer natureza, incluindo, mas não se limitando à perda de uso, perda de lucros ou perda de dados, decorrentes ou de qualquer forma relacionados ao uso do App.
+</p>
+<p><b>
+    9. Arbitragem
+</b></p>
+<p>
+    O usuário do App concorda em submeter à arbitragem qualquer disputa decorrente ou relacionada ao App ou a este aviso legal, exceto disputas relacionadas a direitos autorais, logotipos, marcas registradas, nomes comerciais, segredos comerciais ou patentes. A arbitragem será regida pelas leis de Seychelles e ocorrerá nos tribunais de Seychelles.
+</p>
+<p><b>
+    10. Última alteração
+</b></p>
+<p>
+    Este aviso legal foi alterado pela última vez em 10 de outubro de 2021.
+</p>
+</body>

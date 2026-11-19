@@ -236,26 +236,24 @@ class QuickexApiService {
       if (response.statusCode == 201 || response.statusCode == 200) {
         return _parseValidateAddress(response.body);
       }
-      return ValidateAddressResult(
-        result: false,
-        message: 'Invalid address',
-      );
+      return ValidateAddressResult(result: false);
     } catch (e) {
       print('Quickex validateAddress error: $e');
-      return ValidateAddressResult(result: false, message: 'Invalid address');
+      return ValidateAddressResult(result: false);
     }
   }
 
   /// Quickex returns validation as either a bare JSON boolean (`true`) or an
   /// object carrying `result`/`valid` plus an optional `message`. A bare
-  /// `false` carries no reason, so a default "Invalid address" is surfaced.
+  /// `false` carries no reason, so the app falls back to the localized
+  /// invalid-address message when needed.
   ValidateAddressResult _parseValidateAddress(String body) {
     try {
       final decoded = json.decode(body);
       if (decoded is bool) {
         return ValidateAddressResult(
           result: decoded,
-          message: decoded ? null : 'Invalid address',
+          message: null,
         );
       }
       if (decoded is Map<String, dynamic>) {
@@ -267,8 +265,7 @@ class QuickexApiService {
                 : false;
         return ValidateAddressResult(
           result: result,
-          message: decoded['message']?.toString() ??
-              (result ? null : 'Invalid address'),
+          message: decoded['message']?.toString(),
         );
       }
       return ValidateAddressResult(result: false);

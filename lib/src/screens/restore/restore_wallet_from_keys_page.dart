@@ -132,9 +132,14 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           : Color(0xffEDEDED),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 8.0),
+                      margin: EdgeInsetsDirectional.only(top: 8.0),
                       child: Container(
-                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                        padding: const EdgeInsetsDirectional.only(
+                          start: 16,
+                          end: 12,
+                          top: 5,
+                          bottom: 5,
+                        ),
                         child: Observer(
                           builder: (context) {
                             return TextFormField(
@@ -150,7 +155,15 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                                         ? Color(0xff77778B)
                                         : Color(0xff77778B)),
                                 hintText: tr(context).enterWalletName_,
-                                errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
+                                hintMaxLines: 2,
+                                maintainHintSize: false,
+                                  errorStyle: const TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    height: 1.3,
+                                  ),
+                                  errorMaxLines: 3,
                               ),
                               validator: (value) {
                                 walletRestorationStore.validateWalletName(value!,tr(context));
@@ -173,9 +186,14 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           : Color(0xffEDEDED),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 8.0),
+                      margin: EdgeInsetsDirectional.only(top: 8.0),
                       child: Container(
-                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                        padding: const EdgeInsetsDirectional.only(
+                          start: 16,
+                          end: 12,
+                          top: 5,
+                          bottom: 5,
+                        ),
                         child: Observer(
                             builder: (context) {
                             return TextFormField(
@@ -193,7 +211,13 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                                         ? Color(0xff77778B)
                                         : Color(0xff77778B)),
                                 hintText: tr(context).restore_address,
-                                errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
+                                  errorStyle: const TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    height: 1.3,
+                                  ),
+                                  errorMaxLines: 3,
                               ),
                               validator: (value) {
                                 walletRestorationStore.validateAddress(value!,t:tr(context));
@@ -216,9 +240,14 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           : Color(0xffEDEDED),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 8.0),
+                      margin: EdgeInsetsDirectional.only(top: 8.0),
                       child: Container(
-                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                        padding: const EdgeInsetsDirectional.only(
+                          start: 16,
+                          end: 12,
+                          top: 5,
+                          bottom: 5,
+                        ),
                         child: Observer(
                             builder: (context) {
                             return TextFormField(
@@ -233,8 +262,14 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xff77778B)
                                         : Color(0xff77778B)),
-                                hintText: tr(context).restore_view_key_private,
-                                errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
+                                hintText: tr(context).view_key_private,
+                                  errorStyle: const TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    height: 1.3,
+                                  ),
+                                  errorMaxLines: 3,
                               ),
                               validator: (value) {
                                 walletRestorationStore.validateKeys(value!,tr(context));
@@ -257,9 +292,14 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                           : Color(0xffEDEDED),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 8.0),
+                      margin: EdgeInsetsDirectional.only(top: 8.0),
                       child: Container(
-                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
+                        padding: const EdgeInsetsDirectional.only(
+                          start: 16,
+                          end: 12,
+                          top: 5,
+                          bottom: 5,
+                        ),
                         child: Observer(
                             builder: (context) {
                             return TextFormField(
@@ -274,8 +314,14 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                                     color: settingsStore.isDarkTheme
                                         ? Color(0xff77778B)
                                         : Color(0xff77778B)),
-                                hintText: tr(context).restore_spend_key_private,
-                                errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
+                                hintText: tr(context).spend_key_private,
+                                  errorStyle: const TextStyle(
+                                    backgroundColor: Colors.transparent,
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    height: 1.3,
+                                  ),
+                                  errorMaxLines: 3,
                               ),
                               validator: (value) {
                                 walletRestorationStore.validateKeys(value!,tr(context));
@@ -289,7 +335,7 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                   ],
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 20),
+                  margin: EdgeInsetsDirectional.only(top: 20),
                   width: MediaQuery.sizeOf(context).width * 1.5 / 3,
                   child: Divider(
                     height: 3,
@@ -313,8 +359,9 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
                       address: _addressController.text,
                       viewKey: _viewKeyController.text,
                       spendKey: _spendKeyController.text,
-                      restoreHeight: height);
-                  restoreHeights(height,settingsStore);
+                      restoreHeight: height,
+                      t: tr(context));
+                  restoreHeights(height,settingsStore,tr(context));
               }
             },
             text: tr(context).restore_recover,
@@ -327,20 +374,20 @@ class _RestoreFromKeysFromState extends State<RestoreFromKeysFrom> {
     );
   }
 
-  void restoreHeights(int height ,SettingsStore settingsStore) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('currentHeight', height);
-    canShowPopup = prefs.getBool('isRestored') ?? false;
-    if (canShowPopup) {
-       await Fluttertoast.showToast(
-      msg: 'You restored via keys',
-         toastLength: Toast.LENGTH_SHORT,
-         gravity: ToastGravity.BOTTOM,
-         textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
-                                backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
-    );
-    }
-  }
+void restoreHeights(int height, SettingsStore settingsStore, AppLocalizations t) async {
+     final prefs = await SharedPreferences.getInstance();
+     await prefs.setInt('currentHeight', height);
+     canShowPopup = prefs.getBool('isRestored') ?? false;
+     if (canShowPopup) {
+        await Fluttertoast.showToast(
+       msg: t.restoredViaKeys,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,
+                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
+     );
+     }
+   }
 }
 
 ///// block height selection widget
@@ -382,120 +429,177 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
         children: <Widget>[
           isRestoreByHeight
               ? Row(
-                  children: <Widget>[
-                    Flexible(
-                        child: Card(
-                      elevation: 0,
-                      color: Theme.of(context).cardColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 20.0),
-                      child: Container(
-                        padding: EdgeInsets.only(left: 30, top: 5, bottom: 5),
-                        child: Observer(
-                            builder: (context) {
-                            return TextFormField(
-                              enabled: !(walletRestorationStore.state is WalletIsRestoring),
-                              textInputAction: TextInputAction.done,
-                              style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
-                              controller: restoreHeightController,
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              inputFormatters: [FilteringTextInputFormatter.digitsOnly,NoSpaceFormatter(),FilteringTextInputFormatter.deny(RegExp('[-,. ]'))],
-                              keyboardType: TextInputType.numberWithOptions(
-                                  decimal:true),
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
-                                    backgroundColor:Colors.transparent,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xff77778B)
-                                        : Color(0xff77778B)),
-                                hintText:
-                                    tr(context).widgets_restore_from_blockheight,
-                                errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
-                              ),
-                              validator: (value) {
-                                final pattern = RegExp(r'^(?!.*\s)\d+$');
-                                if (!pattern.hasMatch(value!)) {
-                                  return tr(context).enterValidHeightWithoutSpace;
-                                }else {
-                                  return null;
-                                }
-                              },
-                            );
-                          }
-                        ),
-                      ),
-                    ))
-                  ],
-                )
-              : Row(
-                  children: <Widget>[
-                    Flexible(
-                        child: Card(
-                      elevation: 0,
-                      color: Theme.of(context).cardColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                      margin: EdgeInsets.only(top: 20.0),
-                      child: Container(
-                        padding: EdgeInsets.only(
-                            left: 30, top: 5, bottom: 5, right: 10),
-                        child: InkWell(
-                          onTap: () {
-                            if(!(walletRestorationStore.state is WalletIsRestoring)) {
-                              selectDate(context,settingsStore);
-                            }
-                          },
-                          child: IgnorePointer(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 160,
-                                  child: Observer(
-                                      builder: (context) {
-                                      return TextFormField(
-                                        enabled: !(walletRestorationStore.state is WalletIsRestoring),
-                                        autovalidateMode:
-                                            AutovalidateMode.onUserInteraction,
-                                        style: TextStyle(backgroundColor:Colors.transparent,fontSize: 14.0),
-                                        decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintStyle: TextStyle(
-                                              backgroundColor:Colors.transparent,
-                                              color: settingsStore.isDarkTheme
-                                                  ? Color(0xff77778B)
-                                                  : Color(0xff77778B)),
-                                          hintText:tr(context)
-                                              .widgets_restore_from_date,
-                                          errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 0.10),
-                                        ),
-                                        controller: dateController,
-                                        validator: (value) {
-                                          if (value?.isEmpty ?? false) {
-                                            return tr(context)
-                                                .dateShouldNotBeEmpty;
-                                          } else {
-                                            return null;
-                                          }
-                                        },
-                                      );
-                                    }
-                                  ),
-                                ),
-                                Icon(Icons.calendar_today,
-                                    color: settingsStore.isDarkTheme
-                                        ? Color(0xff77778B)
-                                        : Color(0xffB5B5C1))
-                              ],
-                            ),
+            children: <Widget>[
+              Flexible(
+                child: Card(
+                  elevation: 0,
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xff272733)
+                      : Color(0xffEDEDED),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  margin: const EdgeInsetsDirectional.only(top: 20.0),
+                  child: Container(
+                    padding: const EdgeInsetsDirectional.only(
+                      start: 16,
+                      end: 12,
+                      top: 5,
+                      bottom: 5,
+                    ),
+                    child: Observer(
+                      builder: (context) {
+                        return TextFormField(
+                          enabled: !(walletRestorationStore.state
+                          is WalletIsRestoring),
+                          textInputAction: TextInputAction.done,
+                          textAlign: TextAlign.start,
+                          textDirection: Directionality.of(context),
+                          style: const TextStyle(
+                            backgroundColor: Colors.transparent,
+                            fontSize: 14.0,
                           ),
+                          controller: restoreHeightController,
+                          autovalidateMode:
+                          AutovalidateMode.onUserInteraction,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            NoSpaceFormatter(),
+                            FilteringTextInputFormatter.deny(
+                              RegExp(r'[-,. ]'),
+                            ),
+                          ],
+                          keyboardType:
+                          const TextInputType.numberWithOptions(
+                            decimal: true,
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintStyle: const TextStyle(
+                              backgroundColor: Colors.transparent,
+                              color: Color(0xff77778B),
+                              fontSize: 14.0,
+                            ),
+                            hintText: tr(context)
+                                .widgets_restore_from_blockheight,
+                            errorStyle: const TextStyle(
+                              backgroundColor: Colors.transparent,
+                              color: Colors.red,
+                              fontSize: 12,
+                              height: 1.3,
+                            ),
+                            errorMaxLines: 3,
+                          ),
+                          validator: (value) {
+                            final pattern = RegExp(r'^(?!.*\s)\d+$');
+
+                            if (!pattern.hasMatch(value ?? '')) {
+                              return tr(context)
+                                  .enterValidHeightWithoutSpace;
+                            }
+
+                            return null;
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          )
+              : Row(
+            children: <Widget>[
+              Flexible(
+                child: Card(
+                  elevation: 0,
+                  color: settingsStore.isDarkTheme
+                      ? Color(0xff272733)
+                      : Color(0xffEDEDED),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  margin: const EdgeInsetsDirectional.only(top: 20.0),
+                  child: Container(
+                    padding: const EdgeInsetsDirectional.only(
+                      start: 16,
+                      end: 12,
+                      top: 5,
+                      bottom: 5,
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        if (!(walletRestorationStore.state
+                        is WalletIsRestoring)) {
+                          selectDate(context, settingsStore);
+                        }
+                      },
+                      child: IgnorePointer(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Observer(
+                                builder: (context) {
+                                  return TextFormField(
+                                    enabled: !(walletRestorationStore.state
+                                    is WalletIsRestoring),
+                                    textAlign: TextAlign.start,
+                                    textDirection:
+                                    Directionality.of(context),
+                                    autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                    style: const TextStyle(
+                                      backgroundColor: Colors.transparent,
+                                      fontSize: 14.0,
+                                    ),
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintStyle: const TextStyle(
+                                        backgroundColor:
+                                        Colors.transparent,
+                                        color: Color(0xff77778B),
+                                        fontSize: 14.0,
+                                      ),
+                                      hintText: tr(context)
+                                          .widgets_restore_from_date,
+                                      errorStyle: const TextStyle(
+                                        backgroundColor:
+                                        Colors.transparent,
+                                        color: Colors.red,
+                                        fontSize: 12,
+                                        height: 1.3,
+                                      ),
+                                      errorMaxLines: 3,
+                                    ),
+                                    controller: dateController,
+                                    validator: (value) {
+                                      if (value?.isEmpty ?? true) {
+                                        return tr(context)
+                                            .dateShouldNotBeEmpty;
+                                      }
+
+                                      return null;
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Icon(
+                              Icons.calendar_today,
+                              color: settingsStore.isDarkTheme
+                                  ? const Color(0xff77778B)
+                                  : const Color(0xffB5B5C1),
+                            ),
+                          ],
                         ),
                       ),
-                    ))
-                  ],
+                    ),
+                  ),
                 ),
+              ),
+            ],
+          ),
           SizedBox(
             height: 20,
           ),
@@ -509,7 +613,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
               style: ElevatedButton.styleFrom(
                 alignment: Alignment.center,
                 backgroundColor: Color(0xff2979FB),
-                padding: EdgeInsets.all(12),
+                padding: EdgeInsetsDirectional.all(12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -541,6 +645,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
 
   Future selectDate(BuildContext context, SettingsStore settingsStore) async {
     final now = DateTime.now();
+    final String locale = Localizations.localeOf(context).languageCode;
     final date = await showDatePicker(
         builder: (context, child){
           return Theme(
@@ -570,7 +675,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
         initialEntryMode:DatePickerEntryMode.calendarOnly,
         context: context,
         initialDate: now.subtract(Duration(days: 1)),
-        firstDate: DateTime(2014, DateTime.april),
+        firstDate: DateTime(2018, DateTime.april),
         lastDate: now);
 
     if (date != null) {
@@ -578,7 +683,7 @@ class _BlockHeightSwappingWidgetState extends State<BlockHeightSwappingWidget> {
       final height = getHeightByDate(date: date);
 
       setState(() {
-        dateController.text = DateFormat('yyyy-MM-dd').format(date);
+        dateController.text = DateFormat('yyyy-MM-dd', locale).format(date);
         restoreHeightController.text = '$height';
         _height = height;
       });

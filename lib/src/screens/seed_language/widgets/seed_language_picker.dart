@@ -11,7 +11,7 @@ class SeedLanguagePicker extends StatelessWidget {
   List<String> getSeedLocales(AppLocalizations t){
     return [
       t.seed_language_english,
-      'Chinese (simplified)',
+      t.seed_language_chinese,
       t.seed_language_dutch,
       t.seed_language_german,
       t.seed_language_japanese,
@@ -33,7 +33,7 @@ class SeedLanguagePicker extends StatelessWidget {
         builder: (_) => InkWell(
           onTap: () => _setSeedLanguage(context),
           child: Container(
-            padding: EdgeInsets.all(8.0),
+            padding: EdgeInsetsDirectional.all(8.0),
             //width: double.infinity,
             decoration: BoxDecoration(
                 border: Border.all(
@@ -52,11 +52,10 @@ class SeedLanguagePicker extends StatelessWidget {
   Future<void> _setSeedLanguage(BuildContext context) async {
     final seedLanguageStore = context.read<SeedLanguageStore>();
     final seedLocales = getSeedLocales(tr(context));
-    var selectedSeedLanguage = await presentPicker(context, seedLocales);
+    final selectedSeedLanguage = await presentPicker(context, seedLocales);
 
     if (selectedSeedLanguage != null) {
-      selectedSeedLanguage = seedLanguages[seedLocales.indexOf(selectedSeedLanguage)];
-      seedLanguageStore.setSelectedSeedLanguage(selectedSeedLanguage);
+      seedLanguageStore.setSelectedSeedLanguage(seedLocales.indexOf(selectedSeedLanguage));
     }
   }
 }

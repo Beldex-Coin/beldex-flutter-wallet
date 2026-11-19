@@ -27,7 +27,7 @@ class SettingsLinkListRow extends StatelessWidget {
               feePriorityVisibility == false ?Colors.grey:Colors.transparent,
         ),
         child: ListTile(
-          contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+          contentPadding: EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,

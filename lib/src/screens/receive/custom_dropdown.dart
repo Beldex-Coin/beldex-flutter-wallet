@@ -60,12 +60,12 @@ class _ExpandedSectionState extends State<ExpandedSection>
         sizeFactor: animation!,
         child: Container(
         
-          padding: EdgeInsets.only(bottom: 5),
+          padding: EdgeInsetsDirectional.only(bottom: 5),
           constraints: BoxConstraints(
               //minHeight: 100,
               minWidth: double.infinity,
               maxHeight: widget.height! > 5 ? 195 : widget.height! == 1?55:widget.height! * 50.0),
-          child: Padding(padding: const EdgeInsets.only(bottom: 5), child: widget.child),
+          child: Padding(padding: const EdgeInsetsDirectional.only(bottom: 5), child: widget.child),
         ));
   }
 }
@@ -190,10 +190,10 @@ class _ExpandedSectionState extends State<ExpandedSection>
 //                         : MainAxisAlignment.start,
 //                     children: <Widget>[
 //                       // Padding(
-//                       //   padding: const EdgeInsets.only(top: 10,),
+//                       //   padding: const EdgeInsetsDirectional.only(top: 10,),
 //                       //   child:
 //                       Container(
-//                         padding: EdgeInsets.only(
+//                         padding: EdgeInsetsDirectional.only(
 //                             top: MediaQuery.sizeOf(context).height * 0.06 / 3),
 //                         constraints: BoxConstraints(
 //                             maxHeight: widget.maxListHeight,
@@ -220,13 +220,13 @@ class _ExpandedSectionState extends State<ExpandedSection>
 //                               controller: _scrollController,
 //                               thickness: 3.6,
 //                               child: ListView(
-//                                 padding: EdgeInsets.zero,
+//                                 padding: EdgeInsetsDirectional.zero,
 //                                 controller: _scrollController,
 //                                 shrinkWrap: true,
 //                                 children: widget.items
 //                                     .map((item) => GestureDetector(
 //                                           child: Padding(
-//                                             padding: const EdgeInsets.all(8.0),
+//                                             padding: const EdgeInsetsDirectional.all(8.0),
 //                                             child: item.child,
 //                                           ),
 //                                           onTap: () {
@@ -303,12 +303,12 @@ class _ExpandedSectionState extends State<ExpandedSection>
 //                   // flex: 3,
 //                   child: _isAnyItemSelected
 //                       ? Padding(
-//                           padding: const EdgeInsets.only(left: 4.0),
+//                           padding: const EdgeInsetsDirectional.only(start: 4.0),
 //                           child: _itemSelected,
 //                         )
 //                       : Padding(
-//                           padding: const EdgeInsets.only(
-//                               left: 4.0), // change it here
+//                           padding: const EdgeInsetsDirectional.only(
+//                               start: 4.0), // change it here
 //                           child: Center(
 //                             child: Text(
 //                               widget.hintText,
@@ -339,15 +339,15 @@ class _ExpandedSectionState extends State<ExpandedSection>
 //     if (_isOpen && !_isReverse) {
 //       return BoxDecoration(
 //           borderRadius: BorderRadius.only(
-//               topLeft: Radius.circular(widget.borderRadius),
-//               topRight: Radius.circular(
+//               topstart: Radius.circular(widget.borderRadius),
+//               topend: Radius.circular(
 //                 widget.borderRadius,
 //               )));
 //     } else if (_isOpen && _isReverse) {
 //       return BoxDecoration(
 //           borderRadius: BorderRadius.only(
-//               bottomLeft: Radius.circular(widget.borderRadius),
-//               bottomRight: Radius.circular(
+//               bottomstart: Radius.circular(widget.borderRadius),
+//               bottomend: Radius.circular(
 //                 widget.borderRadius,
 //               )));
 //     } else if (!_isOpen) {

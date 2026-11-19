@@ -26,7 +26,7 @@ abstract class WalletCreationStoreBase with Store {
   String? errorMessage;
 
   @action
-  Future create({required String name, required String language}) async {
+  Future create({required String name, required String language, required AppLocalizations t}) async {
     state = WalletCreationStateInitial();
 
     try {
@@ -34,6 +34,8 @@ abstract class WalletCreationStoreBase with Store {
       await walletListService.create(name, language);
       authStore.created();
       state = WalletCreatedSuccessfully();
+    } on WalletIsExistException catch (e) {
+      state = WalletCreationFailure(error: e.localizedMessage(t));
     } catch (e) {
       state = WalletCreationFailure(error: e.toString());
     }
