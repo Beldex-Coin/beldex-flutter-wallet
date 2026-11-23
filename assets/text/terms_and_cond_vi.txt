@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<head> 
+  <style> 
+p {
+ font-size: 15px;
+
+ textAlign:center;
+}
+h6 {
+    font-size: 15px;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+<p><b>1. Sử dụng ví BELDEX (Use of the BELDEX Wallet)</b></p>
+<p>Ứng dụng BELDEX Wallet (sau đây gọi là “Ứng dụng”) cho phép bạn truy cập vào blockchain/mạng Beldex. Bạn không được phép, và cũng không nên, dựa vào Ứng dụng để nhận tư vấn pháp lý, tư vấn kinh doanh hoặc bất kỳ loại tư vấn nào khác.
+   Bạn tự chịu rủi ro khi sử dụng nội dung của Ứng dụng. Nếu bạn quyết định thực hiện hoặc không thực hiện bất kỳ hành động nào, bạn nên liên hệ với luật sư được cấp phép tại khu vực pháp lý liên quan nơi bạn cần hỗ trợ.
+   Trong mọi trường hợp, chủ sở hữu hoặc những người đóng góp cho Ứng dụng không chịu trách nhiệm đối với bất kỳ hành động, quyết định hoặc hành vi nào mà bạn thực hiện hoặc không thực hiện dựa trên Ứng dụng.
+</p>
+<p><b>2. Giao dịch</b></p>
+<p>
+    Ứng dụng có thể chứa các bản dịch từ phiên bản tiếng Anh của nội dung có sẵn trên Ứng dụng. Các bản dịch này chỉ nhằm mục đích tiện lợi. Trong trường hợp có bất kỳ sự khác biệt nào giữa phiên bản tiếng Anh và bản dịch, phiên bản tiếng Anh sẽ được ưu tiên áp dụng. Nếu bạn phát hiện bất kỳ sự không nhất quán nào, vui lòng báo cáo trên Github.
+</p>
+<p><b>
+    3. Rủi ro liên quan đến việc sử dụng ví BELDEX
+</b></p>
+<p> 
+    Ứng dụng, chủ sở hữu của Ứng dụng, dự án Beldex, các chủ sở hữu dự án Beldex, đối tác, nhân viên, cộng tác viên và bất kỳ bên liên kết nào sẽ không chịu trách nhiệm đối với bất kỳ tổn thất, thiệt hại hoặc khiếu nại nào phát sinh từ các sự kiện thuộc phạm vi của năm nhóm sau:
+    <ol>
+        <li> 
+            Các lỗi do người dùng gây ra khi sử dụng bất kỳ phần mềm hoặc dịch vụ liên quan đến Beldex, ví dụ: quên mật khẩu, gửi thanh toán đến sai địa chỉ Beldex, hoặc vô tình xóa ví.
+        </li>
+        <li> 
+            Các vấn đề về phần mềm của Ứng dụng và/hoặc bất kỳ phần mềm hoặc dịch vụ liên quan đến Beldex, ví dụ: tệp ví bị hỏng, giao dịch được tạo sai, thư viện mã hóa không an toàn, phần mềm độc hại ảnh hưởng đến Ứng dụng và/hoặc dịch vụ liên quan đến Beldex.
+        </li>
+        <li> 
+            Lỗi kỹ thuật từ phần cứng của người dùng khi sử dụng bất kỳ phần mềm hoặc dịch vụ liên quan đến Beldex, ví dụ: mất dữ liệu do thiết bị lưu trữ bị lỗi hoặc hư hỏng.
+        </li>
+        <li> 
+            Các vấn đề bảo mật mà người dùng gặp phải khi sử dụng bất kỳ phần mềm hoặc dịch vụ liên quan đến Beldex, ví dụ: truy cập trái phép vào ví và/hoặc tài khoản của người dùng.
+        </li>
+        <li> 
+            Hành động hoặc việc không hành động của bên thứ ba và/hoặc các sự kiện do bên thứ ba gây ra, ví dụ: nhà cung cấp dịch vụ phá sản, các cuộc tấn công an ninh thông tin vào nhà cung cấp dịch vụ, và các hành vi gian lận do bên thứ ba thực hiện.
+        </li>
+    </ol>
+</p>
+<p><b>
+    4. Tuyên bố miễn trừ
+</b></p>
+<p>
+    Tiền điện tử có mức độ biến động rất cao và việc đầu tư vào chúng luôn tiềm ẩn rủi ro thị trường. Đầu tư vào Beldex có thể mang lại lợi nhuận lớn hoặc gây thua lỗ đáng kể trong cả ngắn hạn lẫn dài hạn. Nhà đầu tư vào Beldex nên chuẩn bị tâm lý rằng giá có thể biến động trong phạm vi rất rộng.
+</p>
+<p><b>
+    5. Tuân thủ nghĩa vụ thuế
+</b></p>
+<p>
+    Người dùng Ứng dụng hoàn toàn chịu trách nhiệm xác định các nghĩa vụ thuế (nếu có) áp dụng cho các giao dịch Beldex của mình. Chủ sở hữu hoặc những người đóng góp cho Ứng dụng KHÔNG chịu trách nhiệm xác định các loại thuế áp dụng cho các giao dịch Beldex.
+</p>
+<p><b>
+    6. Ứng dụng không lưu trữ, gửi hoặc nhận Beldex
+</b></p>
+<p>
+    Ứng dụng không lưu trữ, gửi hoặc nhận Beldex. Điều này là do Beldex chỉ tồn tại dựa trên bản ghi quyền sở hữu được duy trì trong mạng Beldex. Mọi việc chuyển quyền sở hữu Beldex đều diễn ra trong mạng Beldex phi tập trung, chứ không phải trên Ứng dụng.
+</p>
+<p><b>
+    7. Garanti Yoktu
+</b></p>
+<p>
+    Uygulama, herhangi bir garanti olmaksızın “olduğu gibi” sunulmaktadır. Bu durum, Uygulama üzerinde sağlanan içerik, veri, materyal ve/veya hizmetler için de geçerlidir.
+</p>
+<p><b>
+    8. Sorumluluğun Sınırlandırılması
+</b></p>
+<p>
+    Yasalar aksini gerektirmedikçe, Uygulamanın sahipleri veya katkıda bulunanları, Uygulamanın kullanımından kaynaklanan veya bununla bağlantılı olan hiçbir zarardan sorumlu tutulamaz. Bu zararlar, kullanım kaybı, kâr kaybı veya veri kaybı dahil ancak bunlarla sınırlı değildir.
+</p>
+<p><b>
+    9. Tahkim
+</b></p>
+<p>
+    Uygulama kullanıcısı, telif hakları, logolar, ticari markalar, ticari adlar, ticari sırlar veya patentlerle ilgili uyuşmazlıklar hariç olmak üzere, Uygulama veya bu sorumluluk reddi ile bağlantılı her türlü uyuşmazlığın tahkim yoluyla çözüleceğini kabul eder.
+    Tahkim süreci Seychelles yasalarına tabi olacaktır ve tahkim işlemleri Seychelles mahkemelerinde gerçekleştirilecektir.
+</p>
+<p><b>
+    10. Son Değişiklik
+</b></p>
+<p>
+    Bu sorumluluk reddi en son 10 Ekim 2021 tarihinde güncellenmiştir.
+</p>
+</body>

@@ -27,21 +27,27 @@ class FaqPage extends BasePage {
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              margin: EdgeInsets.only(left: 15),
-              child: Text(
-                tr(context).howCanWenhelpYou,
-                style: TextStyle(
-                    backgroundColor: Colors.transparent,
-                    fontSize: MediaQuery.sizeOf(context).height * 0.15 / 3,
-                    fontWeight: FontWeight.bold),
+            Expanded(
+              child: Container(
+                margin: EdgeInsetsDirectional.only(start: 15),
+                child: Text(
+                  tr(context).howCanWenhelpYou,
+                  softWrap: true,
+                  overflow: TextOverflow.visible,
+                  style: TextStyle(
+                      backgroundColor: Colors.transparent,
+                      fontSize: MediaQuery.sizeOf(context).height * 0.15 / 3,
+                      height: 1.2,
+                      fontWeight: FontWeight.bold),
+                ),
               ),
             ),
             Container(
               width: 90,
               height: 100,
-              margin: EdgeInsets.only(right: 15),
+              margin: EdgeInsetsDirectional.only(end: 15),
               child: Image.asset('assets/images/new-images/faq.png'),
             )
           ],
@@ -66,7 +72,7 @@ class FaqPage extends BasePage {
                         dividerColor: Colors.transparent,),
                       child: Container(
                         margin:
-                            EdgeInsets.only(left: 15, right: 15.0, bottom: 8.0),
+                            EdgeInsetsDirectional.only(start: 15, end: 15.0, bottom: 8.0),
                         decoration: BoxDecoration(
                             border: Border.all(
                                 color: settingsStore.isDarkTheme
@@ -93,10 +99,10 @@ class FaqPage extends BasePage {
                                 Expanded(
                                     child: Container(
                                   padding:
-                                      EdgeInsets.only(left: 15.0, right: 15.0),
+                                      EdgeInsetsDirectional.only(start: 15.0, end: 15.0),
                                   child: Text(
                                     itemChild,
-                                    textAlign: TextAlign.justify,
+                                    textAlign: TextAlign.start,
                                     style: TextStyle(backgroundColor: Colors.transparent,fontSize: 12),
                                   ),
                                 ))
@@ -122,10 +128,30 @@ class FaqPage extends BasePage {
 
   String getFaqPath(BuildContext context) {
     switch (tr(context).localeName) {
-      case 'en':
-        return 'assets/faq/faq_en.json';
+      case 'ar':
+        return 'assets/faq/faq_ar.json';
       case 'de':
         return 'assets/faq/faq_de.json';
+      case 'en':
+        return 'assets/faq/faq_en.json';
+      case 'es':
+        return 'assets/faq/faq_es.json';
+      case 'fr':
+        return 'assets/faq/faq_fr.json';
+      case 'ja':
+        return 'assets/faq/faq_ja.json';
+      case 'ko':
+        return 'assets/faq/faq_ko.json';
+      case 'pt':
+        return 'assets/faq/faq_pt.json';
+      case 'ru':
+        return 'assets/faq/faq_ru.json';
+      case 'tr':
+        return 'assets/faq/faq_tr.json';
+      case 'vi':
+        return 'assets/faq/faq_vi.json';
+      case 'zh':
+        return 'assets/faq/faq_zh.json';
       default:
         return 'assets/faq/faq_en.json';
     }

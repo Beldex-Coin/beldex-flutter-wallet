@@ -1,0 +1,46 @@
+[
+  {
+    "question": "¿Cuál es la diferencia entre Saldo Disponible y Saldo Total?",
+    "answer": "Después de realizar o recibir una transacción, esta necesita confirmarse. En unos 20 minutos, tu saldo disponible debería actualizarse.\nA veces, al enviar Beldex, tu saldo disponible puede disminuir más de lo enviado. Esto es normal y ayuda a proteger tu privacidad. Tu saldo total volverá a la normalidad en unos 20 minutos.\n"
+  },
+  {
+    "question": "¿Qué significan “seed” y “keys”?",
+    "answer": "Tus claves contienen la información privada de tu billetera y te permiten gastar monedas y ver transacciones entrantes.\nTu seed es una versión más fácil de escribir de tu clave privada. Ambos son lo mismo en diferentes formatos.\nNunca compartas tu seed o claves. Si lo haces, perderás tus fondos. Guárdalos en un lugar seguro para poder restaurar tu billetera.\n"
+  },
+  {
+    "question": "¿Cuántas billeteras puedo crear?",
+    "answer": "No hay límite. Puedes crear tantas billeteras como desees.\n"
+  },
+  {
+    "question": "¿Cómo puedo restaurar mi billetera?",
+    "answer": "Toca el ícono de perfil, selecciona “Wallets” y luego “Restore Wallet”. Ingresa tu seed o claves, y opcionalmente una fecha anterior a tu primera transacción para acelerar la sincronización. Mantén la app abierta durante 15–30 minutos.\n"
+  },
+  {
+    "question": "¿Qué pasa si pierdo mi seed?",
+    "answer": "Revisa tus notas o dispositivos donde pudiste haberla guardado. Si hiciste una copia de seguridad, puedes restaurar desde ahí.\nSi no la encuentras, lamentablemente no hay forma de recuperar tu billetera.\n"
+  },
+  {
+    "question": "¿Recopilan información sobre mí o mi billetera?",
+    "answer": "La billetera Beldex no recopila ni almacena información personal. Tu privacidad es prioridad.\nSin embargo, evita conectarte a nodos maliciosos; usa los nodos predeterminados o uno propio.\n"
+  },
+  {
+    "question": "¿Se puede revertir una transacción?",
+    "answer": "No. Una vez enviada a la blockchain, no se puede deshacer. Puedes cancelarla antes de enviarla, así que revisa siempre la dirección.\n"
+  },
+  {
+    "question": "¿Qué son las subdirecciones y cómo usarlas?",
+    "answer": "Son direcciones únicas que puedes generar en cualquier momento. Los fondos llegan a tu billetera principal, pero el remitente no puede ver tu dirección principal.\nPuedes crearlas en la pantalla “Receive” tocando el botón “+”.\n"
+  },
+  {
+    "question": "No recibí mi Beldex, ¿qué hago?",
+    "answer": "Intenta sincronizar desde el panel o reconectar. Si no funciona, cambia a un nodo activo (con punto verde) en configuración.\n"
+  },
+  {
+    "question": "¿Cómo contacto con soporte de Beldex Wallet?",
+    "answer": "Puedes escribir a support@beldex.io, unirte a Telegram en @official_beldex o contactar en Twitter @beldexcoin.\n"
+  },
+  {
+    "question": "¿Tener Beldex me convierte en inversor?",
+    "answer": "No necesariamente. Pero sí te convierte en alguien que forma parte del ecosistema Beldex.\n"
+  }
+]

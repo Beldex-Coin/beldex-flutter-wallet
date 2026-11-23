@@ -28,7 +28,7 @@ class _CommitTransactionLoaderState extends State<CommitTransactionLoader> {
     _timer = Timer(const Duration(seconds: 1), () {
       if (!_transactionStarted && mounted) {
         _transactionStarted = true;
-        widget.sendStore.commitTransaction();
+        widget.sendStore.commitTransaction(t: tr(context));
       }
     });
   }
@@ -69,7 +69,7 @@ class _CommitTransactionLoaderState extends State<CommitTransactionLoader> {
                     ),
                     Padding(
                       padding:
-                      const EdgeInsets.only(top: 15.0, left: 8.0, right: 8.0),
+                      const EdgeInsetsDirectional.only(top: 15.0, start: 8.0, end: 8.0),
                       child: Text(
                         tr(context).initiatingTransactionDescription,
                         textAlign: TextAlign.center,

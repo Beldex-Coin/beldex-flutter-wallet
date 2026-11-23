@@ -67,8 +67,20 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
       surfaceTintColor: Colors.transparent,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       title: Center(
-          child: Text('${widget.title}',
-              style: TextStyle(color: settingsStore.isDarkTheme ? Colors.white : Colors.black, backgroundColor: Colors.transparent,fontWeight: FontWeight.w800))),
+        child: Text(
+          widget.title,
+          maxLines: 1,
+          softWrap: false,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: settingsStore.isDarkTheme ? Colors.white : Colors.black,
+            backgroundColor: Colors.transparent,
+            fontWeight: FontWeight.w800,
+            fontSize: 18,
+          ),
+        ),
+      ),
       backgroundColor:
           settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffffffff),
       content: Column(
@@ -90,7 +102,7 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
                     backgroundColor: settingsStore.isDarkTheme
                         ? Color(0xff383848)
                         : Color(0xffE8E8E8),
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsetsDirectional.all(15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -113,7 +125,7 @@ class _ShowResetNodeDialogState extends State<ShowResetNodeDialog> {
                   onPressed: () => widget.onPressed!(context),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff0BA70F),
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsetsDirectional.all(15),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -170,7 +182,7 @@ class BeldexDialog extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
           child: Container(
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsetsDirectional.all(15),
             decoration:
                 BoxDecoration(color: Color(0xff171720).withValues(alpha: 0.55)),
             child: Column(
@@ -206,15 +218,16 @@ class SimpleBeldexDialog extends StatelessWidget {
     return BeldexDialog(
         onDismiss: onDismiss,
         body: Container(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsetsDirectional.all(15),
           child: Column(
             children: [
               status
                   ? Container()
                   : Padding(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsetsDirectional.all(10),
                       child: Text(title,
                           textAlign: TextAlign.center,
+                          textDirection: Directionality.of(context),
                           style: TextStyle(
                               backgroundColor: Colors.transparent,
                               fontSize: 18,
@@ -225,9 +238,10 @@ class SimpleBeldexDialog extends StatelessWidget {
                                   .bodySmall!
                                   .color))),
               Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 15),
+                  padding: EdgeInsetsDirectional.only(top: 10, bottom: 15),
                   child: Text(body,
                       textAlign: TextAlign.center,
+                      textDirection: Directionality.of(context),
                       style: TextStyle(
                           backgroundColor: Colors.transparent,
                           fontSize: 15,
@@ -267,11 +281,11 @@ class ConfirmBeldexDialog extends StatelessWidget {
     return BeldexDialog(
         onDismiss: onDismiss,
         body: Container(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsetsDirectional.all(15),
           child: Column(
             children: [
               Padding(
-                  padding: EdgeInsets.all(10),
+                  padding: EdgeInsetsDirectional.all(10),
                   child: Text(title,
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -284,7 +298,7 @@ class ConfirmBeldexDialog extends StatelessWidget {
                               .bodySmall!
                               .color))),
               Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 15),
+                  padding: EdgeInsetsDirectional.only(top: 10, bottom: 15),
                   child: Text(body,
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -307,7 +321,7 @@ class ConfirmBeldexDialog extends StatelessWidget {
                         backgroundColor: settingsStore.isDarkTheme
                             ? Color(0xff383848)
                             : Color(0xffE8E8E8),
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsetsDirectional.all(15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -335,7 +349,7 @@ class ConfirmBeldexDialog extends StatelessWidget {
                           onConfirm != null ? onConfirm!(context) : null,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xff0BA70F),
-                        padding: EdgeInsets.all(15),
+                        padding: EdgeInsetsDirectional.all(15),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),

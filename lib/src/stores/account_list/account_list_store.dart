@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:beldex_wallet/src/wallet/wallet.dart';
 import 'package:beldex_wallet/src/wallet/beldex/beldex_wallet.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account_list.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
+
+import '../../../l10n.dart';
 
 part 'account_list_store.g.dart';
 
@@ -36,25 +39,37 @@ abstract class AccountListStoreBase with Store {
   AccountList _accountList=AccountList();
   late StreamSubscription<Wallet> _onWalletChangeSubscription;
   StreamSubscription<List<Account>>? _onAccountsChangeSubscription;
+  bool _isUpdatingAccountList = false;
 
-//  @override
-//  void dispose() {
-//    _onWalletChangeSubscription.cancel();
-//
-//    if (_onAccountsChangeSubscription != null) {
-//      _onAccountsChangeSubscription.cancel();
-//    }
-//
-//    super.dispose();
-//  }
+  void dispose() {
+    _onWalletChangeSubscription.cancel();
+
+    if (_onAccountsChangeSubscription != null) {
+      _onAccountsChangeSubscription!.cancel();
+    }
+  }
 
   void updateAccountList() {
-    unawaited(_updateAccountList());
+    if (_isUpdatingAccountList) {
+      return;
+    }
+
+    _isUpdatingAccountList = true;
+    unawaited(_updateAccountList().whenComplete(() => _isUpdatingAccountList = false));
   }
 
   Future<void> _updateAccountList() async {
-    await _accountList.refresh();
-    accounts = await _accountList.getAllAsync();
+    try {
+      final currentAccounts = await _accountList.getAllAsync();
+      if (currentAccounts.isNotEmpty || accounts.isEmpty) {
+        accounts = currentAccounts;
+      }
+
+      await _accountList.refresh();
+      accounts = await _accountList.getAllAsync();
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future addAccount({required String label}) async {
@@ -82,6 +97,12 @@ abstract class AccountListStoreBase with Store {
       _accountList = wallet.getAccountList();
       _onAccountsChangeSubscription =
           _accountList.accounts.listen((accounts) => this.accounts = accounts);
+
+      final initialAccounts = await _accountList.getAllAsync();
+      if (initialAccounts.isNotEmpty || accounts.isEmpty) {
+        accounts = initialAccounts;
+      }
+
       updateAccountList();
 
       return;
@@ -90,10 +111,10 @@ abstract class AccountListStoreBase with Store {
     print('Incorrect wallet type for this operation (AccountList)');
   }
 
-  void validateAccountName(String value) {
+  void validateAccountName(BuildContext context, String value) {
     const pattern = '^[a-zA-Z0-9_]{1,15}\$';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
-    errorMessage = (isValid ? '' : 'Enter valid name upto 15 characters'); //S.current.error_text_account_name;
+    errorMessage = (isValid ? '' : tr(context).enterValidNameUpto15Characters);
   }
 }

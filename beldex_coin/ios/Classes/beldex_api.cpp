@@ -180,11 +180,15 @@ extern "C"
         Beldex::PendingTransaction *transaction;
 
         PendingTransactionRaw(Beldex::PendingTransaction *_transaction)
+            : amount(0), fee(0), hash(nullptr), transaction(_transaction)
         {
-            transaction = _transaction;
+            if (_transaction == nullptr)
+                return;
+
             amount = _transaction->amount();
             fee = _transaction->fee();
-            hash = strdup(_transaction->txid()[0].c_str());
+            const std::vector<std::string> txids = _transaction->txid();
+            hash = strdup(txids.empty() ? "" : txids.front().c_str());
         }
     };
 
@@ -641,12 +645,16 @@ extern "C"
             amt = Beldex::Wallet::amountFromString(amount);
 
         transaction = m_wallet->createTransaction(address, amt, priority, subaddr_account);
+        if (transaction == nullptr)
+            return make_fail_status("Failed to create transaction.");
 
-        int status = transaction->status().first;
+        const auto transactionStatus = transaction->status();
 
-        if (status == Beldex::PendingTransaction::Status::Status_Error || status == Beldex::PendingTransaction::Status::Status_Critical)
+        if (transactionStatus.first == Beldex::PendingTransaction::Status::Status_Error ||
+            transactionStatus.first == Beldex::PendingTransaction::Status::Status_Critical)
         {
-            return make_fail_status(transaction->status().second);
+            m_wallet->disposeTransaction(transaction);
+            return make_fail_status(transactionStatus.second);
         }
 
         pendingTransaction = PendingTransactionRaw(transaction);
@@ -871,6 +879,41 @@ extern "C"
     }
 
     EXPORT
+    int64_t *subaddress_get_all_with_size(int32_t *size)
+    {
+        std::vector<Beldex::SubaddressRow *> _subaddresses = m_subaddress->getAll();
+        *size = static_cast<int32_t>(_subaddresses.size());
+        int64_t *subaddresses = (int64_t *)malloc(*size * sizeof(int64_t));
+
+        for (int32_t i = 0; i < *size; i++)
+        {
+            Beldex::SubaddressRow *row = _subaddresses[i];
+            SubaddressRow *_row = new SubaddressRow(row->getRowId(), strdup(row->getAddress().c_str()), strdup(row->getLabel().c_str()));
+            subaddresses[i] = reinterpret_cast<int64_t>(_row);
+        }
+
+        return subaddresses;
+    }
+
+    EXPORT
+    void subaddress_free_all(int64_t *subaddresses, int32_t size)
+    {
+        if (subaddresses == nullptr)
+        {
+            return;
+        }
+
+        for (int32_t i = 0; i < size; i++)
+        {
+            SubaddressRow *row = reinterpret_cast<SubaddressRow *>(subaddresses[i]);
+            free(row->address);
+            free(row->label);
+            delete row;
+        }
+        free(subaddresses);
+    }
+
+    EXPORT
     int32_t subaddress_size()
     {
         std::vector<Beldex::SubaddressRow *> _subaddresses = m_subaddress->getAll();
@@ -916,6 +959,40 @@ extern "C"
         }
 
         return accounts;
+    }
+
+    EXPORT
+    int64_t *account_get_all_with_size(int32_t *size)
+    {
+        std::vector<Beldex::SubaddressAccountRow *> _accounts = m_account->getAll();
+        *size = static_cast<int32_t>(_accounts.size());
+        int64_t *accounts = (int64_t *)malloc(*size * sizeof(int64_t));
+
+        for (int32_t i = 0; i < *size; i++)
+        {
+            Beldex::SubaddressAccountRow *row = _accounts[i];
+            AccountRow *_row = new AccountRow(row->getRowId(), strdup(row->getLabel().c_str()));
+            accounts[i] = reinterpret_cast<int64_t>(_row);
+        }
+
+        return accounts;
+    }
+
+    EXPORT
+    void account_free_all(int64_t *accounts, int32_t size)
+    {
+        if (accounts == nullptr)
+        {
+            return;
+        }
+
+        for (int32_t i = 0; i < size; i++)
+        {
+            AccountRow *row = reinterpret_cast<AccountRow *>(accounts[i]);
+            free(row->label);
+            delete row;
+        }
+        free(accounts);
     }
 
     EXPORT

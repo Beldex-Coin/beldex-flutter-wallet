@@ -23,7 +23,7 @@ class _WalletAlertDialogState extends State<WalletAlertDialog> {
           settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffFFFFFF),
       child: Container(
         width: MediaQuery.sizeOf(context).width,
-        margin: EdgeInsets.all(20),
+        margin: EdgeInsetsDirectional.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

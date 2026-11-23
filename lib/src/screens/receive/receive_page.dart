@@ -26,8 +26,6 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../util/clipboard_helper.dart';
 
-String currentSubAddress = '';
-
 class ReceivePage extends BasePage {
   @override
   bool get isModalBackButton => false;
@@ -58,22 +56,80 @@ class ReceiveBody extends StatefulWidget {
   ReceiveBodyState createState() => ReceiveBodyState();
 }
 
-class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
+class ReceiveBodyState extends State<ReceiveBody> {
   final amountController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  bool isExpand = false;
-  bool isOpen = false;
-  OverlayEntry? overlayEntry;
-  GlobalKey globalKey = GlobalKey();
-  bool _isOverlayVisible = false;
+  bool _addressLoaded = false;
 
   @override
   void initState() {
     super.initState();
+    amountController.addListener(_onAmountChanged);
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_addressLoaded) return;
+    _addressLoaded = true;
+
+    final receivePageChangeNotifier =
+        Provider.of<ReceivePageChangeNotifier>(context, listen: false);
+    final walletStore = Provider.of<WalletStore>(context, listen: false);
+    final initialAddress = walletStore.subaddress.address.isNotEmpty
+        ? walletStore.subaddress.address
+        : '';
+    final initialAddressLabel = walletStore.subaddress.label.isNotEmpty
+        ? walletStore.subaddress.label
+        : '';
+
+    if (initialAddress.isNotEmpty) {
+      receivePageChangeNotifier.currentAddress = initialAddress;
+    }
+    if (initialAddressLabel.isNotEmpty) {
+      receivePageChangeNotifier.currentAddressLabel = initialAddressLabel;
+    }
+
+    getCurrentAddress(walletStore).then((value) {
+      if (!mounted) return;
+      if (value.isNotEmpty && value != initialAddress) {
+        receivePageChangeNotifier.setCurrentAddress(value);
+      }
+    });
+
+    getCurrentAddressLabel(walletStore).then((value) {
+      if (!mounted) return;
+      if (value.isNotEmpty && value != initialAddressLabel) {
+        receivePageChangeNotifier.setCurrentAddressLabel(value);
+      }
+    });
+  }
+
+  void _onAmountChanged() {
+    final syncStore = Provider.of<SyncStore>(context, listen: false);
+    final isSynced = syncStore.status is SyncedSyncStatus ||
+        syncStore.status.blocksLeft == 0;
+    if (isSynced) {
+      final walletStore = Provider.of<WalletStore>(context, listen: false);
+      if (_formKey.currentState?.validate() ?? false) {
+        walletStore.onChangedAmountValue(amountController.text);
+      } else {
+        walletStore.onChangedAmountValue('');
+      }
+    } else {
+      final receivePageChangeNotifier =
+          Provider.of<ReceivePageChangeNotifier>(context, listen: false);
+      if (_formKey.currentState?.validate() ?? false) {
+        onChangedAmountValue(amountController.text, receivePageChangeNotifier);
+      } else {
+        onChangedAmountValue('', receivePageChangeNotifier);
+      }
+    }
   }
 
   @override
   void dispose() {
+    amountController.removeListener(_onAmountChanged);
     amountController.dispose();
     super.dispose();
   }
@@ -134,13 +190,6 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
     final walletStore = Provider.of<WalletStore>(context);
     final subAddressListStore = Provider.of<SubaddressListStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    amountController.addListener(() {
-      if (_formKey.currentState?.validate() ?? false) {
-        walletStore.onChangedAmountValue(amountController.text);
-      } else {
-        walletStore.onChangedAmountValue('');
-      }
-    });
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -156,7 +205,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.only(left: 35.0, right: 35.0),
+                  padding: EdgeInsetsDirectional.only(start: 35.0, end: 35.0),
                   child: Column(
                     children: <Widget>[
                       Observer(builder: (_) {
@@ -168,7 +217,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.only(bottom: 10),
+                              margin: EdgeInsetsDirectional.only(bottom: 10),
                               height:
                                   MediaQuery.sizeOf(context).height * 0.60 / 3,
                               width:
@@ -179,14 +228,14 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                     ? Color(0xff1F1F28)
                                     : Color(0xffEDEDED),
                               ),
-                              padding: EdgeInsets.all(18),
+                              padding: EdgeInsetsDirectional.all(18),
                               child: RepaintBoundary(
                                 key: _globalKey,
                                 child: Container(
                                   decoration: BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(10)),
-                                  padding: EdgeInsets.all(10),
+                                  padding: EdgeInsetsDirectional.all(10),
                                   child: QrImage(
                                     data: walletStore.subaddress.address +
                                         walletStore.amountValue,
@@ -205,7 +254,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 8.0),
+                                  padding: const EdgeInsetsDirectional.only(end: 8.0),
                                   child: Text(
                                     tr(context).walletAddress,
                                     style: TextStyle(
@@ -246,7 +295,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                               children: <Widget>[
                                 Expanded(
                                     child: Container(
-                                        padding: EdgeInsets.only(top: 20.0),
+                                        padding: EdgeInsetsDirectional.only(top: 20.0),
                                         child: Center(
                                             child: GestureDetector(
                                                 child: Text(
@@ -271,7 +320,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 20, left: 20, bottom: 15),
+                  margin: EdgeInsetsDirectional.only(top: 20, start: 20, bottom: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -283,7 +332,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                  padding: EdgeInsetsDirectional.only(start: 15.0, end: 15.0),
                   child: Form(
                       key: _formKey,
                       child: NewBeldexTextField(
@@ -323,8 +372,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                   child: Stack(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
-                            top: 10, left: 15.0, right: 15.0, bottom: 10),
+                        margin: EdgeInsetsDirectional.only(
+                            top: 10, start: 15.0, end: 15.0, bottom: 10),
                         decoration: BoxDecoration(
                             border: Border.all(
                               color: settingsStore.isDarkTheme
@@ -336,7 +385,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                           children: [
                             //SubAddressDropDownList(settingsStore: settingsStore,),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsetsDirectional.all(8.0),
                               child: GestureDetector(
                                   onTap: () async {
                                     await showDialog<void>(
@@ -355,8 +404,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             ),
                             SizedBox(height: 15),
                             Container(
-                              margin: EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 20),
+                              margin: EdgeInsetsDirectional.only(
+                                  start: 10, end: 10, bottom: 20),
                               child: GestureDetector(
                                 onTap: () {
                                   showDialog<void>(
@@ -371,7 +420,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Container(
-                                      margin: EdgeInsets.only(right: 10),
+                                      margin: EdgeInsetsDirectional.only(end: 10),
                                       width: 25.0,
                                       height: 25.0,
                                       child: SvgPicture.asset(
@@ -380,7 +429,6 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                     ),
                                     Text(
                                       tr(context).addSubAddress,
-                                      //tr(context).subaddresses,
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           decoration: TextDecoration.underline,
@@ -400,12 +448,12 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                 ),
                 SizedBox(height: MediaQuery.sizeOf(context).height * 0.20 / 3),
                 Container(
-                  margin: EdgeInsets.all(15),
+                  margin: EdgeInsetsDirectional.all(15),
                   child: InkWell(
                     onTap: () => _incrementCounter(
                         walletStore.subaddress.address, amountController.text),
                     child: Container(
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsetsDirectional.all(15),
                       decoration: BoxDecoration(
                           color: Color(0xff0BA70F),
                           borderRadius: BorderRadius.circular(10)),
@@ -414,7 +462,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                         children: [
                           Icon(Icons.share, color: Colors.white),
                           Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
+                            padding: const EdgeInsetsDirectional.only(start: 8.0),
                             child: Text(
                               tr(context).shareQr,
                               style: TextStyle(
@@ -439,21 +487,14 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
 
   Widget bodyContainerWithoutWallet() {
     final receivePageChangeNotifier = Provider.of<ReceivePageChangeNotifier>(context);
-    getCurrentAddress().then((value){
-     receivePageChangeNotifier.setCurrentAddress(value);
-     setState(() {});
-    });
+    final walletStore = Provider.of<WalletStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
-    amountController.addListener(() {
-      if (_formKey.currentState?.validate() ?? false) {
-        onChangedAmountValue(amountController.text,receivePageChangeNotifier);
-      } else {
-        onChangedAmountValue('',receivePageChangeNotifier);
-      }
-    });
-    if (amountController.text.isEmpty) {
-      onChangedAmountValue('',receivePageChangeNotifier);
-    }
+    final currentAddress = walletStore.subaddress.address.isNotEmpty
+        ? walletStore.subaddress.address
+        : receivePageChangeNotifier.currentAddress;
+    final selectedLabel = walletStore.subaddress.label.isNotEmpty
+        ? walletStore.subaddress.label
+        : receivePageChangeNotifier.currentAddressLabel;
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -469,7 +510,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
             child: Column(
               children: [
                 Container(
-                  padding: EdgeInsets.only(left: 35.0, right: 35.0),
+                  padding: EdgeInsetsDirectional.only(start: 35.0, end: 35.0),
                   child: Column(
                     children: <Widget>[
                       Row(
@@ -477,7 +518,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Container(
-                            margin: EdgeInsets.only(bottom: 10),
+                            margin: EdgeInsetsDirectional.only(bottom: 10),
                             height:
                                 MediaQuery.sizeOf(context).height * 0.60 / 3,
                             width:
@@ -488,16 +529,16 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                                   ? Color(0xff1F1F28)
                                   : Color(0xffEDEDED),
                             ),
-                            padding: EdgeInsets.all(18),
+                            padding: EdgeInsetsDirectional.all(18),
                             child: RepaintBoundary(
                               key: _globalKey,
                               child: Container(
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(10)),
-                                padding: EdgeInsets.all(10),
+                                padding: EdgeInsetsDirectional.all(10),
                                 child: QrImage(
-                                  data: receivePageChangeNotifier.currentAddress +
+                                  data: currentAddress +
                                       receivePageChangeNotifier.amountValue,
                                   backgroundColor: Colors.white,
                                 ),
@@ -512,7 +553,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(right: 8.0),
+                                padding: const EdgeInsetsDirectional.only(end: 8.0),
                                 child: Text(
                                   tr(context).walletAddress,
                                   style: TextStyle(
@@ -524,7 +565,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                               ),
                               GestureDetector(
                                 onTap: () async {
-                                  await ClipboardHelper.copyWithAutoClear(receivePageChangeNotifier.currentAddress);
+                                  await ClipboardHelper.copyWithAutoClear(currentAddress);
                                   await Fluttertoast.showToast(
                                     msg: tr(context).copied,
                                     toastLength: Toast.LENGTH_SHORT,
@@ -555,11 +596,11 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             children: <Widget>[
                               Expanded(
                                   child: Container(
-                                      padding: EdgeInsets.only(top: 20.0),
+                                      padding: EdgeInsetsDirectional.only(top: 20.0),
                                       child: Center(
                                           child: GestureDetector(
                                               child: Text(
-                                                  receivePageChangeNotifier.currentAddress,
+                                                  currentAddress,
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                     backgroundColor: Colors.transparent,
@@ -578,7 +619,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 20, left: 20, bottom: 15),
+                  margin: EdgeInsetsDirectional.only(top: 20, start: 20, bottom: 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -590,7 +631,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                   ),
                 ),
                 Container(
-                  padding: EdgeInsets.only(left: 15.0, right: 15.0),
+                  padding: EdgeInsetsDirectional.only(start: 15.0, end: 15.0),
                   child: Form(
                       key: _formKey,
                       child: NewBeldexTextField(
@@ -630,8 +671,8 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                   child: Stack(
                     children: [
                       Container(
-                        margin: EdgeInsets.only(
-                            top: 10, left: 15.0, right: 15.0, bottom: 10),
+                        margin: EdgeInsetsDirectional.only(
+                            top: 10, start: 15.0, end: 15.0, bottom: 10),
                         decoration: BoxDecoration(
                             border: Border.all(
                               color: settingsStore.isDarkTheme
@@ -641,44 +682,23 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                             borderRadius: BorderRadius.circular(10.0)),
                         child: Column(
                           children: [
-                            //SubAddressDropDownList(settingsStore: settingsStore,),
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsetsDirectional.all(8.0),
                               child: GestureDetector(
-                                  onTap: () async {
-                                   /* await showDialog<void>(
-                                        context: context,
-                                        builder: (_) {
-                                          return SubAddressDropDownList(
-                                            settingsStore: settingsStore,
-                                            walletStore: walletStore,
-                                            subAddressListStore:
-                                                subAddressListStore,
-                                            globalKey: _globalKey,
-                                          );
-                                        });*/
-                                  },
-                                  child: displayContainerWithoutWallet(context)),
+                                  onTap: () async {},
+                                  child: displayContainerWithoutWallet(context, selectedLabel)),
                             ),
                             SizedBox(height: 15),
                             Container(
-                              margin: EdgeInsets.only(
-                                  left: 10, right: 10, bottom: 20),
+                              margin: EdgeInsetsDirectional.only(
+                                  start: 10, end: 10, bottom: 20),
                               child: GestureDetector(
-                                onTap: () {
-                                  /*showDialog<void>(
-                                      context: context,
-                                      builder: (context) {
-                                        return SubAddressAlert(
-                                            subAddressListStore:
-                                                subAddressListStore);
-                                      });*/
-                                },
+                                onTap: () {},
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Container(
-                                      margin: EdgeInsets.only(right: 10),
+                                      margin: EdgeInsetsDirectional.only(end: 10),
                                       width: 25.0,
                                       height: 25.0,
                                       child: SvgPicture.asset(
@@ -706,12 +726,12 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                 ),
                 SizedBox(height: MediaQuery.sizeOf(context).height * 0.20 / 3),
                 Container(
-                  margin: EdgeInsets.all(15),
+                  margin: EdgeInsetsDirectional.all(15),
                   child: InkWell(
                     onTap: () => _incrementCounter(
-                        receivePageChangeNotifier.currentAddress, amountController.text),
+                        currentAddress, amountController.text),
                     child: Container(
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsetsDirectional.all(15),
                       decoration: BoxDecoration(
                           color: Color(0xff0BA70F),
                           borderRadius: BorderRadius.circular(10)),
@@ -720,7 +740,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                         children: [
                           Icon(Icons.share, color: Colors.white),
                           Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
+                            padding: const EdgeInsetsDirectional.only(start: 8.0),
                             child: Text(
                               tr(context).shareQr,
                               style: TextStyle(
@@ -745,7 +765,11 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
 
   Widget displayContainerWithWallet(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
-    getSubAddress(context);
+    final walletStore = Provider.of<WalletStore>(context);
+    final selectedLabel = walletStore.subaddress.label.isNotEmpty
+        ? walletStore.subaddress.label
+        : walletStore.subaddress.address;
+
     return Stack(
       children: [
         Container(
@@ -756,21 +780,19 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                     : Color(0xffEDEDED),
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 4.0, right: 6.0, top: 3.0, bottom: 5.0),
+                padding: const EdgeInsetsDirectional.only(
+                    start: 4.0, end: 6.0, top: 3.0, bottom: 5.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                        margin: EdgeInsets.all(8),
+                        margin: EdgeInsetsDirectional.all(8),
                         width: 20,
-                        //height:mHeight*0.15/3,width: mHeight*0.20/3,
-                        // margin:EdgeInsets.only(right:mHeight*0.03/3,),
                         child:
                             Icon(Icons.more_horiz, color: Colors.transparent)),
                     Expanded(
                         child: Center(
-                      child: Text('$currentSubAddress',
+                      child: Text(selectedLabel,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           style: TextStyle(
@@ -792,7 +814,7 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
     );
   }
 
-  Widget displayContainerWithoutWallet(BuildContext context) {
+  Widget displayContainerWithoutWallet(BuildContext context, String selectedLabel) {
     final settingsStore = Provider.of<SettingsStore>(context);
     return Stack(
       children: [
@@ -804,21 +826,21 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                     : Color(0xffEDEDED),
                 borderRadius: BorderRadius.all(Radius.circular(10))),
             child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 4.0, right: 6.0, top: 3.0, bottom: 5.0),
+                padding: const EdgeInsetsDirectional.only(
+                    start: 4.0, end: 6.0, top: 3.0, bottom: 5.0),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                        margin: EdgeInsets.all(8),
+                        margin: EdgeInsetsDirectional.all(8),
                         width: 20,
                         //height:mHeight*0.15/3,width: mHeight*0.20/3,
-                        // margin:EdgeInsets.only(right:mHeight*0.03/3,),
+                        // margin:EdgeInsetsDirectional.only(end:mHeight*0.03/3,),
                         child:
                         Icon(Icons.more_horiz, color: Colors.transparent)),
                     Expanded(
                         child: Center(
-                          child: Text('Primary account',
+                          child: Text(selectedLabel,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                               style: TextStyle(
@@ -838,28 +860,6 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
                 ))),
       ],
     );
-  }
-
-  void getSubAddress(BuildContext context) async {
-    final subAddressListStore = Provider.of<SubaddressListStore>(context);
-    final walletStore = Provider.of<WalletStore>(context);
-
-    final prefs = await SharedPreferences.getInstance();
-    bool isCurrent;
-    setState(() {
-      for (var i = 0; i < subAddressListStore.subaddresses.length; i++) {
-        final subaddress = subAddressListStore.subaddresses[i];
-        isCurrent = walletStore.subaddress.address == subaddress.address;
-        final label =
-            subaddress.label.isNotEmpty ? subaddress.label : subaddress.address;
-        final address = subaddress.address;
-        if (isCurrent) {
-          prefs.setString('currentSubAddress', label.toString());
-          prefs.setString('currentAddress', address);
-        }
-      }
-      currentSubAddress = prefs.getString('currentSubAddress')! ?? '';
-    });
   }
 
   void onChangedAmountValue(String value, ReceivePageChangeNotifier receivePageChangeNotifier) => receivePageChangeNotifier.setAmountValue(value.isNotEmpty ? '?tx_amount=$value' : '');
@@ -886,115 +886,20 @@ class ReceiveBodyState extends State<ReceiveBody> with WidgetsBindingObserver {
     receivePageChangeNotifier.setErrorMessage(receivePageChangeNotifier.isValid ? "" : tr(context).pleaseEnterAValidAmount);
   }
 
-  Future<String> getCurrentAddress() async {
+  Future<String> getCurrentAddress(WalletStore walletStore) async {
+    if (walletStore.subaddress.address.isNotEmpty) {
+      return walletStore.subaddress.address;
+    }
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('currentAddress') ?? '';
   }
 
-////
-  Widget _buildExitnodeListView(double mHeight) {
-    final subAddressListStore = Provider.of<SubaddressListStore>(context);
-    final walletStore = Provider.of<WalletStore>(context);
-    final settingsStore = Provider.of<SettingsStore>(context);
-    return subAddressListStore.subaddresses.length <= 1
-        ? Container()
-        : Material(
-            color: Colors.transparent,
-            child: GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                if (overlayEntry != null) {
-                  overlayEntry?.remove();
-                  overlayEntry = null;
-                }
-              },
-              child: Container(
-                constraints: BoxConstraints(minHeight: 200.0),
-                margin: EdgeInsets.only(
-                    top: mHeight * 2.080 / 3, //2.010
-                    bottom: MediaQuery.sizeOf(context).height * 0.38 / 3,
-                    left: mHeight * 0.15 / 3,
-                    right: mHeight * 0.16 / 3),
-                child: Container(
-                    height: MediaQuery.sizeOf(context).height * 0.70 / 3,
-                    width: MediaQuery.sizeOf(context).width * 2.7 / 3,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4.0),
-                      color: settingsStore.isDarkTheme
-                          ? Color(0xff292937)
-                          : Color(0xffEDEDED),
-                    ),
-                    child: Observer(
-                      builder: (_) {
-                        return ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            itemCount: subAddressListStore.subaddresses.length,
-                            itemBuilder: (BuildContext context, int i) {
-                              // print("data inside listview ${exitData[index]}");
-                              return Observer(builder: (context) {
-                                final subaddress =
-                                    subAddressListStore.subaddresses[i];
-                                final isCurrent =
-                                    walletStore.subaddress.address ==
-                                        subaddress.address;
-                                final label = subaddress.label.isNotEmpty
-                                    ? subaddress.label
-                                    : subaddress.address;
-                                return InkWell(
-                                  onTap: () async {
-                                    if (overlayEntry != null) {
-                                      overlayEntry?.remove();
-                                      overlayEntry = null;
-                                    }
-                                    final prefs =
-                                        await SharedPreferences.getInstance();
-                                    walletStore.setSubaddress(subaddress);
-                                    await prefs.setString(
-                                        'currentSubAddress', label.toString());
-                                    setState(() {
-                                      currentSubAddress =
-                                          prefs.getString('currentSubAddress')!;
-                                    });
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        padding: EdgeInsets.all(10),
-                                        // decoration: BoxDecoration(
-                                        //   border: Border(bottom: BorderSide(color: Colors.grey))
-                                        // ),
-                                        child: Text(
-                                          label,
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              backgroundColor: Colors.transparent,
-                                              fontSize: 16.0,
-                                              fontWeight: FontWeight.w700,
-                                              color: Color(
-                                                  0xff0BA70F) //Theme.of(context).primaryTextTheme.caption.color,//Colors.white,//Theme.of(context).primaryTextTheme.headline5.color
-                                              ),
-                                        ),
-                                      ),
-                                      Divider(
-                                        color: settingsStore.isDarkTheme
-                                            ? Color(0xff454555)
-                                            : Colors.grey[300],
-                                      )
-                                    ],
-                                  ),
-                                );
-                              });
-                            }
-                            // _buildList(exitData[index]),
-                            );
-                      },
-                    )),
-                // ),
-              ),
-            ),
-          );
+  Future<String> getCurrentAddressLabel(WalletStore walletStore) async {
+    if (walletStore.subaddress.label.isNotEmpty) {
+      return walletStore.subaddress.label;
+    }
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('currentSubAddress') ?? '';
   }
 }
 
@@ -1032,7 +937,7 @@ class NewBeldexTextField extends StatelessWidget {
           side: BorderSide(width: 0.5, color: Colors.transparent),
           borderRadius: BorderRadius.circular(10)),
       child: Padding(
-        padding: const EdgeInsets.only(left: 25.0),
+        padding: const EdgeInsetsDirectional.only(start: 25.0),
         child: TextFormField(
           maxLength: 15,
           onFieldSubmitted: (_) => FocusScope.of(context).unfocus(),
@@ -1058,7 +963,7 @@ class NewBeldexTextField extends StatelessWidget {
                       : Color(0xff6F6F6F),
                   fontWeight: FontWeight.w600),
               hintText: hintText,
-              errorStyle: TextStyle(color: BeldexPalette.red),
+              errorStyle: TextStyle(backgroundColor: Colors.transparent, color: BeldexPalette.red),
               counterText: ''),
           validator: validator!,
           onChanged: onChanged,
@@ -1129,7 +1034,7 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
                   thumbVisibility: true,
                   controller: _controller,
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 5.0),
+                    padding: const EdgeInsetsDirectional.only(end: 5.0),
                     child: ListView.builder(
                         controller: _controller,
                         shrinkWrap: true,
@@ -1157,10 +1062,8 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
                                       Navigator.pop(context);
                                       await prefs.setString('currentSubAddress',
                                           label.toString());
-                                      setState(() {
-                                        currentSubAddress = prefs
-                                            .getString('currentSubAddress')!;
-                                      });
+                                      await prefs.setString(
+                                          'currentAddress', subaddress.address);
                                     },
                               child: isCurrent
                                   ? Card(
@@ -1170,8 +1073,8 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
                                           borderRadius:
                                               BorderRadius.circular(15)),
                                       child: Container(
-                                        margin: EdgeInsets.only(left: 10),
-                                        padding: EdgeInsets.all(15),
+                                        margin: EdgeInsetsDirectional.only(start: 10),
+                                        padding: EdgeInsetsDirectional.all(15),
                                         child: Center(
                                           child: Text(
                                             label,
@@ -1187,8 +1090,8 @@ class _SubAddressDropDownListState extends State<SubAddressDropDownList> {
                                       ),
                                     )
                                   : Container(
-                                      margin: EdgeInsets.only(left: 10),
-                                      padding: EdgeInsets.all(15),
+                                      margin: EdgeInsetsDirectional.only(start: 10),
+                                      padding: EdgeInsetsDirectional.all(15),
                                       child: Center(
                                         child: Text(
                                           label,
@@ -1217,24 +1120,31 @@ class ReceivePageChangeNotifier with ChangeNotifier {
   bool isValid = false;
   String? errorMessage;
   String currentAddress = '';
+  String currentAddressLabel = '';
 
   void setAmountValue(String amountValue) {
+    if (this.amountValue == amountValue) return;
     this.amountValue = amountValue;
     notifyListeners();
   }
 
   void setIsValid(bool status) {
     isValid = status;
-    notifyListeners();
   }
 
   void setErrorMessage(String errorMessage) {
     this.errorMessage = errorMessage;
-    notifyListeners();
   }
 
   void setCurrentAddress(String address){
+    if (currentAddress == address) return;
     currentAddress = address;
+    notifyListeners();
+  }
+
+  void setCurrentAddressLabel(String label){
+    if (currentAddressLabel == label) return;
+    currentAddressLabel = label;
     notifyListeners();
   }
 }
