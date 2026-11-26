@@ -89,5 +89,17 @@ android/app/.externalNativeBuild/
 
 **/tool/.secrets-prod.json
 **/lib/.secrets.g.dart
-**/lib/src/swap/apiKeys.dart
+**/lib/src/swap/api_keys.dart
 **/lib/src/swap/database/swap_db_encryption_config.dart
+
+# Android Gradle generated files
+**/android/gradle/.tmp/
+**/android/gradle/android/
+**/android/gradle/caches/
+**/android/gradle/daemon/
+**/android/gradle/jdks/
+**/android/gradle/native/
+**/android/gradle/wrapper/dists/
+
+# Flutter generated files
+**/ios/Flutter/ephemeral/
