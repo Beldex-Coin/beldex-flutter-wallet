@@ -79,7 +79,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
   List<String> getSeedLocales(AppLocalizations l10n) {
     return [
       l10n.seed_language_english,
-      'Chinese (simplified)',
+      l10n.seed_language_chinese,
       l10n.seed_language_dutch,
       l10n.seed_language_german,
       l10n.seed_language_japanese,
@@ -97,13 +97,11 @@ class _WalletNameFormState extends State<WalletNameForm> {
   bool canremove = false;
 
   void _onSelected(int index) {
-    final seedLocales = getSeedLocales(tr(context));
     final seedLanguageStore = context.read<SeedLanguageStore>();
     setState(() {
       _selectedIndex = index;
       if (_selectedIndex != null) {
-        seedLanguageStore.setSelectedSeedLanguage(seedLocales[_selectedIndex]);
-        print('seed languages ${seedLocales[_selectedIndex]}');
+        seedLanguageStore.setSelectedSeedLanguage(_selectedIndex);
       }
     });
   }
@@ -151,16 +149,16 @@ class _WalletNameFormState extends State<WalletNameForm> {
     return ScrollableWithBottomSection(
       content: Column(children: [
         Padding(
-          padding: EdgeInsets.only(left: 30, right: 20, top: 40),
+          padding: EdgeInsetsDirectional.only(start: 30, end: 20, top: 40),
           child: Align(
-              alignment: Alignment.centerLeft,
+              alignment: AlignmentDirectional.centerStart,
               child: Text(
                 tr(context).wallet_name,
                 style: TextStyle(backgroundColor: Colors.transparent,fontSize: 18, fontWeight: FontWeight.w700),
               )),
         ),
         Padding(
-          padding: EdgeInsets.only(left: 10, right: 10, bottom: 15, top: 10),
+          padding: EdgeInsetsDirectional.only(start: 10, end: 10, bottom: 15, top: 10),
           child: Form(
               key: _formKey,
               child: Card(
@@ -171,14 +169,16 @@ class _WalletNameFormState extends State<WalletNameForm> {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
                 child: Container(
-                  margin: EdgeInsets.only(left: 30),
+                  margin: const EdgeInsetsDirectional.only(start: 30),
                   child: Stack(
-                    alignment: Alignment.centerRight,
+                    alignment: AlignmentDirectional.topEnd,
                     children: [
                       Observer(
                         builder: (context) {
                           return TextFormField(
                             enabled: !(walletCreationStore.state is WalletIsCreating),
+                            textDirection: Directionality.of(context),
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                               backgroundColor: Colors.transparent,
                               fontSize: 16.0,
@@ -198,14 +198,28 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                       ? Color(0xff747474)
                                       : Color(0xff6F6F6F)),
                               hintText: tr(context).enterWalletName_,
-                              errorStyle: TextStyle(backgroundColor:Colors.transparent,color:Colors.red,height: 1),
+                              hintMaxLines: 2,
+                              maintainHintSize: false,
+                              errorStyle: const TextStyle(
+                                backgroundColor: Colors.transparent,
+                                color: Colors.red,
+                                fontSize: 12,
+                                height: 1.3,
+                              ),
+                              errorMaxLines: 3,
+                              contentPadding: const EdgeInsetsDirectional.only(
+                                start: 0,
+                                end: 8,
+                                top: 12,
+                                bottom: 12,
+                              ),
                             ),
                             validator: (value) {
                               final pattern = RegExp(r'^(?=.{1,15}$)[a-zA-Z0-9]+$');
-                              if (!pattern.hasMatch(value!)) {
+                              if (!pattern.hasMatch(value ?? '')) {
                                 return tr(context).enterValidNameUpto15Characters;
                               } else {
-                                walletCreationStore.validateWalletName(value,tr(context));
+                                walletCreationStore.validateWalletName(value!,tr(context));
                                 return walletCreationStore.errorMessage;
                               }
                             },
@@ -216,23 +230,26 @@ class _WalletNameFormState extends State<WalletNameForm> {
                         valueListenable: _isTextFieldNotEmpty,
                         builder: (context, isNotEmpty, child) {
                           return isNotEmpty
-                              ? Observer(
-                                builder: (context) {
-                                  return IconButton(
-                                      icon: Icon(
-                                        Icons.clear,
-                                        color: Theme.of(context)
-                                            .primaryTextTheme
-                                            .bodySmall!
-                                            .color,
-                                      ),
-                                      onPressed: !(walletCreationStore.state is WalletIsCreating) ? () {
-                                        nameController.clear();
-                                      } : null,
-                                    );
-                                }
+                              ? Padding(
+                                padding: const EdgeInsetsDirectional.only(top: 0),
+                                child: Observer(
+                                  builder: (context) {
+                                    return IconButton(
+                                        icon: Icon(
+                                          Icons.clear,
+                                          color: Theme.of(context)
+                                              .primaryTextTheme
+                                              .bodySmall!
+                                              .color,
+                                        ),
+                                        onPressed: !(walletCreationStore.state is WalletIsCreating) ? () {
+                                          nameController.clear();
+                                        } : null,
+                                      );
+                                  }
+                                ),
                               )
-                              : Container();
+                              : const SizedBox.shrink();
                         },
                       ),
                     ],
@@ -248,8 +265,8 @@ class _WalletNameFormState extends State<WalletNameForm> {
                   : Color(0xffEDEDED),
               borderRadius: BorderRadius.circular(10)),
           margin:
-              EdgeInsets.only(left: 10.0, right: 10.0, top: 20, bottom: 20.0),
-          padding: EdgeInsets.only(top: 18),
+              EdgeInsetsDirectional.only(start: 10.0, end: 10.0, top: 20, bottom: 20.0),
+          padding: EdgeInsetsDirectional.only(top: 18),
           child: Column(
             children: [
               Text(
@@ -263,7 +280,10 @@ class _WalletNameFormState extends State<WalletNameForm> {
               SizedBox(
                 height: MediaQuery.sizeOf(context).height * 1.2 / 3, //200,
                 child: Container(
-                    margin: EdgeInsets.only(left: 20.0, right: 10.0),
+                    margin: const EdgeInsetsDirectional.only(
+                      start: 20.0,
+                      end: 10.0,
+                    ),
                     color: settingsStore.isDarkTheme
                         ? Color(0xff181820)
                         : Color(0xffD4D4D4),
@@ -276,7 +296,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
                       radius: Radius.circular(10.0),
                       thumbVisibility: true,
                       child: Container(
-                        margin: EdgeInsets.only(right: 8),
+                        margin: const EdgeInsetsDirectional.only(end: 8),
                         color: settingsStore.isDarkTheme
                             ? Color(0xff272733)
                             : Color(0xffEDEDED),
@@ -299,9 +319,9 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                             borderRadius:
                                                 BorderRadius.circular(12)),
                                         child: Container(
-                                            padding: const EdgeInsets.only(
-                                                // left: 10.0,
-                                                // right: 10.0,
+                                            padding: const EdgeInsetsDirectional.only(
+                                                // start: 10.0,
+                                                // end: 10.0,
                                                 top: 10.0,
                                                 bottom: 10.0),
                                             decoration: BoxDecoration(
@@ -321,9 +341,9 @@ class _WalletNameFormState extends State<WalletNameForm> {
                                             )),
                                       )
                                     : Padding(
-                                        padding: const EdgeInsets.only(
-                                            // left: 10.0,
-                                            // right: 10.0,
+                                        padding: const EdgeInsetsDirectional.only(
+                                            // start: 10.0,
+                                            // end: 10.0,
                                             top: 18.0,
                                             bottom: 18.0),
                                         child: Center(
@@ -352,7 +372,7 @@ class _WalletNameFormState extends State<WalletNameForm> {
         Observer(
           builder: (context) {
             return Padding(
-              padding: const EdgeInsets.only(left: 10.0, right: 10),
+              padding: const EdgeInsetsDirectional.only(start: 10.0, end: 10),
               child: SizedBox(
                 width: double.infinity,
                 child: LoadingPrimaryButton(
@@ -360,11 +380,12 @@ class _WalletNameFormState extends State<WalletNameForm> {
                     if (_formKey.currentState?.validate() ?? false) {
                       if (_selectedIndex == 0) {
                         seedLanguageStore.setSelectedSeedLanguage(
-                            seedLocales[_selectedIndex]);
+                            _selectedIndex);
                       }
                       walletCreationStore.create(
                           name: nameController.text,
-                          language: seedLanguageStore.selectedSeedLanguage);
+                          language: seedLanguageStore.selectedSeedLanguage,
+                          t: tr(context));
                     }
                   },
                   text: tr(context).continue_text,

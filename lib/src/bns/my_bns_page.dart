@@ -21,6 +21,7 @@ import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:beldex_coin/beldex_coin_structs.dart';
 
+import '../../l10n.dart';
 import '../../routes.dart';
 
 class MyBnsPage extends StatefulWidget {
@@ -81,8 +82,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
             .of(context)
             .size
             .width,
-        margin: EdgeInsets.all(10),
-        padding: EdgeInsets.all(10),
+        margin: EdgeInsetsDirectional.all(10),
+        padding: EdgeInsetsDirectional.all(10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: settingsStore.isDarkTheme
@@ -94,7 +95,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
           mainAxisSize: MainAxisSize.max,
           children: [
             Text(
-              'Here you can find all the BNS Names owned by this wallet. Decrypting a record you own will return the name and value at the BNS record.',
+              tr(context).bnsRecordsDescription,
               style: TextStyle(
                   backgroundColor: Colors.transparent,
                   fontSize: 13.0,
@@ -106,8 +107,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
             ),
             //Decrypt Record
             Container(
-              margin: EdgeInsets.only(left: 5, top: 10),
-              child: Text('Add Record',
+              margin: EdgeInsetsDirectional.only(start: 5, top: 10),
+              child: Text(tr(context).bnsAddRecord,
                   style: TextStyle(
                       backgroundColor: Colors.transparent,
                       fontSize: 13.0,
@@ -119,7 +120,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
             ),
             //Decrypt Record Field
             Container(
-              margin: EdgeInsets.only(top: 5),
+              margin: EdgeInsetsDirectional.only(top: 5),
               decoration: BoxDecoration(
                 color: settingsStore.isDarkTheme
                     ? Color(0xff24242F)
@@ -130,7 +131,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                         ? Color(0xff3c3c51)
                         : Color(0xffDADADA)),
               ),
-              padding: EdgeInsets.only(left: 8, right: 5),
+              padding: EdgeInsetsDirectional.only(start: 8, end: 5),
               child: TextFormField(
                 focusNode: _focusNodeBnsName,
                 controller: _decryptRecordController,
@@ -161,7 +162,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                       color: settingsStore.isDarkTheme
                           ? Color(0xff77778B)
                           : Color(0xff77778B)),
-                  hintText: 'A BNS name that belongs to you',
+                  hintText: tr(context).bnsRecordNameHint,
                   counterText: '',
                 ),
                 validator: (value) {
@@ -201,8 +202,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                 callGetAllBns();
                                 Navigator.of(context).pop();
                                 Fluttertoast.showToast(
-                                  msg: 'Successfully decrypted BNS Record for ${_decryptRecordController
-                                      .text}.bdx',
+                                  msg: tr(context).bnsDecryptionSuccess(
+                                      '${_decryptRecordController.text}.bdx'),
                                   toastLength: Toast.LENGTH_LONG,
                                   gravity: ToastGravity.BOTTOM,
                                   textColor: Colors.white,
@@ -213,7 +214,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                             } else {
                               Navigator.of(context).pop();
                               Fluttertoast.showToast(
-                                msg: 'The given BNS record doesn\'t exist or does not belong to this wallet.',
+                                msg: tr(context).bnsRecordNotFound,
                                 toastLength: Toast.LENGTH_LONG,
                                 gravity: ToastGravity.BOTTOM,
                                 textColor: Colors.white,
@@ -224,8 +225,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                           } else {
                             Navigator.of(context).pop();
                             Fluttertoast.showToast(
-                              msg: 'Failed to decrypt BNS Record for ${_decryptRecordController
-                                  .text}.bdx',
+                              msg: tr(context).bnsDecryptionFailure(
+                                  '${_decryptRecordController.text}.bdx'),
                               toastLength: Toast.LENGTH_LONG,
                               gravity: ToastGravity.BOTTOM,
                               textColor: Colors.white,
@@ -237,7 +238,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                       });
                     }else{
                       await Fluttertoast.showToast(
-                        msg: 'Please wait until we fetch the BNS record from Network',
+                        msg: tr(context).bnsWaitForFetch,
                         toastLength: Toast.LENGTH_LONG,
                         gravity: ToastGravity.BOTTOM,
                         textColor: Colors.white,
@@ -252,14 +253,14 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                 child: Align(
                   alignment: Alignment.center,
                   child: Container(
-                    padding: EdgeInsets.only(
-                        top: 10, bottom: 10, left: 20, right: 20),
-                    margin: EdgeInsets.only(top: 10, bottom: 20),
+                    padding: EdgeInsetsDirectional.only(
+                        top: 10, bottom: 10, start: 20, end: 20),
+                    margin: EdgeInsetsDirectional.only(top: 10, bottom: 20),
                     decoration: BoxDecoration(
                         color: Color(0xff00AD07),
                         borderRadius: BorderRadius.circular(10)),
                     child: Text(
-                      'Add BNS',
+                      tr(context).addBns,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           backgroundColor: Colors.transparent,
@@ -273,8 +274,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
             }),
             //BNS Records
             Container(
-              margin: EdgeInsets.only(left: 5, top: 10, bottom: 10),
-              child: Text('BNS Records',
+              margin: EdgeInsetsDirectional.only(start: 5, top: 10, bottom: 10),
+              child: Text(tr(context).bnsRecords,
                   style: TextStyle(
                       backgroundColor: Colors.transparent,
                       fontSize: 13.0,
@@ -308,7 +309,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                               textSelectionTheme: TextSelectionThemeData(
                                   selectionColor: Color(0xff0ba70f))),
                           child: Container(
-                            margin: EdgeInsets.only(bottom: 10.0),
+                            margin: EdgeInsetsDirectional.only(bottom: 10.0),
                             decoration: BoxDecoration(
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff32324A)
@@ -340,7 +341,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Expiration Height : ',
+                                        '${tr(context).bnsExpirationHeight} : ',
                                         style: TextStyle(
                                             backgroundColor: Colors.transparent,
                                             color: settingsStore.isDarkTheme
@@ -384,7 +385,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'Expiration Height : ',
+                                        '${tr(context).bnsExpirationHeight} : ',
                                         style: TextStyle(
                                             backgroundColor: Colors.transparent,
                                             color: settingsStore.isDarkTheme
@@ -418,7 +419,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                 ),
                                 //Update Height
                                 Container(
-                                  margin: EdgeInsets.only(left: 16, right: 16),
+                                  margin: EdgeInsetsDirectional.only(start: 16, end: 16),
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment
                                         .spaceBetween,
@@ -426,7 +427,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                         .start,
                                     children: [
                                       Text(
-                                        'Update Height',
+                                        tr(context).bnsUpdateHeight,
                                         style: TextStyle(
                                             backgroundColor: Colors.transparent,
                                             color: settingsStore.isDarkTheme
@@ -458,8 +459,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Container(
-                                    margin: EdgeInsets.only(
-                                        left: 16, right: 16),
+                                    margin: EdgeInsetsDirectional.only(
+                                        start: 16, end: 16),
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment
                                           .start,
@@ -467,7 +468,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           .start,
                                       children: [
                                         Text(
-                                          'Owner',
+                                          tr(context).bnsOwnerLabel,
                                           style: TextStyle(
                                               backgroundColor: Colors.transparent,
                                               color: settingsStore.isDarkTheme
@@ -500,8 +501,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -509,7 +510,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                             .start,
                                         children: [
                                           Text(
-                                            'Backup Owner',
+                                            tr(context).bnsBackupOwner,
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
@@ -548,8 +549,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -557,7 +558,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                             .start,
                                         children: [
                                           Text(
-                                            'Encrypted Wallet Value',
+                                            tr(context).bnsEncryptedWalletValue,
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
@@ -598,8 +599,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -607,7 +608,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                             .start,
                                         children: [
                                           Text(
-                                            'Encrypted BChat Value',
+                                            tr(context).bnsEncryptedBchatValue,
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
@@ -648,8 +649,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -657,7 +658,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                             .start,
                                         children: [
                                           Text(
-                                            'Encrypted Belnet Value',
+                                            tr(context).bnsEncryptedBelnetValue,
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
@@ -698,8 +699,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -707,7 +708,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                             .start,
                                         children: [
                                           Text(
-                                            'Encrypted ETH Value',
+                                            tr(context).bnsEncryptedEthValue,
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
@@ -746,8 +747,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -755,7 +756,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                             .start,
                                         children: [
                                           Text(
-                                            'Wallet Address',
+                                            tr(context).walletAddress,
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
@@ -792,8 +793,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -801,7 +802,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                             .start,
                                         children: [
                                           Text(
-                                            'BChat ID',
+                                            tr(context).bnsBchatId,
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
@@ -838,8 +839,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -847,7 +848,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                             .start,
                                         children: [
                                           Text(
-                                            'Belnet ID',
+                                            tr(context).bnsBelnetId,
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
@@ -884,8 +885,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                   child: Align(
                                     alignment: Alignment.centerLeft,
                                     child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: 16, right: 16),
+                                      margin: EdgeInsetsDirectional.only(
+                                          start: 16, end: 16),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment
                                             .start,
@@ -893,7 +894,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                             .start,
                                         children: [
                                           Text(
-                                            'ETH Address',
+                                            tr(context).bnsEthAddress,
                                             style: TextStyle(
                                                 backgroundColor: Colors.transparent,
                                                 color: settingsStore.isDarkTheme
@@ -927,10 +928,13 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                 //Update and Renewal
                                Visibility(
                                  visible:bnsDetails.name != '(none)',
-                                 child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
+                                 child: Padding(
+                                   padding: EdgeInsetsDirectional.symmetric(horizontal: 20),
+                                   child: Row(
+                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      OutlinedButton(
+                                      Expanded(
+                                        child: OutlinedButton(
                                       onPressed:() {
                                       Navigator.of(context,
                                       rootNavigator: true)
@@ -946,36 +950,41 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                           width: 1.0,
                                           style: BorderStyle.solid
                                         ),
+                                        minimumSize: Size(0, 40),
+                                        padding: EdgeInsets.symmetric(horizontal: 8),
                                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                                         backgroundColor: settingsStore.isDarkTheme?Color(0xff24242F):Colors.white
                                       ),
                                       child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
-                                          Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: SvgPicture.asset(
-                                                'assets/images/new-images/bns_update.svg',
-                                                colorFilter: ColorFilter.mode(Color(0xff3DA2FF), BlendMode.srcIn),),
+                                          SvgPicture.asset(
+                                            'assets/images/new-images/bns_update.svg',
+                                            colorFilter: ColorFilter.mode(Color(0xff3DA2FF), BlendMode.srcIn),
+                                            width: 20,
+                                            height: 20,
                                           ),
-                                          Align(
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                'Update',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    backgroundColor: Colors.transparent,
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Color(0xff3DA2FF)
-                                                ),
-                                              )
+                                          SizedBox(width: 4),
+                                          Flexible(
+                                            child: Text(
+                                              tr(context).bnsUpdateAction,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                backgroundColor: Colors.transparent,
+                                                fontWeight: FontWeight.bold,
+                                                color: Color(0xff3DA2FF)
+                                              ),
+                                            ),
                                           )
                                         ],
                                       ),
                                     ),
-                                      SizedBox(
-                                        width: 10,
                                       ),
-                                      OutlinedButton(
+                                      SizedBox(width: 10),
+                                      Expanded(
+                                        child: OutlinedButton(
                                         onPressed:() {
                                           Navigator.of(context,
                                               rootNavigator: true)
@@ -991,36 +1000,41 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                                 width: 1.0,
                                                 style: BorderStyle.solid
                                             ),
+                                            minimumSize: Size(0, 40),
+                                            padding: EdgeInsets.symmetric(horizontal: 8),
                                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
                                             backgroundColor: settingsStore.isDarkTheme?Color(0xff24242F):Colors.white
                                         ),
                                         child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                           children: <Widget>[
-                                            Align(
-                                                alignment: Alignment.centerLeft,
-                                                child:  SvgPicture.asset(
-                                                  'assets/images/new-images/bns_renewal.svg',
-                                                  colorFilter: ColorFilter.mode(Color(0xff00CF08), BlendMode.srcIn),)
+                                            SvgPicture.asset(
+                                              'assets/images/new-images/bns_renewal.svg',
+                                              colorFilter: ColorFilter.mode(Color(0xff00CF08), BlendMode.srcIn),
+                                              width: 20,
+                                              height: 20,
                                             ),
-                                            Align(
-                                                alignment: Alignment.center,
-                                                child: Text(
-                                                  'Renew',
-                                                  textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                      backgroundColor: Colors.transparent,
-                                                      fontWeight: FontWeight.bold,
-                                                    color: Color(0xff00CF08)
-                                                  ),
-                                                )
+                                            SizedBox(width: 4),
+                                            Flexible(
+                                              child: Text(
+                                                tr(context).bnsRenewAction,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  backgroundColor: Colors.transparent,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Color(0xff00CF08)
+                                                ),
+                                              ),
                                             )
                                           ],
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 20,
                                       ),
-                                  ],),
+                                    ],
+                                   ),
+                                 ),
                                )
                               ],
                             ),
@@ -1036,8 +1050,8 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                           .size
                           .width,
                       height: 350,
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(10),
+                      margin: EdgeInsetsDirectional.all(10),
+                      padding: EdgeInsetsDirectional.all(10),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           color: settingsStore.isDarkTheme
@@ -1055,7 +1069,7 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
                                 : Color.fromRGBO(72, 72, 96, 0.2), BlendMode.srcIn),
                             width: 120, height: 120,),
                           Text(
-                            'Here you can find all the BNS Names owned by this wallet. Decrypting a record you own will return the name and value at the BNS record.',
+                            tr(context).bnsRecordsDescription,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
@@ -1094,17 +1108,17 @@ class MyBnsPageState extends State<MyBnsPage> with TickerProviderStateMixin {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         buyBnsChangeNotifier.setBnsNameFieldIsValid(true);
       });
-      errorMessage = 'Please fill in this field';
+      errorMessage = tr(context).bnsPleaseFillField;
     } else if (value.isNotEmpty && value.characters.first == '-') {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         buyBnsChangeNotifier.setBnsNameFieldIsValid(true);
       });
-      errorMessage = 'Invalid BNS Name';
+      errorMessage = tr(context).bnsInvalidName;
     } else if (value.isNotEmpty && value.characters.last == '-') {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         buyBnsChangeNotifier.setBnsNameFieldIsValid(true);
       });
-      errorMessage = 'Invalid BNS Name';
+      errorMessage = tr(context).bnsInvalidName;
     } else {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         buyBnsChangeNotifier.setBnsNameFieldIsValid(false);

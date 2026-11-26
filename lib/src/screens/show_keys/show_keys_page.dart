@@ -66,7 +66,7 @@ class _KeysDisplayWidgetState extends State<KeysDisplayWidget> {
     final walletKeysStore = Provider.of<WalletKeysStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
-        padding: EdgeInsets.only(top: 20.0, bottom: 20.0, left: 5, right: 5),
+        padding: EdgeInsetsDirectional.only(top: 20.0, bottom: 20.0, start: 5, end: 5),
         child: Observer(
           builder: (_) {
             final keysMap = {
@@ -78,7 +78,7 @@ class _KeysDisplayWidgetState extends State<KeysDisplayWidget> {
 
             return ListView.separated(
                 separatorBuilder: (_, __) => Container(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: EdgeInsetsDirectional.only(start: 10, end: 10),
                     child: Divider(
                         color: Theme.of(context).dividerTheme.color,
                         height: 1.0)),
@@ -88,20 +88,8 @@ class _KeysDisplayWidgetState extends State<KeysDisplayWidget> {
                   final value = keysMap.values.elementAt(index);
 
                   return ListTile(
-                      contentPadding: EdgeInsets.only(
-                          top: 10, bottom: 10, left: 10, right: 10),
-                      // onTap: () async {
-                      //   await ClipboardHelper.copyWithAutoClear(keysMap.values.elementAt(index));
-                      //   Scaffold.of(context).showSnackBar(SnackBar(
-                      //     content: Text(
-                      //       S.of(context).copied_key_to_clipboard(key),
-                      //       textAlign: TextAlign.center,
-                      //       style: TextStyle(color: Colors.white),
-                      //     ),
-                      //     backgroundColor: Colors.green,
-                      //     duration: Duration(seconds: 1),
-                      //   ));
-                      // },
+                      contentPadding: EdgeInsetsDirectional.only(
+                          top: 10, bottom: 10, start: 10, end: 10),
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -118,19 +106,9 @@ class _KeysDisplayWidgetState extends State<KeysDisplayWidget> {
                                 textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white,// Toast gravity (top, center, or bottom)// Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                               );
-
-                              //      Scaffold.of(context).showSnackBar(SnackBar(
-                              //   content: Text(
-                              //     S.of(context).copied_key_to_clipboard(key),
-                              //     textAlign: TextAlign.center,
-                              //     style: TextStyle(color: Colors.white),
-                              //   ),
-                              //   backgroundColor: Color(0xff0BA70F),
-                              //   duration: Duration(seconds: 1),
-                              // ));
                             },
                             child: Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
+                              padding: const EdgeInsetsDirectional.only(end: 8.0),
                               child: Icon(
                                 Icons.copy,
                                 size: 20,
@@ -140,7 +118,7 @@ class _KeysDisplayWidgetState extends State<KeysDisplayWidget> {
                         ],
                       ),
                       subtitle: Container(
-                        padding: EdgeInsets.only(top: 10.0),
+                        padding: EdgeInsetsDirectional.only(top: 10.0),
                         child: Row(
                           children: [
                             Flexible(

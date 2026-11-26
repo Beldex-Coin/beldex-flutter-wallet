@@ -67,7 +67,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
               key: _formKey,
               child: Container(
                 width: MediaQuery.sizeOf(context).width,
-                margin: EdgeInsets.all(20),
+                margin: EdgeInsetsDirectional.all(20),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -84,12 +84,23 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                         decoration: InputDecoration(
                           hintText: tr(context).labelName,
                           hintStyle: TextStyle(backgroundColor:Colors.transparent,color: Color(0xff77778B)),
-                          errorStyle: TextStyle(backgroundColor: Colors.transparent,color: Colors.red),
+                          errorStyle: const TextStyle(
+                            backgroundColor: Colors.transparent,
+                            color: Colors.red,
+                            fontSize: 12,
+                            height: 1.3,
+                          ),
+                          errorMaxLines: 3,
+                          contentPadding: const EdgeInsetsDirectional.only(
+                            start: 8,
+                            end: 8,
+                            top: 12,
+                            bottom: 12,
+                          ),
                           errorBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.red),
                             borderRadius: BorderRadius.circular(10),
                           ),
-                          contentPadding: EdgeInsets.symmetric(horizontal: 8),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -107,7 +118,7 @@ class SubAddressAlertState extends State<SubAddressAlert> {
                           } else if (checkSubAddressAlreadyExist(value)) {
                             return tr(context).subaddressAlreadyExist;
                           } else {
-                            subAddressCreationStore.validateSubaddressName(value);
+                            subAddressCreationStore.validateSubaddressName(value, tr(context));
                             return subAddressCreationStore.errorMessage;
                           }
                         }),

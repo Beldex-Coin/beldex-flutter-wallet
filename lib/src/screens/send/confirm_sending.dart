@@ -121,7 +121,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
         child: Container(
-          margin: EdgeInsets.all(15),
+          margin: EdgeInsetsDirectional.all(15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -134,11 +134,11 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
                     height: MediaQuery.sizeOf(context).height * 1.4 / 3,
-                    padding: EdgeInsets.only(top: 15.0, left: 20, right: 20),
+                    padding: EdgeInsetsDirectional.only(top: 15.0, start: 20, end: 20),
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
+                          padding: const EdgeInsetsDirectional.only(bottom: 10.0),
                           child: Text(title,
                               style: TextStyle(
                                   backgroundColor: Colors.transparent,
@@ -154,7 +154,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                             child: Row(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(10.0),
+                                  padding: const EdgeInsetsDirectional.all(10.0),
                                   child: Text(
                                     'Amount',
                                     style: TextStyle(
@@ -166,7 +166,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                 VerticalDivider(),
                                 Expanded(
                                     child: Container(
-                                  padding: const EdgeInsets.all(10.0),
+                                  padding: const EdgeInsetsDirectional.all(10.0),
                                   child: Text(
                                     'body',
                                     style: TextStyle(
@@ -178,11 +178,11 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                 )),
                                 Container(
                                   width: 70,
-                                  padding: EdgeInsets.all(10),
+                                  padding: EdgeInsetsDirectional.all(10),
                                   child: Container(
                                       height: 40,
                                       width: 40,
-                                      padding: EdgeInsets.all(6),
+                                      padding: EdgeInsetsDirectional.all(6),
                                       decoration: BoxDecoration(
                                         color: Color(0xff00B116),
                                         shape: BoxShape.circle,
@@ -193,8 +193,8 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                               ],
                             )),
                         Container(
-                            margin: EdgeInsets.only(top: 10),
-                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsetsDirectional.only(top: 10),
+                            padding: EdgeInsetsDirectional.all(10),
                             height:
                                 MediaQuery.sizeOf(context).height * 0.60 / 3,
                             decoration: BoxDecoration(
@@ -208,7 +208,7 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                               children: [
                                 Text('Address'),
                                 Container(
-                                    padding: EdgeInsets.all(10),
+                                    padding: EdgeInsetsDirectional.all(10),
                                     decoration: BoxDecoration(
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff47475E)
@@ -216,11 +216,11 @@ class SendDetailsAfterTransaction extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(10)),
                                     child: Text(address)),
-                                Text('Fee: fee'),
+                                Text('${tr(context).fee}: $fee'),
                               ],
                             )),
                         Container(
-                          margin: EdgeInsets.only(
+                          margin: EdgeInsetsDirectional.only(
                               top: MediaQuery.sizeOf(context).height *
                                   0.10 /
                                   3),
@@ -315,7 +315,7 @@ class TransactionSendDetails extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
         child: Container(
-          margin: EdgeInsets.all(15),
+          margin: EdgeInsetsDirectional.all(15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -328,11 +328,11 @@ class TransactionSendDetails extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
                     height: MediaQuery.sizeOf(context).height * 1.4 / 3,
-                    padding: EdgeInsets.only(top: 15.0, left: 20, right: 20),
+                    padding: EdgeInsetsDirectional.only(top: 15.0, start: 20, end: 20),
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
+                          padding: const EdgeInsetsDirectional.only(bottom: 10.0),
                           child: Text(title,
                               style: TextStyle(
                                   backgroundColor: Colors.transparent,
@@ -340,7 +340,7 @@ class TransactionSendDetails extends StatelessWidget {
                         ),
                         Container(
                             height: 50,
-                            //padding: EdgeInsets.all(10),
+                            //padding: EdgeInsetsDirectional.all(10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 color: settingsStore.isDarkTheme
@@ -349,7 +349,7 @@ class TransactionSendDetails extends StatelessWidget {
                             child: Row(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(10.0),
+                                  padding: const EdgeInsetsDirectional.all(10.0),
                                   child: Text(
                                     tr(context).amount,
                                     style: TextStyle(
@@ -361,7 +361,7 @@ class TransactionSendDetails extends StatelessWidget {
                                 VerticalDivider(),
                                 Expanded(
                                     child: Container(
-                                  padding: const EdgeInsets.all(10.0),
+                                  padding: const EdgeInsetsDirectional.all(10.0),
                                   child: Text(
                                     body,
                                     style: TextStyle(
@@ -373,11 +373,11 @@ class TransactionSendDetails extends StatelessWidget {
                                 )),
                                 Container(
                                   width: 70,
-                                  padding: EdgeInsets.all(10),
+                                  padding: EdgeInsetsDirectional.all(10),
                                   child: Container(
                                       height: 40,
                                       width: 40,
-                                      padding: EdgeInsets.all(6),
+                                      padding: EdgeInsetsDirectional.all(6),
                                       decoration: BoxDecoration(
                                         color: Color(0xff00B116),
                                         shape: BoxShape.circle,
@@ -388,8 +388,8 @@ class TransactionSendDetails extends StatelessWidget {
                               ],
                             )),
                         Container(
-                            margin: EdgeInsets.only(top: 10),
-                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsetsDirectional.only(top: 10),
+                            padding: EdgeInsetsDirectional.all(10),
                             height:
                                 MediaQuery.sizeOf(context).height * 0.60 / 3,
                             decoration: BoxDecoration(
@@ -401,9 +401,9 @@ class TransactionSendDetails extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Text(tr(context).widgets_address),
+                                Text(tr(context).restore_address),
                                 Container(
-                                    padding: EdgeInsets.all(10),
+                                    padding: EdgeInsetsDirectional.all(10),
                                     decoration: BoxDecoration(
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff47475E)
@@ -411,11 +411,11 @@ class TransactionSendDetails extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(10)),
                                     child: Text(address)),
-                                Text('Fee: $fee'),
+                                Text('${tr(context).fee}: $fee'),
                               ],
                             )),
                         Container(
-                          margin: EdgeInsets.only(
+                          margin: EdgeInsetsDirectional.only(
                               top: MediaQuery.sizeOf(context).height *
                                   0.10 /
                                   3),
@@ -521,7 +521,7 @@ class _SendTransactionSuccessfullyState
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
         child: Container(
-          margin: EdgeInsets.all(15),
+          margin: EdgeInsetsDirectional.all(15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -534,10 +534,10 @@ class _SendTransactionSuccessfullyState
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
                     height: MediaQuery.sizeOf(context).height * 0.80 / 3,
-                    padding: EdgeInsets.only(
+                    padding: EdgeInsetsDirectional.only(
                         //top: 15.0,
-                        left: 10,
-                        right: 10),
+                        start: 10,
+                        end: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -620,7 +620,7 @@ class ConfirmSending extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
         child: Container(
-          margin: EdgeInsets.all(15),
+          margin: EdgeInsetsDirectional.all(15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -633,13 +633,13 @@ class ConfirmSending extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10)),
                   child: Container(
                     // height: MediaQuery.sizeOf(context).height * 1.4 / 3,
-                    padding: EdgeInsets.only(
-                        top: 15.0, left: 20, right: 20, bottom: 20),
+                    padding: EdgeInsetsDirectional.only(
+                        top: 15.0, start: 20, end: 20, bottom: 20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
+                          padding: const EdgeInsetsDirectional.only(bottom: 10.0),
                           child: Text(title ?? "",
                               style: TextStyle(
                                   backgroundColor: Colors.transparent,
@@ -655,7 +655,7 @@ class ConfirmSending extends StatelessWidget {
                             child: Row(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(10.0),
+                                  padding: const EdgeInsetsDirectional.all(10.0),
                                   child: Text(
                                     tr(context).transaction_details_amount,
                                     style: TextStyle(
@@ -667,7 +667,7 @@ class ConfirmSending extends StatelessWidget {
                                 VerticalDivider(),
                                 Expanded(
                                     child: Container(
-                                  padding: const EdgeInsets.all(10.0),
+                                  padding: const EdgeInsetsDirectional.all(10.0),
                                   child: Text(
                                     body ?? "",
                                     style: TextStyle(
@@ -679,11 +679,11 @@ class ConfirmSending extends StatelessWidget {
                                 )),
                                 Container(
                                   width: 70,
-                                  padding: EdgeInsets.all(10),
+                                  padding: EdgeInsetsDirectional.all(10),
                                   child: Container(
                                       height: 40,
                                       width: 40,
-                                      padding: EdgeInsets.all(6),
+                                      padding: EdgeInsetsDirectional.all(6),
                                       decoration: BoxDecoration(
                                         color: Color(0xff00B116),
                                         shape: BoxShape.circle,
@@ -695,8 +695,8 @@ class ConfirmSending extends StatelessWidget {
                             )),
                         Container(
                             width: MediaQuery.sizeOf(context).width,
-                            margin: EdgeInsets.only(top: 10),
-                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsetsDirectional.only(top: 10),
+                            padding: EdgeInsetsDirectional.all(10),
                             decoration: BoxDecoration(
                                 color: settingsStore.isDarkTheme
                                     ? Color(0xff383848)
@@ -712,8 +712,8 @@ class ConfirmSending extends StatelessWidget {
                                         TextStyle(backgroundColor: Colors.transparent,fontWeight: FontWeight.bold)),
                                 Container(
                                     width: MediaQuery.sizeOf(context).width,
-                                    margin: EdgeInsets.only(top: 5, bottom: 5),
-                                    padding: EdgeInsets.all(10),
+                                    margin: EdgeInsetsDirectional.only(top: 5, bottom: 5),
+                                    padding: EdgeInsetsDirectional.all(10),
                                     decoration: BoxDecoration(
                                         color: settingsStore.isDarkTheme
                                             ? Color(0xff47475E)
@@ -722,13 +722,13 @@ class ConfirmSending extends StatelessWidget {
                                             BorderRadius.circular(10)),
                                     child: Text(address)),
                                 Text(
-                                  'Fee: $fee',
+                                  '${tr(context).fee}: $fee',
                                   style: TextStyle(backgroundColor: Colors.transparent,fontWeight: FontWeight.bold),
                                 ),
                               ],
                             )),
                         Container(
-                          margin: EdgeInsets.only(
+                          margin: EdgeInsetsDirectional.only(
                               top: MediaQuery.sizeOf(context).height *
                                   0.10 /
                                   3),
@@ -748,7 +748,7 @@ class ConfirmSending extends StatelessWidget {
                                       backgroundColor: settingsStore.isDarkTheme
                                           ? Color(0xff383848)
                                           : Color(0xffEDEDED),
-                                      padding: EdgeInsets.all(12),
+                                      padding: EdgeInsetsDirectional.all(12),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -774,7 +774,7 @@ class ConfirmSending extends StatelessWidget {
                                     },
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Color(0xff0BA70F),
-                                      padding: EdgeInsets.all(12),
+                                      padding: EdgeInsetsDirectional.all(12),
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -884,13 +884,13 @@ class BnsConfirmationDialogBox extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
         child: Container(
-          margin: EdgeInsets.all(15),
+          margin: EdgeInsetsDirectional.all(15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                  padding: EdgeInsets.only(
-                      top: 15.0, left: 20, right: 20, bottom: 20),
+                  padding: EdgeInsetsDirectional.only(
+                      top: 15.0, start: 20, end: 20, bottom: 20),
                   width: double.infinity,
                   decoration: BoxDecoration(
                       color: settingsStore.isDarkTheme
@@ -901,14 +901,14 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0),
-                        child: Text('Confirm Purchase',
+                        padding: const EdgeInsetsDirectional.only(bottom: 10.0),
+                        child: Text(tr(context).bnsConfirmPurchase,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 fontSize: 16, fontWeight: FontWeight.w800)),
                       ),
                       Container(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsetsDirectional.all(10),
                           width: double.infinity,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -924,7 +924,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Name ',
+                                    tr(context).name,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -956,7 +956,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Year',
+                                    tr(context).bnsYearLabel,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -988,7 +988,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Owner',
+                                    tr(context).bnsOwnerLabel,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1043,8 +1043,8 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                             ],
                           )),
                       Container(
-                          margin: EdgeInsets.only(top: 15),
-                          padding: EdgeInsets.all(10),
+                          margin: EdgeInsetsDirectional.only(top: 15),
+                          padding: EdgeInsetsDirectional.all(10),
                           width: double.infinity,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -1060,7 +1060,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Address',
+                                    tr(context).restore_address,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1072,7 +1072,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   Text(
                                     walletAddress.isNotEmpty
                                         ? walletAddress
-                                        : 'None',
+                                        : tr(context).settings_none,
                                     style: TextStyle(
                                       backgroundColor: Colors.transparent,
                                       fontSize: 12,
@@ -1092,7 +1092,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'BChat ID',
+                                    tr(context).bnsBchatId,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1102,7 +1102,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                         fontWeight: FontWeight.w400),
                                   ),
                                   Text(
-                                    bchatId.isNotEmpty ? bchatId : 'None',
+                                    bchatId.isNotEmpty ? bchatId : tr(context).settings_none,
                                     style: TextStyle(
                                       backgroundColor: Colors.transparent,
                                       fontSize: 12,
@@ -1122,7 +1122,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Belnet ID',
+                                    tr(context).bnsBelnetId,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1132,7 +1132,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                         fontWeight: FontWeight.w400),
                                   ),
                                   Text(
-                                    belnetId.isNotEmpty ? belnetId : 'None',
+                                    belnetId.isNotEmpty ? belnetId : tr(context).settings_none,
                                     style: TextStyle(
                                       backgroundColor: Colors.transparent,
                                       fontSize: 12,
@@ -1152,7 +1152,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'ETH Address',
+                                    tr(context).bnsEthAddress,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1162,7 +1162,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                         fontWeight: FontWeight.w400),
                                   ),
                                   Text(
-                                    ethAddress.isNotEmpty ? ethAddress : 'None',
+                                    ethAddress.isNotEmpty ? ethAddress : tr(context).settings_none,
                                     style: TextStyle(
                                       backgroundColor: Colors.transparent,
                                       fontSize: 12,
@@ -1175,7 +1175,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                             ],
                           )),
                       Container(
-                        margin: EdgeInsets.only(
+                        margin: EdgeInsetsDirectional.only(
                             top: MediaQuery.sizeOf(context).height * 0.10 / 3),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1191,7 +1191,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                     backgroundColor: settingsStore.isDarkTheme
                                         ? Color(0xff383848)
                                         : Color(0xffEDEDED),
-                                    padding: EdgeInsets.all(12),
+                                    padding: EdgeInsetsDirectional.all(12),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -1217,7 +1217,7 @@ class BnsConfirmationDialogBox extends StatelessWidget {
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Color(0xff0BA70F),
-                                    padding: EdgeInsets.all(12),
+                                    padding: EdgeInsetsDirectional.all(12),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -1279,13 +1279,13 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
         child: Container(
-          margin: EdgeInsets.all(15),
+          margin: EdgeInsetsDirectional.all(15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                  padding: EdgeInsets.only(
-                      top: 15.0, left: 20, right: 20, bottom: 20),
+                  padding: EdgeInsetsDirectional.only(
+                      top: 15.0, start: 20, end: 20, bottom: 20),
                   width: double.infinity,
                   decoration: BoxDecoration(
                       color: settingsStore.isDarkTheme
@@ -1296,14 +1296,14 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0),
-                        child: Text('Confirm Update',
+                        padding: const EdgeInsetsDirectional.only(bottom: 10.0),
+                        child: Text(tr(context).bnsConfirmUpdate,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 fontSize: 16, fontWeight: FontWeight.w800)),
                       ),
                       Container(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsetsDirectional.all(10),
                           width: double.infinity,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -1319,7 +1319,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Name ',
+                                    tr(context).name,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1354,7 +1354,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Owner',
+                                      tr(context).bnsOwnerLabel,
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 13,
@@ -1422,7 +1422,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Address',
+                                      tr(context).restore_address,
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 13,
@@ -1434,7 +1434,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                     Text(
                                       walletAddress.isNotEmpty
                                           ? walletAddress
-                                          : 'None',
+                                          : tr(context).settings_none,
                                       style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 12,
@@ -1460,7 +1460,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'BChat ID',
+                                      tr(context).bnsBchatId,
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 13,
@@ -1470,7 +1470,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                           fontWeight: FontWeight.w400),
                                     ),
                                     Text(
-                                      bchatId.isNotEmpty ? bchatId : 'None',
+                                      bchatId.isNotEmpty ? bchatId : tr(context).settings_none,
                                       style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 12,
@@ -1496,7 +1496,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'Belnet ID',
+                                      tr(context).bnsBelnetId,
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 13,
@@ -1506,7 +1506,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                           fontWeight: FontWeight.w400),
                                     ),
                                     Text(
-                                      belnetId.isNotEmpty ? belnetId : 'None',
+                                      belnetId.isNotEmpty ? belnetId : tr(context).settings_none,
                                       style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 12,
@@ -1532,7 +1532,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'ETH Address',
+                                      tr(context).bnsEthAddress,
                                       style: TextStyle(
                                           backgroundColor: Colors.transparent,
                                           fontSize: 13,
@@ -1542,7 +1542,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                           fontWeight: FontWeight.w400),
                                     ),
                                     Text(
-                                      ethAddress.isNotEmpty ? ethAddress : 'None',
+                                      ethAddress.isNotEmpty ? ethAddress : tr(context).settings_none,
                                       style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 12,
@@ -1556,7 +1556,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                             ],
                           )),
                       Container(
-                        margin: EdgeInsets.only(
+                        margin: EdgeInsetsDirectional.only(
                             top: MediaQuery.sizeOf(context).height * 0.10 / 3),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1572,7 +1572,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                     backgroundColor: settingsStore.isDarkTheme
                                         ? Color(0xff383848)
                                         : Color(0xffEDEDED),
-                                    padding: EdgeInsets.all(12),
+                                    padding: EdgeInsetsDirectional.all(12),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -1598,7 +1598,7 @@ class BnsUpdateConfirmationDialogBox extends StatelessWidget {
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Color(0xff0BA70F),
-                                    padding: EdgeInsets.all(12),
+                                    padding: EdgeInsetsDirectional.all(12),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -1650,13 +1650,13 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 3.0, sigmaY: 3.0),
         child: Container(
-          margin: EdgeInsets.all(15),
+          margin: EdgeInsetsDirectional.all(15),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                  padding: EdgeInsets.only(
-                      top: 15.0, left: 20, right: 20, bottom: 20),
+                  padding: EdgeInsetsDirectional.only(
+                      top: 15.0, start: 20, end: 20, bottom: 20),
                   width: double.infinity,
                   decoration: BoxDecoration(
                       color: settingsStore.isDarkTheme
@@ -1667,14 +1667,14 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 10.0),
-                        child: Text('Confirm Renewal',
+                        padding: const EdgeInsetsDirectional.only(bottom: 10.0),
+                        child: Text(tr(context).bnsRenewal,
                             style: TextStyle(
                                 backgroundColor: Colors.transparent,
                                 fontSize: 16, fontWeight: FontWeight.w800)),
                       ),
                       Container(
-                          padding: EdgeInsets.all(10),
+                          padding: EdgeInsetsDirectional.all(10),
                           width: double.infinity,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
@@ -1690,7 +1690,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Name ',
+                                    tr(context).name,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1722,7 +1722,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    'Year',
+                                    tr(context).bnsYearLabel,
                                     style: TextStyle(
                                         backgroundColor: Colors.transparent,
                                         fontSize: 13,
@@ -1747,7 +1747,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                             ],
                           )),
                       Container(
-                        margin: EdgeInsets.only(
+                        margin: EdgeInsetsDirectional.only(
                             top: MediaQuery.sizeOf(context).height * 0.10 / 3),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1763,7 +1763,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                                     backgroundColor: settingsStore.isDarkTheme
                                         ? Color(0xff383848)
                                         : Color(0xffEDEDED),
-                                    padding: EdgeInsets.all(12),
+                                    padding: EdgeInsetsDirectional.all(12),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -1789,7 +1789,7 @@ class BnsRenewalConfirmationDialogBox extends StatelessWidget {
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Color(0xff0BA70F),
-                                    padding: EdgeInsets.all(12),
+                                    padding: EdgeInsetsDirectional.all(12),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10),
                                     ),

@@ -80,7 +80,7 @@ class AccountFormState extends State<AccountForm> {
                     hintText: tr(context).account,
                     controller: _textController,
                     validator: (value) {
-                      accountListStore.validateAccountName(value!);
+                      accountListStore.validateAccountName(context, value!);
                       if(accountListStore.errorMessage?.isNotEmpty ?? false) {
                         return accountListStore.errorMessage;
                       }else{

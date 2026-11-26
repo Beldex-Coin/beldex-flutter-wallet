@@ -1,11 +1,9 @@
-import 'dart:ffi';
-import 'package:ffi/ffi.dart';
+class AccountRow {
+  const AccountRow({required this.id, required this.label});
 
-base class AccountRow extends Struct {
-  @Int64()
-  external int id;
-  external Pointer<Utf8> label;
+  final int id;
+  final String label;
 
-  String getLabel() => label.toDartString();
+  String getLabel() => label;
   int getId() => id;
 }

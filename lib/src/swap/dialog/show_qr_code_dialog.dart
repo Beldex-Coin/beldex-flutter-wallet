@@ -12,7 +12,7 @@ Future showQRCodeDialog(BuildContext context, SettingsStore settingsStore, Strin
     content: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text('Recipient Address',
+        Text(tr(context).transaction_details_recipient_address,
             style: TextStyle(
                 color: settingsStore.isDarkTheme
                     ? Color(0xffffffff)
@@ -28,13 +28,13 @@ Future showQRCodeDialog(BuildContext context, SettingsStore settingsStore, Strin
                 ? Color(0xff1B1B23)
                 : Color(0xfff3f3f3),
           ),
-          margin: EdgeInsets.only(top: 10, bottom: 10),
-          padding: EdgeInsets.all(20),
+          margin: EdgeInsetsDirectional.only(top: 10, bottom: 10),
+          padding: EdgeInsetsDirectional.all(20),
           child: Container(
             decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10)),
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsetsDirectional.all(10),
             child: QrImage(
               data: payInAddress!,
               backgroundColor: Colors.white,

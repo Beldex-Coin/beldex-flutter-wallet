@@ -56,7 +56,7 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
           title: t.transaction_details_transaction_id,
           value: widget.transactionInfo.id),
       StandartListItem(
-          title: t.transaction_details_date,
+          title: t.date,
           value: _dateFormat.format(widget.transactionInfo.date)),
       StandartListItem(
           title: t.transaction_details_height,
@@ -80,13 +80,13 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
   Widget build(BuildContext context) {
     final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
-      padding: EdgeInsets.only(left: 20, right: 15, top: 10, bottom: 10),
+      padding: EdgeInsetsDirectional.only(start: 20, end: 15, top: 10, bottom: 10),
       child: ListView.separated(
           separatorBuilder: (context, index) => Container(
                 height: 1,
                 color: Theme.of(context).dividerTheme.color,
               ),
-          padding: EdgeInsets.only(left: 25, top: 10, right: 25, bottom: 15),
+          padding: EdgeInsetsDirectional.only(start: 25, top: 10, end: 25, bottom: 15),
           itemCount: _items.length,
           itemBuilder: (context, index) {
             final item = _items[index];
@@ -104,15 +104,6 @@ class TransactionDetailsFormState extends State<TransactionDetailsForm> {
                     textColor: settingsStore.isDarkTheme ? Colors.black : Colors.white, // Text color
                                 backgroundColor: settingsStore.isDarkTheme ? Colors.grey.shade50 :Colors.grey.shade900,
                   );
-
-                  // Scaffold.of(context).showSnackBar(
-                  //   SnackBar(
-                  //     content: Text(
-                  //         S.of(context).transaction_details_copied(item.title)),
-                  //     backgroundColor: Colors.green,
-                  //     duration: Duration(milliseconds: 1500),
-                  //   ),
-                  // );
                 }
               },
               child:

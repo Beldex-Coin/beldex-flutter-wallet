@@ -68,24 +68,24 @@ String toStringAsFixed(String? amount) {
   }
 }
 
-String getDate(int timeStamp) {
+String getDate(int timeStamp, {String? locale}) {
   final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
-  return DateFormat('dd MMM yyyy').format(date);
+  return DateFormat('dd MMM yyyy', locale).format(date);
 }
 
-String getDateAndTime(int timeStamp) {
+String getDateAndTime(int timeStamp, {String? locale}) {
   final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
-  return DateFormat('dd MMM yyyy, HH:mm:ss').format(date);
+  return DateFormat('dd MMM yyyy, HH:mm:ss', locale).format(date);
 }
 
-String getTransactionDate(int timeStamp) {
+String getTransactionDate(int timeStamp, {String? locale}) {
   final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
-  return DateFormat('dd MMM yyyy').format(date);
+  return DateFormat('dd MMM yyyy', locale).format(date);
 }
 
-String getTransactionTime(int timeStamp) {
+String getTransactionTime(int timeStamp, {String? locale}) {
   final date = DateTime.fromMillisecondsSinceEpoch(timeStamp);
-  return DateFormat('HH:mm:ss').format(date);
+  return DateFormat('HH:mm:ss', locale).format(date);
 }
 
 String truncateMiddle(String input, {int start = 3, int end = 3}) {
@@ -216,8 +216,8 @@ Coins bdxCoin = Coins('BDX', 'Beldex', "", 'beldex', 'BDX');
 Widget PairsWidget({required SettingsStore settingsStore, required String? from, required String? to}) {
   return Center(
     child: Container(
-      margin: EdgeInsets.only(bottom: 10, top: 5),
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      margin: EdgeInsetsDirectional.only(bottom: 10, top: 5),
+      padding: EdgeInsetsDirectional.symmetric(horizontal: 15, vertical: 5),
       decoration: BoxDecoration(
         color: settingsStore.isDarkTheme ? Color(0xff333343) : Color(0xffffffff),
         borderRadius:BorderRadius.all(Radius.circular(6)),
@@ -265,12 +265,12 @@ String networkWithUppercase(String? blockChain) {
       : "...";
 }
 
-Widget networkWidget(SettingsStore settingsStore, String? network) {
+Widget networkWidget(BuildContext context, SettingsStore settingsStore, String? network) {
   return Flexible(
     flex: 1,
     child: Container(
-      margin: EdgeInsets.only(left: 3, top: 3, bottom: 3),
-      padding: EdgeInsets.all(10),
+      margin: EdgeInsetsDirectional.only(start: 3, top: 3, bottom: 3),
+      padding: EdgeInsetsDirectional.all(10),
       decoration: BoxDecoration(
           border: Border.all(
             color: settingsStore.isDarkTheme
@@ -281,7 +281,7 @@ Widget networkWidget(SettingsStore settingsStore, String? network) {
       child: RichText(
         textAlign: TextAlign.center,
         text: TextSpan(
-            text: 'NETWORK: ',
+            text: tr(context).swap_network_label,
             style: TextStyle(
                 color: settingsStore.isDarkTheme
                     ? Color(0xffAFAFBE)
@@ -303,8 +303,8 @@ Widget networkWidget(SettingsStore settingsStore, String? network) {
   );
 }
 
-Widget networkTextWidget(String? toBlockChain) {
-  return Text('NETWORK: $toBlockChain',
+Widget networkTextWidget(BuildContext context, String? toBlockChain) {
+  return Text('${tr(context).swap_network_label}$toBlockChain',
       style: TextStyle(
           fontSize: 12,
           fontWeight: FontWeight.w600,
@@ -403,4 +403,29 @@ CreateTransactionModel orderInfoToCreateTransactionModel(OrderInfo? order) {
     trackUrl: order.rawResponse is Map<String, dynamic> ? order.rawResponse['trackUrl']?.toString() : null,
   );
   return CreateTransactionModel(result: result, payTill: order.payTill, orderInfo: order);
+}
+
+String formatBeldexDisplayAmount(String value) {
+  final normalized = value.replaceAll(',', '.').trim();
+  final parsed = double.tryParse(normalized);
+  if (parsed == null) {
+    return normalized;
+  }
+
+  final formatter = NumberFormat.decimalPattern('en_us')
+    ..minimumFractionDigits = 0
+    ..maximumFractionDigits = 9;
+  return formatter.format(parsed);
+}
+
+String localizedNotEnoughFundsError(String error, AppLocalizations l10n) {
+  final balanceMatch = RegExp(r'overall balance only\s+([0-9.,]+)', caseSensitive: false)
+      .firstMatch(error);
+  final amountMatch = RegExp(r'sent amount\s+([0-9.,]+)', caseSensitive: false)
+      .firstMatch(error);
+
+  final balance = formatBeldexDisplayAmount(balanceMatch?.group(1) ?? '0');
+  final amount = formatBeldexDisplayAmount(amountMatch?.group(1) ?? '0');
+
+  return l10n.not_enough_money_to_transfer(amount, balance);
 }

@@ -173,26 +173,36 @@ class AuthPageState extends State<AuthPage> {
           leading: widget.closable
               ? Container(
             color: Colors.transparent,
-            padding: EdgeInsets.only(top: 15),
+            padding: EdgeInsetsDirectional.only(top: 15),
             alignment: Alignment.centerLeft,
             child: ButtonTheme(
               buttonColor: Colors.transparent,
               minWidth: double.minPositive,
-              child: TextButton(
-                  onPressed: () => Navigator.pop(context), child: SvgPicture.asset(
-                'assets/images/new-images/back_arrow.svg',
-                colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
-                fit: BoxFit.fill,
-                height: 15,
-                width: 15,
-              )),
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.identity()
+                  ..scaleByDouble(
+                    Directionality.of(context) == TextDirection.rtl ? -1.0 : 1.0,
+                    1.0,
+                    1.0,
+                    1.0,
+                  ),
+                child: TextButton(
+                    onPressed: () => Navigator.pop(context), child: SvgPicture.asset(
+                  'assets/images/new-images/back_arrow.svg',
+                  colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
+                  fit: BoxFit.fill,
+                  height: 15,
+                  width: 15,
+                )),
+              ),
             ),
           )
               : SizedBox(
             width: 0,
           ),
           title: Padding(
-            padding: EdgeInsets.only(top: 20, bottom: 5),
+            padding: EdgeInsetsDirectional.only(top: 20, bottom: 5),
             child: Text(
               tr(context).enterPin,
               style: TextStyle(

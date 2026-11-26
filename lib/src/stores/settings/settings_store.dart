@@ -43,8 +43,8 @@ abstract class SettingsStoreBase with Store {
         allowBiometricAuthentication = allowBiometricAuthenticationKey,
         enableFiatCurrency = enableFiatCurrencyKey,
         isDarkTheme = initialDarkTheme,
-        defaultPinLength = initialPinLength
-  //languageOverride = initialLanguageOverride
+        defaultPinLength = initialPinLength,
+        languageOverride = initialLanguageOverride
   {
     PackageInfo.fromPlatform().then(
         (PackageInfo packageInfo) => currentVersion = packageInfo.version);

@@ -18,7 +18,7 @@ class NewNavListArrow extends StatelessWidget {
         isDisable:isDisable,
         leading: Container(
            height:43.0,width:43.0,
-            padding: EdgeInsets.all(11.0),
+            padding: EdgeInsetsDirectional.all(11.0),
              decoration: BoxDecoration(
                     color: settingsStore.isDarkTheme ? Color(0xff272733) : Color(0xffEDEDED),
                     borderRadius: BorderRadius.circular(6.0)

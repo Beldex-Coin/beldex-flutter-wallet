@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../stores/settings/settings_store.dart';
+import '../../l10n.dart';
 
-Widget noInternet(SettingsStore settingsStore, double _screenWidth) {
+Widget noInternet(SettingsStore settingsStore, double _screenWidth, AppLocalizations t) {
   return Card(
-    margin: EdgeInsets.only(
-        top: 15, left: 10, right: 10, bottom: 15),
+    margin: EdgeInsetsDirectional.only(
+        top: 15, start: 10, end: 10, bottom: 15),
     elevation: 0,
     color: settingsStore.isDarkTheme
         ? Color(0xff24242f)
@@ -28,7 +29,7 @@ Widget noInternet(SettingsStore settingsStore, double _screenWidth) {
             height: 10,
           ),
           Text(
-              "No Internet!",
+              t.noInternet,
               style: TextStyle(
                   backgroundColor: Colors.transparent,
                   fontSize: 16,
@@ -41,7 +42,7 @@ Widget noInternet(SettingsStore settingsStore, double _screenWidth) {
             height: 10,
           ),
           Text(
-              "Please check your internet Connection\nand try again.",
+              t.noInternetMessage,
               textAlign: TextAlign.center,
               style: TextStyle(
                   backgroundColor: Colors.transparent,
