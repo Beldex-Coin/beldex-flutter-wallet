@@ -91,3 +91,6 @@ android/app/.externalNativeBuild/
 **/lib/.secrets.g.dart
 **/lib/src/swap/apiKeys.dart
 **/lib/src/swap/database/swap_db_encryption_config.dart
+
+# Flutter generated files
+**/ios/Flutter/ephemeral/
