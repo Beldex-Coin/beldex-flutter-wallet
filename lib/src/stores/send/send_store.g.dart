@@ -93,7 +93,9 @@ mixin _$SendStore on SendStoreBase, Store {
 
   @override
   Future<dynamic> createStake(
-      {required String address, String? amount, required AppLocalizations l10n}) {
+      {required String address,
+      String? amount,
+      required AppLocalizations l10n}) {
     return _$createStakeAsyncAction.run(
         () => super.createStake(address: address, amount: amount, l10n: l10n));
   }
@@ -193,8 +195,9 @@ mixin _$SendStore on SendStoreBase, Store {
       AsyncAction('SendStoreBase.commitTransaction', context: context);
 
   @override
-  Future<dynamic> commitTransaction() {
-    return _$commitTransactionAsyncAction.run(() => super.commitTransaction());
+  Future<dynamic> commitTransaction({AppLocalizations? t}) {
+    return _$commitTransactionAsyncAction
+        .run(() => super.commitTransaction(t: t));
   }
 
   late final _$_calculateFiatAmountAsyncAction =

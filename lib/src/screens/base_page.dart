@@ -36,16 +36,26 @@ abstract class BasePage extends StatelessWidget {
     final _backButton = Container(
         height: 48,
         width: 48,
-        child: SvgPicture.asset(
-          'assets/images/new-images/back_arrow.svg',
-          colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
-          height: 48,
-          width: 48,
-          fit: BoxFit.fill,
+        child: Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.identity()
+            ..scaleByDouble(
+            Directionality.of(context) == TextDirection.rtl ? -1.0 : 1.0,
+            1.0,
+            1.0,
+            1.0,
+          ),
+          child: SvgPicture.asset(
+            'assets/images/new-images/back_arrow.svg',
+            colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
+            height: 48,
+            width: 48,
+            fit: BoxFit.fill,
+          ),
         ));
     return Container(
       width: 60,
-      padding: EdgeInsets.only(left: 10,top: 4),
+      padding: EdgeInsetsDirectional.only(start: 10,top: 4),
       alignment: Alignment.centerLeft,
       child: SizedBox(
         height: 48,
@@ -62,16 +72,23 @@ abstract class BasePage extends StatelessWidget {
 
   Widget? middle(BuildContext context) {
     final title = getTitle(tr(context));
-    return title == null
-        ? null
-        : Text(
-            title,
-            style: TextStyle(
-                backgroundColor: Colors.transparent,
-                fontSize: 23.0,
-                fontWeight: FontWeight.w700,
-                color: Theme.of(context).primaryTextTheme.bodySmall?.color),
-          );
+
+    if (title == null) return null;
+
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Text(
+        title,
+        textAlign: TextAlign.center,
+        maxLines: 1,
+        style: TextStyle(
+          backgroundColor: Colors.transparent,
+          fontSize: 23.0,
+          fontWeight: FontWeight.w700,
+          color: Theme.of(context).primaryTextTheme.bodySmall?.color,
+        ),
+      ),
+    );
   }
 
   Widget? trailing(BuildContext context) {
@@ -164,38 +181,46 @@ abstract class BasePage extends StatelessWidget {
         //Theme.of(context).backgroundColor : Theme.of(context).backgroundColor,
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         appBar: AppBar(
-            toolbarHeight: 70,
-            elevation: 0,
-            centerTitle: true,
-            // systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: _isDarkTheme ? Color(0xff171720) : Color(0xffffffff),
-            // statusBarIconBrightness: Brightness.dark,
-            // statusBarBrightness: Brightness.light
-            // ),
-            leading: Padding(
-                padding: EdgeInsets.only(top: 20.0, bottom: 5),
-                child: leading(context) //trailing(context),
-                ),
-            title: Padding(
-              padding: const EdgeInsets.only(top: 20.0, bottom: 5),
-              child: middle(context),
+          toolbarHeight: 90,
+          elevation: 0,
+          surfaceTintColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          scrolledUnderElevation: 0,
+          centerTitle: true,
+
+          leading: Padding(
+            padding: const EdgeInsetsDirectional.only(
+              top: 15.0,
+              bottom: 5.0,
             ),
-            actions: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, bottom: 5),
-                child: trailing(context),
-              )
-            ],
-            backgroundColor: _isDarkTheme
-            ? Color(0xff171720)
-            : Color(0xffffffff),
-            //  _isDarkTheme
-            //     ? Theme.of(context).backgroundColor
-            //     : Theme.of(context).backgroundColor
+            child: leading(context),
+          ),
+
+          title: Padding(
+            padding: const EdgeInsetsDirectional.only(
+              top: 10.0,
+              bottom: 5.0,
             ),
+            child: middle(context),
+          ),
+
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsetsDirectional.only(
+                top: 15.0,
+                bottom: 5.0,
+              ),
+              child: trailing(context),
+            ),
+          ],
+
+          backgroundColor:
+          _isDarkTheme ? const Color(0xff171720) : const Color(0xffffffff),
+        ),
         body: SafeArea(child: body(context)),
         floatingActionButton: floatingActionButton(context),
         bottomNavigationBar: Padding(
-            padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewPadding.bottom),
+            padding: EdgeInsetsDirectional.only(bottom: MediaQuery.of(context).viewPadding.bottom),
             child: bottomNavigationBar(context)
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat);
@@ -206,16 +231,26 @@ abstract class BasePage extends StatelessWidget {
       return null;
     }
     final settingsStore = Provider.of<SettingsStore>(context);
-    final _backButton = SvgPicture.asset(
-      'assets/images/new-images/back_arrow.svg',
-      colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
-      fit: BoxFit.fill,
-      height: 15,
-      width: 15,
+    final _backButton = Transform(
+      alignment: Alignment.center,
+      transform: Matrix4.identity()
+        ..scaleByDouble(
+          Directionality.of(context) == TextDirection.rtl ? -1.0 : 1.0,
+          1.0,
+          1.0,
+          1.0,
+        ),
+      child: SvgPicture.asset(
+        'assets/images/new-images/back_arrow.svg',
+        colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
+        fit: BoxFit.fill,
+        height: 15,
+        width: 15,
+      ),
     );
     return Container(
       color: Colors.transparent,
-      padding: EdgeInsets.only(top: 4),
+      padding: EdgeInsetsDirectional.only(top: 4),
       alignment: Alignment.centerLeft,
       child: ButtonTheme(
         buttonColor: Colors.transparent,

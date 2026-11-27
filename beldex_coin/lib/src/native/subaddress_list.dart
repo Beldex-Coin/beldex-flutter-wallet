@@ -17,6 +17,15 @@ final subaddressGetAllNative = beldexApi
     .lookup<NativeFunction<subaddress_get_all>>('subaddress_get_all')
     .asFunction<SubaddressGetAll>();
 
+final subaddressGetAllWithSizeNative = beldexApi
+    .lookup<NativeFunction<subaddress_get_all_with_size>>(
+        'subaddress_get_all_with_size')
+    .asFunction<SubaddressGetAllWithSize>();
+
+final subaddressFreeAllNative = beldexApi
+    .lookup<NativeFunction<subaddress_free_all>>('subaddress_free_all')
+    .asFunction<SubaddressFreeAll>();
+
 final subaddressAddNewNative = beldexApi
     .lookup<NativeFunction<subaddress_add_new>>('subaddress_add_row')
     .asFunction<SubaddressAddNew>();
@@ -32,7 +41,9 @@ void addSubaddressSync({required int accountIndex, required String label}) {
 }
 
 void setLabelForSubaddressSync(
-    {required int accountIndex, required int addressIndex, required String label}) {
+    {required int accountIndex,
+    required int addressIndex,
+    required String label}) {
   final labelPointer = label.toNativeUtf8();
 
   subaddressSetLabelNative(accountIndex, addressIndex, labelPointer);

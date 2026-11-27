@@ -10,7 +10,7 @@ class StandartListRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      padding: const EdgeInsetsDirectional.only(top: 10, bottom: 10),
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -21,7 +21,7 @@ class StandartListRow extends StatelessWidget {
                     color: Theme.of(context).primaryTextTheme.bodySmall?.color),
                 textAlign: TextAlign.left),
             Padding(
-              padding: const EdgeInsets.only(top: 5),
+              padding: const EdgeInsetsDirectional.only(top: 5),
               child: Text(value!,
                   style: TextStyle(fontSize: 14, color: Theme.of(context).primaryTextTheme.bodySmall?.color)),
             )

@@ -9,9 +9,11 @@ import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
 import '../../../l10n.dart';
 
 class SetupPinCodePage extends BasePage {
-  SetupPinCodePage({this.onPinCodeSetup});
+  SetupPinCodePage({Function(BuildContext, String)? onPinCodeSetup})
+      : onPinCodeSetup = onPinCodeSetup ??
+            ((BuildContext _, String __) {});
 
-  final Function(BuildContext, String)? onPinCodeSetup;
+  final Function(BuildContext, String) onPinCodeSetup;
 
   @override
   String getTitle(AppLocalizations t) => t.setup_pin;
@@ -28,7 +30,7 @@ class SetupPinCodePage extends BasePage {
 
   @override
   Widget body(BuildContext context) =>
-      SetupPinCodeForm(onPinCodeSetup: onPinCodeSetup!, hasLengthSwitcher: true);
+      SetupPinCodeForm(onPinCodeSetup: onPinCodeSetup, hasLengthSwitcher: true);
 }
 
 class SetupPinCodeForm extends PinCodeWidget {
@@ -81,7 +83,7 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                 child: Container(
                   height: 170,
                   child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsetsDirectional.all(12.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,14 +100,16 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                         ),
                         Center(
                           child: SizedBox(
-                            width: 70,
+                            width: 110, // Increased width for Turkish translations
                             child: TextButton(
                               style: TextButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  backgroundColor: Color(
-                                      0xff0BA70F) //Theme.of(context).cardTheme.shadowColor,//Color.fromRGBO(38, 38, 38, 1.0),
-                                  ),
+                                minimumSize: const Size(110, 40),
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                backgroundColor: const Color(0xff0BA70F),
+                              ),
                               onPressed: () {
                                 Navigator.of(context).pop();
                                 widget.onPinCodeSetup(context, pin);
@@ -113,11 +117,16 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                               },
                               child: Text(
                                 tr(context).ok,
-                                style: TextStyle(
-                                    backgroundColor: Colors.transparent,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 15,
-                                    color: Color(0xffffffff)),
+                                maxLines: 1,
+                                softWrap: false,
+                                overflow: TextOverflow.visible,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  backgroundColor: Colors.transparent,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Color(0xffffffff),
+                                ),
                               ),
                             ),
                           ),
@@ -145,7 +154,7 @@ class _SetupPinCodeFormState<WidgetType extends SetupPinCodeForm>
                 child: Container(
                   height: 170,
                   child: Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsetsDirectional.all(12.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,

@@ -86,7 +86,7 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
     final settings = Provider.of<SettingsStore>(context);
     final settingsStore = Provider.of<SettingsStore>(context);
     return Container(
-      padding: EdgeInsets.only(top: 10.0, bottom: 20.0),
+      padding: EdgeInsetsDirectional.only(top: 10.0, bottom: 20.0),
       child: Column(
         children: <Widget>[
           SizedBox(
@@ -104,9 +104,9 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                         : node.key == settings.node?.key;
 
                     final content = Card(
-                        margin: EdgeInsets.only(
-                            left: constants.leftPx,
-                            right: constants.rightPx,
+                        margin: EdgeInsetsDirectional.only(
+                            start: constants.leftPx,
+                            end: constants.rightPx,
                             top: 20),
                         elevation: 0,
                         //2,
@@ -179,7 +179,7 @@ class NodeListPageBodyState extends State<NodeListPageBody> {
                                 await nodeList.remove(node: node),
                             direction: DismissDirection.endToStart,
                             background: Container(
-                                padding: EdgeInsets.only(right: 10.0),
+                                padding: EdgeInsetsDirectional.only(end: 10.0),
                                 alignment: AlignmentDirectional.centerEnd,
                                 color: BeldexPalette.red,
                                 child: Column(

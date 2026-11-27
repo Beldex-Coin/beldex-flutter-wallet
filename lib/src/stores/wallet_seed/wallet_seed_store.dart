@@ -7,13 +7,18 @@ class WalletSeedStore = WalletSeedStoreBase with _$WalletSeedStore;
 
 abstract class WalletSeedStoreBase with Store {
   WalletSeedStoreBase({required WalletService walletService}) {
-    //seed = '';
-
     if (walletService.currentWallet != null) {
-      walletService.getSeed().then((seed) => this.seed = seed);
+      isLoading = true;
+      walletService.getSeed().then((seed) {
+        this.seed = seed;
+        isLoading = false;
+      });
       walletService.getName().then((name) => this.name = name);
     }
   }
+
+  @observable
+  bool isLoading = false;
 
   @observable
   String name = '';

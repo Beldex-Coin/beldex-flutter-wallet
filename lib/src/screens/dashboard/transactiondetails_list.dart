@@ -1,5 +1,5 @@
 //import 'package:date_range_picker/date_range_picker.dart' as date_rage_picker;
-import 'package:custom_date_range_picker/custom_date_range_picker.dart';
+import '../../widgets/custom_date_range_picker/custom_date_range_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -12,9 +12,9 @@ import 'package:beldex_wallet/src/stores/action_list/action_list_store.dart';
 import 'package:beldex_wallet/src/stores/action_list/date_section_item.dart';
 import 'package:beldex_wallet/src/stores/action_list/transaction_list_item.dart';
 import 'package:beldex_wallet/src/stores/settings/settings_store.dart';
+import 'package:intl/intl.dart' show DateFormat;
 import 'package:provider/provider.dart';
 import '../../../l10n.dart';
-import 'package:intl/intl.dart';
 
 class TransactionDetailsList extends BasePage {
   final _bodyKey = GlobalKey();
@@ -62,24 +62,34 @@ class TransactionDetailsListBodyState
                   : Color(0xffffffff),
               leading: Container(
                 color: Colors.transparent,
-                padding: EdgeInsets.only(top: 10),
+                padding: EdgeInsetsDirectional.only(top: 10),
                 alignment: Alignment.centerLeft,
                 child: ButtonTheme(
                   buttonColor: Colors.transparent,
                   minWidth: double.minPositive,
-                  child: TextButton(
-                      onPressed: () => Navigator.pop(context), child: SvgPicture.asset(
-                    'assets/images/new-images/back_arrow.svg',
-                    colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
-                    fit: BoxFit.fill,
-                    height: 15,
-                    width: 15,
-                  )),
+                  child: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.identity()
+                      ..scaleByDouble(
+                        Directionality.of(context) == TextDirection.rtl ? -1.0 : 1.0,
+                        1.0,
+                        1.0,
+                        1.0,
+                      ),
+                    child: TextButton(
+                        onPressed: () => Navigator.pop(context), child: SvgPicture.asset(
+                      'assets/images/new-images/back_arrow.svg',
+                      colorFilter: ColorFilter.mode(settingsStore.isDarkTheme ? Colors.white : Colors.black, BlendMode.srcIn),
+                      fit: BoxFit.fill,
+                      height: 15,
+                      width: 15,
+                    )),
+                  ),
                 ),
               ),
               centerTitle: true,
               title: Padding(
-                padding: const EdgeInsets.only(top: 8.0),
+                padding: const EdgeInsetsDirectional.only(top: 8.0),
                 child: Text(
                   tr(context).transactions,
                   style: TextStyle(backgroundColor:Colors.transparent,fontSize: 18, fontWeight: FontWeight.w700),
@@ -88,7 +98,7 @@ class TransactionDetailsListBodyState
               actions: [
                 Container(
                   margin:
-                      EdgeInsets.only(left: 15, right: 0, bottom: 15.0, top: 8),
+                      EdgeInsetsDirectional.only(start: 15, end: 0, bottom: 15.0, top: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     //color: Colors.yellow,
@@ -98,7 +108,7 @@ class TransactionDetailsListBodyState
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Padding(
-                        padding: EdgeInsets.only(right: 20, top: 10),
+                        padding: EdgeInsetsDirectional.only(end: 20, top: 10),
                         child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -112,7 +122,7 @@ class TransactionDetailsListBodyState
                                             enabled: false,
                                             value: -1,
                                             child: Text(
-                                                'Filter by',
+                                                tr(context).filters,
                                                 style: TextStyle(backgroundColor:Colors.transparent,
                                                     fontWeight:
                                                     FontWeight.bold,
@@ -205,12 +215,11 @@ class TransactionDetailsListBodyState
                                                 .transactions_by_date,style: TextStyle(backgroundColor: Colors.transparent),)),
                                       ],
                                       onSelected: (item) {
-                                        print('item length --> $item');
                                         if (item == 2) {
                                           showCustomDateRangePicker(
                                             context,
                                             dismissible: false,
-                                            minimumDate: DateTime(2018),
+                                            minimumDate: DateTime(2018, DateTime.april),
                                             maximumDate: DateTime.now(),
                                             onApplyClick: (DateTime start,DateTime end){
                                               actionListStore.transactionFilterStore.changeStartDate(start);
@@ -247,7 +256,7 @@ class TransactionDetailsListBodyState
                               : Color(0xffEDEDED),
                 borderRadius: BorderRadius.circular(10)
               ),
-              margin: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: MediaQuery.of(context).viewPadding.bottom),
+              margin: EdgeInsetsDirectional.only(top: 10, start: 10, end: 10, bottom: MediaQuery.of(context).viewPadding.bottom),
               child: ListView.builder(
                   key: _listKey,
                   itemCount: itemsCount,
@@ -265,8 +274,8 @@ class TransactionDetailsListBodyState
                     if (index < 0 || index >= items.length) {
                       return Container(
                         height: MediaQuery.sizeOf(context).height * 2.6 / 3,
-                        margin: EdgeInsets.only(
-                            top: 8.0, bottom: 10.0, right: 15.0, left: 15.0),
+                        margin: EdgeInsetsDirectional.only(
+                            top: 8.0, bottom: 10.0, end: 15.0, start: 15.0),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           color: settingsStore.isDarkTheme
@@ -283,7 +292,7 @@ class TransactionDetailsListBodyState
                                     'assets/images/new-images/notrans_white.svg'),
                             Padding(
                               padding:
-                                  const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                                  const EdgeInsetsDirectional.only(top: 8.0, bottom: 8.0),
                               child: Text(
                                 tr(context).noTransactionsYet,
                                 style: TextStyle(backgroundColor:Colors.transparent,
@@ -354,7 +363,7 @@ class TransactionDetailsListBodyState
               child: Container(
                 height: 170,
                 child: Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsetsDirectional.all(12.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,

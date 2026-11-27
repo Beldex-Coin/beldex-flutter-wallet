@@ -33,7 +33,7 @@ class SwapPaymentPage extends BasePage {
   bool get isModalBackButton => false;
 
   @override
-  String getTitle(AppLocalizations t) => 'Swap';
+  String getTitle(AppLocalizations t) => t.swap;
 
   @override
   Color get textColor => Colors.white;
@@ -151,7 +151,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               return Center(
                   child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
             } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
-              return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
+              return noInternet(settingsStore, _screenWidth, tr(context)); // Display an error message if an error occurs. or Display a message when no data is available.
             } else {
               return body(_screenWidth, _screenHeight, settingsStore,
                   _scrollController, snapshot.data!, networkProvider, walletStore.subaddress.address);
@@ -194,7 +194,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
             width: MediaQuery.sizeOf(context).width,
@@ -214,7 +214,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               child: IntrinsicHeight(
                 child: Card(
                   margin:
-                      EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 15),
+                      EdgeInsetsDirectional.only(top: 15, start: 10, end: 10, bottom: 15),
                   elevation: 0,
                   color: settingsStore.isDarkTheme
                       ? Color(0xff24242f)
@@ -223,7 +223,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Container(
-                    padding: const EdgeInsets.all(15.0),
+                    padding: const EdgeInsetsDirectional.all(15.0),
                     width: _screenWidth,
                     height: double.infinity,
                     child: Column(
@@ -262,7 +262,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
         PairsWidget(settingsStore: settingsStore, from: from, to: to),
         //Checkout Title
         Text(
-          'Checkout',
+          tr(context).swap_checkout,
           style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
@@ -272,8 +272,8 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
         ),
         //You Send Details
         Container(
-            margin: EdgeInsets.only(top: 20, bottom: 10),
-            padding: EdgeInsets.all(10),
+            margin: EdgeInsetsDirectional.only(top: 20, bottom: 10),
+            padding: EdgeInsetsDirectional.all(10),
             decoration: BoxDecoration(
               color: settingsStore.isDarkTheme
                   ? Colors.transparent
@@ -294,7 +294,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'You send',
+                        tr(context).youSend,
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -312,13 +312,13 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                     ],
                   ),
                 ),
-                networkWidget(settingsStore, _exchangeDataWithRecipientAddress.fromProtocol)
+                networkWidget(context, settingsStore, _exchangeDataWithRecipientAddress.fromProtocol)
               ],
             )),
         Visibility(
           visible: minimumAmount.trim().isNotEmpty || maximumAmount.trim().isNotEmpty,
           child: Container(
-            margin: EdgeInsets.only(bottom: 10.0),
+            margin: EdgeInsetsDirectional.only(bottom: 10.0),
             decoration: BoxDecoration(
                 color: Color(0xff00AD07).withAlpha(25),
                 borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -337,11 +337,11 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                 }
               } : null,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsetsDirectional.all(8.0),
                 child: RichText(
                   textAlign: TextAlign.start,
                   text: TextSpan(
-                      text: minimumAmount.trim().isNotEmpty ?'The minimum amount value has changed, The new value is ':maximumAmount.trim().isNotEmpty ?'The maximum amount value has changed, The new value is ':'',
+                      text: minimumAmount.trim().isNotEmpty ? tr(context).swap_minimum_amount_changed : maximumAmount.trim().isNotEmpty ? tr(context).swap_maximum_amount_changed : '',
                       style: TextStyle(
                           backgroundColor: Colors.transparent,
                           color: settingsStore.isDarkTheme
@@ -368,8 +368,8 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
         ),
         //You Get Details
         Container(
-            margin: EdgeInsets.only(bottom: 10),
-            padding: EdgeInsets.all(10),
+            margin: EdgeInsetsDirectional.only(bottom: 10),
+            padding: EdgeInsetsDirectional.all(10),
             decoration: BoxDecoration(
               color: settingsStore.isDarkTheme
                   ? Colors.transparent
@@ -390,7 +390,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'You get',
+                        tr(context).youGet,
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
@@ -408,7 +408,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                     ],
                   ),
                 ),
-                networkWidget(settingsStore, _exchangeDataWithRecipientAddress.toProtocol)
+                networkWidget(context, settingsStore, _exchangeDataWithRecipientAddress.toProtocol)
               ],
             )),
         //Exchange Fee 0.25 % Details
@@ -419,7 +419,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               height: 10,
             ),
             Text(
-              'Service Fee 0.25%',
+              tr(context).service_fee,
               style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -440,7 +440,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                       : Color(0xff222222)),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10.0),
+              margin: EdgeInsetsDirectional.only(top: 10.0),
               height: 1,
               color: settingsStore.isDarkTheme
                   ? Color(0xff4F4F70)
@@ -456,7 +456,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               height: 10,
             ),
             Text(
-              'Network Fee',
+              tr(context).network_fee,
               style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -477,7 +477,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                       : Color(0xff222222)),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10.0),
+              margin: EdgeInsetsDirectional.only(top: 10.0),
               height: 1,
               color: settingsStore.isDarkTheme
                   ? Color(0xff4F4F70)
@@ -493,7 +493,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               height: 10,
             ),
             Text(
-              'Recipient Address',
+              tr(context).transaction_details_recipient_address,
               style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -514,7 +514,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                       : Color(0xff222222)),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10.0),
+              margin: EdgeInsetsDirectional.only(top: 10.0),
               height: 1,
               color: settingsStore.isDarkTheme
                   ? Color(0xff4F4F70)
@@ -532,7 +532,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                 height: 10,
               ),
               Text(
-                'Refund Address',
+                tr(context).swap_refund_address,
                 style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w400,
@@ -553,7 +553,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                         : Color(0xff222222)),
               ),
               Container(
-                margin: EdgeInsets.only(top: 10.0),
+                margin: EdgeInsetsDirectional.only(top: 10.0),
                 height: 1,
                 color: settingsStore.isDarkTheme
                     ? Color(0xff4F4F70)
@@ -570,7 +570,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
               height: 10,
             ),
             Text(
-              'Exchange Rate',
+              tr(context).exchangeRate,
               style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w400,
@@ -591,7 +591,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                       : Color(0xff222222)),
             ),
             Container(
-              margin: EdgeInsets.only(top: 10.0, bottom: 30),
+              margin: EdgeInsetsDirectional.only(top: 10.0, bottom: 30),
               height: 1,
               color: settingsStore.isDarkTheme
                   ? Color(0xff4F4F70)
@@ -603,8 +603,8 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
         Visibility(
           visible: false,
           child: Container(
-            margin: EdgeInsets.only(top: 10, bottom: 30),
-            padding: EdgeInsets.all(10),
+            margin: EdgeInsetsDirectional.only(top: 10, bottom: 30),
+            padding: EdgeInsetsDirectional.all(10),
             decoration: BoxDecoration(
                 color: settingsStore.isDarkTheme
                     ? Colors.transparent
@@ -631,7 +631,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                      text: 'Estimated Time ',
+                      text: '${tr(context).swap_estimated_time} ',
                       style: TextStyle(
                           color: settingsStore.isDarkTheme
                               ? Color(0xffAFAFBE)
@@ -640,7 +640,7 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                           fontWeight: FontWeight.w400),
                       children: [
                         TextSpan(
-                            text: '5-30 mins',
+                            text: tr(context).swap_estimated_time_value,
                             style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
@@ -694,12 +694,12 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
                   ? Color(0xff32324A)
                   : Color(0xffFFFFFF),
               padding:
-                  EdgeInsets.only(top: 10, bottom: 10, left: 25, right: 25),
+                  EdgeInsetsDirectional.only(top: 10, bottom: 10, start: 25, end: 25),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            child: Text('Confirm & Make Payment',
+            child: Text(tr(context).swap_confirm_and_make_payment,
                 style: TextStyle(
                     color: isConfirmationButtonEnabled(minimumAmount, maximumAmount, context, networkProvider)
                         ? Color(0xffffffff)
@@ -773,10 +773,13 @@ class _SwapPaymentHomeState extends State<SwapPaymentHome> {
       } else if (value?.error != null) {
         print('Status -> error ${value!.error!.message}');
         Navigator.of(context).pop();
-        final status = value.error?.message ?? "";
-        if(status.isNotEmpty) {
+        var errorMessage = value.error?.message ?? "";
+        if(errorMessage.isNotEmpty) {
+          if(errorMessage.contains("Order creation failed")){
+            errorMessage = tr(context).order_creation_failed_error_message;
+          }
           Fluttertoast.showToast(
-            msg: value.error!.message.toString(),
+            msg: errorMessage,
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.BOTTOM,
             textColor: Colors.white,

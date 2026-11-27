@@ -36,7 +36,7 @@ class SwapExchangingPage extends BasePage {
   bool get isModalBackButton => false;
 
   @override
-  String getTitle(AppLocalizations t) => 'Swap';
+  String getTitle(AppLocalizations t) => t.swap;
 
   @override
   Color get textColor => Colors.white;
@@ -198,7 +198,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: circularProgressBar(Color(0xff0BA70F), 4.0)); // Display a loading indicator when waiting for data.
             } else if (snapshot.hasError || !snapshot.hasData || !networkProvider.isConnected) {
-              return noInternet(settingsStore, _screenWidth); // Display an error message if an error occurs. or Display a message when no data is available.
+              return noInternet(settingsStore, _screenWidth, tr(context)); // Display an error message if an error occurs. or Display a message when no data is available.
             } else {
               return body(
                   _screenWidth,
@@ -226,7 +226,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
+          padding: const EdgeInsetsDirectional.symmetric(horizontal: 15),
           child: NumberStepper(
             totalSteps: stepLength,
             width: MediaQuery.sizeOf(context).width,
@@ -246,7 +246,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
               child: IntrinsicHeight(
                 child: Card(
                   margin:
-                      EdgeInsets.only(top: 15, left: 10, right: 10, bottom: 15),
+                      EdgeInsetsDirectional.only(top: 15, start: 10, end: 10, bottom: 15),
                   elevation: 0,
                   color: settingsStore.isDarkTheme
                       ? Color(0xff24242f)
@@ -255,7 +255,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Container(
-                    padding: const EdgeInsets.all(15.0),
+                    padding: const EdgeInsetsDirectional.all(15.0),
                     width: _screenWidth,
                     height: double.infinity,
                     child: exchangingScreen(
@@ -279,7 +279,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
         PairsWidget(settingsStore: settingsStore, from: transactionDetails.currencyFrom, to: transactionDetails.currencyTo),
         //Exchanging Title
         Text(
-          'Exchanging',
+          tr(context).swap_exchanging,
           style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w700,
@@ -290,7 +290,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
         //Progress bar
         Container(
           height: 3,
-          margin: EdgeInsets.only(top: 20, bottom: 10),
+          margin: EdgeInsetsDirectional.only(top: 20, bottom: 10),
           child: LinearProgressIndicator(
             backgroundColor: settingsStore.isDarkTheme
                 ? Color(0xff32324A)
@@ -308,7 +308,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 //Confirming in progress Details
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
+                    padding: const EdgeInsetsDirectional.only(top: 5.0),
                     child: (_txStatus(responseData)?.isNotEmpty ?? false) &&
                         _txStatus(responseData) == "confirming"
                         ? SizedBox(
@@ -336,7 +336,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                           mainAxisAlignment : MainAxisAlignment.start,
                           children: [
                             Text(
-                              (_txStatus(responseData) == "exchanging" || _txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? 'Confirmed' :'Confirming in progress',
+                              (_txStatus(responseData) == "exchanging" || _txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? tr(context).swap_confirmed :'${tr(context).swap_confirming_in_progress}',
                               style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -358,7 +358,9 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                         ),
                         SizedBox(height: 5),
                         Text(
-                          'Once ${transactionDetails.currencyFrom.toUpperCase()} is confirmed in the blockchain, we’ll start exchanging it to ${transactionDetails.currencyTo.toUpperCase()}',
+                          tr(context).swap_confirmed_in_blockchain(
+                              transactionDetails.currencyFrom.toUpperCase(),
+                              transactionDetails.currencyTo.toUpperCase()),
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
@@ -399,7 +401,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                                       });
                                     },
                                     child: Text(
-                                      'See input hash in explorer',
+                                      tr(context).swap_see_input_hash_in_explorer,
                                       style: TextStyle(
                                           decoration: TextDecoration.underline,
                                           fontSize: 12,
@@ -419,7 +421,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                   )
                 ]),
                 Container(
-                  margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  margin: EdgeInsetsDirectional.only(top: 10.0, bottom: 10.0),
                   height: 1,
                   color: settingsStore.isDarkTheme
                       ? Color(0xff8787A8)
@@ -428,7 +430,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 //Exchanging CurrencyFrom to CurrencyTo
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
+                    padding: const EdgeInsetsDirectional.only(top: 5.0),
                     child: (_txStatus(responseData)?.isNotEmpty ?? false) &&
                         _txStatus(responseData) == "exchanging"
                         ? SizedBox(
@@ -455,16 +457,20 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text(
-                          'Done Exchanging ${transactionDetails.currencyFrom.toUpperCase()} to ${transactionDetails.currencyTo.toUpperCase()}',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffEBEBEB)
-                                  : Color(0xff222222)),
+                        Expanded(
+                          child: Text(
+                            tr(context).swap_done_exchanging(
+                                transactionDetails.currencyFrom.toUpperCase(),
+                                transactionDetails.currencyTo.toUpperCase()),
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xffEBEBEB)
+                                    : Color(0xff222222)),
+                          ),
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(width: 5),
                         (_txStatus(responseData) == "sending" || _txStatus(responseData) == "finished") ? SvgPicture.asset(
                           'assets/images/swap/swap_done.svg',
                           colorFilter: ColorFilter.mode((_txStatus(responseData)?.isNotEmpty ?? false) &&
@@ -484,7 +490,9 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Exchanging ${transactionDetails.currencyFrom.toUpperCase()} to ${transactionDetails..currencyTo.toUpperCase()}',
+                          tr(context).swap_exchanging_currency(
+                              transactionDetails.currencyFrom.toUpperCase(),
+                              transactionDetails.currencyTo.toUpperCase()),
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -494,7 +502,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                         ),
                         SizedBox(height: 5),
                         Text(
-                          'The process will take a few minutes. please wait.',
+                          tr(context).swap_process_wait,
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
@@ -507,7 +515,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                   )
                 ]),
                 Container(
-                  margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+                  margin: EdgeInsetsDirectional.only(top: 10.0, bottom: 10.0),
                   height: 1,
                   color: settingsStore.isDarkTheme
                       ? Color(0xff8787A8)
@@ -516,7 +524,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                 //Sending funds to your wallet
                 Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 5.0),
+                    padding: const EdgeInsetsDirectional.only(top: 5.0),
                     child: (_txStatus(responseData)?.isNotEmpty ?? false) &&
                         _txStatus(responseData) == "sending"
                         ? SizedBox(
@@ -537,20 +545,21 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                   (_txStatus(responseData) == "finished") ?
                   Flexible(
                     flex: 1,
-                    child: Column(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Funds send to your wallet',
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: settingsStore.isDarkTheme
-                                  ? Color(0xffEBEBEB)
-                                  : Color(0xff222222)),
+                        Expanded(
+                          child: Text(
+                            tr(context).swap_funds_sent_to_wallet,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: settingsStore.isDarkTheme
+                                    ? Color(0xffEBEBEB)
+                                    : Color(0xff222222)),
+                          ),
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(width: 5),
                         (_txStatus(responseData) == "finished") ? SvgPicture.asset(
                           'assets/images/swap/swap_done.svg',
                           colorFilter: ColorFilter.mode( (_txStatus(responseData)?.isNotEmpty ?? false) &&
@@ -570,7 +579,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Sending funds to your wallet',
+                          tr(context).swap_sending_funds_to_wallet,
                           style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
@@ -580,7 +589,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                         ),
                         SizedBox(height: 5),
                         Text(
-                          'The process will take a few minutes. please wait.',
+                          tr(context).swap_process_wait,
                           style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,
@@ -597,8 +606,8 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
         //History Option Details
         Container(
           width: MediaQuery.sizeOf(context).width,
-          margin: EdgeInsets.only(top: 25, bottom: 10),
-          padding: EdgeInsets.all(15),
+          margin: EdgeInsetsDirectional.only(top: 25, bottom: 10),
+          padding: EdgeInsetsDirectional.all(15),
           decoration: BoxDecoration(
               color: settingsStore.isDarkTheme
                   ? Color(0xff32324A)
@@ -608,7 +617,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('You don’t have to wait here',
+              Text(tr(context).swap_you_dont_have_to_wait_here,
                   style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -620,8 +629,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
               ),
               RichText(
                 text: TextSpan(
-                    text:
-                    'You can initiate a new transaction.You can always check the status of this transaction in transaction ',
+                    text: tr(context).swap_you_can_initiate_new_transaction,
                     style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w400,
@@ -636,7 +644,7 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                               arguments: SwapTransactionHistory(widget.transactionDetails.walletAddress, exchangeName: widget.transactionDetails.exchangeName ?? ExchangeManager.selectedType?.name ?? 'changelly'));
                         } : null,
                         child: Text(
-                            'history',
+                            tr(context).swap_history,
                             style: TextStyle(
                                 decoration: TextDecoration.underline,
                                 fontSize: 13,
@@ -652,9 +660,9 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
         ),
         //Transaction Preview
         Container(
-          margin: EdgeInsets.only(left: 10.0, bottom: 10.0, top: 5.0),
+          margin: EdgeInsetsDirectional.only(start: 10.0, bottom: 10.0, top: 5.0),
           child: Text(
-            'Transaction Preview',
+            tr(context).swap_transaction_preview,
             style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
@@ -733,13 +741,13 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                         children: [
                           TableRow(children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 15, left: 15, right: 15),
+                              padding: const EdgeInsetsDirectional.only(
+                                  top: 15, start: 15, end: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Transaction ID',
+                                    tr(context).transaction_details_transaction_id,
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -788,13 +796,13 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                           ]),
                           TableRow(children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 15, left: 15, right: 15),
+                              padding: const EdgeInsetsDirectional.only(
+                                  top: 15, start: 15, end: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'You sent',
+                                    tr(context).swap_you_sent,
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -817,13 +825,13 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                           ]),
                           TableRow(children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 15, left: 15, right: 15),
+                              padding: const EdgeInsetsDirectional.only(
+                                  top: 15, start: 15, end: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Exchange Rate',
+                                    tr(context).swap_exchange_rate,
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -846,13 +854,15 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                           ]),
                           TableRow(children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 15, left: 15, right: 15),
+                              padding: const EdgeInsetsDirectional.only(
+                                  top: 15, start: 15, end: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    '${_exchangeName.capitalized()} address (${transactionDetails?.currencyFrom?.toUpperCase()})',
+                                    tr(context).swap_exchange_address(
+                                        _exchangeName.capitalized(),
+                                        transactionDetails?.currencyFrom?.toUpperCase() ?? ''),
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -875,13 +885,14 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                           ]),
                           TableRow(children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 15, left: 15, right: 15),
+                              padding: const EdgeInsetsDirectional.only(
+                                  top: 15, start: 15, end: 15, bottom: 15),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Recipient address (${transactionDetails?.currencyTo?.toUpperCase()})',
+                                    tr(context).swap_recipient_address_with_currency(
+                                        transactionDetails?.currencyTo?.toUpperCase() ?? ''),
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -903,30 +914,34 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                             ),
                           ]),
                           TableRow(children: [
-                            Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    transactionDetails?.payinExtraIdName ?? '---',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w500,
-                                        color: settingsStore.isDarkTheme
-                                            ? Color(0xffAFAFBE)
-                                            : Color(0xff737373)),
-                                  ),
-                                  Text(
-                                    transactionDetails?.payinExtraId ?? '---',
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w500,
-                                        color: settingsStore.isDarkTheme
-                                            ? Color(0xffEBEBEB)
-                                            : Color(0xff222222)),
-                                  ),
-                                ],
+                            Visibility(
+                              visible: transactionDetails?.payinExtraId != null,
+                              child: Padding(
+                                padding: const EdgeInsetsDirectional.only(
+                                    start: 15, end: 15, bottom: 15),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      transactionDetails?.payinExtraIdName ?? '---',
+                                      style: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xffAFAFBE)
+                                              : Color(0xff737373)),
+                                    ),
+                                    Text(
+                                      transactionDetails?.payinExtraId ?? '---',
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w500,
+                                          color: settingsStore.isDarkTheme
+                                              ? Color(0xffEBEBEB)
+                                              : Color(0xff222222)),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ]),
@@ -950,12 +965,12 @@ class _SwapExchangingHomeState extends State<SwapExchangingHome> {
                         children: [
                           TableRow(children: [
                             Padding(
-                              padding: const EdgeInsets.all(15),
+                              padding: const EdgeInsetsDirectional.all(15),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'You Get',
+                                    tr(context).swap_you_get,
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,

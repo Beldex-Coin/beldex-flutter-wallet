@@ -79,16 +79,16 @@ class _AlertReconnectConfirmDialogState
         surfaceTintColor: Colors.transparent,
         child: Container(
           width: MediaQuery.sizeOf(context).width,
-          margin: EdgeInsets.all(20),
+          margin: EdgeInsetsDirectional.all(20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Center(
-                  child: Text('${tr(context).reconnectWallet}?',
+                  child: Text(tr(context).reconnect_wallet_title,
                       style: TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold))),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsetsDirectional.all(8.0),
                 child: Text(tr(context).doYouWantToReconnectnTheWallet,
                     textAlign: TextAlign.center,
                     style: TextStyle(backgroundColor:Colors.transparent,fontSize: 16)),

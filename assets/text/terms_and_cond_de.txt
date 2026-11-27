@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<head> 
+  <style> 
+p {
+ font-size: 15px;
+
+ textAlign: center;
+}
+h6 {font-size: 15px;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+<p><b>1. Nutzung der BELDEX Wallet</b></p>
+<p>Die BELDEX Wallet-App (nachfolgend „App“ genannt) ermöglicht den Zugriff auf die Beldex-Blockchain/das Netzwerk. Sie sind nicht berechtigt, sich auf die App für rechtliche, geschäftliche oder sonstige Beratung zu verlassen. Sie handeln auf eigenes Risiko, wenn Sie sich auf die Inhalte der App verlassen. Wenn Sie eine Entscheidung treffen oder nicht treffen, sollten Sie einen zugelassenen Anwalt in der entsprechenden Gerichtsbarkeit kontaktieren, in der Sie Hilfe benötigen. In keiner Weise sind die Eigentümer oder Mitwirkenden der App für Handlungen, Entscheidungen oder sonstiges Verhalten verantwortlich, das Sie aufgrund der Nutzung der App vornehmen oder nicht vornehmen.</p>
+<p><b>2. Transaktionen</b></p>
+<p>
+    Die App kann Übersetzungen der englischen Version der Inhalte enthalten. Diese Übersetzungen dienen nur der Bequemlichkeit. Im Falle von Widersprüchen zwischen der englischen Version und der übersetzten Version hat die englische Version Vorrang. Wenn Sie Unstimmigkeiten feststellen, melden Sie diese bitte auf Github.
+</p>
+<p><b>
+    3. Risiken im Zusammenhang mit der Nutzung der BELDEX Wallet
+</b></p>
+<p> 
+    Die App, der Eigentümer der App, das Beldex-Projekt sowie dessen Eigentümer, Partner, Mitarbeiter, Mitwirkende und verbundene Unternehmen sind nicht verantwortlich für Verluste, Schäden oder Ansprüche, die aus Ereignissen der folgenden Kategorien entstehen:
+    <ol>
+        <li> 
+            Fehler des Nutzers bei der Verwendung von Beldex-bezogener Software oder Diensten, z. B. vergessene Passwörter, Zahlungen an falsche Beldex-Adressen oder versehentliches Löschen von Wallets.
+        </li>
+        <li> 
+            Softwareprobleme der App und/oder anderer Beldex-bezogener Software oder Dienste, z. B. beschädigte Wallet-Dateien, fehlerhaft erstellte Transaktionen, unsichere kryptografische Bibliotheken oder Malware.
+        </li>
+        <li> 
+            Technische Ausfälle der Hardware des Nutzers, z. B. Datenverlust durch defekte oder beschädigte Speichermedien.
+        </li>
+        <li> 
+            Sicherheitsprobleme beim Nutzer, z. B. unbefugter Zugriff auf Wallets und/oder Konten.
+        </li>
+        <li> 
+            Handlungen oder Unterlassungen Dritter, z. B. Insolvenz von Dienstleistern, Sicherheitsangriffe oder Betrug durch Dritte.
+        </li>
+    </ol>
+</p>
+<p><b>
+    4. Haftungsausschluss
+</b></p>
+<p>
+    Kryptowährungen sind hoch volatil, und Investitionen unterliegen Marktrisiken. Investitionen in Beldex können sowohl erhebliche Gewinne als auch Verluste über kurze oder lange Zeiträume verursachen. Anleger sollten mit starken Kursschwankungen rechnen.
+</p>
+<p><b>
+    5. Einhaltung steuerlicher Verpflichtungen
+</b></p>
+<p>
+    Die Nutzer der App sind allein dafür verantwortlich festzustellen, welche Steuern auf ihre Beldex-Transaktionen anfallen. Die Eigentümer oder Mitwirkenden der App sind nicht dafür verantwortlich.
+</p>
+<p><b>
+    6. Die App speichert, sendet oder empfängt kein Beldex
+</b></p>
+<p>
+    Die App speichert, sendet oder empfängt kein Beldex, da Beldex ausschließlich durch die Besitzaufzeichnungen im Netzwerk existiert. Jede Übertragung erfolgt innerhalb des dezentralen Netzwerks und nicht innerhalb der App.
+</p>
+<p><b>
+    7. Keine Gewährleistungen
+</b></p>
+<p>
+    Die App wird „wie besehen“ ohne jegliche Garantien bereitgestellt, einschließlich in Bezug auf Inhalte, Daten, Materialien oder Dienste
+</p>
+<p><b>
+    8. Haftungsbeschränkung
+</b></p>
+<p>
+    Soweit gesetzlich zulässig, haften die Eigentümer oder Mitwirkenden der App nicht für Schäden jeglicher Art, einschließlich Nutzungs-, Gewinn- oder Datenverluste, die im Zusammenhang mit der Nutzung der App entstehen.
+</p>
+<p><b>
+    9. Schiedsverfahren
+</b></p>
+<p>
+    Der Nutzer erklärt sich damit einverstanden, Streitigkeiten im Zusammenhang mit der App oder diesem Haftungsausschluss durch ein Schiedsverfahren beizulegen, ausgenommen Streitigkeiten zu Urheberrechten, Marken, Handelsnamen, Geschäftsgeheimnissen oder Patenten. Es gilt das Recht der Seychellen. Das Schiedsverfahren findet vor Gerichten der Seychellen statt.
+</p>
+<p><b>
+    10. Letzte Änderung
+</b></p>
+<p>
+    Dieser Haftungsausschluss wurde zuletzt am 10. Oktober 2021 geändert..
+</p>
+</body>

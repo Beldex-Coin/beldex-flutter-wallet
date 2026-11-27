@@ -39,7 +39,7 @@ abstract class WalletRestorationStoreBase with Store {
   List<MnemoticItem>? seed;
 
   @action
-  Future restoreFromSeed({required String name, String? seed, required int restoreHeight}) async {
+  Future restoreFromSeed({required String name, String? seed, required int restoreHeight, required AppLocalizations t}) async {
     state = WalletRestorationStateInitial();
     final _seed = seed ?? _seedText();
 
@@ -48,6 +48,8 @@ abstract class WalletRestorationStoreBase with Store {
       await walletListService.restoreFromSeed(name, _seed, restoreHeight);
       authStore.restored();
       state = WalletRestoredSuccessfully();
+    } on WalletIsExistException catch (e) {
+      state = WalletRestorationFailure(error: e.localizedMessage(t));
     } catch (e) {
       state = WalletRestorationFailure(error: e.toString());
     }
@@ -60,7 +62,8 @@ abstract class WalletRestorationStoreBase with Store {
       required String address,
       required String viewKey,
       required String spendKey,
-      required int restoreHeight}) async {
+      required int restoreHeight,
+      required AppLocalizations t}) async {
     state = WalletRestorationStateInitial();
 
     try {
@@ -70,7 +73,7 @@ abstract class WalletRestorationStoreBase with Store {
       authStore.restored();
       state = WalletRestoredSuccessfully();
     } catch (e) {
-      state = WalletRestorationFailure(error: 'Check your keys');
+      state = WalletRestorationFailure(error: t.check_your_keys);
     }
   }
 
@@ -96,9 +99,9 @@ abstract class WalletRestorationStoreBase with Store {
 
     for (final item in _seed) {
       if (!item.isCorrect()) {
-        errorMessage = 'The text entered is not valid.';
+        errorMessage = l10n.seed_text_invalid;
         //isValid = false;
-        break;
+        return;
       }
     }
 

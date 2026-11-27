@@ -6,6 +6,7 @@ import 'package:beldex_wallet/src/wallet/beldex/subaddress_list.dart';
 import 'package:beldex_wallet/src/domain/services/wallet_service.dart';
 import 'package:beldex_wallet/src/stores/subaddress_creation/subaddress_creation_state.dart';
 import 'package:beldex_wallet/src/wallet/beldex/account.dart';
+import '../../../l10n.dart';
 
 part 'subaddress_creation_store.g.dart';
 
@@ -74,10 +75,10 @@ abstract class SubadrressCreationStoreBase with Store {
     print('Incorrect wallet type for this operation (SubaddressList)');
   }
 
-  void validateSubaddressName(String value) {
+  void validateSubaddressName(String value, AppLocalizations t) {
     const pattern = '''^[^`,'"]{1,20}\$''';
     final regExp = RegExp(pattern);
     isValid = regExp.hasMatch(value);
-    errorMessage = isValid! ? null : 'Enter a valid name upto 20 characters'; //S.current.error_text_subaddress_name;
+    errorMessage = isValid! ? null : t.enterAValidNameUpto20Characters;
   }
 }

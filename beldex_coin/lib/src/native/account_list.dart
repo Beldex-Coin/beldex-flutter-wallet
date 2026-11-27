@@ -17,6 +17,15 @@ final accountGetAllNative = beldexApi
     .lookup<NativeFunction<account_get_all>>('account_get_all')
     .asFunction<AccountGetAll>();
 
+final accountGetAllWithSizeNative = beldexApi
+    .lookup<NativeFunction<account_get_all_with_size>>(
+        'account_get_all_with_size')
+    .asFunction<AccountGetAllWithSize>();
+
+final accountFreeAllNative = beldexApi
+    .lookup<NativeFunction<account_free_all>>('account_free_all')
+    .asFunction<AccountFreeAll>();
+
 final accountAddNewNative = beldexApi
     .lookup<NativeFunction<account_add_new>>('account_add_row')
     .asFunction<AccountAddNew>();
@@ -31,7 +40,8 @@ void addAccountSync({required String label}) {
   calloc.free(labelPointer);
 }
 
-void setLabelForAccountSync({required int accountIndex, required String label}) {
+void setLabelForAccountSync(
+    {required int accountIndex, required String label}) {
   final labelPointer = label.toNativeUtf8();
   accountSetLabelNative(accountIndex, labelPointer);
   calloc.free(labelPointer);

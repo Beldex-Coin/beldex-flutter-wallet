@@ -28,19 +28,8 @@ class SettingsSwitchListRow extends StatelessWidget {
               }));
     }
 
-    if (title == tr(context).settings_allow_biometric_authentication) {
-      return Observer(
-          builder: (_) => StandardSwitch(
-              value: settingsStore.allowBiometricAuthentication,
-              icon: false,
-              onTaped: () {
-                final _currentValue =
-                    !settingsStore.allowBiometricAuthentication;
-                settingsStore.setAllowBiometricAuthentication(
-                    allowBiometricAuthentication: _currentValue);
-              }));
-    }
-    if (title == 'Allow face id authentication') {
+    if (title == tr(context).settings_allow_biometric_authentication ||
+        title == tr(context).allowFaceIdAuthentication) {
       return Observer(
           builder: (_) => StandardSwitch(
               value: settingsStore.allowBiometricAuthentication,
@@ -85,7 +74,7 @@ class SettingsSwitchListRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: ListTile(
-          contentPadding: EdgeInsets.only(left: 20.0, right: 20.0),
+          contentPadding: EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
           title: Text(title,
               style: TextStyle(
                   fontSize: 16.0,

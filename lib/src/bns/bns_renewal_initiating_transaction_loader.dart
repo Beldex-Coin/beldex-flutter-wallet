@@ -76,7 +76,7 @@ class _BnsRenewalInitiatingTransactionLoaderState extends State<BnsRenewalInitia
                               : Color(0xff222222)),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15.0, left: 8, right: 8),
+                      padding: const EdgeInsetsDirectional.only(top: 15.0, start: 8, end: 8),
                       child: Text(
                         tr(context).initiatingTransactionDescription,
                         textAlign: TextAlign.center,
